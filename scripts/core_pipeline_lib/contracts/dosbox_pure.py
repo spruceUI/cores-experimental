@@ -134,10 +134,10 @@ DOSBOX_PURE_EXPECTED_LINK_OPTIONS = (
     "-shared",
     "-lpthread",
 )
-DOSBOX_PURE_EXPECTED_ORDERED_LINK_ARGV_SHA256 = {
-    "arm64": "98bda3df4d21873bdb801b5332781e57d4d24886ca8fcf659a9fd87af9291975",
-    "armhf": "4f917fbb9ac4506ae1828ef86169fa5e91e4a5d42580e939d859e3183ef622c2",
-}
+# No ordered-link-argv pin: the Makefile's object list is filesystem
+# enumeration order, which differs per host (GitHub runners produced the
+# same 120-object multiset in a different order). The link stays exactly
+# pinned by the order-tolerant object multiset and the ordered option set.
 
 DOSBOX_PURE_LOG_CONTRACT = MixedLanguageLogContract(
     core_id=DOSBOX_PURE_CORE_ID,
@@ -156,9 +156,6 @@ DOSBOX_PURE_LOG_CONTRACT = MixedLanguageLogContract(
     source_commit=DOSBOX_PURE_SOURCE_COMMIT,
     source_tree=DOSBOX_PURE_SOURCE_TREE,
     expected_link_language="cxx",
-    expected_ordered_link_argv_sha256=(
-        DOSBOX_PURE_EXPECTED_ORDERED_LINK_ARGV_SHA256
-    ),
     sha_pinned_object_names=True,
     allow_embedded_tilde=True,
 )
