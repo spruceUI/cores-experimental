@@ -36,6 +36,10 @@ the uncataloged tail.
 
 ### Migration status
 
+- **The first release candidate is sealed** (2026-07-24, run
+  30124953754): all 98 cores rebuilt on GitHub Actions byte-identical to
+  their local pins after wildcard source enumeration was made
+  deterministic, and the fail-closed seal accepted the complete fan-in.
 - **All 98 shipped-core workflows are migrated** to the shared,
   source-pinned, publication-disabled fail-closed pipeline: every cataloged
   core is a canonical individual-core record with a pinned source
