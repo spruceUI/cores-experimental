@@ -66,7 +66,7 @@ written beneath `.local-e2e/`, which is ignored by Git.
 ### ABI floors and ceilings (glibc / libstdc++)
 
 **With the Mini family's bundled libstdc++ updated to the A30 provider
-(libstdc++ 6.0.32, GLIBCXX 3.4.32 — spruceOS Development `ee825739d`),
+(libstdc++ 6.0.32, GLIBCXX 3.4.32 — spruceOS Development `97f9fb558`),
 no currently pinned core is blocked by a glibc or libstdc++ floor or
 ceiling on any probed device.** The over-ceiling (`C`) class in the
 device matrix is empty; every eligibility miss that remains is a missing
