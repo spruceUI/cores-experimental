@@ -1,0 +1,77 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "stella2014",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/stella2014-4a7da82595d2-1fb14ddbab91.json",
+  "source_commit": "4a7da82595d27b8df7af1ecb467a64b642a41bc9",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-stella2014-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "249290698dd6879fa4a7eedd08a12b394332cabfbc8fa036ecb720f81da371db",
+  "reproduction_run": ".local-e2e/runs/build-core-stella2014-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "8373c5b8a4d7ca0df854d42918705188bbc13df245404212e33ed92bc0894c3f",
+  "package_state": "reproducible",
+  "package_sha256": "883c091e516ede7491e0533e86217fbcaf4543a864424e3423578daf50c92c9e",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the stella2014_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and the independent local-profile build-core run reproduced both ABI artifacts, metadata, and the package byte for byte; both runs satisfied the exact mixed-language compile and link proof.",
+    "The build command scopes exact native leading-space version ' 4a7da82' through GIT_VERSION; the fail-closed proof binds 14 C and 84 C++ compiles per ABI, exact output/source/argv sets, and the final link-object set. Both ABI logs are warning-free.",
+    "The resolver info advertises a26|bin content while the runtime also advertises mvc, so extension and content integration remain target-runtime gates rather than build-time metadata rewrites.",
+    "Stella 2014 is GPLv2; any public distribution or release remains a human legal/policy and corresponding-source gate even though the local build is reproducible.",
+    "Atari 2600 content loading, MVC behavior, controls, audio/video pacing, saves, states, and sustained performance remain target-runtime gates; static build evidence does not establish device eligibility.",
+    "ARM64 requires GLIBC_2.17 and is bound to ra64-universal-v1; ARMHF reaches GLIBCXX_3.4.32 and is bound only to ra32-a30-v1. That C++ floor exceeds the Mini-family observed GLIBCXX_3.4.24 fallback, so no ra32-universal-v0 or Mini eligibility is claimed."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "7684f873cb6c1c87c36b9dfc05af2287e89735c52d892b8200601a4ace6df743",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.9",
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "598ac496335c64a2ad426a4b0b8349cf10013dccf7e954ebf72e221b675f256f",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.8",
+        "CXXABI_1.3.9",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.32",
+        "GLIBCXX_3.4.9",
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "c836e6f9fa0128b44c6b695549b43a93cffb53ea693f1cf3451d6852348dbb4e"
+}

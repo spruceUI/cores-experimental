@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "fbneo-9d7716aa20cb-490afa8cdbf3",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/fbneo-9d7716aa20cb-490afa8cdbf3.json",
+    "pin_id": "fbneo-9d7716aa20cb-490afa8cdbf3",
+    "file_sha256": "50567c53a5709c7cd4e2554e094f5374ab56c922cebcc341ca684e936db329dd",
+    "content_sha256": "158779ea526172e3f3f1eda1b8c8fdd34b52a16d3181a4924de7a7bde9e56247"
+  },
+  "sources": {
+    "fbneo": {
+      "path": "pins/sources/fbneo/9d7716aa20cbdf49024f42980c33c7cd366e784f.json",
+      "source_lock_id": "fbneo-9d7716aa20cb",
+      "commit": "9d7716aa20cbdf49024f42980c33c7cd366e784f",
+      "file_sha256": "fb7b3620113a3d849de6fe9583a49a5b0fb3dff4eab5bc3c24bf69d491a4539d",
+      "content_sha256": "20007ac111237b0ba2346d702755c87452afa5f3c525c30f4fae33e3d2d10919"
+    }
+  },
+  "content_sha256": "46d65ec66e026019c25f968e49d16be473a3c9c4eb786db6a80cae8eeeef9cc6"
+}

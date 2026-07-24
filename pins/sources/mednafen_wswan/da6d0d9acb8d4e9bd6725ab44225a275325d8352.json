@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "mednafen_wswan-da6d0d9acb8d",
+  "core_id": "mednafen_wswan",
+  "source": {
+    "url": "https://github.com/libretro/beetle-wswan-libretro.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "da6d0d9acb8d4e9bd6725ab44225a275325d8352",
+    "tree": "1387c79a0f2e8aad511a26fc4b1e272b152c691d",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "c6686a1f63389f864d997c54d19d22e7ac701f0b87e3ee2ff6518841ef6390ec"
+}

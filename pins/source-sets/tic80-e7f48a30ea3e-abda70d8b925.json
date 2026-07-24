@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "tic80-e7f48a30ea3e-abda70d8b925",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/tic80-e7f48a30ea3e-abda70d8b925.json",
+    "pin_id": "tic80-e7f48a30ea3e-abda70d8b925",
+    "file_sha256": "ab6639a4957c54e6d3ab7af71bc246ed93e1e0a45973927cb5f49023cc89b9a4",
+    "content_sha256": "24e51aec65abd2a6000cecdcbde7f99b39220bfe4f0e9ee1d7dec01412bf135e"
+  },
+  "sources": {
+    "tic80": {
+      "path": "pins/sources/tic80/e7f48a30ea3e205810366aad910a2985edcd1f58.json",
+      "source_lock_id": "tic80-e7f48a30ea3e",
+      "commit": "e7f48a30ea3e205810366aad910a2985edcd1f58",
+      "file_sha256": "8f4a1437f1c2049a36d5c457f39bb105d2413cb35fce317fe3d963393ceb812a",
+      "content_sha256": "591bff3a05e828409a661604de24952f0e04893b1e58188d4b110b3a059782ba"
+    }
+  },
+  "content_sha256": "cbaafc8596317c058138ff02535e52860060088d44714294a24bc4f90a6d0794"
+}

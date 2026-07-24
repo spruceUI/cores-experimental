@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "mu-de05588fcb1a",
+  "core_id": "mu",
+  "source": {
+    "url": "https://github.com/libretro/Mu.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "de05588fcb1adca6738dc4cf6a2e6e6c447bf2f2",
+    "tree": "e99eae2df1b0564c808663d6a398d597fb5f42b9",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "b0f0817c21424b4530b7dffcdc77bd5d9414a322101fdf9bcf5620688d261bea"
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "freechaf-76c7a84f1f7e",
+  "core_id": "freechaf",
+  "source": {
+    "url": "https://github.com/libretro/FreeChaF.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "76c7a84f1f7e80f3e6f2bba96fe100cb24e99124",
+    "tree": "da8f96e1b0866e49ecf6a3bcd2b9974670669429",
+    "submodules": [
+      {
+        "path": "src/deps/libretro-common",
+        "commit": "01c6122931a10a7012973054e7067859d2116420"
+      }
+    ]
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "2a76dca9b9293baa418a60052de29dfcb8d79eeda0599b3de10524fc1e533ca8"
+}

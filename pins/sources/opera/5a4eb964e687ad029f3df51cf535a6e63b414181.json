@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "opera-5a4eb964e687",
+  "core_id": "opera",
+  "source": {
+    "url": "https://github.com/libretro/opera-libretro.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "5a4eb964e687ad029f3df51cf535a6e63b414181",
+    "tree": "33540262f3a4cd88ffe537c303d947178a7da95d",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "c6c9894a104c94fa94c349dcc9e5ca1095298ae28b5b8c9ea173f795ebb055b6"
+}

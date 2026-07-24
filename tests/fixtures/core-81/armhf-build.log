@@ -1,0 +1,242 @@
+PLATFORM: Linux
+ARCHITECTURE: x86_64
+TARGET: unix
+=== 81
+Fetching 81...
+git clone "https://github.com/libretro/81-libretro.git" "/libretro-super/libretro-81"
+Cloning into '/libretro-super/libretro-81'...
+1 core(s) successfully processed:
+	81
+HEAD is now at fa70949 Merge pull request #53 from cscd98/webos-cli
+PLATFORM: Linux
+ARCHITECTURE: x86_64
+TARGET: unix
+CC = arm-a30-linux-gnueabihf-gcc
+CXX = arm-a30-linux-gnueabihf-g++
+CXX11 = arm-a30-linux-gnueabihf-g++
+CXX17 = arm-a30-linux-gnueabihf-g++
+STRIP = arm-a30-linux-gnueabihf-strip
+Compiler: CC="arm-a30-linux-gnueabihf-gcc" CXX="arm-a30-linux-gnueabihf-g++"
+=== x86 CPU detected... ===
+=== x86_64 CPU detected... ===
+unix
+unix
+=== 81
+Building 81...
+cd "/libretro-super/libretro-81"
+gmake -f Makefile.libretro platform="unix" -j24  clean
+rm -f ./81/zx81config.o ./81/sound/sound.o ./81/sp0256.o ./81/peripherals/dev8255.o ./81/Ace/ace.o ./81/zx81/zx81.o ./81/zx81/rompatch.o ./81/zx81/snap.o ./81/z80/z80.o ./81/z80/z80_ops.o ./src/coreopt.o ./src/keybovl.o ./src/eo.o ./src/kbds/zx81kbd.o ./src/version.o ./src/gamedb/sha1.o ./81/kbstatus.o ./81/ide/ide.o ./81/Utils.o ./81/tzx/TZXFILE.o ./81/tzx/tzxadd.o ./81/tzx/tzxload.o ./81/tzx/tzxevent.o ./81/tzx/tzxEventGeneral.o ./81/tzx/tzxEventTurbo.o ./81/tzx/tzxEventMisc.o ./src/libretro.o ./src/compat.o
+rm -f 81_libretro.so
+gmake -f Makefile.libretro platform="unix" -j24 CC="arm-a30-linux-gnueabihf-gcc" CXX="arm-a30-linux-gnueabihf-g++" 
+arm-a30-linux-gnueabihf-gcc -c -o 81/zx81config.o 81/zx81config.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-gcc -c -o 81/sound/sound.o 81/sound/sound.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-gcc -c -o 81/sp0256.o 81/sp0256.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-gcc -c -o 81/peripherals/dev8255.o 81/peripherals/dev8255.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-gcc -c -o 81/Ace/ace.o 81/Ace/ace.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-gcc -c -o 81/zx81/zx81.o 81/zx81/zx81.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-gcc -c -o 81/zx81/rompatch.o 81/zx81/rompatch.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-gcc -c -o 81/zx81/snap.o 81/zx81/snap.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-gcc -c -o 81/z80/z80.o 81/z80/z80.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-gcc -c -o 81/z80/z80_ops.o 81/z80/z80_ops.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-gcc -c -o src/coreopt.o src/coreopt.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-gcc -c -o src/keybovl.o src/keybovl.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-gcc -c -o src/eo.o src/eo.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-gcc -c -o src/kbds/zx81kbd.o src/kbds/zx81kbd.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+cat etc/version.c.templ | sed s/HASH/`git rev-parse HEAD | tr -d "\n"`/g > src/version.c
+arm-a30-linux-gnueabihf-gcc -c -o src/gamedb/sha1.o src/gamedb/sha1.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-g++ -c -o 81/kbstatus.o 81/kbstatus.cpp -O3 -fno-exceptions -fno-rtti -DHAVE_STDINT_H -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-g++ -c -o 81/ide/ide.o 81/ide/ide.cpp -O3 -fno-exceptions -fno-rtti -DHAVE_STDINT_H -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-g++ -c -o 81/Utils.o 81/Utils.cpp -O3 -fno-exceptions -fno-rtti -DHAVE_STDINT_H -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-g++ -c -o 81/tzx/TZXFILE.o 81/tzx/TZXFILE.cpp -O3 -fno-exceptions -fno-rtti -DHAVE_STDINT_H -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-g++ -c -o 81/tzx/tzxadd.o 81/tzx/tzxadd.cpp -O3 -fno-exceptions -fno-rtti -DHAVE_STDINT_H -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-g++ -c -o 81/tzx/tzxload.o 81/tzx/tzxload.cpp -O3 -fno-exceptions -fno-rtti -DHAVE_STDINT_H -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-g++ -c -o 81/tzx/tzxevent.o 81/tzx/tzxevent.cpp -O3 -fno-exceptions -fno-rtti -DHAVE_STDINT_H -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-g++ -c -o 81/tzx/tzxEventGeneral.o 81/tzx/tzxEventGeneral.cpp -O3 -fno-exceptions -fno-rtti -DHAVE_STDINT_H -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-g++ -c -o 81/tzx/tzxEventTurbo.o 81/tzx/tzxEventTurbo.cpp -O3 -fno-exceptions -fno-rtti -DHAVE_STDINT_H -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+81/zx81/zx81.c: In function 'zx81_initialise':
+81/zx81/zx81.c:103:32: warning: pointer targets in passing argument 1 of 'CRC32Block' differ in signedness [-Wpointer-sign]
+  103 |         zx81.romcrc=CRC32Block(memory,romlen);
+      |                                ^~~~~~
+      |                                |
+      |                                uint8_t * {aka unsigned char *}
+81/zx81/zx81.c:51:29: note: expected 'char *' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+   51 | extern int CRC32Block(char *memory, int romlen);
+      |                       ~~~~~~^~~~~~
+81/sound/sound.c:149:12: warning: 'sixteenbit' defined but not used [-Wunused-variable]
+  149 | static int sixteenbit=0;
+      |            ^~~~~~~~~~
+81/sound/sound.c:148:12: warning: 'soundfd' defined but not used [-Wunused-variable]
+  148 | static int soundfd=-1;
+      |            ^~~~~~~
+81/Ace/ace.c: In function 'ace_initialise':
+81/Ace/ace.c:78:32: warning: pointer targets in passing argument 1 of 'CRC32Block' differ in signedness [-Wpointer-sign]
+   78 |         zx81.romcrc=CRC32Block(memory,romlen);
+      |                                ^~~~~~
+      |                                |
+      |                                uint8_t * {aka unsigned char *}
+81/Ace/ace.c:47:29: note: expected 'char *' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+   47 | extern int CRC32Block(char *memory, int romlen);
+      |                       ~~~~~~^~~~~~
+81/Ace/ace.c: In function 'ace_writeport':
+81/Ace/ace.c:153:24: warning: unused variable 'p' [-Wunused-variable]
+  153 |         unsigned char *p;
+      |                        ^
+81/zx81/zx81.c: In function 'zx81_opcode_fetch':
+81/zx81/zx81.c:403:69: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
+  403 |                         else    data=zx81_readbyte(((z80.i&254)<<8) + (data<<3) | rowcounter);
+      |                                                    ~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+81/Ace/ace.c: In function 'ace_do_scanline':
+81/Ace/ace.c:276:18: warning: unused variable 'j' [-Wunused-variable]
+  276 |         int ts,i,j;
+      |                  ^
+81/zx81/zx81.c:277:13: warning: unused variable 'NewAddress' [-Wunused-variable]
+  277 |         int NewAddress, inv;
+      |             ^~~~~~~~~~
+In file included from 81/sp0256.c:10:
+81/sp0256.c: In function 'SP0256_Write':
+./src/funcs.h:44:69: warning: statement with no effect [-Wunused-value]
+   44 | #define PlaySound( a, b, c ) ( (void)( a ), (void)( b ), (void)( c ), FALSE )
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+81/sp0256.c:72:9: note: in expansion of macro 'PlaySound'
+   72 |         PlaySound(NULL, NULL, SND_PURGE);
+      |         ^~~~~~~~~
+./src/funcs.h:44:69: warning: statement with no effect [-Wunused-value]
+   44 | #define PlaySound( a, b, c ) ( (void)( a ), (void)( b ), (void)( c ), FALSE )
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+81/sp0256.c:73:9: note: in expansion of macro 'PlaySound'
+   73 |         PlaySound(Phones[Data&63].position, NULL, SND_MEMORY | SND_ASYNC);
+      |         ^~~~~~~~~
+arm-a30-linux-gnueabihf-g++ -c -o 81/tzx/tzxEventMisc.o 81/tzx/tzxEventMisc.cpp -O3 -fno-exceptions -fno-rtti -DHAVE_STDINT_H -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-g++ -c -o src/libretro.o src/libretro.cpp -O3 -fno-exceptions -fno-rtti -DHAVE_STDINT_H -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+arm-a30-linux-gnueabihf-g++ -c -o src/compat.o src/compat.cpp -O3 -fno-exceptions -fno-rtti -DHAVE_STDINT_H -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+src/coreopt.c: In function 'coreopt':
+src/coreopt.c:170:16: warning: 'value' may be used uninitialized [-Wmaybe-uninitialized]
+  170 |     *opt_value = value;
+      |     ~~~~~~~~~~~^~~~~~~
+src/coreopt.c:144:15: note: 'value' was declared here
+  144 |   const char* value;
+      |               ^~~~~
+arm-a30-linux-gnueabihf-gcc -c -o src/version.o src/version.c -O3 -fPIC -D__LIBRETRO__  -DSHA1_REMOVE_MAIN -DHAVE_CONFIG_H -DSNDPTCH -Wall  -I. -I./src -I./81/Ace -I./81/ide -I./81/peripherals -I./81/sound -I./81/wavtape -I./81/zx81 -I./81/z80 -I./81/zxprinter -I./81/tzx -I./81
+81/tzx/tzxload.cpp: In member function 'bool TTZXFile::LoadOldGeneralBlock(RWMEM*)':
+81/tzx/tzxload.cpp:152:44: warning: variable 'usedbits' set but not used [-Wunused-but-set-variable]
+  152 |         int bl, flags, pl, pp, ns, np, as, usedbits, pause;
+      |                                            ^~~~~~~~
+81/tzx/tzxload.cpp:156:13: warning: unused variable 'BlockType' [-Wunused-variable]
+  156 |         int BlockType;
+      |             ^~~~~~~~~
+81/tzx/tzxload.cpp:157:14: warning: unused variable 'pos' [-Wunused-variable]
+  157 |         long pos;
+      |              ^~~
+81/tzx/tzxload.cpp: In member function 'bool TTZXFile::LoadGeneralBlock(RWMEM*)':
+81/tzx/tzxload.cpp:283:21: warning: unused variable 'SymSize' [-Wunused-variable]
+  283 |                 int SymSize, i;
+      |                     ^~~~~~~
+81/tzx/tzxload.cpp:227:14: warning: variable 'DataLen' set but not used [-Wunused-but-set-variable]
+  227 |         long DataLen, Pause;
+      |              ^~~~~~~
+81/tzx/tzxload.cpp: In member function 'bool TTZXFile::LoadTAPFile(const void*, size_t, bool)':
+81/tzx/tzxload.cpp:698:15: warning: unused variable 'p' [-Wunused-variable]
+  698 |         char *p;
+      |               ^
+81/tzx/tzxload.cpp:699:13: warning: unused variable 'BlockID' [-Wunused-variable]
+  699 |         int BlockID, error, i;
+      |             ^~~~~~~
+81/tzx/tzxload.cpp: In member function 'bool TTZXFile::LoadTZXFile(const void*, size_t, bool)':
+81/tzx/tzxload.cpp:856:15: warning: unused variable 'p' [-Wunused-variable]
+  856 |         char *p;
+      |               ^
+81/tzx/tzxload.cpp:857:29: warning: unused variable 'i' [-Wunused-variable]
+  857 |         int BlockID, error, i, OldCurBlock;
+      |                             ^
+81/tzx/tzxload.cpp:857:32: warning: unused variable 'OldCurBlock' [-Wunused-variable]
+  857 |         int BlockID, error, i, OldCurBlock;
+      |                                ^~~~~~~~~~~
+81/tzx/tzxEventGeneral.cpp: In member function 'bool TTZXFile::EventGeneral()':
+81/tzx/tzxEventGeneral.cpp:51:27: warning: unused variable 'i' [-Wunused-variable]
+   51 |                 int Syms, i;
+      |                           ^
+81/tzx/tzxEventGeneral.cpp:39:31: warning: unused variable 'Data' [-Wunused-variable]
+   39 |         static unsigned char *Data;
+      |                               ^~~~
+81/tzx/tzxEventGeneral.cpp:41:31: warning: variable 'ASP' set but not used [-Wunused-but-set-variable]
+   41 |         static int TOTP, NPP, ASP, TOTD, NPD,ASD;
+      |                               ^~~
+81/tzx/tzxEventGeneral.cpp:42:27: warning: unused variable 'fetchdata' [-Wunused-variable]
+   42 |         static int phase, fetchdata;
+      |                           ^~~~~~~~~
+81/tzx/tzxadd.cpp: In member function 'int TTZXFile::AddGeneralBlock(char*, int)':
+81/tzx/tzxadd.cpp:107:13: warning: unused variable 'i' [-Wunused-variable]
+  107 |         int i;
+      |             ^
+81/ide/ide.cpp: In function 'int ATA_LoadHDF(int, char*)':
+81/ide/ide.cpp:635:24: warning: unused variable 'i' [-Wunused-variable]
+  635 |         int len, idlen,i;
+      |                        ^
+81/kbstatus.cpp: In function 'void PCKeySetCursor(char, char, char, char, int)':
+81/kbstatus.cpp:589:14: warning: unused variable 'temp' [-Wunused-variable]
+  589 |         char temp;
+      |              ^~~~
+81/tzx/TZXFILE.cpp: In member function 'AnsiString TTZXFile::GetBlockName(int)':
+81/tzx/TZXFILE.cpp:269:25: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+  269 |                         if (BlockNames[i].id==Tape[BlockNo].BlockID)
+      |                         ^~
+81/tzx/TZXFILE.cpp:272:33: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+  272 |                                 i++;
+      |                                 ^
+src/libretro.cpp: In function 'void retro_reset()':
+src/libretro.cpp:550:16: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  550 |     load_snap( "zx81_16k.z81" );
+      |                ^~~~~~~~~~~~~~
+81/tzx/tzxload.cpp: At global scope:
+81/tzx/tzxload.cpp:48:12: warning: 'int rwgetc(RWMEM*)' defined but not used [-Wunused-function]
+   48 | static int rwgetc( RWMEM* f )
+      |            ^~~~~~
+81/Utils.cpp: In function 'AnsiString RemovePath(AnsiString)':
+81/Utils.cpp:295:13: warning: unused variable 'i' [-Wunused-variable]
+  295 |         int i,p;
+      |             ^
+src/compat.cpp: In function 'void AccurateDraw()':
+src/compat.cpp:615:16: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+  615 |   register int i, c;
+      |                ^
+src/compat.cpp:615:19: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+  615 |   register int i, c;
+      |                   ^
+81/tzx/tzxload.cpp: In member function 'bool TTZXFile::LoadGeneralBlock(RWMEM*)':
+81/tzx/tzxload.cpp:328:31: warning: 'SymDefD' may be used uninitialized [-Wmaybe-uninitialized]
+  328 |         Tape[CurBlock].SymDefD=SymDefD;
+      |         ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+81/tzx/tzxload.cpp:225:35: note: 'SymDefD' was declared here
+  225 |         unsigned short *SymDefP, *SymDefD, *PRLE;
+      |                                   ^~~~~~~
+81/tzx/tzxload.cpp:324:44: warning: 'bytes' may be used uninitialized [-Wmaybe-uninitialized]
+  324 |         Tape[CurBlock].Head.General.DataLen=bytes;
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+81/tzx/tzxload.cpp:229:19: note: 'bytes' was declared here
+  229 |         int bits, bytes;
+      |                   ^~~~~
+In function 'int ATA_ReadData()',
+    inlined from 'int ATA_ReadRegister(int)' at 81/ide/ide.cpp:819:52:
+81/ide/ide.cpp:489:20: warning: 'Data' may be used uninitialized [-Wmaybe-uninitialized]
+  489 |         return(Data);
+      |                    ^
+81/ide/ide.cpp: In function 'int ATA_ReadRegister(int)':
+81/ide/ide.cpp:450:13: note: 'Data' was declared here
+  450 |         int Data;
+      |             ^~~~
+81/tzx/tzxload.cpp: In member function 'bool TTZXFile::LoadFile(const void*, size_t, bool)':
+81/tzx/tzxload.cpp:925:22: warning: 'head' may be used uninitialized [-Wmaybe-uninitialized]
+  925 |         if ( !strncmp( head.id, TZX_ID, 8 ) )
+      |               ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+In file included from 81/tzx/tzxload.cpp:24:
+/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/include/string.h:143:12: note: by argument 1 of type 'const char*' to 'int strncmp(const char*, const char*, size_t)' declared here
+  143 | extern int strncmp (const char *__s1, const char *__s2, size_t __n)
+      |            ^~~~~~~
+81/tzx/tzxload.cpp:921:26: note: 'head' declared here
+  921 |         struct TZXHeader head;
+      |                          ^~~~
+arm-a30-linux-gnueabihf-g++ -o 81_libretro.so -shared -Wl,-version-script=build/link.T -Wl,-no-undefined ./81/zx81config.o ./81/sound/sound.o ./81/sp0256.o ./81/peripherals/dev8255.o ./81/Ace/ace.o ./81/zx81/zx81.o ./81/zx81/rompatch.o ./81/zx81/snap.o ./81/z80/z80.o ./81/z80/z80_ops.o ./src/coreopt.o ./src/keybovl.o ./src/eo.o ./src/kbds/zx81kbd.o ./src/version.o ./src/gamedb/sha1.o ./81/kbstatus.o ./81/ide/ide.o ./81/Utils.o ./81/tzx/TZXFILE.o ./81/tzx/tzxadd.o ./81/tzx/tzxload.o ./81/tzx/tzxevent.o ./81/tzx/tzxEventGeneral.o ./81/tzx/tzxEventTurbo.o ./81/tzx/tzxEventMisc.o ./src/libretro.o ./src/compat.o -lm  
+cp "81_libretro.so" "/libretro-super/dist/unix/81_libretro.so"
+1 core(s) successfully processed:
+	81
+CORE_PIPELINE_GENERATED_SOURCE|src/version.c|sha256|5a07d38a3bcd84ee5fa9abbdbe0bd706288d8ec4ee8095485447e35dc28a2862

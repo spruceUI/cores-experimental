@@ -1,0 +1,49 @@
+{
+  "core_id": "fmsx",
+  "source": {
+    "commit": "f013e213458e06d9df718e4bc4b09d46f88aa899",
+    "tree": "ae1b15cee162c073452cc9826b1e208d2250d2bf",
+    "submodules": []
+  },
+  "positive_runs": [
+    {
+      "role": "final-golden",
+      "run_id": "tranche28c-fmsx-final-v1",
+      "e2e_file_sha256": "a67d5d85661d4b118fd4aaec24dbdc1e86c11af02503e60e338719d004c4b22c",
+      "e2e_content_sha256": "9f42ac0dd87672a2af1609ef6f02675b418bb873ef8ec7ebbe0801384e60511d",
+      "build_record_sha256": {
+        "arm64": "f6458779822984eeb9105ddce8b3bf0625a99c15640ae9b0303de8611e8316f6",
+        "armhf": "d7d64189a79e2f6128cd84f81147f92b43fc22d1a3aac9d736e0d5d389b18058"
+      }
+    },
+    {
+      "role": "final-reproduction",
+      "run_id": "tranche28e-fmsx-repro-v1",
+      "e2e_file_sha256": "966a7763ab1cf59c65ddbd4d216779d6bda98ff3025920a22c0799fd3e1b5b04",
+      "e2e_content_sha256": "9a656f1a6677a524149047c3b32fae484f449887d1721c2094b9b2cfe84839e0",
+      "build_record_sha256": {
+        "arm64": "5d9abb86037b68842486ba65f8626a3471c88b09530850623bad6870150b9856",
+        "armhf": "48c4fa7a010514fcd31ea6f923ef1ddf285dc15a05cfbbd362f76d2479aeb180"
+      }
+    }
+  ],
+  "shared_positive_outputs": {
+    "build_log_sha256": {
+      "arm64": "6c91821864091514e6576c409c67353afc0dd9d181075bcb608f76bbbb701878",
+      "armhf": "cc359c1b9073b241c9f91fc650a72a677e68e54af64d7af2cbe4a980eb82dad6"
+    },
+    "artifact_sha256": {
+      "arm64": "5e72c1e9d7c6afa31cb1396cd700254c589e94a4327ef4cbcc11aa0fff0663f7",
+      "armhf": "738520c499279643a51900bc5360ecbdc323a46fbfc655f4284aa9624908d67f"
+    },
+    "artifact_size": {
+      "arm64": 282848,
+      "armhf": 301172
+    },
+    "package_sha256": "71602b060f5ea76847b0f808803a87e0251d1fa990954f8a4f462bda72099e97",
+    "package_size": 254345,
+    "metadata_sha256": "a7b863ff5e75c538ea77dbf3e7a75d1d57f56abad1b2c946dc5d30c7b206bc98",
+    "metadata_size": 2128,
+    "embedded_version": "6.0 f013e21"
+  }
+}

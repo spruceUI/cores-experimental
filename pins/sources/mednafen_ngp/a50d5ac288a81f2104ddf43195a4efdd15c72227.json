@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "mednafen_ngp-a50d5ac288a8",
+  "core_id": "mednafen_ngp",
+  "source": {
+    "url": "https://github.com/libretro/beetle-ngp-libretro.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "a50d5ac288a81f2104ddf43195a4efdd15c72227",
+    "tree": "2614efc4a43347f75a16e4b87c536806f7de2ba1",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "2556b39a879e181d04ec8261da1bd62182b1a44045932c676f173bdde9f48eb5"
+}

@@ -1,0 +1,145 @@
+PLATFORM: Linux
+ARCHITECTURE: x86_64
+TARGET: unix
+=== SNES9x 2005
+Fetching snes9x2005...
+git clone "https://github.com/libretro/snes9x2005.git" "/libretro-super/libretro-snes9x2005"
+Cloning into '/libretro-super/libretro-snes9x2005'...
+1 core(s) successfully processed:
+	snes9x2005
+HEAD is now at b603569 Merge pull request #103 from cscd98/webos-ci
+CORE_PIPELINE_MAKE_DEFAULT|USE_BLARGG_APU|0|file
+CORE_PIPELINE_NATIVE_GIT_VERSION|" b603569"|file
+PLATFORM: Linux
+ARCHITECTURE: x86_64
+TARGET: unix
+CC = aarch64-linux-gnu-gcc
+CXX = aarch64-linux-gnu-g++
+CXX11 = aarch64-linux-gnu-g++
+CXX17 = aarch64-linux-gnu-g++
+STRIP = aarch64-linux-gnu-strip
+Compiler: CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++"
+=== x86 CPU detected... ===
+=== x86_64 CPU detected... ===
+unix
+unix
+=== SNES9x 2005
+Building snes9x2005...
+cd "/libretro-super/libretro-snes9x2005"
+make platform="unix" -j24  clean
+rm -f snes9x2005_libretro.so ./source/c4.o ./source/c4emu.o ./source/cheats2.o ./source/cheats.o ./source/clip.o ./source/cpu.o ./source/cpuexec.o ./source/cpuops.o ./source/data.o ./source/dma.o ./source/dsp1.o ./source/fxemu.o ./source/fxinst.o ./source/gfx.o ./source/getset.o ./source/globals.o ./source/memmap.o ./source/obc1.o ./source/ppu.o ./source/sa1.o ./source/sa1cpu.o ./source/sdd1.o ./source/sdd1emu.o ./source/seta010.o ./source/seta011.o ./source/seta018.o ./source/seta.o ./source/spc7110.o ./source/spc7110dec.o ./source/srtc.o ./source/tile.o ./libretro.o ./source/apu.o ./source/soundux.o ./source/spc700.o
+make platform="unix" -j24 CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" 
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/c4.o source/c4.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/c4emu.o source/c4emu.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/cheats2.o source/cheats2.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/cheats.o source/cheats.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/clip.o source/clip.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/cpu.o source/cpu.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/cpuexec.o source/cpuexec.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/cpuops.o source/cpuops.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/data.o source/data.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/dma.o source/dma.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/dsp1.o source/dsp1.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/fxemu.o source/fxemu.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/fxinst.o source/fxinst.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/gfx.o source/gfx.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/getset.o source/getset.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/globals.o source/globals.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/memmap.o source/memmap.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/obc1.o source/obc1.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/ppu.o source/ppu.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/sa1.o source/sa1.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/sa1cpu.o source/sa1cpu.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/sdd1.o source/sdd1.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/sdd1emu.o source/sdd1emu.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/seta010.o source/seta010.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/seta011.o source/seta011.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/seta018.o source/seta018.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/seta.o source/seta.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/spc7110.o source/spc7110.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/spc7110dec.o source/spc7110dec.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/srtc.o source/srtc.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/tile.o source/tile.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -olibretro.o libretro.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/apu.o source/apu.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/soundux.o source/soundux.c
+aarch64-linux-gnu-gcc -fPIC -DGIT_VERSION=\"" b603569"\" -fno-builtin -fno-exceptions -ffunction-sections -DLOAD_FROM_MEMORY  -Wall -Wextra -pedantic -Wno-implicit-function-declaration -Wno-implicit-fallthrough -Wno-sign-compare -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-uninitialized -Wno-strict-aliasing -Wno-overflow -fno-strict-overflow -I./source -I. -I./libretro-common/include -O2 -DNDEBUG -DLAGFIX  -c -osource/spc700.o source/spc700.c
+source/memmap.c: In function 'LoROMMap':
+source/memmap.c:1632:79: warning: array subscript -24576 is outside array bounds of 'uint8_t[8192]' {aka 'unsigned char[8192]'} [-Warray-bounds]
+ 1632 |          Memory.Map [c + 6] = Memory.Map [c + 0x806] = (uint8_t*) bytes0x2000 - 0x6000;
+      |                                                        ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+source/memmap.c:45:16: note: while referencing 'bytes0x2000'
+   45 | static uint8_t bytes0x2000 [0x2000];
+      |                ^~~~~~~~~~~
+source/memmap.c:1632:79: warning: array subscript -24576 is outside array bounds of 'uint8_t[8192]' {aka 'unsigned char[8192]'} [-Warray-bounds]
+ 1632 |          Memory.Map [c + 6] = Memory.Map [c + 0x806] = (uint8_t*) bytes0x2000 - 0x6000;
+      |                                                        ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+source/memmap.c:45:16: note: while referencing 'bytes0x2000'
+   45 | static uint8_t bytes0x2000 [0x2000];
+      |                ^~~~~~~~~~~
+source/memmap.c:1633:79: warning: array subscript -24576 is outside array bounds of 'uint8_t[8192]' {aka 'unsigned char[8192]'} [-Warray-bounds]
+ 1633 |          Memory.Map [c + 7] = Memory.Map [c + 0x807] = (uint8_t*) bytes0x2000 - 0x6000;
+      |                                                        ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+source/memmap.c:45:16: note: while referencing 'bytes0x2000'
+   45 | static uint8_t bytes0x2000 [0x2000];
+      |                ^~~~~~~~~~~
+source/memmap.c:1633:79: warning: array subscript -24576 is outside array bounds of 'uint8_t[8192]' {aka 'unsigned char[8192]'} [-Warray-bounds]
+ 1633 |          Memory.Map [c + 7] = Memory.Map [c + 0x807] = (uint8_t*) bytes0x2000 - 0x6000;
+      |                                                        ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+source/memmap.c:45:16: note: while referencing 'bytes0x2000'
+   45 | static uint8_t bytes0x2000 [0x2000];
+      |                ^~~~~~~~~~~
+source/memmap.c: In function 'SetaDSPMap':
+source/memmap.c:1720:76: warning: array subscript -24576 is outside array bounds of 'uint8_t[8192]' {aka 'unsigned char[8192]'} [-Warray-bounds]
+ 1720 |       Memory.Map [c + 6] = Memory.Map [c + 0x806] = (uint8_t*) bytes0x2000 - 0x6000;
+      |                                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+source/memmap.c:45:16: note: while referencing 'bytes0x2000'
+   45 | static uint8_t bytes0x2000 [0x2000];
+      |                ^~~~~~~~~~~
+source/memmap.c:1720:76: warning: array subscript -24576 is outside array bounds of 'uint8_t[8192]' {aka 'unsigned char[8192]'} [-Warray-bounds]
+ 1720 |       Memory.Map [c + 6] = Memory.Map [c + 0x806] = (uint8_t*) bytes0x2000 - 0x6000;
+      |                                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+source/memmap.c:45:16: note: while referencing 'bytes0x2000'
+   45 | static uint8_t bytes0x2000 [0x2000];
+      |                ^~~~~~~~~~~
+source/memmap.c:1721:76: warning: array subscript -24576 is outside array bounds of 'uint8_t[8192]' {aka 'unsigned char[8192]'} [-Warray-bounds]
+ 1721 |       Memory.Map [c + 7] = Memory.Map [c + 0x807] = (uint8_t*) bytes0x2000 - 0x6000;
+      |                                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+source/memmap.c:45:16: note: while referencing 'bytes0x2000'
+   45 | static uint8_t bytes0x2000 [0x2000];
+      |                ^~~~~~~~~~~
+source/memmap.c:1721:76: warning: array subscript -24576 is outside array bounds of 'uint8_t[8192]' {aka 'unsigned char[8192]'} [-Warray-bounds]
+ 1721 |       Memory.Map [c + 7] = Memory.Map [c + 0x807] = (uint8_t*) bytes0x2000 - 0x6000;
+      |                                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+source/memmap.c:45:16: note: while referencing 'bytes0x2000'
+   45 | static uint8_t bytes0x2000 [0x2000];
+      |                ^~~~~~~~~~~
+source/memmap.c: In function 'JumboLoROMMap':
+source/memmap.c:2401:79: warning: array subscript -24576 is outside array bounds of 'uint8_t[8192]' {aka 'unsigned char[8192]'} [-Warray-bounds]
+ 2401 |          Memory.Map [c + 6] = Memory.Map [c + 0x806] = (uint8_t*) bytes0x2000 - 0x6000;
+      |                                                        ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+source/memmap.c:45:16: note: while referencing 'bytes0x2000'
+   45 | static uint8_t bytes0x2000 [0x2000];
+      |                ^~~~~~~~~~~
+source/memmap.c:2401:79: warning: array subscript -24576 is outside array bounds of 'uint8_t[8192]' {aka 'unsigned char[8192]'} [-Warray-bounds]
+ 2401 |          Memory.Map [c + 6] = Memory.Map [c + 0x806] = (uint8_t*) bytes0x2000 - 0x6000;
+      |                                                        ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+source/memmap.c:45:16: note: while referencing 'bytes0x2000'
+   45 | static uint8_t bytes0x2000 [0x2000];
+      |                ^~~~~~~~~~~
+source/memmap.c:2402:79: warning: array subscript -24576 is outside array bounds of 'uint8_t[8192]' {aka 'unsigned char[8192]'} [-Warray-bounds]
+ 2402 |          Memory.Map [c + 7] = Memory.Map [c + 0x807] = (uint8_t*) bytes0x2000 - 0x6000;
+      |                                                        ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+source/memmap.c:45:16: note: while referencing 'bytes0x2000'
+   45 | static uint8_t bytes0x2000 [0x2000];
+      |                ^~~~~~~~~~~
+source/memmap.c:2402:79: warning: array subscript -24576 is outside array bounds of 'uint8_t[8192]' {aka 'unsigned char[8192]'} [-Warray-bounds]
+ 2402 |          Memory.Map [c + 7] = Memory.Map [c + 0x807] = (uint8_t*) bytes0x2000 - 0x6000;
+      |                                                        ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+source/memmap.c:45:16: note: while referencing 'bytes0x2000'
+   45 | static uint8_t bytes0x2000 [0x2000];
+      |                ^~~~~~~~~~~
+aarch64-linux-gnu-gcc -fPIC -shared -Wl,--no-undefined -Wl,--version-script=link.T -lm -o snes9x2005_libretro.so ./source/c4.o ./source/c4emu.o ./source/cheats2.o ./source/cheats.o ./source/clip.o ./source/cpu.o ./source/cpuexec.o ./source/cpuops.o ./source/data.o ./source/dma.o ./source/dsp1.o ./source/fxemu.o ./source/fxinst.o ./source/gfx.o ./source/getset.o ./source/globals.o ./source/memmap.o ./source/obc1.o ./source/ppu.o ./source/sa1.o ./source/sa1cpu.o ./source/sdd1.o ./source/sdd1emu.o ./source/seta010.o ./source/seta011.o ./source/seta018.o ./source/seta.o ./source/spc7110.o ./source/spc7110dec.o ./source/srtc.o ./source/tile.o ./libretro.o ./source/apu.o ./source/soundux.o ./source/spc700.o 
+cp "snes9x2005_libretro.so" "/libretro-super/dist/unix/snes9x2005_libretro.so"
+1 core(s) successfully processed:
+	snes9x2005

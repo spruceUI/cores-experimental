@@ -1,0 +1,322 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/full-release-plan.schema.json",
+  "title": "Cores-spruce deterministic local full-release plan",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "candidate_id",
+    "scope",
+    "validation_scope",
+    "local_only",
+    "publication",
+    "repository",
+    "cores",
+    "summary",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {"const": "../../manifests/full-release-plan.schema.json"},
+    "schema_version": {"const": 2},
+    "candidate_id": {"$ref": "#/$defs/identifier"},
+    "scope": {
+      "enum": ["explicit", "canonical", "full-workflow-roster"]
+    },
+    "validation_scope": {"const": "static-build-only"},
+    "local_only": {"const": true},
+    "publication": {"const": "disabled"},
+    "repository": {"$ref": "#/$defs/repository"},
+    "cores": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/core"}
+    },
+    "summary": {"$ref": "#/$defs/summary"},
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "coreId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]*$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[A-Za-z0-9._+-]+(?:/[A-Za-z0-9._+-]+)*$"
+    },
+    "fileReference": {
+      "type": "object",
+      "required": ["path", "file_sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "file_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "contentReference": {
+      "type": "object",
+      "required": ["path", "file_sha256", "content_sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "pipelineBundle": {
+      "type": "object",
+      "required": ["file_sha256", "content_sha256"],
+      "properties": {
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "repository": {
+      "type": "object",
+      "required": [
+        "head",
+        "clean",
+        "catalog",
+        "toolchain_lock",
+        "commit_blacklist",
+        "pipeline_bundle",
+        "workflow_audit",
+        "orchestration"
+      ],
+      "properties": {
+        "head": {"$ref": "#/$defs/sha1"},
+        "clean": {"const": true},
+        "catalog": {"$ref": "#/$defs/fileReference"},
+        "toolchain_lock": {"$ref": "#/$defs/contentReference"},
+        "commit_blacklist": {"$ref": "#/$defs/contentReference"},
+        "pipeline_bundle": {"$ref": "#/$defs/pipelineBundle"},
+        "workflow_audit": {"$ref": "#/$defs/workflowAudit"},
+        "orchestration": {"$ref": "#/$defs/orchestration"}
+      },
+      "additionalProperties": false
+    },
+    "orchestration": {
+      "type": "object",
+      "required": ["coordinator", "worker"],
+      "properties": {
+        "coordinator": {
+          "type": "object",
+          "required": ["path", "file_sha256"],
+          "properties": {
+            "path": {"const": ".github/workflows/release-candidate.yml"},
+            "file_sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false
+        },
+        "worker": {
+          "type": "object",
+          "required": ["path", "file_sha256"],
+          "properties": {
+            "path": {"const": ".github/workflows/_build-one-core.yml"},
+            "file_sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "workflowAudit": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "content_sha256",
+        "core_workflow_count",
+        "catalog_workflow_count",
+        "shared_pipeline_workflows",
+        "unmigrated_workflow_count"
+      ],
+      "properties": {
+        "schema_version": {"const": 2},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "core_workflow_count": {"type": "integer", "minimum": 0},
+        "catalog_workflow_count": {"type": "integer", "minimum": 0},
+        "shared_pipeline_workflows": {"type": "integer", "minimum": 0},
+        "unmigrated_workflow_count": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "submodule": {
+      "type": "object",
+      "required": ["path", "commit"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "commit": {"$ref": "#/$defs/sha1"}
+      },
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "required": ["url", "requested_ref", "commit", "tree", "submodules"],
+      "properties": {
+        "url": {
+          "type": "string",
+          "pattern": "^https://(?![^/\\s]*@)(?![^\\s]*[?#])[^\\s/?#]+/[^\\s?#]*\\.git$"
+        },
+        "requested_ref": {
+          "type": "string",
+          "pattern": "^refs/(heads|tags)/[^\\s]+$"
+        },
+        "commit": {"$ref": "#/$defs/sha1"},
+        "tree": {"$ref": "#/$defs/sha1"},
+        "submodules": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/submodule"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "workflow": {
+      "type": "object",
+      "required": ["path", "file_sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^\\.github/workflows/build-[A-Za-z0-9._+-]+\\.yml$"
+        },
+        "file_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "pin": {
+      "type": "object",
+      "required": ["path", "pin_id", "file_sha256", "content_sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^pins/core-sets/[A-Za-z0-9._-]+\\.json$"
+        },
+        "pin_id": {"$ref": "#/$defs/identifier"},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "sourceSet": {
+      "type": "object",
+      "required": [
+        "path",
+        "source_set_id",
+        "file_sha256",
+        "content_sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^pins/source-sets/[A-Za-z0-9._-]+\\.json$"
+        },
+        "source_set_id": {"$ref": "#/$defs/identifier"},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "compatibility": {
+      "type": "object",
+      "required": ["path", "file_sha256", "content_sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^manifests/compatibility/[a-z0-9][a-z0-9_]*\\.json$"
+        },
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "package": {
+      "type": "object",
+      "required": ["name", "sha256", "size"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*_libretro\\.zip$"
+        },
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "size": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "target": {
+      "type": "object",
+      "required": [
+        "architecture",
+        "execution_profile",
+        "artifact_name",
+        "artifact_sha256",
+        "artifact_size",
+        "selected_build_record_sha256"
+      ],
+      "properties": {
+        "architecture": {"enum": ["arm64", "armhf"]},
+        "execution_profile": {
+          "type": "string",
+          "pattern": "^ra(32|64)-[a-z0-9-]+-v[0-9]+$"
+        },
+        "artifact_name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*_libretro\\.so$"
+        },
+        "artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "artifact_size": {"type": "integer", "minimum": 1},
+        "selected_build_record_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "core": {
+      "type": "object",
+      "required": [
+        "core_id",
+        "core_spec_sha256",
+        "workflow",
+        "source",
+        "pin",
+        "source_set",
+        "compatibility",
+        "package",
+        "targets"
+      ],
+      "properties": {
+        "core_id": {"$ref": "#/$defs/coreId"},
+        "core_spec_sha256": {"$ref": "#/$defs/sha256"},
+        "workflow": {"$ref": "#/$defs/workflow"},
+        "source": {"$ref": "#/$defs/source"},
+        "pin": {"$ref": "#/$defs/pin"},
+        "source_set": {"$ref": "#/$defs/sourceSet"},
+        "compatibility": {"$ref": "#/$defs/compatibility"},
+        "package": {"$ref": "#/$defs/package"},
+        "targets": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/target"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": ["core_count", "target_count", "package_bytes"],
+      "properties": {
+        "core_count": {"type": "integer", "minimum": 1},
+        "target_count": {"type": "integer", "minimum": 1},
+        "package_bytes": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    }
+  }
+}

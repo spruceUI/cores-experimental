@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "o2em-e03d3be88f79-ede84c3862de",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/o2em-e03d3be88f79-ede84c3862de.json",
+    "pin_id": "o2em-e03d3be88f79-ede84c3862de",
+    "file_sha256": "786b1a947e7fdb2f3a91d121aa20256bbc4a6f4d9710b19a67b5da47c3c66e7e",
+    "content_sha256": "41623a4fdbc15ec0af0dc7702525cac3868b978956b89949f3e550f256aa8d3a"
+  },
+  "sources": {
+    "o2em": {
+      "path": "pins/sources/o2em/e03d3be88f79fe940b933e53f1515d97313f6c59.json",
+      "source_lock_id": "o2em-e03d3be88f79",
+      "commit": "e03d3be88f79fe940b933e53f1515d97313f6c59",
+      "file_sha256": "ba3508a6238455632225409d0013eefe4cfc0ce3dab4278e1d7cd5b7477a3bcc",
+      "content_sha256": "ca645b7ab7655adddb4253b8e727c9c78b52558f79497f899c9cdac98153f352"
+    }
+  },
+  "content_sha256": "8ff7fee6641361f43b233e2966242be8b0519593e8b9c90ecac337ab82a45c60"
+}

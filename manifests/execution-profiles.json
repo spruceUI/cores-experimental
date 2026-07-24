@@ -1,0 +1,145 @@
+{
+  "$schema": "execution-profiles.schema.json",
+  "schema_version": 1,
+  "registry_id": "execution-profiles-v1",
+  "local_only": true,
+  "publication": "disabled",
+  "spruce_snapshot": {
+    "repository": "https://github.com/spruceUI/spruceOS.git",
+    "commit": "0507598f7c322f0880eee6f147bd57709749a3b1",
+    "tree": "569de730a1b317857a227da8b1282b0815af513a"
+  },
+  "profiles": {
+    "ra32-a30-v1": {
+      "architecture": "armhf",
+      "status": "locked-build-identity",
+      "frontend": {
+        "availability": "present",
+        "spruce_path": "RetroArch/ra32.a30",
+        "sha256": "91c1e475371d1035bfec94c1f39f5df8132203e9feec38764f5a34ccd29eae37",
+        "elf_class": "ELF32",
+        "machine": "ARM",
+        "interpreter": "/lib/ld-linux-armhf.so.3"
+      },
+      "core_layout": {
+        "directory": "RetroArch/.retroarch/cores",
+        "package_directory": "cores"
+      },
+      "build_identity": {
+        "toolchain_lock_path": "pins/toolchains/local-cache-v1.json",
+        "toolchain_lock_id": "local-cache-v1",
+        "toolchain_lock_file_sha256": "7606e9357490f451df4374d38aad73a0426e3bb956a732dcaaa6b32393ee8639",
+        "toolchain_lock_content_sha256": "253f7d84cc71fa859553fa05fab4c2356b842196104953b092501850c217a794",
+        "toolchain_architecture": "armhf",
+        "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+        "dockerfile_sha256": "25ea28e7a00905fd94efe548fbec3abb762a2a949513762f7dfc86df254c44fb",
+        "dockerfile_linkage": "unverified-local-cache",
+        "compiler": "arm-a30-linux-gnueabihf-gcc-13.2.0.br_real (Buildroot 2024.02.1) 13.2.0",
+        "sysroot": "/opt/a30/arm-a30-linux-gnueabihf/sysroot"
+      },
+      "missing_evidence": [],
+      "runtime_validation": "needs-target-runtime"
+    },
+    "ra32-mini-v0": {
+      "architecture": "armhf",
+      "status": "provisional",
+      "frontend": {
+        "availability": "present",
+        "spruce_path": "RetroArch/ra32.mini",
+        "sha256": "f7350c5755277b4aca957ce08055c71685bd59cf5967cfbb72899e932d8fae4d",
+        "elf_class": "ELF32",
+        "machine": "ARM",
+        "interpreter": "/lib/ld-linux-armhf.so.3"
+      },
+      "core_layout": {
+        "directory": "RetroArch/.retroarch/cores",
+        "package_directory": "cores"
+      },
+      "build_identity": null,
+      "missing_evidence": [
+        "effective-runtime-provider-capture",
+        "target-sysroot-capture",
+        "target-toolchain-lock"
+      ],
+      "runtime_validation": "needs-target-runtime"
+    },
+    "ra32-universal-v0": {
+      "architecture": "armhf",
+      "status": "provisional",
+      "frontend": {
+        "availability": "present",
+        "spruce_path": "RetroArch/ra32.universal",
+        "sha256": "1fdf00d848e61a0703fa51ccc968d207e712017b9af28be7c2a07cb8577c7586",
+        "elf_class": "ELF32",
+        "machine": "ARM",
+        "interpreter": "/lib/ld-linux-armhf.so.3"
+      },
+      "core_layout": {
+        "directory": "RetroArch/.retroarch/cores",
+        "package_directory": "cores"
+      },
+      "build_identity": null,
+      "missing_evidence": [
+        "effective-runtime-provider-capture",
+        "target-sysroot-capture",
+        "target-toolchain-lock"
+      ],
+      "runtime_validation": "needs-target-runtime"
+    },
+    "ra64-pixel2-v0": {
+      "architecture": "arm64",
+      "status": "provisional-missing-frontend",
+      "frontend": {
+        "availability": "missing",
+        "spruce_path": "RetroArch/ra64.pixel2",
+        "sha256": null,
+        "elf_class": "ELF64",
+        "machine": "AArch64",
+        "interpreter": "/lib/ld-linux-aarch64.so.1"
+      },
+      "core_layout": {
+        "directory": "RetroArch/.retroarch/cores64",
+        "package_directory": "cores64"
+      },
+      "build_identity": null,
+      "missing_evidence": [
+        "effective-runtime-provider-capture",
+        "frontend-binary",
+        "target-sysroot-capture",
+        "target-toolchain-lock"
+      ],
+      "runtime_validation": "needs-target-runtime"
+    },
+    "ra64-universal-v1": {
+      "architecture": "arm64",
+      "status": "locked-build-identity",
+      "frontend": {
+        "availability": "present",
+        "spruce_path": "RetroArch/ra64.universal",
+        "sha256": "b94fd5ea8bdc5a969d2639e7365088b246fa8241d00428c86be00a6d807c4c11",
+        "elf_class": "ELF64",
+        "machine": "AArch64",
+        "interpreter": "/lib/ld-linux-aarch64.so.1"
+      },
+      "core_layout": {
+        "directory": "RetroArch/.retroarch/cores64",
+        "package_directory": "cores64"
+      },
+      "build_identity": {
+        "toolchain_lock_path": "pins/toolchains/local-cache-v1.json",
+        "toolchain_lock_id": "local-cache-v1",
+        "toolchain_lock_file_sha256": "7606e9357490f451df4374d38aad73a0426e3bb956a732dcaaa6b32393ee8639",
+        "toolchain_lock_content_sha256": "253f7d84cc71fa859553fa05fab4c2356b842196104953b092501850c217a794",
+        "toolchain_architecture": "arm64",
+        "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+        "dockerfile_sha256": "1ddcbe99070a7ca3f72a61ea949186249ff5d9092f7946a7196d506bca7a1514",
+        "dockerfile_linkage": "unverified-local-cache",
+        "compiler": "aarch64-linux-gnu-gcc (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0",
+        "sysroot": "/"
+      },
+      "missing_evidence": [],
+      "runtime_validation": "needs-target-runtime"
+    }
+  },
+  "content_sha256": "27de8ed56f0693fcea8f224bb78f940e458fa6bb1e991d8f91cd27550678050a"
+}

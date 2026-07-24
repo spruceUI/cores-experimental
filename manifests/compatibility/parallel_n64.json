@@ -1,0 +1,53 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "parallel_n64",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/parallel_n64-00c6c9df91d2-be061373ae12.json",
+  "source_commit": "00c6c9df91d2c2daaae615cefad7911be556fbfa",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-parallel_n64-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "cc7fc8c73c34adf243156cae74594b10c136fb197b057456d25055a22cd717a2",
+  "reproduction_run": ".local-e2e/runs/build-core-parallel_n64-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "436a61c94d3760c9c8a101bd624d059e69ecdc4558f8b0278897fe6e15460de9",
+  "package_state": "reproducible",
+  "package_sha256": "27d0d8a4a798e904d4ed920c3e4f43cf384a82b5234eb6d311fe06c01976075a",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the parallel_n64_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "f209ee8f9488f14e9c7e60eafd8d27fe17c858c9f3400a8a2131b5d4b8985578",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libGLESv2.so.2",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libpthread.so.0",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.8",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.11",
+        "GLIBCXX_3.4.14",
+        "GLIBCXX_3.4.17",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.22",
+        "GLIBC_2.17",
+        "GLIBC_2.27",
+        "GLIBC_2.29"
+      ]
+    }
+  },
+  "content_sha256": "9156cb7a75cb5708bdb4bdb55f2eba77d52c5d214849b507446a1ff6a3338d68"
+}

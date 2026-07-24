@@ -1,0 +1,102 @@
+name: Build Docker Images
+
+on:
+  workflow_dispatch:
+    inputs:
+      force_rebuild:
+        description: 'Force rebuild even if images exist'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  build-arm64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure toolchains release exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view toolchains >/dev/null 2>&1 || \
+            gh release create toolchains \
+              --title "Toolchain Images" \
+              --notes "Cached Docker images for core builds" \
+            || true
+
+      - name: Check for existing image
+        id: check
+        if: ${{ !inputs.force_rebuild }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release download toolchains \
+              --pattern "cores-arm64.tar.gz" \
+              --dir . 2>/dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build Docker image
+        if: steps.check.outputs.exists != 'true'
+        run: docker build -f Dockerfile.arm64 -t cores-arm64 .
+
+      - name: Save and upload Docker image
+        if: steps.check.outputs.exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          docker save cores-arm64 | gzip > cores-arm64.tar.gz
+          gh release upload toolchains cores-arm64.tar.gz --clobber
+
+  build-armhf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure toolchains release exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view toolchains >/dev/null 2>&1 || \
+            gh release create toolchains \
+              --title "Toolchain Images" \
+              --notes "Cached Docker images for core builds" \
+            || true
+
+      - name: Check for existing image
+        id: check
+        if: ${{ !inputs.force_rebuild }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release download toolchains \
+              --pattern "cores-armhf.tar.gz" \
+              --dir . 2>/dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Download A30 toolchain
+        if: steps.check.outputs.exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download toolchains --pattern "a30_toolchain-v1.0.tar.gz" --dir .
+
+      - name: Build Docker image
+        if: steps.check.outputs.exists != 'true'
+        run: docker build -f Dockerfile.armhf -t cores-armhf .
+
+      - name: Save and upload Docker image
+        if: steps.check.outputs.exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          docker save cores-armhf | gzip > cores-armhf.tar.gz
+          gh release upload toolchains cores-armhf.tar.gz --clobber

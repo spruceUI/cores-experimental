@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "freeintv-428915baf2bf-765331c8f153",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/freeintv-428915baf2bf-765331c8f153.json",
+    "pin_id": "freeintv-428915baf2bf-765331c8f153",
+    "file_sha256": "98972f60eb86cb94bd01245b7545ac783715ac40d2b94ab0cc4d65b8bd77612a",
+    "content_sha256": "d75322dc7c4a8f5ae5aede67c8fd936af52b5b8adc5bb969bb423e15fdb8adce"
+  },
+  "sources": {
+    "freeintv": {
+      "path": "pins/sources/freeintv/428915baf2bfc032fc03e645f4f8f9c6c3144979.json",
+      "source_lock_id": "freeintv-428915baf2bf",
+      "commit": "428915baf2bfc032fc03e645f4f8f9c6c3144979",
+      "file_sha256": "e25d94c392611bf06056998eff60908c7740793418f3521c0b2290ad3cdbbb72",
+      "content_sha256": "97940c9943e49e078154248746d164e4a5c7b7afbe71bc6d9c009d6a9bab06b4"
+    }
+  },
+  "content_sha256": "29818e04bee7839f1d8c8ec07c985506f4520a03278f362111d20027a4a9f5d2"
+}

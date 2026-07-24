@@ -1,0 +1,77 @@
+{
+  "core_id": "vice_xvic",
+  "positive_runs": [
+    {
+      "build_log_sha256": {
+        "arm64": "8ec4b7efab1eb723b166b543e15b1cb86ac4f7b09767e8a11cf9aa43c0f1f545",
+        "armhf": "8991495d0bc5160e224c6062230fafaf8cf1fb1a77c8088c279b57f1c054eef9"
+      },
+      "build_record_sha256": {
+        "arm64": "8e4b7e59624c8e3a895216d83930dcaea255ac4874bc478428cd411704a8256c",
+        "armhf": "00c20ed20a0329f0e51f38a10cb20642f61837edb3395468da7b570f5e5206bd"
+      },
+      "e2e_content_sha256": "56aa25f5660e10506ae1a99efdfbd07c097925c498ec5c3439f018d1dc8cd257",
+      "e2e_file_sha256": "d536d790ff41a57437653ef8be4a58fc91ba1c537c2c66b9292b6bdde054d48e",
+      "role": "final-golden",
+      "run_id": "tranche27e-vice-xvic-final-v1"
+    },
+    {
+      "build_log_sha256": {
+        "arm64": "ef8787ad7be408bf3135e19279063aaa34fa06202d0e9aff82b876a859d1e816",
+        "armhf": "710070fa158c9ac408a3c0ed5c6a787065a42ae9d05e33c4a641f3bcdf5cc7c4"
+      },
+      "build_record_sha256": {
+        "arm64": "baf827df0931ea058cf94e9026ef10888cd832b5a9e8e5a01baff10534ddb37f",
+        "armhf": "764bf163b66467958da0797af563446c9aa448735c38195ef6729d1dc2830aeb"
+      },
+      "e2e_content_sha256": "3e08ecd7119c98b7b60bebd5298ac3be3f964281cd8591e891049c5d05c8f0d0",
+      "e2e_file_sha256": "472b1d7a0ae244a220a00435774970f37712906786a1f51efb186f1c28d79126",
+      "role": "final-reproduction",
+      "run_id": "tranche27g-vice-xvic-repro-v1"
+    }
+  ],
+  "production_log_contract": {
+    "compile_count": 438,
+    "compile_invocation_sha256": {
+      "arm64": "292ba3764442b7242d8a374775c3a36a6ad12e9102208b9dd2c4a95781a1ec68",
+      "armhf": "4126cf021ba5507bcf829d8dc8226ce699a7fb5157db7160d280cd3488e796eb"
+    },
+    "compile_pair_sha256": "e83044294f09dbc1aaf858a3dc79cfd202f02cb4465146fd24c5caa1108a7eb6",
+    "diagnostic_lines_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "language_counts": {
+      "c": 428,
+      "cxx": 10
+    },
+    "link_object_sha256": "ba25b56627c06226dbc1cbe06c2b19025312b3e450aceb06b139ead6c78d47e3",
+    "ordered_link_argv_sha256": {
+      "arm64": "567c6b9c31dee696a46ed842fd332aa52e3b5ac271d571adea74811236b1374a",
+      "armhf": "62687d4bd1a0a0e081430fa481706487103de44ae548e1c57079159ab51c235e"
+    },
+    "raw_link_object_sha256": "a2053f4152a1387ca4526e9a7ac84f04b41d9c7e5f904a84a43eb0054c61a078",
+    "source_suffix_counts": {
+      ".c": 428,
+      ".cc": 10
+    }
+  },
+  "shared_positive_outputs": {
+    "artifact_sha256": {
+      "arm64": "8b3eda61d9c20032fea521ba24f2e97a690eee6cf2447abd2a02e12255907e0a",
+      "armhf": "8bdec5897cd866061a52cb6e7d2f4428e9727692f66b6959c47efbdb5f94e3f5"
+    },
+    "artifact_size": {
+      "arm64": 2879480,
+      "armhf": 2374668
+    },
+    "embedded_core_name": "VICE xvic",
+    "embedded_version": "3.10 7946cfa0d3",
+    "metadata_sha256": "48b23d8971b40aad47efb526b23b8ce11a5f21edd83a4b10fdd0de63a911e571",
+    "metadata_size": 1053,
+    "package_sha256": "9f69e0fda8cfe3275be2570627bfbcbcb0e318fac70057803b8d0e296e99421a",
+    "package_size": 2049997
+  },
+  "source": {
+    "commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
+    "submodules": [],
+    "tree": "db2760ffc97b9c20ef8777fcb7689082be66bc45"
+  }
+}

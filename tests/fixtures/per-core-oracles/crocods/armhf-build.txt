@@ -1,0 +1,84 @@
+PLATFORM: Linux
+ARCHITECTURE: x86_64
+TARGET: unix
+=== CrocoDS
+Fetching crocods...
+git clone "https://github.com/libretro/libretro-crocods.git" "/libretro-super/libretro-crocods"
+Cloning into '/libretro-super/libretro-crocods'...
+1 core(s) successfully processed:
+	crocods
+HEAD is now at 87bbb3d libretro: add webOS to CI (#23)
+CORE_PIPELINE_NATIVE_GIT_VERSION|" 87bbb3d"|file
+PLATFORM: Linux
+ARCHITECTURE: x86_64
+TARGET: unix
+CC = arm-a30-linux-gnueabihf-gcc
+CXX = arm-a30-linux-gnueabihf-g++
+CXX11 = arm-a30-linux-gnueabihf-g++
+CXX17 = arm-a30-linux-gnueabihf-g++
+STRIP = arm-a30-linux-gnueabihf-strip
+Compiler: CC="arm-a30-linux-gnueabihf-gcc" CXX="arm-a30-linux-gnueabihf-g++"
+=== x86 CPU detected... ===
+=== x86_64 CPU detected... ===
+unix
+unix
+=== CrocoDS
+Building crocods...
+cd "/libretro-super/libretro-crocods"
+gmake -f Makefile platform="unix" -j24  clean
+rm -f ./libretro.o ./crocods-core/apps_autorun.o ./crocods-core/apps_browser.o ./crocods-core/apps_disk.o ./crocods-core/apps_guestinfo.o ./crocods-core/apps_infopanel.o ./crocods-core/apps_keyboard.o ./crocods-core/apps_menu.o ./crocods-core/apps_shared.o ./crocods-core/apps_tapeplayer.o ./crocods-core/asic.o ./crocods-core/autotype.o ./crocods-core/cpc6128.bin.o ./crocods-core/crtc-arnold.o ./crocods-core/crtc-cap32.o ./crocods-core/crtc-wincpc.o ./crocods-core/crtc.o ./crocods-core/emu2149.o ./crocods-core/font.o ./crocods-core/gestport.o ./crocods-core/gif.o ./crocods-core/gif_icons.o ./crocods-core/gif_icons8.o ./crocods-core/gif_keyboard.o ./crocods-core/gif_menu.o ./crocods-core/gif_select.o ./crocods-core/gif_tape.o ./crocods-core/idsk_lite.o ./crocods-core/monitor.o ./crocods-core/multiface.o ./crocods-core/platform.o ./crocods-core/ppi.o ./crocods-core/romdisc.bin.o ./crocods-core/rompack.o ./crocods-core/snapshot.o ./crocods-core/sound.o ./crocods-core/upd.o ./crocods-core/vga.o ./crocods-core/z80.o ./crocods-core/z80_cap32.o ./crocods-core/iniparser/dictionary.o ./crocods-core/iniparser/iniparser.o ./deps/libz/adler32.o ./deps/libz/infblock.o ./deps/libz/infcodes.o ./deps/libz/inffast.o ./deps/libz/inflate.o ./deps/libz/inftrees.o ./deps/libz/infutil.o ./deps/libz/zutil.o crocods_libretro.so
+gmake -f Makefile platform="unix" -j24 CC="arm-a30-linux-gnueabihf-gcc" CXX="arm-a30-linux-gnueabihf-g++" 
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o libretro.o libretro.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/apps_autorun.o crocods-core/apps_autorun.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/apps_browser.o crocods-core/apps_browser.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/apps_disk.o crocods-core/apps_disk.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/apps_guestinfo.o crocods-core/apps_guestinfo.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/apps_infopanel.o crocods-core/apps_infopanel.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/apps_keyboard.o crocods-core/apps_keyboard.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/apps_menu.o crocods-core/apps_menu.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/apps_shared.o crocods-core/apps_shared.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/apps_tapeplayer.o crocods-core/apps_tapeplayer.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/asic.o crocods-core/asic.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/autotype.o crocods-core/autotype.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/cpc6128.bin.o crocods-core/cpc6128.bin.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/crtc-arnold.o crocods-core/crtc-arnold.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/crtc-cap32.o crocods-core/crtc-cap32.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/crtc-wincpc.o crocods-core/crtc-wincpc.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/crtc.o crocods-core/crtc.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/emu2149.o crocods-core/emu2149.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/font.o crocods-core/font.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/gestport.o crocods-core/gestport.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/gif.o crocods-core/gif.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/gif_icons.o crocods-core/gif_icons.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/gif_icons8.o crocods-core/gif_icons8.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/gif_keyboard.o crocods-core/gif_keyboard.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/gif_menu.o crocods-core/gif_menu.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/gif_select.o crocods-core/gif_select.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/gif_tape.o crocods-core/gif_tape.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/idsk_lite.o crocods-core/idsk_lite.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/monitor.o crocods-core/monitor.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/multiface.o crocods-core/multiface.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/platform.o crocods-core/platform.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/ppi.o crocods-core/ppi.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/romdisc.bin.o crocods-core/romdisc.bin.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/rompack.o crocods-core/rompack.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/snapshot.o crocods-core/snapshot.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/sound.o crocods-core/sound.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/upd.o crocods-core/upd.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/vga.o crocods-core/vga.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/z80.o crocods-core/z80.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/z80_cap32.o crocods-core/z80_cap32.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/iniparser/dictionary.o crocods-core/iniparser/dictionary.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o crocods-core/iniparser/iniparser.o crocods-core/iniparser/iniparser.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o deps/libz/adler32.o deps/libz/adler32.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o deps/libz/infblock.o deps/libz/infblock.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o deps/libz/infcodes.o deps/libz/infcodes.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o deps/libz/inffast.o deps/libz/inffast.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o deps/libz/inflate.o deps/libz/inflate.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o deps/libz/inftrees.o deps/libz/inftrees.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o deps/libz/infutil.o deps/libz/infutil.c
+arm-a30-linux-gnueabihf-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC  -c -o deps/libz/zutil.o deps/libz/zutil.c
+arm-a30-linux-gnueabihf-gcc -fPIC -shared -Wl,--no-undefined   -o crocods_libretro.so ./libretro.o ./crocods-core/apps_autorun.o ./crocods-core/apps_browser.o ./crocods-core/apps_disk.o ./crocods-core/apps_guestinfo.o ./crocods-core/apps_infopanel.o ./crocods-core/apps_keyboard.o ./crocods-core/apps_menu.o ./crocods-core/apps_shared.o ./crocods-core/apps_tapeplayer.o ./crocods-core/asic.o ./crocods-core/autotype.o ./crocods-core/cpc6128.bin.o ./crocods-core/crtc-arnold.o ./crocods-core/crtc-cap32.o ./crocods-core/crtc-wincpc.o ./crocods-core/crtc.o ./crocods-core/emu2149.o ./crocods-core/font.o ./crocods-core/gestport.o ./crocods-core/gif.o ./crocods-core/gif_icons.o ./crocods-core/gif_icons8.o ./crocods-core/gif_keyboard.o ./crocods-core/gif_menu.o ./crocods-core/gif_select.o ./crocods-core/gif_tape.o ./crocods-core/idsk_lite.o ./crocods-core/monitor.o ./crocods-core/multiface.o ./crocods-core/platform.o ./crocods-core/ppi.o ./crocods-core/romdisc.bin.o ./crocods-core/rompack.o ./crocods-core/snapshot.o ./crocods-core/sound.o ./crocods-core/upd.o ./crocods-core/vga.o ./crocods-core/z80.o ./crocods-core/z80_cap32.o ./crocods-core/iniparser/dictionary.o ./crocods-core/iniparser/iniparser.o ./deps/libz/adler32.o ./deps/libz/infblock.o ./deps/libz/infcodes.o ./deps/libz/inffast.o ./deps/libz/inflate.o ./deps/libz/inftrees.o ./deps/libz/infutil.o ./deps/libz/zutil.o -lm
+cp "crocods_libretro.so" "/libretro-super/dist/unix/crocods_libretro.so"
+1 core(s) successfully processed:
+	crocods

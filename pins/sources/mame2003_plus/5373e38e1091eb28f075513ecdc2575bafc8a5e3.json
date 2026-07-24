@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "mame2003_plus-5373e38e1091",
+  "core_id": "mame2003_plus",
+  "source": {
+    "url": "https://github.com/libretro/mame2003-plus-libretro.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "5373e38e1091eb28f075513ecdc2575bafc8a5e3",
+    "tree": "990e22f33a33cbfe733e22b3b5fef6cda76056fb",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "b7e672f3d3c10e190245f1887f9cb3e7acdfbf01f3c9fe24d5964563f5c271bf"
+}

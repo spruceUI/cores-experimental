@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "frodo-29dd1864b89d-4cface085a17",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/frodo-29dd1864b89d-4cface085a17.json",
+    "pin_id": "frodo-29dd1864b89d-4cface085a17",
+    "file_sha256": "4970b1cbe8e9e8e0af66764e53a7d10b30119beb09b807a00bebbdcbd6c8eff7",
+    "content_sha256": "7d8e7fbfa2bcc79aa00f4e4006cd10795b401e09f158aa8b2e2e8584da19dfe6"
+  },
+  "sources": {
+    "frodo": {
+      "path": "pins/sources/frodo/29dd1864b89d903ed93f1d86d85636ef9e194359.json",
+      "source_lock_id": "frodo-29dd1864b89d",
+      "commit": "29dd1864b89d903ed93f1d86d85636ef9e194359",
+      "file_sha256": "088e593b87194976b9ef1e75c1d6418d92c6c92cc36d56340baf531a89bcfedc",
+      "content_sha256": "fd1368b2145f34e16afa3538d55e778b030ecef2614ce9ba5ce616efe8728a69"
+    }
+  },
+  "content_sha256": "ee310a15ae2f036833bedabe7624d6be817ddcb66178d6f3df5db02592218d62"
+}

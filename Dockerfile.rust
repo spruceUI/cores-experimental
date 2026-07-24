@@ -1,0 +1,71 @@
+# cores-rust v2 -- the pinned cargo/zig toolchain for the direct-cargo
+# driver (libgametank). STANDALONE, not derived from the C images: the
+# arm64-derived v1 exceeded the lock's 2 GiB uncompressed cap, and a cargo
+# core needs none of the C cross toolchains (zig provides the cross libc
+# linkage). The base is pinned by manifest DIGEST, every input is a
+# repo-tracked sha-pinned tarball, and the toolchain installs live in ONE
+# COPY + ONE RUN so archive members stay coarse (the lock captures members
+# <= 4 MiB under a 16 MiB aggregate cap).
+#
+# Rust 1.90.0: the gametank-sdk workspace uses edition2024 (needs >= 1.85;
+# the v1 image's 1.79 refuses the manifest). Components are trimmed to
+# rustc + cargo + host std + the two device-target stds. libclang (runtime
+# lib + builtin headers only, not clang itself) serves libretro-rs-ffi's
+# bindgen build script. cargo-zigbuild is the upstream prebuilt musl
+# binary, not a cargo install, so no network build at image time.
+#
+# rust.tar.gz alone is NOT repo-tracked (365 MB exceeds GitHub's 100 MB
+# file limit): fetch https://static.rust-lang.org/dist/
+# rust-1.90.0-x86_64-unknown-linux-gnu.tar.gz -- the sha256 gate below
+# refuses any other bytes. The four smaller inputs are committed.
+FROM ubuntu@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebffbc7092d90
+
+# No gcc: zig doubles as the host C linker driver (the wrapper below),
+# which keeps the archive under the lock's 2 GiB uncompressed cap. libc6-dev
+# supplies host libc/CRT and /usr/include for bindgen; libclang (runtime lib
+# + builtin headers, not clang itself) serves bindgen's parser.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git ca-certificates libc6-dev libclang1-18 libclang-common-18-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY rust.tar.gz rust-std-arm64.tar.gz rust-std-armhf.tar.gz zig.tar.gz \
+     cargo-zigbuild.tar.gz /tmp/deps/
+RUN cd /tmp/deps && \
+    echo "e453bae1c68d02fe2eae065c5452d5731308164cd154154c6ee442d2fa590685  rust.tar.gz" | sha256sum -c - && \
+    echo "609df2b364009d86c3b62f7c9d2225a31839d3bfd81c02e4ae5633b2432cef4d  rust-std-arm64.tar.gz" | sha256sum -c - && \
+    echo "dcce5a4dc892c58e7ba7662dccdcbed5a9e1a40b1108e5fb76a50a0a4d3e62ff  rust-std-armhf.tar.gz" | sha256sum -c - && \
+    echo "0800a45178eda1a8e724e06a83b2e2011a3b1900da517879752b58d142799b3e  zig.tar.gz" | sha256sum -c - && \
+    echo "d90450f3b6cc40294263f09c1b8c04231e6b526f811f506812501de814737888  cargo-zigbuild.tar.gz" | sha256sum -c - && \
+    mkdir rust && tar -xzf rust.tar.gz -C rust --strip-components=1 && \
+    ./rust/install.sh --prefix=/usr/local \
+      --components=rustc,cargo,rust-std-x86_64-unknown-linux-gnu && \
+    mkdir std1 && tar -xzf rust-std-arm64.tar.gz -C std1 --strip-components=1 && \
+    ./std1/install.sh --prefix=/usr/local && \
+    mkdir std2 && tar -xzf rust-std-armhf.tar.gz -C std2 --strip-components=1 && \
+    ./std2/install.sh --prefix=/usr/local && \
+    mkdir /usr/local/zig-dist && \
+    tar -xzf zig.tar.gz -C /usr/local/zig-dist --strip-components=1 && \
+    ln -s /usr/local/zig-dist/zig /usr/local/bin/zig && \
+    tar -xzf cargo-zigbuild.tar.gz -C /usr/local/bin && \
+    rm -rf /usr/local/share/doc /usr/local/share/man \
+      /usr/local/bin/rustdoc \
+      /usr/share/doc /usr/share/man /usr/share/locale \
+      /usr/local/zig-dist/lib/libcxx /usr/local/zig-dist/lib/libcxxabi \
+      /usr/local/zig-dist/lib/tsan && \
+    cd /usr/local/zig-dist/lib/libc/include && \
+    rm -rf any-windows-any any-macos-any *-windows-* *-macos-* \
+      powerpc* riscv* s390x* sparc* mips* loongarch* m68k* csky* \
+      xtensa* hexagon* wasm* *-gnux32 *-musl && \
+    cd / && rm -rf /tmp/deps && \
+    cargo --version && rustc --version && zig version && cargo-zigbuild --version
+
+# Host build scripts (proc-macros, bindgen) link through zig's bundled
+# clang driver; HOST_CC names the lock contract's host-compiler identity.
+RUN printf '#!/bin/sh\nexec zig cc "$@"\n' > /usr/local/bin/zig-cc && \
+    chmod 0755 /usr/local/bin/zig-cc
+ENV CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=/usr/local/bin/zig-cc
+ENV HOST_CC=cc
+
+RUN dpkg -l > /apt-manifest.txt
+
+WORKDIR /build

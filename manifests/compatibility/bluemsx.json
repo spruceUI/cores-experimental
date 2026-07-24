@@ -1,0 +1,74 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "bluemsx",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/bluemsx-5f595c79906f-a1c1fd914a76.json",
+  "source_commit": "5f595c79906ff3379641b5ee8f3796106214a0a4",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-bluemsx-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "eb1a8a4962af898ca58c84ebc62f02e813c0a09f0c0eb8c6af7a5fc808f371e1",
+  "reproduction_run": ".local-e2e/runs/build-core-bluemsx-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "c06ccc587a3c51d7f9e461eecf29fc1699fdac31407eb307e4603daaab37a296",
+  "package_state": "reproducible",
+  "package_sha256": "c8629c729b2487bc21d6d9bbd9de53aed28d341c919daefb23070a648de82319",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the bluemsx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4.21 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the bluemsx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4.21 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the 1513399-byte package, 2286-byte metadata, both ABI artifacts, and both ABI logs byte for byte. Every log independently satisfies the singleton blueMSX proof, and the fresh bytes also match the reviewed historical builds. Execution was local, but each build cloned its pinned source from GitHub and the current pipeline has no offline source cache.",
+    "The pristine source is commit 5f595c79906ff3379641b5ee8f3796106214a0a4, tree 1d6e218616f313f9147aa7ecf3f74584a9aaa23c, with no submodules. The bluemsx-mixed-language-v1 contract proves exactly 269 compiles (255 C and 14 C++), native version ' 5f595c7' on every C compile and no C++ compile, exactly one upstream -w warning-suppression option on every compile, the exact semantic and ABI-specific invocations, no emitted diagnostics, and the exact ordered C++ link. This proves suppression consistency, not warning-free source code.",
+    "Resolver metadata labels blueMSX GPLv2 and display version SVN, while the artifact identifies 'git 5f595c7'. The pinned source's root license inventory describes a mixed tree: blueMSX-authored BSD-style code, compiled GPL-derived openMSX and fMSXSDL files, zlib code, and files described only as freeware. The current package includes neither license notices nor corresponding source, and this inspection is not a complete license audit. Public distribution, source-compliance handling, and any system-data redistribution remain human legal and policy gates.",
+    "The package contains no firmware or machine/database data. The pinned source carries 302 candidate system files, including six database files, 296 Machine files, and 93 ROMs, but only the nine C-BIOS ROMs have an explicit bundled redistribution notice; the remaining ROMs must not be copied into a release without separate rights review. Runtime requires correctly staged Machines and Databases directories and model-specific lawful firmware. The metadata's two firmware entries are sentinels rather than the complete dependency set. Default Auto behavior, C-BIOS selection, ColecoVision, SVI, SEGA and SunriseIDE firmware discovery remain target-runtime gates.",
+    "Metadata declares no-game support, full-path loading, disk control, and rom|ri|mx1|mx2|dsk|col|sg|sc|sf|cas|m3u extensions. No-game startup requires a valid frontend system directory; the source's no-system-directory fallback is unsafe for null content. All advertised content types, machine auto-selection, mapper/database behavior, cassette loading, ten-image M3U handling, disk insertion, ejection, index replacement, disk-overlay persistence, and SunriseIDE remain target-runtime gates.",
+    "Internal SRAM, CMOS, and disk-overlay persistence must be tested with Spruce's actual writable save path; metadata correctly says libretro saves are unavailable, and same-named disk images can collide on overlay names. Serialized states use a fixed 4 MiB allocation, while the pinned source's deterministic replay claim requires the non-default fixed-epoch RTC option and documents an unhandled printer-port DAC state gap. Do not infer default determinism or state compatibility across core revisions, ABIs, machine models, media, or options.",
+    "Two controller ports, RetroPad, RetroKeyboard, the port-zero keyboard mapper, on-screen keyboard, host-keyboard focus, Coleco keypad and right-analog mappings, software RGB565 dynamic geometry, PAL and NTSC pacing, 44.1 kHz stereo audio, unload and reload, accuracy, compatibility, frontend integration, and sustained performance remain target-runtime gates. Mouse entry points are stubs, so keyboard-focus metadata is not evidence of functional mouse support.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 build evidence binds only to ra64-universal-v1; ARMHF binds only to ra32-a30-v1. Existing A30 and Mini fallback C++ provider observations are non-enforcing, while other device mappings lack matching build identity, effective-provider, loader, rootfs, frontend and runtime capture. All eight device views have empty eligibility sets and all 16 device entries remain ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "14f32f0f61aa7a81d6ad34b244d33db0d88420eb132baa660dc48b7f835978bd",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.21",
+        "GLIBC_2.17",
+        "GLIBC_2.27"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "604885f77e8cb3b800b4fa881d875af31bb31d66a94d776e1b2e2c4b6d248c3f",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.21",
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "174f47a9e8312b00941c45fca96a20a1179e03f55a86cfb0bdf0585e81c02935"
+}

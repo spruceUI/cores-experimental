@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/core-source-set.schema.json",
+  "title": "Cores-spruce immutable source-lock set",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "source_set_id",
+    "local_only",
+    "publication",
+    "evidence_pin",
+    "sources",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {"const": "../../manifests/core-source-set.schema.json"},
+    "schema_version": {"const": 1},
+    "source_set_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "local_only": {"const": true},
+    "publication": {"const": "disabled"},
+    "evidence_pin": {"$ref": "#/$defs/pinReference"},
+    "sources": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+      "additionalProperties": {"$ref": "#/$defs/sourceReference"}
+    },
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "pinReference": {
+      "type": "object",
+      "required": ["path", "pin_id", "file_sha256", "content_sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^pins/core-sets/[A-Za-z0-9._-]+\\.json$"
+        },
+        "pin_id": {"type": "string", "minLength": 1},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "sourceReference": {
+      "type": "object",
+      "required": [
+        "path",
+        "source_lock_id",
+        "commit",
+        "file_sha256",
+        "content_sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^pins/sources/[a-z0-9][a-z0-9_]*/[0-9a-f]{40}\\.json$"
+        },
+        "source_lock_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_]*-[0-9a-f]{12}$"
+        },
+        "commit": {"$ref": "#/$defs/sha1"},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

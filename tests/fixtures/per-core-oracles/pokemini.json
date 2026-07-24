@@ -1,0 +1,54 @@
+{
+  "core_id": "pokemini",
+  "source": {
+    "commit": "bb009b1379ad15f1514f20ca7cbf710b4af42b3e",
+    "tree": "f3a98fcf910c07bd9e0f5ee8466bed7865536c33",
+    "submodules": []
+  },
+  "positive_runs": [
+    {
+      "role": "final-golden",
+      "run_id": "tranche25b-pokemini-golden-v1",
+      "e2e_file_sha256": "4e81dd368650a26a27d1d7844e069b4f83616cf9b81c4797ec2b41f8b826d458",
+      "e2e_content_sha256": "978fba3cadc7906889c5bacf0ba71885c70ee713f2b207510688dd9c003fb10a",
+      "build_record_sha256": {
+        "arm64": "021da5c3c4c35fa369dbcfb8a137500212ac0f2786d402c4a10978a0a3c2ba81",
+        "armhf": "26edabffa9539678d884d4dd4eb1041fab477a19df9d6571b0c59bbdbec95cbb"
+      },
+      "build_log_sha256": {
+        "arm64": "396f8bcad1206a153373144dfac13a1eef4dbd6ea5e0ff7e27a4b8fff24baa6b",
+        "armhf": "e1bf97cbc23e4db81af3d962c033327085e3e9bba380d5933130c5a3d137382b"
+      }
+    },
+    {
+      "role": "final-reproduction",
+      "run_id": "tranche25c-pokemini-repro-v1",
+      "e2e_file_sha256": "4c09e13ae03ec19e554dca457c709bfb702eacc96efc53de2a5cb75489afd82d",
+      "e2e_content_sha256": "a21ea0f9f0dfd1b34c8eda36ac3b7cdede2dcdb67c20f810c4ad884f3d0442c4",
+      "build_record_sha256": {
+        "arm64": "31c7a4e0d2a502757fa4bcf7bf5716c922ac2b5b2df50e175dec57bc378e0271",
+        "armhf": "ea412cfb53e5bbde6ded32d6c2e6e931b7bc927b644a809cf43270f72a14edb6"
+      },
+      "build_log_sha256": {
+        "arm64": "619672ee1a9f13b02ba9ec8043c37745b05f058e77f33230d1989fda0c87e794",
+        "armhf": "0a5f6dc5ff440cf2481497e850e21807f329f5309d017c1b84e3cc506548d5fb"
+      }
+    }
+  ],
+  "shared_positive_outputs": {
+    "artifact_sha256": {
+      "arm64": "0f93f77e2f279c75a0f9ea781ab07b51deff95cc80c81a996105a585133d49e9",
+      "armhf": "3ec9643aad10ccd9eb8d1ce3f1fdde89f53643a351b685de47b5073a14790545"
+    },
+    "artifact_size": {
+      "arm64": 404904,
+      "armhf": 326608
+    },
+    "package_sha256": "0f9940381e265be1b50c94f22a3c5507fcfe4272ded1b2c4705fa97a46e11b14",
+    "package_size": 230532,
+    "metadata_sha256": "514da066db31dd673aabf9c0e54b1b24e485775615217a02ac7de635d621b8b2",
+    "metadata_size": 1045,
+    "embedded_version": "v0.60",
+    "native_version_is_not_runtime_visible": "bb009b1"
+  }
+}

@@ -1,0 +1,7 @@
+patches/swanstation/openbios-cmake-3.16.patch whitespace=-blank-at-eol
+tests/fixtures/legacy-tranches/per-core-oracles/snes9x2005/* whitespace=-blank-at-eol
+tests/fixtures/legacy-tranches/per-core-oracles/snes9x2005_plus/* whitespace=-blank-at-eol
+tests/fixtures/legacy-tranches/per-core-oracles/crocods/* whitespace=-blank-at-eol
+tests/fixtures/legacy-tranches/per-core-oracles/genesis_plus_gx/* whitespace=-blank-at-eol
+tests/fixtures/legacy-tranches/per-core-oracles/genesis_plus_gx_wide/* whitespace=-blank-at-eol
+tests/fixtures/core-81/* whitespace=-blank-at-eol

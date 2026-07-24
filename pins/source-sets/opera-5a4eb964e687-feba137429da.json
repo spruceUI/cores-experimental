@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "opera-5a4eb964e687-feba137429da",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/opera-5a4eb964e687-feba137429da.json",
+    "pin_id": "opera-5a4eb964e687-feba137429da",
+    "file_sha256": "a4d86900c5aa0a10e6d3f7c0afcdd3bdda9049c6bf87de0dd686694b25684661",
+    "content_sha256": "7a956c5bdfc85009191474350468792116ecf9e167935e201bd4a67dc0e38c91"
+  },
+  "sources": {
+    "opera": {
+      "path": "pins/sources/opera/5a4eb964e687ad029f3df51cf535a6e63b414181.json",
+      "source_lock_id": "opera-5a4eb964e687",
+      "commit": "5a4eb964e687ad029f3df51cf535a6e63b414181",
+      "file_sha256": "24467a1cd336b1ca14d2ae5f0f31b7386a1f1b685668b8c39956a315c67b132a",
+      "content_sha256": "c6c9894a104c94fa94c349dcc9e5ca1095298ae28b5b8c9ea173f795ebb055b6"
+    }
+  },
+  "content_sha256": "1353e4e59db5fd1639e8a0e6d9fe428a0ecbc3518d1f22a32bb1ba59b49d5825"
+}

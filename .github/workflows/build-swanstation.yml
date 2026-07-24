@@ -1,0 +1,40 @@
+name: Build swanstation
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Download Docker image archives
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download toolchains --pattern "cores-arm64.tar.gz" --dir .
+          gh release download toolchains --pattern "cores-armhf.tar.gz" --dir .
+
+      - name: Verify Docker image archives
+        run: python3 scripts/toolchain_archive.py verify-downloads --lock pins/toolchains/local-cache-v1.json --arm64 cores-arm64.tar.gz --armhf cores-armhf.tar.gz
+
+      - name: Load Docker images
+        run: |
+          gunzip -c cores-arm64.tar.gz | docker load
+          gunzip -c cores-armhf.tar.gz | docker load
+
+      # The checksum gate binds the downloaded bytes; core_pipeline.py also
+      # rejects a loaded image ID that differs from manifests/core-builds.json.
+
+      - name: Run publication-disabled build E2E
+        run: >-
+          python3 scripts/core_pipeline.py e2e
+          --runner-profile github-actions
+          --core swanstation
+          --run-id actions-${{ github.run_id }}-${{ github.run_attempt }}

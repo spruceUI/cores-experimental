@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "81-fa7094910d04",
+  "core_id": "81",
+  "source": {
+    "url": "https://github.com/libretro/81-libretro.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "fa7094910d040baa5fd8b11dbf6a1a618330ecd9",
+    "tree": "d73d124d16714e946ba9490627a4fc38c2aea37a",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "cc9adf33301a11a9417d733c4fc8bb83cd6ae58f6772100226799d96b0a34e48"
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "yabasanshiro",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/yabasanshiro-f448097b69a6-b4e15e63cb19.json",
+  "source_commit": "f448097b69a6037246a08e9dc09eabaa420d7893",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-yabasanshiro-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "819f3893d5368ccdde57f6cc710a66806eae55055f897e30a0eac61963b87cd1",
+  "reproduction_run": ".local-e2e/runs/build-core-yabasanshiro-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "7979cb3f9fd57aabd6570eacbafd6b4ad377547a8f9d72e5f079303093739f31",
+  "package_state": "reproducible",
+  "package_sha256": "7ea020ff7c6ea241ad7518d6ecc38c9989a716bc85e165f2be88d0e815f31351",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the yabasanshiro_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, resolver metadata, the arm64 artifact, and the build log byte for byte. The fail-closed yabasanshiro-c-asm-v1 proof binds all 90 compiles (83 C, 6 C++, 1 AArch64 dynarec assembly) and the exact ordered GLES C++ link per invocation sha256.",
+    "The pristine source is branch yabasanshiro commit f448097b69a6037246a08e9dc09eabaa420d7893, tree 44271b2e50ba9d9149cefc0285b09dcf6a4b099b, with one eigen submodule auto-fetched. The direct-make recipe builds from yabause/src/libretro with the upstream arm64_cortex_a53_gles3 platform; the libretro-super driver cannot deliver this platform because its build script hardcodes platform=unix on the make command line.",
+    "This ONE generic build supersedes all three shipped device-tuned variants: the plain and _a133p artifacts link the PowerVR userspace directly (libIMGegl, libsrv_um) and _smartpros links the Mali blob (libmali.so.0), so each loads on exactly one vendor stack. The generic build links only the versioned libGLESv2.so.2, which the fleet capture records present on every probed arm64 device family. The -lGLESv2 operand is pinned in the link contract.",
+    "The core is shipped and built arm64-only. Cortex-A53 tuning covers every probed arm64 device SoC. GLES3 rendering correctness, Saturn BIOS discovery, content compatibility, dynarec behavior, saves and states, performance, and licensing review remain target-runtime and human gates. Publication remains disabled."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "0c6d8ddf43d0830161466443971a960587e18437bf9a7fdc2de1c644bd70ea69",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libGLESv2.so.2",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libpthread.so.0",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.11",
+        "GLIBCXX_3.4.15",
+        "GLIBCXX_3.4.18",
+        "GLIBCXX_3.4.21",
+        "GLIBC_2.17",
+        "GLIBC_2.29"
+      ]
+    }
+  },
+  "content_sha256": "7de18e467d2bed935a242d1ce239f59b702cc71d69f743d2d3429bb463f43457"
+}

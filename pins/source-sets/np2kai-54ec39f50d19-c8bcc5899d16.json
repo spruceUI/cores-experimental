@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "np2kai-54ec39f50d19-c8bcc5899d16",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/np2kai-54ec39f50d19-c8bcc5899d16.json",
+    "pin_id": "np2kai-54ec39f50d19-c8bcc5899d16",
+    "file_sha256": "354fa09e4d2e33ccb9ee31775c70acb4231c82dcf809f9eaad94a0e032e6990d",
+    "content_sha256": "f0df4992db0515ed6122e46ca6fd5c1df9691e39a0440d3a753b247ec13b1e86"
+  },
+  "sources": {
+    "np2kai": {
+      "path": "pins/sources/np2kai/54ec39f50d197cc02909cd4fd2a8591bb38651b0.json",
+      "source_lock_id": "np2kai-54ec39f50d19",
+      "commit": "54ec39f50d197cc02909cd4fd2a8591bb38651b0",
+      "file_sha256": "d0eec4dd28a79dbf8cd9e7920ec4c54b7afd954968190664c7da43f19a333890",
+      "content_sha256": "17238948a580c0fae37e897f789907d1cc9a814b9e369b729ba019d550caa39d"
+    }
+  },
+  "content_sha256": "bf4ed6d4dbf5666e5e11cfa75efa9266c07dcc4965f411a2182fbf4190ac1226"
+}

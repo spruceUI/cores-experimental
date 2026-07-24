@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "bluemsx-5f595c79906f-a1c1fd914a76",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/bluemsx-5f595c79906f-a1c1fd914a76.json",
+    "pin_id": "bluemsx-5f595c79906f-a1c1fd914a76",
+    "file_sha256": "7c7c30e1a678b8f05def06bc20d9f4f97b1f21e2dfc612f647b979daa9c28959",
+    "content_sha256": "7d0a212be605cf634a3d01dcc3faf5599fb629c58792715f8699bc516c049f59"
+  },
+  "sources": {
+    "bluemsx": {
+      "path": "pins/sources/bluemsx/5f595c79906ff3379641b5ee8f3796106214a0a4.json",
+      "source_lock_id": "bluemsx-5f595c79906f",
+      "commit": "5f595c79906ff3379641b5ee8f3796106214a0a4",
+      "file_sha256": "be3ef8c2e18497ba3f50b8998688d20eb5e68262123e9bcafbab08c25fe01e11",
+      "content_sha256": "46a90fa7e78b9c164cd5d834b5ccaa1af8da5c5d7031e07bf52b7c2f79c2d894"
+    }
+  },
+  "content_sha256": "cdcab72207a166d378f5e3dfb61e2313a632bc0925446a86ded9dc572d446c7d"
+}

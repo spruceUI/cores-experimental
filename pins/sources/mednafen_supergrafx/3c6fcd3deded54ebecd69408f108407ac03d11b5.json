@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "mednafen_supergrafx-3c6fcd3deded",
+  "core_id": "mednafen_supergrafx",
+  "source": {
+    "url": "https://github.com/libretro/beetle-supergrafx-libretro.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "3c6fcd3deded54ebecd69408f108407ac03d11b5",
+    "tree": "076a59d1084ebf3a6ab80f4b5a144fa865c46c9b",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "4a724044ccf00caf150dc543eda18677a0da01b4727b0e67b1027c614d67290a"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "ffmpeg-4920879d2f09",
+  "core_id": "ffmpeg",
+  "source": {
+    "url": "https://github.com/libretro/FFmpeg.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "4920879d2f09a78cdf855403c349457cee1c31da",
+    "tree": "72377e12026a2f034d12a2ac3fcea35aa29200eb",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "6229bb21ee7c478b4f8bbc98cbcc4a24f08e4390554ebb0b142328978dd45f60"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "mednafen_pce_fast-0bc6c8692834",
+  "core_id": "mednafen_pce_fast",
+  "source": {
+    "url": "https://github.com/libretro/beetle-pce-fast-libretro.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "0bc6c86928343ca4202c5b6ef33fa4387c47fc12",
+    "tree": "80bd8d86bb10d9ab374d6de4ca3e129498c3c3e0",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "f2d755989ad999ac2db8f3e1a026b80e0536a51adae35ef1bb4f1136e84d7192"
+}

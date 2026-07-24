@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "potator-227c5f6f3ce7-1617e2249087",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/potator-227c5f6f3ce7-1617e2249087.json",
+    "pin_id": "potator-227c5f6f3ce7-1617e2249087",
+    "file_sha256": "ccd091f4d07718403b1fc850941b8ef51b308842051f3da8c8bef95c8dbb4f02",
+    "content_sha256": "4ecdd52cace1899b09baad6c0d4326b9baa7ec39d93b6c00d33bb392149545fb"
+  },
+  "sources": {
+    "potator": {
+      "path": "pins/sources/potator/227c5f6f3ce74d32e9002ce24c1420288559a860.json",
+      "source_lock_id": "potator-227c5f6f3ce7",
+      "commit": "227c5f6f3ce74d32e9002ce24c1420288559a860",
+      "file_sha256": "8044bbf6398ccefa73b2dc1c2b123b4e67c52ca185cb45b4641314cfdd949bd8",
+      "content_sha256": "5fcaf01f34d511e0d37d086b8962d4a689ffad1be725f895a66c9137c5bb5086"
+    }
+  },
+  "content_sha256": "bd5f88b4464c3cc19b3a96fb3d24ffa6c8160d594f9a41469e215c3c56b2fb58"
+}

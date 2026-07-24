@@ -1,0 +1,65 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "mednafen_pce_fast",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json",
+  "source_commit": "0bc6c86928343ca4202c5b6ef33fa4387c47fc12",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_pce_fast-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "5a2a9fcb30ec723b28cbe43bd50cf18d5e3a74a0bdfb986b994ec756a01549f1",
+  "reproduction_run": ".local-e2e/runs/build-core-mednafen_pce_fast-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "dbd31f75404ce3c93c0fab919bb2eb7abe43d04d04dfaa7f7063a566a0a77c8b",
+  "package_state": "reproducible",
+  "package_sha256": "497dec13368d324ab271d55f5de7bc0e8eac73619ab6ed875def269c22174a96",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mednafen_pce_fast_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, metadata, build logs, and both ABI artifacts byte for byte. Both profiles satisfy the same singleton PCE Fast source, 92-command C compile, ordered C++ link, success, and zero-diagnostic proof. Execution was local, but each build cloned its pinned source from GitHub; the current pipeline has no offline source cache.",
+    "The pristine source is commit 0bc6c86928343ca4202c5b6ef33fa4387c47fc12, tree 80bd8d86bb10d9ab374d6de4ca3e129498c3c3e0, with no submodules. All 92 compile commands are C, the exact 92-object link uses C++, and neither build log contains GIT_VERSION or CORE_PIPELINE markers. Both binaries expose version 'v1.31.0.0'.",
+    "Both ABIs contain no warnings, notes, errors, or fatal diagnostics. Missing, changed, duplicated, reordered, or extra source markers, compile commands, link arguments, diagnostics, pipeline markers, version markers, or success frames fail closed.",
+    "Resolver metadata declares GPLv2, display version v0.9.38.7, and pce|cue|ccd|chd|toc|m3u content while both binaries report v1.31.0.0. That version discrepancy requires operator review. Any public distribution or release remains a human legal and policy gate; corresponding-source and license obligations must be reviewed before publication.",
+    "No firmware or BIOS is packaged. PCE-CD content requires a legally supplied external system-card BIOS; resolver metadata declares four optional candidates and recommends syscard3.pce with MD5 38179df8f4ac870017db21ebcbf53114. HuCard and BIOS-backed CD loading, controls, audio and video pacing, saves, deterministic states, frontend integration, and sustained performance remain target-runtime gates.",
+    "PCE Fast trades compatibility for speed and upstream warns that some games do not work. It does not support SuperGrafx games; where performance permits, the non-Fast or other PCE-compatible cores may provide broader compatibility. Native HuCard, PCE-CD, CHD, multi-disc, incompatibility, and SuperGrafx boundary behavior remain unvalidated on target devices.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 reaches GLIBC 2.27 and is build-identity-bound only to ra64-universal-v1; ARMHF is bound only to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so publication, release, runtime compatibility, and all device eligibility claims remain gated."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "bdbdd42e3cd165ee0ef0ec791d18f44fc958888469391c617b19894562ccd404",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17",
+        "GLIBC_2.27"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "449aff51c01627565a423c060e4898c60fb3a6562d584f59c4b10bb8ed760795",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "librt.so.1",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "GCC_3.5",
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "956aa328ccfc226fd5c6ec9a19a68699535543b9328cf6c18e7a45424e1da59c"
+}

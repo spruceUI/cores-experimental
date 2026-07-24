@@ -1,0 +1,68 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "81",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/81-fa7094910d04-a82f6eb4a7cc.json",
+  "source_commit": "fa7094910d040baa5fd8b11dbf6a1a618330ecd9",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-81-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "e1ba2b87db03c9ce74fce4d463c3b665aada47529afcf5fb911eb0a3857328c8",
+  "reproduction_run": ".local-e2e/runs/build-core-81-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "e6fd26d5caa3ee1fd10cd345ea0ab9f3b91b53551fc0a96b04846b0bb36fb627",
+  "package_state": "reproducible",
+  "package_sha256": "f89b283137921ca1fa9ff7f127f367d85fecc91198457ce940d70668bcb8e53c",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the 81_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4.21 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, resolver metadata, and both ABI artifacts byte for byte. Their raw logs differ only because parallel Make scheduled the exact reviewed warning/note streams differently; each log independently passes the strict per-owner diagnostic-stream NFA, so reproducibility is semantic at the log layer rather than a false byte-for-byte scheduling claim. The earlier actions-sim-build-core-81-v1 records are excluded and unpromotable because their synthetic path and zero-diagnostic oracle was wrong even though both compilers linked successfully.",
+    "The pristine source is commit fa7094910d040baa5fd8b11dbf6a1a618330ecd9, tree d73d124d16714e946ba9490627a4fc38c2aea37a, with no submodules. Upstream Make generates src/version.c from etc/version.c.templ using the full pinned commit; the pipeline verifies generated SHA-256 5a07d38a3bcd84ee5fa9abbdbe0bd706288d8ec4ee8095485447e35dc28a2862 after the build and never injects GIT_VERSION or patches the source. The proof binds 16 C and 12 C++ compiles, exact ABI-specific invocations, the generated-source compile position, and the ordered C++ link through build/link.T.",
+    "ARM64 emits exactly 39 reviewed warnings and 6 notes; ARMHF emits exactly 38 reviewed warnings and 11 notes. The contract preserves every literal per-source stream and permits only interleavings that retain each stream's order between its owning compile and the final link. Possible-uninitialized, pointer conversion/truncation, format, and related legacy-code diagnostics remain runtime and maintenance risks; promotion does not assert that they are harmless.",
+    "Resolver metadata reports GPLv3, display version 1.0a, p|tzx|t81 content, software rendering, serialized states, libretro_saves=false, and supports_no_game=false. The copied .info text contains unescaped inner quotes in its p/tzx description; current metadata validation proves only exact nonempty bytes and hash identity, not frontend parsing or presentation. Content loading, keyboard and controller input, tape handling, audio/video pacing, reset, save-state round trips, frontend integration, and sustained performance remain target-runtime gates.",
+    "The selected binaries contain the compiled zx81 and dkchr ROM headers. The source tree is GPLv3, but any public redistribution of those bundled ROM bytes requires a separate human licensing and policy review. Both E2Es fetched the exact source over the network; no offline source bundle or network-disabled rebuild is proven. The portable toolchain archives and loaded image identities are locked, while cached images retain dockerfile_linkage=unverified-local-cache as an explicit provenance limitation.",
+    "The rebuilt ARM64 dependency set drops the shipped baseline's libgcc_s and libm requirements and records the AArch64 loader that the imported report omitted, while the rebuilt ARMHF artifact adds libgcc_s, libm, GLIBCXX_3.4.20, and CXXABI_1.3.9 relative to the shipped baseline. ARM64 requires GLIBC_2.17 and ARMHF is EABI5 hard-float requiring GLIBC_2.4; provider compatibility is therefore unverified. The software-only artifacts bind only to ra64-universal-v1 and ra32-a30-v1 and provide no basis for device-specific duplicate builds; every device view remains ineligible pending provider and target-runtime evidence."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "d0443666f01e7ab0d87727a233bf857e1a07775446421b448669e224885c189f",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "3b5efaeef6b2ddf3fc2aed5bf1eb9e2df0fecb3cd3408381014ba2a2c435079a",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3.9",
+        "CXXABI_ARM_1.3.3",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "2646eeb269cb0e9cafac7ad8e95345740c05626e1e537b72613bef3ea301af1d"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "px68k-cc45b55983b4",
+  "core_id": "px68k",
+  "source": {
+    "url": "https://github.com/libretro/px68k-libretro.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "cc45b55983b4d30c961a313a77df9bcf9461dc63",
+    "tree": "eeb7afbc7ec5480788a29fa335f7be5802b0580f",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "77e047efecf1fc79a75cffe280bc0a25ac3be247f4aae95352e523f8210c7ce3"
+}

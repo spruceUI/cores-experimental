@@ -1,0 +1,68 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "uzem",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/uzem-d4fe82c38bf3-6bd666f20bed.json",
+  "source_commit": "d4fe82c38bf3fc789b955bcfcc81dc2e3a2ea89f",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-uzem-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "99a6265a333093249595e92a1dcc1c1251f967a219e3a1bf3a38d50ac1327973",
+  "reproduction_run": ".local-e2e/runs/build-core-uzem-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "855407388cf8034fca9b77caad146ca15d41505825473d245c18d6902e716a06",
+  "package_state": "reproducible",
+  "package_sha256": "715e339aaa32f8ea737f4fcd2bf62a0ff49df85c6f7c925356ac300a377a17c0",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the uzem_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.29, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the uzem_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Both runs satisfy the exact uzem native-version mixed-language compile/link contract. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The pinned source is commit d4fe82c38bf3fc789b955bcfcc81dc2e3a2ea89f. The contract binds the native leading-space version marker to the exact per-ABI compile and link commands; source or Makefile mutation, compiler wrappers, response-file or shell indirection, and altered framing fail closed.",
+    "Uzebox content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance all remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "b32b6e616144619bb724cbeb0977a47bb928851504706b866206ce8aed4c5bb6",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "6e3a82b6f08b1a06f068b5c3dcfc70dd1cb4ac5f024662e8f78d697e4f134f99",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.29",
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "00dcc965569a54f7a2afcee3f833db1ffa772cf44e4851251081f5437c43739d"
+}

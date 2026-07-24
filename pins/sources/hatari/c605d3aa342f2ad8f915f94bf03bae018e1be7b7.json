@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "hatari-c605d3aa342f",
+  "core_id": "hatari",
+  "source": {
+    "url": "https://github.com/libretro/hatari.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "c605d3aa342f2ad8f915f94bf03bae018e1be7b7",
+    "tree": "e7d1a78a01d56b0a31baa2fdf32564e00b33c566",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "1f3ebb87c3d916e3d9b0384d911bfeaed3a97530993de7616ba3c05edc4c3acf"
+}

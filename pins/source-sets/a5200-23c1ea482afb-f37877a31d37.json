@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "a5200-23c1ea482afb-f37877a31d37",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/a5200-23c1ea482afb-f37877a31d37.json",
+    "pin_id": "a5200-23c1ea482afb-f37877a31d37",
+    "file_sha256": "189da75b1f50e61435e8caff8b88c7062dad94fd71a7940f09e2f093fc516f8d",
+    "content_sha256": "a6d52282dbae1472ad77e17dd424698fc2b0be7282a7e7cc2a51b63877b77ebb"
+  },
+  "sources": {
+    "a5200": {
+      "path": "pins/sources/a5200/23c1ea482afb08656ec507e9ce98ed242a20bdfa.json",
+      "source_lock_id": "a5200-23c1ea482afb",
+      "commit": "23c1ea482afb08656ec507e9ce98ed242a20bdfa",
+      "file_sha256": "2221bbdd64f5b01a0b9d6ff9132b9c094b10611f56866fb2421323153df5ef02",
+      "content_sha256": "6ca28b17261fa261b8ee81fd04494a2812c2283c57c6b79160d5010abd6c1f55"
+    }
+  },
+  "content_sha256": "40b2b619aeefdeea9cc77c5028f1e96c9f88f1228762e1b5b741d8f6f47ec4ee"
+}

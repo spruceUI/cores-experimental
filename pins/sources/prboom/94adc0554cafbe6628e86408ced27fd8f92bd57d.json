@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "prboom-94adc0554caf",
+  "core_id": "prboom",
+  "source": {
+    "url": "https://github.com/libretro/libretro-prboom.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "94adc0554cafbe6628e86408ced27fd8f92bd57d",
+    "tree": "e94b8e9691eb9d712fdc588109b7919ed27b252b",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "5e81f93cbdb8e4f48043286a714b5cb92adeefc0ba51f9e074baf6f70a834f00"
+}

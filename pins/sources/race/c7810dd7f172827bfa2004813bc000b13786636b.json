@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "race-c7810dd7f172",
+  "core_id": "race",
+  "source": {
+    "url": "https://github.com/libretro/RACE.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "c7810dd7f172827bfa2004813bc000b13786636b",
+    "tree": "344c09b682f79f2135479bdd0a76d193edfdf167",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "74a7f1333b4c95fc1a0045b2ae1f395e8000836e3b6738cbdc1c79b54ed6d7a7"
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "prosystem",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/prosystem-363b6dfbd3e2-cb86034fdd05.json",
+  "source_commit": "363b6dfbd3e240762e022c2b4897b4fe55722be3",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-prosystem-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "98bce4eb1ce782862ba66115603897f34da6d78932ae00df6a74ed44a2430859",
+  "reproduction_run": ".local-e2e/runs/build-core-prosystem-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "0ba7eb85c6bfa44391e38d1442148967bfea7167fc1b7fb51addfcce0bdbb2c9",
+  "package_state": "reproducible",
+  "package_sha256": "8b2c1fc8c713f01e44e59e3bf579afbecb1decf1afbecc0f5819a9aafd929d26",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the prosystem_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced both ABI artifacts, resolver metadata, and package byte for byte. The selected github-actions/simulated/local-docker and reproduction local/native/local-docker identities remain explicit; evidence record hashes differ because runner profile, timestamps, run paths, run IDs, and build-log hashes are evidence-bearing fields.",
+    "The pristine source is commit 363b6dfbd3e240762e022c2b4897b4fe55722be3, tree 197be1b53019d95ed06658c2a801d0812ef76cf2, with no submodules. Commit-derived GIT_VERSION '-363b6df' is bound to all 32 C compiles per ABI and the exact 32-object C link; both binaries embed '1.3e-363b6df', while resolver metadata reports display version 1.3e.",
+    "Each ABI emits exactly one reviewed upstream unused-value warning at core/ProSystem.c:272. Parallel make output places that same four-line warning block differently between runs, so raw log hashes differ, but both order-insensitive fail-closed proofs bind the complete compile and link commands and reject any missing, changed, or extra warning, error, fatal error, or undefined reference.",
+    "ARM64 requires GLIBC_2.17 and GLIBC_2.29 and records the AArch64 loader, libc, and libm. ARMHF is EABI5 hard-float, reaches GLIBC_2.7, and records only libc and libm. Neither shared object has a PT_INTERP; loader, rootfs, frontend, and target execution remain runtime gates.",
+    "Resolver metadata declares GPLv2; any public distribution or release remains a human legal/policy and corresponding-source gate even though local builds reproduce.",
+    "Atari 7800 a78/bin/cdf loading, controllers, audio/video pacing, saves, deterministic states, cartridge compatibility, and sustained performance remain target-runtime gates. Resolver metadata marks 7800 BIOS (U).rom optional and no BIOS is packaged, so BIOS discovery and compatibility require separately supplied lawful firmware during runtime validation.",
+    "The software-only Unix recipe produces one shared artifact per ABI/build profile and provides no basis for device-specific duplicate builds. ARM64 is build-identity-bound only to ra64-universal-v1, while ARMHF is bound only to ra32-a30-v1. Its modest ARMHF GLIBC floor makes ra32-mini-v0 and ra32-universal-v0 plausible candidates, but provider, build-identity, frontend, and runtime capture are absent; all device views remain ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "193926398f297b91095e94bcaa94ba356ed1e5c9805835198989ac5f35a75a8a",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17",
+        "GLIBC_2.29"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "d2b4d9e1db7d5c93f1372a8321e36a33da79c5c21b4550b7015533639e91100a",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "065fb2abf27061ad3d8899b5d7c2bc2aace02828ab8aee0ba448f6d279f5c42d"
+}

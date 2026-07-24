@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "squirreljme-c8de2e47c299",
+  "core_id": "squirreljme",
+  "source": {
+    "url": "https://github.com/SquirrelJME/SquirrelJME.git",
+    "requested_ref": "refs/heads/trunk",
+    "commit": "c8de2e47c2994f1c36215dd29d44fecf086f25ca",
+    "tree": "6ea2d4410275f5c022594050177e2c18e11f0458",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "4f82ba922150f2658735456bb6bb7b8c2f53f4c270a9baecaef2da4233f86c56"
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "snes9x2010",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/snes9x2010-33077919157b-7a8023ffb49e.json",
+  "source_commit": "33077919157b990578011d2cce462e58c9e5c985",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-snes9x2010-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "401528aad91086dcedbefce5e6ffb0d526da4e3ddb59ceba5e2707d88a1d5597",
+  "reproduction_run": ".local-e2e/runs/build-core-snes9x2010-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "e59d82c430a146d6aedae58ef601649c81151038866dc29f006f16645574c752",
+  "package_state": "reproducible",
+  "package_sha256": "734dedd92a85a1a435700b250f288af4daeb9200328743b5369e879429094638",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the snes9x2010_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "e525c02462814078e7fbc850c354df053986d26e4699cbf384f0d095705c3221",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "95add654ba4cf18138734e508368578fc929daa8403c16bfd4ffbf050197901f",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "bb2be4f0c8b7f6371f38b23e74d52ecf5d266d88d2bcc262422aaab87be3ceb2"
+}

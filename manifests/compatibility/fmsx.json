@@ -1,0 +1,62 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "fmsx",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/fmsx-f013e213458e-194b406b9096.json",
+  "source_commit": "f013e213458e06d9df718e4bc4b09d46f88aa899",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-fmsx-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "e9a0773586a6efff02515d45741c736464c7ca369aa820335699153837424308",
+  "reproduction_run": ".local-e2e/runs/build-core-fmsx-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "ea379d6ff7e336743520eadaa6c80564351fcd485005ea350330133effa5e512",
+  "package_state": "reproducible",
+  "package_sha256": "1dd80d7b836972f32f079222615e9dd0252c5321d21074fb9214c26d3687ed0b",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the fmsx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the fmsx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the 254345-byte package, 2128-byte metadata, both ABI artifacts, and both ABI logs byte for byte. Every log independently satisfies the singleton fMSX proof. Execution was local, but each build cloned its pinned source from GitHub and the current pipeline has no offline source cache.",
+    "The pristine source is commit f013e213458e06d9df718e4bc4b09d46f88aa899, tree ae1b15cee162c073452cc9826b1e208d2250d2bf, with no submodules. The native leading-space version ' f013e21' is bound to all 31 C compiles per ABI. The fmsx-c-only-v1 contract proves the exact semantic and ABI-specific compile invocations, zero diagnostic lines, and the exact ordered 31-object C link with -shared, -Wl,-version-script=link.T and -Wl,-no-undefined.",
+    "Resolver metadata labels the core Non-commercial and display version 6.0; the artifacts identify fMSX version '6.0 f013e21'. The root source LICENSE says the code is visible but not public domain, prohibits commercial use without separately arranged terms, and imposes credit and other conditions while directing porters and modifiers to contact the author. The compiled tree also contains separately licensed GPL-2.0-or-later NukeYKT code. This is not a complete license audit or grant of redistribution rights; any public distribution or release remains a human legal and policy gate.",
+    "Resolver metadata says supports_no_game=false, while the pinned source advertises RETRO_ENVIRONMENT_SET_SUPPORT_NO_GAME=true and retro_load_game(NULL) starts the selected model without content. The compiled core requires full paths and accepts rom|mx1|mx2|dsk|fdi|cas|m3u. Neither no-content branch has been exercised on target, so no-content behavior and the metadata/runtime contradiction remain integration gates.",
+    "The package contains no firmware. Resolver metadata lists all model BIOSes as required entries, but the pinned source documents model-specific sets: MSX1 uses MSX.ROM (MD5 364a1a579fe5cb8dba54519bcfcdac0d); MSX2 uses MSX2.ROM (ec3a01c91f24fbddcbcab0ad301bc9ef) and MSX2EXT.ROM (2183c2aff17cf4297bdb496de78c2e8a); the default MSX2+ model uses MSX2P.ROM (847cc025ffae665487940ff2639540e5) and MSX2PEXT.ROM (7c8243c71d8f143b2531f01afa6a05dc). Lawful firmware discovery and model switching remain runtime gates, and this evidence establishes no firmware redistribution rights.",
+    "Resolver metadata marks DISK.ROM optional (MD5 80dcd1ad1a4cf65d64b7ba10504e8190), but the pinned source makes it conditionally mandatory for dsk, fdi and m3u content and reports 'DISK.ROM not loaded; content will not start'. Other metadata-declared optional firmware is FMPAC.ROM (6f69cc8b5ed761b03afd78000dfb0e19), MSXDOS2.ROM (6418d091cd6907bbcf940324339e43bb), PAINTER.ROM (403cdea1cbd2bb24fae506941f8f655e) and KANJI.ROM (febe8782b466d7c3b16de6d104826b34). The source additionally recognizes GMASTER2.ROM, GMASTER.ROM, RS232.ROM, CMOS.ROM and CARTS.SHA; none is packaged, and discovery and behavior remain runtime gates.",
+    "Full-path ROM, disk, tape and multidisk loading; mapper and CARTS.SHA behavior; disk swapping, writes and persistence; RTC and cartridge save files; serialized states, which require identical model, RAM and media and should not be captured during disk writes; controller, emulated-keyboard, custom-keyboard and host-keyboard input; 50/60 Hz RGB565 interlace and overscan output; 48kHz signed-mono audio; unload and reload, frontend integration, accuracy, compatibility and sustained performance remain target-runtime gates. Static evidence does not establish deterministic or cross-setting savestate compatibility, complete disk or hardware support, or device runtime readiness.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 build evidence binds only to ra64-universal-v1; ARMHF binds only to ra32-a30-v1. Both evidence cells are provisional-unverified and all eight device views have empty eligibility sets. Existing provider observations are non-enforcing and do not establish the effective loader, libc, rootfs or frontend; target-runtime capture is absent, so all 16 device entries remain ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "5e72c1e9d7c6afa31cb1396cd700254c589e94a4327ef4cbcc11aa0fff0663f7",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "738520c499279643a51900bc5360ecbdc323a46fbfc655f4284aa9624908d67f",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "feea401b4b999dd6d6f4f180c5a8c0808c28df4c63be5dedf83011f1165921ea"
+}

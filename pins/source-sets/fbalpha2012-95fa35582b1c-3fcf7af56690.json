@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "fbalpha2012-95fa35582b1c-3fcf7af56690",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/fbalpha2012-95fa35582b1c-3fcf7af56690.json",
+    "pin_id": "fbalpha2012-95fa35582b1c-3fcf7af56690",
+    "file_sha256": "d6af85cffd6528500101564e6b717e193040464c241b0f84b49c5bdd7eddce01",
+    "content_sha256": "44a41b61007fc1286b203345481d963625e996d391f9d41d5736b382eeaf839a"
+  },
+  "sources": {
+    "fbalpha2012": {
+      "path": "pins/sources/fbalpha2012/95fa35582b1ca7ce68de3313615794c8c9d8d7c0.json",
+      "source_lock_id": "fbalpha2012-95fa35582b1c",
+      "commit": "95fa35582b1ca7ce68de3313615794c8c9d8d7c0",
+      "file_sha256": "6b470828368c9bc38e92ad237bc7e7fe13125b482923b380b8eecd9e072a1b32",
+      "content_sha256": "8241400d9cfc70616522c5d8bffcbd592cbd84352f69655223ec7e94fa670552"
+    }
+  },
+  "content_sha256": "ddf8393435f490c3b9e3860d9c1d52b83d0d181993f726457f5ce058bcb6f55c"
+}

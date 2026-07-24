@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "fbneo-9d7716aa20cb",
+  "core_id": "fbneo",
+  "source": {
+    "url": "https://github.com/libretro/FBNeo.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "9d7716aa20cbdf49024f42980c33c7cd366e784f",
+    "tree": "e533af34d2db18f11cefadbb93e509579580d0b7",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "20007ac111237b0ba2346d702755c87452afa5f3c525c30f4fae33e3d2d10919"
+}

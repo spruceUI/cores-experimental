@@ -1,0 +1,58 @@
+{
+  "core_id": "vecx",
+  "source": {
+    "commit": "8f671cc9d737f2890c3ce19e177e2984dcae121f",
+    "tree": "49ae584713edede2a70792ecf6cb744b11fff2e6",
+    "submodules": []
+  },
+  "positive_runs": [
+    {
+      "role": "metadata-digest-bound-final",
+      "run_id": "tranche22g-vecx-metadata-digest-bound-v1",
+      "e2e_file_sha256": "95128442a2f9f4bfc1ae0ceb56a75856a237581fc7caff84783b02a3bb1904a1",
+      "e2e_content_sha256": "6a0403c5e1dc9458a041a83de63dad00b624cc4414f0bf2e361f07c52f3785fd",
+      "build_record_sha256": {
+        "arm64": "1576cb722159bfce9d47c86d4465e61a6da613629b25efde258beaa901ec3c88",
+        "armhf": "70d9392a77e96449b032b9af518d02467057dea67231886cd13dba0d8d3d34ef"
+      }
+    },
+    {
+      "role": "metadata-digest-bound-reproduction",
+      "run_id": "tranche22h-vecx-metadata-digest-bound-repro-v1",
+      "e2e_file_sha256": "f5737a1b8af2667edc24cf64647f7192b05b3b01cba8456176f1ead91ddacf6b",
+      "e2e_content_sha256": "1d04f346169c3a29aa20d621467987d04919187fa4e4bc363493cbd688807ef5",
+      "build_record_sha256": {
+        "arm64": "7d91dc2885bd5203b3fb0cc16f80e421bae018a0f0bef776f8959c31d160abcc",
+        "armhf": "8460b273ea0f26618e6d69a5b6fd031618fd82d95e4990783f8c43787a5871fd"
+      }
+    }
+  ],
+  "shared_positive_outputs": {
+    "build_log_sha256": {
+      "arm64": "aa594b8674de6738abd126cf5d6ad60792a27df502d98399ab1993d716a8158e",
+      "armhf": "42c687505d95c85f99abc64c1d872434f2ffb761bb69d3be5a1c71619347ccae"
+    },
+    "artifact_sha256": {
+      "arm64": "8a041cbedb449b01e6a71a657107e3a5a4839fb9a34d43a1ee81883832d6c578",
+      "armhf": "ebf753efb74779929bb0753611c81786f0c38b88adf82f648d97704af1022b6f"
+    },
+    "artifact_size": {
+      "arm64": 106040,
+      "armhf": 86488
+    },
+    "package_sha256": "202b60d82a1cce67da50d3dd726206770d085a27966f2ff5e1a0a420ea370ed7",
+    "package_size": 76619,
+    "metadata_sha256": "2f22e8069a304878b52aeb5d7f789812bf271c61e5c41e0cb0fbd6acb5d28c1a",
+    "metadata_size": 1054,
+    "embedded_version": "1.2 8f671cc"
+  },
+  "rejected_comparison": {
+    "reason": "the historical GPU-enabled control links GL on ARM64 and fails to compile on ARMHF",
+    "run_id": "tranche21a-vecx-control-v1",
+    "e2e_file_sha256": "d66b418887bea2503d369246516550f054aa8be04456a98fd713350cd4cac07a",
+    "e2e_content_sha256": "9fdb68201de20f02a60cfca5d0aa20d3d068be19b54ddb5d656974892bffdd09",
+    "arm64_artifact_sha256": "b0e6c7cdeeb2e08c4fc0ff90e69ea0f8a8842e029422e46bf086d2c65693ee6d",
+    "arm64_artifact_size": 281776,
+    "package": null
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "libgametank",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/libgametank-f3f5a3b3e67e-8ee148d4a558.json",
+  "source_commit": "f3f5a3b3e67e96a115cc87ddfd3e5921ac59b197",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-libgametank-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "0a5e1151163dda139fc9c8249df758c88c2d7408529100e907eb5e0afebb60d7",
+  "reproduction_run": ".local-e2e/runs/build-core-libgametank-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "9e42526aab8c7c523d19a6b7c2864f0f7b0eab4fd72467f3d9a625ea217465dc",
+  "package_state": "reproducible",
+  "package_sha256": "3d9630d73f66fece1d531cf601cb763a3db7f6710b3ff9408766406fcb4b4c2c",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the libgametank_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The first cargo-driver core: dependency provenance is upstream's committed Cargo.lock (per-crate sha256 checksums; the driver builds --locked and the log proof pins the lock digest, the exact zigbuild invocation, and the 69-crate compiled multiset including the git-pinned libretro-rs revision). The build runs inside the locked standalone Rust image (Rust 1.90.0, zig 0.13 cross linkage, glibc-2.23 floor; measured artifact requirement GLIBC <= 2.18). Rust static linkage leaves DT_NEEDED at the loader base set plus libdl, all present in every probed device capture."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "dea52812f2a89a5e33c1199107e16c91930ed2e688f1f3c5b56803e85681338b",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "libc.so.6",
+        "libdl.so.2",
+        "libpthread.so.0"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17",
+        "GLIBC_2.18"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "113430a895a5df929ac5d41fafa69667ff964f79b8a0b2bb981cc1c931fa33b8",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "ld-linux-armhf.so.3",
+        "libc.so.6",
+        "libdl.so.2",
+        "libpthread.so.0"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17",
+        "GLIBC_2.18",
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "f96378624c1b615b762650f51ecfe8d001b9cc249e704fc3ec8c3cb60eea2eb8"
+}

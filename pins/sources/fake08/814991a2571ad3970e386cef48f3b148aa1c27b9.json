@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "fake08-814991a2571a",
+  "core_id": "fake08",
+  "source": {
+    "url": "https://github.com/jtothebell/fake-08.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "814991a2571ad3970e386cef48f3b148aa1c27b9",
+    "tree": "5c4f211679d422eb7ac5883730b4a9d583a27fef",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "df6b135e4b52ff0c8641a1eeda2e2b6d750cce18aaf6ba76f4ddffc7ac761288"
+}

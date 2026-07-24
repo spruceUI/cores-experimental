@@ -1,0 +1,63 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "cap32",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/cap32-4abfb8be233b-afbc043051e8.json",
+  "source_commit": "4abfb8be233bec630f369379fb6c1d92d31f1c7d",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-cap32-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "3fcbf9eabc505f5774204ee2af85578f0c9bee03f11e019df69bc14a1858f15c",
+  "reproduction_run": ".local-e2e/runs/build-core-cap32-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "5cc9c57888b1fe86d2d6d83a84aafebc62a07db45c16d0db0b65ebf30e2df556",
+  "package_state": "reproducible",
+  "package_sha256": "202f2729cc163b855a6b8a61637e0f847070e0d71c3eb83b2513164d95bba29d",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the cap32_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the cap32_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, resolver metadata, and both ABI artifacts byte for byte. Parallel output changes only complete-line ordering between the two logs for each ABI; their line multisets match exactly, and every log independently satisfies the exact fail-closed Cap32 proof.",
+    "The pristine source is commit 4abfb8be233bec630f369379fb6c1d92d31f1c7d, tree c9704612f7acd0459125bc28427212def1cce681, with no submodules. The proof binds native leading-space version 4abfb8b to all 44 C compile commands per ABI, every source/object and ordered compiler invocation, the Makefile lines 485 and 511 traces, the exact ordered link, zero warnings or notes, and binary identity 4.5.4 4abfb8b HI.",
+    "Resolver metadata advertises display_version v4.2.0 while the built binary identifies 4.5.4 4abfb8b HI. That presentation mismatch remains a target-integration gate and is not sanitized by rewriting upstream metadata.",
+    "Resolver metadata labels the core GPLv2, but compiled libretro integration source includes additional non-commercial redistribution terms. The package carries neither corresponding source nor a license inventory, so any public distribution or release remains a human legal and policy gate even though the local bytes reproduce.",
+    "Both builds clone the exact source over the network; no offline source bundle or network-disabled rebuild is proven. The portable toolchain archives and loaded image identities are locked, but cached images retain dockerfile_linkage=unverified-local-cache as an explicit provenance limitation.",
+    "CPC and GX4000 content loading, disk and tape handling, playlists, keyboard and mouse focus, controls, audio and video pacing, saves, states, frontend integration, compatibility, and sustained performance remain target-runtime gates. Static build evidence establishes no device eligibility.",
+    "ARM64 reaches GLIBC_2.29 and records the AArch64 loader, libc, and libm; ARMHF is EABI5 hard-float, requires GLIBC_2.4, libc, and libm. Provider compatibility is unverified. The portable artifacts bind only to ra64-universal-v1 and ra32-a30-v1; all device views remain ineligible pending provider and target-runtime evidence."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "b3afb302b744bce4e927bcca7e9a0f22f87ef8668c98b4c9fd4682843fbc16a9",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17",
+        "GLIBC_2.29"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "39025efe23d35dbeb392b376e140f83c0e11eeb5976a9c97c9fe4fbfc52b5a6b",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "701e50d56cbc44305404566da17d203c6f994ed37560cfa66f00fd84013b8855"
+}

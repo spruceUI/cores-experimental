@@ -1,0 +1,75 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "gearsystem",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/gearsystem-4f029e43f2d5-35212fbb9d9a.json",
+  "source_commit": "4f029e43f2d5207c5da78792503b0fff89b7b2c5",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-gearsystem-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "6eafb75c79af02ab77f2bc5f54c87db9d522f7abf88787896126f436006c3d25",
+  "reproduction_run": ".local-e2e/runs/build-core-gearsystem-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "ba6adc8df5ed12e82e85ee6f54053237e3d82b41ab033218e048a162eb8d04f7",
+  "package_state": "reproducible",
+  "package_sha256": "dc4d31f849611d62c081abee25ebc3c40bca610700ce13fa28490080ba3de9df",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the gearsystem_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the 420971-byte package, 1568-byte resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Both profiles satisfy the exact singleton Gearsystem source, 46-command mixed-language native-describe compile, ordered C++ link, source framing, success framing, and zero-diagnostic proof. Execution was local, but both builds cloned the pinned source over the network; no offline source cache is proven.",
+    "The pristine source is commit 4f029e43f2d5207c5da78792503b0fff89b7b2c5, tree 8adfb454298c169327d705bebf94e699e5dbf480, with no submodules. Native git describe value 3.9.12-5-g4f029e4 occurs exactly once on each of two C and 44 C++ compile commands and never outside that compile scope. The proof binds every source/object pair, both ABI-specific compiler argv sets, and the exact ordered 46-object C++ link; both binaries expose version 3.9.12-5-g4f029e4.",
+    "Both ABIs contain no warnings, notes, errors, or fatal diagnostics. The proof binds the exact clone, detached-HEAD, native-version, toolchain, clean, compile, link, copy, and success sequence; source or Makefile mutation, compiler wrappers, response-file or shell indirection, malformed quoting, reordered framing, extra compiler commands, and altered link or completion arguments fail closed.",
+    "Resolver metadata and the source license declare GPLv3. Metadata declares display version 3.2.0, sms|gg|sg|mv|bin|rom content, deterministic save states, software rendering, and supports_no_game=false, while the compiled core exposes 3.9.12-5-g4f029e4. Any public distribution or release remains a human legal and policy gate, and the version discrepancy requires operator review before publication. Publication remains disabled regardless of local byte reproducibility.",
+    "The optional bios.sms and bios.gg firmware files have metadata MD5 values 840481177270d5642a14ca71ee72844c and 672e104c3be3a238301aceffc3b23fd6; neither firmware file is packaged, and this evidence establishes no firmware redistribution rights. BIOS discovery, Master System, Game Gear, SG-1000, Mark III and Othello Multivision content, controls and controller variants, FM audio, light phaser and paddle behavior, audio/video pacing, cheats, saves and state round trips, reset and unload behavior, frontend integration, compatibility, and sustained performance remain target-runtime gates.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 is build-identity-bound only to ra64-universal-v1; ARMHF is bound only to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Mini fallback provider value GLIBCXX_3.4.24. Provider inspection and target-runtime capture are absent, so all execution profiles and runtime compatibility claims remain provisional and every device view remains ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "5d9ef0dbfebce0af563dbc54b71cc70296bef708e0dcbbb3a64fa28cd6b28123",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.15",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.9",
+        "GLIBC_2.17",
+        "GLIBC_2.29"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "fab48e2180cdec4a54458d9cfde22c719143c3cab686d751590c6bd1d47fd082",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.15",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.32",
+        "GLIBCXX_3.4.9",
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "764e85943cc01d879e08149d8a38f7296d47952a939b5855c97ce2d4f67d83ef"
+}

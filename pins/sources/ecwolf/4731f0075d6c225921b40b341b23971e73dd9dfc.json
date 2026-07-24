@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "ecwolf-4731f0075d6c",
+  "core_id": "ecwolf",
+  "source": {
+    "url": "https://github.com/libretro/ecwolf.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "4731f0075d6c225921b40b341b23971e73dd9dfc",
+    "tree": "4e651e299a236ecfbbb4e44427e0087790ff1c64",
+    "submodules": [
+      {
+        "path": "src/libretro/libretro-common",
+        "commit": "996376e36d3f4f56eba202cb96230568628d2583"
+      }
+    ]
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "f4d8b34f4ca7a1f7bbc582cbb22cd8c5f9c971f7877f9989d77bb91f26e82112"
+}

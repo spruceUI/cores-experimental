@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "dosbox_pure-a4a0bab7f893-9faece3e3c8a",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/dosbox_pure-a4a0bab7f893-9faece3e3c8a.json",
+    "pin_id": "dosbox_pure-a4a0bab7f893-9faece3e3c8a",
+    "file_sha256": "a78aade0a79cc916b7c59512f00f4ed8363df60aa3c8b76b43a6cf5e1f90f105",
+    "content_sha256": "648d887da6ed0f481256fdb76aad9d00e8778e91d8b1cd35c2b9d76daa0422c2"
+  },
+  "sources": {
+    "dosbox_pure": {
+      "path": "pins/sources/dosbox_pure/a4a0bab7f8931433588f2fcad9045c85b277373d.json",
+      "source_lock_id": "dosbox_pure-a4a0bab7f893",
+      "commit": "a4a0bab7f8931433588f2fcad9045c85b277373d",
+      "file_sha256": "10a409dceb2c9419a8d5287b4488a8f495c8beb2aa3d748188ee916049399826",
+      "content_sha256": "b17ed5b64e4cd2c18d3a9e9a874c5fb776f7360fc91eea49731ee1ed60d8fe3f"
+    }
+  },
+  "content_sha256": "d3d25da40502c0253a7148b2a7101246f8f02e2189b9bb464248f2aa8cd74850"
+}

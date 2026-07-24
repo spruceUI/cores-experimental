@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "km_parallel_n64_xtreme_amped_turbo-be8d13e6fdde",
+  "core_id": "km_parallel_n64_xtreme_amped_turbo",
+  "source": {
+    "url": "https://github.com/KMFDManic/parallel-n64.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "be8d13e6fddec4eaf705cb04e755e0cf3687d842",
+    "tree": "2cec86f7b29182ab8c22481ccaf143f37b97cf0f",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "88795f3bed2bd52153a9c26508bbb6ebbbaf58516dbbf3b5926c76b47e7597ae"
+}

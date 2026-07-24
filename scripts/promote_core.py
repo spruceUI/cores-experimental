@@ -1,0 +1,525 @@
+#!/usr/bin/env python3
+"""Compose the hand-authored tail of a canonical core promotion.
+
+The pipeline provides commands for the build/promote chain (import-golden,
+promote, derive-core-id, compose-core-golden, compose-pin-set) but nothing for
+the two remaining lifecycle artifacts, which until now were written by hand for
+every core:
+
+  * the source-set (pins/source-sets/<semantic-id>.json), and
+  * the compatibility manifest (manifests/compatibility/<core>.json).
+
+Both are fully determined by evidence that already exists after the pin is
+composed (the pin, the source lock, the semantic golden, and the two e2e
+records), so this tool composes them deterministically. Composing them by hand
+44+ more times is error-prone; in particular the device-eligibility caveat (the
+ABI-ceiling reasoning) is derived here from the captured version_requirements
+rather than retyped per core.
+
+Full promotion sequence (this tool is the last step):
+
+  build-core --runner-profile github-actions-sim --core C --run-id SEL
+  build-core --runner-profile local            --core C --run-id REP
+  import-golden --core C --spruceos ../spruceOS --output NIGHTLY_CANDIDATE
+  promote (arm64) ; promote (armhf) into the candidate
+  derive-core-id --core C --source-golden CANDIDATE
+  compose-core-golden ; compose-pin-set
+  promote_core.py compose-lifecycle --core C --semantic-id SID \\
+      --selected-run SEL --reproduction-run REP [--caveat "..."]
+
+Local, read-only over inputs, create-only over outputs; never publishes.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+from typing import Any
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+# Captured device provider ceilings (device-runtime-contracts.json). Used only
+# to phrase the device-eligibility caveat; the machine-readable screen lives in
+# device_sets.py.
+MINI_GLIBCXX_CEILING = (3, 4, 24)
+A30_GLIBCXX_CEILING = (3, 4, 32)
+ELF_LABEL = {"arm64": "ELF64/AArch64", "armhf": "ELF32/ARM hard-float"}
+
+
+class PromoteCoreError(Exception):
+    """Raised for missing or inconsistent promotion inputs."""
+
+
+def _load(path: Path) -> dict[str, Any]:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError as exc:
+        raise PromoteCoreError(f"missing input: {path}") from exc
+    except json.JSONDecodeError as exc:
+        raise PromoteCoreError(f"invalid JSON in {path}: {exc}") from exc
+
+
+def _sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def content_sha256(document: dict[str, Any]) -> str:
+    material = {k: v for k, v in document.items() if k not in {"$schema", "content_sha256"}}
+    return hashlib.sha256(
+        json.dumps(material, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+
+
+def _version_tuple(version: str) -> tuple[int, ...]:
+    parts = version.split(".")
+    return tuple(int(p) for p in parts) if all(p.isdecimal() for p in parts) else ()
+
+
+def max_glibcxx(version_requirements: list[str]) -> tuple[str | None, tuple[int, ...]]:
+    best_value, best_key = None, ()
+    for symbol in version_requirements:
+        if symbol.startswith("GLIBCXX_"):
+            key = _version_tuple(symbol[len("GLIBCXX_") :])
+            if key and key >= best_key:
+                best_key, best_value = key, symbol[len("GLIBCXX_") :]
+    return best_value, best_key
+
+
+def compose_source_set(semantic_id: str) -> dict[str, Any]:
+    """Compose the source-set from the pin and its referenced source lock."""
+
+    core_id = semantic_id.split("-", 1)[0]
+    pin_relative = f"pins/core-sets/{semantic_id}.json"
+    pin_path = ROOT / pin_relative
+    pin = _load(pin_path)
+    source_dir = ROOT / "pins" / "sources" / core_id
+    locks = sorted(source_dir.glob("*.json")) if source_dir.is_dir() else []
+    if len(locks) != 1:
+        raise PromoteCoreError(
+            f"expected exactly one source lock under {source_dir}, found {len(locks)}"
+        )
+    lock_path = locks[0]
+    lock = _load(lock_path)
+    lock_relative = lock_path.relative_to(ROOT).as_posix()
+    document = {
+        "$schema": "../../manifests/core-source-set.schema.json",
+        "schema_version": 1,
+        "source_set_id": semantic_id,
+        "local_only": True,
+        "publication": "disabled",
+        "evidence_pin": {
+            "path": pin_relative,
+            "pin_id": semantic_id,
+            "file_sha256": _sha256_file(pin_path),
+            "content_sha256": pin["content_sha256"],
+        },
+        "sources": {
+            core_id: {
+                "path": lock_relative,
+                "source_lock_id": lock["source_lock_id"],
+                "commit": lock["source"]["commit"],
+                "file_sha256": _sha256_file(lock_path),
+                "content_sha256": lock["content_sha256"],
+            }
+        },
+    }
+    document["content_sha256"] = content_sha256(document)
+    return document
+
+
+def compose_source_lock(core_id: str) -> dict[str, Any]:
+    """Compose a core's source lock from its catalog source block.
+
+    The lock is fully determined by the pinned catalog entry (exact HTTPS Git
+    URL, requested ref, commit, and content tree). Vendored-dependency cores
+    carry no submodules; if that ever changes for a core it must be recorded
+    here explicitly.
+    """
+
+    catalog = _load(ROOT / "manifests" / "core-builds.json")
+    spec = catalog.get("cores", {}).get(core_id)
+    if not isinstance(spec, dict):
+        raise PromoteCoreError(f"catalog has no core {core_id}")
+    source = spec["source"]
+    document = {
+        "$schema": "../../../manifests/core-source-lock.schema.json",
+        "schema_version": 1,
+        "source_lock_id": f"{core_id}-{source['commit'][:12]}",
+        "core_id": core_id,
+        "source": {
+            "url": source["url"],
+            "requested_ref": source["requested_ref"],
+            "commit": source["commit"],
+            "tree": source["tree"],
+            "submodules": [],
+        },
+        "local_only": True,
+        "publication": "disabled",
+    }
+    document["content_sha256"] = content_sha256(document)
+    return document
+
+
+def _device_caveat(targets: dict[str, Any]) -> str:
+    armhf = targets.get("armhf", {})
+    value, key = max_glibcxx(armhf.get("version_requirements", []))
+    if value is None:
+        return (
+            "The armhf artifact has no libstdc++ dependency, so it clears every "
+            "captured provider ceiling; ARM64 is bound to ra64-universal-v1 and "
+            "ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture "
+            "are absent, so every device view remains provisional and ineligible "
+            "pending a runtime smoke result."
+        )
+    if key > MINI_GLIBCXX_CEILING:
+        eligibility = (
+            f"ARMHF requires GLIBCXX_{value}, above the observed non-enforcing "
+            "Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini "
+            "profile is ineligible; A30 is the eligible 32-bit consumer at the "
+            "ABI screen."
+        )
+    else:
+        eligibility = (
+            f"ARMHF's maximum GLIBCXX_{value} is within the observed Miyoo Mini "
+            "fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 "
+            "profiles clear the ABI screen."
+        )
+    return (
+        "This is static build/package evidence only. ARM64 is build-identity-"
+        f"bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. {eligibility} "
+        "Provider inspection and target-runtime capture are absent, so every "
+        "execution profile and device view remains provisional and ineligible "
+        "pending a runtime smoke result."
+    )
+
+
+def compose_compatibility(
+    core_id: str,
+    semantic_id: str,
+    selected_run: str,
+    reproduction_run: str,
+    extra_caveats: list[str] | None = None,
+) -> dict[str, Any]:
+    """Compose the compatibility manifest from the golden and e2e records."""
+
+    golden = _load(ROOT / ".local-e2e" / "nightlies" / semantic_id / "golden.json")
+    build_goldens = golden.get("build_goldens", {}).get(core_id)
+    if not isinstance(build_goldens, dict):
+        raise PromoteCoreError(f"golden has no build_goldens for {core_id}")
+    source_commit = golden.get("cores", {}).get(core_id, {}).get("source", {}).get("commit")
+    if not source_commit:
+        # Fall back to the semantic-id/source-lock commit when the golden omits it.
+        source_commit = compose_source_set(semantic_id)["sources"][core_id]["commit"]
+
+    selected = _load(ROOT / ".local-e2e" / "runs" / selected_run / "e2e-record.json")
+    reproduction = _load(ROOT / ".local-e2e" / "runs" / reproduction_run / "e2e-record.json")
+    package_sha = selected["packages"][0]["sha256"]
+    reproducible = reproduction["packages"][0]["sha256"] == package_sha
+
+    targets: dict[str, Any] = {}
+    for arch in ("arm64", "armhf"):
+        target = build_goldens.get(arch)
+        if not isinstance(target, dict):
+            continue
+        artifact = target["artifact"]
+        targets[arch] = {
+            "state": "local_static_build_golden",
+            "validation_scope": "static-build-only",
+            "runtime_validation": "needs-target-runtime",
+            "artifact_sha256": artifact["sha256"],
+            "elf": ELF_LABEL[arch],
+            "needed": artifact["needed"],
+            "version_requirements": artifact["version_requirements"],
+        }
+
+    caveats = [
+        (
+            "The publication-disabled simulated-Actions build-core run and the "
+            "independent native-local build-core run "
+            + ("reproduced" if reproducible else "did not reproduce")
+            + f" the {core_id}_libretro.zip package, resolver metadata, both ABI "
+            "artifacts, and both active-marker build logs byte for byte. Execution "
+            "was local; both builds cloned the pinned source over the network, so "
+            "no offline source cache is proven."
+        ),
+        _device_caveat(targets),
+        (
+            "Content, BIOS/firmware handling, controls, audio/video pacing, saves "
+            "and state round trips, reset and unload behavior, frontend "
+            "integration, compatibility, licensing review, and sustained "
+            "performance remain target-runtime and human gates. Publication "
+            "remains disabled regardless of local byte reproducibility."
+        ),
+    ]
+    caveats.extend(extra_caveats or [])
+
+    document = {
+        "$schema": "../core-compatibility.schema.json",
+        "schema_version": 1,
+        "core_id": core_id,
+        "publication": "disabled",
+        "evidence_availability": "workspace-local-ignored",
+        "golden_source": f"pins/core-sets/{semantic_id}.json",
+        "source_commit": source_commit,
+        "e2e_run": f".local-e2e/runs/{selected_run}/e2e-record.json",
+        "selected_e2e_content_sha256": selected["content_sha256"],
+        "reproduction_run": f".local-e2e/runs/{reproduction_run}/e2e-record.json",
+        "reproduction_e2e_content_sha256": reproduction["content_sha256"],
+        "package_state": "reproducible" if reproducible else "not-reproducible",
+        "package_sha256": package_sha,
+        "caveats": caveats,
+        "targets": targets,
+    }
+    document["content_sha256"] = content_sha256(document)
+    return document
+
+
+def _write_create_only(path: Path, document: dict[str, Any]) -> None:
+    if path.exists():
+        raise PromoteCoreError(f"refusing to overwrite existing file: {path}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(document, indent=2) + "\n", encoding="utf-8")
+
+
+def _pipeline(*args: str) -> str:
+    """Run one core_pipeline.py subcommand, failing loudly with its output."""
+
+    command = [sys.executable, str(ROOT / "scripts" / "core_pipeline.py"), *args]
+    result = subprocess.run(command, capture_output=True, text=True)
+    if result.returncode != 0:
+        raise PromoteCoreError(
+            f"`{' '.join(args)}` failed:\n{result.stdout}\n{result.stderr}"
+        )
+    return result.stdout
+
+
+def run_promotion(
+    core: str,
+    selected_run: str,
+    reproduction_run: str,
+    caveats: list[str],
+    refresh: bool,
+) -> str:
+    """Sequence the whole promote chain; returns the semantic id.
+
+    Each step is the existing reviewed CLI subcommand, invoked exactly as the
+    documented manual ritual did -- this adds orchestration, not new policy.
+    """
+
+    catalog = _load(ROOT / "manifests" / "core-builds.json")
+    spec = catalog.get("cores", {}).get(core)
+    if spec is None:
+        raise PromoteCoreError(f"core is not in the catalog: {core}")
+    targets = spec.get("targets", [])
+    if not targets:
+        raise PromoteCoreError(f"core has no targets: {core}")
+    for run_id in (selected_run, reproduction_run):
+        for arch in targets:
+            record = ROOT / ".local-e2e" / "runs" / run_id / core / arch / "build-record.json"
+            if not record.is_file():
+                raise PromoteCoreError(f"missing build record: {record}")
+
+    compatibility_path = ROOT / "manifests" / "compatibility" / f"{core}.json"
+    retired: list[tuple[Path, Path]] = []
+    if compatibility_path.exists():
+        if not refresh:
+            raise PromoteCoreError(
+                f"{core} is already promoted; pass --refresh to re-promote "
+                "(retires the previous source-set/pin-set/compatibility first)"
+            )
+        # Move the previous promotion's derived artifacts ASIDE rather than
+        # deleting them: a failed refresh must never destroy outputs (learned
+        # the hard way -- a retire-then-fail sequence deleted 27 cores' files
+        # during the v2 re-promote wave). They are restored on any failure and
+        # removed only after the whole chain, catalog-check included, passes.
+        previous = _load(compatibility_path)
+        previous_pin = previous.get("golden_source", "")
+        previous_sid = Path(previous_pin).stem if previous_pin else ""
+        candidates = [compatibility_path]
+        if previous_sid:
+            candidates += [
+                ROOT / "pins" / "core-sets" / f"{previous_sid}.json",
+                ROOT / "pins" / "source-sets" / f"{previous_sid}.json",
+            ]
+        for stale in candidates:
+            if stale.exists():
+                aside = stale.with_name(stale.name + ".retiring")
+                stale.rename(aside)
+                retired.append((stale, aside))
+                print(f"retiring {stale.relative_to(ROOT)}")
+
+    try:
+        return _run_promotion_chain(
+            core, targets, selected_run, reproduction_run, caveats, retired
+        )
+    except BaseException:
+        for original, aside in retired:
+            if aside.exists() and not original.exists():
+                aside.rename(original)
+                print(f"restored {original.relative_to(ROOT)}")
+        raise
+
+
+def _run_promotion_chain(
+    core: str,
+    targets: list[str],
+    selected_run: str,
+    reproduction_run: str,
+    caveats: list[str],
+    retired: list[tuple[Path, Path]],
+) -> str:
+    compatibility_path = ROOT / "manifests" / "compatibility" / f"{core}.json"
+    candidate_dir = ROOT / ".local-e2e" / "nightlies" / f"{core}-candidate-01"
+    if candidate_dir.exists():
+        shutil.rmtree(candidate_dir)
+    candidate_dir.mkdir(parents=True)
+    candidate = candidate_dir / "golden.json"
+
+    _pipeline("import-golden", "--core", core, "--spruceos", "../spruceOS",
+              "--output", str(candidate))
+    for arch in targets:
+        record = ROOT / ".local-e2e" / "runs" / selected_run / core / arch / "build-record.json"
+        e2e = ROOT / ".local-e2e" / "runs" / selected_run / "e2e-record.json"
+        _pipeline("promote", "--golden", str(candidate),
+                  "--record", str(record), "--e2e-record", str(e2e))
+        print(f"promoted {core}/{arch}")
+    derived = json.loads(_pipeline(
+        "derive-core-id", "--core", core, "--source-golden", str(candidate)
+    ))
+    semantic_id = derived["semantic_id"]
+    print(f"semantic id: {semantic_id}")
+
+    semantic_dir = ROOT / ".local-e2e" / "nightlies" / semantic_id
+    semantic_dir.mkdir(parents=True, exist_ok=True)
+    golden = semantic_dir / "golden.json"
+    if golden.exists():
+        golden.unlink()
+    _pipeline("compose-core-golden", "--core", core,
+              "--source-golden", str(candidate), "--output", str(golden))
+    _pipeline("validate-golden", "--golden", str(golden), "--verify-store")
+    print("golden valid")
+    pin_path = ROOT / "pins" / "core-sets" / f"{semantic_id}.json"
+    _pipeline("compose-pin-set", "--pin-id", semantic_id, "--core", core,
+              "--source-golden", str(golden), "--output", str(pin_path))
+    _pipeline("validate-pin-set", "--pin-set", str(pin_path),
+              "--verify-store", "--verify-sources")
+    print("pin-set valid")
+
+    source_set = compose_source_set(semantic_id)
+    compatibility = compose_compatibility(
+        core, semantic_id, selected_run, reproduction_run, caveats
+    )
+    _write_create_only(
+        ROOT / "pins" / "source-sets" / f"{semantic_id}.json", source_set
+    )
+    _write_create_only(compatibility_path, compatibility)
+    print(f"wrote pins/source-sets/{semantic_id}.json and "
+          f"manifests/compatibility/{core}.json")
+    _pipeline("catalog-check")
+    print("catalog valid")
+    for original, aside in retired:
+        aside.unlink(missing_ok=True)
+    return semantic_id
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=__doc__)
+    subparsers = parser.add_subparsers(dest="command", required=True)
+    lock = subparsers.add_parser(
+        "compose-source-lock",
+        help="create the catalog-derived source lock for a core",
+    )
+    lock.add_argument("--core", required=True)
+    lock.add_argument(
+        "--print", action="store_true", help="print the lock instead of writing it"
+    )
+    compose = subparsers.add_parser(
+        "compose-lifecycle",
+        help="create the source-set and compatibility manifest for a promoted core",
+    )
+    compose.add_argument("--core", required=True)
+    compose.add_argument("--semantic-id", required=True)
+    compose.add_argument("--selected-run", required=True)
+    compose.add_argument("--reproduction-run", required=True)
+    compose.add_argument(
+        "--caveat", action="append", default=[], help="extra core-specific caveat (repeatable)"
+    )
+    compose.add_argument(
+        "--print", action="store_true", help="print the documents instead of writing them"
+    )
+    runner = subparsers.add_parser(
+        "run",
+        help="sequence the whole promote chain for a built core "
+             "(import-golden through compose-lifecycle plus catalog-check)",
+    )
+    runner.add_argument("--core", required=True)
+    runner.add_argument("--selected-run", required=True)
+    runner.add_argument("--reproduction-run", required=True)
+    runner.add_argument(
+        "--caveat", action="append", default=[], help="extra core-specific caveat (repeatable)"
+    )
+    runner.add_argument(
+        "--refresh", action="store_true",
+        help="re-promote an already-promoted core, retiring its previous "
+             "source-set, pin-set, and compatibility manifest first",
+    )
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    try:
+        if args.command == "compose-source-lock":
+            lock = compose_source_lock(args.core)
+            if args.print:
+                print(json.dumps(lock, indent=2))
+                return 0
+            _write_create_only(
+                ROOT / "pins" / "sources" / args.core
+                / f"{lock['source']['commit']}.json",
+                lock,
+            )
+            print(f"wrote pins/sources/{args.core}/{lock['source']['commit']}.json")
+            return 0
+        if args.command == "run":
+            semantic_id = run_promotion(
+                args.core, args.selected_run, args.reproduction_run,
+                args.caveat, args.refresh,
+            )
+            print(f"promotion complete: {semantic_id}")
+            return 0
+        if args.command == "compose-lifecycle":
+            source_set = compose_source_set(args.semantic_id)
+            compatibility = compose_compatibility(
+                args.core, args.semantic_id, args.selected_run,
+                args.reproduction_run, args.caveat,
+            )
+            if args.print:
+                print(json.dumps({"source_set": source_set, "compatibility": compatibility}, indent=2))
+                return 0
+            _write_create_only(
+                ROOT / "pins" / "source-sets" / f"{args.semantic_id}.json", source_set
+            )
+            _write_create_only(
+                ROOT / "manifests" / "compatibility" / f"{args.core}.json", compatibility
+            )
+            print(
+                f"wrote pins/source-sets/{args.semantic_id}.json and "
+                f"manifests/compatibility/{args.core}.json"
+            )
+            return 0
+    except PromoteCoreError as exc:
+        print(f"promote-core error: {exc}", file=sys.stderr)
+        return 1
+    build_parser().error("unknown command")
+    return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

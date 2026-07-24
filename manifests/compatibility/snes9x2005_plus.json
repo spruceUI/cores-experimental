@@ -1,0 +1,63 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "snes9x2005_plus",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/snes9x2005_plus-b60356971fc9-32f28e9ec741.json",
+  "source_commit": "b60356971fc9caae02cd0853676dced886a08be7",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-snes9x2005_plus-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "72f21e63abee87817be77229343fffcf71f875d6bed805dce1cd87079575b1e0",
+  "reproduction_run": ".local-e2e/runs/build-core-snes9x2005_plus-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "0cc8ea9a0cc422450c90b89fb4c0169e398f0d4d114f39ff835324b85ba65dc3",
+  "package_state": "reproducible",
+  "package_sha256": "da6d86969fe506e0dd86929fd4f3b6960d18b2cda16091f37885b235d408a123",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the snes9x2005_plus_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the snes9x2005_plus_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the 480524-byte package, 1456-byte metadata, both ABI artifacts, and both reviewed ABI logs byte for byte. Each log independently satisfies the exact Snes9x 2005 Plus proof. Both builds cloned the pinned source from GitHub and the current pipeline has no offline source cache, so these records do not prove an offline rebuild. Both cached toolchain images report dockerfile_linkage=unverified-local-cache; that limits Dockerfile-to-image provenance but is not an observed output difference.",
+    "The pristine source is commit b60356971fc9caae02cd0853676dced886a08be7, tree 5a13440308796f67a77f7e8fc16bbeee61ab301d, with no submodules. The snes9x2005-plus-c-only-v1 contract proves exactly 33 C compiles and zero C++ compiles per ABI, native leading-space version ' b603569' on every compile, command-line USE_BLARGG_APU=1, exactly one direct -DUSE_BLARGG_APU flag on every compile, the exact source and ABI-specific compile invocations, and the exact ordered 33-object C link. Missing, changed, or extra compiler, linker, process-failure, or dubious-ownership evidence fails closed.",
+    "The exact reviewed ARM64 diagnostic stream contains 16 warnings and 12 notes: four Blargg left-shift-of-negative-value warnings plus 12 memmap array-bounds warnings and their notes. ARMHF contains exactly 12 memmap array-bounds warnings and 12 notes. The proof fingerprints every diagnostic member and complete block while tolerating only whole-block reordering and compiler-line interleaving; it rejects missing, changed, or extra warnings and notes. This is not a warning-clean claim.",
+    "Resolver metadata labels the core Non-commercial and reports display version v1.36, while the artifacts identify 'v1.36 b603569'. The compiled source has a mixed license inventory: the Snes9x non-commercial and personal-use notice and LGPL-2.1-or-later Blargg audio modules are both material, alongside other attributed source. The package carries neither the applicable notices nor corresponding source. This is not a complete license audit or a grant of redistribution rights; any public distribution or release remains a human legal and policy gate.",
+    "Metadata declares no firmware entries and the package contains no firmware; that is evidence only that no firmware is declared or packaged. Metadata declares needs_fullpath=false, supports_no_game=false, and smc|fig|sfc|gd3|gd7|dx2|bsx|swc content. Formats, headered and interleaved images, special-chip and Satellaview behavior, malformed content, frontend buffer ownership, unload and reload, and no-content rejection remain target-runtime gates.",
+    "The Plus recipe deliberately selects the more accurate but potentially slower Blargg APU path. That is exact build identity, not proof of runtime quality or suitability: RetroPad controls and five-port behavior; RGB565 software video, geometry, PAL and NTSC pacing; 32040 Hz stereo audio, latency and filtering; saves, cheats, reset and options; frontend integration; game compatibility; and sustained performance and thermals all require device testing.",
+    "Metadata claims deterministic savestates, cheats, memory descriptors, and libretro saves, but none has been exercised on Spruce hardware. SRAM persistence, state size and round trips, reset and cheat behavior, and save-path integration remain target-runtime gates. State compatibility with the base snes9x2005 core is not claimed; the Plus audio implementation has distinct serialized state, and compatibility across ABIs, core revisions, content, options, or frontend versions is also unproven.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 build identity binds only to ra64-universal-v1, while ARMHF binds only to ra32-a30-v1. The Mini-family ra32-mini-v0 profile is unbound, and ra64-pixel2-v0 lacks a matching frontend identity. Existing provider observations are non-enforcing and do not establish the effective loader, libc, libm, rootfs, frontend, runtime behavior, or performance; all eight device views have empty eligibility sets and all 16 device entries remain ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "f6b0e49f3230a8d858f7fe30d27f624e629c9e017f351dd4c4c2b92dc6b56f02",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "5a9825a71f88d41f956067d584aaed1e2620856fdb6cb8b45bc81f9ef8c12a43",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "2e5eba8599aeede91f97e33b611476d2967a09cb310d79d013088249472fb2b7"
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "arduous-798e3950f1de-42fdcb92080d",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/arduous-798e3950f1de-42fdcb92080d.json",
+    "pin_id": "arduous-798e3950f1de-42fdcb92080d",
+    "file_sha256": "d28202d34fca040e5415515ff3d1c51d1008d1d1263d6de6c698be7676b3190f",
+    "content_sha256": "e3d6ba1c0cec51bd06c8da93ebdd05d8391e2bec73b99544c6f25218da8e4430"
+  },
+  "sources": {
+    "arduous": {
+      "path": "pins/sources/arduous/798e3950f1de7c69455bc988d55eafeebac5a1eb.json",
+      "source_lock_id": "arduous-798e3950f1de",
+      "commit": "798e3950f1de7c69455bc988d55eafeebac5a1eb",
+      "file_sha256": "783fdcf92eacbf9f2ae9091b5fa0ed89e6e9427049fecaae6ad46782cc97e1f0",
+      "content_sha256": "5004be8603a467ab65258707311e0dadfa66ce999932c87a10aaac1e70b9520b"
+    }
+  },
+  "content_sha256": "20134673476c6959ece91d82b35cf31864eb86c75b14f819fb0eeb80a49b1a17"
+}

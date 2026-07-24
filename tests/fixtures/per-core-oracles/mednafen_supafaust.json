@@ -1,0 +1,53 @@
+{
+  "core_id": "mednafen_supafaust",
+  "source": {
+    "commit": "2b93c0d7dff5b8f6c4e60e049d66849923fa8bba",
+    "tree": "68dcc9b53118d9933f716c7219989822a89d10d7",
+    "submodules": []
+  },
+  "positive_runs": [
+    {
+      "role": "contract-control",
+      "run_id": "tranche20a-mednafen-supafaust-control-v1",
+      "e2e_file_sha256": "c919094ed7dd42fc19791c31b5e4bfba52952dca59e30aed712b2d03bb810c2c",
+      "e2e_content_sha256": "0695ba922dcc846c5b4f62585c237c4b0ea8f433a3b153a1212666ff4a2a5d23",
+      "build_record_sha256": {
+        "arm64": "1505a5e38ff208b78ec9fb531c510712838d9f54a85d729fb05f6ca3565fbdc3",
+        "armhf": "87cf214f045036e8f8a6744532ddd74d0d4ebc7b4a662575af7aeaa99eb9348e"
+      },
+      "build_log_sha256": {
+        "arm64": "29f28d27cf9d1675c961c6b5afbb32f4f6c9c6705eec05d9db6d783d29cda757",
+        "armhf": "f57e9936708729ef91965ef27a8b43d6a87c31315508b7161e2b85682c4b63ad"
+      }
+    },
+    {
+      "role": "migrated-reproduction",
+      "run_id": "tranche20a-mednafen-supafaust-repro-v1",
+      "e2e_file_sha256": "cc15b5ecc89a39c45e6532b08cfbb274cb85bd76fe0ae0737ba24f59c462a3b5",
+      "e2e_content_sha256": "5fbe7c8d47d2c1f9703e12fd802b0a350151433be6628eee024903a37ec21504",
+      "build_record_sha256": {
+        "arm64": "65d0c89d201efaccd1a69846c4477129388f676a83e78440311cb9efdb0e86ee",
+        "armhf": "881ba45dba3e8a8b284925609de6f94ad44ab8a43ad2adae1f75df4d7da50eec"
+      },
+      "build_log_sha256": {
+        "arm64": "aa0c7c841a2a6c2dd679620406e4f5e6a6e6622ada16edcd3fe8f6add369ec5f",
+        "armhf": "604a391c03bc01a376c8935db64ec87d86e39efa0e184ccd4f126cc8f82c1dc9"
+      }
+    }
+  ],
+  "shared_positive_outputs": {
+    "artifact_sha256": {
+      "arm64": "1df2ea7bab84e601edd41ddadd42b18866439b79f54c896e2c1bd9c290994d1e",
+      "armhf": "ea5e15a297f6d52dc801da181fa3008dd7be911b6e6a728b01c3cc433aa9d36b"
+    },
+    "artifact_size": {
+      "arm64": 1334288,
+      "armhf": 1221256
+    },
+    "package_sha256": "efa2335e7163b7bbbcbfac22383a9c3224451507c462626d47a296fdfb4bc69e",
+    "package_size": 884098,
+    "metadata_sha256": "97e61e6720ec59c780ed6563d1f2f93a5ae3ef2b4c7e5960800a99bac4d46033",
+    "metadata_size": 1209,
+    "embedded_version": "1.29.0-2b93c0d"
+  }
+}

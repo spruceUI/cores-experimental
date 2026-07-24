@@ -1,0 +1,57 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "pcsx_rearmed",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/pcsx_rearmed-050981b6eeb7-e35e8d77e58d.json",
+  "source_commit": "050981b6eeb715f142854f57c68086f62921f027",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-pcsx_rearmed-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "c71fd243dab51906f0e91eebc75dd3012724f4bc5047e0e7e603d401b7923118",
+  "reproduction_run": ".local-e2e/runs/build-core-pcsx_rearmed-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "87bbd52c7f8ecebfd505ccfb5cff0312abbe5ac8c003d6fdb8f3dbcf335fa263",
+  "package_state": "reproducible",
+  "package_sha256": "0c4f0b1e8e95ff745a1ae451699da7161e7bcc00ff517e2cfa9f75c69c1279b6",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the pcsx_rearmed_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "6670b42bf638facb5e261a9444c479ac62d7e39be161ef8e0307fdea8fffeb45",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libdl.so.2",
+        "libpthread.so.0"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "a664fa1835411c2fbc249045e0c7a27d8c1ed42e7e5f6e67e8b9f3acb5989797",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libdl.so.2",
+        "libm.so.6",
+        "libpthread.so.0"
+      ],
+      "version_requirements": [
+        "GLIBC_2.12",
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "9c450548ed42351f1fb40de163c3ad293083d31900258a9bf55f20387cdb1f61"
+}

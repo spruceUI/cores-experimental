@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "vemulator-7fade9550620",
+  "core_id": "vemulator",
+  "source": {
+    "url": "https://github.com/libretro/vemulator-libretro.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "7fade95506201aed83316cc3f2efe3d7cecf75a7",
+    "tree": "09e8c0ec31c874ea555288c53c975e289e865c0a",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "fe035f98956157700a60a897e4463937f7833b2a138ebf96f1e5b15e780aa472"
+}

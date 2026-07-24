@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "o2em-e03d3be88f79",
+  "core_id": "o2em",
+  "source": {
+    "url": "https://github.com/libretro/libretro-o2em.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "e03d3be88f79fe940b933e53f1515d97313f6c59",
+    "tree": "fef887dc747594a47e9bed9ac7367d2912b579d1",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "ca645b7ab7655adddb4253b8e727c9c78b52558f79497f899c9cdac98153f352"
+}

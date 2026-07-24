@@ -1,0 +1,84 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "mednafen_pcfx",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/mednafen_pcfx-650c30ea2203-5c0f9a256d9a.json",
+  "source_commit": "650c30ea2203636a1716675854d11c608ed6eacc",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_pcfx-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "b83a4c3420da0d2b70998db8dd38433c38da22ad0b2d9cb7a213fd06961f2055",
+  "reproduction_run": ".local-e2e/runs/build-core-mednafen_pcfx-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "f2d912531caab619df7b931064194d481644014dc0e48be8eb72b7842e7cf3b5",
+  "package_state": "reproducible",
+  "package_sha256": "eae5ad43f2df1a52d129a65bc79042e06ecad6de7ee9a126b40f5d0d0e44dd9e",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mednafen_pcfx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.29, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mednafen_pcfx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.29, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, metadata, and both ABI artifacts byte for byte. Parallel compilation changes whole-log ordering, so log bytes intentionally differ; every log independently satisfies the same singleton PC-FX source, compile, ordered-link, warning, and note proof. Execution was local, but every build cloned its pinned source from GitHub and the current pipeline has no offline source cache.",
+    "The pristine source is commit 650c30ea2203636a1716675854d11c608ed6eacc, tree de7ad272c9210e5dd7772a53a1480dbab47d49cc, with no submodules. The typed IS_X86=0 Make variable is mandatory: without it, host-x86 inference introduces ARCH_X86 and ARM-incompatible SSE code. Native leading-space version ' 650c30e' is bound only to all 34 C++ compiles; the proof also requires all 60 C compiles and the exact ordered 94-object C++ link. Both binaries expose version 'v0.9.36.5 650c30e'.",
+    "ARM64 contains exactly four reviewed warnings and no notes. ARMHF contains exactly nine reviewed warnings and two GCC ABI notes, including two signed-bound conversions to size_t zero and three libchdr free-on-nonzero-offset warnings. Complete diagnostic multisets and each parallel stream's internal order are fail-closed, but the ARMHF conversion and memory-safety diagnostics remain unresolved runtime risks.",
+    "Resolver metadata declares GPLv2, display version v0.9.33.3, cue|ccd|toc|chd content, and supports_no_game=false, while the compiled core reports v0.9.36.5. Any public distribution or release remains a human legal and policy gate; the version discrepancy also requires operator review before publication.",
+    "PC-FX requires separately supplied pcfx.rom BIOS version 1.00 with MD5 08e36edbea28a017f79f8d4f7ff9b6d7. Firmware is not packaged and this local evidence establishes no firmware redistribution rights. BIOS discovery, CD and CHD input, controls, audio and video pacing, saves and states, compatibility, frontend integration, sustained performance, and the reviewed warning paths remain target-runtime gates.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 is build-identity-bound only to ra64-universal-v1; ARMHF is bound only to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.29, above the observed non-enforcing Mini fallback provider value. Provider inspection and target-runtime capture are absent, so all device views remain ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "943dcb6075159ef8a0e729622729bcc5a56110e904fa7d99ea94e59d79d3656e",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libpthread.so.0",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBC_2.17",
+        "GLIBC_2.27"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "26ada82ee4da4170454b7e2af05d242b21dc77467ccb630ff5f058c28efef30c",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libpthread.so.0",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.29",
+        "GLIBC_2.17",
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "de13c6740541c90c927a4d35e2a86317ed98f0b7725cb8f296cb78ce414377d7"
+}

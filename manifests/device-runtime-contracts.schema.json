@@ -1,0 +1,495 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/device-runtime-contracts.schema.json",
+  "title": "Cores-spruce device runtime-contract registry",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "registry_id",
+    "local_only",
+    "publication",
+    "spruce_snapshot",
+    "policy",
+    "contracts",
+    "compatibility_constraints",
+    "core_policies",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "device-runtime-contracts.schema.json"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "registry_id": {
+      "const": "device-runtime-contracts-v1"
+    },
+    "local_only": {
+      "const": true
+    },
+    "publication": {
+      "const": "disabled"
+    },
+    "spruce_snapshot": {
+      "$ref": "#/$defs/spruceSnapshot"
+    },
+    "policy": {
+      "$ref": "#/$defs/policy"
+    },
+    "contracts": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^device-[a-z0-9-]+-v[0-9]+$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/contract"
+      }
+    },
+    "compatibility_constraints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/constraint"
+      }
+    },
+    "core_policies": {
+      "type": "object",
+      "required": [
+        "ffmpeg",
+        "swanstation"
+      ],
+      "properties": {
+        "ffmpeg": {
+          "$ref": "#/$defs/ffmpegPolicy"
+        },
+        "swanstation": {
+          "$ref": "#/$defs/swanstationPolicy"
+        }
+      },
+      "additionalProperties": false
+    },
+    "content_sha256": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha1": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "spruceSnapshot": {
+      "type": "object",
+      "required": [
+        "repository",
+        "commit",
+        "tree"
+      ],
+      "properties": {
+        "repository": {
+          "const": "https://github.com/spruceUI/spruceOS.git"
+        },
+        "commit": {
+          "$ref": "#/$defs/sha1"
+        },
+        "tree": {
+          "$ref": "#/$defs/sha1"
+        }
+      },
+      "additionalProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "artifact_reuse",
+        "build_strategy",
+        "default_tier",
+        "runtime_claims"
+      ],
+      "properties": {
+        "artifact_reuse": {
+          "const": "allow-after-runtime-contract-pass"
+        },
+        "build_strategy": {
+          "const": "portable-shared-default-sparse-family-override-on-evidence"
+        },
+        "default_tier": {
+          "const": "device_golden"
+        },
+        "runtime_claims": {
+          "const": "provisional-until-target-capture"
+        }
+      },
+      "additionalProperties": false
+    },
+    "device": {
+      "type": "object",
+      "required": [
+        "device_id",
+        "support_status",
+        "release_default"
+      ],
+      "properties": {
+        "device_id": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9_]+$"
+        },
+        "support_status": {
+          "enum": [
+            "official",
+            "staged",
+            "provisional"
+          ]
+        },
+        "release_default": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "providerObservation": {
+      "type": "object",
+      "required": [
+        "role",
+        "path",
+        "sha256",
+        "max_versioned_symbols",
+        "enforcing"
+      ],
+      "properties": {
+        "role": {
+          "enum": [
+            "bundled-first-search-path-provider",
+            "packaged-fallback-provider"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "max_versioned_symbols": {
+          "type": "object",
+          "required": [
+            "GLIBCXX",
+            "CXXABI"
+          ],
+          "properties": {
+            "GLIBCXX": {
+              "type": "string",
+              "pattern": "^[0-9]+(?:\\.[0-9]+)+$"
+            },
+            "CXXABI": {
+              "type": "string",
+              "pattern": "^[0-9]+(?:\\.[0-9]+)+$"
+            }
+          },
+          "additionalProperties": false
+        },
+        "enforcing": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "contract": {
+      "type": "object",
+      "required": [
+        "status",
+        "runtime_family_id",
+        "devices",
+        "default_execution_profile",
+        "optional_execution_profiles",
+        "candidate_build_flavors",
+        "runtime_capture",
+        "effective_abi_ceiling",
+        "provider_observations",
+        "missing_evidence"
+      ],
+      "properties": {
+        "status": {
+          "const": "provisional"
+        },
+        "runtime_family_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]+-v[0-9]+$"
+        },
+        "devices": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/device"
+          }
+        },
+        "default_execution_profile": {
+          "type": "string",
+          "pattern": "^ra(32|64)-[a-z0-9-]+-v[0-9]+$"
+        },
+        "optional_execution_profiles": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^ra(32|64)-[a-z0-9-]+-v[0-9]+$"
+          }
+        },
+        "candidate_build_flavors": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]+-v[0-9]+$"
+          }
+        },
+        "runtime_capture": {
+          "enum": [
+            "needs-target-runtime",
+            "device-probe-v3"
+          ]
+        },
+        "effective_abi_ceiling": {
+          "const": "unknown"
+        },
+        "provider_observations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/providerObservation"
+          }
+        },
+        "missing_evidence": {
+          "type": "array",
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "effective-runtime-provider-capture",
+              "frontend-binary",
+              "target-loader-capture",
+              "target-playback-validation",
+              "target-rootfs-load-validation"
+            ]
+          }
+        },
+        "library_observations": {
+          "$ref": "#/$defs/libraryObservations"
+        }
+      },
+      "additionalProperties": false
+    },
+    "constraint": {
+      "type": "object",
+      "required": [
+        "constraint_id",
+        "core_ids",
+        "execution_profile_id",
+        "kind",
+        "required_symbols",
+        "disposition",
+        "evidence_scope"
+      ],
+      "properties": {
+        "constraint_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]+-v[0-9]+$"
+        },
+        "core_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_]*$"
+          }
+        },
+        "execution_profile_id": {
+          "type": "string",
+          "pattern": "^ra(32|64)-[a-z0-9-]+-v[0-9]+$"
+        },
+        "kind": {
+          "const": "provider-ceiling-unverified"
+        },
+        "required_symbols": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(GLIBCXX|CXXABI)_[0-9]+(?:\\.[0-9]+)+$"
+          }
+        },
+        "disposition": {
+          "const": "unverified-for-profile"
+        },
+        "evidence_scope": {
+          "const": "packaged-fallback-observation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "acceleratedCandidate": {
+      "type": "object",
+      "required": [
+        "build_flavor_id",
+        "runtime_contract_ids",
+        "runtime_family_ids",
+        "status"
+      ],
+      "properties": {
+        "build_flavor_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]+-v[0-9]+$"
+        },
+        "runtime_contract_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^device-[a-z0-9-]+-v[0-9]+$"
+          }
+        },
+        "runtime_family_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]+-v[0-9]+$"
+          }
+        },
+        "status": {
+          "const": "provisional"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ffmpegPolicy": {
+      "type": "object",
+      "required": [
+        "portable_role",
+        "default_selection",
+        "accelerated_candidates",
+        "accelerated_denied_runtime_contracts",
+        "runtime_validation"
+      ],
+      "properties": {
+        "portable_role": {
+          "const": "software-diagnostic-only"
+        },
+        "default_selection": {
+          "const": "excluded"
+        },
+        "accelerated_candidates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/acceleratedCandidate"
+          }
+        },
+        "accelerated_denied_runtime_contracts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^device-[a-z0-9-]+-v[0-9]+$"
+          }
+        },
+        "runtime_validation": {
+          "const": "needs-target-playback"
+        }
+      },
+      "additionalProperties": false
+    },
+    "swanstationPolicy": {
+      "type": "object",
+      "required": [
+        "armhf_device_views",
+        "runtime_contract_ids",
+        "catalog_menu_eligibility"
+      ],
+      "properties": {
+        "armhf_device_views": {
+          "const": "not-consumed"
+        },
+        "runtime_contract_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^device-[a-z0-9-]+-v[0-9]+$"
+          }
+        },
+        "catalog_menu_eligibility": {
+          "const": "unsupported"
+        }
+      },
+      "additionalProperties": false
+    },
+    "libraryObservations": {
+      "type": "object",
+      "required": [
+        "probe_schema",
+        "abi",
+        "resolution_method",
+        "available",
+        "absent",
+        "enforcing"
+      ],
+      "properties": {
+        "probe_schema": {
+          "const": "device-probe-v3"
+        },
+        "abi": {
+          "enum": [
+            "arm64",
+            "armhf"
+          ]
+        },
+        "resolution_method": {
+          "enum": [
+            "loader",
+            "ldd",
+            "dt-needed"
+          ]
+        },
+        "available": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "absent": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "unresolvable_installed_cores": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "enforcing": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

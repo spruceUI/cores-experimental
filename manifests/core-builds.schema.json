@@ -1,0 +1,5886 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/core-builds.schema.json",
+  "title": "Cores-spruce local build catalog",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "policy",
+    "commit_blacklist",
+    "toolchain_lock",
+    "toolchain_lock_validator",
+    "toolchains",
+    "resolver",
+    "cores"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "publication",
+        "source_pins",
+        "promotion_requires"
+      ],
+      "properties": {
+        "publication": {
+          "const": "disabled"
+        },
+        "source_pins": {
+          "const": "full-commit-sha-only"
+        },
+        "promotion_requires": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "commit_blacklist": {
+      "type": "object",
+      "required": [
+        "path",
+        "schema_version",
+        "policy_id",
+        "file_sha256",
+        "content_sha256"
+      ],
+      "properties": {
+        "path": {
+          "const": "policies/core-commit-blacklist.json"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "policy_id": {
+          "const": "core-commit-blacklist-v1"
+        },
+        "file_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "additionalProperties": false
+    },
+    "toolchain_lock": {
+      "type": "object",
+      "required": [
+        "path",
+        "schema_version",
+        "lock_id",
+        "file_sha256",
+        "content_sha256"
+      ],
+      "properties": {
+        "path": {
+          "const": "pins/toolchains/local-cache-v1.json"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "lock_id": {
+          "const": "local-cache-v1"
+        },
+        "file_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "additionalProperties": false
+    },
+    "toolchain_lock_validator": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "const": "scripts/toolchain_archive.py"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "additionalProperties": false
+    },
+    "toolchains": {
+      "type": "object",
+      "required": [
+        "arm64",
+        "armhf"
+      ],
+      "additionalProperties": {
+        "$ref": "#/$defs/toolchain"
+      }
+    },
+    "resolver": {
+      "type": "object",
+      "required": [
+        "libretro_super_commit",
+        "core_rules_path",
+        "core_rules_sha256",
+        "fetch_script_path",
+        "fetch_script_sha256",
+        "build_script_path",
+        "build_script_sha256"
+      ]
+    },
+    "cores": {
+      "type": "object",
+      "minProperties": 1,
+      "properties": {
+        "2048": {
+          "$ref": "#/$defs/core2048Core"
+        },
+        "81": {
+          "$ref": "#/$defs/core81Core"
+        },
+        "atari800": {
+          "$ref": "#/$defs/atari800Core"
+        },
+        "bluemsx": {
+          "$ref": "#/$defs/bluemsxCore"
+        },
+        "cap32": {
+          "$ref": "#/$defs/cap32Core"
+        },
+        "crocods": {
+          "$ref": "#/$defs/crocodsCore"
+        },
+        "fbneo": {
+          "$ref": "#/$defs/fbneoCore"
+        },
+        "fmsx": {
+          "$ref": "#/$defs/fmsxCore"
+        },
+        "freeintv": {
+          "$ref": "#/$defs/freeintvCore"
+        },
+        "lowresnx": {
+          "$ref": "#/$defs/lowresnxCore"
+        },
+        "gearboy": {
+          "$ref": "#/$defs/gearboyCore"
+        },
+        "gearcoleco": {
+          "$ref": "#/$defs/gearcolecoCore"
+        },
+        "gearsystem": {
+          "$ref": "#/$defs/gearsystemCore"
+        },
+        "genesis_plus_gx": {
+          "$ref": "#/$defs/genesisPlusGxCore"
+        },
+        "genesis_plus_gx_wide": {
+          "$ref": "#/$defs/genesisPlusGxWideCore"
+        },
+        "handy": {
+          "$ref": "#/$defs/handyCore"
+        },
+        "mame2003_plus": {
+          "$ref": "#/$defs/mame2003PlusCore"
+        },
+        "mgba": {
+          "$ref": "#/$defs/mgbaCore"
+        },
+        "mednafen_pcfx": {
+          "$ref": "#/$defs/mednafenPcfxCore"
+        },
+        "mednafen_supergrafx": {
+          "$ref": "#/$defs/mednafenSupergrafxCore"
+        },
+        "mednafen_wswan": {
+          "$ref": "#/$defs/mednafenWswanCore"
+        },
+        "picodrive": {
+          "$ref": "#/$defs/picodriveCore"
+        },
+        "pokemini": {
+          "$ref": "#/$defs/pokeminiCore"
+        },
+        "potator": {
+          "$ref": "#/$defs/potatorCore"
+        },
+        "race": {
+          "$ref": "#/$defs/raceCore"
+        },
+        "snes9x2005": {
+          "$ref": "#/$defs/snes9x2005Core"
+        },
+        "snes9x2005_plus": {
+          "$ref": "#/$defs/snes9x2005PlusCore"
+        },
+        "stella2014": {
+          "$ref": "#/$defs/stella2014Core"
+        },
+        "uzem": {
+          "$ref": "#/$defs/uzemCore"
+        },
+        "vecx": {
+          "$ref": "#/$defs/vecxCore"
+        },
+        "vice_x64": {
+          "$ref": "#/$defs/viceX64Core"
+        },
+        "vice_xvic": {
+          "$ref": "#/$defs/viceXvicCore"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/nonNativeCore"
+      }
+    }
+  },
+  "$defs": {
+    "sha1": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "portableFfmpegMakeVariables": {
+      "type": "object",
+      "required": [
+        "ARCH_AARCH64",
+        "ARCH_ARM",
+        "ARCH_X86",
+        "ARCH_X86_64",
+        "HAVE_SSA",
+        "LIBRETRO_EMBED_FFMPEG",
+        "OPENGL"
+      ],
+      "properties": {
+        "ARCH_AARCH64": {
+          "const": 0
+        },
+        "ARCH_ARM": {
+          "const": 0
+        },
+        "ARCH_X86": {
+          "const": 0
+        },
+        "ARCH_X86_64": {
+          "const": 0
+        },
+        "HAVE_SSA": {
+          "const": 0
+        },
+        "LIBRETRO_EMBED_FFMPEG": {
+          "const": 1
+        },
+        "OPENGL": {
+          "const": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "vecxSoftwareMakeVariables": {
+      "type": "object",
+      "required": [
+        "HAS_GPU"
+      ],
+      "properties": {
+        "HAS_GPU": {
+          "const": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "pcfxPortableMakeVariables": {
+      "type": "object",
+      "required": [
+        "IS_X86"
+      ],
+      "properties": {
+        "IS_X86": {
+          "const": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "snes9x2005PlusMakeVariables": {
+      "type": "object",
+      "required": [
+        "USE_BLARGG_APU"
+      ],
+      "properties": {
+        "USE_BLARGG_APU": {
+          "const": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "picodriveRecipeProfile": {
+      "type": "object",
+      "required": [
+        "kind",
+        "git_revision",
+        "armhf_host_tools"
+      ],
+      "propertyNames": {
+        "enum": [
+          "kind",
+          "git_revision",
+          "armhf_host_tools"
+        ]
+      },
+      "properties": {
+        "kind": {
+          "const": "picodrive-v1"
+        },
+        "git_revision": {
+          "const": "-f0d4a011"
+        },
+        "armhf_host_tools": {
+          "type": "object",
+          "required": [
+            "CYCLONE_CC",
+            "CYCLONE_CXX"
+          ],
+          "propertyNames": {
+            "enum": [
+              "CYCLONE_CC",
+              "CYCLONE_CXX"
+            ]
+          },
+          "properties": {
+            "CYCLONE_CC": {
+              "const": "gcc"
+            },
+            "CYCLONE_CXX": {
+              "const": "g++"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "gitVersion": {
+      "type": "object",
+      "required": [
+        "derivation",
+        "value"
+      ],
+      "properties": {
+        "derivation": {
+          "const": "hyphen-short7-v1"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^-[0-9a-f]{7}$"
+        },
+        "compiler_scope": {
+          "const": "cxx"
+        }
+      },
+      "additionalProperties": false
+    },
+    "nativeGitVersion": {
+      "type": "object",
+      "required": [
+        "derivation",
+        "value"
+      ],
+      "properties": {
+        "derivation": {
+          "const": "native-space-short7-v1"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^ [0-9a-f]{7}$"
+        },
+        "compiler_scope": {
+          "enum": [
+            "c",
+            "cxx"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "atari800NativeGitVersion": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/nativeGitVersion"
+        },
+        {
+          "required": [
+            "compiler_scope"
+          ],
+          "propertyNames": {
+            "enum": [
+              "derivation",
+              "value",
+              "compiler_scope"
+            ]
+          },
+          "properties": {
+            "value": {
+              "const": " 9d3bcf2"
+            },
+            "compiler_scope": {
+              "const": "c"
+            }
+          }
+        }
+      ]
+    },
+    "mgbaNativeGitVersion": {
+      "type": "object",
+      "required": [
+        "derivation",
+        "value",
+        "compiler_scope"
+      ],
+      "properties": {
+        "derivation": {
+          "const": "native-space-short9-v1"
+        },
+        "value": {
+          "const": " 6dce57eef"
+        },
+        "compiler_scope": {
+          "const": "c"
+        }
+      },
+      "additionalProperties": false
+    },
+    "mame2003PlusNativeGitVersion": {
+      "type": "object",
+      "required": [
+        "derivation",
+        "value",
+        "compiler_scope"
+      ],
+      "properties": {
+        "derivation": {
+          "const": "native-space-short8-v1"
+        },
+        "value": {
+          "const": " 5373e38e"
+        },
+        "compiler_scope": {
+          "const": "c"
+        }
+      },
+      "additionalProperties": false
+    },
+    "fbneoNativeVersion": {
+      "type": "object",
+      "required": [
+        "derivation",
+        "value",
+        "git_date",
+        "compiler_scope"
+      ],
+      "properties": {
+        "derivation": {
+          "const": "fbneo-native-short9-date-v1"
+        },
+        "value": {
+          "const": "9d7716aa2"
+        },
+        "git_date": {
+          "const": "260503"
+        },
+        "compiler_scope": {
+          "const": "cxx"
+        }
+      },
+      "additionalProperties": false
+    },
+    "nativeGitDescribeVersion": {
+      "type": "object",
+      "required": [
+        "derivation",
+        "value"
+      ],
+      "properties": {
+        "derivation": {
+          "const": "native-git-describe-v1"
+        },
+        "value": {
+          "const": "1.6.6-11-g1123457"
+        }
+      },
+      "additionalProperties": false
+    },
+    "gearboyNativeGitDescribeVersion": {
+      "type": "object",
+      "required": [
+        "derivation",
+        "value"
+      ],
+      "properties": {
+        "derivation": {
+          "const": "native-git-describe-v1"
+        },
+        "value": {
+          "const": "3.8.9-8-g36d723f"
+        }
+      },
+      "additionalProperties": false
+    },
+    "gearsystemNativeGitDescribeVersion": {
+      "type": "object",
+      "required": [
+        "derivation",
+        "value"
+      ],
+      "properties": {
+        "derivation": {
+          "const": "native-git-describe-v1"
+        },
+        "value": {
+          "const": "3.9.12-5-g4f029e4"
+        }
+      },
+      "additionalProperties": false
+    },
+    "viceNativeGitVersion": {
+      "type": "object",
+      "required": [
+        "derivation",
+        "value"
+      ],
+      "properties": {
+        "derivation": {
+          "const": "native-space-short10-v1"
+        },
+        "value": {
+          "const": " 7946cfa0d3"
+        }
+      },
+      "additionalProperties": false
+    },
+    "metadataReplacement": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/atari800MetadataReplacement"
+        },
+        {
+          "$ref": "#/$defs/picodriveMetadataReplacement"
+        },
+        {
+          "$ref": "#/$defs/vecxMetadataReplacement"
+        }
+      ]
+    },
+    "atari800MetadataReplacement": {
+      "type": "object",
+      "required": [
+        "kind",
+        "path",
+        "preimage_sha256",
+        "replacement_sha256"
+      ],
+      "properties": {
+        "kind": {
+          "const": "whole-file-v1"
+        },
+        "path": {
+          "const": "metadata/atari800/source-v1.info"
+        },
+        "preimage_sha256": {
+          "const": "1682c00740626f0bc709dbbcdae1777222773b93a1007bc02e4024df7b181653"
+        },
+        "replacement_sha256": {
+          "const": "4b56fa399760a8c48e6ac8b08ecc2ae2f7163bbfb34f3f08351bc7e092602e5e"
+        }
+      },
+      "additionalProperties": false
+    },
+    "picodriveMetadataReplacement": {
+      "type": "object",
+      "required": [
+        "kind",
+        "path",
+        "preimage_sha256",
+        "replacement_sha256"
+      ],
+      "properties": {
+        "kind": {
+          "const": "whole-file-v1"
+        },
+        "path": {
+          "const": "metadata/picodrive/source-v1.info"
+        },
+        "preimage_sha256": {
+          "const": "35cef57b4b61d95a86e1ceee3a7c325d9d16bbdc136b4b3a556e808864de06c5"
+        },
+        "replacement_sha256": {
+          "const": "ee4443f075c57c90b4d7a99c3a7c7e54ee141b21899dc88a3c8c52152556e181"
+        }
+      },
+      "additionalProperties": false
+    },
+    "vecxMetadataReplacement": {
+      "type": "object",
+      "required": [
+        "kind",
+        "path",
+        "preimage_sha256",
+        "replacement_sha256"
+      ],
+      "properties": {
+        "kind": {
+          "const": "whole-file-v1"
+        },
+        "path": {
+          "const": "metadata/vecx/software-v1.info"
+        },
+        "preimage_sha256": {
+          "const": "9eec259b2b84256aca32cdcd37b084732b17d2fce829dac01bab9a84ea01b4e3"
+        },
+        "replacement_sha256": {
+          "const": "2f22e8069a304878b52aeb5d7f789812bf271c61e5c41e0cb0fbd6acb5d28c1a"
+        }
+      },
+      "additionalProperties": false
+    },
+    "toolchain": {
+      "type": "object",
+      "required": [
+        "image",
+        "image_id",
+        "dockerfile",
+        "dockerfile_sha256",
+        "dockerfile_linkage"
+      ],
+      "properties": {
+        "image": {
+          "type": "string"
+        },
+        "image_id": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "dockerfile": {
+          "type": "string"
+        },
+        "dockerfile_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "dockerfile_linkage": {
+          "const": "unverified-local-cache"
+        }
+      },
+      "additionalProperties": false
+    },
+    "atari800Core": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "validation",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "validation",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-atari800.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/libretro-atari800.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "9d3bcf283502512052e21c6f1453fbdf7aa3122b"
+                },
+                "tree": {
+                  "const": "b42ab0f0a498f3aa076c62825a9082fb7e5889e8"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "atari800_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "$ref": "#/$defs/atari800NativeGitVersion"
+                },
+                "output_path": {
+                  "const": "dist/unix/atari800_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-atari800"
+                },
+                "source_key": {
+                  "const": "atari800"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name",
+                "replacement"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name",
+                  "replacement"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/atari800_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "atari800_libretro.info"
+                },
+                "replacement": {
+                  "$ref": "#/$defs/atari800MetadataReplacement"
+                }
+              }
+            },
+            "validation": {
+              "required": [
+                "forbidden_needed_prefixes"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "forbidden_needed_prefixes"
+                ]
+              },
+              "properties": {
+                "forbidden_needed_prefixes": {
+                  "const": [
+                    "libEGL",
+                    "libGL",
+                    "libGLES",
+                    "libOpenGL",
+                    "libSDL",
+                    "libstdc++",
+                    "libz"
+                  ]
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "fbneoCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "validation",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "validation",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-fbneo.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/FBNeo.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "9d7716aa20cbdf49024f42980c33c7cd366e784f"
+                },
+                "tree": {
+                  "const": "e533af34d2db18f11cefadbb93e509579580d0b7"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "compile_definitions",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_date_epoch",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "compile_definitions",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_date_epoch",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "fbneo_libretro.so"
+                },
+                "compile_definitions": {
+                  "const": {
+                    "armhf": [
+                      "HWCAP2_AES=1",
+                      "HWCAP2_CRC32=16",
+                      "HWCAP2_SHA1=4",
+                      "HWCAP2_SHA2=8"
+                    ]
+                  }
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "$ref": "#/$defs/fbneoNativeVersion"
+                },
+                "output_path": {
+                  "const": "dist/unix/fbneo_libretro.so"
+                },
+                "source_date_epoch": {
+                  "const": 1777823586
+                },
+                "source_dir": {
+                  "const": "libretro-fbneo"
+                },
+                "source_key": {
+                  "const": "fbneo"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/fbneo_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "fbneo_libretro.info"
+                }
+              }
+            },
+            "validation": {
+              "required": [
+                "forbidden_needed_prefixes"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "forbidden_needed_prefixes"
+                ]
+              },
+              "properties": {
+                "forbidden_needed_prefixes": {
+                  "const": [
+                    "libEGL",
+                    "libGL",
+                    "libGLES",
+                    "libOpenGL",
+                    "libSDL",
+                    "libz"
+                  ]
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "mame2003PlusCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "validation",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "validation",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-mame2003_plus.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/mame2003-plus-libretro.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "5373e38e1091eb28f075513ecdc2575bafc8a5e3"
+                },
+                "tree": {
+                  "const": "990e22f33a33cbfe733e22b3b5fef6cda76056fb"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_date_epoch",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_date_epoch",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "mame2003_plus_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "$ref": "#/$defs/mame2003PlusNativeGitVersion"
+                },
+                "output_path": {
+                  "const": "dist/unix/mame2003_plus_libretro.so"
+                },
+                "source_date_epoch": {
+                  "const": 1777763287
+                },
+                "source_dir": {
+                  "const": "libretro-mame2003_plus"
+                },
+                "source_key": {
+                  "const": "mame2003_plus"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/mame2003_plus_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "mame2003_plus_libretro.info"
+                }
+              }
+            },
+            "validation": {
+              "required": [
+                "forbidden_needed_prefixes"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "forbidden_needed_prefixes"
+                ]
+              },
+              "properties": {
+                "forbidden_needed_prefixes": {
+                  "const": [
+                    "libEGL",
+                    "libGL",
+                    "libGLES",
+                    "libOpenGL",
+                    "libSDL",
+                    "libstdc++",
+                    "libz"
+                  ]
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "picodriveCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "validation",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "validation",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-picodrive.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/picodrive.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "f0d4a0118a9733a1f10bce5a4ac772c474f9300d"
+                },
+                "tree": {
+                  "const": "a9e95a725edb219535032f18d03677361d5657bc"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "compile_definitions",
+                "driver",
+                "output_path",
+                "recipe_profile",
+                "source_date_epoch",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "compile_definitions",
+                  "driver",
+                  "output_path",
+                  "overlays",
+                  "recipe_profile",
+                  "source_date_epoch",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "picodrive_libretro.so"
+                },
+                "compile_definitions": {
+                  "const": {
+                    "armhf": [
+                      "HWCAP2_AES=1",
+                      "HWCAP2_CRC32=16",
+                      "HWCAP2_SHA1=4",
+                      "HWCAP2_SHA2=8"
+                    ]
+                  }
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "output_path": {
+                  "const": "libretro-picodrive/picodrive_libretro.so"
+                },
+                "overlays": {
+                  "const": {
+                    "armhf": [
+                      {
+                        "kind": "git-apply-v1",
+                        "patch_path": "patches/picodrive/tools-makefile-single-line-offsets.patch",
+                        "patch_sha256": "2c442768b54d5ffd52ab06530e67dc582c4f9b0dac8f2d1d9ccea9739444053c",
+                        "source_path": "tools/Makefile",
+                        "preimage_sha256": "9c738f02c4afb1b13d95421f74092d9af77b8c8f0f8ae55dfa0e9b7b4f6df44d",
+                        "postimage_sha256": "2d36ea4092510e7547274ac4361897c9992ccb7db2362c622c6d9e1d76426843"
+                      }
+                    ]
+                  }
+                },
+                "recipe_profile": {
+                  "$ref": "#/$defs/picodriveRecipeProfile"
+                },
+                "source_date_epoch": {
+                  "const": 1775134253
+                },
+                "source_dir": {
+                  "const": "libretro-picodrive"
+                },
+                "source_key": {
+                  "const": "picodrive"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name",
+                "replacement"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name",
+                  "replacement"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/picodrive_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "picodrive_libretro.info"
+                },
+                "replacement": {
+                  "$ref": "#/$defs/picodriveMetadataReplacement"
+                }
+              }
+            },
+            "validation": {
+              "required": [
+                "forbidden_needed_prefixes"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "forbidden_needed_prefixes"
+                ]
+              },
+              "properties": {
+                "forbidden_needed_prefixes": {
+                  "const": [
+                    "libEGL",
+                    "libGL",
+                    "libGLES",
+                    "libOpenGL",
+                    "libSDL",
+                    "libstdc++",
+                    "libz"
+                  ]
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "vecxCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "validation",
+            "targets"
+          ],
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-vecx.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/libretro-vecx.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "8f671cc9d737f2890c3ce19e177e2984dcae121f"
+                },
+                "tree": {
+                  "const": "49ae584713edede2a70792ecf6cb744b11fff2e6"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "make_variables",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "properties": {
+                "artifact_name": {
+                  "const": "vecx_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " 8f671cc"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "make_variables": {
+                  "$ref": "#/$defs/vecxSoftwareMakeVariables"
+                },
+                "output_path": {
+                  "const": "dist/unix/vecx_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-vecx"
+                },
+                "source_key": {
+                  "const": "vecx"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name",
+                "replacement"
+              ],
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/vecx_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "vecx_libretro.info"
+                },
+                "replacement": {
+                  "$ref": "#/$defs/vecxMetadataReplacement"
+                }
+              }
+            },
+            "validation": {
+              "required": [
+                "forbidden_needed_prefixes"
+              ],
+              "properties": {
+                "forbidden_needed_prefixes": {
+                  "const": [
+                    "libEGL",
+                    "libGL",
+                    "libGLES",
+                    "libOpenGL"
+                  ]
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "gearboyCore": {
+      "type": "object",
+      "required": [
+        "workflow",
+        "source",
+        "build",
+        "metadata",
+        "targets"
+      ],
+      "propertyNames": {
+        "enum": [
+          "workflow",
+          "source",
+          "build",
+          "metadata",
+          "targets"
+        ]
+      },
+      "properties": {
+        "workflow": {
+          "const": ".github/workflows/build-gearboy.yml"
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "url",
+            "requested_ref",
+            "commit",
+            "tree"
+          ],
+          "propertyNames": {
+            "enum": [
+              "url",
+              "requested_ref",
+              "commit",
+              "tree"
+            ]
+          },
+          "properties": {
+            "url": {
+              "const": "https://github.com/drhelius/Gearboy.git"
+            },
+            "requested_ref": {
+              "const": "refs/heads/master"
+            },
+            "commit": {
+              "const": "36d723ff44109e6d9eefba34e1c9a089c2d50e18"
+            },
+            "tree": {
+              "const": "d01d828b1e5e7330bcf908b19b1afae8c9f8897b"
+            }
+          },
+          "additionalProperties": false
+        },
+        "build": {
+          "type": "object",
+          "required": [
+            "artifact_name",
+            "driver",
+            "git_version",
+            "output_path",
+            "source_dir",
+            "source_key"
+          ],
+          "propertyNames": {
+            "enum": [
+              "artifact_name",
+              "driver",
+              "git_version",
+              "output_path",
+              "source_dir",
+              "source_key"
+            ]
+          },
+          "properties": {
+            "artifact_name": {
+              "const": "gearboy_libretro.so"
+            },
+            "driver": {
+              "const": "libretro-super"
+            },
+            "git_version": {
+              "$ref": "#/$defs/gearboyNativeGitDescribeVersion"
+            },
+            "output_path": {
+              "const": "dist/unix/gearboy_libretro.so"
+            },
+            "source_dir": {
+              "const": "libretro-gearboy"
+            },
+            "source_key": {
+              "const": "gearboy"
+            }
+          },
+          "additionalProperties": false
+        },
+        "metadata": {
+          "type": "object",
+          "required": [
+            "source_path",
+            "artifact_name"
+          ],
+          "propertyNames": {
+            "enum": [
+              "source_path",
+              "artifact_name"
+            ]
+          },
+          "properties": {
+            "source_path": {
+              "const": "/libretro-super/dist/info/gearboy_libretro.info"
+            },
+            "artifact_name": {
+              "const": "gearboy_libretro.info"
+            }
+          },
+          "additionalProperties": false
+        },
+        "targets": {
+          "const": [
+            "arm64",
+            "armhf"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "gearsystemCore": {
+      "type": "object",
+      "required": [
+        "workflow",
+        "source",
+        "build",
+        "metadata",
+        "targets"
+      ],
+      "propertyNames": {
+        "enum": [
+          "workflow",
+          "source",
+          "build",
+          "metadata",
+          "targets"
+        ]
+      },
+      "properties": {
+        "workflow": {
+          "const": ".github/workflows/build-gearsystem.yml"
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "url",
+            "requested_ref",
+            "commit",
+            "tree"
+          ],
+          "propertyNames": {
+            "enum": [
+              "url",
+              "requested_ref",
+              "commit",
+              "tree"
+            ]
+          },
+          "properties": {
+            "url": {
+              "const": "https://github.com/drhelius/Gearsystem.git"
+            },
+            "requested_ref": {
+              "const": "refs/heads/master"
+            },
+            "commit": {
+              "const": "4f029e43f2d5207c5da78792503b0fff89b7b2c5"
+            },
+            "tree": {
+              "const": "8adfb454298c169327d705bebf94e699e5dbf480"
+            }
+          },
+          "additionalProperties": false
+        },
+        "build": {
+          "type": "object",
+          "required": [
+            "artifact_name",
+            "driver",
+            "git_version",
+            "output_path",
+            "source_dir",
+            "source_key"
+          ],
+          "propertyNames": {
+            "enum": [
+              "artifact_name",
+              "driver",
+              "git_version",
+              "output_path",
+              "source_dir",
+              "source_key"
+            ]
+          },
+          "properties": {
+            "artifact_name": {
+              "const": "gearsystem_libretro.so"
+            },
+            "driver": {
+              "const": "libretro-super"
+            },
+            "git_version": {
+              "$ref": "#/$defs/gearsystemNativeGitDescribeVersion"
+            },
+            "output_path": {
+              "const": "dist/unix/gearsystem_libretro.so"
+            },
+            "source_dir": {
+              "const": "libretro-gearsystem"
+            },
+            "source_key": {
+              "const": "gearsystem"
+            }
+          },
+          "additionalProperties": false
+        },
+        "metadata": {
+          "type": "object",
+          "required": [
+            "source_path",
+            "artifact_name"
+          ],
+          "propertyNames": {
+            "enum": [
+              "source_path",
+              "artifact_name"
+            ]
+          },
+          "properties": {
+            "source_path": {
+              "const": "/libretro-super/dist/info/gearsystem_libretro.info"
+            },
+            "artifact_name": {
+              "const": "gearsystem_libretro.info"
+            }
+          },
+          "additionalProperties": false
+        },
+        "targets": {
+          "const": [
+            "arm64",
+            "armhf"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "gearcolecoCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-gearcoleco.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "properties": {
+                "url": {
+                  "const": "https://github.com/drhelius/Gearcoleco.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/main"
+                },
+                "commit": {
+                  "const": "112345747c04eb7752d1939258881aa10319e32e"
+                },
+                "tree": {
+                  "const": "0afbed445cf4689daa878816f961ea4bcb4832a3"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "gearcoleco_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "$ref": "#/$defs/nativeGitDescribeVersion"
+                },
+                "output_path": {
+                  "const": "dist/unix/gearcoleco_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-gearcoleco"
+                },
+                "source_key": {
+                  "const": "gearcoleco"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/gearcoleco_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "gearcoleco_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "viceX64Core": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-vice_x64.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/vice-libretro.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "7946cfa0d3775e958616d4d107de867a4616ae6c"
+                },
+                "tree": {
+                  "const": "db2760ffc97b9c20ef8777fcb7689082be66bc45"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_date_epoch",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_date_epoch",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "vice_x64_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "$ref": "#/$defs/viceNativeGitVersion"
+                },
+                "output_path": {
+                  "const": "dist/unix/vice_x64_libretro.so"
+                },
+                "source_date_epoch": {
+                  "const": 1780486798
+                },
+                "source_dir": {
+                  "const": "libretro-vice"
+                },
+                "source_key": {
+                  "const": "vice_x64"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/vice_x64_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "vice_x64_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "viceXvicCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-vice_xvic.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/vice-libretro.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "7946cfa0d3775e958616d4d107de867a4616ae6c"
+                },
+                "tree": {
+                  "const": "db2760ffc97b9c20ef8777fcb7689082be66bc45"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_date_epoch",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_date_epoch",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "vice_xvic_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "$ref": "#/$defs/viceNativeGitVersion"
+                },
+                "output_path": {
+                  "const": "dist/unix/vice_xvic_libretro.so"
+                },
+                "source_date_epoch": {
+                  "const": 1780486798
+                },
+                "source_dir": {
+                  "const": "libretro-vice"
+                },
+                "source_key": {
+                  "const": "vice_xvic"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/vice_xvic_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "vice_xvic_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "fmsxCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-fmsx.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/fmsx-libretro.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "f013e213458e06d9df718e4bc4b09d46f88aa899"
+                },
+                "tree": {
+                  "const": "ae1b15cee162c073452cc9826b1e208d2250d2bf"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "fmsx_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " f013e21"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/fmsx_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-fmsx"
+                },
+                "source_key": {
+                  "const": "fmsx"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/fmsx_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "fmsx_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "core2048Core": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-2048.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/libretro-2048.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "c90437d3c3913999624deca3fb55ecfa632b72c4"
+                },
+                "tree": {
+                  "const": "5b8bcab69dc90185f10356b5780bf9d827684474"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "2048_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " c90437d"
+                        },
+                        "compiler_scope": {
+                          "const": "c"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/2048_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-2048"
+                },
+                "source_key": {
+                  "const": "2048"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/2048_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "2048_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "core81Core": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-81.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/81-libretro.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "fa7094910d040baa5fd8b11dbf6a1a618330ecd9"
+                },
+                "tree": {
+                  "const": "d73d124d16714e946ba9490627a4fc38c2aea37a"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "generated_source",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "generated_source",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "81_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "generated_source": {
+                  "required": [
+                    "kind",
+                    "path",
+                    "sha256"
+                  ],
+                  "propertyNames": {
+                    "enum": [
+                      "kind",
+                      "path",
+                      "sha256"
+                    ]
+                  },
+                  "properties": {
+                    "kind": {
+                      "const": "post-build-sha256-v1"
+                    },
+                    "path": {
+                      "const": "src/version.c"
+                    },
+                    "sha256": {
+                      "const": "5a07d38a3bcd84ee5fa9abbdbe0bd706288d8ec4ee8095485447e35dc28a2862"
+                    }
+                  }
+                },
+                "output_path": {
+                  "const": "dist/unix/81_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-81"
+                },
+                "source_key": {
+                  "const": "81"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/81_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "81_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "lowresnxCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-lowresnx.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/timoinutilis/lowres-nx.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "35adc1a215e975be964b2ef4b652117acd7beba1"
+                },
+                "tree": {
+                  "const": "766c70ca84d3a48769781072913a01db7f488a7b"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "lowresnx_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " 35adc1a"
+                        },
+                        "compiler_scope": {
+                          "const": "c"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/lowresnx_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-lowresnx"
+                },
+                "source_key": {
+                  "const": "lowresnx"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/lowresnx_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "lowresnx_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "potatorCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-potator.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/potator.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "227c5f6f3ce74d32e9002ce24c1420288559a860"
+                },
+                "tree": {
+                  "const": "9111933525a4508075937f251829132cf2081ba9"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "potator_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " 227c5f6"
+                        },
+                        "compiler_scope": {
+                          "const": "c"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/potator_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-potator"
+                },
+                "source_key": {
+                  "const": "potator"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/potator_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "potator_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "freeintvCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-freeintv.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/FreeIntv.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "428915baf2bfc032fc03e645f4f8f9c6c3144979"
+                },
+                "tree": {
+                  "const": "ca7bcc22845ae696dd0fa011bd7c2486db7990e4"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "freeintv_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "output_path": {
+                  "const": "dist/unix/freeintv_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-freeintv"
+                },
+                "source_key": {
+                  "const": "freeintv"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/freeintv_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "freeintv_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "raceCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-race.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/RACE.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "c7810dd7f172827bfa2004813bc000b13786636b"
+                },
+                "tree": {
+                  "const": "344c09b682f79f2135479bdd0a76d193edfdf167"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "race_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " c7810dd"
+                        },
+                        "compiler_scope": {
+                          "const": "c"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/race_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-race"
+                },
+                "source_key": {
+                  "const": "race"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/race_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "race_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "bluemsxCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-bluemsx.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/blueMSX-libretro.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "5f595c79906ff3379641b5ee8f3796106214a0a4"
+                },
+                "tree": {
+                  "const": "1d6e218616f313f9147aa7ecf3f74584a9aaa23c"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "bluemsx_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " 5f595c7"
+                        },
+                        "compiler_scope": {
+                          "const": "c"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/bluemsx_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-bluemsx"
+                },
+                "source_key": {
+                  "const": "bluemsx"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/bluemsx_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "bluemsx_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "cap32Core": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-cap32.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/libretro-cap32.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "4abfb8be233bec630f369379fb6c1d92d31f1c7d"
+                },
+                "tree": {
+                  "const": "c9704612f7acd0459125bc28427212def1cce681"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "cap32_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " 4abfb8b"
+                        },
+                        "compiler_scope": {
+                          "const": "c"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/cap32_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-cap32"
+                },
+                "source_key": {
+                  "const": "cap32"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/cap32_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "cap32_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "crocodsCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-crocods.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/libretro-crocods.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "87bbb3d9007ac537864278c6c3149ae3291873f8"
+                },
+                "tree": {
+                  "const": "5a76585f521954c8e8ebef9b489a4d6c7a8b73db"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "crocods_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " 87bbb3d"
+                        },
+                        "compiler_scope": {
+                          "const": "c"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/crocods_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-crocods"
+                },
+                "source_key": {
+                  "const": "crocods"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/crocods_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "crocods_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "genesisPlusGxCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-genesis_plus_gx.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/Genesis-Plus-GX.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "fa4dca561e08d5be9077419f7b255e1da213ed21"
+                },
+                "tree": {
+                  "const": "7f4b0916e938e15e046e1c35acd0173aab1aaac3"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "genesis_plus_gx_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " fa4dca5"
+                        },
+                        "compiler_scope": {
+                          "const": "c"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/genesis_plus_gx_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-genesis_plus_gx"
+                },
+                "source_key": {
+                  "const": "genesis_plus_gx"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/genesis_plus_gx_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "genesis_plus_gx_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "genesisPlusGxWideCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-genesis_plus_gx_wide.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/Genesis-Plus-GX-Wide.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/main"
+                },
+                "commit": {
+                  "const": "29d9d104338f46bc2e65438fb207bcf54f701e92"
+                },
+                "tree": {
+                  "const": "27e05ed457d9c10e51b6c69067e1c05599df08fb"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "genesis_plus_gx_wide_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " 29d9d10"
+                        },
+                        "compiler_scope": {
+                          "const": "c"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/genesis_plus_gx_wide_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-genesis_plus_gx_wide"
+                },
+                "source_key": {
+                  "const": "genesis_plus_gx_wide"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/genesis_plus_gx_wide_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "genesis_plus_gx_wide_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "handyCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-handy.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/libretro-handy.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "bc55d462f0b2d6b073ea93dc552ebd73cec60fd1"
+                },
+                "tree": {
+                  "const": "e8cbeec52b120a52c208037a281072656a899ea9"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "handy_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " bc55d46"
+                        },
+                        "compiler_scope": {
+                          "const": "cxx"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/handy_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-handy"
+                },
+                "source_key": {
+                  "const": "handy"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/handy_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "handy_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "stella2014Core": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-stella2014.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/stella2014-libretro.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "4a7da82595d27b8df7af1ecb467a64b642a41bc9"
+                },
+                "tree": {
+                  "const": "25eb55b1241824f7003eb3006847870672bbe4b2"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "stella2014_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " 4a7da82"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/stella2014_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-stella2014"
+                },
+                "source_key": {
+                  "const": "stella2014"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/stella2014_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "stella2014_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "snes9x2005Core": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-snes9x2005.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/snes9x2005.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "b60356971fc9caae02cd0853676dced886a08be7"
+                },
+                "tree": {
+                  "const": "5a13440308796f67a77f7e8fc16bbeee61ab301d"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "snes9x2005_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " b603569"
+                        },
+                        "compiler_scope": {
+                          "const": "c"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/snes9x2005_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-snes9x2005"
+                },
+                "source_key": {
+                  "const": "snes9x2005"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/snes9x2005_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "snes9x2005_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "snes9x2005PlusCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-snes9x2005_plus.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/snes9x2005.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "b60356971fc9caae02cd0853676dced886a08be7"
+                },
+                "tree": {
+                  "const": "5a13440308796f67a77f7e8fc16bbeee61ab301d"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "make_variables",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "make_variables",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "snes9x2005_plus_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " b603569"
+                        },
+                        "compiler_scope": {
+                          "const": "c"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "make_variables": {
+                  "$ref": "#/$defs/snes9x2005PlusMakeVariables"
+                },
+                "output_path": {
+                  "const": "dist/unix/snes9x2005_plus_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-snes9x2005_plus"
+                },
+                "source_key": {
+                  "const": "snes9x2005_plus"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/snes9x2005_plus_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "snes9x2005_plus_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "uzemCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-uzem.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/libretro-uzem.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "d4fe82c38bf3fc789b955bcfcc81dc2e3a2ea89f"
+                },
+                "tree": {
+                  "const": "949f7cb3c2f61295335ea59e35e7d9f031693ac1"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "uzem_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " d4fe82c"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/uzem_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-uzem"
+                },
+                "source_key": {
+                  "const": "uzem"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/uzem_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "uzem_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "mgbaCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-mgba.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/mgba.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "6dce57eef127dc4cc292644f38196e0e7c58590c"
+                },
+                "tree": {
+                  "const": "72edb48f24f569f2b00c850cac61f6db0c80bf4e"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "mgba_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "$ref": "#/$defs/mgbaNativeGitVersion"
+                },
+                "output_path": {
+                  "const": "dist/unix/mgba_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-mgba"
+                },
+                "source_key": {
+                  "const": "mgba"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/mgba_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "mgba_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "pokeminiCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-pokemini.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/PokeMini.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "bb009b1379ad15f1514f20ca7cbf710b4af42b3e"
+                },
+                "tree": {
+                  "const": "f3a98fcf910c07bd9e0f5ee8466bed7865536c33"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "pokemini_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " bb009b1"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/pokemini_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-pokemini"
+                },
+                "source_key": {
+                  "const": "pokemini"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/pokemini_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "pokemini_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "mednafenWswanCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-mednafen_wswan.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/beetle-wswan-libretro.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "da6d0d9acb8d4e9bd6725ab44225a275325d8352"
+                },
+                "tree": {
+                  "const": "1387c79a0f2e8aad511a26fc4b1e272b152c691d"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "mednafen_wswan_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " da6d0d9"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/mednafen_wswan_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-mednafen_wswan"
+                },
+                "source_key": {
+                  "const": "mednafen_wswan"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/mednafen_wswan_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "mednafen_wswan_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "mednafenPcfxCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-mednafen_pcfx.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/beetle-pcfx-libretro.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "650c30ea2203636a1716675854d11c608ed6eacc"
+                },
+                "tree": {
+                  "const": "de7ad272c9210e5dd7772a53a1480dbab47d49cc"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "make_variables",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "make_variables",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "mednafen_pcfx_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " 650c30e"
+                        },
+                        "compiler_scope": {
+                          "const": "cxx"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "make_variables": {
+                  "$ref": "#/$defs/pcfxPortableMakeVariables"
+                },
+                "output_path": {
+                  "const": "dist/unix/mednafen_pcfx_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-mednafen_pcfx"
+                },
+                "source_key": {
+                  "const": "mednafen_pcfx"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/mednafen_pcfx_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "mednafen_pcfx_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "mednafenSupergrafxCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "type": "object",
+          "required": [
+            "workflow",
+            "source",
+            "build",
+            "metadata",
+            "targets"
+          ],
+          "propertyNames": {
+            "enum": [
+              "workflow",
+              "source",
+              "build",
+              "metadata",
+              "targets"
+            ]
+          },
+          "properties": {
+            "workflow": {
+              "const": ".github/workflows/build-mednafen_supergrafx.yml"
+            },
+            "source": {
+              "required": [
+                "url",
+                "requested_ref",
+                "commit",
+                "tree"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "url",
+                  "requested_ref",
+                  "commit",
+                  "tree"
+                ]
+              },
+              "properties": {
+                "url": {
+                  "const": "https://github.com/libretro/beetle-supergrafx-libretro.git"
+                },
+                "requested_ref": {
+                  "const": "refs/heads/master"
+                },
+                "commit": {
+                  "const": "3c6fcd3deded54ebecd69408f108407ac03d11b5"
+                },
+                "tree": {
+                  "const": "076a59d1084ebf3a6ab80f4b5a144fa865c46c9b"
+                }
+              }
+            },
+            "build": {
+              "required": [
+                "artifact_name",
+                "driver",
+                "git_version",
+                "output_path",
+                "source_dir",
+                "source_key"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "artifact_name",
+                  "driver",
+                  "git_version",
+                  "output_path",
+                  "source_dir",
+                  "source_key"
+                ]
+              },
+              "properties": {
+                "artifact_name": {
+                  "const": "mednafen_supergrafx_libretro.so"
+                },
+                "driver": {
+                  "const": "libretro-super"
+                },
+                "git_version": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nativeGitVersion"
+                    },
+                    {
+                      "required": [
+                        "compiler_scope"
+                      ],
+                      "propertyNames": {
+                        "enum": [
+                          "derivation",
+                          "value",
+                          "compiler_scope"
+                        ]
+                      },
+                      "properties": {
+                        "value": {
+                          "const": " 3c6fcd3"
+                        },
+                        "compiler_scope": {
+                          "const": "cxx"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "output_path": {
+                  "const": "dist/unix/mednafen_supergrafx_libretro.so"
+                },
+                "source_dir": {
+                  "const": "libretro-mednafen_supergrafx"
+                },
+                "source_key": {
+                  "const": "mednafen_supergrafx"
+                }
+              }
+            },
+            "metadata": {
+              "required": [
+                "source_path",
+                "artifact_name"
+              ],
+              "propertyNames": {
+                "enum": [
+                  "source_path",
+                  "artifact_name"
+                ]
+              },
+              "properties": {
+                "source_path": {
+                  "const": "/libretro-super/dist/info/mednafen_supergrafx_libretro.info"
+                },
+                "artifact_name": {
+                  "const": "mednafen_supergrafx_libretro.info"
+                }
+              }
+            },
+            "targets": {
+              "const": [
+                "arm64",
+                "armhf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "nonNativeCore": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/core"
+        },
+        {
+          "properties": {
+            "build": {
+              "properties": {
+                "git_version": {
+                  "$ref": "#/$defs/gitVersion"
+                }
+              },
+              "not": {
+                "required": [
+                  "recipe_profile"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "core": {
+      "type": "object",
+      "required": [
+        "workflow",
+        "source",
+        "build",
+        "metadata",
+        "targets"
+      ],
+      "properties": {
+        "workflow": {
+          "type": "string"
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "url",
+            "requested_ref",
+            "commit"
+          ],
+          "properties": {
+            "url": {
+              "type": "string",
+              "pattern": "^https://"
+            },
+            "requested_ref": {
+              "type": "string",
+              "minLength": 1
+            },
+            "commit": {
+              "$ref": "#/$defs/sha1"
+            },
+            "tree": {
+              "$ref": "#/$defs/sha1"
+            }
+          },
+          "additionalProperties": false
+        },
+        "build": {
+          "type": "object",
+          "required": [
+            "driver",
+            "source_dir",
+            "output_path",
+            "artifact_name"
+          ],
+          "properties": {
+            "driver": {
+              "enum": [
+                "libretro-super",
+                "direct-make",
+                "direct-cmake",
+                "direct-cargo"
+              ]
+            },
+            "source_key": {
+              "type": "string"
+            },
+            "source_dir": {
+              "type": "string"
+            },
+            "output_path": {
+              "type": "string"
+            },
+            "artifact_name": {
+              "type": "string",
+              "pattern": "_libretro\\.so$"
+            },
+            "generated_source": {
+              "type": "object",
+              "required": [
+                "kind",
+                "path",
+                "sha256"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "post-build-sha256-v1"
+                },
+                "path": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[A-Za-z0-9._+-]+(?:/[A-Za-z0-9._+-]+)*$"
+                },
+                "sha256": {
+                  "$ref": "#/$defs/sha256"
+                }
+              },
+              "additionalProperties": false
+            },
+            "source_date_epoch": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 253402300799
+            },
+            "platforms": {
+              "type": "object",
+              "required": [
+                "arm64",
+                "armhf"
+              ],
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "compile_definitions": {
+              "type": "object",
+              "minProperties": 1,
+              "propertyNames": {
+                "enum": [
+                  "arm64",
+                  "armhf"
+                ]
+              },
+              "additionalProperties": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z_][A-Z0-9_]*=(0|[1-9][0-9]{0,9})$"
+                }
+              }
+            },
+            "recipe_profile": {
+              "$ref": "#/$defs/picodriveRecipeProfile"
+            },
+            "make_variables": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/portableFfmpegMakeVariables"
+                },
+                {
+                  "$ref": "#/$defs/vecxSoftwareMakeVariables"
+                },
+                {
+                  "$ref": "#/$defs/pcfxPortableMakeVariables"
+                },
+                {
+                  "$ref": "#/$defs/snes9x2005PlusMakeVariables"
+                }
+              ]
+            },
+            "git_version": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/gitVersion"
+                },
+                {
+                  "$ref": "#/$defs/nativeGitVersion"
+                },
+                {
+                  "$ref": "#/$defs/fbneoNativeVersion"
+                },
+                {
+                  "$ref": "#/$defs/mame2003PlusNativeGitVersion"
+                },
+                {
+                  "$ref": "#/$defs/mgbaNativeGitVersion"
+                },
+                {
+                  "$ref": "#/$defs/nativeGitDescribeVersion"
+                },
+                {
+                  "$ref": "#/$defs/viceNativeGitVersion"
+                }
+              ]
+            },
+            "cmake": {
+              "type": "object",
+              "required": [
+                "generator",
+                "build_type",
+                "target",
+                "systems"
+              ],
+              "properties": {
+                "generator": {
+                  "const": "Unix Makefiles"
+                },
+                "build_type": {
+                  "const": "Release"
+                },
+                "target": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9_+-]+$"
+                },
+                "systems": {
+                  "type": "object",
+                  "minProperties": 1,
+                  "properties": {
+                    "arm64": {
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "processor"
+                      ],
+                      "properties": {
+                        "name": {
+                          "const": "Linux"
+                        },
+                        "processor": {
+                          "const": "aarch64"
+                        },
+                        "defines": {
+                          "type": "object",
+                          "minProperties": 1,
+                          "propertyNames": {
+                            "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+                          },
+                          "additionalProperties": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z0-9_./+=-]+$"
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "armhf": {
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "processor"
+                      ],
+                      "properties": {
+                        "name": {
+                          "const": "Linux"
+                        },
+                        "processor": {
+                          "const": "arm"
+                        },
+                        "defines": {
+                          "type": "object",
+                          "minProperties": 1,
+                          "propertyNames": {
+                            "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+                          },
+                          "additionalProperties": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z0-9_./+=-]+$"
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "overlays": {
+              "type": "object",
+              "minProperties": 1,
+              "properties": {
+                "arm64": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "$ref": "#/$defs/overlay"
+                  }
+                },
+                "armhf": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "$ref": "#/$defs/overlay"
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "cargo": {
+              "type": "object",
+              "required": [
+                "subdir",
+                "profile",
+                "lock_sha256",
+                "targets"
+              ],
+              "properties": {
+                "subdir": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[A-Za-z0-9._+-]+(?:/[A-Za-z0-9._+-]+)*$"
+                },
+                "profile": {
+                  "const": "release"
+                },
+                "lock_sha256": {
+                  "$ref": "#/$defs/sha256"
+                },
+                "targets": {
+                  "type": "object",
+                  "required": [
+                    "arm64",
+                    "armhf"
+                  ],
+                  "properties": {
+                    "arm64": {
+                      "type": "string",
+                      "pattern": "^aarch64-unknown-linux-gnu(\\.[0-9]+(\\.[0-9]+)*)?$"
+                    },
+                    "armhf": {
+                      "type": "string",
+                      "pattern": "^armv7-unknown-linux-gnueabihf(\\.[0-9]+(\\.[0-9]+)*)?$"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "required": [
+                  "git_version"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "driver": {
+                    "const": "libretro-super"
+                  }
+                },
+                "anyOf": [
+                  {
+                    "not": {
+                      "required": [
+                        "compile_definitions"
+                      ]
+                    }
+                  },
+                  {
+                    "required": [
+                      "compile_definitions"
+                    ],
+                    "properties": {
+                      "git_version": {
+                        "$ref": "#/$defs/fbneoNativeVersion"
+                      },
+                      "compile_definitions": {
+                        "const": {
+                          "armhf": [
+                            "HWCAP2_AES=1",
+                            "HWCAP2_CRC32=16",
+                            "HWCAP2_SHA1=4",
+                            "HWCAP2_SHA2=8"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "git_version": {
+                    "$ref": "#/$defs/gitVersion"
+                  }
+                },
+                "required": [
+                  "git_version"
+                ]
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "make_variables"
+                  ]
+                }
+              }
+            },
+            {
+              "if": {
+                "required": [
+                  "make_variables"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "driver": {
+                    "const": "libretro-super"
+                  }
+                },
+                "not": {
+                  "required": [
+                    "compile_definitions"
+                  ]
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "make_variables": {
+                    "$ref": "#/$defs/portableFfmpegMakeVariables"
+                  }
+                },
+                "required": [
+                  "make_variables"
+                ]
+              },
+              "then": {
+                "required": [
+                  "source_date_epoch"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "driver": {
+                    "const": "direct-cmake"
+                  }
+                },
+                "required": [
+                  "driver"
+                ]
+              },
+              "then": {
+                "required": [
+                  "source_date_epoch",
+                  "cmake"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "source_key"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "platforms"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "compile_definitions"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "recipe_profile"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "else": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "cmake"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "overlays"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "metadata": {
+          "type": "object",
+          "required": [
+            "source_path",
+            "artifact_name"
+          ],
+          "properties": {
+            "source_path": {
+              "type": "string",
+              "pattern": "^/libretro-super/dist/info/[A-Za-z0-9_+-]+_libretro\\.info$"
+            },
+            "artifact_name": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_+-]+_libretro\\.info$"
+            },
+            "replacement": {
+              "$ref": "#/$defs/metadataReplacement"
+            }
+          },
+          "additionalProperties": false
+        },
+        "validation": {
+          "type": "object",
+          "required": [
+            "forbidden_needed_prefixes"
+          ],
+          "properties": {
+            "forbidden_needed_prefixes": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^lib[A-Za-z0-9_+.-]+$"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "targets": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "arm64",
+              "armhf"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "overlay": {
+      "type": "object",
+      "required": [
+        "kind",
+        "patch_path",
+        "patch_sha256",
+        "source_path",
+        "preimage_sha256",
+        "postimage_sha256"
+      ],
+      "properties": {
+        "kind": {
+          "const": "git-apply-v1"
+        },
+        "patch_path": {
+          "type": "string",
+          "pattern": "^patches/(?!.*\\.\\.)[A-Za-z0-9_+./-]+\\.patch$"
+        },
+        "patch_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "source_path": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_+./-]+$"
+        },
+        "preimage_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "postimage_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

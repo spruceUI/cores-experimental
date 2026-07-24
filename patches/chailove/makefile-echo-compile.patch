@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index f9b4ae0..2e73287 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,7 @@
+ TARGET_NAME := chailove
+ 
+ ifeq ($(VERBOSE),)
+-Q=@
++Q=
+ endif
+ 
+ include Makefile.libretro

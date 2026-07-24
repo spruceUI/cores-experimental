@@ -1,0 +1,11 @@
+diff --git a/dep/openbios/CMakeLists.txt b/dep/openbios/CMakeLists.txt
+index 4bad7b6..7e6c250 100644
+--- a/dep/openbios/CMakeLists.txt
++++ b/dep/openbios/CMakeLists.txt
+@@ -2,5 +2,5 @@ set(SRCS
+   openbios.bin.h
+ )
+ 
+-add_library(openbios INTERFACE ${SRCS})
++add_library(openbios INTERFACE)
+ target_include_directories(openbios INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")

@@ -1,0 +1,41 @@
+# Base pinned by digest. Verified on 2026-07-22 that this digest is the base
+# that built the archived image: its layer0 sha256:470b66ea matches this
+# image's bottom layer exactly, so the pin records provenance rather than
+# asserting an unverified one.
+FROM ubuntu:20.04@sha256:8feb4d8ca5354def3d8fce243717141ce31e2c428701f6682bd2fafe15388214
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Configure multiarch for arm64 cross-compilation
+RUN dpkg --add-architecture arm64 && \
+    sed -i 's/^deb http/deb [arch=amd64] http/g' /etc/apt/sources.list && \
+    echo "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal main restricted universe multiverse" >> /etc/apt/sources.list && \
+    echo "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc-aarch64-linux-gnu \
+    g++-aarch64-linux-gnu \
+    pkg-config \
+    git \
+    ca-certificates \
+    zip \
+    cmake \
+    zlib1g-dev:arm64 \
+    libgl-dev:arm64 \
+    libgles2-mesa-dev:arm64 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Clone libretro-super build system
+# Pinned to the commit baked into the current toolchain archive, verified with
+# `git -C /libretro-super rev-parse HEAD` inside the image. The rules in this
+# tree supply each core's build args, so an unpinned clone could silently change
+# how an already-onboarded core builds on any rebuild.
+RUN git init /libretro-super && \
+    git -C /libretro-super remote add origin https://github.com/libretro/libretro-super.git && \
+    git -C /libretro-super fetch --depth 1 origin 60f5c62789af16379446544d64228afa1d6b28b7 && \
+    git -C /libretro-super checkout --detach FETCH_HEAD
+
+ENV HOST_CC=aarch64-linux-gnu
+
+WORKDIR /libretro-super
