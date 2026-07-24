@@ -1,4 +1,10 @@
-"""Pinned Handy build-evidence tests."""
+"""Handy reviewed pins, lifecycle behaviors, and negative controls.
+
+Promotion-derived bindings are covered for every core by
+``tests/test_evidence_bindings.py`` against ``pins/evidence/handy.json``;
+this file keeps the reviewed caveat tokens plus the lifecycle and
+fail-closed behaviors the parametric gate does not exercise.
+"""
 
 from __future__ import annotations
 
@@ -14,6 +20,7 @@ from core_pipeline_lib.records import compatibility as compatibility_records
 from .support import (
     ROOT,
     copied_e2e_run,
+    evidence_handles,
     file_sha256,
     load_core_documents,
     load_document,
@@ -24,62 +31,19 @@ from .support import (
 
 CORE_ID = "handy"
 OTHER_CORE_ID = "stella2014"
-PIN_NAME = "handy-bc55d462f0b2-c82a2178b4f0.json"
-SEMANTIC_ID = PIN_NAME.removesuffix(".json")
-PIN_PATH = f"pins/core-sets/{PIN_NAME}"
-SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
-SOURCE_COMMIT = "bc55d462f0b2d6b073ea93dc552ebd73cec60fd1"
-SOURCE_LOCK_ID = "handy-bc55d462f0b2"
-SELECTION_SHA256 = (
-    "c82a2178b4f03ee30877d895a71bb77b338af69b77cce8d299c2592e5a9e0796"
-)
-# These fresh run IDs use the individual-core lifecycle namespace.
-SELECTED_RUN = "actions-sim-build-core-handy-w3"
-REPRODUCTION_RUN = "build-core-handy-local-w3"
-PACKAGE_SHA256 = (
-    "09adcfe588d3bd9503ed7d058081623186d16044b1024b0d6995d8d8a25a645e"
-)
-TARGETS = {
-    "arm64": {
-        "artifact_sha256": (
-            "d15bfad88cf605f42f99d6e7d75f95f874d381755e9a3f5b0b5d6fd327cc1575"
-        ),
-        "elf": "ELF64/AArch64",
-        "needed": [
-            "ld-linux-aarch64.so.1",
-            "libc.so.6",
-            "libgcc_s.so.1",
-            "libstdc++.so.6",
-        ],
-        "version_requirements": [
-            "CXXABI_1.3",
-            "CXXABI_1.3.9",
-            "GCC_3.0",
-            "GLIBCXX_3.4",
-            "GLIBC_2.17",
-        ],
-    },
-    "armhf": {
-        "artifact_sha256": (
-            "a45293fa6c74a245304228ae7571c7f59ffe97648d9673c3cdfba01cb0afa9d4"
-        ),
-        "elf": "ELF32/ARM hard-float",
-        "needed": [
-            "libc.so.6",
-            "libgcc_s.so.1",
-            "libm.so.6",
-            "libstdc++.so.6",
-        ],
-        "version_requirements": [
-            "CXXABI_1.3",
-            "CXXABI_1.3.9",
-            "GCC_3.5",
-            "GLIBCXX_3.4",
-            "GLIBC_2.4",
-            "GLIBC_2.7",
-        ],
-    },
-}
+
+_H = evidence_handles(CORE_ID)
+PIN_NAME = _H["PIN_NAME"]
+SEMANTIC_ID = _H["SEMANTIC_ID"]
+PIN_PATH = _H["PIN_PATH"]
+SOURCE_SET_PATH = _H["SOURCE_SET_PATH"]
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_LOCK_ID = _H["SOURCE_LOCK_ID"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+TARGETS = _H["TARGETS"]
+
+# Reviewed caveat tokens the promoted compatibility document must retain.
 CAVEAT_TOKENS = (
     "13 C and 12 C++",
     "Handy 0.97",
@@ -90,140 +54,11 @@ CAVEAT_TOKENS = (
 
 
 class HandyCoreEvidenceTests(unittest.TestCase):
-    def test_individual_pin_and_compatibility_bind_promoted_evidence(self) -> None:
-        pin_path, pin, compatibility_path, compatibility = load_core_documents(
-            CORE_ID, PIN_NAME
-        )
-
-        report = pipeline.validate_pin_set_document(pin, document_path=pin_path)
-        self.assertEqual("valid", report["status"], report["errors"])
-        compatibility_report = pipeline.validate_core_compatibility_document(
-            compatibility,
-            document_path=compatibility_path,
-            repository_root=ROOT,
-        )
-        self.assertEqual(
-            "valid",
-            compatibility_report["status"],
-            compatibility_report["errors"],
-        )
-        self.assertEqual(PIN_NAME.removesuffix(".json"), pin["pin_id"])
-        self.assertEqual([CORE_ID], pin["scope"])
-        self.assertEqual({CORE_ID}, set(pin["cores"]))
-        self.assertEqual(CORE_ID, compatibility["core_id"])
-        self.assertEqual("disabled", compatibility["publication"])
-        self.assertEqual(
-            "workspace-local-ignored", compatibility["evidence_availability"]
-        )
-        self.assertEqual(PIN_PATH, compatibility["golden_source"])
-
-        selection = pin["cores"][CORE_ID]["selection"]
-        self.assertEqual(SELECTION_SHA256, selection["selection_sha256"])
-        self.assertEqual(SOURCE_COMMIT, compatibility["source_commit"])
-        self.assertEqual("reproducible", compatibility["package_state"])
-        self.assertEqual(PACKAGE_SHA256, compatibility["package_sha256"])
-        self.assertEqual(PACKAGE_SHA256, selection["package"]["sha256"])
-        self.assertEqual(PACKAGE_SHA256, selection["e2e"]["package_sha256"])
-        self.assertEqual(SELECTED_RUN, selection["e2e"]["run_id"])
-        self.assertEqual(
-            selection["e2e"]["content_sha256"],
-            compatibility["selected_e2e_content_sha256"],
-        )
-        self.assertEqual(
-            load_document(
-                ROOT
-                / ".local-e2e"
-                / "runs"
-                / REPRODUCTION_RUN
-                / "e2e-record.json"
-            )["content_sha256"],
-            compatibility["reproduction_e2e_content_sha256"],
-        )
-        self.assertEqual(
-            f".local-e2e/runs/{SELECTED_RUN}/e2e-record.json",
-            compatibility["e2e_run"],
-        )
-        self.assertEqual(
-            f".local-e2e/runs/{REPRODUCTION_RUN}/e2e-record.json",
-            compatibility["reproduction_run"],
-        )
+    def test_compatibility_retains_reviewed_caveat_tokens(self) -> None:
+        _, _, _, compatibility = load_core_documents(CORE_ID, PIN_NAME)
         caveats = "\n".join(compatibility["caveats"])
         for token in CAVEAT_TOKENS:
             self.assertIn(token, caveats)
-
-        self.assertEqual(set(TARGETS), set(compatibility["targets"]))
-        self.assertEqual(set(TARGETS), set(selection["targets"]))
-        for architecture, expected in TARGETS.items():
-            with self.subTest(architecture=architecture):
-                target = compatibility["targets"][architecture]
-                selected_target = selection["targets"][architecture]
-                golden_record = selected_target["golden_record"]
-                artifact = golden_record["artifact"]
-
-                self.assertEqual(CORE_ID, golden_record["core_id"])
-                self.assertEqual(SOURCE_COMMIT, golden_record["source"]["commit"])
-                self.assertEqual("local_static_build_golden", target["state"])
-                self.assertEqual("static-build-only", target["validation_scope"])
-                self.assertEqual(
-                    "needs-target-runtime", target["runtime_validation"]
-                )
-                self.assertEqual(expected["artifact_sha256"], target["artifact_sha256"])
-                self.assertEqual(
-                    expected["artifact_sha256"], selected_target["artifact"]["sha256"]
-                )
-                self.assertEqual(expected["artifact_sha256"], artifact["sha256"])
-                self.assertEqual(expected["elf"], target["elf"])
-                self.assertEqual(expected["needed"], target["needed"])
-                self.assertEqual(expected["needed"], artifact["needed"])
-                self.assertEqual(
-                    expected["version_requirements"], target["version_requirements"]
-                )
-                self.assertEqual(
-                    expected["version_requirements"],
-                    artifact["version_requirements"],
-                )
-
-                snapshot_reference = golden_record["local_store"][
-                    "recipe_snapshots"
-                ][architecture]
-                snapshot_path = ROOT / snapshot_reference["path"]
-                snapshot = load_document(snapshot_path)
-                self.assertEqual(9, snapshot["schema_version"])
-                self.assertEqual(
-                    [],
-                    pipeline.verify_recipe_snapshot(
-                        snapshot_path,
-                        golden_record,
-                        f"{CORE_ID}/{architecture}",
-                    ),
-                )
-
-    def test_fresh_selected_and_reproduction_runs_are_byte_identical(
-        self,
-    ) -> None:
-        selected_root = ROOT / ".local-e2e" / "runs" / SELECTED_RUN
-        reproduction_root = ROOT / ".local-e2e" / "runs" / REPRODUCTION_RUN
-        compared_paths = [Path("handy_libretro.zip")]
-        for architecture in TARGETS:
-            compared_paths.extend(
-                Path(CORE_ID) / architecture / name
-                for name in (
-                    "build.log",
-                    "handy_libretro.info",
-                    "handy_libretro.so",
-                )
-            )
-
-        for relative_path in compared_paths:
-            with self.subTest(path=relative_path):
-                selected_path = selected_root / relative_path
-                reproduction_path = reproduction_root / relative_path
-                self.assertTrue(selected_path.is_file())
-                self.assertTrue(reproduction_path.is_file())
-                self.assertEqual(
-                    file_sha256(selected_path),
-                    file_sha256(reproduction_path),
-                )
 
     def test_individual_source_set_maps_build_profiles_without_device_claims(
         self,

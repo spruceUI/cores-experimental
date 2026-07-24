@@ -101,3 +101,132 @@ def load_core_documents(
         compatibility_path,
         load_document(compatibility_path),
     )
+
+
+def evidence_index(core_id: str) -> dict[str, Any]:
+    """Load the generated per-core evidence index (pins/evidence)."""
+
+    return load_document(ROOT / "pins" / "evidence" / f"{core_id}.json")
+
+
+def evidence_handles(core_id: str) -> dict[str, Any]:
+    """Legacy-shaped promotion-derived constants for one core.
+
+    Derived entirely from the tracked evidence index and catalog so that
+    per-core test files carry no transcribed literals; the parametric
+    gate (tests/test_evidence_bindings.py) proves the index against the
+    promoted disk state.
+    """
+
+    index = evidence_index(core_id)
+    spec = load_document(ROOT / "manifests" / "core-builds.json")["cores"][
+        core_id
+    ]
+    compatibility = load_document(
+        ROOT / "manifests" / "compatibility" / f"{core_id}.json"
+    )
+    selected = index["runs"]["selected"]
+    reproduction = index["runs"]["reproduction"]
+    targets: dict[str, Any] = {}
+    for arch, bound in index["targets"].items():
+        runs = {
+            selected["run_id"]: selected["builds"][arch],
+            reproduction["run_id"]: reproduction["builds"][arch],
+        }
+        targets[arch] = {
+            **{
+                key: compatibility["targets"][arch][key]
+                for key in ("elf", "needed", "version_requirements")
+                if key in compatibility["targets"][arch]
+            },
+            "artifact_sha256": bound["artifact_sha256"],
+            "artifact_size": bound["artifact_size"],
+            "image_id": bound["image_id"],
+            "archive_sha256": bound["toolchain_archive_sha256"],
+            "toolchain_archive_sha256": bound["toolchain_archive_sha256"],
+            "toolchain_archive_size": bound["toolchain_archive_size"],
+            "record_sha256": {
+                run_id: build["record_sha256"]
+                for run_id, build in runs.items()
+            },
+            "log_sha256": {
+                run_id: build["log_sha256"] for run_id, build in runs.items()
+            },
+            "log_size": {
+                run_id: build["log_size"] for run_id, build in runs.items()
+            },
+        }
+    semantic_id = index["semantic_id"]
+    source_commit = spec["source"]["commit"]
+    return {
+        "SEMANTIC_ID": semantic_id,
+        "PIN_NAME": f"{semantic_id}.json",
+        "PIN_PATH": index["pin_path"],
+        "SOURCE_SET_PATH": index["source_set_path"],
+        "SOURCE_COMMIT": source_commit,
+        "SOURCE_TREE": spec["source"]["tree"],
+        "SOURCE_LOCK_ID": f"{core_id}-{source_commit[:12]}",
+        "SELECTION_SHA256": index["selection_sha256"],
+        "PACKAGE_SHA256": index["package"]["sha256"],
+        "PACKAGE_SIZE": index["package"]["size"],
+        "SELECTED_RUN": selected["run_id"],
+        "REPRODUCTION_RUN": reproduction["run_id"],
+        "E2E_FILE_SHA256": {
+            selected["run_id"]: selected["e2e_file_sha256"],
+            reproduction["run_id"]: reproduction["e2e_file_sha256"],
+        },
+        "E2E_CONTENT_SHA256": {
+            selected["run_id"]: selected["e2e_content_sha256"],
+            reproduction["run_id"]: reproduction["e2e_content_sha256"],
+        },
+        "SELECTED_E2E_CONTENT_SHA256": selected["e2e_content_sha256"],
+        "REPRODUCTION_E2E_CONTENT_SHA256": reproduction["e2e_content_sha256"],
+        "COMPATIBILITY_FILE_SHA256": index["compatibility"]["file_sha256"],
+        "COMPATIBILITY_CONTENT_SHA256": index["compatibility"][
+            "content_sha256"
+        ],
+        "REPOSITORY_COMMIT": selected["builds"][
+            next(iter(index["targets"]))
+        ]["repository_head"],
+        "TARGETS": targets,
+        **_recipe_handles(core_id, index, selected),
+    }
+
+
+def _recipe_handles(
+    core_id: str, index: dict[str, Any], selected: dict[str, Any]
+) -> dict[str, Any]:
+    """Recipe/toolchain identity facts from the selected run's record."""
+
+    first_arch = next(iter(index["targets"]))
+    record = load_document(
+        ROOT
+        / ".local-e2e/runs"
+        / selected["run_id"]
+        / core_id
+        / first_arch
+        / "build-record.json"
+    )
+    recipe = record["recipe"]
+    toolchain = record["toolchain"]
+    lock = toolchain["archive_provenance"]["lock"]
+    pin_path = ROOT / index["pin_path"]
+    handles: dict[str, Any] = {
+        "PIN_FILE_SHA256": file_sha256(pin_path),
+        "PIN_CONTENT_SHA256": load_document(pin_path)["content_sha256"],
+        "CATALOG_SHA256": recipe["catalog_sha256"],
+        "CORE_SPEC_SHA256": recipe["core_spec_sha256"],
+        "PIPELINE_SHA256": recipe["pipeline_sha256"],
+        "PIPELINE_BUNDLE_CONTENT_SHA256": recipe["pipeline_bundle"][
+            "content_sha256"
+        ],
+        "WORKFLOW_SHA256": recipe["workflow_sha256"],
+        "RECIPE_HEAD": recipe["repository_head"],
+        "TOOLCHAIN_LOCK_FILE_SHA256": lock["file_sha256"],
+        "TOOLCHAIN_LOCK_CONTENT_SHA256": lock["content_sha256"],
+        "LIBRETRO_SUPER_COMMIT": toolchain.get("libretro_super_commit"),
+    }
+    git_version = record["build"].get("git_version")
+    if isinstance(git_version, dict):
+        handles["GIT_VERSION"] = git_version.get("value")
+    return handles
