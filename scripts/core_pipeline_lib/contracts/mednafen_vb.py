@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 import shlex
+from collections import Counter
 
 from .compiler import TARGET_COMPILERS
 from .mixed_language import (
@@ -275,8 +276,11 @@ def mednafen_vb_log_proves_contract(
         or MEDNAFEN_VB_MAKE_FAILURE_RE.search(build_log_text) is not None
         or source_lines != (MEDNAFEN_VB_SOURCE_HEAD_MARKER,)
         or pipeline_marker_lines
-        or note_lines != expected_notes
-        or diagnostic_context != expected_diagnostic_context
+        # Order-tolerant (Counter) note/diagnostic comparison: parallel make
+        # interleaves complete lines differently per -j level and host (the
+        # mednafen_lynx/ngp precedent); the exact line SET stays pinned.
+        or Counter(note_lines) != Counter(expected_notes)
+        or Counter(diagnostic_context) != Counter(expected_diagnostic_context)
         or len(success_positions) != 2
         or tuple(lines[-len(MEDNAFEN_VB_SUCCESS_TRAILER) :])
         != MEDNAFEN_VB_SUCCESS_TRAILER
@@ -315,8 +319,11 @@ def mednafen_vb_log_proves_contract(
         or link_positions[0] != expected_link_position
         or (
             bool(expected_diagnostic_context)
+            # Diagnostics interleave among parallel compiles (per -j level
+            # and host), but they can only be emitted DURING compilation:
+            # after the source checkout marker and before the link.
             and not (
-                max(compile_positions) < min(diagnostic_positions)
+                source_position < min(diagnostic_positions)
                 and max(diagnostic_positions) < link_positions[0]
             )
         )

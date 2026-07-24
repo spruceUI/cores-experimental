@@ -823,7 +823,10 @@ class MednafenVbCoreEvidenceTests(unittest.TestCase):
                         expected_targets,
                     )
 
-    def test_reproduction_rejects_impossible_diagnostic_reordering(self) -> None:
+    def test_reproduction_tolerates_reorder_but_rejects_content_drift(self) -> None:
+        # Parallel make interleaves complete diagnostic lines differently per
+        # -j level and host, so a multiset-preserving reorder must PROVE; a
+        # content change to any diagnostic line must still fail closed.
         _, _, compatibility_path, compatibility = load_core_documents(
             CORE_ID, PIN_NAME
         )
@@ -850,7 +853,7 @@ class MednafenVbCoreEvidenceTests(unittest.TestCase):
                 Counter(log_text.splitlines(keepends=True)),
                 Counter(reordered_log.splitlines(keepends=True)),
             )
-            self.assertFalse(
+            self.assertTrue(
                 mednafen_vb.mednafen_vb_log_proves_contract(
                     reordered_log,
                     CORE_ID,
@@ -859,7 +862,23 @@ class MednafenVbCoreEvidenceTests(unittest.TestCase):
                     SOURCE_TREE,
                 )
             )
-            log_path.write_text(reordered_log, encoding="utf-8")
+            drifted_line = diagnostic_lines[0].replace(
+                "vector:72", "vector:73", 1
+            )
+            self.assertNotEqual(drifted_line, diagnostic_lines[0])
+            drifted_log = log_text.replace(
+                diagnostic_lines[0], drifted_line, 1
+            )
+            self.assertFalse(
+                mednafen_vb.mednafen_vb_log_proves_contract(
+                    drifted_log,
+                    CORE_ID,
+                    "armhf",
+                    SOURCE_COMMIT,
+                    SOURCE_TREE,
+                )
+            )
+            log_path.write_text(drifted_log, encoding="utf-8")
             record["build"]["log_sha256"] = file_sha256(log_path)
             write_document(record_path, record)
             refresh_copied_e2e(run_root, evidence, pipeline.e2e_content_sha256)
@@ -881,9 +900,13 @@ class MednafenVbCoreEvidenceTests(unittest.TestCase):
             registered_contract = pipeline.core_log_contract_for(CORE_ID)
             self.assertIsNotNone(registered_contract)
             assert registered_contract is not None
+            # Content drift changes the log multiset, so validation may fail
+            # at the reproduction-comparison gate before the contract proof
+            # reruns; either rejection is the fail-closed outcome.
             self.assertTrue(
                 any(
                     registered_contract.failure_message in error
+                    or "historical build differs" in error
                     for error in report["errors"]
                 ),
                 report["errors"],

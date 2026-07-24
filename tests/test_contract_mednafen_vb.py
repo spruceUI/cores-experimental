@@ -413,11 +413,6 @@ class MednafenVbContractTests(unittest.TestCase):
                 mutations["changed-note"] = log.replace(
                     "changed in GCC 7.1", "changed in GCC 8.1", 1
                 )
-                mutations["reordered-context"] = log.replace(
-                    context[0] + "\n" + context[1],
-                    context[1] + "\n" + context[0],
-                    1,
-                )
                 mutations["early-context"] = log.replace(
                     context_block, "", 1
                 ).replace(
