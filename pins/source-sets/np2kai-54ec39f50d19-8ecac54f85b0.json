@@ -1,14 +1,14 @@
 {
   "$schema": "../../manifests/core-source-set.schema.json",
   "schema_version": 1,
-  "source_set_id": "np2kai-54ec39f50d19-b470beaeac83",
+  "source_set_id": "np2kai-54ec39f50d19-8ecac54f85b0",
   "local_only": true,
   "publication": "disabled",
   "evidence_pin": {
-    "path": "pins/core-sets/np2kai-54ec39f50d19-b470beaeac83.json",
-    "pin_id": "np2kai-54ec39f50d19-b470beaeac83",
-    "file_sha256": "97e2481696e4c0d519c4808c048872953e058629da81c833641179cd6da74d85",
-    "content_sha256": "17a68501c560ea31fb9672590768a40c3b3c015477ddde3ea2fc29dff72a2445"
+    "path": "pins/core-sets/np2kai-54ec39f50d19-8ecac54f85b0.json",
+    "pin_id": "np2kai-54ec39f50d19-8ecac54f85b0",
+    "file_sha256": "0284a7eedb624f5ad6167106b63ed1ce95314c7be7fe76ff5ad16e8697234707",
+    "content_sha256": "31caa60e392a87fcbb6490f4430d7da9ff40a5dda58873ad38cbccc372f3f057"
   },
   "sources": {
     "np2kai": {
@@ -19,5 +19,5 @@
       "content_sha256": "17238948a580c0fae37e897f789907d1cc9a814b9e369b729ba019d550caa39d"
     }
   },
-  "content_sha256": "d99cbd758d4d119f30279fd9f33119fda49a2ddac5d59513777025fffb64c83b"
+  "content_sha256": "df324f29df9591a1b929f8d40383318c0a1b516b90f64fb8b9faecf6e1a0d8b6"
 }

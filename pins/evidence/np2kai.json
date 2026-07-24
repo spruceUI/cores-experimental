@@ -1,70 +1,70 @@
 {
   "$schema": "../../manifests/evidence-index.schema.json",
   "compatibility": {
-    "content_sha256": "0ec9d172879624b1a035ddffbe90c8bc6a593ba55208c9d0e65b579ad2bec46d",
-    "file_sha256": "94ee864f112476ef60156d14c278821b4afeabe5a4504660ade03666837d14cf"
+    "content_sha256": "dfaf157949a46693c76c3b66233dcbae6cfbfb3e6a09a383f4e51a7e8daa4d23",
+    "file_sha256": "822f4c258c4f1eca14a8074132a94e6d71f552b06055739990a36281faa683fb"
   },
   "core_id": "np2kai",
   "local_only_evidence": true,
   "package": {
-    "sha256": "b9ec8187b55fdea67d42e6d0cb03e9a17f4e7d08804a62847fdcbfc979600146",
-    "size": 1782076
+    "sha256": "37e9302f56479a2b236bd189250f84475ed25d0b440e715b9318cbd4d1fa5a44",
+    "size": 1781539
   },
-  "pin_path": "pins/core-sets/np2kai-54ec39f50d19-b470beaeac83.json",
+  "pin_path": "pins/core-sets/np2kai-54ec39f50d19-8ecac54f85b0.json",
   "publication": "disabled",
   "runs": {
     "reproduction": {
       "builds": {
         "arm64": {
-          "log_sha256": "9338137a04bbfb0f1ee0a0bf0864e19114d8d438aa563c67b05cc05daebe101a",
+          "log_sha256": "9c5da5ebfc3abf5ae9b237751d48afd862e6acd5f6048acb409aa2b1ec89585b",
           "log_size": 2151448,
-          "record_sha256": "7c076552cba4cf67376b09a60188e6e65c1055e5b27a6edb9f422d62db7be258",
+          "record_sha256": "a7ae782d4dd453ddb5ec31b3498294f14edecebc919b8c73a7722d0f9164e63c",
           "repository_dirty": false,
-          "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e"
+          "repository_head": "c17c7b2557d9f28e1dfc5dbb7c083ed564859d47"
         },
         "armhf": {
-          "log_sha256": "495ca894ad4172a125c1f4498b1f66bd0011ad002503f5e9826e90fb32a132fd",
+          "log_sha256": "171b273d5606bddfd518734bc2a0b8c0e7ffdcf41a2170a8573ffe829ae739dd",
           "log_size": 2208129,
-          "record_sha256": "9d1c0b6d6f86df410422cd9fb713aceca26ff5b0cbc31b5dacfce95187b64e0e",
+          "record_sha256": "7ec4f12853b1cf7b06cc005e4342713f32d82263ec71d9bd969674db5426c9fb",
           "repository_dirty": false,
-          "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e"
+          "repository_head": "c17c7b2557d9f28e1dfc5dbb7c083ed564859d47"
         }
       },
-      "e2e_content_sha256": "52f5dd9cd6d51a65dd145e3d151942172645c1c10e76e75556766d4fd0860c7f",
-      "e2e_file_sha256": "57c97ba2cc7ffc97634b6bff5e50fff5c9ca07085e1ee43799c19b061f9b49a8",
-      "run_id": "build-core-np2kai-local-w4"
+      "e2e_content_sha256": "57903216b4b4ad60d54b0885d43da1ec2a2b21f92119f41ca6a09aa2c2d3f501",
+      "e2e_file_sha256": "8fb515dcb4520a77d43b269ece6612b7bebdc0c33749f62e3be73149bb95b0e0",
+      "run_id": "build-core-np2kai-local-w4b"
     },
     "selected": {
       "builds": {
         "arm64": {
-          "log_sha256": "c3ea7ab9d58ed4117fc053f6aeec92608a5b81ebe269976aad1831c72210f561",
+          "log_sha256": "b87e28f697331b59050f6dec7d2f4a26226671e544c25a69f32b6f70009a77ab",
           "log_size": 2151448,
-          "record_sha256": "6de3a913646b97ea5604256e35d0573b51517aabcff2dda08d5b9571a6358d36",
+          "record_sha256": "09a8bd78c30180cbee234eaa38aa9f990e30083bde7214832cd7ae5aa8036f1b",
           "repository_dirty": false,
-          "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e"
+          "repository_head": "c17c7b2557d9f28e1dfc5dbb7c083ed564859d47"
         },
         "armhf": {
-          "log_sha256": "de64cdf06eb53444a5d33ff77269a22a186e974b39abc103cab747cccf157b2d",
+          "log_sha256": "dfd33c5bd192bb7d7f533a81af18be39e3bf24a7a2657dc60e0271a23a71bd5d",
           "log_size": 2208129,
-          "record_sha256": "56a98259d7589df7b1b5c306235927c54d3f73be89b484d4af4c39b63f80e848",
+          "record_sha256": "9e88b3d696437bac64fcd3a86dc00fd023d57167f8143b0be2ecc5f2d953bb30",
           "repository_dirty": false,
-          "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e"
+          "repository_head": "c17c7b2557d9f28e1dfc5dbb7c083ed564859d47"
         }
       },
-      "e2e_content_sha256": "5d08aba41a2351a4a9d46ea1fb3d28ca7efc8952bd88e2b215f3ee166d786f76",
-      "e2e_file_sha256": "c72e99e6218bb0709ec99f9fcb9c08d15ee507fbe048acecf7f7ecd73a0c8707",
-      "run_id": "actions-sim-build-core-np2kai-w4"
+      "e2e_content_sha256": "464a9d3fdca6bc12d06840e52e1a97c33cc3d123d4ab8770576d356eba3285d4",
+      "e2e_file_sha256": "b7694a254cb3c7d5c50530c1116f9abdb339e0c4ed3193f1825d7559806c6144",
+      "run_id": "actions-sim-build-core-np2kai-w4b"
     }
   },
   "schema_version": 1,
-  "selection_sha256": "b470beaeac834ac9bab49a7317e8dab8332e3061cb765362ce1407a54f73e402",
-  "semantic_id": "np2kai-54ec39f50d19-b470beaeac83",
+  "selection_sha256": "8ecac54f85b0f4289373e5a5479ccdee22faed91ad92a3eedb346265e7720b5a",
+  "semantic_id": "np2kai-54ec39f50d19-8ecac54f85b0",
   "source_commit": "54ec39f50d197cc02909cd4fd2a8591bb38651b0",
-  "source_set_path": "pins/source-sets/np2kai-54ec39f50d19-b470beaeac83.json",
+  "source_set_path": "pins/source-sets/np2kai-54ec39f50d19-8ecac54f85b0.json",
   "targets": {
     "arm64": {
-      "artifact_sha256": "d52a007fe5ecd7ce5a019b6a1a157aa1ff6e4c0bfdf04f00c8eb3a4a7273135a",
-      "artifact_size": 2748312,
+      "artifact_sha256": "7a4e6f2b08a83b4cd9a3bfe17b072100038e7f8fc24274b9f9e3555fefdaf3f6",
+      "artifact_size": 2740000,
       "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
       "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
       "toolchain_archive_size": 502531978
