@@ -456,17 +456,9 @@ class MednafenVbCoreEvidenceTests(unittest.TestCase):
             contract.expected_link_object_sha256,
             contract.expected_raw_link_object_sha256,
         )
-        self.assertEqual(
-            {
-                "arm64": (
-                    "1a9fd96943f2df119297cc9a74fa04d26861d2164c4168e0216c23982ff8104f"
-                ),
-                "armhf": (
-                    "046c8e5464451b8d3bf23d37dac17371e36fb313edc89869b36f49afcff64b85"
-                ),
-            },
-            dict(contract.expected_ordered_link_argv_sha256),
-        )
+        # No ordered-link-argv pin: the Makefile's object order is filesystem
+        # enumeration, tolerated by design; the object multisets stay pinned.
+        self.assertIsNone(contract.expected_ordered_link_argv_sha256)
         self.assertEqual(
             "native-space-short7-v1",
             mednafen_vb.MEDNAFEN_VB_NATIVE_GIT_VERSION_DERIVATION,

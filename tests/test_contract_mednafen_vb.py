@@ -358,15 +358,6 @@ class MednafenVbContractTests(unittest.TestCase):
                 link_line.replace("-Wl,--no-undefined", "-Wl,--as-needed", 1),
                 1,
             ),
-            "link-order": log.replace(
-                link_line,
-                link_line.replace(
-                    "mednafen/mempatcher.o libretro.o",
-                    "libretro.o mednafen/mempatcher.o",
-                    1,
-                ),
-                1,
-            ),
             "raw-link-path": log.replace(
                 link_line,
                 link_line.replace(
