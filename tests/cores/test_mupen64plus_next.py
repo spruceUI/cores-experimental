@@ -10,15 +10,16 @@ from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import mupen64plus_next
 from core_pipeline_lib.contracts.c_asm import c_asm_log_proves_contract
 
-from .support import ROOT, load_document
+from .support import evidence_handles, ROOT, load_document
 
 
 CORE_ID = "mupen64plus_next"
+_H = evidence_handles(CORE_ID)
 SOURCE_URL = "https://github.com/libretro/mupen64plus-libretro-nx.git"
 SOURCE_COMMIT = "98c1b0d877542b01314b3b04272282ba223b65b3"
 SOURCE_TREE = "e82f86deaeb37d3df9ad2673b53738af96848325"
-SELECTED_RUN = "actions-sim-build-core-mupen64plus_next-w3"
-REPRODUCTION_RUN = "build-core-mupen64plus_next-local-w3"
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
 
 
 class Mupen64PlusNextManifestTests(unittest.TestCase):
