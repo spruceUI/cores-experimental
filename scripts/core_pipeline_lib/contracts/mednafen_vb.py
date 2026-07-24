@@ -30,10 +30,10 @@ MEDNAFEN_VB_EXPECTED_LINK_OBJECT_SHA256 = (
 MEDNAFEN_VB_EXPECTED_RAW_LINK_OBJECT_SHA256 = (
     "df94b68d4cf87d090ac4a991a8833286a2e09554b53f06d656c8941370496860"
 )
-MEDNAFEN_VB_EXPECTED_ORDERED_LINK_ARGV_SHA256 = {
-    "arm64": "1a9fd96943f2df119297cc9a74fa04d26861d2164c4168e0216c23982ff8104f",
-    "armhf": "046c8e5464451b8d3bf23d37dac17371e36fb313edc89869b36f49afcff64b85",
-}
+# No ordered-link-argv pin: the Makefile's object list is filesystem enumeration
+# order, which differs per host (GitHub runners produced the identical
+# object multiset in a different order). The link stays pinned by the
+# order-tolerant object multisets and the ordered option set.
 MEDNAFEN_VB_EXPECTED_LINK_OPTIONS = (
     "-fPIC",
     "-shared",
@@ -210,9 +210,6 @@ MEDNAFEN_VB_LOG_CONTRACT = MixedLanguageLogContract(
         "source_commit"
     ],
     source_tree=MEDNAFEN_VB_NATIVE_GIT_VERSION_SPEC_IDENTITY["source_tree"],
-    expected_ordered_link_argv_sha256=(
-        MEDNAFEN_VB_EXPECTED_ORDERED_LINK_ARGV_SHA256
-    ),
 )
 
 
