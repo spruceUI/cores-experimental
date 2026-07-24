@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "58b7ace31b1c3ebef51703dac8734163218d57d3f146cd9be5f9e34f02569398",
+    "file_sha256": "1900b2251eed4895548d0d6b64d999192f65760a0d5128f61df7e320b10d42a2"
+  },
+  "core_id": "tyrquake",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "b3c2608f0ca031adfadc2a4d7ac77ae69fcec536b1f78ca40493f369a1906918",
+    "size": 1035382
+  },
+  "pin_path": "pins/core-sets/tyrquake-e57bb11597e8-897f55c877b3.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "16a06b925007247eb8fbfd589ed408071b2aebdfc5f8481c6f89546d17ef0a44",
+          "log_size": 99945,
+          "record_sha256": "cecdc64be0c7ef09e1a6ac8e96f82a4b4aa9a2ceb7ce374eba1f0e2accd84fbd",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "db8eda04f608ed4bff571e635690124ca225bee267f5a1084a1297e6462e1d0b",
+          "log_size": 98990,
+          "record_sha256": "6c1404eb45ed8a6c49fda7c4f20e1548456473fd6743184aab68132bf3de4821",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "eb26f7ffbab4139bba1c9618e43fc958f6119f7cf250e04089fdfbd8cc716c0b",
+      "e2e_file_sha256": "ef467e48e3153f57af8d4bc06377ceb5ee075d6596e0647abcce1199f88f1649",
+      "run_id": "build-core-tyrquake-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "93bd1fdf61e93e1a17e60ad1d2dfb7078b933e72df289804f52d5aee017155d3",
+          "log_size": 99945,
+          "record_sha256": "85fba02b6d08b4f1ad90230986bf4373441e340fde2613fe65b3a9192a8fc2e5",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "970fb9f63ef5f2be7dc837eac601a697ed8f68f128970af9e5120e6b3f96a523",
+          "log_size": 98990,
+          "record_sha256": "11982f579f606fc0f384f84dc7727e38117ae35b323c7af30516b137a1e3ae23",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "aefbdf98e5988e01cc515dd15e2de65e59217c37329fc8c74effa3df9d981c7a",
+      "e2e_file_sha256": "58e3de999d5b64c73fac837b37375404071eb5c03379b92086a9bea567b29c91",
+      "run_id": "actions-sim-build-core-tyrquake-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "897f55c877b3611cd29e12e6bf06e8205ba2a8a7e63dd95a5034fa59e00b7390",
+  "semantic_id": "tyrquake-e57bb11597e8-897f55c877b3",
+  "source_commit": "e57bb11597e8a00380f30f2627d219da960cf69a",
+  "source_set_path": "pins/source-sets/tyrquake-e57bb11597e8-897f55c877b3.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "9a70cf8de4766573f8a4b2d70b8cfb1e71c2e41ce1c3251f061e8abc77885cd6",
+      "artifact_size": 1061176,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "8b5d8914f287384c6831781e134bfc87485451eba9395933760e549464ea92ac",
+      "artifact_size": 926640,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "71b36da5e0df3dfbe3e8ce5746c137a19859e4a27095863f2a6e4326fd4eaf16",
+    "file_sha256": "7a4f92bfa85fb0159aa4b01c8329fe7afe99ddf096f8af390fbe639efcbe838e"
+  },
+  "core_id": "chimerasnes",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "fa4ecce8c998b989d8af25ee32132be6be5c5ea68fd8e462198119b4ce248707",
+    "size": 656458
+  },
+  "pin_path": "pins/core-sets/chimerasnes-04c57c2902c2-55b07215d242.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "6e728cd38a6fbbcaf522aaf015b48a6e34b12e887b98b7f8b819e5e294ce181d",
+          "log_size": 42890,
+          "record_sha256": "2a98a2aaf6b7025f0aba6b601afb7c2cb2669c37b4bfe507f4f3176f8fa23a1e",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "900c95be5d0eaea89a8b2433c980c93aaa62684cb3b75aea4c8addabad13d9d1",
+          "log_size": 43228,
+          "record_sha256": "ac775db0a5a6a640af5017f74ffa58d0891853a7a3a612aa2e26c0b8d126b4d2",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "162d264af2611116b370ff4a61d1e64cb8dbefc307abe382fac2a9588a73c17d",
+      "e2e_file_sha256": "3b903f502149d9d6d8be52b3c6f50b3b954ec5484d07d1428485fc0ebaf3291c",
+      "run_id": "build-core-chimerasnes-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "85dc42fce3f0f294baa1d7f6530cdd86ba6495ce3aa109c92a415bc1a16f3d1b",
+          "log_size": 42890,
+          "record_sha256": "7d6cc672bc5660a9aad638b07e26f4a6156bbe8e66606cf31d7bd35dce7ed6de",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "365d86f2cf974aa2c94b434d0c40fab0997ee646cefb4f3e8f59f08cfa47218a",
+          "log_size": 43228,
+          "record_sha256": "f968d8a0d2612998fb7fca986a47d3581969ac6d9fe1fd0645fd276390f30a07",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "a2c6afcd17634422f7620cebd1bcf7177538712379456ce40f1f551f6295623d",
+      "e2e_file_sha256": "bc20b302820ba1627ddd758be18b8a71d4f9ac0f8466884d256539fd73a7c8c4",
+      "run_id": "actions-sim-build-core-chimerasnes-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "55b07215d2422d99a5babb9e4fae4e387a12a8533839916c5dcb142abc102bd6",
+  "semantic_id": "chimerasnes-04c57c2902c2-55b07215d242",
+  "source_commit": "04c57c2902c25f36ae5a5d9c57aff851a772c868",
+  "source_set_path": "pins/source-sets/chimerasnes-04c57c2902c2-55b07215d242.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "5198d4f6ded589785a0a70c161dc7946e8fbd00ad77ae7971fd33958879672c6",
+      "artifact_size": 1037232,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "2b77fa36b82943c3df926aabdca9225efe3cb84573d3e460cb7c6d8d62f6c324",
+      "artifact_size": 1035752,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

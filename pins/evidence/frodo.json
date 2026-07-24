@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "bae580abed1850a978823937efffc9ca5412b0522ae3a9a87e2549a62d84cd6e",
+    "file_sha256": "fb804c9bff03876a2ba458fd99008704b546610c7c2eed7b170fae7d10071035"
+  },
+  "core_id": "frodo",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "f902c31752e5aea3f25963f129ff6182d61a79035a7a97e1337a0fb4ad7f5b11",
+    "size": 402412
+  },
+  "pin_path": "pins/core-sets/frodo-29dd1864b89d-4db0caf92c07.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "fc9df49c1c8deadfeef95f257848b1a4e2c446287a42585cbaaef35e69fbed39",
+          "log_size": 34516,
+          "record_sha256": "b3bc99fa97776ca6ccc3ac83bfadf8002b27f968dfcc89af6b4e4432f5781d9a",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "6d0f10bc01c6c8cdaf4e4dfa67e46e01d76d210e08068417adb8cf6635f428a7",
+          "log_size": 25654,
+          "record_sha256": "f5599b5c009dca80ad0a48f91954deff985026e3c77eb7c87e20a19d95d15399",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "9e74e906c387b559591f68d954318e64fb2ddbb94a4d600125807ad15c72e02d",
+      "e2e_file_sha256": "994c6e95af294a14af3213403864ecd147fe2e8a8a215cd81194b13275c6d023",
+      "run_id": "build-core-frodo-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "af268c2628aa2f86289a2edf897c7cb047e9191436daf0bfd63671034086d93a",
+          "log_size": 34516,
+          "record_sha256": "9ddabc18a9cb942f94d8b1c8958c96f550861bc316afaeb670a2e8d07cdc8f9a",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "6d0f10bc01c6c8cdaf4e4dfa67e46e01d76d210e08068417adb8cf6635f428a7",
+          "log_size": 25654,
+          "record_sha256": "fdec3ec2c8817c4c6b7cc333ee2d38a789c5148f9ef1410de7583a4d98ccb6c1",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "d754bf05eb9e4ea482a3a7b3c0cd0f2dcee16c4f14ae7cc4ac20c1f2d0293c06",
+      "e2e_file_sha256": "9ff2ef10216e7756c806ff60e66d7504e5772cea90b1fa404fc7a5ea3876930c",
+      "run_id": "actions-sim-build-core-frodo-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "4db0caf92c07bc929258c8e5f348c114c8de95f6d06e0bedf7439151fb901378",
+  "semantic_id": "frodo-29dd1864b89d-4db0caf92c07",
+  "source_commit": "29dd1864b89d903ed93f1d86d85636ef9e194359",
+  "source_set_path": "pins/source-sets/frodo-29dd1864b89d-4db0caf92c07.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "683834894465c267fe99351bad7a369409f6ed0a483b8fb6603684bf18ad87b1",
+      "artifact_size": 472424,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "f65a24c945fb375154afb033471439450f7fd343d36d4dddb0134887aa92249a",
+      "artifact_size": 397336,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

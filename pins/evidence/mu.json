@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "32df636037bdef9372a9c2a552c2843829fe81837683394029bc820824327f03",
+    "file_sha256": "a99820e569236b3d1756fbb51b1190077ca1d097e4f383729b888bd377f27dd6"
+  },
+  "core_id": "mu",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "123d3d1af54ba749c407c291efebfbf92cb3717f1d46af5bf4b090bbac40c191",
+    "size": 466481
+  },
+  "pin_path": "pins/core-sets/mu-de05588fcb1a-8b988a394c9d.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "fe1d1572a05134496eb51ebf3d968eb9db6c181210e51d903c5ae7b93076dd1d",
+          "log_size": 106122,
+          "record_sha256": "b711d707372ae9abe245f614a37a362407231fcc983617666c10d28674b0aed0",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "dd2b905a0cc85531a38cbf88edcb2565e937667fa5b5879c408548ba3f5c846c",
+          "log_size": 105790,
+          "record_sha256": "4fc2bd5446b32787731848096fc22de4440c07b40a001684cdfba602e14a5e53",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "e5a8d9f20842dc19da0d1e64f3a35a235b1e1a29e7e601452cdda6a8c13e22ef",
+      "e2e_file_sha256": "b2c31152aa14a0bc5169bc81865c49a73f918db0512e337db3e0e4fb9f7a3cf9",
+      "run_id": "build-core-mu-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "dffe79de224ac5d28be9a9aa52089938c21bbd6a8eaca44ecf0a2d14cb9bf0a4",
+          "log_size": 106122,
+          "record_sha256": "b53b6d1b6636491a62e25a40a09873b98b08e56abf81ba7e9fe7a5ed284c406e",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "038e6d4ce097411870f84d565e9b96aeef831f586a197c602cc9f64be12ecbf4",
+          "log_size": 105790,
+          "record_sha256": "d512d373194b08ea5287ce284fc500b71de2c87e2a3ef65f6c7f6588466b4381",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "8b859bb4c620711eeb24c85e31b9e7af5e8a7b9c7ee431760ee0f5c906e89e68",
+      "e2e_file_sha256": "3e8f96b945e8fc59dbdd348ed3d1bc783893b7405c59fcc602e756cdabe9ee2f",
+      "run_id": "actions-sim-build-core-mu-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "8b988a394c9dac9909dc452cc88ff8b2a1968fd378b3aea1d495320e46a9df98",
+  "semantic_id": "mu-de05588fcb1a-8b988a394c9d",
+  "source_commit": "de05588fcb1adca6738dc4cf6a2e6e6c447bf2f2",
+  "source_set_path": "pins/source-sets/mu-de05588fcb1a-8b988a394c9d.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "e29871ae716314077c9ad60f2d48e134951bf3320dea348697195707dfab62aa",
+      "artifact_size": 807328,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "c6c8b5d316375bc8a1b4d0afae78c6221b98bc89f9df6d54a282a1c86fdc990d",
+      "artifact_size": 700284,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "5a7ba4fa74240a7b7678264ee5b6277abc58d96b4c353070e6b47fde3c2801c2",
+    "file_sha256": "dd2615b13df924d039590c1345941f7df8d3d8398cc7ffa42e51a8fe7af886bd"
+  },
+  "core_id": "stella2014",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "392783c5e29ced4dd59dc8dd937afaee472f4cbff397e1bec602eade422e250a",
+    "size": 1024938
+  },
+  "pin_path": "pins/core-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "f018fccb2bcf0cc5a27eed0575e6a58d6ffc64eab2f054369dead7f3d38cacd1",
+          "log_size": 51506,
+          "record_sha256": "c858ca70fe8dcd72dde998486f082c30308e57fbf88d14e94fd11a1311b27fed",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "351f4ba0e18b883c555a39074bcf3fefda30e8509914b03f5d61509dc3f08b85",
+          "log_size": 52058,
+          "record_sha256": "fb48995173d5f524a2f94aa2c740147eccb033f422ad5592fb9e25cceaa30119",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "e76302bfa2cd1442a4b1466dbc0b937557299d5f92b54ad4fb0509afb27eb8ac",
+      "e2e_file_sha256": "806cd52b77a745d5b937883d015067f0f8bd0181c06ddf744c8840405872156f",
+      "run_id": "build-core-stella2014-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "f018fccb2bcf0cc5a27eed0575e6a58d6ffc64eab2f054369dead7f3d38cacd1",
+          "log_size": 51506,
+          "record_sha256": "4ea758afd4706369655ce0be4d73f67f86ceda0e582bc4e5e9f5d923716b803c",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "351f4ba0e18b883c555a39074bcf3fefda30e8509914b03f5d61509dc3f08b85",
+          "log_size": 52058,
+          "record_sha256": "571b6281bcf840068f141605e1ee1d2e406e0ec666dd896925e913afd0843d75",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "7b2265c29d91fc5ac9f631b6c0460a0cbf9e44034329ad9948d088ca2542e936",
+      "e2e_file_sha256": "cc07d05045694c551d647ee54403786419765777c4efbf3fc40070d37a8d95b3",
+      "run_id": "actions-sim-build-core-stella2014-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "a7cd8bf6403d4d88fe1f04294428a42a5e0a9e772d09e50b8892b8024fad7133",
+  "semantic_id": "stella2014-4a7da82595d2-a7cd8bf6403d",
+  "source_commit": "4a7da82595d27b8df7af1ecb467a64b642a41bc9",
+  "source_set_path": "pins/source-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "7684f873cb6c1c87c36b9dfc05af2287e89735c52d892b8200601a4ace6df743",
+      "artifact_size": 3210488,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "598ac496335c64a2ad426a4b0b8349cf10013dccf7e954ebf72e221b675f256f",
+      "artifact_size": 1674904,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

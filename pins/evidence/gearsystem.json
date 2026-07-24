@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "6320b8bbaae483258abb723935df60b6f10a18b1a14fd41ec4114559ae4f6e08",
+    "file_sha256": "a4a0b6d7e5b5d0d3873e9bf6ef182068bd7b86a6ab63ad0a6d59a85420df9a1d"
+  },
+  "core_id": "gearsystem",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "9ccebf7679a70f1125cc64a5908f4526b3f3e99ac47998980944ecb30e90b5d1",
+    "size": 420969
+  },
+  "pin_path": "pins/core-sets/gearsystem-4f029e43f2d5-0f8b301c259a.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "1eacdb55a5a5b159fa027e07c2d508b29aaea8a92861d3063daef7530d4ddc41",
+          "log_size": 17401,
+          "record_sha256": "3ae751323bd65499fffc6c3710d76b9083112595c7d627ba0effa28a1a7bd59a",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "71d473e6037d74c2f4801888d53b9bf60e3335e29042769da8aac38c089e32e1",
+          "log_size": 17739,
+          "record_sha256": "bef07e5f14f9986e1951edf00c0396a68e7ef23e40dcaf52ef94aeda7f26af88",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "2f73799fa424217047d660faa69587ab277fe74c1dd4e3652c20baa09cf1e9ec",
+      "e2e_file_sha256": "20b19ea9a6e34574592beeace548088c230b7db860d97da615c85cf6ef375f0b",
+      "run_id": "build-core-gearsystem-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "1eacdb55a5a5b159fa027e07c2d508b29aaea8a92861d3063daef7530d4ddc41",
+          "log_size": 17401,
+          "record_sha256": "6150b16c20371a405d202252772b9c2d9b9a4242eea7d0e8cddf196f9e41a087",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "71d473e6037d74c2f4801888d53b9bf60e3335e29042769da8aac38c089e32e1",
+          "log_size": 17739,
+          "record_sha256": "120b13f29def17646618e574015be1219763cf68346b1754bdcd1b6b9728c147",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "c3c0b532f86bb348e950c4e5f6be1a792dc5678e137a55dc68d1e74f0ef15174",
+      "e2e_file_sha256": "2404ab81deadaa6a4c61a86f3ac700f437a99813f5fe30ddb8e84996330e491b",
+      "run_id": "actions-sim-build-core-gearsystem-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "0f8b301c259a10d2bfd1975b2f7f10cc589407adef7e1e3826f1d0b673e2de9f",
+  "semantic_id": "gearsystem-4f029e43f2d5-0f8b301c259a",
+  "source_commit": "4f029e43f2d5207c5da78792503b0fff89b7b2c5",
+  "source_set_path": "pins/source-sets/gearsystem-4f029e43f2d5-0f8b301c259a.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "5d9ef0dbfebce0af563dbc54b71cc70296bef708e0dcbbb3a64fa28cd6b28123",
+      "artifact_size": 702584,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "fab48e2180cdec4a54458d9cfde22c719143c3cab686d751590c6bd1d47fd082",
+      "artifact_size": 519824,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

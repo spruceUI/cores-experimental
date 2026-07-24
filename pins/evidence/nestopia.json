@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "72653275325c3db0376d01f83bb1b553f52f0e640fd08e06a760f9763c8e2d1a",
+    "file_sha256": "24b92e3a52c91f4ee7b85e24de7c2c9235739ea6072a5762a72094801a0b24d8"
+  },
+  "core_id": "nestopia",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "12092effa8ccb39524bf6495baa3a2a43a23fb19b70ce3f118da84ddaffb70ad",
+    "size": 1515945
+  },
+  "pin_path": "pins/core-sets/nestopia-b0fd87dd07e3-9570ea287053.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "817421042a000310292f8e704f8b9a2713fcc0782b521cd4b4d347ed16bc51ee",
+          "log_size": 108575,
+          "record_sha256": "3da1f00c036c37ac63a51db3620ea4e065ee98079871845a4d6e92527fe2078d",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "5f359fc7699f4d27cdb56fe2f69f18dd9927e1db570528f2ee5c2e9da40a9faa",
+          "log_size": 110413,
+          "record_sha256": "b615559b89539646233d5a91754ba4f89671b4cf56a9d0a46e0c184d82966ab1",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "9b5e384a5ab58e355d4c36a4ecd8e6550e75485c8587e9f112f55ff946e30b8f",
+      "e2e_file_sha256": "37955c2dfd0e08c7decb6dcb8a71a035723c851726e5472dab2fb0e4c6b882d6",
+      "run_id": "build-core-nestopia-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "817421042a000310292f8e704f8b9a2713fcc0782b521cd4b4d347ed16bc51ee",
+          "log_size": 108575,
+          "record_sha256": "5e0f0e84269dc656a23b1f3302d043bede3914e1617c756bce724774f4335dea",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "5f359fc7699f4d27cdb56fe2f69f18dd9927e1db570528f2ee5c2e9da40a9faa",
+          "log_size": 110413,
+          "record_sha256": "1f0f5e47120fdf507b8928cffda6c225c7e9b298dab0252c281a528408caad48",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "f1f2c49745a6da40e15f519b0df40ebd8261ec1a806b54cf7112cfe0cf52e0e2",
+      "e2e_file_sha256": "911283bbe65b52c3463098b4f6940e5d4eea3c392748db3b83138c23d217e811",
+      "run_id": "actions-sim-build-core-nestopia-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "9570ea2870537f196c8ff61732bdebc242b7f7fe09cc09607ea7f6da609851ea",
+  "semantic_id": "nestopia-b0fd87dd07e3-9570ea287053",
+  "source_commit": "b0fd87dd07e3c52903435d302b04e5e97796f127",
+  "source_set_path": "pins/source-sets/nestopia-b0fd87dd07e3-9570ea287053.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "399ebf35fa687fd0ff9b4c23c17b5d72446546da41b44c8f45b5c90d98bc762c",
+      "artifact_size": 5819800,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "824cb51e8b8822569fd89fa58ad7c6bdc874a1b60150eb56144011f3da6665fe",
+      "artifact_size": 3928708,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

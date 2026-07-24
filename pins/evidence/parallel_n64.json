@@ -1,0 +1,59 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "7b8f9f9f19cf7eeb63e2eaf79980ccd4caf8e16a35624c2e99ba2212135841be",
+    "file_sha256": "a52562f9c569322de6344c36d2191804f0e03aa7971c67f578d11ea6441fd7c4"
+  },
+  "core_id": "parallel_n64",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "9dc01f1eadc58b31289f7b03f31056972ed274d2f86a791cc38d1ab5582bf00c",
+    "size": 1550681
+  },
+  "pin_path": "pins/core-sets/parallel_n64-00c6c9df91d2-d7ceec7e0dc7.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "87831621ddf79d28e9e1c362727840a1acdbc78e7e7324d08f8a442e8ada31b7",
+          "log_size": 223676,
+          "record_sha256": "20505ed8a9920401c71bd828c9fa3a3c433af2821cbba8e68c1252d9ae7ffe6e",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "f5b58c5d20d960457ec316eae466e6dffdbc1b0baa407faac277b0ef9dbca104",
+      "e2e_file_sha256": "0c7c085cc3a1e5087d10bff25bbb42e29ff4159780ed39ee557bc905c0eda61d",
+      "run_id": "build-core-parallel_n64-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "1020648f5e8f0c0258f0a36c5539c96dd68dc49efb835175cb1c3615d7b3e263",
+          "log_size": 223676,
+          "record_sha256": "bc05c984bd5315d21052ce35e577f207f7861b0572053c1aaa498469e6c23425",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "3d42940f478cfe01b44e4caaab9590692be938ad646e3a4a15036753eabdaa55",
+      "e2e_file_sha256": "ca1914eb922ee75d3321682fd2ab48995d35669f4b54d3e42abb397eadf8ba88",
+      "run_id": "actions-sim-build-core-parallel_n64-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "d7ceec7e0dc7704287df5c47a725089e282871e89c704be889ea91e133f3c86c",
+  "semantic_id": "parallel_n64-00c6c9df91d2-d7ceec7e0dc7",
+  "source_commit": "00c6c9df91d2c2daaae615cefad7911be556fbfa",
+  "source_set_path": "pins/source-sets/parallel_n64-00c6c9df91d2-d7ceec7e0dc7.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "f209ee8f9488f14e9c7e60eafd8d27fe17c858c9f3400a8a2131b5d4b8985578",
+      "artifact_size": 3956144,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    }
+  }
+}

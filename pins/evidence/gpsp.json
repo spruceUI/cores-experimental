@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "77cc3f74ade486ef20e4c728502e1384418692a74ba7ec2f6db9d871c9d6de64",
+    "file_sha256": "a9b8d2b222c548060e1fce69662a177d19f79b6d36fac3230f798f2c948c118f"
+  },
+  "core_id": "gpsp",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "2b6be1881c25e611c6e1deee0cd845cabec2a4e4d019e80d3a65351ae0ed5bb5",
+    "size": 566983
+  },
+  "pin_path": "pins/core-sets/gpsp-69e86ebe89f1-aa567021cf76.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "cdb925e2d27261840d81034e586022ef2996c8c2d81c339292540936f42280d6",
+          "log_size": 11627,
+          "record_sha256": "a8f7d43754a5221127cb1821906d31c60018144acb9c35633e33164753d786b9",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "95237f009de1541e7652b178d9116c4e2395c9c13be47124f17cf8af3bb03953",
+          "log_size": 18396,
+          "record_sha256": "6fe61afc293ee5456758e42b6fbadf257dfab2484dac32de54d329e1cd31a78d",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "938941c03d707d7ebd2516a83cb7fa0ae5ac95d093cbf450a018adeab3f62082",
+      "e2e_file_sha256": "f0084f37ccda0927af8878e466c08842b3f27afd2ec5f81b7b4f0ed5b9cace5e",
+      "run_id": "build-core-gpsp-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "cdb925e2d27261840d81034e586022ef2996c8c2d81c339292540936f42280d6",
+          "log_size": 11627,
+          "record_sha256": "9559b7836068db2340a39792245069727d606dcd6a623d06c6012e989a9000dc",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "b9dd04ec74e6579bc026145637bd843aa3f92dd16e460a0d2a380f8cccb3ff89",
+          "log_size": 18396,
+          "record_sha256": "d7db3e61728cd4becd14ddec32ad20939acaaf6c8956b78f18d1b7a471f52aea",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "17422154426a7a033170bbc1a287d74fa922c292a873d6e5c916e02c8f1fad2e",
+      "e2e_file_sha256": "90853cdf4541fb667360ecf0e54233a0b4c3fe6283aca91e0757346324d25e9d",
+      "run_id": "actions-sim-build-core-gpsp-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "aa567021cf76b0cd50eda122c68661821f6ea75e4119c004da25f82aea84468e",
+  "semantic_id": "gpsp-69e86ebe89f1-aa567021cf76",
+  "source_commit": "69e86ebe89f14c3f5f75b809c12c0a953b3d6ce4",
+  "source_set_path": "pins/source-sets/gpsp-69e86ebe89f1-aa567021cf76.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "0606fc6b1132a936a8c20a6c1d1f20946dfcb5b3857ac82d2f6ace8d040d15fb",
+      "artifact_size": 927376,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "4a68c672bbfa4dfdcf794f8cab4b6c5286f786231b1dc967a2774c6b68b04796",
+      "artifact_size": 722584,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

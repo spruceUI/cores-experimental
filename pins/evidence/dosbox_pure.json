@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "5660766748b7ccab6a8571b745fb737f1a9df0cd865ca99161902a79c7e7b05c",
+    "file_sha256": "2071d8f2761e95faae39a67ce50e2422fa536e220c9139fb44f4bc4b2c0c2566"
+  },
+  "core_id": "dosbox_pure",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "eb83fbf34ef10b3f00220b650737cdeba2d435c1694a48d55a8ed3319fd78231",
+    "size": 2616586
+  },
+  "pin_path": "pins/core-sets/dosbox_pure-a4a0bab7f893-caf26992f4b8.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "b2525e4e22329bc37587ca36f88951de1e3e9ca1b5067535fce31a242aebf554",
+          "log_size": 48286,
+          "record_sha256": "91d621bf10d8e38c9e97b20eab90b45fc4ccf9a7af60a08e412e0d46d104d93a",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "f96728d49286dab63016605808bf321d7b39345c74cc34ff846e87d7f27ef29d",
+          "log_size": 49026,
+          "record_sha256": "aba71afa9b63fdda5e7d1b1e4b50defac142b7d3064cd3f580a75605ce343be6",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "0bfaa19b32331eeb28459408e20d15d80b703c5c4a04a6fbcf982d3a2bdc7ba6",
+      "e2e_file_sha256": "aae1dadf02443cae48ce596307bdb6b53c85d341bdd8d9529df218e8ed51b264",
+      "run_id": "build-core-dosbox_pure-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "b2525e4e22329bc37587ca36f88951de1e3e9ca1b5067535fce31a242aebf554",
+          "log_size": 48286,
+          "record_sha256": "7da857dbfbec0af2bd187e9c481c5e5d377ecb47baf1ce0e6ab18db33659c1a2",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "f96728d49286dab63016605808bf321d7b39345c74cc34ff846e87d7f27ef29d",
+          "log_size": 49026,
+          "record_sha256": "388960dc8796dc3d762bd8871d685cec5758aeb1da34f4bcc2ae83c256039108",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "0fa448f3a4953d718daf9e1f83318159af2fc146407d58714337e559581e91f8",
+      "e2e_file_sha256": "74b2eac90e35b8e8e77e0d0b9e61150d514fb5437d50e51494f4f25e2f5026c6",
+      "run_id": "actions-sim-build-core-dosbox_pure-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "caf26992f4b859a16027caadd2bbc3531714cbc43da3f3537f0d9f568cce61f7",
+  "semantic_id": "dosbox_pure-a4a0bab7f893-caf26992f4b8",
+  "source_commit": "a4a0bab7f8931433588f2fcad9045c85b277373d",
+  "source_set_path": "pins/source-sets/dosbox_pure-a4a0bab7f893-caf26992f4b8.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "251c9d32576b9fecc6434958d842ec1d69eb0c2fe449931bfb97d88995960273",
+      "artifact_size": 2875240,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "bfa06c14ba0f5aa9403d7e14d619f7e3ddc97200c579303e611742548c5293c8",
+      "artifact_size": 2495196,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

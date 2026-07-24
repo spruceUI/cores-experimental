@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "c9e0171cb382a2852512c3c0f65fdc02f7118d5a5d90ba6a7f48d7a226d65a1e",
+    "file_sha256": "c4978f694212e775c3333de45e578c6d85e713bb90c86adbb198fd000798bd72"
+  },
+  "core_id": "snes9x",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "83223c6aa78ed8ff1d55d8990ff6e47d4a3f6c222737c5a8e0c4b63246cdfe40",
+    "size": 1439275
+  },
+  "pin_path": "pins/core-sets/snes9x-185488cd83aa-b7aaac2ae7c1.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "a71f14117ed3cb767323c459547f44337cf8d78ab8f5819c43a65eb8fbf68e7f",
+          "log_size": 29698,
+          "record_sha256": "db11e641361294cda4f0e6681cb10023394d36f01b5d52498fcd59df5714a8af",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "7016bd4a6552df6f22e0155cb86e90cf6b8196392e68e5648791a6fe54b2cf91",
+          "log_size": 30238,
+          "record_sha256": "68924998c50994cfc3009b7b1c8b3d9c307d8836c9c56dfb5048dc23d419eef7",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "50fb22f0e167d85cec2ff8f4ce979af88f827be81631a97f5525cb44b7b3ccf4",
+      "e2e_file_sha256": "b5a03450265e51fc63b24d49ddc4f93dcc209eac6220f6ade9ef350af7804e9d",
+      "run_id": "build-core-snes9x-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "6114eabdcba07a7730c63ee20a321b2041eddc947c58343b3cefb8400f5fd47f",
+          "log_size": 29698,
+          "record_sha256": "ed89d060199c173d151cfe7b9cacb3313a8ba5b3c77a8373420a543e8d6da9fb",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "680757897d626826bd179f178b2fddf787af5190f43b2d5a51e8c59990cd1bed",
+          "log_size": 30238,
+          "record_sha256": "81650d6992155f88916240757f2bb10d70b32564eddaede596cb13f871f00330",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "1249f98df6f2b8e70ff36f164ff20ce4a3b2d052b9c0d7a86d7d22225fafa3f4",
+      "e2e_file_sha256": "4f48c98e5276605b011d55f03352d36beb24d5129c98a38f9aae00cf4176552e",
+      "run_id": "actions-sim-build-core-snes9x-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "b7aaac2ae7c17a5b5573ea2b2b2ba9d5c930916a49f2e529deeeb308f50e3938",
+  "semantic_id": "snes9x-185488cd83aa-b7aaac2ae7c1",
+  "source_commit": "185488cd83aaf274752a742c94d45561cbecb7af",
+  "source_set_path": "pins/source-sets/snes9x-185488cd83aa-b7aaac2ae7c1.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "02ccdd5033b1f1468590a9589fbc1a9c45e0b91c4852c93e1310b5239446cea9",
+      "artifact_size": 2325040,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "522ebc0889787fa2162e6070f64a0c5888afda6d44f62b321daca26558cd84ef",
+      "artifact_size": 2283568,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "778fdb457e483411c91e7700cd9f40315e718eced66cc3d37318e8131a4a4928",
+    "file_sha256": "ef0088aca7b4b61a5ee0bb1ce6d304227d4dc0ca91df95317f760bbb2fdde4e8"
+  },
+  "core_id": "km_duckswanstation_xtreme_amped",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "3572c908b048244bc41d3cec3b820d694b6e7999e0489ff69046433e7d0caff7",
+    "size": 1632320
+  },
+  "pin_path": "pins/core-sets/km_duckswanstation_xtreme_amped-be16ead371a6-1d7c94544534.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "armhf": {
+          "log_sha256": "f7f527bb8f9885ff3d6c9a93969fdaaae6199b5c04d632e686bc6c18aa3e22d2",
+          "log_size": 183178,
+          "record_sha256": "fd91b4faec3e67fd467139637540532649e41141d30633224d93f1dce318e96e",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "c93d1f43397f5eb3e158117b1b7bfb99e09734c0da2aba212bb95ff5e385e436",
+      "e2e_file_sha256": "82e94e315906e1c54f6d5b0339023ba2af11e0855515cdda99296fa5db1c5304",
+      "run_id": "build-core-km_duckswanstation_xtreme_amped-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "armhf": {
+          "log_sha256": "042f439f0cc1f1cd37401322a5c14f033449d5bcfa9ae63a17bede032faedd6f",
+          "log_size": 183178,
+          "record_sha256": "3be1aab00e4f3315379cfb64d549b992a413debdb173a0e55b813f576c276159",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "e431528a6ad3c947c8cf3a6c8bc12320668683defb174013a9cf9369ca7f40c9",
+      "e2e_file_sha256": "b21ccb0f764238ba7d55fd09209d21d5ec13760a91952a2e2c4c84c5c2d0d36a",
+      "run_id": "actions-sim-build-core-km_duckswanstation_xtreme_amped-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "1d7c94544534ecd4c4f65440ffe1cd4c60680362021779b1e7e66beb85ccd5f6",
+  "semantic_id": "km_duckswanstation_xtreme_amped-be16ead371a6-1d7c94544534",
+  "source_commit": "be16ead371a6403c92cf196d80bee75356027670",
+  "source_set_path": "pins/source-sets/km_duckswanstation_xtreme_amped-be16ead371a6-1d7c94544534.json",
+  "targets": {
+    "armhf": {
+      "artifact_sha256": "51502e601be0bd185c183969bff48fc81f153851c1213c4e62962c0da15af99b",
+      "artifact_size": 4113848,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

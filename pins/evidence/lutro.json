@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "d8cfdcd85208a80aa84dc60c41983a4550ac68d2e35d84fcc2fc81e218e6c767",
+    "file_sha256": "dfc9bb07224c313222f208d4bf23825915922dd8c8296d572e4fbbfcfcc8b9f1"
+  },
+  "core_id": "lutro",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "0a9f645ee44ae72c2f0c5da4ff0578ce6398e24c13e72b369e34726d21c6b3aa",
+    "size": 3018614
+  },
+  "pin_path": "pins/core-sets/lutro-1df938b3bf37-4977fd230034.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "0f758324b2db15680ee725587c3b3a67f570a4224e04d1f4f22985943bc2bf9c",
+          "log_size": 71883,
+          "record_sha256": "5e397799a256655df46431c340464beec0a908e14df3761da43b301aebfa3262",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "48479200b0e112ec7ec4230e4df36fbf1053e440e9d27a74f0ca9afa9e5acdc8",
+          "log_size": 73794,
+          "record_sha256": "0cfc1c27535886116ee29e13b82ce9b4e2173af4208d346f8f4d96e30a667468",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "954670a23e9f0a230bf68d8ee227e617387e04acfb143be882945aab7472ec8e",
+      "e2e_file_sha256": "3d2d25863cacad11753357fd342e1952b937053b7bb44cf8661a69197b86842a",
+      "run_id": "build-core-lutro-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "95e820662d39961cd41ba524814c998c7d3af204de8e524b1a3857cd489a9a92",
+          "log_size": 71883,
+          "record_sha256": "53c377675fed2dbba295c0949f007ece2f011eb18d0a454dc562e3f83856c2ff",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "ccebf7c26178507e629218ab3fc73269ea4d2299a3904dc0501d0671809b358d",
+          "log_size": 73794,
+          "record_sha256": "08165be6f5566788d78c5d756f17362592fedf4475267d76bd083e81c1096d08",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "6d2fc40f2a3c535bd677c0117f1f2e129fee20db84e803c0ba6dda366eb47916",
+      "e2e_file_sha256": "e11ab9f52d106493fa793291c92bf21a61955410fcabd542267e655b58fb63b2",
+      "run_id": "actions-sim-build-core-lutro-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "4977fd23003493b027754f9412c7f2aa77bddc294b5c32fb83f3e3b94347105f",
+  "semantic_id": "lutro-1df938b3bf37-4977fd230034",
+  "source_commit": "1df938b3bf37b8d1eb6cdd07ec915c4f569a7551",
+  "source_set_path": "pins/source-sets/lutro-1df938b3bf37-4977fd230034.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "9db3b6848c301bc7871b990a8d5a47e3512427cf792197064dd549924567c4b9",
+      "artifact_size": 7169128,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "eb0040c2149a5cf3a1887f66ebb6f91cb8e0ab892b37997a8dda78cbe152a007",
+      "artifact_size": 4399632,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

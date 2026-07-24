@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "e58dfe97c7d60710fe48bd429e339125e993285c9d0b9da5d4aacf3e3b2e052c",
+    "file_sha256": "97d45581e0960eb42f30e8f0d95a4125880ce07112520147ace76b3a6533d3c9"
+  },
+  "core_id": "pcsx_rearmed",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "29597a2677674389bedc7b7f2768b1766b7e6f4f9aea5b9bd394c9fe90711de0",
+    "size": 1340517
+  },
+  "pin_path": "pins/core-sets/pcsx_rearmed-050981b6eeb7-3aeb1ed82105.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "f8aa36805523ff0286aa7bf47e56d67e7273c8899baa20ed28540e7202f1e09b",
+          "log_size": 62711,
+          "record_sha256": "0154c8b9afd57409160a8c3de1552762e4a343119a686c157ae3425f78241d3f",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "97231199bf1fe31bb9806dd0e5ce7a35b5375748d8a3f9e8a64be51cef732269",
+          "log_size": 72859,
+          "record_sha256": "bdf706f14eac285761c6e48d3d7b4d55cff64782ac127b2da05045f404828000",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "c9c1a83657a855f20f5ad82ceacbcb220b0a61c71e52573303ff9cd9d11c74ac",
+      "e2e_file_sha256": "938b01907ba1bb114c59f3b307c44800e25a26d9558d938696d63586e87ddf3d",
+      "run_id": "build-core-pcsx_rearmed-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "f8aa36805523ff0286aa7bf47e56d67e7273c8899baa20ed28540e7202f1e09b",
+          "log_size": 62711,
+          "record_sha256": "47db083f46048c18f670d07c8977b06f13eb2be08ad7aba428a728d0864effa5",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "97231199bf1fe31bb9806dd0e5ce7a35b5375748d8a3f9e8a64be51cef732269",
+          "log_size": 72859,
+          "record_sha256": "7a3fed6ae6a6cf8d6e9c899e8d43015941136d5aa45db4bfd6d5f2381a1a31ef",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "b24e1fb2c90cc8ea1277967dc25427885e7ccbc6295ac5119fdec42866028c3a",
+      "e2e_file_sha256": "e9225937204adfc2137bf98421de3c8e656323271c261455d652c1eeeb923195",
+      "run_id": "actions-sim-build-core-pcsx_rearmed-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "3aeb1ed82105bc7817cf8ffbcd5853d4c60c01b3128039829acb6726cd980ffd",
+  "semantic_id": "pcsx_rearmed-050981b6eeb7-3aeb1ed82105",
+  "source_commit": "050981b6eeb715f142854f57c68086f62921f027",
+  "source_set_path": "pins/source-sets/pcsx_rearmed-050981b6eeb7-3aeb1ed82105.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "6670b42bf638facb5e261a9444c479ac62d7e39be161ef8e0307fdea8fffeb45",
+      "artifact_size": 1972824,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "a664fa1835411c2fbc249045e0c7a27d8c1ed42e7e5f6e67e8b9f3acb5989797",
+      "artifact_size": 1314948,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "689ba57c496f73a3ff9175a583939bed3a735e130138e73e7199050b76b9a6f6",
+    "file_sha256": "b77ad3c8b4a823316008c365f5656e40ddc4752aa067fc5e46ad59212f5c45a9"
+  },
+  "core_id": "potator",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "601a7088532366868584baebb23b28b6ecaf60a60947badb4408bb813527911c",
+    "size": 46578
+  },
+  "pin_path": "pins/core-sets/potator-227c5f6f3ce7-66e2c96acf38.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "eff8f2038fbc0796f292e1c1e855aabdd7fe598784ce1f68f02de154524ba7d7",
+          "log_size": 6687,
+          "record_sha256": "6843d9dfb669aad2d7b108b35d4b2a45fff10e7330768e05cf9650f4e81c4d31",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "8e899e1ed9f5db878d650d0c4bd044af7b3c162f38d53f028a9b14adc3d43da7",
+          "log_size": 6797,
+          "record_sha256": "5f3143f38b9f3529860125ae84e31a5b527a2b479a3f481c68ff9988d9394ea3",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "feaceb99f3b7a3a5da89c37cb1f10a9077e78727a0ba922b50a98ec9d5b26d13",
+      "e2e_file_sha256": "759a4fc63fc52d1d2d1b07b2aa1fcdf8cef6c0d3ca5ffaa9c7861a2acbf0a348",
+      "run_id": "build-core-potator-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "eff8f2038fbc0796f292e1c1e855aabdd7fe598784ce1f68f02de154524ba7d7",
+          "log_size": 6687,
+          "record_sha256": "4a63966cb49e9e1114a45e30bbfddd04e72dbb3f295a83a7f8f724aad5062a9d",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "8e899e1ed9f5db878d650d0c4bd044af7b3c162f38d53f028a9b14adc3d43da7",
+          "log_size": 6797,
+          "record_sha256": "ef43784bd46b3514a0673d2e5954bddf15303363366d4ec14658839ad4318513",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "6bb81226e712383a7df4e117a665412a68b56ebd9d91684e1bf89b11f7c208ea",
+      "e2e_file_sha256": "c726f9b225dcbebbccc860cec894a378fab93a1d534cb0c0642d69093a9df2f3",
+      "run_id": "actions-sim-build-core-potator-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "66e2c96acf382d506aabc8e708c2399998a2517f8fd8e55412814d97cce8c51a",
+  "semantic_id": "potator-227c5f6f3ce7-66e2c96acf38",
+  "source_commit": "227c5f6f3ce74d32e9002ce24c1420288559a860",
+  "source_set_path": "pins/source-sets/potator-227c5f6f3ce7-66e2c96acf38.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "6fd73f2261490a358cb22e5f16be4b51c537b0fd5d0c5a703326bffb1868ea4f",
+      "artifact_size": 72328,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "453d625fa5821723e89a54decf22c61bc44edde8287e2f364e58c2df69d7c689",
+      "artifact_size": 57560,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

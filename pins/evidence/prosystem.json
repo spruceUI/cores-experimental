@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "4279a246cbdf967df045cbe274c03af05679588164aad1be407088d1ec2c5d72",
+    "file_sha256": "499caae7f681610b77f5bff8c93cb4fb60e310765bf03407c9658536f9944d57"
+  },
+  "core_id": "prosystem",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "38bac674e94bf907b99e2dbcc4024273d71c9a7a979a4c909bb6b2479578e748",
+    "size": 131573
+  },
+  "pin_path": "pins/core-sets/prosystem-363b6dfbd3e2-245dc2e3516d.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "41bbc4d5170f0339c350a470691ebc0b6b9bdb5038f5d3dcaeef7f636c052893",
+          "log_size": 14490,
+          "record_sha256": "1b238c0608e88cebc2cbd218c5a2f3e28b21d9036637df10c981b98e237cd91e",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "00c2b04001c30ae2e512dab95db2aca6e36400ee0b3d308ff90d75a1bb9f4e0a",
+          "log_size": 14744,
+          "record_sha256": "693af884ffa3ea55596c539bcb36033d4ec59acc58dfa025d6c0ded8a8801791",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "d18d679e98b22943ef1f54dd4a0ffc4a4ba83b869f7dd7f76d9b19c28add4a9a",
+      "e2e_file_sha256": "d020937ffce9422792b0da23dfb63e3197799757b975eb08c17ba98e5189571d",
+      "run_id": "build-core-prosystem-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "eeea0f96cf3eba0299b14ce8d9964692f448f07161af8db5c5fb111442dd7e3c",
+          "log_size": 14490,
+          "record_sha256": "422352d1a9b54ade2f5a09221e6defd8ac9176e40040438a63a1e5062dbf7d70",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "53631c67d860ae917f87132507d4037a310b098c7cabb5a320f907c06ffcfc13",
+          "log_size": 14744,
+          "record_sha256": "504170900e234e4dc38b3b4bc306e83cbf6fea5451b44d51283ccf16aeae7c21",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "b2ef506e33f04ca3acc4746b9585cdb208082fb5ba0e1b728058fdd6d2c9f2e9",
+      "e2e_file_sha256": "972872d69303cd1e144e442a04d0535ef403da3817ea3a15a021ffc0b17c1e7f",
+      "run_id": "actions-sim-build-core-prosystem-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "245dc2e3516dc235b8b638b9dd217e4203f34d14725f87c32eb2319ac49533d5",
+  "semantic_id": "prosystem-363b6dfbd3e2-245dc2e3516d",
+  "source_commit": "363b6dfbd3e240762e022c2b4897b4fe55722be3",
+  "source_set_path": "pins/source-sets/prosystem-363b6dfbd3e2-245dc2e3516d.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "193926398f297b91095e94bcaa94ba356ed1e5c9805835198989ac5f35a75a8a",
+      "artifact_size": 226496,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "d2b4d9e1db7d5c93f1372a8321e36a33da79c5c21b4550b7015533639e91100a",
+      "artifact_size": 206520,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

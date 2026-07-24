@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "f6b8bd30ef80213b4377c40710cbe641685cbc3d0b2ab50a75d5f7040de611c7",
+    "file_sha256": "07dac4610232451846292327fb31c184afcb1f5e3e431c293feaf4774b667e18"
+  },
+  "core_id": "bk",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "ae32f9cba5839d2e3e99f8528270704fa69b0e0f6b955f92de1cda4a711fb958",
+    "size": 119664
+  },
+  "pin_path": "pins/core-sets/bk-fe64da42ee46-922495805324.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "e2f43c10ef537830d1675ba58aeb0be9919e2575cf2838a58a9b5c9769bc5efe",
+          "log_size": 7324,
+          "record_sha256": "c8c870391877b92899b200813d7b44eaeb7f46c3861a8b8bd15a98fb2e4bad90",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "8daf76b301277384a0a5de7c59082a2ece111aba3f4d911500b62aa3e4c5a7e2",
+          "log_size": 5037,
+          "record_sha256": "6614d094ca770335cf3a2dc2bf0f1735edc2365f94db74bacb06f57c401521e9",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "b1c0db2b52d1598d7e54b086dcaf0290a7ae4a36035f24b4b0a972875bfe154f",
+      "e2e_file_sha256": "e2ba47509d4a472a5977f23c91eaff902d975e1c478becc8ee546ce03fd666eb",
+      "run_id": "build-core-bk-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "7cb89c63a8b66072a44eeabd464252feb50ac3633cd0693cb07eb869d722ae57",
+          "log_size": 7324,
+          "record_sha256": "d573002925375074a98b3bffad4e023eeb7638898d6a5305a693b221b4475714",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "8daf76b301277384a0a5de7c59082a2ece111aba3f4d911500b62aa3e4c5a7e2",
+          "log_size": 5037,
+          "record_sha256": "454225f944b0362728b2ac443751ac7c2538693193d9b054eca36bb788a1c67a",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "392357726ee26d6fb5fa4e842086b5644dc9c25869ec4fdb9e49021e9dd0cd07",
+      "e2e_file_sha256": "6c520d9e2c50440f28497bd3c92d5681fee1d16d05bf04512e34c79623c93e48",
+      "run_id": "actions-sim-build-core-bk-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "922495805324bf109364204147a88ad8bdf07596ad78e0d4da9147cd3ada8345",
+  "semantic_id": "bk-fe64da42ee46-922495805324",
+  "source_commit": "fe64da42ee463c1b2f4d0566e4d0f7a9667506f6",
+  "source_set_path": "pins/source-sets/bk-fe64da42ee46-922495805324.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "4a69cdc1d7132e4681880f98a9a6a8ad98e386261d1ece0726aa53d7a03ba268",
+      "artifact_size": 203024,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "10970c54d9326fc4e81124dcc4709dfe2c4105f001656bdd47e4604ba917503e",
+      "artifact_size": 169328,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

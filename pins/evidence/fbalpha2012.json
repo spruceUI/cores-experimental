@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "af32295dd70b781f92d9f5a4871adf5e2f730950c5c9b9da47591a4d937095cf",
+    "file_sha256": "9b20479e8b4b2731430cae5e2dc25fd650d6d5d75975aa9849aedca1a9ea4226"
+  },
+  "core_id": "fbalpha2012",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "f919890a1e36a79df6e0a3fe96ce956ecd85d5255e4b59d5f8aa070c333a4e14",
+    "size": 9668173
+  },
+  "pin_path": "pins/core-sets/fbalpha2012-95fa35582b1c-4441b57d77ef.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "cdbcf59ea9b49ebc6534abb3d880d060a914dde7fc6dd9f724725d4b36568b17",
+          "log_size": 459808,
+          "record_sha256": "dda60721f5af9d5bd52920d897ca8a8ff7e10857d621c92ddcc88af1d374cd3c",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "0a6a3f6f6384cd1bbb741766b860fdfcc7b51b8cb169833bccc728caf2745ea7",
+          "log_size": 437233,
+          "record_sha256": "5f8e6d534a52d1effc3427eaa86bad319432c7b4f64dcf84e0ec7937343905cf",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "a2cb36ac95abc7a8f0a0a1876bfdb7747276079749a3c98623abe907f6605a29",
+      "e2e_file_sha256": "d9f92c53b4fca17846a1c249f5c4c3ea7310bdc01571483cafd2640b1f2aca53",
+      "run_id": "build-core-fbalpha2012-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "089e48e8edadff5e3ba4c0f522b77cd2ac6f56586597d595813fe3d7115fdec7",
+          "log_size": 459808,
+          "record_sha256": "eb2705623c242e6d2d16b8a49bd633465b78c9a09e05822d360536e7a17da659",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "3470f08d21bf3447cc059957542a7105b933d94f81080a68a574a1feac28a96f",
+          "log_size": 437233,
+          "record_sha256": "327fefa3cde2aeac9fbb5961b9b40fc1af67ad50230336a407a33ee119f7680f",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "d1a5a27e5b22550ec3bb6882d7d31ca3715acd4e26cda1ba5bd7eba46b4fc06c",
+      "e2e_file_sha256": "d819a719c0cb02e4fab19ec3d8cd573da5c87c945f0cc0913d9282c4f6ba6615",
+      "run_id": "actions-sim-build-core-fbalpha2012-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "4441b57d77efb73dac36c00166eb3f7ccd4f46932e9b1fd50057353a66c00937",
+  "semantic_id": "fbalpha2012-95fa35582b1c-4441b57d77ef",
+  "source_commit": "95fa35582b1ca7ce68de3313615794c8c9d8d7c0",
+  "source_set_path": "pins/source-sets/fbalpha2012-95fa35582b1c-4441b57d77ef.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "d22d25a98d9bb7850df92117273e3c65703acf7f123cf0161fa0c6746af2c4c7",
+      "artifact_size": 24619320,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "23cfef844fb691c1c002d7ceabf48e52496b8a94883b4675968bf3c1cfbd0dc0",
+      "artifact_size": 19980132,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

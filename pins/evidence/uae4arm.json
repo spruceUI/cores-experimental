@@ -1,0 +1,59 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "00c284e7c3530bfe98b5e99b7f8f7a0fb78c66b9ad2fa9ec4d8823ef393dc8af",
+    "file_sha256": "50d8ecbe56b3246304ac24bcd04c6389fd0b5567f3c68ee57b55e29556dfb080"
+  },
+  "core_id": "uae4arm",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "269d1e1daa6379e1122a298382d5c8a1270d63f0f9055ec92ba88cb22ded0dcf",
+    "size": 1976385
+  },
+  "pin_path": "pins/core-sets/uae4arm-dafd48fad751-10f060a87a8a.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "armhf": {
+          "log_sha256": "f130b1ecec82e2bbff06d1a75fef8dbe7ceba4f3580b3d8163aec901ead66906",
+          "log_size": 214319,
+          "record_sha256": "a3e38bf5c1f786c6d32d790e852daab2181ea8f20e7abbacb1a607671300f6a6",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "3f41b6a0bf06455537f2c7f84cb2ad33f485e181294dd2f990cd30b11101f638",
+      "e2e_file_sha256": "2966a26b69c43ce7760205c48066e75832128c224256e26492aa38d74d96d8f6",
+      "run_id": "build-core-uae4arm-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "armhf": {
+          "log_sha256": "27c2ddeb169b77b8e4fea3bf9afb242f654b1c7e18891af3a22a431fe705442b",
+          "log_size": 214319,
+          "record_sha256": "ac12fc36541e377b803abf16b26611363856fede7ecb3ee87c024c8ed3159166",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "668a05cd47828234eba5a58a890790d3c80403ed553974900fd05075a2b2b637",
+      "e2e_file_sha256": "e661d5bab30141a5767b71ca4940cb30e97a6a99cfc4b19263cdae432b2189ee",
+      "run_id": "actions-sim-build-core-uae4arm-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "10f060a87a8a5519a7029ec500468233ff45262bf0a300e666ade651d26f9922",
+  "semantic_id": "uae4arm-dafd48fad751-10f060a87a8a",
+  "source_commit": "dafd48fad7510ebc2f90ebdee8331bbdcf65fd49",
+  "source_set_path": "pins/source-sets/uae4arm-dafd48fad751-10f060a87a8a.json",
+  "targets": {
+    "armhf": {
+      "artifact_sha256": "b384437289833eec776ed62cab1fa2f65c49dbc16568e2679cfd4be495b3cff5",
+      "artifact_size": 4426200,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

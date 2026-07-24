@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "6557ce9e93bc39b1ea960d7dc01c6ff088b02aea399696335d6ee4d1acf7d151",
+    "file_sha256": "2e19341a92f73b467f398604e7a917fdd2aae06aac94dcd57b16781a82d9bdbd"
+  },
+  "core_id": "vemulator",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "8ef92758c671d01d59ef801cc64400990ca83d030d533f772d8b87c0dea73aa8",
+    "size": 74369
+  },
+  "pin_path": "pins/core-sets/vemulator-7fade9550620-c95725b18206.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "96788300087a896eeb78493a806cc898ee140d615976cf5a0de158779c26d292",
+          "log_size": 6702,
+          "record_sha256": "7e798d5e19e1589d3838907ded45dbaf4473a6ab4e467cf06fb71b6d04df50af",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "fd5bb939150954eeea47f7f7ca0b7a562e9bb321b5d2e2cd930230746d33207f",
+          "log_size": 7242,
+          "record_sha256": "4e429547223828868b09276b487df88f26053addd7dae9e77a9bf8af79756c0e",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "5e704f97550df04522cd2f007790d37dba13d0d25bb6c09ebbe6918b2b9846f1",
+      "e2e_file_sha256": "79bccf5a9e547e4aefd6586c25e4c446eaf968dd3b72b59914962912416c922f",
+      "run_id": "build-core-vemulator-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "96788300087a896eeb78493a806cc898ee140d615976cf5a0de158779c26d292",
+          "log_size": 6702,
+          "record_sha256": "ab21a821421f7be01dd55930e02a248e1408c56eef54291b5afad4e88dab5966",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "c3ffc98085b6ad708f687c7385dfe8569db3b56f887e66c0230d61be909d8370",
+          "log_size": 7242,
+          "record_sha256": "80613d9a85dc43b1dae5ec3f94ce313665e2805c74db6788a79e9e6c9d051700",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "625df01df47d9068c73ec76c9df374abcfe3501ceb4c48724c710261c17a7ca7",
+      "e2e_file_sha256": "dd902113fe60ccaf981f6d82e37ddd4c30c68f62feb4d9b66fc21d7275e6fde9",
+      "run_id": "actions-sim-build-core-vemulator-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "c95725b1820632659f69df4f1693c698ac24a86204c9ee1d28c6430cf09c2e03",
+  "semantic_id": "vemulator-7fade9550620-c95725b18206",
+  "source_commit": "7fade95506201aed83316cc3f2efe3d7cecf75a7",
+  "source_set_path": "pins/source-sets/vemulator-7fade9550620-c95725b18206.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "61043bc714311e7aeb56b92d1d184a5757d6e826d33d53b7a243b91a912ba082",
+      "artifact_size": 107624,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "b8f02db5e0a9310fe57dfbd3fa4ad9e030ee09d4f0fd0d8d2df18cbdc2693b41",
+      "artifact_size": 86968,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

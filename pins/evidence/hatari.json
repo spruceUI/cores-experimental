@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "d99c07499ae526036e361b063262afc9975e3a8e1bbf747dd9a85fd597a311bb",
+    "file_sha256": "c7ec971bd6e37c742e9ceac7c369cef960e6f8ff7b3f7f1c6d23616482f94a7a"
+  },
+  "core_id": "hatari",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "bdcc2c863ccc5641cc70be9aebfc333427fbb141b7dab558ab02386bd93aa212",
+    "size": 2378868
+  },
+  "pin_path": "pins/core-sets/hatari-c605d3aa342f-a6a46e6e311d.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "0a9e9fa9c2466e0f0b0748dd190c0934fd9464f15e2bd74f53e35b4520c7bc0b",
+          "log_size": 104691,
+          "record_sha256": "377f35a409cce967d6a7ee7c7a4ac1a5bd00e5113052715f70c77f2891953bb2",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "0273cafbd8f4d6469aa159bf49de83c822af24447306f573bca73b41022fa9d5",
+          "log_size": 71481,
+          "record_sha256": "a0081fc8ecda44fb184fab8394a8492868f6138266e2f8b683d145dca3c8d46c",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "2846ac1d395d2314646818f39f81ed4e36fa58f00dd1922693cd3b8291e738b9",
+      "e2e_file_sha256": "b088a5dcdd5114e2c0a03209c3da4bc6176684f705add4eb7b62f9b5c397e58d",
+      "run_id": "build-core-hatari-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "cf0f1df819adb65318358a7e9c443916c6d52c061e71b60fcdd08cfc7edb9ae8",
+          "log_size": 104691,
+          "record_sha256": "2343f088afb14e679539c32fa810c499c801ae4337d70aeb0afbd34bca9ae45f",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "0273cafbd8f4d6469aa159bf49de83c822af24447306f573bca73b41022fa9d5",
+          "log_size": 71481,
+          "record_sha256": "d70929518da0fe9818382380580a74e2df72a60c1c9e1ad15231127db9287486",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "3d115762ffe2c5f4c28534e88fb3b06d014351caa846a473c626a29746add7e2",
+      "e2e_file_sha256": "cd8c179e8f10ff68e8a70c97e0ce2706e2e3835efffb30af36635abd80e83ca5",
+      "run_id": "actions-sim-build-core-hatari-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "a6a46e6e311da36bbd7c31610c94177398c4993e8aaaa0801847d6d289856f15",
+  "semantic_id": "hatari-c605d3aa342f-a6a46e6e311d",
+  "source_commit": "c605d3aa342f2ad8f915f94bf03bae018e1be7b7",
+  "source_set_path": "pins/source-sets/hatari-c605d3aa342f-a6a46e6e311d.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "a19cd0b819ea6bb0ac696af1a3e4ce5dd3df11fdf55b00b8450e9c03af807d6f",
+      "artifact_size": 3657064,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "27a3ed4176b5b7691a8f92202a082f0bd3a913e96487bd75b03c6adc97c834d4",
+      "artifact_size": 3062980,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

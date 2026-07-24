@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "c1f428810c5440012882d9a9a7e4ff9628321ba157266723ef901aa0d48929fa",
+    "file_sha256": "3ac2c56c037b9c612219fdd17c7e07f6e623b8c3389f5cdfd0222d8e850b7467"
+  },
+  "core_id": "flycast",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "2262f1d900679dcb56f5f79c95806ded07d6e93ab4d2285280a6562dbf50d594",
+    "size": 8495673
+  },
+  "pin_path": "pins/core-sets/flycast-392a429e8b04-0235d8a7b7b9.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "0716d30ade65a1a01c34e20e68d2ce48f79278ad26a0f0b47304784ea1994f9d",
+          "log_size": 655698,
+          "record_sha256": "bcfae48bf1eac98f070d13f285e7921bbd12cf1392d5d78f11845b8b4f515bc7",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "8d92873865c04ee6789ba9173c04ea1d41e190040e2888f1b54140817d60c11f",
+          "log_size": 672478,
+          "record_sha256": "fe8ccce7b272321aff56fafe5594cde6d296629d03e11b4f4c7888218b01f972",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "b6d9194dd332adbe8f2ba0ce430841703f1a21b5f76ae7ca0bb9562095064ac6",
+      "e2e_file_sha256": "0461e027f8aa05f5090ea3f5b51aa4a34df4b64b169bfae0848af54f283303ac",
+      "run_id": "build-core-flycast-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "136f68c7eadab3825f45732059bd24269f481a804faa78a3dd6346b90274b21b",
+          "log_size": 655698,
+          "record_sha256": "7c34974c0c60d2e18cad3e514d696b82dd39a45d5e42fcb2c88a1a6795b525b9",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "8af7c01f8e538c07f041582dc816e925ef388ccb911a259d699c259ef6594f3e",
+          "log_size": 672478,
+          "record_sha256": "5b938177744361998012c05f8aea5d0603acad9112762ffa74664c563259ffaf",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "f2c3bf601a7d74adc74b5bd4f99cd0935713ce3d0399acedd92a5aa55124a5c2",
+      "e2e_file_sha256": "2bb6d8905be77f319995c647cd890de5bceb0707565a679557b7af1e2fd12730",
+      "run_id": "actions-sim-build-core-flycast-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "0235d8a7b7b9ce9f28e6a2b62a99bdef4c6e3beb9c5551a525c42e418dd37af6",
+  "semantic_id": "flycast-392a429e8b04-0235d8a7b7b9",
+  "source_commit": "392a429e8b040b3e5bf6696cb4f984274fc44123",
+  "source_set_path": "pins/source-sets/flycast-392a429e8b04-0235d8a7b7b9.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "f32668ccb107232d06de3e3b54b878dee31382951575c1d0d078607609469760",
+      "artifact_size": 33305120,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "b5151a70e83157727f66628755f6fc2c2e2809f7da7f14ba8cd6e845991c0479",
+      "artifact_size": 27443224,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

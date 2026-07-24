@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "56378111d829d40930e3c1acdeb0dd6b8be474e8c6b691d2f0cf15834f7721a4",
+    "file_sha256": "c1be7581d8115fb84260bb2be856daf2ae5a94a45d7ab8207b365e30aaf32ec4"
+  },
+  "core_id": "handy",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "09adcfe588d3bd9503ed7d058081623186d16044b1024b0d6995d8d8a25a645e",
+    "size": 211740
+  },
+  "pin_path": "pins/core-sets/handy-bc55d462f0b2-c82a2178b4f0.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "517fb76df982704fccc1527ad8813416584a39d0329493b7d28b9a836c2caf27",
+          "log_size": 9425,
+          "record_sha256": "90a9364914d85288aa56cc8d5418f0315839c9374c52c4ed9e96fe8b33b7abc2",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "0716d38d014850da40cee4fd48b94fd0d5132dddf76911d124c241a4bea88ca0",
+          "log_size": 9637,
+          "record_sha256": "c8c8238c770a37e78331efb418830dd1b3009b2e1cf2a9a8ce292c28ae00f4e5",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "2cd5d9dbc65125690d4ad36ed610e1069563f51cad046e240d96c8f23659484e",
+      "e2e_file_sha256": "f7550bb5a69e0efa61977b8d7e8cf1be721a40c922655fb4492c4df7fc837c25",
+      "run_id": "build-core-handy-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "517fb76df982704fccc1527ad8813416584a39d0329493b7d28b9a836c2caf27",
+          "log_size": 9425,
+          "record_sha256": "6ddd893b39e0705ed868f4c8b6dd7cd1db1bd6748cf0e7a34c6d8fb73c494b00",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "0716d38d014850da40cee4fd48b94fd0d5132dddf76911d124c241a4bea88ca0",
+          "log_size": 9637,
+          "record_sha256": "a6b7c093ba3ed8affab878dd64cf8b8bcc86da084cd72939f3670725b8ce171b",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "14fed7cafcb9e3d23be56e710bb756fa5faddedb0a2e02316f05cdba40e1d634",
+      "e2e_file_sha256": "7f36482624c366347f6199baa8f2a9abcf538952317a14074e563d3d3a3fc8d3",
+      "run_id": "actions-sim-build-core-handy-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "c82a2178b4f03ee30877d895a71bb77b338af69b77cce8d299c2592e5a9e0796",
+  "semantic_id": "handy-bc55d462f0b2-c82a2178b4f0",
+  "source_commit": "bc55d462f0b2d6b073ea93dc552ebd73cec60fd1",
+  "source_set_path": "pins/source-sets/handy-bc55d462f0b2-c82a2178b4f0.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "d15bfad88cf605f42f99d6e7d75f95f874d381755e9a3f5b0b5d6fd327cc1575",
+      "artifact_size": 925584,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "a45293fa6c74a245304228ae7571c7f59ffe97648d9673c3cdfba01cb0afa9d4",
+      "artifact_size": 549644,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

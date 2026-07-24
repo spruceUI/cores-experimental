@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "6a3fa8a862a94d55cc6cad11f0d2e5902fb5672d1544e6cc5a67e8503f711f68",
+    "file_sha256": "11dfeecb20d84978f97913d817ee3cf8ec7286fcd9901f407a4ae6ef671c523d"
+  },
+  "core_id": "mednafen_pcfx",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "0a5963688e03ea1ab6a1061bcbaafa1295c6272ba24c63a5bf0a31e2b89f36f1",
+    "size": 708768
+  },
+  "pin_path": "pins/core-sets/mednafen_pcfx-650c30ea2203-d3672dc81b75.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "193c504bf013807ec35d63fb989bd0f852e4233b659268e4c2a010d3db3e32d2",
+          "log_size": 80800,
+          "record_sha256": "40aac4c65b67f4a039bd4eb930c128ad80c305df460561e42d3305674e35d62c",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        },
+        "armhf": {
+          "log_sha256": "20e521c20e906ac5015e1228e22a55981d8dbc6a5840e475dd47e1c49718795f",
+          "log_size": 84772,
+          "record_sha256": "e53f50d820c2705202df51872d25afd24659aae847a68e7ce927cba1fe1097b0",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        }
+      },
+      "e2e_content_sha256": "2e081e4631da954adba3ecb73a6a9af310aa217e55baea4b1f92330d9f360006",
+      "e2e_file_sha256": "7da913e7bdb9fa2f15ea0b70ee969bea26fed4a6342fc5d8d2dfef89e64210d7",
+      "run_id": "build-core-mednafen_pcfx-local-w3c"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "040aed48ae509f20c6d6a0737e009f3d8b651fdc6a851068c49708fe13f80138",
+          "log_size": 80800,
+          "record_sha256": "5f64b748b580c8fd9fea49dfa61518905ae71158f42a86d092b082aae9866eef",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        },
+        "armhf": {
+          "log_sha256": "88c18ae28c442a04fd93cd4c13be3dde71d8fa60baab5f0d0735bfcacdc35b75",
+          "log_size": 84772,
+          "record_sha256": "3b4b48f1afb80ee85081442f0aad3012cff25c58c78a2da9b29199deecffadb1",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        }
+      },
+      "e2e_content_sha256": "44ace53030603f57e3a1c34ad4f16c74b8f68eb171861e8b58597cee49a1e013",
+      "e2e_file_sha256": "cea7eec282d82c471c78d8333baba5c6771805659c162ce1c6b69be9e7fa6a98",
+      "run_id": "actions-sim-build-core-mednafen_pcfx-w3c"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "d3672dc81b75715ee2199602a4167b3a4922ebb06d694acbf6acc069fb92757b",
+  "semantic_id": "mednafen_pcfx-650c30ea2203-d3672dc81b75",
+  "source_commit": "650c30ea2203636a1716675854d11c608ed6eacc",
+  "source_set_path": "pins/source-sets/mednafen_pcfx-650c30ea2203-d3672dc81b75.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "943dcb6075159ef8a0e729622729bcc5a56110e904fa7d99ea94e59d79d3656e",
+      "artifact_size": 1904856,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "26ada82ee4da4170454b7e2af05d242b21dc77467ccb630ff5f058c28efef30c",
+      "artifact_size": 1237788,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "3fe7624bfa72da933ba4d7a26f665f475159f82983a0d5044c25b9ef4574a69a",
+    "file_sha256": "4dab3949b5fa1333804dcc258ef4d4668c1288c55135ce692f000c8145681e2d"
+  },
+  "core_id": "atari800",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "d9bf8a9e2f1c393c6c43d4e43705eb499ac1361ec1ea094d95dc418089909e55",
+    "size": 772374
+  },
+  "pin_path": "pins/core-sets/atari800-9d3bcf283502-86df6ca070f6.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "0531a9f087b2a762767c4c5f59c3c51225146e3adfb163305c8019226efab3f6",
+          "log_size": 37181,
+          "record_sha256": "bf14d7ceb456a284087ffa4eebef49f6f71f9a05c822647d0cfda1dff396d115",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "136185c37bb78ed3f4de25fa469966dab791c2dcaa56580be61a26b05f08f575",
+          "log_size": 37829,
+          "record_sha256": "39d1cb9311f97f01c6acf11d98e2ca5baf712b724c5a3dcc9bcd90a3ae1c0da7",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "8159a62b3c45fc93024b2bc6b9a08c02c84840ed921b7e8f3ff3e53052197ada",
+      "e2e_file_sha256": "cb223da4906bc1f4a4bfe885bf947c582dc9a6ab114d59ec0fc0a35e36d8c388",
+      "run_id": "build-core-atari800-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "0ce53e4a303b6c994297baae1bcc339a47f314b5e235eed332b700e5612aee29",
+          "log_size": 37181,
+          "record_sha256": "a8a16752f5b3a1948bffd78b2694bc1e36d1a078c92d0ec4fa66aaabe3182ac7",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "23702e68f6af3ef892cd26706fe6ddd8e49551dd62dbc6ae4e9d86af1046ee7d",
+          "log_size": 37829,
+          "record_sha256": "e6feb64ee304afd20773fdccdba906fae32b2b134f8f035fea577e1f91af0aca",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "96ee25ce0153ab7fc009ca35f8e5eeb2c944ab0ad26129981b8b7c0e0943adbd",
+      "e2e_file_sha256": "bbd39c1eb2a1ba3fed358277f7f7fe5b67ff8a04b88da30df2627f9d4d3670b1",
+      "run_id": "actions-sim-build-core-atari800-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "86df6ca070f60a6d1f1715ca03efd29ff2caea78437e33e99731651fb251d897",
+  "semantic_id": "atari800-9d3bcf283502-86df6ca070f6",
+  "source_commit": "9d3bcf283502512052e21c6f1453fbdf7aa3122b",
+  "source_set_path": "pins/source-sets/atari800-9d3bcf283502-86df6ca070f6.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "9461bbb5e8148b620902f16e65f7ccd8614fee6e4e0284d8e9224ac6bd4e6964",
+      "artifact_size": 1054880,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "0a587761a97578384345b85129481eecafe6549d45ba9169efedf6dc8a7e3768",
+      "artifact_size": 890632,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}
