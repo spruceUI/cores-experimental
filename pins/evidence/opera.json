@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "c399c87793c8ebd469aeb8c5bb0bbf459472db00406a49c4416cbff265b20908",
+    "file_sha256": "3e3ca4a67362230f1bdee069c4316576a4785bc1b58029812c1e1730aeb04828"
+  },
+  "core_id": "opera",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "2dbbaffdadc19e65ca70e0c28b606ff6147055041ae6d16a50d119f9ddc95c66",
+    "size": 463385
+  },
+  "pin_path": "pins/core-sets/opera-5a4eb964e687-e2bc91dc0d44.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "a642cea6c1f32acf4d28e61a200bc3d53564e4c61c283ca6c54cea3883c0dd48",
+          "log_size": 54959,
+          "record_sha256": "61c7fbe3cc4989f732b6d1f84a4b9f11c4fe5f272a11e1f0dbadb96543c14a5c",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "47d8ba116a8714c091afb6a234d85b05d8901d016e6c7fe271af8005aa1683a2",
+          "log_size": 54057,
+          "record_sha256": "776dad804ddf469f50483551634b7c15ebdc9a518bce7a8737b3f2324f2cf68e",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "8c743083afc7b967e4881b88556518d69751c6392223f7dfddf10c30bb9b6615",
+      "e2e_file_sha256": "5601bf1d3d227eb1b50887dd459df138855413d24cb23ec19a3290b16b563564",
+      "run_id": "build-core-opera-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "8ce7fcd60b7241c4639de43a85680036da33931d44bffd4909ef58782b66d2ee",
+          "log_size": 54959,
+          "record_sha256": "b1e25ea6ce7cfb5ee70a902c2b7b32f62defa99ea4ba8ab8bda31743cd0066be",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "00911418de69e97332cdad508335fccf2b8909c8615ad48ec3e11c70785f9445",
+          "log_size": 54057,
+          "record_sha256": "fb490c123b278efac87245765bbce6e62c72e11d51faf1ebb3b330095b7faa2b",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "4aa61712ed3a61e0eb722c81af77d4f6ce82f9bdeb8d6e3e144dec7fdd2d692f",
+      "e2e_file_sha256": "020264edb338c4cc940aea79e8184051d13f6d2d51ac6bba171e7da87674cf93",
+      "run_id": "actions-sim-build-core-opera-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "e2bc91dc0d4461e245588277119ea882bcd87602e41fab5be88c075874b7a44f",
+  "semantic_id": "opera-5a4eb964e687-e2bc91dc0d44",
+  "source_commit": "5a4eb964e687ad029f3df51cf535a6e63b414181",
+  "source_set_path": "pins/source-sets/opera-5a4eb964e687-e2bc91dc0d44.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "5398978d51345c2fb55294f21aec259f440637e813be58d65e2f8a280d5da2ac",
+      "artifact_size": 556984,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "66c0ed130a2fb83fa9d440fc5443f01b8c910d3de73817b08f87c88708f7e46f",
+      "artifact_size": 464080,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

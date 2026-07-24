@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "245dc8b8a249aa3332ed7b74199f0850c1074c79a0ed99357d3cbe0786616324",
+    "file_sha256": "95fa503d38df87c44f453459fa8219d29dc09894cb0886b7d1b1b7fc00dd86dc"
+  },
+  "core_id": "picodrive",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "a55428ee10877c4bdcbd937839b7057f6af3f525bdcf6b6550b3cbbae8e2348f",
+    "size": 1710860
+  },
+  "pin_path": "pins/core-sets/picodrive-f0d4a0118a97-87be52efda9b.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "87f69ee3457562eb93726451506616a5e6e986820226e220780fc9655930527a",
+          "log_size": 104589,
+          "record_sha256": "b78fa14fc216a8122c34643aaa0f9dbf91053fd4b900b63dd99ca50125c4876d",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "e8ac79f9e7948d419049be118c0eab609a3f3afdf51c99d8ccc2d69a987c8cea",
+          "log_size": 145687,
+          "record_sha256": "1815f6d4e761656a0f36bae1cd7c41ef2bbca3d601e319f99696138e2db0827c",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "083a8055815bfdd3f9994869821034a50f7b45a836d7da58ab22aba6f4cecf8f",
+      "e2e_file_sha256": "da189436df47373213e0ca4107ba3fcd35f602a90344d61db0876efb8accf880",
+      "run_id": "build-core-picodrive-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "e86d2b4ab619bd1480ce6505ab54c6eec25f2f029a4616b5d89a10f31ff927c7",
+          "log_size": 104589,
+          "record_sha256": "226d9c21dca04697bffbf363351479d4b971664aba04a0973359c9a8ab364f18",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "e8ac79f9e7948d419049be118c0eab609a3f3afdf51c99d8ccc2d69a987c8cea",
+          "log_size": 145687,
+          "record_sha256": "27ab49dd7a486fe5ab79fcb459c5bd994e50ca64d1f67084a3ca6af28a61124b",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "6bc428c267d300c02a1cc5bf691da1ac697f3f037671e710b24acc76a41733a3",
+      "e2e_file_sha256": "5d93767c636805c606d476cae5bd65cf2871e4bf93e4ddf573d4ee6638ede205",
+      "run_id": "actions-sim-build-core-picodrive-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "87be52efda9b3229019cc643729ee0248c14971087d45058bf1793bf3282c689",
+  "semantic_id": "picodrive-f0d4a0118a97-87be52efda9b",
+  "source_commit": "f0d4a0118a9733a1f10bce5a4ac772c474f9300d",
+  "source_set_path": "pins/source-sets/picodrive-f0d4a0118a97-87be52efda9b.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "922361592a982d8f6348a0d25128fdf5491b2bb80dc40e094751c9fdc9867296",
+      "artifact_size": 2069560,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "2356aba1925fef276fe3a0edcac5fa07f5ce81d3bc52a7af597d9c325d0fac3a",
+      "artifact_size": 2378860,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

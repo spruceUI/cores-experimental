@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "9c9fc06b365b0a15bf9621482310ec4d793e9b5dfbb3dc5cf3b1eac718545c3d",
+    "file_sha256": "ede2b93f6ca39da0386814c6a7df00e32d19cf79b1668163744648cad50f3e23"
+  },
+  "core_id": "uzem",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "11c1f581926115aeb033e6d7eeb4804cfb7feef65814106b77367bdb11e64879",
+    "size": 76447
+  },
+  "pin_path": "pins/core-sets/uzem-d4fe82c38bf3-34eca38274ae.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "0e65ab20a599d8806bd287cc1ef34ba89a16ec2f6f68815cd78ce76fbe648781",
+          "log_size": 6357,
+          "record_sha256": "91f8f9d33ba960de5654f54630f5279d60fd064632b75aa9b4b3d6a2183ec810",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "b60c6e39518927fea074fde93ea9bf850e5037526c7af920222e0fbea2b06bf2",
+          "log_size": 6026,
+          "record_sha256": "0955fc6477046cd53decdc55f20a5ea804eb4dcd2e349b1510287cf6074c57b7",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "9eb456a0ee6a9c6671693f9c05a7b9c7da3d5b769bbdea877c4d4fa628fd2843",
+      "e2e_file_sha256": "234e010f2545d062585dc94b102e11a77cc89abcae0eb2c131c825210728495e",
+      "run_id": "build-core-uzem-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "0e65ab20a599d8806bd287cc1ef34ba89a16ec2f6f68815cd78ce76fbe648781",
+          "log_size": 6357,
+          "record_sha256": "c4a663ab694653059f1b01c3e9748322fa8e7675933bef349c72b37662dcd5dd",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "b60c6e39518927fea074fde93ea9bf850e5037526c7af920222e0fbea2b06bf2",
+          "log_size": 6026,
+          "record_sha256": "be177e73a2dea8664a886ef197f0adb311c6d874fc80fe7f1e5271e3e459ad34",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "82536aff74354ed05b396315df8f619f90437a9717847bfb8fa5ac194af9b04f",
+      "e2e_file_sha256": "5b55afbc603189c53bb9dead610607ce7f30d3cdb082339dd1805c25606a41be",
+      "run_id": "actions-sim-build-core-uzem-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "34eca38274aecc5f36434a380d79f931821d3869a485f6ba2a560500fdc9b537",
+  "semantic_id": "uzem-d4fe82c38bf3-34eca38274ae",
+  "source_commit": "d4fe82c38bf3fc789b955bcfcc81dc2e3a2ea89f",
+  "source_set_path": "pins/source-sets/uzem-d4fe82c38bf3-34eca38274ae.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "b32b6e616144619bb724cbeb0977a47bb928851504706b866206ce8aed4c5bb6",
+      "artifact_size": 97944,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "6e3a82b6f08b1a06f068b5c3dcfc70dd1cb4ac5f024662e8f78d697e4f134f99",
+      "artifact_size": 78392,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

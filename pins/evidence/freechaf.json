@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "8a3f6fbf37a249e43f32decaad04c60926578436f9ebd3ab0ec1230198e2623e",
+    "file_sha256": "5ae61d3c01a42cfa16bef7dccd23e56aabb194f3c20bd7cb0de25fc289eab309"
+  },
+  "core_id": "freechaf",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "30463cecf3d5d6ea107ffadd9ef3655b9edeff4c98da9c485518cdc0c3978b9a",
+    "size": 87342
+  },
+  "pin_path": "pins/core-sets/freechaf-76c7a84f1f7e-3fc6b43191ef.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "2fef74b8156d7826eeff6961791ed332c8d0bdb6cc203ad7ac5ed36043e972a1",
+          "log_size": 14179,
+          "record_sha256": "713c69e01c5a50eae4f9de490b4d93e7367f78a81a075c2b0a8f8adddcfe4919",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "536a073a5dfb2793c11afd965be63c3d7db238f7b8eb99a92de00130be71dce7",
+          "log_size": 14391,
+          "record_sha256": "2b6066ef5ac7f47c575d2d7961a07f14b0385f4d821f955f5ac169dd358c5ef9",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "640d52e89d931199271524727125b855d23052159e050b1fc0ca44da5f85a6c9",
+      "e2e_file_sha256": "15ca02119f94bfdcf29fed334d697530646e1a44d8aa87cb774327380c97c8b1",
+      "run_id": "build-core-freechaf-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "2fef74b8156d7826eeff6961791ed332c8d0bdb6cc203ad7ac5ed36043e972a1",
+          "log_size": 14179,
+          "record_sha256": "f58a3e435e06754eee352f405d0c3d809dd2166e39438bd4dace4ed91cb91bdb",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "536a073a5dfb2793c11afd965be63c3d7db238f7b8eb99a92de00130be71dce7",
+          "log_size": 14391,
+          "record_sha256": "ce0083dc32c1322bd290dc19b61b4b7645dcf97f1cd74889b6fa86e2ae45f3a0",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "b4067eacbc0bc85f46578f6cea926eae63c6d92b2ff9c1fad48bb5d5b9b84e3b",
+      "e2e_file_sha256": "7dffde4d811f12ba1cdc4a79b3884bc476f61137dfa402b31c7e697c74500b28",
+      "run_id": "actions-sim-build-core-freechaf-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "3fc6b43191efe77d6baf65f532c62874df54a788a72df19533c30b8923b3f0f9",
+  "semantic_id": "freechaf-76c7a84f1f7e-3fc6b43191ef",
+  "source_commit": "76c7a84f1f7e80f3e6f2bba96fe100cb24e99124",
+  "source_set_path": "pins/source-sets/freechaf-76c7a84f1f7e-3fc6b43191ef.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "54064a6414b18ad7aea1c3284ec48a558a7cef8f3551bf09fdd398fb84c759bf",
+      "artifact_size": 112720,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "d25e53ddc6d0bfdc675e7d0c90aa089804235036b47c702c1fdd4f5b1c95d838",
+      "artifact_size": 97564,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

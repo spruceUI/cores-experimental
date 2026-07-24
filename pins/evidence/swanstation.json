@@ -1,0 +1,59 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "375f184047cf2a9e7e49fce0605cbd5a1e7dd0b3b69a74797f4d038d159a109c",
+    "file_sha256": "e7e48963004a12c6bd06744a80a3a752df143db43e54c6a6657c96310030e86f"
+  },
+  "core_id": "swanstation",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "2c1ee0edb654fc6b52d8b88317fb51ed226abc67ba76d452a7145232b4b553e7",
+    "size": 1549697
+  },
+  "pin_path": "pins/core-sets/swanstation-f901022198da-460045f15041.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "143cbcb4562bdb9431ffd86d1cc349127ea92b3ff7f3794a14713b1f2f0e3326",
+          "log_size": 184507,
+          "record_sha256": "2ad34545086549b52aa5e7d673eb03332d7db0be591c21c2ecc8934ee5b49b99",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "470de79d1f1515965129e3cc2d56cbd1d74dfabc165693e6cbe395a196bde878",
+      "e2e_file_sha256": "a1b581bdf1e51fdd8076949e273984a6c45eab2427f973d0e7ff1cb0df681360",
+      "run_id": "build-core-swanstation-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "57ece2916ab846d9c4e92c33e4fdf0b6c6aa55daef8b4f4bf2ddc9e467aaf9b9",
+          "log_size": 184507,
+          "record_sha256": "351f766ec2cb7e225f830e6ed8a81d3d544873b1f843fac0d19ce57445e4b6a2",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "8733f88e1c581ae025828ee3c6531df1ce1ebad3c62e0320538d725e7cfc8824",
+      "e2e_file_sha256": "564b1590b2cdbcd7e57075fc51a1a3a845fa03e01b4883decb85c96efed001f5",
+      "run_id": "actions-sim-build-core-swanstation-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "460045f15041bcffcdb1f4c8e4b21e393c392024ba7ebce349e7389a3c12ab73",
+  "semantic_id": "swanstation-f901022198da-460045f15041",
+  "source_commit": "f901022198dacf125d43331c6540492441ab415b",
+  "source_set_path": "pins/source-sets/swanstation-f901022198da-460045f15041.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "4d6ae87490119367a8bda1d4253e8e4d3d6693bd6ee0223af7c61ee6a11f8efe",
+      "artifact_size": 4929040,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    }
+  }
+}

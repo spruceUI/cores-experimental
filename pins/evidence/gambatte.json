@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "f948cf61477a68a569a9ef7102ff97bd4a403a01f8f32737c12bcd5ad941ebff",
+    "file_sha256": "e86df07c48432acce0bd434e5cf5557def425e50ce0ae178abcb37ec8b255c46"
+  },
+  "core_id": "gambatte",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "fec71a92d98b55559eb78a03ddf5c7ed0146677ef4661272258ce7f61360d67c",
+    "size": 927946
+  },
+  "pin_path": "pins/core-sets/gambatte-dfc165599f3f-782fa4634494.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "b4532760789047dedde9e076171675f1f2de4add24587064136c5b5eff9c9604",
+          "log_size": 28010,
+          "record_sha256": "69230e4dd5b3bea055f861c9fdd909bb44d6b1750f043ea6071766e93a66b99d",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "e95dfb5b4a38047b1352190620ecdade0329c803bab1a0f94688f92fd903b8a8",
+          "log_size": 28307,
+          "record_sha256": "e9be2e42004c3539741de9a6c54fd5c865bdcb6dc8524b8777a593396cefebc5",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "222924aae677d39441ac7920e0548d7d95985683ae44ff42b0696901c6a40c86",
+      "e2e_file_sha256": "2e344e1678452f0e30eda8ee32428b88c73e0f2dfc933b75ad7290a48f140440",
+      "run_id": "build-core-gambatte-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "b4532760789047dedde9e076171675f1f2de4add24587064136c5b5eff9c9604",
+          "log_size": 28010,
+          "record_sha256": "9aa9b9d6e74e488b902179bcd657a67eaf9ffac4b74bccd0f00f457f33d0a647",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "e95dfb5b4a38047b1352190620ecdade0329c803bab1a0f94688f92fd903b8a8",
+          "log_size": 28307,
+          "record_sha256": "55fb4bed5b7a3e77e4e30605e662d546f0b18a8e5d3c1c28f0679e74c93f0d01",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "ce0e2ee97b869b27d3c138179a16e8c67400d573ecaf261b77cfe9dc0731ec78",
+      "e2e_file_sha256": "beecd89fec6bd69cdaba45be6e351af3fd377bd732222239474ae9926c5cab42",
+      "run_id": "actions-sim-build-core-gambatte-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "782fa463449460528abb656071c87ea362d45b9d886233d34b4e1274ff6b8b0f",
+  "semantic_id": "gambatte-dfc165599f3f-782fa4634494",
+  "source_commit": "dfc165599f3f1068c40a0b7ad6fe5f161283d483",
+  "source_set_path": "pins/source-sets/gambatte-dfc165599f3f-782fa4634494.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "0f36a693e262f89b3e417956718660ed22927444ed8370850fb26e12bc56f47c",
+      "artifact_size": 4898432,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "c26f3e41a8c3fa556d5d9401f4ecdea9d25699ff0537a6488a1f3e16e678b0d9",
+      "artifact_size": 2626288,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

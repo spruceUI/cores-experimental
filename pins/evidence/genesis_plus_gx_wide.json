@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "d7092e306609699a3a1f6fecc3044d432ecac24437cfb62c603248ad491ee8e1",
+    "file_sha256": "a32315be581ad74a5d7b16f3a28b1fe473e60808aac622f13dee38edef8f2239"
+  },
+  "core_id": "genesis_plus_gx_wide",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc",
+    "size": 2218602
+  },
+  "pin_path": "pins/core-sets/genesis_plus_gx_wide-29d9d104338f-6184c4659fe1.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "d2dbd8892dd356a66d1c433af44a5beb82d8084d0e957dd8f782696bed4c125c",
+          "log_size": 90711,
+          "record_sha256": "4a5ee6c3b913ad04272c9cefe2eabffa650bcb1c0f8f51e9878a03896d34ca0f",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        },
+        "armhf": {
+          "log_sha256": "9d52149408262de1a3b22b549ecc07b9283ce7c1968e728c2188927ea39551f4",
+          "log_size": 89680,
+          "record_sha256": "21e5540ee4cc1489f5e430ad1b8f957ea230d042ba39cea82bdd17af8a60cf18",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        }
+      },
+      "e2e_content_sha256": "8c68eea6dd90219ae98cab6072b5ccb28298963c9f1411b5dbf97e8a70b63340",
+      "e2e_file_sha256": "a2d5fcfb0895b77ef50fb9aa0d9d47e14fcd64d50d502970d10e30886dabb69f",
+      "run_id": "build-core-genesis_plus_gx_wide-local-w3c"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "1df0194482739b79b6a6c740f6b5d8b945018eea6874daed1d70e8dc0419dbe7",
+          "log_size": 90711,
+          "record_sha256": "1293ac3012191c67c06b4a63ec76f4bfbaef1250dafdd5f53bf688edc1512707",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        },
+        "armhf": {
+          "log_sha256": "9d52149408262de1a3b22b549ecc07b9283ce7c1968e728c2188927ea39551f4",
+          "log_size": 89680,
+          "record_sha256": "f92d0023424fd4db453f61a69986c74fb1f80a04ab4b7e9942797966dfa53f6d",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        }
+      },
+      "e2e_content_sha256": "4d578c0bc71f475fc10fd9749d5f784f7376a3aba5f30bfdbe7b20e5b0cd8ae4",
+      "e2e_file_sha256": "98e08a7bf11afb4b55bb64771d367a6841add1dc1f50823a153fcf330b3b5e8a",
+      "run_id": "actions-sim-build-core-genesis_plus_gx_wide-w3c"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "6184c4659fe120b95186d6ed505a3b528767ac8d6ed3c1014f876c3ba0d5f9bf",
+  "semantic_id": "genesis_plus_gx_wide-29d9d104338f-6184c4659fe1",
+  "source_commit": "29d9d104338f46bc2e65438fb207bcf54f701e92",
+  "source_set_path": "pins/source-sets/genesis_plus_gx_wide-29d9d104338f-6184c4659fe1.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "d9a21808b8ec081d0f44134feca26d73d1648e157d249173ef7948e1f17a6e58",
+      "artifact_size": 12383136,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "4cd1ef2a6296c52707ccd5ea4263a02b4f0ffb4b1b90931b68e388d429a9ffa6",
+      "artifact_size": 6374200,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

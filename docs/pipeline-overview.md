@@ -17,8 +17,8 @@ deeper on each area.
 | Path | Role |
 |---|---|
 | `manifests/` | The reviewed build catalog (`core-builds.json`), its schemas, per-core compatibility documents, device runtime contracts, execution profiles |
-| `pins/` | Content-addressed provenance: per-core source locks, source-sets, core-sets, and the toolchain archive lock |
-| `scripts/` | The pipeline (`core_pipeline.py` + `core_pipeline_lib/`), promotion tooling, profile registry, toolchain-archive validator, device probe |
+| `pins/` | Content-addressed provenance: per-core source locks, source-sets, core-sets, generated evidence indexes, and the toolchain archive lock |
+| `scripts/` | The pipeline (`core_pipeline.py` + `core_pipeline_lib/`), promotion tooling (`promote_core.py`, `evidence_index.py`), verification sweep (`verify_core.py`), profile registry, toolchain-archive validator, device probe |
 | `patches/` | Reviewed per-core build overlays, sha-pinned pre- and post-image |
 | `metadata/` | Repo-pinned `.info` files for cores absent from libretro-super |
 | `toolchain-inputs/` | Pinned docker build context for the three toolchain images (see its README) |
@@ -182,6 +182,12 @@ toolchain archive lock, and per-core pinned/release validation. The
 condensed operator flow lives in
 [core-pipeline-operations.md](core-pipeline-operations.md); onboarding a
 new core is [adding-a-new-core.md](adding-a-new-core.md).
+
+Verification is two named tiers: the local static tier
+(`scripts/verify_core.py --all` plus the unit suite — minutes, proves
+every tracked binding against promoted disk evidence) and the roster
+rebuild tier (the GitHub Actions release-candidate workflow — hours, the
+only place from-source rebuild reproducibility is proven).
 
 ### Local build/package simulation
 

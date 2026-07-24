@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "16b86d5e0c836fc21c48021f2bd8bf460d8d8cbcdda1300bf61d450ee1979cc8",
+    "file_sha256": "fd2f9cd2314760f8816eb5d801bdc9b6fc4faab744a408d954641e1405d52dce"
+  },
+  "core_id": "puzzlescript",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "5c7bcced9a51f44732b8019d24b51dc2f32e11f78997aaa8ebf3a07ac2efcc9c",
+    "size": 1315392
+  },
+  "pin_path": "pins/core-sets/puzzlescript-6d859b47092f-ab7757b08058.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "9c868ae66fcf0f64a0e6aaa8839a667bba1c5f83b9bcfd73bedff5ed1c3ee6dc",
+          "log_size": 8256,
+          "record_sha256": "eca2cff7fc447601dd73b3e654de6eb42785bc284ba5cc6f6856ccc51ba0ffcc",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "744fac040aa502b9a7870d1f74095adfd4a5f89db6d9c5a80bda015bc1a8ae88",
+          "log_size": 8424,
+          "record_sha256": "c59fd27f8c0c5ef51f883a3bcfd1f7ff8883b956fe8b933ca77e7cf0cdc5d3a5",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "f171a4ee495277ca9e6f790d1dd289197f9d3eb04477c9143435f15cc19e3b33",
+      "e2e_file_sha256": "023962d8a1e49bfe193672248c25d0b8fe928ebd06c6613bec0868da4d51938e",
+      "run_id": "build-core-puzzlescript-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "9c868ae66fcf0f64a0e6aaa8839a667bba1c5f83b9bcfd73bedff5ed1c3ee6dc",
+          "log_size": 8256,
+          "record_sha256": "e9ef877fb0f61ef781e07c9bdcb688e440884fc3cfdd581c2b6a86b08dc44d94",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "744fac040aa502b9a7870d1f74095adfd4a5f89db6d9c5a80bda015bc1a8ae88",
+          "log_size": 8424,
+          "record_sha256": "43461566a9678399d464767700004859d719ea72550f22c5a9f87ae2486d2bdf",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "27054eec70377123a17dd3813bbec8ede67d531d9ba8bde49b8e25af967f17b5",
+      "e2e_file_sha256": "ade6b0f7fa7f035598037ba03369e1a49bc218672bcebf66370b4f574e75ed98",
+      "run_id": "actions-sim-build-core-puzzlescript-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "ab7757b08058ca070bb5ac12956303819a09467b976e6c089729cbc90c682140",
+  "semantic_id": "puzzlescript-6d859b47092f-ab7757b08058",
+  "source_commit": "6d859b47092f585a7ec05804c1d51a1676a06531",
+  "source_set_path": "pins/source-sets/puzzlescript-6d859b47092f-ab7757b08058.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "73c1e3625a52fc29d7228ac53adf5b1056acba4a3be22caad2c02a72d171d55e",
+      "artifact_size": 2030008,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "fa98dd2dec6fe69b238c569434ef9cb234fb85c56e5f806b9c2675ed966f669e",
+      "artifact_size": 1865144,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

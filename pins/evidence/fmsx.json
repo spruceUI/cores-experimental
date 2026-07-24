@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "5f26178ca0e8dc1d5263bd4d9691f12ba31be6bbc4ac5e6bd737970d7614a683",
+    "file_sha256": "b9b2de314d73c01df9468fecb0068c6b7b3f702ad9d0b90e4f550b2a8fef55b2"
+  },
+  "core_id": "fmsx",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "a7fef9470eecde513073ded334746fea43bdd6f6b1235c00a5226ae448df1b51",
+    "size": 254343
+  },
+  "pin_path": "pins/core-sets/fmsx-f013e213458e-e649daf16694.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "6c91821864091514e6576c409c67353afc0dd9d181075bcb608f76bbbb701878",
+          "log_size": 10267,
+          "record_sha256": "fba84cf7812d74ae325f2e49250f6e2c1d9aaf5d9cbb8f8f0d97172d54d971e6",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        },
+        "armhf": {
+          "log_sha256": "cc359c1b9073b241c9f91fc650a72a677e68e54af64d7af2cbe4a980eb82dad6",
+          "log_size": 10484,
+          "record_sha256": "e8b14b781c60d72a41b64c5de3213f542eb7892e1d8726ec21dcc2805f68e488",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        }
+      },
+      "e2e_content_sha256": "36506ddf026f335634cf68999fe4252bf1c5e7f0e888e6637234fdd55d615049",
+      "e2e_file_sha256": "a9125fbcfecb47d560835dc5d1d912cee25a6cc877b85ab4469f2af22b2b7d33",
+      "run_id": "build-core-fmsx-local-w3c"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "6c91821864091514e6576c409c67353afc0dd9d181075bcb608f76bbbb701878",
+          "log_size": 10267,
+          "record_sha256": "ada44f1de7428feb9678a9d13f85e20cf9476cc9cc61a04bf43a751c85d7ecb6",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        },
+        "armhf": {
+          "log_sha256": "cc359c1b9073b241c9f91fc650a72a677e68e54af64d7af2cbe4a980eb82dad6",
+          "log_size": 10484,
+          "record_sha256": "d19d60e8efe42ae4c74a543ad37cd2e951ea5ece0734623879a25285a703b8d4",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        }
+      },
+      "e2e_content_sha256": "df451abe93f0c33840fceb7e517172203d5216b5a23ab81630f89ae7d193d695",
+      "e2e_file_sha256": "e3389942727a15844ef7ce56a70cc7912d61ad73ab866c40b6355483a150c7ef",
+      "run_id": "actions-sim-build-core-fmsx-w3c"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "e649daf166940631a4482e86471b436e1dc89c77a08fc40a9d84f8834d70c751",
+  "semantic_id": "fmsx-f013e213458e-e649daf16694",
+  "source_commit": "f013e213458e06d9df718e4bc4b09d46f88aa899",
+  "source_set_path": "pins/source-sets/fmsx-f013e213458e-e649daf16694.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "5e72c1e9d7c6afa31cb1396cd700254c589e94a4327ef4cbcc11aa0fff0663f7",
+      "artifact_size": 282848,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "738520c499279643a51900bc5360ecbdc323a46fbfc655f4284aa9624908d67f",
+      "artifact_size": 301172,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

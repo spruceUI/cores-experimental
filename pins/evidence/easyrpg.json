@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "7eee1f2acd7ce7464b8ce423382eca095dd2f2d97d49b53441d6b680f86a3819",
+    "file_sha256": "cae150e7e2758f4fdebb7a16b54b6ab20cf802b90cce8b649d2fe484a83910df"
+  },
+  "core_id": "easyrpg",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "710eefb2cdeb751905ed101bd5a3c65f2eef1ac08792e9fe55997769db26bf02",
+    "size": 10091118
+  },
+  "pin_path": "pins/core-sets/easyrpg-0582a5eb8a44-667bb1afee2a.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "26875fa85744af787a14683999f0e1fd05392f268ed1c35b6548bcc7d26c3403",
+          "log_size": 333971,
+          "record_sha256": "90e1a62c828244938e791c7db22490a77ae141ff8f3f81510b44407d07a2e4e0",
+          "repository_dirty": true,
+          "repository_head": "deb587516450fe059ce9e25d3318b500a7866605"
+        },
+        "armhf": {
+          "log_sha256": "d30a682ca8bb23c3a475f3c8b6aa611922aeefb6537bdd59742139f543cbc043",
+          "log_size": 450426,
+          "record_sha256": "fd42db8a5ddd0768112a360b9e247b063f78e5dbb24372028f4e64a787597566",
+          "repository_dirty": true,
+          "repository_head": "deb587516450fe059ce9e25d3318b500a7866605"
+        }
+      },
+      "e2e_content_sha256": "beaf7432621eb5198d42b58b8370d74d23ce7d06636ea37f3f24c5d348a638f3",
+      "e2e_file_sha256": "6c087dfd923ec95b33cdd606ca8c97808cb69e86bc364ff02d7985470f0b20a2",
+      "run_id": "build-core-easyrpg-local-v1"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "fa990ea1c5eb48b261b8fc442a754336f8f83c573cdbdc7a3c5d88edddc53a22",
+          "log_size": 333971,
+          "record_sha256": "aab7da2c5be6de7b09c6566d5073e2b9d170ee96e99e7be3ed79ded5176896e8",
+          "repository_dirty": true,
+          "repository_head": "deb587516450fe059ce9e25d3318b500a7866605"
+        },
+        "armhf": {
+          "log_sha256": "86a6628becece68b9b8e56f5fb2267bb2a5e6dcb31889e91d3de7da08f70f6ad",
+          "log_size": 450426,
+          "record_sha256": "a72b0355a05b81d43ce521c79631f9e62a32c47b0e9fca634bcf6e7f2c0fa865",
+          "repository_dirty": true,
+          "repository_head": "deb587516450fe059ce9e25d3318b500a7866605"
+        }
+      },
+      "e2e_content_sha256": "3d52541519da4e34086bc577754718f97cec298ae9535331287fb63ebe71b75e",
+      "e2e_file_sha256": "b7a0829e065240523af66587dd3431d1fdd855f0fa67cd20643f431cb0025e51",
+      "run_id": "actions-sim-build-core-easyrpg-v1"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "667bb1afee2a5bae927e6a409955121b09267927ec8cf76eca9f1de73b2fb4c2",
+  "semantic_id": "easyrpg-0582a5eb8a44-667bb1afee2a",
+  "source_commit": "0582a5eb8a442824c8aad0495443824b3c8afb08",
+  "source_set_path": "pins/source-sets/easyrpg-0582a5eb8a44-667bb1afee2a.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "a562b57d9ef06edf1e94d71adde697fe938c097cdbe6b1aeef15f5f3ac9b09be",
+      "artifact_size": 14398832,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "8cdb8f99ad65e5554944d38aeac8342372d5085a7a85f3570c9a365da6dc4e09",
+      "artifact_size": 12993084,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

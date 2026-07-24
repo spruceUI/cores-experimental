@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "930ee2b8bd9e121662681d74a6972d489b7f4e016dad4c816803bb0958e1396a",
+    "file_sha256": "872cc26dea3b9c409212aff84e1ec1a69a98e9646a3af40d3ecf6de776085ff0"
+  },
+  "core_id": "gearcoleco",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "b5fabf6b1531d6f343e39d1e95372564b3b65493e17949675a299310fffafc90",
+    "size": 337806
+  },
+  "pin_path": "pins/core-sets/gearcoleco-112345747c04-cc2d4bc38005.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "84520bfb875960574a75d5b5b6be74945c8d1f0048651878ef17ed3a5bc16062",
+          "log_size": 10261,
+          "record_sha256": "86269c3f9a6089165ce95197cd0fb1ebf821a0c163d643a5d8e0e77c83b066b9",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        },
+        "armhf": {
+          "log_sha256": "8dc6bdae34799661556c8ebe3fd70be4f9e8deff7b6727cf5d64f0c056db23f7",
+          "log_size": 10143,
+          "record_sha256": "f82a61404a75b3b0b970f1b1b4192cd71bf8230a519591820f10c07968c9eaa1",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        }
+      },
+      "e2e_content_sha256": "9602a4c008af01bec84387448875b0e0fcdf07886e3164409aa8291e71536fe1",
+      "e2e_file_sha256": "a4ad50603e7da4d44d3b3d6f4337d64ef0b8fc44f9e0e6a5dbc37c310ee19b53",
+      "run_id": "build-core-gearcoleco-local-w3c"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "f480d8b9d05c381a052d3d9f791dfd224bb612cead3c3520197e7707ae79f7ae",
+          "log_size": 10261,
+          "record_sha256": "2f994864597828241c789b8820e9495428a48a08b7ac1acac98ba2081b134be8",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        },
+        "armhf": {
+          "log_sha256": "8dc6bdae34799661556c8ebe3fd70be4f9e8deff7b6727cf5d64f0c056db23f7",
+          "log_size": 10143,
+          "record_sha256": "ca3ed6cc73b3c2702bc19a35d0e8f471b72ffe1ed9e52198e299d4be33c376fe",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        }
+      },
+      "e2e_content_sha256": "7e1665d348d0f3142dfe1c71d209b61f28d1875dcef76b70e11ce388e61874ca",
+      "e2e_file_sha256": "43a8a091e235cf93d8ddaf4e42bc9eb02c0b3c3b2c2d193ff8e42be3101b4868",
+      "run_id": "actions-sim-build-core-gearcoleco-w3c"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "cc2d4bc38005983171ef338f71781cf3a397f7b006d4d10abbb9c8d23a62d208",
+  "semantic_id": "gearcoleco-112345747c04-cc2d4bc38005",
+  "source_commit": "112345747c04eb7752d1939258881aa10319e32e",
+  "source_set_path": "pins/source-sets/gearcoleco-112345747c04-cc2d4bc38005.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "7d787c5b5f84bf710e25070dc38a806d7c936c2274dea9135458d74a80f3537a",
+      "artifact_size": 643176,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "5f50ed387710cc80f4026229e05a7bf8632c5865bb0387a6f2b656bab311b48a",
+      "artifact_size": 519388,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

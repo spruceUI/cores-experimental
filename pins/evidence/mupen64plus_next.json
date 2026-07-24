@@ -1,0 +1,59 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "84271c20327f3b4e52938045fc8e9e4d82de3c5df25bbee623bc9bfed50aa0b4",
+    "file_sha256": "69cccd5699b402ddce95cf8c748fc129eda3b9014c75d60f06471fb3c163bc23"
+  },
+  "core_id": "mupen64plus_next",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "ac2efa746d8c73bc9d363ece8dab9505769a997859f4e90db36aeee5075b090e",
+    "size": 1653462
+  },
+  "pin_path": "pins/core-sets/mupen64plus_next-98c1b0d87754-2893243fe402.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "9432e70df77a4a153da6c3ad3ae2dc85506b56c1ab35457a65d4b4b70ab0d000",
+          "log_size": 312905,
+          "record_sha256": "eac12e9c46e9e8dac8f4d89c516dd72dc06c6bc3f156df878c351baa3379c8bd",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "f44507d5896d5ff11129c1fc04c5136993affaa970081a7f66b7d0ab414194b1",
+      "e2e_file_sha256": "5d16fc4ac9df5234ac4511654f5389d5fac654b8ef1bca78d4c6d6ec0063916d",
+      "run_id": "build-core-mupen64plus_next-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "169c717e15f942da90d67cab36719ab6b65542a760ce08267770a530770a5a4e",
+          "log_size": 312905,
+          "record_sha256": "b5c3637b33ba0df24e078d59950d9a4367c1ee55a46101c0266064e94be87290",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "4909cb31ec41e81f5dbb62bc3612a0e158fc0448ac111e3e9f1b809adc35ebdb",
+      "e2e_file_sha256": "da494f2303fae6c4bc7551aec1f5809dd5e7a7cbd4992db9c9f01b5314a21d0e",
+      "run_id": "actions-sim-build-core-mupen64plus_next-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "2893243fe4026dcf722fb2f8712b33419fc9e91a018613bcabfc18e51b154835",
+  "semantic_id": "mupen64plus_next-98c1b0d87754-2893243fe402",
+  "source_commit": "98c1b0d877542b01314b3b04272282ba223b65b3",
+  "source_set_path": "pins/source-sets/mupen64plus_next-98c1b0d87754-2893243fe402.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "22c156c625668ff11d5ce461a66c5988688e4cf711c8d3a60de0b35bcc5497b6",
+      "artifact_size": 4559896,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "09c100bd4178190c958d5c6e4529792783583fba53e710ac29e23b12ace966f9",
+    "file_sha256": "c9c5e5b20b0308a639725b9645efefeb4aae3e5d4a2a9f204af5df6055b9c52e"
+  },
+  "core_id": "reminiscence",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "5693e2a7294c9c2c787f0ffc139ef61a95bc595f295ff6c55a479e140112f187",
+    "size": 536719
+  },
+  "pin_path": "pins/core-sets/reminiscence-b0eb4ff6479d-ae831167d737.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "71e0f76c5a8fc383fa4053cdfecb62b90e561718e8bcf2f6e3991a8df460f9b1",
+          "log_size": 25505,
+          "record_sha256": "2fb7e04276cc01c0c4d3d12b2aa7ffb8be54207f880c0a2b6bc557db38b4581b",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "2283d3c553437be09ddcb40ea793d732cc5d12c5d70324e837edbe024a2ccf9f",
+          "log_size": 25813,
+          "record_sha256": "9fe18909c73b4b124ad52dfb48284f4eb98b91db53cfcef34fa5360dd526c65d",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "bc232fcc06200b2a6012ae8022c0712f927a300a3598a12d504eb2166787cfb5",
+      "e2e_file_sha256": "2f212ed92d51b9c485b1c79db58999df7fb7455578ddc92049454f6e83694851",
+      "run_id": "build-core-reminiscence-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "71e0f76c5a8fc383fa4053cdfecb62b90e561718e8bcf2f6e3991a8df460f9b1",
+          "log_size": 25505,
+          "record_sha256": "0c0250f54a63c6f729dd5904b25956c7e3a7b23b204da6b47724d96618e276dd",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "2283d3c553437be09ddcb40ea793d732cc5d12c5d70324e837edbe024a2ccf9f",
+          "log_size": 25813,
+          "record_sha256": "c80eef2335f3a3e7a69926b58a280757e923856a48e5b85293059b9bd4c49922",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "6ed40e7a1c55ab1952a8b9182e3d96d34d2b692a0ce1bfd6a506839fee32b66a",
+      "e2e_file_sha256": "8759598716a568342ee1463b250c4ac4f7ac00d82ce0b7cbbbbabd113bc98fee",
+      "run_id": "actions-sim-build-core-reminiscence-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "ae831167d737a763650ea0d455fb8743755cb3ea079661465b2d0815bc771fda",
+  "semantic_id": "reminiscence-b0eb4ff6479d-ae831167d737",
+  "source_commit": "b0eb4ff6479d3a0f9e327ba595533604713cdb27",
+  "source_set_path": "pins/source-sets/reminiscence-b0eb4ff6479d-ae831167d737.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "7b70ed32be492f039aee5879b1b4c3b81f05e3058ce0d031e4134bf0cace3389",
+      "artifact_size": 542656,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "8223399d14d5a6026b7f4d4db77f26be76de1e3e83907502045b00aac2e3ba65",
+      "artifact_size": 470560,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

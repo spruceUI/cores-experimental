@@ -186,6 +186,29 @@ a local simulation; use `github-actions-sim`.
 
 ## Run tests and validation
 
+Verification has two named tiers. The **local static tier** — the unit
+suite, `verify_core.py`, and the per-command validators below — proves in
+minutes that every tracked binding is consistent with the promoted disk
+evidence. The **roster rebuild tier** — the GitHub Actions
+release-candidate workflow — is the only place full from-source rebuild
+reproducibility is proven, in hours. Don't duplicate rebuild proof
+locally; don't read a green static tier as a rebuild claim.
+
+Sweep every promoted surface for one core (or `--all` for the catalog):
+golden, pin-set (store + sources), source-set registry, release, and all
+three channels, discovered from the core id alone:
+
+```bash
+python3 scripts/verify_core.py --core handy
+python3 scripts/verify_core.py --all
+```
+
+Each core's promotion-derived bindings (semantic ID, run IDs, package,
+record/log digests, repository state) live in the generated
+`pins/evidence/<core>.json`, written by `promote_core.py` at promotion
+time and regenerated-and-compared by the suite
+(`tests/test_evidence_index.py`) — never hand-edit one.
+
 Run the focused tests while changing runner profiles, provenance bundling, or
 commit policy:
 
@@ -260,21 +283,28 @@ pass the core's caveat set explicitly on every refresh (read it from the
 current compatibility document first), or the refreshed document falls back
 to the generic caveats.
 
-Three re-promotion invariants learned the hard way:
+Three re-promotion invariants learned the hard way — the first two are
+now enforced by the tooling itself:
 
 - **Channel pointers invalidate on every re-promotion.** Goldens and pin-sets
   embed `created_at`, so re-composed documents change bytes even when the
-  evidence is identical. After a refresh, re-point all three channels (the old
-  pointer is now invalid, so compare-and-swap is impossible: remove the
-  pointer file and re-create with `--expect-absent`) and recreate the local
-  release when the pin bytes changed.
+  evidence is identical. `run` finishes the promotion automatically:
+  it materializes the release, repoints all three channels (falling back
+  to remove + `--expect-absent` when the stale pointer no longer
+  deep-validates), validates them, and regenerates the core's evidence
+  index. Pass `--no-finish` to skip that tail; `--carry-caveats` carries
+  the promoted document's extra caveats through a refresh instead of
+  retyping each `--caveat`.
 - **Clean-tree evidence.** Build records snapshot `repository_head` and
-  `repository_dirty`; several per-core test files enforce
+  `repository_dirty`; per-core tests enforce
   `repository_dirty=false` on the bound records. Rebuilds meant for promotion
   must run with a committed, clean tree — and since promotion itself dirties
   tracked pins, a multi-core rebuild must be TWO-PHASE: build every core
   first (builds write only gitignored `.local-e2e` paths, so the tree stays
-  clean), then promote every core after.
+  clean), then promote every core after. `promote_core.py wave --core …
+  --label <label> [--refresh --carry-caveats]` encodes exactly this: it
+  refuses a dirty tree, builds every listed core, then promotes and
+  finishes each.
 - **Never edit the catalog or the hashed pipeline bundle mid-batch.** A
   build record binds `catalog_sha256` and the pipeline bundle hash at build
   time; an edit between a core's builds — or between its build and its

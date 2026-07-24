@@ -299,6 +299,131 @@ def _pipeline(*args: str) -> str:
     return result.stdout
 
 
+def _write_evidence_index(core: str) -> None:
+    """Regenerate the tracked evidence index from the promoted disk state."""
+
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(
+        "evidence_index", ROOT / "scripts" / "evidence_index.py"
+    )
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    path = module.write(core)
+    print(f"evidence index: {path.relative_to(ROOT)}")
+
+
+def finish_promotion(core: str, semantic_id: str) -> None:
+    """Materialize the release and repoint the three channels for a promotion.
+
+    Goldens and pin-sets embed created_at, so every re-promotion invalidates
+    the previous release bytes and all three channel pointers; the repair is
+    mandatory follow-up work, so the promote chain finishes it. The
+    compare-and-swap path is tried first; a pointer whose current target no
+    longer deep-validates (stale or dangling after a refresh) is removed and
+    re-created with --expect-absent.
+    """
+
+    pin = f"pins/core-sets/{semantic_id}.json"
+    release = f".local-e2e/releases/{semantic_id}"
+    if not (ROOT / release).exists():
+        _pipeline("promote-release", "--pin-set", pin, "--output", release)
+    _pipeline("validate-release", "--pin-set", pin, "--release", release)
+    print(f"release materialized: {release}")
+    channel_targets = {
+        "nightly": f".local-e2e/nightlies/{semantic_id}/golden.json",
+        "pinned": pin,
+        "release": f"{release}/release-manifest.json",
+    }
+    for channel, target in channel_targets.items():
+        pointer = ROOT / ".local-e2e" / "channels" / f"{channel}.{core}.json"
+        swapped = False
+        if pointer.exists():
+            current = json.loads(pointer.read_text(encoding="utf-8"))
+            if current.get("target", {}).get("id") == semantic_id:
+                swapped = True
+            else:
+                digest = hashlib.sha256(pointer.read_bytes()).hexdigest()
+                try:
+                    _pipeline("update-channel", "--channel", channel,
+                              "--core", core, "--target", target,
+                              "--expect-current", digest)
+                    swapped = True
+                except PromoteCoreError:
+                    pointer.unlink()
+        if not swapped:
+            _pipeline("update-channel", "--channel", channel, "--core", core,
+                      "--target", target, "--expect-absent")
+        _pipeline("validate-channel", "--channel", channel, "--core", core)
+        print(f"channel {channel} -> {semantic_id}")
+
+
+def _worktree_is_clean() -> bool:
+    result = subprocess.run(
+        ["git", "status", "--porcelain"],
+        cwd=ROOT, capture_output=True, text=True,
+    )
+    return result.returncode == 0 and not result.stdout.strip()
+
+
+def current_extra_caveats(core: str) -> list[str]:
+    """The promoted document's caveats past the standard trio, for carry-over."""
+
+    path = ROOT / "manifests" / "compatibility" / f"{core}.json"
+    if not path.exists():
+        return []
+    return list(_load(path).get("caveats", [])[3:])
+
+
+def run_wave(
+    cores: list[str],
+    label: str,
+    refresh: bool,
+    carry_caveats: bool,
+    finish: bool,
+) -> None:
+    """Two-phase multi-core rebuild + re-promote.
+
+    Build records snapshot repository_head/repository_dirty, and promotion
+    dirties tracked pins — so a wave must build EVERY core first (builds
+    write only ignored .local-e2e paths) and only then promote. Interleaving
+    the phases stamps repository_dirty=true into every post-first-promote
+    record; this command exists so that sequencing mistake cannot recur.
+    """
+
+    if not _worktree_is_clean():
+        raise PromoteCoreError(
+            "wave requires a clean committed tree: build records snapshot "
+            "repository_dirty, and every build must complete before any "
+            "promote dirties tracked pins"
+        )
+    runs = {
+        core: (
+            f"actions-sim-build-core-{core}-{label}",
+            f"build-core-{core}-local-{label}",
+        )
+        for core in cores
+    }
+    for index, core in enumerate(cores, 1):
+        for profile, run_id in zip(("github-actions-sim", "local"), runs[core]):
+            if (ROOT / ".local-e2e" / "runs" / run_id).exists():
+                continue
+            _pipeline("build-core", "--runner-profile", profile,
+                      "--core", core, "--run-id", run_id)
+        print(f"[{index}/{len(cores)}] {core}: built")
+    for index, core in enumerate(cores, 1):
+        caveats = current_extra_caveats(core) if carry_caveats else []
+        selected, reproduction = runs[core]
+        semantic_id = run_promotion(
+            core, selected, reproduction, caveats, refresh
+        )
+        if finish:
+            finish_promotion(core, semantic_id)
+        _write_evidence_index(core)
+        print(f"[{index}/{len(cores)}] {core}: promoted {semantic_id}")
+
+
 def run_promotion(
     core: str,
     selected_run: str,
@@ -469,6 +594,30 @@ def build_parser() -> argparse.ArgumentParser:
         help="re-promote an already-promoted core, retiring its previous "
              "source-set, pin-set, and compatibility manifest first",
     )
+    runner.add_argument(
+        "--carry-caveats", action="store_true",
+        help="carry the promoted document's extra caveats (past the standard "
+             "trio) into the refresh instead of passing each --caveat",
+    )
+    runner.add_argument(
+        "--no-finish", action="store_true",
+        help="skip the release materialization and channel repoint that "
+             "normally complete the promotion",
+    )
+    wave = subparsers.add_parser(
+        "wave",
+        help="two-phase multi-core rebuild + re-promote: build every core "
+             "on the clean tree first, then promote every core",
+    )
+    wave.add_argument("--core", action="append", required=True)
+    wave.add_argument(
+        "--label", required=True,
+        help="run-id suffix; runs are actions-sim-build-core-<core>-<label> "
+             "and build-core-<core>-local-<label>",
+    )
+    wave.add_argument("--refresh", action="store_true")
+    wave.add_argument("--carry-caveats", action="store_true")
+    wave.add_argument("--no-finish", action="store_true")
     return parser
 
 
@@ -488,11 +637,29 @@ def main(argv: list[str] | None = None) -> int:
             print(f"wrote pins/sources/{args.core}/{lock['source']['commit']}.json")
             return 0
         if args.command == "run":
+            caveats = args.caveat
+            if args.carry_caveats:
+                if caveats:
+                    raise PromoteCoreError(
+                        "pass either --carry-caveats or explicit --caveat "
+                        "values, not both"
+                    )
+                caveats = current_extra_caveats(args.core)
             semantic_id = run_promotion(
                 args.core, args.selected_run, args.reproduction_run,
-                args.caveat, args.refresh,
+                caveats, args.refresh,
             )
+            if not args.no_finish:
+                finish_promotion(args.core, semantic_id)
+            _write_evidence_index(args.core)
             print(f"promotion complete: {semantic_id}")
+            return 0
+        if args.command == "wave":
+            run_wave(
+                args.core, args.label, args.refresh,
+                args.carry_caveats, not args.no_finish,
+            )
+            print(f"wave complete: {len(args.core)} cores")
             return 0
         if args.command == "compose-lifecycle":
             source_set = compose_source_set(args.semantic_id)

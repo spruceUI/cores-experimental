@@ -1,0 +1,59 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "19db2c1309620b314a91f525427a29d5bcb63b11f8bb9d420086628b899ddfdf",
+    "file_sha256": "c1036ee2b60c7a2bbb56b869372e3438b97c94a4647532d2b3d4dbc8f52cae53"
+  },
+  "core_id": "squirreljme",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "ae0d31403de1b45adf71645268b6c0e857186f6855d0d6baa99666134acf6c62",
+    "size": 221298
+  },
+  "pin_path": "pins/core-sets/squirreljme-c8de2e47c299-eb732e077bf3.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "armhf": {
+          "log_sha256": "65e3dd468a54872081d6ebfa67a9546308ad6b16b38f3e1109ede494dc058d7b",
+          "log_size": 437939,
+          "record_sha256": "27c610fb460fcf0bd447a9b01294751f78c14c9dc59133dfa2d7059194a95dbf",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "e0d944dd64f8e4b5fa0a5b3f8040c59955da25e9f7d58dff454188a0b2e23537",
+      "e2e_file_sha256": "41c69e4408900e1da7b02ccd00d8794dcd09044cb1a22f167c5980b69aeba297",
+      "run_id": "build-core-squirreljme-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "armhf": {
+          "log_sha256": "126c60e80bae6e861da6334413128961c5743f7944b9eaa3cb3d144feca50f09",
+          "log_size": 437939,
+          "record_sha256": "365cdc03d70b8a03ff71071511c348b50caabab5c40e0c757971b9850eb6c8bb",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "52a1c07b193642dca62a0ea37cd041765f41f68f49ff3f392d74bd26cf9afd4b",
+      "e2e_file_sha256": "3a3695e01d358905d29e38cfa072e58aae3e399155f1c635606039befc52ae52",
+      "run_id": "actions-sim-build-core-squirreljme-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "eb732e077bf3c53346a8959d04732d78adb65d0b1caa4e1bbb71e624c6fef043",
+  "semantic_id": "squirreljme-c8de2e47c299-eb732e077bf3",
+  "source_commit": "c8de2e47c2994f1c36215dd29d44fecf086f25ca",
+  "source_set_path": "pins/source-sets/squirreljme-c8de2e47c299-eb732e077bf3.json",
+  "targets": {
+    "armhf": {
+      "artifact_sha256": "54e821b6b8b790646e99f52fdbe88686173df8e9a40efde2025dee27924f5be6",
+      "artifact_size": 593372,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

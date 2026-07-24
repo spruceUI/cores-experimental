@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "2526045556e937e68d68668ba910669bf5fa330d262c982426245e1be5b99e0b",
+    "file_sha256": "177ddecbf8167cf2ddf06b73406b2deba547a50a7fc7dda4d24c2331ec1e962b"
+  },
+  "core_id": "pokemini",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "696b0a4992feb760311ef967fe61a78c024d5a95550cf8603874c3ce6ff17b79",
+    "size": 230530
+  },
+  "pin_path": "pins/core-sets/pokemini-bb009b1379ad-3abb4885cf09.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "f1b9270ccae778b92d688a9670b883b619b81c9513b36eea01dd0fc13ef6b5dc",
+          "log_size": 19633,
+          "record_sha256": "93fbd85bf2ee1082cfdb08badf56dc34edf871492ef518dd64e84b903f9d2377",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        },
+        "armhf": {
+          "log_sha256": "6938290718eb32baff1abbcd4cb246c16e8e6b86a2ee8a412a8162fcec5af261",
+          "log_size": 20109,
+          "record_sha256": "7c3bc1eadcac41167abd028015ef959633fed70a4f6ab51129c000a31d3d5c8f",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        }
+      },
+      "e2e_content_sha256": "8076ac02ab1834bee10fddd334df8c2b61eef231b0d2437c0c79188a95c1983f",
+      "e2e_file_sha256": "ab2a96acc3659b0e0a1dd2a126d091761f2b63397ad8182b9879179ee18d18e6",
+      "run_id": "build-core-pokemini-local-w3c"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "4fbaf836e15d06f36732f28d79984b57c3ac9da49c72332f7d5cb8c39d37f9d5",
+          "log_size": 19633,
+          "record_sha256": "d28f146242ba6cccc7981a6a268e0ad2c2a20139820e787a57bbad9889f5bb85",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        },
+        "armhf": {
+          "log_sha256": "2c9bcfb8ecc7a0e701a88a9ab231755503f24ac060aa369defcf5efb2d9c0800",
+          "log_size": 20109,
+          "record_sha256": "ab00ee4372142b11785c547c1beaa270ae6e17ee2d990c29d8d708d52247b136",
+          "repository_dirty": false,
+          "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+        }
+      },
+      "e2e_content_sha256": "ab696ca1faa35cd1d3293a0c14f12a642e8d42b8a724af029c06ffaa5f47dffa",
+      "e2e_file_sha256": "8cd5d0a2c0d832005ef6991b5dbfa88cf9316c9d2fd4d1c31cfd0ea2be25b43e",
+      "run_id": "actions-sim-build-core-pokemini-w3c"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "3abb4885cf0930efb3516e75ef026d57e5a39a9f6d526eb9a241245b7e897eff",
+  "semantic_id": "pokemini-bb009b1379ad-3abb4885cf09",
+  "source_commit": "bb009b1379ad15f1514f20ca7cbf710b4af42b3e",
+  "source_set_path": "pins/source-sets/pokemini-bb009b1379ad-3abb4885cf09.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "0f93f77e2f279c75a0f9ea781ab07b51deff95cc80c81a996105a585133d49e9",
+      "artifact_size": 404904,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "3ec9643aad10ccd9eb8d1ce3f1fdde89f53643a351b685de47b5073a14790545",
+      "artifact_size": 326608,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "f96378624c1b615b762650f51ecfe8d001b9cc249e704fc3ec8c3cb60eea2eb8",
+    "file_sha256": "d14021127fcac711ed755dc684f54efb530dec1da5968ac1c3e87159120a957c"
+  },
+  "core_id": "libgametank",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "3d9630d73f66fece1d531cf601cb763a3db7f6710b3ff9408766406fcb4b4c2c",
+    "size": 432999
+  },
+  "pin_path": "pins/core-sets/libgametank-f3f5a3b3e67e-8ee148d4a558.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "6f7d163993b42cdac44fceed741fad5832a8a715c8871ab64300af4dd5719e85",
+          "log_size": 5686,
+          "record_sha256": "b20a398a72594b5b1a2ad17402c6bb18d214d811340d8e855b9a0d298eea02ac",
+          "repository_dirty": true,
+          "repository_head": "ae4d098e36ea5c7902effde7823ffcb3a35cc594"
+        },
+        "armhf": {
+          "log_sha256": "22468610a0fa64403477d6c3fc0a61e0df1cca2c40321f2c67dbf464a7756300",
+          "log_size": 5690,
+          "record_sha256": "b2b2a36a35f815dad36eeb35ed011b90a3dabba03d5dc9b3cdd751083af282c5",
+          "repository_dirty": true,
+          "repository_head": "ae4d098e36ea5c7902effde7823ffcb3a35cc594"
+        }
+      },
+      "e2e_content_sha256": "9e42526aab8c7c523d19a6b7c2864f0f7b0eab4fd72467f3d9a625ea217465dc",
+      "e2e_file_sha256": "16b63e2d111d6490401333bf53761ccf6d5367525a0f933ad41b85d5d4781be9",
+      "run_id": "build-core-libgametank-local-v1"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "b155f0c6d2a1a50e4fe4c9a7a934c1f4290637036319a8e240b8838a2aa012ab",
+          "log_size": 5686,
+          "record_sha256": "8a355a2b2d2ab9f6a9e3eb928f4c9c97468f996c06c1c31e971768384faa716d",
+          "repository_dirty": true,
+          "repository_head": "ae4d098e36ea5c7902effde7823ffcb3a35cc594"
+        },
+        "armhf": {
+          "log_sha256": "76155dbc3fa2a34e89cd148cdae053706ec497e0c71f92cad25f37911a6f5fe8",
+          "log_size": 5690,
+          "record_sha256": "56808fb19344eeb3bb1fa57f92012d49299ea7761c553ce0c216814c6b484da5",
+          "repository_dirty": true,
+          "repository_head": "ae4d098e36ea5c7902effde7823ffcb3a35cc594"
+        }
+      },
+      "e2e_content_sha256": "0a5e1151163dda139fc9c8249df758c88c2d7408529100e907eb5e0afebb60d7",
+      "e2e_file_sha256": "9549de5452e0d7260a2786be622c238afb15465b490e0072c7a6d4506efe61c6",
+      "run_id": "actions-sim-build-core-libgametank-v1"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "8ee148d4a5588570a23fdf297620394200c8dcf7cf98eb47208acc46ea17ac28",
+  "semantic_id": "libgametank-f3f5a3b3e67e-8ee148d4a558",
+  "source_commit": "f3f5a3b3e67e96a115cc87ddfd3e5921ac59b197",
+  "source_set_path": "pins/source-sets/libgametank-f3f5a3b3e67e-8ee148d4a558.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "dea52812f2a89a5e33c1199107e16c91930ed2e688f1f3c5b56803e85681338b",
+      "artifact_size": 445336,
+      "image_id": "sha256:aa42a12ced6bd0d1c9dcb528f170c14fe80157f0650cab52f9a37e90ec2da5b6",
+      "toolchain_archive_sha256": "38ad84b2fe5dc0a54a94e9a14d5afd5b951a1b5a212692460c64cc6a849edade",
+      "toolchain_archive_size": 999801265
+    },
+    "armhf": {
+      "artifact_sha256": "113430a895a5df929ac5d41fafa69667ff964f79b8a0b2bb981cc1c931fa33b8",
+      "artifact_size": 422412,
+      "image_id": "sha256:aa42a12ced6bd0d1c9dcb528f170c14fe80157f0650cab52f9a37e90ec2da5b6",
+      "toolchain_archive_sha256": "38ad84b2fe5dc0a54a94e9a14d5afd5b951a1b5a212692460c64cc6a849edade",
+      "toolchain_archive_size": 999801265
+    }
+  }
+}

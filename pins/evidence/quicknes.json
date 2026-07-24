@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "2ff8f58d60c8c8f17060860658d4541d7ce05ad67265a67e36558f76ab750f66",
+    "file_sha256": "9c5e908f1631fe85f68096853389aec1b507f00c7899e138dde4c8940aa414cd"
+  },
+  "core_id": "quicknes",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "69bde7589304fe15e28acc2f40575f1c83a7e64827908374f09c875271179070",
+    "size": 396071
+  },
+  "pin_path": "pins/core-sets/quicknes-26bb785c9ded-0dfc478cbffd.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "da86e5df0fb9a54223db45fbd226cc9383972474ea5c6bd5f2750ca72b95f92a",
+          "log_size": 9828,
+          "record_sha256": "f927cb8ca358459e96f2cfc02e23f043e8fad8294795e895b6aa2297bb29aa7d",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "130ca5765feae77d5d8c49251cdc03c5fdaeb2eeea01c11ed95c924f8c3c5537",
+          "log_size": 10040,
+          "record_sha256": "a637f5b5786c43e13017a973fc1fd84cfa8ba083fedfe2e7c22fea9ac9843cd6",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "3ad9333639e97ff788c0867e144f1fb4683ed5b47b7272f0a2fcdb88f51e52e4",
+      "e2e_file_sha256": "7633fe75f034917ef44ad92e62a8303616afc58c0043217d52b6c4591e8d53fa",
+      "run_id": "build-core-quicknes-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "da86e5df0fb9a54223db45fbd226cc9383972474ea5c6bd5f2750ca72b95f92a",
+          "log_size": 9828,
+          "record_sha256": "55a560478c1866f9264219e4a808a1926f6eecaaf9fc24c96bc9ab800f724fce",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "130ca5765feae77d5d8c49251cdc03c5fdaeb2eeea01c11ed95c924f8c3c5537",
+          "log_size": 10040,
+          "record_sha256": "b31e1c19b0f6fed0b54373b800776c7e3640d40520868dc98552fa0386677826",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "7980aec8699640839c8fe6eca1cf3cb8d97f3e0b57f9793aee20a45913d8cb66",
+      "e2e_file_sha256": "ca6afc964b2a4b56aa7be7cac28df6765c36511dd2f57993193cf6035f2c4579",
+      "run_id": "actions-sim-build-core-quicknes-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "0dfc478cbffd4ec6710075dc04c5f9d93554590617b083aed6d4ffa676e1af02",
+  "semantic_id": "quicknes-26bb785c9ded-0dfc478cbffd",
+  "source_commit": "26bb785c9deddb66a17717b21bb4e328f03ade32",
+  "source_set_path": "pins/source-sets/quicknes-26bb785c9ded-0dfc478cbffd.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "c1577671eef575ca74af1f9098f99c31c297772e4588fd1ec7c3c1eae5fc028d",
+      "artifact_size": 1613944,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "f4ba641b7c3f98c43aa7f40561471a1fc59f9076f94d34bae4c08be333e1e6c5",
+      "artifact_size": 992964,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

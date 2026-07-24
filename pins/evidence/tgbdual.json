@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "8a74020a5a83b22e1d9f9e0e8393c22a9a72bd648ce6816b05b66b0ffb0fd232",
+    "file_sha256": "42767da40bca41484716e98420376acb40181991ab738f7adc03330312f9f360"
+  },
+  "core_id": "tgbdual",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "9e0ebe6e48850a5e97f753a229cac1c2476caf7675d2ad9a8315e35c87ab7bf2",
+    "size": 96862
+  },
+  "pin_path": "pins/core-sets/tgbdual-bf816b096f1d-e1aa014fb7ae.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "1aec05c608b6c753eeae5593e371ce2d0441f21b018c247462e83ca33cef5d88",
+          "log_size": 4656,
+          "record_sha256": "1c86afcca3414d72cca8152ec287f443d00b2e934ae098be8ec75a887ed8a9fa",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "4784b1cdcbacc88ce6c757390d15f6b71c3b11cba55d8f11cffe3740eacde566",
+          "log_size": 4763,
+          "record_sha256": "a326217a83692d538c80a016ab0959d3df63aca6370885a5c5b8c2c85e520ef2",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "ca23e450cf8ff2832cdfa60d4b042ac20d2ac754e23cd52278f0d5c07d19a33a",
+      "e2e_file_sha256": "2edbb7ec9ba16d5ea8c75d34e9994826b916927a38f0d12f43b06a1d2eec1d60",
+      "run_id": "build-core-tgbdual-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "1aec05c608b6c753eeae5593e371ce2d0441f21b018c247462e83ca33cef5d88",
+          "log_size": 4656,
+          "record_sha256": "e065a473afb1dc1aa5ac5c18df27f42cd0d07cf8a659b4370a7564071fd67f5c",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "4784b1cdcbacc88ce6c757390d15f6b71c3b11cba55d8f11cffe3740eacde566",
+          "log_size": 4763,
+          "record_sha256": "bea88285b39513d0dd0dfd65ec6d28508cf26ff3666770b79d2a53fee5cf97bf",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "619ea481fb3fde7e3507c59e28242e0a95fde2c5ed8164a4eb2e0299a4cc6dd2",
+      "e2e_file_sha256": "7b4cfa4361fdec2d878bad4fa5ecc4ac11dd6799925e47b2c20026b152d2ebe4",
+      "run_id": "actions-sim-build-core-tgbdual-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "e1aa014fb7ae8743810dff985b19965c880bab0527d500f554094400793070d0",
+  "semantic_id": "tgbdual-bf816b096f1d-e1aa014fb7ae",
+  "source_commit": "bf816b096f1dca55ea805337d7c9e78d6b98d839",
+  "source_set_path": "pins/source-sets/tgbdual-bf816b096f1d-e1aa014fb7ae.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "6d90386426865984b9b9899c35ada65fa47f404e5664658720e0a0f1326d999f",
+      "artifact_size": 127312,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "a161597a355c91ce5a04dea44967dda2152ae5fbb6d8e66b4d0bc17846bfa01d",
+      "artifact_size": 121396,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

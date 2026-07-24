@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "b7b0cdb50a78c1705a5c2c343ac83873a66249ad1c70cb875c96ab6435b7e706",
+    "file_sha256": "834e5478df74cfcfe8406be9fec1b80f34908c1f8de863f44f991f627defdfb5"
+  },
+  "core_id": "freeintv",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "884704f9197383f1e11e5df58f41d5188edb5f412da6a060461d7a0494051500",
+    "size": 993425
+  },
+  "pin_path": "pins/core-sets/freeintv-428915baf2bf-e77cae96b2f6.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "0267c827285927f679bbea8a7c129a7a708de98c6110ace791a7009334a092f8",
+          "log_size": 31335,
+          "record_sha256": "6d1afb27dea452a9419145a81450356d294dee64d91b59e7e18d67f1e7813dee",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "ef20d5ab0d506786578f9cf33889d9d331c16663cb2f4ba8e0094be9d490defe",
+          "log_size": 35772,
+          "record_sha256": "1d72f980f4d41024282431a862ae5d6881214340a3b9eda834133566cfd89742",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "4671e1be41fb63e08ea03875226b96f38e8a8014c1c4c7415743b5947d27f99e",
+      "e2e_file_sha256": "3d4a9ce4d94ab8c5e90624955331fcab4de6e69848bd1dad9e1fc28081e50cab",
+      "run_id": "build-core-freeintv-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "abcc82e9d4799fd504f3ca9a7f6ae32671230058c99bde036c8a0da3a3e7c180",
+          "log_size": 31335,
+          "record_sha256": "0c03db1f928687b5e0a310a15f4c435e5ed6faafef9df1bb346a7798c0d8db4a",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "822239954901f46cba2ccb058c8d1832aed804f784a11435b4a5a387265180a4",
+          "log_size": 35772,
+          "record_sha256": "6a37cb833d47452958589c37f6bc04cc6823ceadfe4101fbf2f6a205d203d23f",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "320b338a1840bd477947b296af2d4f2050375ea6218ee7061cf240be8be7f7ae",
+      "e2e_file_sha256": "50ad8717e62286f9481f9b0d9827132e11d901705b6d379cd3c0e76e681b7605",
+      "run_id": "actions-sim-build-core-freeintv-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "e77cae96b2f6657c95bd0dabf1abd1cd3eb86f896c6154b47732d211eea1e7b9",
+  "semantic_id": "freeintv-428915baf2bf-e77cae96b2f6",
+  "source_commit": "428915baf2bfc032fc03e645f4f8f9c6c3144979",
+  "source_set_path": "pins/source-sets/freeintv-428915baf2bf-e77cae96b2f6.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "4b919af5109219c2f3ddde2fd34b921b3b9c373df43629e8cbc4855f0d3c18a5",
+      "artifact_size": 617664,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "caa8c772dffd5ee7854f62ae309ca11ac22affd135fc69ada4009d4e48b3aba0",
+      "artifact_size": 597000,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}

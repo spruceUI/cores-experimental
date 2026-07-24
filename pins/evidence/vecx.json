@@ -1,0 +1,80 @@
+{
+  "$schema": "../../manifests/evidence-index.schema.json",
+  "compatibility": {
+    "content_sha256": "ace1dd631869d1e5933a22792331ca23a242eae8843b76045eceebddff0fcdfa",
+    "file_sha256": "c88c85adadb725492a2699b9bf19157c4ba5a9a0a23f7789ed61c34b98dcf08b"
+  },
+  "core_id": "vecx",
+  "local_only_evidence": true,
+  "package": {
+    "sha256": "9eb9e828581c5b758356eb30d53af523ce296b3b553194683dc8f2297ba1d0d9",
+    "size": 76617
+  },
+  "pin_path": "pins/core-sets/vecx-8f671cc9d737-599c2197e36a.json",
+  "publication": "disabled",
+  "runs": {
+    "reproduction": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "aa594b8674de6738abd126cf5d6ad60792a27df502d98399ab1993d716a8158e",
+          "log_size": 2704,
+          "record_sha256": "4e86d1f8169e3f2c501ab808dde3b2ac68771071e1295619b1e991e6d3d71d83",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "42c687505d95c85f99abc64c1d872434f2ffb761bb69d3be5a1c71619347ccae",
+          "log_size": 2790,
+          "record_sha256": "cafb84b2153632b4793764a86ceeb427b20e43dd2bab6aa7a071cf039435d281",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "4f99343f98c53888395c71652e0a2d3c450c93e3a47f0c254246942ed24b7551",
+      "e2e_file_sha256": "aaf63ff864bd8334a3b105f4ad21f829aaa2e6df28c2f3ec5a5ba01e37f77a04",
+      "run_id": "build-core-vecx-local-w3"
+    },
+    "selected": {
+      "builds": {
+        "arm64": {
+          "log_sha256": "aa594b8674de6738abd126cf5d6ad60792a27df502d98399ab1993d716a8158e",
+          "log_size": 2704,
+          "record_sha256": "fe88b76ffb34dd3317ddcb8847f77d71ec684583088ff54eab35160c76e9bc66",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        },
+        "armhf": {
+          "log_sha256": "42c687505d95c85f99abc64c1d872434f2ffb761bb69d3be5a1c71619347ccae",
+          "log_size": 2790,
+          "record_sha256": "e68dafcc8c953e632a797add63af47453dacc5bdff55e44ee57a9fee15873c2f",
+          "repository_dirty": true,
+          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+        }
+      },
+      "e2e_content_sha256": "a27119cc43ea114b869a573de7be45250fd5963e3aeefe9dd7edc5a402b238ae",
+      "e2e_file_sha256": "4e3cab62a873f164816b8b9051f29f1f690453fd8c85285637a751fc68059364",
+      "run_id": "actions-sim-build-core-vecx-w3"
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "599c2197e36abe9cea994cb81066af16f9fcb9a9d7f1d31fc66573408baaff77",
+  "semantic_id": "vecx-8f671cc9d737-599c2197e36a",
+  "source_commit": "8f671cc9d737f2890c3ce19e177e2984dcae121f",
+  "source_set_path": "pins/source-sets/vecx-8f671cc9d737-599c2197e36a.json",
+  "targets": {
+    "arm64": {
+      "artifact_sha256": "8a041cbedb449b01e6a71a657107e3a5a4839fb9a34d43a1ee81883832d6c578",
+      "artifact_size": 106040,
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+      "toolchain_archive_size": 502531978
+    },
+    "armhf": {
+      "artifact_sha256": "ebf753efb74779929bb0753611c81786f0c38b88adf82f648d97704af1022b6f",
+      "artifact_size": 86488,
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+      "toolchain_archive_size": 835303648
+    }
+  }
+}
