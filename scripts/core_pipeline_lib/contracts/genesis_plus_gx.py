@@ -85,16 +85,24 @@ GENESIS_PLUS_GX_EXPECTED_DIAGNOSTIC_HEADLINE_SHA256 = {
     "armhf": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
 }
 GENESIS_PLUS_GX_EXPECTED_LOG_LINE_MULTISET_SHA256 = {
-    "arm64": "9f9f8c48058b9cc9f8557d29c6d28d03ff3478c60d794261c7f62efd9bccb417",
-    "armhf": "5fc981f1a55269eb7014818565f29999945993c9448268921d498c395e97c684",
+    "arm64": (
+        "f05411146d5dbf14a57c8a25543d8abb116880d56f14424302848059ff32ebd9"
+    ),
+    "armhf": (
+        "e80466c1a92b0c83086211dccde87453ea69a49625ba780ac09f7cd2c54219eb"
+    ),
 }
 GENESIS_PLUS_GX_EXPECTED_PRELUDE_LINE_COUNT = {
     "arm64": 32,
     "armhf": 32,
 }
 GENESIS_PLUS_GX_EXPECTED_PRELUDE_SHA256 = {
-    "arm64": "b1df0643d37f96d114bb91ca5f622c273b3e4c4861d231241ef359e6a4071e2d",
-    "armhf": "5b07aad2da1f4f3d907e8ad103e515eab23d9e85a2bb1cf8485d00a2e25f98b2",
+    "arm64": (
+        "0e6b7febe535330adb4938533d9739169fd7e9da058f82086038b0c3f83c70ea"
+    ),
+    "armhf": (
+        "8f2a700d59e88f699381819f46fa63c5835ca636ebb7db78397539b01ada2217"
+    ),
 }
 GENESIS_PLUS_GX_PARALLEL_COMMAND = {
     "arm64": {
@@ -269,6 +277,36 @@ def _canonicalized_parallelism_lines(
     return tuple(canonicalized)
 
 
+def _canonicalized_wildcard_object_lines(
+    lines: tuple[str, ...],
+) -> tuple[str, ...]:
+    """Sort object tokens inside the two wildcard-ordered Makefile lines.
+
+    The clean `rm -f ...` and the link command enumerate objects in
+    $(wildcard) order -- filesystem enumeration, which differs per host
+    (GitHub runners emit the identical multiset in a different order).
+    Canonicalizing to sorted order keeps every object byte pinned while
+    dropping only the environment-dependent ordering.
+    """
+
+    canonicalized = []
+    for line in lines:
+        tokens = line.split(" ")
+        if (
+            line.startswith("rm -f ./")
+            or (" -o " in line and "_libretro.so" in line)
+        ) and sum(token.endswith(".o") for token in tokens) > 1:
+            objects = sorted(t for t in tokens if t.endswith(".o"))
+            rest_iter = iter(objects)
+            tokens = [
+                next(rest_iter) if t.endswith(".o") else t for t in tokens
+            ]
+            canonicalized.append(" ".join(tokens))
+        else:
+            canonicalized.append(line)
+    return tuple(canonicalized)
+
+
 def _line_is_diagnostic_context(line: str) -> bool:
     """Recognize every reviewed or potentially injected diagnostic line."""
 
@@ -398,6 +436,10 @@ def _genesis_plus_gx_log_has_exact_envelope(
     canonicalized_lines = _canonicalized_parallelism_lines(
         tuple(lines), arch
     )
+    if canonicalized_lines is not None:
+        canonicalized_lines = _canonicalized_wildcard_object_lines(
+            canonicalized_lines
+        )
     if (
         expected_log_line_sha256 is None
         or expected_prelude_line_count is None

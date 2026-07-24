@@ -177,6 +177,12 @@ def build_genesis_plus_gx_wide_log_fixture(architecture: str) -> dict:
             tuple(log.splitlines()), architecture
         )
     )
+    if canonicalized_lines is not None:
+        canonicalized_lines = (
+            genesis_plus_gx_wide._canonicalized_wildcard_object_lines(
+                canonicalized_lines
+            )
+        )
     if canonicalized_lines is None:
         raise AssertionError(
             "synthetic Genesis Plus GX Wide parallel commands are invalid"
@@ -322,10 +328,10 @@ class GenesisPlusGxWideLogContractTests(unittest.TestCase):
         self.assertEqual(
             {
                 "arm64": (
-                    "b78708f9863d6bfa407b0cb09b11cf173da079927e67feaf6ebd1ea878de737b"
+                    "f911a5764283f3a146cffaa6c03b2bc7f1b6eb071550da68370508ab8fd25636"
                 ),
                 "armhf": (
-                    "fe3ff4cefd35047fbbb92fc1adf9947452cc3ab8c5216247753d07895c9c6be5"
+                    "5a16f15e7696cd9fef7cf9f3d2a8ceb8256d79c4a142cc04b220677117826b83"
                 ),
             },
             (
@@ -343,10 +349,10 @@ class GenesisPlusGxWideLogContractTests(unittest.TestCase):
         self.assertEqual(
             {
                 "arm64": (
-                    "72d93236699d543e720b908396300c7e2d253cc746320d1b8e271cf2895cf21d"
+                    "d6c561277c7d7e8a8b3f6b5f9ca9b7c482612347486e6bb76fa7f3c48a0013be"
                 ),
                 "armhf": (
-                    "413ba5df644488f36cf91e071eb87c1d8716d8f66e10088e8d9356b33dec3543"
+                    "88c5d0aa8a02b0c5a2759e928fbce5297986567cafd6ba90d268c5fc53516e20"
                 ),
             },
             genesis_plus_gx_wide.GENESIS_PLUS_GX_WIDE_EXPECTED_PRELUDE_SHA256,

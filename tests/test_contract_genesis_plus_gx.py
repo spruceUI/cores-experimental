@@ -190,6 +190,9 @@ def build_genesis_plus_gx_log_fixture(architecture: str) -> dict:
     canonicalized_lines = genesis_plus_gx._canonicalized_parallelism_lines(
         tuple(lines), architecture
     )
+    canonicalized_lines = genesis_plus_gx._canonicalized_wildcard_object_lines(
+        canonicalized_lines
+    )
     if canonicalized_lines is None:
         raise AssertionError(
             "synthetic Genesis Plus GX scheduler fixture is invalid"
@@ -317,10 +320,10 @@ class GenesisPlusGxLogContractTests(unittest.TestCase):
         self.assertEqual(
             {
                 "arm64": (
-                    "9f9f8c48058b9cc9f8557d29c6d28d03ff3478c60d794261c7f62efd9bccb417"
+                    "f05411146d5dbf14a57c8a25543d8abb116880d56f14424302848059ff32ebd9"
                 ),
                 "armhf": (
-                    "5fc981f1a55269eb7014818565f29999945993c9448268921d498c395e97c684"
+                    "e80466c1a92b0c83086211dccde87453ea69a49625ba780ac09f7cd2c54219eb"
                 ),
             },
             genesis_plus_gx.GENESIS_PLUS_GX_EXPECTED_LOG_LINE_MULTISET_SHA256,
@@ -332,10 +335,10 @@ class GenesisPlusGxLogContractTests(unittest.TestCase):
         self.assertEqual(
             {
                 "arm64": (
-                    "b1df0643d37f96d114bb91ca5f622c273b3e4c4861d231241ef359e6a4071e2d"
+                    "0e6b7febe535330adb4938533d9739169fd7e9da058f82086038b0c3f83c70ea"
                 ),
                 "armhf": (
-                    "5b07aad2da1f4f3d907e8ad103e515eab23d9e85a2bb1cf8485d00a2e25f98b2"
+                    "8f2a700d59e88f699381819f46fa63c5835ca636ebb7db78397539b01ada2217"
                 ),
             },
             genesis_plus_gx.GENESIS_PLUS_GX_EXPECTED_PRELUDE_SHA256,
