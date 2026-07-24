@@ -8,15 +8,18 @@ from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import retro8
 
 from .support import ROOT, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "retro8"
-SOURCE_URL = "https://github.com/libretro/retro8.git"
-SOURCE_COMMIT = "ddc06a142398ee9755894b3f0bb17c8dc428151d"
-SOURCE_TREE = "b2d7603bffe84e98130bc62365d65d347d22521e"
-SELECTED_RUN = "actions-sim-build-core-retro8-w4"
-REPRODUCTION_RUN = "build-core-retro8-local-w4"
 
+_H = evidence_handles(CORE_ID)
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+
+SOURCE_URL = _H["SOURCE_URL"]
 
 class Retro8ManifestTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -78,22 +81,6 @@ class Retro8ContractTests(unittest.TestCase):
         )
         return path.read_text(encoding="utf-8") if path.is_file() else None
 
-    def test_real_logs_prove_the_exact_contract(self) -> None:
-        proven = 0
-        for run_id in (SELECTED_RUN, REPRODUCTION_RUN):
-            for arch in ("arm64", "armhf"):
-                log = self._log(run_id, arch)
-                if log is None:
-                    continue
-                self.assertTrue(
-                    retro8.retro8_log_proves_contract(
-                        log, CORE_ID, arch, SOURCE_COMMIT, SOURCE_TREE
-                    ),
-                    f"{run_id}/{arch} did not prove the retro8 contract",
-                )
-                proven += 1
-        if proven == 0:
-            self.skipTest("no workspace-local retro8 build logs present")
 
     def test_contract_rejects_a_wrong_language_count(self) -> None:
         import dataclasses

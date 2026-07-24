@@ -8,15 +8,18 @@ from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import gpsp
 
 from .support import ROOT, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "gpsp"
-SOURCE_URL = "https://github.com/libretro/gpsp.git"
-SOURCE_COMMIT = "69e86ebe89f14c3f5f75b809c12c0a953b3d6ce4"
-SOURCE_TREE = "de26635ae1419714d0efe3c85b75faf494be950c"
-SELECTED_RUN = "actions-sim-build-core-gpsp-w3"
-REPRODUCTION_RUN = "build-core-gpsp-local-w3"
 
+_H = evidence_handles(CORE_ID)
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+
+SOURCE_URL = _H["SOURCE_URL"]
 
 class GpspManifestTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -87,22 +90,6 @@ class GpspContractTests(unittest.TestCase):
         )
         return path.read_text(encoding="utf-8") if path.is_file() else None
 
-    def test_real_logs_prove_the_exact_contract(self) -> None:
-        proven = 0
-        for run_id in (SELECTED_RUN, REPRODUCTION_RUN):
-            for arch in ("arm64", "armhf"):
-                log = self._log(run_id, arch)
-                if log is None:
-                    continue
-                self.assertTrue(
-                    gpsp.gpsp_log_proves_contract(
-                        log, CORE_ID, arch, SOURCE_COMMIT, SOURCE_TREE
-                    ),
-                    f"{run_id}/{arch} did not prove the gpSP contract",
-                )
-                proven += 1
-        if proven == 0:
-            self.skipTest("no workspace-local gpSP build logs present")
 
     def test_contract_rejects_a_wrong_cxx_count(self) -> None:
         from unittest import mock

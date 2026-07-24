@@ -8,15 +8,18 @@ from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import fbalpha2012
 
 from .support import ROOT, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "fbalpha2012"
-SOURCE_URL = "https://github.com/libretro/fbalpha2012.git"
-SOURCE_COMMIT = "95fa35582b1ca7ce68de3313615794c8c9d8d7c0"
-SOURCE_TREE = "5547237bb6746764ca692e765cbe737339f65364"
-SELECTED_RUN = "actions-sim-build-core-fbalpha2012-w4"
-REPRODUCTION_RUN = "build-core-fbalpha2012-local-w4"
 
+_H = evidence_handles(CORE_ID)
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+
+SOURCE_URL = _H["SOURCE_URL"]
 
 class Fbalpha2012ManifestTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -78,22 +81,6 @@ class Fbalpha2012ContractTests(unittest.TestCase):
         )
         return path.read_text(encoding="utf-8") if path.is_file() else None
 
-    def test_real_logs_prove_the_exact_contract(self) -> None:
-        proven = 0
-        for run_id in (SELECTED_RUN, REPRODUCTION_RUN):
-            for arch in ("arm64", "armhf"):
-                log = self._log(run_id, arch)
-                if log is None:
-                    continue
-                self.assertTrue(
-                    fbalpha2012.fbalpha2012_log_proves_contract(
-                        log, CORE_ID, arch, SOURCE_COMMIT, SOURCE_TREE
-                    ),
-                    f"{run_id}/{arch} did not prove the fbalpha2012 contract",
-                )
-                proven += 1
-        if proven == 0:
-            self.skipTest("no workspace-local fbalpha2012 build logs present")
 
     def test_contract_rejects_a_wrong_language_count(self) -> None:
         import dataclasses

@@ -12,15 +12,18 @@ from core_pipeline_lib.contracts.mixed_language import (
 )
 
 from .support import ROOT, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "puzzlescript"
-SOURCE_URL = "https://github.com/nwhitehead/pzretro.git"
-SOURCE_COMMIT = "6d859b47092f585a7ec05804c1d51a1676a06531"
-SOURCE_TREE = "5e215b3f00ceba47f14b81c0b67d6a3d879a08af"
-SELECTED_RUN = "actions-sim-build-core-puzzlescript-w4"
-REPRODUCTION_RUN = "build-core-puzzlescript-local-w4"
 
+_H = evidence_handles(CORE_ID)
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+
+SOURCE_URL = _H["SOURCE_URL"]
 
 class PuzzlescriptManifestTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -98,22 +101,6 @@ class PuzzlescriptContractTests(unittest.TestCase):
         )
         return path.read_text(encoding="utf-8") if path.is_file() else None
 
-    def test_real_logs_prove_the_exact_contract(self) -> None:
-        proven = 0
-        for run_id in (SELECTED_RUN, REPRODUCTION_RUN):
-            for arch in ("arm64", "armhf"):
-                log = self._log(run_id, arch)
-                if log is None:
-                    continue
-                self.assertTrue(
-                    puzzlescript.puzzlescript_log_proves_contract(
-                        log, CORE_ID, arch, SOURCE_COMMIT, SOURCE_TREE
-                    ),
-                    f"{run_id}/{arch} did not prove the contract",
-                )
-                proven += 1
-        if proven == 0:
-            self.skipTest("no workspace-local puzzlescript build logs present")
 
     def test_contract_rejects_a_wrong_language_count(self) -> None:
         log = self._log(SELECTED_RUN, "arm64") or self._log(

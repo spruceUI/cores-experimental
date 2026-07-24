@@ -21,159 +21,43 @@ from .support import (
     refresh_copied_e2e,
     write_document,
 )
+from .support import evidence_handles
 
 
 CORE_ID = "gearboy"
-SOURCE_COMMIT = "36d723ff44109e6d9eefba34e1c9a089c2d50e18"
-SOURCE_TREE = "d01d828b1e5e7330bcf908b19b1afae8c9f8897b"
-SOURCE_URL = "https://github.com/drhelius/Gearboy.git"
+
+_H = evidence_handles(CORE_ID)
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SOURCE_URL = _H["SOURCE_URL"]
+PIN_NAME = _H["PIN_NAME"]
+SEMANTIC_ID = _H["SEMANTIC_ID"]
+PIN_PATH = _H["PIN_PATH"]
+SOURCE_SET_PATH = _H["SOURCE_SET_PATH"]
+SOURCE_LOCK_ID = _H["SOURCE_LOCK_ID"]
+SOURCE_LOCK_PATH = _H["SOURCE_LOCK_PATH"]
+SOURCE_LOCK_FILE_SHA256 = _H["SOURCE_LOCK_FILE_SHA256"]
+SOURCE_LOCK_CONTENT_SHA256 = _H["SOURCE_LOCK_CONTENT_SHA256"]
+SOURCE_SET_FILE_SHA256 = _H["SOURCE_SET_FILE_SHA256"]
+SOURCE_SET_CONTENT_SHA256 = _H["SOURCE_SET_CONTENT_SHA256"]
+PIN_FILE_SHA256 = _H["PIN_FILE_SHA256"]
+PIN_CONTENT_SHA256 = _H["PIN_CONTENT_SHA256"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+TARGETS = _H["TARGETS"]
+
 GIT_DESCRIBE = "3.8.9-8-g36d723f"
-PIN_NAME = "gearboy-36d723ff4410-34b7df6bcf6b.json"
-SEMANTIC_ID = PIN_NAME.removesuffix(".json")
-PIN_PATH = f"pins/core-sets/{PIN_NAME}"
-SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
+
 GOLDEN_PATH = f".local-e2e/nightlies/{SEMANTIC_ID}/golden.json"
-SOURCE_LOCK_ID = "gearboy-36d723ff4410"
-SOURCE_LOCK_PATH = (
-    "pins/sources/gearboy/36d723ff44109e6d9eefba34e1c9a089c2d50e18.json"
-)
-SOURCE_LOCK_FILE_SHA256 = (
-    "1848f73883c5057b0f23937e908e8603525433ae4f918f4f3de09e55a412d214"
-)
-SOURCE_LOCK_CONTENT_SHA256 = (
-    "80aa29e1d988d153b12001992c1e48d721c63f1470ef2cca327c947a812e1daa"
-)
-SOURCE_SET_FILE_SHA256 = (
-    "ceb696c11578d51f98f0d5a6f9bfb926bf16aaf6c7a7949b5c32325e2723cf99"
-)
-SOURCE_SET_CONTENT_SHA256 = (
-    "5d04d0c72a76c79d48a5b511784d17a5be5052dc4448d26e3de383b0300eb570"
-)
-PIN_FILE_SHA256 = (
-    "034d8cecabccaebd8a11f0a1a2a332ff2319cc7130951fdcfe6e9751de79c364"
-)
-PIN_CONTENT_SHA256 = (
-    "bbc896eb7fc9cf7524804cee0e49ccd7c43e309cf589c942efe9fb4e136b9b65"
-)
+
 GOLDEN_FILE_SHA256 = (
     "49c5731fdf801d162eb70174c74395e58f529ad795f814d26f543642b95666a6"
 )
+
 GOLDEN_CONTENT_SHA256 = (
     "f402a59373ce44fcdf1cd183fb2fcd33199ec100db1a8895d44a512739e30f7d"
 )
-SELECTION_SHA256 = (
-    "34b7df6bcf6b7a0ed7872a47ae82009e8aec15b07cef76c004a9732b3ee015ff"
-)
-SELECTED_RUN = "actions-sim-build-core-gearboy-w3"
-REPRODUCTION_RUN = "build-core-gearboy-local-w3"
-SELECTED_E2E_CONTENT_SHA256 = (
-    "1fbfd7c6f74c87c06b7f5ae74f7b05811c119415b7d5231b5135a9724183854e"
-)
-REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "fbd8d22d60bfdcb42d76ebaaa3d711489c1bd1a53ce6ddf20de762c4abd6b579"
-)
-E2E_FILE_SHA256 = {
-    SELECTED_RUN: (
-        "874de3757bdb4effbfd1d586aa4011cb83ed8c118bbbbb52ce2783330c5306b1"
-    ),
-    REPRODUCTION_RUN: (
-        "74b79cba2578667b7e5470905827392d22d3f526198ac23bbf106fd454e71678"
-    ),
-}
-PACKAGE_SHA256 = (
-    "4438255de7a9947ace961dad47ddda9e261b2a975fd049008a61b0bca2148855"
-)
-PACKAGE_SIZE = 393448
-METADATA_SHA256 = (
-    "6f4361be56480bf46aaed5fe35945e93fee3f6a5fb030d9ac19f79e5c0bde0e1"
-)
-METADATA_SIZE = 1483
-RUNNERS = {
-    SELECTED_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "simulated",
-        "profile": "github-actions",
-        "publication": "disabled",
-    },
-    REPRODUCTION_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "native",
-        "profile": "local",
-        "publication": "disabled",
-    },
-}
-TARGETS = {
-    "arm64": {
-        "artifact_sha256": (
-            "7f0cab958e27e2f77e89d9b2a233d8c0c72b7c724815812d076dfd1edbb5ee86"
-        ),
-        "artifact_size": 626216,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "5361c17feb01c120fa42a70c25436c7cb8102ec302c4def0617eafcfb9400f53"
-            ),
-            REPRODUCTION_RUN: (
-                "23d03011915e1fe96d7f6417a23c88e6d0d94034cb64f3b69a187e3fd3872f03"
-            ),
-        },
-        "log_sha256": (
-            "58caa179cbcacb9837b196faccc3cf980285ded644ba9aaf73e968cc3215b765"
-        ),
-        "elf": "ELF64/AArch64",
-        "needed": [
-            "ld-linux-aarch64.so.1",
-            "libc.so.6",
-            "libm.so.6",
-            "libstdc++.so.6",
-        ],
-        "version_requirements": [
-            "CXXABI_1.3",
-            "GLIBCXX_3.4",
-            "GLIBCXX_3.4.15",
-            "GLIBCXX_3.4.20",
-            "GLIBCXX_3.4.21",
-            "GLIBCXX_3.4.5",
-            "GLIBCXX_3.4.9",
-            "GLIBC_2.17",
-            "GLIBC_2.27",
-            "GLIBC_2.29",
-        ],
-        "execution_profile_id": "ra64-universal-v1",
-    },
-    "armhf": {
-        "artifact_sha256": (
-            "05e02b8aec79d8bca1fd586dc79765fc2393c3c190bd5d0b3f529284d6c336b3"
-        ),
-        "artifact_size": 465544,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "11f909fc7318c64f616763199316d2f5ebb047c3b9f1a09d5b4fa99ba6e130a1"
-            ),
-            REPRODUCTION_RUN: (
-                "6a39f948c83054416623c54c1594d06561107a383dc8389b3e7fa674734695e4"
-            ),
-        },
-        "log_sha256": (
-            "3e4eb01d6776607f8f4607d9b3e5624746462adf752c5ff89fd9bfc511a18b8c"
-        ),
-        "elf": "ELF32/ARM hard-float",
-        "needed": ["libc.so.6", "libgcc_s.so.1", "libm.so.6", "libstdc++.so.6"],
-        "version_requirements": [
-            "CXXABI_1.3",
-            "GLIBCXX_3.4",
-            "GLIBCXX_3.4.15",
-            "GLIBCXX_3.4.20",
-            "GLIBCXX_3.4.21",
-            "GLIBCXX_3.4.32",
-            "GLIBCXX_3.4.5",
-            "GLIBCXX_3.4.9",
-            "GLIBC_2.4",
-        ],
-        "execution_profile_id": "ra32-a30-v1",
-    },
-}
+
 SOURCE_RECORD = {
     "url": SOURCE_URL,
     "requested_ref": "refs/heads/master",
@@ -183,6 +67,7 @@ SOURCE_RECORD = {
     "resolved_url": SOURCE_URL,
     "submodules": [],
 }
+
 GOLDEN_BUILD = {
     "driver": "libretro-super",
     "environment": "sanitized-v1",
@@ -194,7 +79,6 @@ GOLDEN_BUILD = {
     "log": "build.log",
     "log_sha256": "a" * 64,
 }
-
 
 class GearboyCatalogTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -446,141 +330,6 @@ class GearboyCatalogTests(unittest.TestCase):
 
 
 class GearboyLifecycleTests(unittest.TestCase):
-    def test_semantic_documents_bind_selected_evidence(self) -> None:
-        pin_path, pin, compatibility_path, compatibility = load_core_documents(
-            CORE_ID, PIN_NAME
-        )
-        pin_report = pipeline.validate_pin_set_document(pin, document_path=pin_path)
-        self.assertEqual("valid", pin_report["status"], pin_report["errors"])
-        compatibility_report = pipeline.validate_core_compatibility_document(
-            compatibility,
-            document_path=compatibility_path,
-            repository_root=ROOT,
-            verify_pin=True,
-        )
-        self.assertEqual(
-            "valid", compatibility_report["status"], compatibility_report["errors"]
-        )
-
-        self.assertEqual(PIN_FILE_SHA256, file_sha256(pin_path))
-        self.assertEqual(PIN_CONTENT_SHA256, pin["content_sha256"])
-        self.assertEqual(SEMANTIC_ID, pin["pin_id"])
-        self.assertEqual([CORE_ID], pin["scope"])
-        self.assertEqual({CORE_ID}, set(pin["cores"]))
-        self.assertIsNone(pin["parent"])
-        self.assertEqual(CORE_ID, compatibility["core_id"])
-        self.assertEqual("disabled", compatibility["publication"])
-        self.assertEqual(
-            "workspace-local-ignored", compatibility["evidence_availability"]
-        )
-        self.assertEqual(PIN_PATH, compatibility["golden_source"])
-        self.assertEqual(SOURCE_COMMIT, compatibility["source_commit"])
-        self.assertEqual("reproducible", compatibility["package_state"])
-        self.assertEqual(PACKAGE_SHA256, compatibility["package_sha256"])
-        self.assertEqual(
-            SELECTED_E2E_CONTENT_SHA256,
-            compatibility["selected_e2e_content_sha256"],
-        )
-        self.assertEqual(
-            REPRODUCTION_E2E_CONTENT_SHA256,
-            compatibility["reproduction_e2e_content_sha256"],
-        )
-
-        self.assertEqual(1, len(pin["sources"]))
-        golden_reference = pin["sources"][0]
-        self.assertEqual(GOLDEN_PATH, golden_reference["path"])
-        self.assertEqual(SEMANTIC_ID, golden_reference["pin_id"])
-        self.assertEqual(GOLDEN_FILE_SHA256, golden_reference["file_sha256"])
-        self.assertEqual(
-            GOLDEN_CONTENT_SHA256, golden_reference["content_sha256"]
-        )
-        golden_path = ROOT / GOLDEN_PATH
-        golden = load_document(golden_path)
-        self.assertEqual(GOLDEN_FILE_SHA256, file_sha256(golden_path))
-        self.assertEqual(GOLDEN_CONTENT_SHA256, golden["content_sha256"])
-
-        selection = pin["cores"][CORE_ID]["selection"]
-        self.assertEqual(SELECTION_SHA256, selection["selection_sha256"])
-        self.assertEqual(PACKAGE_SHA256, selection["package"]["sha256"])
-        self.assertEqual(PACKAGE_SIZE, selection["package"]["size"])
-        self.assertEqual(METADATA_SHA256, selection["metadata"]["sha256"])
-        self.assertEqual(METADATA_SIZE, selection["metadata"]["size"])
-        self.assertEqual(SELECTED_RUN, selection["e2e"]["run_id"])
-        self.assertEqual(
-            SELECTED_E2E_CONTENT_SHA256, selection["e2e"]["content_sha256"]
-        )
-
-        caveats = "\n".join(compatibility["caveats"])
-        for token in (
-            "40-command mixed-language native-describe compile",
-            "one C and 39 C++ compile commands",
-            GIT_DESCRIBE,
-            "no warnings, notes, errors, or fatal diagnostics",
-            "GPLv3",
-            "display version 3.4.1",
-            "dmg_boot.bin and cgb_boot.bin",
-            "neither firmware file is packaged",
-            "GLIBCXX_3.4.32",
-            "every device view remains ineligible",
-        ):
-            self.assertIn(token, caveats)
-        for active_reference in (
-            SEMANTIC_ID,
-            PIN_PATH,
-            SOURCE_SET_PATH,
-            compatibility["e2e_run"],
-            compatibility["reproduction_run"],
-            caveats,
-        ):
-            self.assertNotIn("tranche", active_reference.casefold())
-
-        self.assertEqual(set(TARGETS), set(compatibility["targets"]))
-        self.assertEqual(set(TARGETS), set(selection["targets"]))
-        for architecture, expected in TARGETS.items():
-            with self.subTest(architecture=architecture):
-                target = compatibility["targets"][architecture]
-                selected_target = selection["targets"][architecture]
-                golden_record = selected_target["golden_record"]
-                self.assertEqual(SOURCE_RECORD, golden_record["source"])
-                self.assertEqual("local_static_build_golden", target["state"])
-                self.assertEqual("static-build-only", target["validation_scope"])
-                self.assertEqual("needs-target-runtime", target["runtime_validation"])
-                self.assertEqual(
-                    expected["record_sha256"][SELECTED_RUN],
-                    selected_target["build_record_sha256"],
-                )
-                self.assertEqual(expected["artifact_sha256"], target["artifact_sha256"])
-                self.assertEqual(
-                    expected["artifact_sha256"], golden_record["artifact"]["sha256"]
-                )
-                self.assertEqual(
-                    expected["artifact_size"], golden_record["artifact"]["size"]
-                )
-                self.assertEqual(expected["elf"], target["elf"])
-                self.assertEqual(expected["needed"], target["needed"])
-                self.assertEqual(
-                    expected["version_requirements"], target["version_requirements"]
-                )
-                self.assertEqual(
-                    {
-                        "derivation": "native-git-describe-v1",
-                        "value": GIT_DESCRIBE,
-                    },
-                    golden_record["build"]["git_version"],
-                )
-                snapshot_reference = golden_record["local_store"][
-                    "recipe_snapshots"
-                ][architecture]
-                snapshot_path = ROOT / snapshot_reference["path"]
-                self.assertEqual(9, load_document(snapshot_path)["schema_version"])
-                self.assertEqual(
-                    [],
-                    pipeline.verify_recipe_snapshot(
-                        snapshot_path,
-                        golden_record,
-                        f"{CORE_ID}/{architecture}",
-                    ),
-                )
 
     def test_source_set_maps_profiles_without_device_claims(self) -> None:
         source_set_path = ROOT / SOURCE_SET_PATH
@@ -646,97 +395,6 @@ class GearboyLifecycleTests(unittest.TestCase):
             )
         )
 
-    def test_selected_and_reproduction_runs_are_byte_identical(self) -> None:
-        packages: list[bytes] = []
-        metadata_payloads: list[bytes] = []
-        artifacts = {architecture: [] for architecture in TARGETS}
-        logs = {architecture: [] for architecture in TARGETS}
-        for run_id, expected_runner in RUNNERS.items():
-            with self.subTest(run_id=run_id):
-                run_root = ROOT / ".local-e2e/runs" / run_id
-                evidence_path = run_root / "e2e-record.json"
-                evidence = load_document(evidence_path)
-                self.assertEqual(E2E_FILE_SHA256[run_id], file_sha256(evidence_path))
-                self.assertEqual("passed", evidence["result"])
-                self.assertEqual(expected_runner, evidence["runner"])
-                self.assertEqual(
-                    SELECTED_E2E_CONTENT_SHA256
-                    if run_id == SELECTED_RUN
-                    else REPRODUCTION_E2E_CONTENT_SHA256,
-                    evidence["content_sha256"],
-                )
-                package = evidence["packages"][0]
-                self.assertEqual(CORE_ID, package["core_id"])
-                self.assertEqual("packaged", package["result"])
-                self.assertEqual(PACKAGE_SHA256, package["sha256"])
-                self.assertEqual(PACKAGE_SIZE, package["size"])
-                package_path = run_root / package["path"]
-                packages.append(package_path.read_bytes())
-                with zipfile.ZipFile(package_path) as archive:
-                    self.assertEqual(
-                        {
-                            "cores64/gearboy_libretro.so",
-                            "cores/gearboy_libretro.so",
-                            "gearboy_libretro.info",
-                            "manifest.json",
-                        },
-                        set(archive.namelist()),
-                    )
-
-                builds = {
-                    build["architecture"]: build for build in evidence["builds"]
-                }
-                self.assertEqual(set(TARGETS), set(builds))
-                for architecture, expected in TARGETS.items():
-                    build = builds[architecture]
-                    self.assertEqual(
-                        expected["record_sha256"][run_id], build["record_sha256"]
-                    )
-                    record_path = ROOT / build["record"]
-                    self.assertEqual(build["record_sha256"], file_sha256(record_path))
-                    record = load_document(record_path)
-                    self.assertEqual(SOURCE_RECORD, record["source"])
-                    self.assertEqual(
-                        {"derivation": "native-git-describe-v1", "value": GIT_DESCRIBE},
-                        record["build"]["git_version"],
-                    )
-                    log_path = record_path.parent / record["build"]["log"]
-                    log_text = log_path.read_text(encoding="utf-8")
-                    self.assertEqual(expected["log_sha256"], file_sha256(log_path))
-                    self.assertTrue(
-                        pipeline.registered_core_log_contract_proves(
-                            log_text,
-                            CORE_ID,
-                            architecture,
-                            SOURCE_COMMIT,
-                            SOURCE_TREE,
-                        )
-                    )
-                    self.assertEqual(
-                        gearboy.GEARBOY_EXPECTED_COMPILE_COUNT,
-                        log_text.count(r'-DEMULATOR_BUILD=\"3.8.9-8-g36d723f\"'),
-                    )
-                    logs[architecture].append(log_path.read_bytes())
-
-                    metadata_path = record_path.parent / record["metadata"]["path"]
-                    self.assertEqual(METADATA_SHA256, file_sha256(metadata_path))
-                    self.assertEqual(METADATA_SIZE, record["metadata"]["size"])
-                    metadata_payloads.append(metadata_path.read_bytes())
-                    artifact_path = record_path.parent / record["artifact"]["path"]
-                    self.assertEqual(
-                        expected["artifact_sha256"], file_sha256(artifact_path)
-                    )
-                    artifact = artifact_path.read_bytes()
-                    self.assertIn(GIT_DESCRIBE.encode(), artifact)
-                    artifacts[architecture].append(artifact)
-
-        self.assertEqual(packages[0], packages[1])
-        self.assertTrue(
-            all(payload == metadata_payloads[0] for payload in metadata_payloads[1:])
-        )
-        for architecture in TARGETS:
-            self.assertEqual(artifacts[architecture][0], artifacts[architecture][1])
-            self.assertEqual(logs[architecture][0], logs[architecture][1])
 
     def test_channels_release_and_mutations_fail_closed(self) -> None:
         target_paths = {

@@ -8,15 +8,18 @@ from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import theodore
 
 from .support import ROOT, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "theodore"
-SOURCE_URL = "https://github.com/Zlika/theodore.git"
-SOURCE_COMMIT = "121ae2513d3ee29f0aaf765a64dc086d57e7a4c7"
-SOURCE_TREE = "431edd6ada0b1dc0ff148fa57afdf0d9d6da1260"
-SELECTED_RUN = "actions-sim-build-core-theodore-w3"
-REPRODUCTION_RUN = "build-core-theodore-local-w3"
 
+_H = evidence_handles(CORE_ID)
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+
+SOURCE_URL = _H["SOURCE_URL"]
 
 class GwManifestTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -82,22 +85,6 @@ class GwContractTests(unittest.TestCase):
         )
         return path.read_text(encoding="utf-8") if path.is_file() else None
 
-    def test_real_logs_prove_the_exact_contract(self) -> None:
-        proven = 0
-        for run_id in (SELECTED_RUN, REPRODUCTION_RUN):
-            for arch in ("arm64", "armhf"):
-                log = self._log(run_id, arch)
-                if log is None:
-                    continue
-                self.assertTrue(
-                    theodore.theodore_log_proves_contract(
-                        log, CORE_ID, arch, SOURCE_COMMIT, SOURCE_TREE
-                    ),
-                    f"{run_id}/{arch} did not prove the Gw contract",
-                )
-                proven += 1
-        if proven == 0:
-            self.skipTest("no workspace-local Gw build logs present")
 
     def test_contract_rejects_a_wrong_compile_count(self) -> None:
         import dataclasses

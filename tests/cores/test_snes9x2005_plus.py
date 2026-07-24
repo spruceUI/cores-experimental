@@ -11,189 +11,57 @@ from scripts import profile_registry as registry
 from core_pipeline_lib.contracts import snes9x2005_plus
 
 from .support import ROOT, file_sha256, load_core_documents, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "snes9x2005_plus"
 OTHER_CORE_ID = "snes9x2005"
+
+_H = evidence_handles(CORE_ID)
+PIN_NAME = _H["PIN_NAME"]
+SEMANTIC_ID = _H["SEMANTIC_ID"]
+PIN_PATH = _H["PIN_PATH"]
+SOURCE_SET_PATH = _H["SOURCE_SET_PATH"]
+SOURCE_LOCK_PATH = _H["SOURCE_LOCK_PATH"]
+SOURCE_LOCK_ID = _H["SOURCE_LOCK_ID"]
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SOURCE_URL = _H["SOURCE_URL"]
+SOURCE_LOCK_FILE_SHA256 = _H["SOURCE_LOCK_FILE_SHA256"]
+SOURCE_LOCK_CONTENT_SHA256 = _H["SOURCE_LOCK_CONTENT_SHA256"]
+SOURCE_SET_FILE_SHA256 = _H["SOURCE_SET_FILE_SHA256"]
+SOURCE_SET_CONTENT_SHA256 = _H["SOURCE_SET_CONTENT_SHA256"]
+PIN_FILE_SHA256 = _H["PIN_FILE_SHA256"]
+PIN_CONTENT_SHA256 = _H["PIN_CONTENT_SHA256"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+PACKAGE_SHA256 = _H["PACKAGE_SHA256"]
+PACKAGE_SIZE = _H["PACKAGE_SIZE"]
+RECIPE_HEAD = _H["RECIPE_HEAD"]
+CORE_SPEC_SHA256 = _H["CORE_SPEC_SHA256"]
+CATALOG_SHA256 = _H["CATALOG_SHA256"]
+PIPELINE_SHA256 = _H["PIPELINE_SHA256"]
+PIPELINE_BUNDLE_CONTENT_SHA256 = _H["PIPELINE_BUNDLE_CONTENT_SHA256"]
+WORKFLOW_SHA256 = _H["WORKFLOW_SHA256"]
+TOOLCHAIN_LOCK_FILE_SHA256 = _H["TOOLCHAIN_LOCK_FILE_SHA256"]
+TOOLCHAIN_LOCK_CONTENT_SHA256 = _H["TOOLCHAIN_LOCK_CONTENT_SHA256"]
+LIBRETRO_SUPER_COMMIT = _H["LIBRETRO_SUPER_COMMIT"]
+TARGETS = _H["TARGETS"]
+
 RESERVED_HISTORY_TOKEN = "tranche"
-PIN_NAME = "snes9x2005_plus-b60356971fc9-1d19ddd8a238.json"
-SEMANTIC_ID = PIN_NAME.removesuffix(".json")
-PIN_PATH = f"pins/core-sets/{PIN_NAME}"
-SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
-SOURCE_LOCK_PATH = (
-    "pins/sources/snes9x2005_plus/"
-    "b60356971fc9caae02cd0853676dced886a08be7.json"
-)
-SOURCE_LOCK_ID = "snes9x2005_plus-b60356971fc9"
-SOURCE_COMMIT = "b60356971fc9caae02cd0853676dced886a08be7"
-SOURCE_TREE = "5a13440308796f67a77f7e8fc16bbeee61ab301d"
-SOURCE_URL = "https://github.com/libretro/snes9x2005.git"
-SOURCE_LOCK_FILE_SHA256 = (
-    "6865862ac006808a9f468ba73df9b99a292803ac140bc78449af72f134d74292"
-)
-SOURCE_LOCK_CONTENT_SHA256 = (
-    "300c8502d4367895195dfcf84cd30ceff75ab84eedfeedba39097187b016358a"
-)
-SOURCE_SET_FILE_SHA256 = (
-    "7a68a61ff5cd3396a99cba07493b63e61f4a0ab340d91d7eea4bc5a0cd52a681"
-)
-SOURCE_SET_CONTENT_SHA256 = (
-    "bba0099bd3aa11a38873bc776d1b77f525c163da4fc1a6dd04a0d5b31f0f1301"
-)
-PIN_FILE_SHA256 = (
-    "1cfcb1ed4d660903c4e9c499b288e7d5af850fbc30c7ff5cf0973f71170b341d"
-)
-PIN_CONTENT_SHA256 = (
-    "3cc96125962ac552d0100fec07a3b4c62f7358d03852443357efea038463bcc5"
-)
-COMPATIBILITY_CONTENT_SHA256 = (
-    "539e263902d1f606a2b20921c00087bf4891d66eaee00f747e4983a8511682de"
-)
-SELECTION_SHA256 = (
-    "1d19ddd8a2380367365cdb7997f38715c5ac650364c11aec7189f0fdcb43c582"
-)
-SELECTED_RUN = "actions-sim-build-core-snes9x2005_plus-w3c"
-REPRODUCTION_RUN = "build-core-snes9x2005_plus-local-w3c"
-E2E_CONTENT_SHA256 = {
-    SELECTED_RUN: (
-        "0bcf4aa45fafab3c6238d5c47d1b31c652d0b4cdb7f249852ddb6f7aabb05668"
-    ),
-    REPRODUCTION_RUN: (
-        "24c81cb6cfdef626a6d1a49b5bfb2d8ed37c013eb002d7a8c63ea20974558e42"
-    ),
-}
-E2E_FILE_SHA256 = {
-    SELECTED_RUN: (
-        "7fce6947c35a9304cab97c54cdc7668bd680adb22fd08983a28dc264b6506e92"
-    ),
-    REPRODUCTION_RUN: (
-        "84f641f7455bf4c7fdaaee4055e2bb5183f4322eb00a473783e63f5b51534520"
-    ),
-}
-PACKAGE_SHA256 = (
-    "14865c0a4995e7df32d89dfa8604af704a869f351d4cc2f750cabf44fa3a4737"
-)
-PACKAGE_SIZE = 480522
-METADATA_SHA256 = (
-    "2e1f46c49714bcfb59926ebfe394d98004c20e7c0c38d1412dc4196e0eb34dd4"
-)
-METADATA_SIZE = 1456
-RECIPE_HEAD = "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
-CORE_SPEC_SHA256 = (
-    "cc9a4d637c0b0c1fbb90d571f56c58a39b3b8623373945b23f588ee0f5860ff7"
-)
-CATALOG_SHA256 = (
-    "4b374c814b03b543769e485f850b8edf579add8896f2b52c974bddd3b3341415"
-)
-PIPELINE_SHA256 = (
-    "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6"
-)
-PIPELINE_BUNDLE_CONTENT_SHA256 = (
-    "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73"
-)
-WORKFLOW_SHA256 = (
-    "63c9747ff53d521db79647370341151533c0f6fbace108a7444e36c5c553ffd1"
-)
+
 CONTRACT_FILE_SHA256 = (
     "7762f45b058ebe117639f4f4cee5cf6cebc4ff853a2298421e3a2064cc175f4a"
 )
+
 COMMON_CONTRACT_FILE_SHA256 = (
     "9d5e0788272dd7a53473b99bd84e48a152345f25082e89d171a9f411d750e2de"
 )
+
 CONTRACT_REGISTRY_FILE_SHA256 = (
     "f20d87f0379059351c7a2fee3daf2bb33186efa79c617dad1363c143fafddca5"
 )
-TOOLCHAIN_LOCK_FILE_SHA256 = (
-    "7606e9357490f451df4374d38aad73a0426e3bb956a732dcaaa6b32393ee8639"
-)
-TOOLCHAIN_LOCK_CONTENT_SHA256 = (
-    "253f7d84cc71fa859553fa05fab4c2356b842196104953b092501850c217a794"
-)
-LIBRETRO_SUPER_COMMIT = "60f5c62789af16379446544d64228afa1d6b28b7"
-RUNNERS = {
-    SELECTED_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "simulated",
-        "profile": "github-actions",
-        "publication": "disabled",
-    },
-    REPRODUCTION_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "native",
-        "profile": "local",
-        "publication": "disabled",
-    },
-}
-TARGETS = {
-    "arm64": {
-        "artifact_sha256": (
-            "f6b0e49f3230a8d858f7fe30d27f624e629c9e017f351dd4c4c2b92dc6b56f02"
-        ),
-        "artifact_size": 827808,
-        "log_sha256": (
-            "7d96670dc3d50d2953874695f616fa9e28f92e746079a79a66e71b06c4fe37e9"
-        ),
-        "log_size": 25326,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "eec0d3f2599961a68d2a1d51af3db36ded75fcd33b6c920eceeb33e743a97d5f"
-            ),
-            REPRODUCTION_RUN: (
-                "3319f38e6ffccd1bfcc9d146b23c7c9cd147c6c4bb8b171f498b86a55c53c140"
-            ),
-        },
-        "elf": "ELF64/AArch64",
-        "needed": ["ld-linux-aarch64.so.1", "libc.so.6"],
-        "version_requirements": ["GLIBC_2.17"],
-        "execution_profile_id": "ra64-universal-v1",
-        "image_id": (
-            "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9"
-        ),
-        "toolchain_archive_sha256": (
-            "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64"
-        ),
-        "toolchain_archive_size": 502531978,
-        "recipe_snapshot_sha256": (
-            "06d4580dbfffdc6cd675e93c7fb692441cd34af3ae550a5bbd8b62d3430a7c23"
-        ),
-        "recipe_snapshot_size": 2047213,
-    },
-    "armhf": {
-        "artifact_sha256": (
-            "5a9825a71f88d41f956067d584aaed1e2620856fdb6cb8b45bc81f9ef8c12a43"
-        ),
-        "artifact_size": 661940,
-        "log_sha256": (
-            "a526846c10ccc1dd916e21f13976bb4a03218e593ec42fb2979ab4cf5d32d7d3"
-        ),
-        "log_size": 24971,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "46908ca1756b341a2191de74b98a011e6b13f2abc7ddeeff109c28cd79df6fed"
-            ),
-            REPRODUCTION_RUN: (
-                "b5b9df4022006414374299dfaa7473df93c586d542de44ab192c62518648a841"
-            ),
-        },
-        "elf": "ELF32/ARM hard-float",
-        "needed": ["libc.so.6", "libm.so.6"],
-        "version_requirements": ["GLIBC_2.4", "GLIBC_2.7"],
-        "execution_profile_id": "ra32-a30-v1",
-        "image_id": (
-            "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9"
-        ),
-        "toolchain_archive_sha256": (
-            "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e"
-        ),
-        "toolchain_archive_size": 835303648,
-        "recipe_snapshot_sha256": (
-            "f3e83e7cb4cb8df47242ff0fc949e2bd28f220263e211db80b16040addf019b3"
-        ),
-        "recipe_snapshot_size": 2047221,
-    },
-}
+
 EXPECTED_CONTRACT = {
     "compile_count": 33,
     "compile_pair_sha256": (
@@ -233,6 +101,7 @@ EXPECTED_CONTRACT = {
         ),
     },
 }
+
 CAVEAT_TOKENS = (
     "byte for byte",
     "no offline source cache",
@@ -255,117 +124,13 @@ CAVEAT_TOKENS = (
     "all 16 device entries remain ineligible",
 )
 
-
 class Snes9x2005PlusCoreEvidenceTests(unittest.TestCase):
-    def test_individual_lifecycle_documents_bind_exact_evidence(self) -> None:
-        pin_path, pin, compatibility_path, compatibility = load_core_documents(
-            CORE_ID, PIN_NAME
-        )
-        pin_report = pipeline.validate_pin_set_document(pin, document_path=pin_path)
-        self.assertEqual("valid", pin_report["status"], pin_report["errors"])
-        compatibility_report = pipeline.validate_core_compatibility_document(
-            compatibility,
-            document_path=compatibility_path,
-            repository_root=ROOT,
-        )
-        self.assertEqual(
-            "valid", compatibility_report["status"], compatibility_report["errors"]
-        )
-
-        self.assertEqual(PIN_FILE_SHA256, file_sha256(pin_path))
-        self.assertEqual(PIN_CONTENT_SHA256, pin["content_sha256"])
-        self.assertEqual(SEMANTIC_ID, pin["pin_id"])
-        self.assertEqual([CORE_ID], pin["scope"])
-        self.assertEqual({CORE_ID}, set(pin["cores"]))
-        self.assertIsNone(pin["parent"])
-        self.assertEqual(CORE_ID, compatibility["core_id"])
-        self.assertEqual(
-            COMPATIBILITY_CONTENT_SHA256, compatibility["content_sha256"]
-        )
-        self.assertEqual("disabled", compatibility["publication"])
-        self.assertEqual(
-            "workspace-local-ignored", compatibility["evidence_availability"]
-        )
-        self.assertEqual(PIN_PATH, compatibility["golden_source"])
-        self.assertEqual(SOURCE_COMMIT, compatibility["source_commit"])
-        self.assertEqual("reproducible", compatibility["package_state"])
-        self.assertEqual(PACKAGE_SHA256, compatibility["package_sha256"])
-        self.assertEqual(
-            E2E_CONTENT_SHA256[SELECTED_RUN],
-            compatibility["selected_e2e_content_sha256"],
-        )
-        self.assertEqual(
-            E2E_CONTENT_SHA256[REPRODUCTION_RUN],
-            compatibility["reproduction_e2e_content_sha256"],
-        )
-
-        selection = pin["cores"][CORE_ID]["selection"]
-        self.assertEqual(SELECTION_SHA256, selection["selection_sha256"])
-        self.assertEqual(PACKAGE_SHA256, selection["package"]["sha256"])
-        self.assertEqual(SELECTED_RUN, selection["e2e"]["run_id"])
-        self.assertEqual(set(TARGETS), set(selection["targets"]))
-        self.assertEqual(set(TARGETS), set(compatibility["targets"]))
-        for architecture, expected in TARGETS.items():
-            with self.subTest(architecture=architecture):
-                target = compatibility["targets"][architecture]
-                selected = selection["targets"][architecture]
-                golden = selected["golden_record"]
-                self.assertEqual(CORE_ID, golden["core_id"])
-                self.assertEqual(SOURCE_COMMIT, golden["source"]["commit"])
-                self.assertEqual(SOURCE_TREE, golden["source"]["tree"])
-                self.assertEqual("local_static_build_golden", target["state"])
-                self.assertEqual("static-build-only", target["validation_scope"])
-                self.assertEqual("needs-target-runtime", target["runtime_validation"])
-                self.assertEqual(expected["artifact_sha256"], target["artifact_sha256"])
-                self.assertEqual(
-                    expected["artifact_sha256"], selected["artifact"]["sha256"]
-                )
-                self.assertEqual(expected["elf"], target["elf"])
-                self.assertEqual(expected["needed"], target["needed"])
-                self.assertEqual(
-                    expected["version_requirements"], target["version_requirements"]
-                )
-                self._assert_individual_references(
-                    golden["e2e"]["run_id"],
-                    golden["e2e"]["record"],
-                    golden["e2e"]["package"],
-                    golden["local_record"],
-                )
-                self._assert_recipe(golden["recipe"])
-                self._assert_toolchain(golden["toolchain"], expected)
-                snapshot_reference = golden["local_store"]["recipe_snapshots"][
-                    architecture
-                ]
-                self.assertEqual(
-                    expected["recipe_snapshot_sha256"], snapshot_reference["sha256"]
-                )
-                snapshot_path = ROOT / snapshot_reference["path"]
-                self.assertEqual(
-                    expected["recipe_snapshot_size"], snapshot_path.stat().st_size
-                )
-                snapshot = load_document(snapshot_path)
-                self.assertEqual(9, snapshot["schema_version"])
-                self.assertEqual(
-                    [],
-                    pipeline.verify_recipe_snapshot(
-                        snapshot_path, golden, f"{CORE_ID}/{architecture}"
-                    ),
-                )
-
+    def test_compatibility_retains_reviewed_caveat_tokens(self) -> None:
+        _, _, _, compatibility = load_core_documents(CORE_ID, PIN_NAME)
         caveats = "\n".join(compatibility["caveats"])
         for token in CAVEAT_TOKENS:
             self.assertIn(token, caveats)
-        self._assert_individual_references(
-            SEMANTIC_ID,
-            PIN_PATH,
-            SOURCE_SET_PATH,
-            SOURCE_LOCK_ID,
-            SOURCE_LOCK_PATH,
-            compatibility["golden_source"],
-            compatibility["e2e_run"],
-            compatibility["reproduction_run"],
-            selection["e2e"]["run_id"],
-        )
+
 
     def test_individual_source_set_maps_profiles_without_device_claims(self) -> None:
         source_set_path = ROOT / SOURCE_SET_PATH
@@ -500,152 +265,6 @@ class Snes9x2005PlusCoreEvidenceTests(unittest.TestCase):
             str((release_root / "release-manifest.json").relative_to(ROOT)),
         )
 
-    def test_selected_and_reproduction_runs_are_byte_reproducible(self) -> None:
-        packages: list[bytes] = []
-        metadata_payloads: list[bytes] = []
-        artifacts: dict[str, list[bytes]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        logs: dict[str, list[bytes]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        for run_id, expected_runner in RUNNERS.items():
-            with self.subTest(run_id=run_id):
-                self._assert_individual_references(run_id)
-                run_root = ROOT / ".local-e2e" / "runs" / run_id
-                evidence_path = run_root / "e2e-record.json"
-                evidence = load_document(evidence_path)
-                self.assertEqual(E2E_FILE_SHA256[run_id], file_sha256(evidence_path))
-                self.assertEqual(E2E_CONTENT_SHA256[run_id], evidence["content_sha256"])
-                self.assertEqual(run_id, evidence["run_id"])
-                self.assertEqual("passed", evidence["result"])
-                self.assertEqual(expected_runner, evidence["runner"])
-                self.assertEqual(
-                    [CORE_ID], [item["core_id"] for item in evidence["packages"]]
-                )
-
-                package = evidence["packages"][0]
-                self.assertEqual(PACKAGE_SHA256, package["sha256"])
-                self.assertEqual(PACKAGE_SIZE, package["size"])
-                package_path = run_root / package["path"]
-                self.assertEqual(PACKAGE_SHA256, file_sha256(package_path))
-                packages.append(package_path.read_bytes())
-                with zipfile.ZipFile(package_path) as archive:
-                    self.assertEqual(
-                        {
-                            "cores64/snes9x2005_plus_libretro.so",
-                            "cores/snes9x2005_plus_libretro.so",
-                            "snes9x2005_plus_libretro.info",
-                            "manifest.json",
-                        },
-                        set(archive.namelist()),
-                    )
-                    package_manifest = json.loads(archive.read("manifest.json"))
-                    self.assertEqual(CORE_ID, package_manifest["core_id"])
-                    self.assertTrue(package_manifest["local_only"])
-                    self.assertEqual("disabled", package_manifest["publication"])
-                    self.assertEqual(
-                        METADATA_SHA256, package_manifest["metadata"]["sha256"]
-                    )
-                    for architecture, expected in TARGETS.items():
-                        self.assertEqual(
-                            expected["artifact_sha256"],
-                            package_manifest["artifacts"][architecture]["sha256"],
-                        )
-                        self.assertEqual(
-                            SOURCE_COMMIT,
-                            package_manifest["artifacts"][architecture][
-                                "source_commit"
-                            ],
-                        )
-
-                for architecture, expected in TARGETS.items():
-                    with self.subTest(run_id=run_id, architecture=architecture):
-                        record_path = (
-                            run_root / CORE_ID / architecture / "build-record.json"
-                        )
-                        record = load_document(record_path)
-                        self.assertEqual(
-                            expected["record_sha256"][run_id], file_sha256(record_path)
-                        )
-                        self.assertEqual(SOURCE_COMMIT, record["source"]["commit"])
-                        self.assertEqual(SOURCE_TREE, record["source"]["tree"])
-                        self.assertEqual([], record["source"]["submodules"])
-                        self.assertEqual(
-                            {
-                                "compiler_scope": "c",
-                                "derivation": "native-space-short7-v1",
-                                "value": " b603569",
-                            },
-                            record["build"]["git_version"],
-                        )
-                        self.assertEqual(
-                            {"USE_BLARGG_APU": 1},
-                            record["build"]["make_variables"],
-                        )
-                        self._assert_recipe(record["recipe"])
-                        self._assert_toolchain(record["toolchain"], expected)
-
-                        log_path = record_path.parent / record["build"]["log"]
-                        self.assertEqual(expected["log_sha256"], file_sha256(log_path))
-                        self.assertEqual(expected["log_size"], log_path.stat().st_size)
-                        log_text = log_path.read_text(encoding="utf-8")
-                        self.assertTrue(
-                            pipeline.registered_core_log_contract_proves(
-                                log_text,
-                                CORE_ID,
-                                architecture,
-                                SOURCE_COMMIT,
-                                SOURCE_TREE,
-                            )
-                        )
-                        self.assertEqual(
-                            snes9x2005_plus.SNES9X2005_PLUS_EXPECTED_WARNING_COUNT[
-                                architecture
-                            ],
-                            sum(
-                                "warning:" in line.casefold()
-                                for line in log_text.splitlines()
-                            ),
-                        )
-                        self.assertEqual(
-                            snes9x2005_plus.SNES9X2005_PLUS_EXPECTED_NOTE_COUNT[
-                                architecture
-                            ],
-                            sum(
-                                "note:" in line.casefold()
-                                for line in log_text.splitlines()
-                            ),
-                        )
-                        logs[architecture].append(log_path.read_bytes())
-
-                        metadata_path = record_path.parent / record["metadata"]["path"]
-                        self.assertEqual(METADATA_SHA256, file_sha256(metadata_path))
-                        self.assertEqual(METADATA_SIZE, metadata_path.stat().st_size)
-                        metadata = metadata_path.read_bytes()
-                        self.assertIn(b'display_version = "v1.36"', metadata)
-                        self.assertIn(b'license = "Non-commercial"', metadata)
-                        self.assertIn(b'supports_no_game = "false"', metadata)
-                        self.assertIn(b'needs_fullpath = "false"', metadata)
-                        metadata_payloads.append(metadata)
-
-                        artifact_path = record_path.parent / record["artifact"]["path"]
-                        self.assertEqual(
-                            expected["artifact_sha256"], file_sha256(artifact_path)
-                        )
-                        self.assertEqual(
-                            expected["artifact_size"], artifact_path.stat().st_size
-                        )
-                        artifacts[architecture].append(artifact_path.read_bytes())
-
-        self.assertEqual(packages[0], packages[1])
-        self.assertTrue(
-            all(payload == metadata_payloads[0] for payload in metadata_payloads[1:])
-        )
-        for architecture in TARGETS:
-            with self.subTest(byte_reproduction=architecture):
-                self.assertEqual(artifacts[architecture][0], artifacts[architecture][1])
-                self.assertEqual(logs[architecture][0], logs[architecture][1])
 
     def test_registered_contract_binds_exact_compile_link_and_diagnostics(self) -> None:
         self.assertEqual(

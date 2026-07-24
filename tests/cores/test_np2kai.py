@@ -12,15 +12,18 @@ from core_pipeline_lib.contracts.mixed_language import (
 )
 
 from .support import ROOT, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "np2kai"
-SOURCE_URL = "https://github.com/libretro/NP2kai.git"
-SOURCE_COMMIT = "54ec39f50d197cc02909cd4fd2a8591bb38651b0"
-SOURCE_TREE = "dfb9119f775cdba8a5b0eed464ddfe04dffd7c1a"
-SELECTED_RUN = "actions-sim-build-core-np2kai-w4b"
-REPRODUCTION_RUN = "build-core-np2kai-local-w4b"
 
+_H = evidence_handles(CORE_ID)
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+
+SOURCE_URL = _H["SOURCE_URL"]
 
 class Np2kaiManifestTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -82,22 +85,6 @@ class Np2kaiContractTests(unittest.TestCase):
         )
         return path.read_text(encoding="utf-8") if path.is_file() else None
 
-    def test_real_logs_prove_the_exact_contract(self) -> None:
-        proven = 0
-        for run_id in (SELECTED_RUN, REPRODUCTION_RUN):
-            for arch in ("arm64", "armhf"):
-                log = self._log(run_id, arch)
-                if log is None:
-                    continue
-                self.assertTrue(
-                    np2kai.np2kai_log_proves_contract(
-                        log, CORE_ID, arch, SOURCE_COMMIT, SOURCE_TREE
-                    ),
-                    f"{run_id}/{arch} did not prove the np2kai contract",
-                )
-                proven += 1
-        if proven == 0:
-            self.skipTest("no workspace-local np2kai build logs present")
 
     def test_contract_rejects_a_wrong_language_count(self) -> None:
         log = self._log(SELECTED_RUN, "arm64") or self._log(

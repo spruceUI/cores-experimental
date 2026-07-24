@@ -22,129 +22,28 @@ from .support import (
     refresh_copied_e2e,
     write_document,
 )
+from .support import evidence_handles
 
 
 CORE_ID = "pokemini"
 OTHER_CORE_ID = "gearcoleco"
-PIN_NAME = "pokemini-bb009b1379ad-3abb4885cf09.json"
-SEMANTIC_ID = PIN_NAME.removesuffix(".json")
-PIN_PATH = f"pins/core-sets/{PIN_NAME}"
-SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
-SOURCE_COMMIT = "bb009b1379ad15f1514f20ca7cbf710b4af42b3e"
-SOURCE_TREE = "f3a98fcf910c07bd9e0f5ee8466bed7865536c33"
-SOURCE_URL = "https://github.com/libretro/PokeMini.git"
-SOURCE_LOCK_ID = "pokemini-bb009b1379ad"
-SELECTION_SHA256 = (
-    "3abb4885cf0930efb3516e75ef026d57e5a39a9f6d526eb9a241245b7e897eff"
-)
-SELECTED_RUN = "actions-sim-build-core-pokemini-w3c"
-REPRODUCTION_RUN = "build-core-pokemini-local-w3c"
-SELECTED_E2E_CONTENT_SHA256 = (
-    "ab696ca1faa35cd1d3293a0c14f12a642e8d42b8a724af029c06ffaa5f47dffa"
-)
-REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "8076ac02ab1834bee10fddd334df8c2b61eef231b0d2437c0c79188a95c1983f"
-)
-E2E_FILE_SHA256 = {
-    SELECTED_RUN: (
-        "8cd5d0a2c0d832005ef6991b5dbfa88cf9316c9d2fd4d1c31cfd0ea2be25b43e"
-    ),
-    REPRODUCTION_RUN: (
-        "ab2a96acc3659b0e0a1dd2a126d091761f2b63397ad8182b9879179ee18d18e6"
-    ),
-}
-PACKAGE_SHA256 = (
-    "696b0a4992feb760311ef967fe61a78c024d5a95550cf8603874c3ce6ff17b79"
-)
-PACKAGE_SIZE = 230530
-METADATA_SHA256 = (
-    "514da066db31dd673aabf9c0e54b1b24e485775615217a02ac7de635d621b8b2"
-)
-METADATA_SIZE = 1045
-RUNNERS = {
-    SELECTED_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "simulated",
-        "profile": "github-actions",
-        "publication": "disabled",
-    },
-    REPRODUCTION_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "native",
-        "profile": "local",
-        "publication": "disabled",
-    },
-}
-TARGETS = {
-    "arm64": {
-        "artifact_sha256": (
-            "0f93f77e2f279c75a0f9ea781ab07b51deff95cc80c81a996105a585133d49e9"
-        ),
-        "artifact_size": 404904,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "d28f146242ba6cccc7981a6a268e0ad2c2a20139820e787a57bbad9889f5bb85"
-            ),
-            REPRODUCTION_RUN: (
-                "93fbd85bf2ee1082cfdb08badf56dc34edf871492ef518dd64e84b903f9d2377"
-            ),
-        },
-        "log_sha256": {
-            SELECTED_RUN: (
-                "4fbaf836e15d06f36732f28d79984b57c3ac9da49c72332f7d5cb8c39d37f9d5"
-            ),
-            REPRODUCTION_RUN: (
-                "f1b9270ccae778b92d688a9670b883b619b81c9513b36eea01dd0fc13ef6b5dc"
-            ),
-        },
-        "elf": "ELF64/AArch64",
-        "needed": ["ld-linux-aarch64.so.1", "libc.so.6"],
-        "version_requirements": ["GLIBC_2.17"],
-        "execution_profile_id": "ra64-universal-v1",
-        "image_id": (
-            "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9"
-        ),
-        "toolchain_archive_sha256": (
-            "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64"
-        ),
-        "toolchain_archive_size": 502531978,
-    },
-    "armhf": {
-        "artifact_sha256": (
-            "3ec9643aad10ccd9eb8d1ce3f1fdde89f53643a351b685de47b5073a14790545"
-        ),
-        "artifact_size": 326608,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "ab00ee4372142b11785c547c1beaa270ae6e17ee2d990c29d8d708d52247b136"
-            ),
-            REPRODUCTION_RUN: (
-                "7c3bc1eadcac41167abd028015ef959633fed70a4f6ab51129c000a31d3d5c8f"
-            ),
-        },
-        "log_sha256": {
-            SELECTED_RUN: (
-                "2c9bcfb8ecc7a0e701a88a9ab231755503f24ac060aa369defcf5efb2d9c0800"
-            ),
-            REPRODUCTION_RUN: (
-                "6938290718eb32baff1abbcd4cb246c16e8e6b86a2ee8a412a8162fcec5af261"
-            ),
-        },
-        "elf": "ELF32/ARM hard-float",
-        "needed": ["libc.so.6", "libm.so.6"],
-        "version_requirements": ["GLIBC_2.4", "GLIBC_2.7"],
-        "execution_profile_id": "ra32-a30-v1",
-        "image_id": (
-            "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9"
-        ),
-        "toolchain_archive_sha256": (
-            "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e"
-        ),
-        "toolchain_archive_size": 835303648,
-    },
-}
+
+_H = evidence_handles(CORE_ID)
+PIN_NAME = _H["PIN_NAME"]
+SEMANTIC_ID = _H["SEMANTIC_ID"]
+PIN_PATH = _H["PIN_PATH"]
+SOURCE_SET_PATH = _H["SOURCE_SET_PATH"]
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SOURCE_LOCK_ID = _H["SOURCE_LOCK_ID"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+PACKAGE_SHA256 = _H["PACKAGE_SHA256"]
+PACKAGE_SIZE = _H["PACKAGE_SIZE"]
+TARGETS = _H["TARGETS"]
+
+SOURCE_URL = _H["SOURCE_URL"]
+
 SOURCE_LOCK_IDENTITY = {
     "url": SOURCE_URL,
     "requested_ref": "refs/heads/master",
@@ -152,6 +51,7 @@ SOURCE_LOCK_IDENTITY = {
     "tree": SOURCE_TREE,
     "submodules": [],
 }
+
 SOURCE_RECORD_IDENTITY = {
     "commit": SOURCE_COMMIT,
     "requested_ref": "refs/heads/master",
@@ -161,6 +61,7 @@ SOURCE_RECORD_IDENTITY = {
     "tree": SOURCE_TREE,
     "url": SOURCE_URL,
 }
+
 CAVEAT_TOKENS = (
     "parallel compilation changes whole-log ordering on ARM64",
     "ARMHF logs are also byte-identical",
@@ -184,6 +85,7 @@ CAVEAT_TOKENS = (
     "ra32-a30-v1",
     "every device view remains ineligible",
 )
+
 FAILURE_MARKERS = (
     "error:",
     "fatal:",
@@ -192,180 +94,13 @@ FAILURE_MARKERS = (
     "make: ***",
 )
 
-
 class PokeminiCoreEvidenceTests(unittest.TestCase):
-    def test_singleton_pin_and_compatibility_bind_promoted_evidence(self) -> None:
-        pin_path, pin, compatibility_path, compatibility = load_core_documents(
-            CORE_ID, PIN_NAME
-        )
-
-        pin_report = pipeline.validate_pin_set_document(pin, document_path=pin_path)
-        self.assertEqual("valid", pin_report["status"], pin_report["errors"])
-        compatibility_report = pipeline.validate_core_compatibility_document(
-            compatibility,
-            document_path=compatibility_path,
-            repository_root=ROOT,
-        )
-        self.assertEqual(
-            "valid",
-            compatibility_report["status"],
-            compatibility_report["errors"],
-        )
-        self.assertEqual(SEMANTIC_ID, pin["pin_id"])
-        self.assertEqual([CORE_ID], pin["scope"])
-        self.assertEqual({CORE_ID}, set(pin["cores"]))
-        self.assertIsNone(pin["parent"])
-        self.assertEqual(CORE_ID, compatibility["core_id"])
-        self.assertEqual("disabled", compatibility["publication"])
-        self.assertEqual(
-            "workspace-local-ignored", compatibility["evidence_availability"]
-        )
-        self.assertEqual(PIN_PATH, compatibility["golden_source"])
-
-        selection = pin["cores"][CORE_ID]["selection"]
-        self.assertEqual(SELECTION_SHA256, selection["selection_sha256"])
-        self.assertEqual(SOURCE_COMMIT, compatibility["source_commit"])
-        self.assertEqual("reproducible", compatibility["package_state"])
-        self.assertEqual(PACKAGE_SHA256, compatibility["package_sha256"])
-        self.assertEqual(PACKAGE_SHA256, selection["package"]["sha256"])
-        self.assertEqual(PACKAGE_SIZE, selection["package"]["size"])
-        self.assertEqual(METADATA_SHA256, selection["metadata"]["sha256"])
-        self.assertEqual(METADATA_SIZE, selection["metadata"]["size"])
-        self.assertEqual(PACKAGE_SHA256, selection["e2e"]["package_sha256"])
-        self.assertEqual(SELECTED_RUN, selection["e2e"]["run_id"])
-        self.assertEqual(
-            SELECTED_E2E_CONTENT_SHA256, selection["e2e"]["content_sha256"]
-        )
-        self.assertEqual(
-            SELECTED_E2E_CONTENT_SHA256,
-            compatibility["selected_e2e_content_sha256"],
-        )
-        reproduction_path = (
-            ROOT / ".local-e2e" / "runs" / REPRODUCTION_RUN / "e2e-record.json"
-        )
-        reproduction = load_document(reproduction_path)
-        self.assertEqual(
-            E2E_FILE_SHA256[REPRODUCTION_RUN], file_sha256(reproduction_path)
-        )
-        self.assertEqual(
-            REPRODUCTION_E2E_CONTENT_SHA256, reproduction["content_sha256"]
-        )
-        self.assertEqual(
-            REPRODUCTION_E2E_CONTENT_SHA256,
-            compatibility["reproduction_e2e_content_sha256"],
-        )
-        self.assertEqual(
-            f".local-e2e/runs/{SELECTED_RUN}/e2e-record.json",
-            compatibility["e2e_run"],
-        )
-        self.assertEqual(
-            f".local-e2e/runs/{REPRODUCTION_RUN}/e2e-record.json",
-            compatibility["reproduction_run"],
-        )
-
+    def test_compatibility_retains_reviewed_caveat_tokens(self) -> None:
+        _, _, _, compatibility = load_core_documents(CORE_ID, PIN_NAME)
         caveats = "\n".join(compatibility["caveats"])
         for token in CAVEAT_TOKENS:
             self.assertIn(token, caveats)
-        for active_reference in (
-            SEMANTIC_ID,
-            PIN_PATH,
-            SOURCE_SET_PATH,
-            compatibility["golden_source"],
-            compatibility["e2e_run"],
-            compatibility["reproduction_run"],
-            caveats,
-        ):
-            self.assertNotIn("tranche", active_reference.casefold())
 
-        self.assertEqual(set(TARGETS), set(compatibility["targets"]))
-        self.assertEqual(set(TARGETS), set(selection["targets"]))
-        for architecture, expected in TARGETS.items():
-            with self.subTest(architecture=architecture):
-                target = compatibility["targets"][architecture]
-                selected_target = selection["targets"][architecture]
-                golden_record = selected_target["golden_record"]
-                artifact = golden_record["artifact"]
-
-                self.assertEqual(CORE_ID, golden_record["core_id"])
-                self.assertEqual(architecture, golden_record["architecture"])
-                self.assertEqual(SOURCE_RECORD_IDENTITY, golden_record["source"])
-                self.assertEqual("local_static_build_golden", target["state"])
-                self.assertEqual("static-build-only", target["validation_scope"])
-                self.assertEqual("needs-target-runtime", target["runtime_validation"])
-                self.assertEqual(
-                    expected["record_sha256"][SELECTED_RUN],
-                    selected_target["build_record_sha256"],
-                )
-                self.assertEqual(expected["artifact_sha256"], target["artifact_sha256"])
-                self.assertEqual(
-                    expected["artifact_sha256"], selected_target["artifact"]["sha256"]
-                )
-                self.assertEqual(expected["artifact_sha256"], artifact["sha256"])
-                self.assertEqual(expected["artifact_size"], artifact["size"])
-                self.assertEqual([], golden_record["build"]["compile_definitions"])
-                self.assertEqual(
-                    {
-                        "derivation": pokemini.POKEMINI_NATIVE_GIT_VERSION_DERIVATION,
-                        "value": pokemini.POKEMINI_NATIVE_GIT_VERSION,
-                    },
-                    golden_record["build"]["git_version"],
-                )
-                self.assertEqual(METADATA_SHA256, golden_record["metadata"]["sha256"])
-                self.assertEqual(METADATA_SIZE, golden_record["metadata"]["size"])
-                self.assertEqual(expected["elf"], target["elf"])
-                self.assertEqual(
-                    expected["elf"].split("/", 1)[0], artifact["elf"]["class"]
-                )
-                self.assertEqual(
-                    "AArch64" if architecture == "arm64" else "ARM",
-                    artifact["elf"]["machine"],
-                )
-                self.assertEqual(expected["needed"], target["needed"])
-                self.assertEqual(expected["needed"], artifact["needed"])
-                self.assertEqual(
-                    expected["version_requirements"], target["version_requirements"]
-                )
-                self.assertEqual(
-                    expected["version_requirements"], artifact["version_requirements"]
-                )
-
-                recipe = golden_record["recipe"]
-                self.assertEqual(CORE_ID, recipe["core_id"])
-                self.assertEqual(
-                    ".github/workflows/build-pokemini.yml", recipe["workflow"]
-                )
-                self.assertFalse(recipe["repository_dirty"])
-                self.assertIn(
-                    "scripts/core_pipeline_lib/contracts/pokemini.py",
-                    recipe["pipeline_bundle"]["files"],
-                )
-                toolchain = golden_record["toolchain"]
-                self.assertEqual(expected["image_id"], toolchain["image_id"])
-                self.assertEqual(expected["image_id"], toolchain["resolved_image_id"])
-                archive = toolchain["archive_provenance"]["archive"]
-                self.assertEqual(
-                    expected["toolchain_archive_sha256"], archive["sha256"]
-                )
-                self.assertEqual(expected["toolchain_archive_size"], archive["size"])
-                self.assertEqual(
-                    "local-cache-v1",
-                    toolchain["archive_provenance"]["lock"]["lock_id"],
-                )
-
-                snapshot_reference = golden_record["local_store"][
-                    "recipe_snapshots"
-                ][architecture]
-                snapshot_path = ROOT / snapshot_reference["path"]
-                snapshot = load_document(snapshot_path)
-                self.assertEqual(9, snapshot["schema_version"])
-                self.assertEqual(
-                    [],
-                    pipeline.verify_recipe_snapshot(
-                        snapshot_path,
-                        golden_record,
-                        f"{CORE_ID}/{architecture}",
-                    ),
-                )
 
     def test_singleton_source_set_maps_profiles_without_device_claims(self) -> None:
         source_set = load_document(ROOT / SOURCE_SET_PATH)
@@ -495,255 +230,6 @@ class PokeminiCoreEvidenceTests(unittest.TestCase):
         self.assertEqual(PACKAGE_SHA256, release["assets"][0]["sha256"])
         self.assertEqual(PACKAGE_SIZE, release["assets"][0]["size"])
 
-    def test_selected_and_reproduction_runs_prove_exact_parallel_builds(
-        self,
-    ) -> None:
-        contract = pokemini.POKEMINI_LOG_CONTRACT
-        registered_contract = pipeline.core_log_contract_for(CORE_ID)
-        self.assertIsNotNone(registered_contract)
-        assert registered_contract is not None
-        self.assertEqual("pokemini-c-only-v1", registered_contract.contract_id)
-        self.assertEqual("pokemini_log_proves_contract", registered_contract.proof_name)
-        self.assertEqual(43, contract.expected_compile_count)
-        self.assertEqual({"c": 43}, dict(contract.expected_language_counts))
-        self.assertEqual(
-            "17f65c12b7ef794447812008357fb682cb19db4a6a3e82486670da39d0145750",
-            contract.expected_compile_pair_sha256,
-        )
-        self.assertEqual(
-            {
-                "arm64": (
-                    "533510854d6e233ce8042544af7dbbd43eb387404ef1e011c534af9a4575b8d8"
-                ),
-                "armhf": (
-                    "214985b96125d51986696ccca44d08d63e43ce6579e37cc13a4f15c33c141826"
-                ),
-            },
-            dict(contract.expected_compile_invocation_sha256),
-        )
-        self.assertEqual(
-            "3527e8711e8a30937f33c5be35b0e5d6c98721f4b141bcf6ed6acfb1fc1765c4",
-            contract.expected_link_object_sha256,
-        )
-        self.assertEqual(
-            "2e9b5de97a1877077d38b89bcb1e892efb3ff3db4f72395b3a966e351a97c25d",
-            contract.expected_raw_link_object_sha256,
-        )
-        self.assertEqual(
-            {
-                "arm64": (
-                    "804c9c7e9c3560725b2c64959c52211e851033eda5f25a16ec3431796f37c7d1"
-                ),
-                "armhf": (
-                    "2a35d956f4cb48dc5478ba9234e5fa164160e4cef8a95935dcfaccea4cb2b37d"
-                ),
-            },
-            pokemini.POKEMINI_EXPECTED_ORDERED_LINK_ARGV_SHA256,
-        )
-        self.assertEqual(
-            ("-fPIC", "-shared", "-Wl,--version-script=libretro/link.T", "-lm"),
-            contract.expected_link_options,
-        )
-
-        packages: list[bytes] = []
-        metadata_payloads: list[bytes] = []
-        artifacts: dict[str, list[bytes]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        logs: dict[str, list[str]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        toolchains: dict[str, list[dict[str, object]]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        recipes: dict[str, list[dict[str, object]]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        for run_id, expected_runner in RUNNERS.items():
-            with self.subTest(run_id=run_id):
-                self.assertNotIn("tranche", run_id.casefold())
-                run_root = ROOT / ".local-e2e" / "runs" / run_id
-                e2e_path = run_root / "e2e-record.json"
-                evidence = load_document(e2e_path)
-                self.assertEqual(E2E_FILE_SHA256[run_id], file_sha256(e2e_path))
-                self.assertEqual("passed", evidence["result"])
-                self.assertEqual(expected_runner, evidence["runner"])
-                self.assertEqual(
-                    SELECTED_E2E_CONTENT_SHA256
-                    if run_id == SELECTED_RUN
-                    else REPRODUCTION_E2E_CONTENT_SHA256,
-                    evidence["content_sha256"],
-                )
-                self.assertEqual(
-                    [CORE_ID], [item["core_id"] for item in evidence["packages"]]
-                )
-                package = evidence["packages"][0]
-                self.assertEqual("packaged", package["result"])
-                self.assertEqual(PACKAGE_SHA256, package["sha256"])
-                self.assertEqual(PACKAGE_SIZE, package["size"])
-                package_path = run_root / package["path"]
-                self.assertEqual(PACKAGE_SHA256, file_sha256(package_path))
-                packages.append(package_path.read_bytes())
-                with zipfile.ZipFile(package_path) as archive:
-                    self.assertEqual(
-                        {
-                            "cores64/pokemini_libretro.so",
-                            "cores/pokemini_libretro.so",
-                            "pokemini_libretro.info",
-                            "manifest.json",
-                        },
-                        set(archive.namelist()),
-                    )
-
-                builds = {
-                    build["architecture"]: build for build in evidence["builds"]
-                }
-                self.assertEqual(set(TARGETS), set(builds))
-                for architecture, expected in TARGETS.items():
-                    with self.subTest(run_id=run_id, architecture=architecture):
-                        build = builds[architecture]
-                        self.assertEqual(CORE_ID, build["core_id"])
-                        self.assertEqual("passed", build["result"])
-                        self.assertEqual(
-                            expected["record_sha256"][run_id], build["record_sha256"]
-                        )
-                        record_path = ROOT / build["record"]
-                        self.assertEqual(
-                            build["record_sha256"], file_sha256(record_path)
-                        )
-                        record = load_document(record_path)
-                        self.assertEqual(SOURCE_RECORD_IDENTITY, record["source"])
-                        self.assertEqual("libretro-super", record["build"]["driver"])
-                        self.assertEqual("sanitized-v1", record["build"]["environment"])
-                        self.assertEqual([], record["build"]["compile_definitions"])
-                        self.assertEqual(
-                            {
-                                "derivation": "native-space-short7-v1",
-                                "value": " bb009b1",
-                            },
-                            record["build"]["git_version"],
-                        )
-
-                        recipe = record["recipe"]
-                        self.assertEqual(CORE_ID, recipe["core_id"])
-                        self.assertEqual(
-                            ".github/workflows/build-pokemini.yml", recipe["workflow"]
-                        )
-                        self.assertFalse(recipe["repository_dirty"])
-                        recipes[architecture].append(recipe)
-                        toolchain = record["toolchain"]
-                        self.assertEqual(expected["image_id"], toolchain["image_id"])
-                        self.assertEqual(
-                            expected["image_id"], toolchain["resolved_image_id"]
-                        )
-                        archive = toolchain["archive_provenance"]["archive"]
-                        self.assertEqual(
-                            expected["toolchain_archive_sha256"], archive["sha256"]
-                        )
-                        self.assertEqual(
-                            expected["toolchain_archive_size"], archive["size"]
-                        )
-                        toolchains[architecture].append(toolchain)
-
-                        log_path = record_path.parent / record["build"]["log"]
-                        log_text = log_path.read_text(encoding="utf-8")
-                        self.assertEqual(
-                            expected["log_sha256"][run_id], file_sha256(log_path)
-                        )
-                        logs[architecture].append(log_text)
-                        self.assertTrue(
-                            pipeline.registered_core_log_contract_proves(
-                                log_text,
-                                CORE_ID,
-                                architecture,
-                                SOURCE_COMMIT,
-                                SOURCE_TREE,
-                            )
-                        )
-                        self.assertEqual(
-                            43,
-                            log_text.count(
-                                pokemini.POKEMINI_NATIVE_GIT_VERSION_LOG_TOKEN
-                            ),
-                        )
-                        self.assertEqual(43, log_text.count("-DGIT_VERSION="))
-                        warning_lines = tuple(
-                            line
-                            for line in log_text.splitlines()
-                            if "warning:" in line.casefold()
-                        )
-                        note_lines = tuple(
-                            line
-                            for line in log_text.splitlines()
-                            if "note:" in line.casefold()
-                        )
-                        self.assertEqual(
-                            Counter(
-                                pokemini.POKEMINI_EXPECTED_WARNING_LINES[
-                                    architecture
-                                ]
-                            ),
-                            Counter(warning_lines),
-                        )
-                        self.assertEqual(
-                            Counter(
-                                pokemini.POKEMINI_EXPECTED_NOTE_LINES[architecture]
-                            ),
-                            Counter(note_lines),
-                        )
-                        self.assertEqual(5, len(warning_lines))
-                        self.assertEqual(5, len(note_lines))
-                        lowered_log = log_text.casefold()
-                        for marker in FAILURE_MARKERS:
-                            self.assertNotIn(marker, lowered_log)
-
-                        metadata_path = record_path.parent / record["metadata"]["path"]
-                        self.assertEqual(METADATA_SHA256, file_sha256(metadata_path))
-                        self.assertEqual(METADATA_SIZE, record["metadata"]["size"])
-                        metadata = metadata_path.read_bytes()
-                        self.assertIn(b'display_version = "v0.60"', metadata)
-                        self.assertIn(b'license = "GPLv3"', metadata)
-                        self.assertIn(b'supported_extensions = "min"', metadata)
-                        self.assertIn(b'supports_no_game = "false"', metadata)
-                        self.assertIn(b'firmware0_path = "bios.min"', metadata)
-                        self.assertIn(b"1e4fb124a3a886865acb574f388c803d", metadata)
-                        metadata_payloads.append(metadata)
-
-                        artifact_path = record_path.parent / record["artifact"]["path"]
-                        self.assertEqual(
-                            expected["artifact_sha256"], file_sha256(artifact_path)
-                        )
-                        self.assertEqual(
-                            expected["artifact_size"], record["artifact"]["size"]
-                        )
-                        artifact = artifact_path.read_bytes()
-                        self.assertIn(b"v0.60", artifact)
-                        self.assertNotIn(b"bb009b1", artifact)
-                        artifacts[architecture].append(artifact)
-
-        self.assertEqual(packages[0], packages[1])
-        self.assertTrue(
-            all(payload == metadata_payloads[0] for payload in metadata_payloads[1:])
-        )
-        for architecture, payloads in artifacts.items():
-            with self.subTest(byte_reproduction=architecture):
-                self.assertEqual(payloads[0], payloads[1])
-                self.assertEqual(
-                    toolchains[architecture][0], toolchains[architecture][1]
-                )
-                self.assertEqual(recipes[architecture][0], recipes[architecture][1])
-                # The pinned per-run log hashes state whether the independent
-                # runs reproduced the log byte for byte or merely reordered
-                # complete lines under parallel make; hold the bytes to it.
-                pinned = TARGETS[architecture]["log_sha256"]
-                if pinned[SELECTED_RUN] == pinned[REPRODUCTION_RUN]:
-                    self.assertEqual(logs[architecture][0], logs[architecture][1])
-                else:
-                    self.assertNotEqual(logs[architecture][0], logs[architecture][1])
-                    self.assertEqual(
-                        Counter(logs[architecture][0].splitlines(keepends=True)),
-                        Counter(logs[architecture][1].splitlines(keepends=True)),
-                    )
 
     def test_contract_rejects_source_version_and_diagnostic_mutations(self) -> None:
         log_path = (

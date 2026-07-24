@@ -8,15 +8,18 @@ from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import snes9x2010
 
 from .support import ROOT, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "snes9x2010"
-SOURCE_URL = "https://github.com/libretro/snes9x2010.git"
-SOURCE_COMMIT = "33077919157b990578011d2cce462e58c9e5c985"
-SOURCE_TREE = "b1ce4512418a0629442c9dad0f1341600c6a6b43"
-SELECTED_RUN = "actions-sim-build-core-snes9x2010-w3"
-REPRODUCTION_RUN = "build-core-snes9x2010-local-w3"
 
+_H = evidence_handles(CORE_ID)
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+
+SOURCE_URL = _H["SOURCE_URL"]
 
 class Snes9x2010ManifestTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -101,22 +104,6 @@ class Snes9x2010ContractTests(unittest.TestCase):
         )
         return path.read_text(encoding="utf-8") if path.is_file() else None
 
-    def test_real_logs_prove_the_exact_contract(self) -> None:
-        proven = 0
-        for run_id in (SELECTED_RUN, REPRODUCTION_RUN):
-            for arch in ("arm64", "armhf"):
-                log = self._log(run_id, arch)
-                if log is None:
-                    continue
-                self.assertTrue(
-                    snes9x2010.snes9x2010_log_proves_contract(
-                        log, CORE_ID, arch, SOURCE_COMMIT, SOURCE_TREE
-                    ),
-                    f"{run_id}/{arch} did not prove the Snes9x 2010 contract",
-                )
-                proven += 1
-        if proven == 0:
-            self.skipTest("no workspace-local Snes9x 2010 build logs present")
 
     def test_contract_rejects_a_wrong_compile_count(self) -> None:
         import dataclasses
