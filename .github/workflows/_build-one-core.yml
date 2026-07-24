@@ -62,6 +62,9 @@ jobs:
           gh release download toolchains \
             --pattern "cores-armhf.tar.gz" \
             --dir "$RUNNER_TEMP/core-toolchains"
+          gh release download toolchains \
+            --pattern "cores-rust.tar.gz" \
+            --dir "$RUNNER_TEMP/core-toolchains"
 
       - name: Verify Docker image archives
         run: >-
@@ -69,11 +72,13 @@ jobs:
           --lock pins/toolchains/local-cache-v1.json
           --arm64 "$RUNNER_TEMP/core-toolchains/cores-arm64.tar.gz"
           --armhf "$RUNNER_TEMP/core-toolchains/cores-armhf.tar.gz"
+          --rust "$RUNNER_TEMP/core-toolchains/cores-rust.tar.gz"
 
       - name: Load Docker images
         run: |
           gunzip -c "$RUNNER_TEMP/core-toolchains/cores-arm64.tar.gz" | docker load
           gunzip -c "$RUNNER_TEMP/core-toolchains/cores-armhf.tar.gz" | docker load
+          gunzip -c "$RUNNER_TEMP/core-toolchains/cores-rust.tar.gz" | docker load
 
       - name: Run publication-disabled one-core E2E
         run: >-
