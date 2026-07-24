@@ -1,0 +1,11 @@
+diff --git a/Makefile b/Makefile
+index 5e10063..60286df 100644
+--- a/Makefile
++++ b/Makefile
+@@ -271,5 +271,5 @@ endif
+ 
+ define COMPILE
+ 	$(info Compiling $2 ...)
+-	@$(CXX) $(CFLAGS) -MMD -MP -o $1 -c $2
++	$(CXX) $(CFLAGS) -MMD -MP -o $1 -c $2
+ endef

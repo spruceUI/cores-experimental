@@ -1,0 +1,71 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "np2kai",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/np2kai-54ec39f50d19-c8bcc5899d16.json",
+  "source_commit": "54ec39f50d197cc02909cd4fd2a8591bb38651b0",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-np2kai-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "e0cf8b8e38f7cb8f274b0b46b8c98fa48491ce939a37059989e5870f0fc21b4a",
+  "reproduction_run": ".local-e2e/runs/build-core-np2kai-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "fcba09ff0fdcf8ef026b417c12896f7ff55ae1b86b823bb2048862cb5d1114cd",
+  "package_state": "reproducible",
+  "package_sha256": "83527a63d8f5afeb7668713e0603c2201f00a87dc335d4dcd35e857668048e8f",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the np2kai_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "41f214950cc6c41007d6d9d8d68b64832e59cf0af71eca9b0d4505ec5b535ec0",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libpthread.so.0",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBC_2.17",
+        "GLIBC_2.29"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "16b5fe031d4c1a86790812089f0615d078645913dbaf4740fb7d2f99611e73ad",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "ld-linux-armhf.so.3",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libpthread.so.0",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBC_2.11",
+        "GLIBC_2.17",
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "4f70d8748a6c5393e821b9ce98c8abe47128cec00d79e8d39f520316de1a752c"
+}

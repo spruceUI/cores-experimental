@@ -1,0 +1,70 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "mednafen_ngp",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/mednafen_ngp-a50d5ac288a8-d2dabb68d075.json",
+  "source_commit": "a50d5ac288a81f2104ddf43195a4efdd15c72227",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_ngp-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "70ec2ea0d57ac1923d4a94600776d894f5e8ef040309a816fa6fb5841fd05d2e",
+  "reproduction_run": ".local-e2e/runs/build-core-mednafen_ngp-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "04f61b2c9a8a0037e2ebcb512634bc72385d8716be1f6d1090d1f7b32d4ef0e0",
+  "package_state": "reproducible",
+  "package_sha256": "bb1226f4ee59d4de17db669c9afa1a1b4b683328a8e59c030b6eab8b255971d1",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mednafen_ngp_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, metadata, and both ABI artifacts byte for byte. Their complete build-log line multisets also match exactly, while valid parallel compilation changes raw line placement. Both profiles satisfy the same singleton Neo Geo Pocket source, compile, ordered-link, and diagnostic proof. Execution was local, but each build cloned its pinned source from GitHub; the current pipeline has no offline source cache.",
+    "The pristine source is commit a50d5ac288a81f2104ddf43195a4efdd15c72227, tree 2614efc4a43347f75a16e4b87c536806f7de2ba1, with no submodules. Upstream native leading-space version ' a50d5ac' occurs exactly 69 times across 37 compiles (32 C and 5 C++) and the exact ordered 37-object C++ link; both binaries expose version 'v1.29.0.0 a50d5ac'.",
+    "Both ABIs contain exactly three reviewed -Wmissing-braces warnings with their full context. ARM64 contains no notes, errors, or fatal diagnostics. ARMHF additionally contains exactly two reviewed GCC 7.1 psABI notes with their full context. Missing, changed, split, internally reordered, extra, or post-link diagnostics, pipeline version markers, source/version markers, compile commands, link arguments, or success frames fail closed.",
+    "Resolver metadata declares GPLv2, display version v0.9.36.1, and ngp|ngc|ngpc|npc content while both binaries report v1.29.0.0 a50d5ac. That version discrepancy requires operator review. Any public distribution or release remains a human legal and policy gate; corresponding-source and license obligations must be reviewed before publication.",
+    "No firmware is packaged by the core archive. Content loading, controls, audio and video pacing, saves, deterministic states, compatibility, frontend integration, and sustained performance remain target-runtime gates.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 is build-identity-bound only to ra64-universal-v1; ARMHF is bound only to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so all device views remain ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "675aa77885a8f61a93762067406ef42b0dad56eb2372b1e0d6306eaec70fa0f4",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "3bbc12b63a46c394e19e205cefaa8449670f80ac23fd13f02b653d91ac2b155e",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "17098f1f04e634bc2ac5d023882d3b4c9474dc2ef6abe37e54e3e45d56ae2118"
+}

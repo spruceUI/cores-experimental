@@ -1,0 +1,60 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "a5200",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/a5200-23c1ea482afb-f37877a31d37.json",
+  "source_commit": "23c1ea482afb08656ec507e9ce98ed242a20bdfa",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-a5200-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "cae4a4e2502e4862da99dac6606346504bc19219cb2dbe64b036d063749571dd",
+  "reproduction_run": ".local-e2e/runs/build-core-a5200-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "d28e08b34c3a6ec33bd146e11ef3f774b2cf7fc5bf3ab36fa7e2afab94d749f9",
+  "package_state": "reproducible",
+  "package_sha256": "3ebb37ba53ea55dbf0883c33d6517f45b8d63bf139ec36ca236754a7f0b8f34d",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the a5200_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced both ABI artifacts, resolver metadata, warning-free build logs, and the package byte for byte. The selected github-actions/simulated/local-docker and reproduction local/native/local-docker identities remain explicit; record hashes differ only because timestamps, runner identity, run paths, and run IDs are evidence-bearing fields.",
+    "The pristine source is commit 23c1ea482afb08656ec507e9ce98ed242a20bdfa, tree bd8a0b3f925ab9dcd5acae4f705e4f0c00f787b5, with no submodules. Commit-derived GIT_VERSION '-23c1ea4' is bound to all 36 C compiles per ABI and the exact 36-object final link; both binaries report '2.0.2 -23c1ea4', matching resolver display version 2.0.2.",
+    "ARM64 requires GLIBC_2.17 and records the AArch64 loader, libc, and libm. ARMHF is EABI5 hard-float, reaches GLIBC_2.7, and records only libc and libm. Neither shared object has a PT_INTERP; loader, rootfs, frontend, and target execution remain runtime gates.",
+    "Resolver metadata declares GPLv2; any public distribution or release remains a human legal/policy and corresponding-source gate even though local builds reproduce.",
+    "Atari 5200 a52/bin loading, analog joystick and keypad mappings, per-game input hacks, audio/video pacing, saves, deterministic states, cartridge compatibility, and sustained performance remain target-runtime gates. The low-powered-hardware description is not device-performance evidence.",
+    "Resolver metadata marks 5200.rom optional and no BIOS is packaged. The binary falls back to its internal Altirra OS but identifies that fallback as reduced-compatibility and recommends the official BIOS; BIOS discovery and compatibility should therefore be tested both with the internal fallback and a separately supplied lawful 5200.rom.",
+    "The software-only Unix recipe produces one shared artifact per ABI/build profile and provides no basis for device-specific duplicate builds. ARM64 is build-identity-bound only to ra64-universal-v1, while ARMHF is bound only to ra32-a30-v1. Its modest ARMHF GLIBC floor makes ra32-mini-v0 and ra32-universal-v0 plausible candidates, but provider/build-identity/frontend/runtime capture is still absent; all device views remain ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "805561bfe7f2eb48b0fc6635b9f52e539eca28c4f27bd1ae05e174a7123eeba4",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "b68129d54b4191e9b5c390181ec4d401cf6e34199cf4e3ded370c162de4802f0",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "9d4e8b06647ea86d1c0d087b68cbec9098ec33200861a6dfb71db7aa166007ca"
+}

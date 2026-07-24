@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "frodo-29dd1864b89d",
+  "core_id": "frodo",
+  "source": {
+    "url": "https://github.com/libretro/frodo-libretro.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "29dd1864b89d903ed93f1d86d85636ef9e194359",
+    "tree": "55052ca464a04805b21b6bae7ec9c00741644ded",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "fd1368b2145f34e16afa3538d55e778b030ecef2614ce9ba5ce616efe8728a69"
+}

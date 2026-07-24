@@ -1,0 +1,13 @@
+diff --git a/glide2gl/src/Glide64/glide64_rdp.c b/glide2gl/src/Glide64/glide64_rdp.c
+index dac1412..c37aec9 100644
+--- a/glide2gl/src/Glide64/glide64_rdp.c
++++ b/glide2gl/src/Glide64/glide64_rdp.c
+@@ -1749,6 +1749,8 @@ void glide64FBGetFrameBufferInfo(void *p)
+ 
+ #include "ucodeFB.h"
+ 
++void (*_gSPVertex)(uint32_t addr, uint32_t n, uint32_t v0);
++
+ void DetectFrameBufferUsage(void)
+ {
+    uint32_t ci, zi;

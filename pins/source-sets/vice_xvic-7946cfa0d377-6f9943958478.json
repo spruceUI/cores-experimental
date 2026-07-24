@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "vice_xvic-7946cfa0d377-6f9943958478",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/vice_xvic-7946cfa0d377-6f9943958478.json",
+    "pin_id": "vice_xvic-7946cfa0d377-6f9943958478",
+    "file_sha256": "24f851ed12e66aa5d9a007d27ee0e1a6351cfc71f3ce54872cf08fdfbcecb1fd",
+    "content_sha256": "08222ddc4e6f40f6ff345f8832cdba418e02cc79d326dc008340d6b65d2202f0"
+  },
+  "sources": {
+    "vice_xvic": {
+      "path": "pins/sources/vice_xvic/7946cfa0d3775e958616d4d107de867a4616ae6c.json",
+      "source_lock_id": "vice_xvic-7946cfa0d377",
+      "commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
+      "file_sha256": "1b254bedfa0de9438ab6f7082dfb58132d51216821e7a9e221eccc67729114e2",
+      "content_sha256": "db0c1810cf88141e880e6803f5874f8fecc24f35978c889928dbebbd143e7e4f"
+    }
+  },
+  "content_sha256": "80097bbc7821ba7830ab32b5ae28e05e29a111facc503d35b4f8f28a5205fc44"
+}

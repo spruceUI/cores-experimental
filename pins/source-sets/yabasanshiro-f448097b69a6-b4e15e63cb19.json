@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "yabasanshiro-f448097b69a6-b4e15e63cb19",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/yabasanshiro-f448097b69a6-b4e15e63cb19.json",
+    "pin_id": "yabasanshiro-f448097b69a6-b4e15e63cb19",
+    "file_sha256": "2c12e74700acdd7779ed9d89c33954adaed4c9fb2166f72825cd2bca5636afad",
+    "content_sha256": "e24a064571273d6b231af048c695caf217586d6b79cdc9f285d8395951f1b292"
+  },
+  "sources": {
+    "yabasanshiro": {
+      "path": "pins/sources/yabasanshiro/f448097b69a6037246a08e9dc09eabaa420d7893.json",
+      "source_lock_id": "yabasanshiro-f448097b69a6",
+      "commit": "f448097b69a6037246a08e9dc09eabaa420d7893",
+      "file_sha256": "ba86e00a7cc80aa000f2e681593826d8a27641364beb2d58aa25777c3e0d57de",
+      "content_sha256": "a42cf9397995f30d96e4cf5f80a8d88d41c3410e5e3f0410693b6ecf7a5da7d8"
+    }
+  },
+  "content_sha256": "ab4748b9c05cba4f01404345751669bf5eccbb055d667a4b033c26525c21e5ad"
+}

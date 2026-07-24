@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "tic80-e7f48a30ea3e",
+  "core_id": "tic80",
+  "source": {
+    "url": "https://github.com/libretro/TIC-80.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "e7f48a30ea3e205810366aad910a2985edcd1f58",
+    "tree": "c3bd599ff7cdbfc72096e2263daf454bc0de8494",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "591bff3a05e828409a661604de24952f0e04893b1e58188d4b110b3a059782ba"
+}

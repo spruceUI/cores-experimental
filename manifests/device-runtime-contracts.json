@@ -1,0 +1,603 @@
+{
+  "$schema": "device-runtime-contracts.schema.json",
+  "schema_version": 1,
+  "registry_id": "device-runtime-contracts-v1",
+  "local_only": true,
+  "publication": "disabled",
+  "spruce_snapshot": {
+    "repository": "https://github.com/spruceUI/spruceOS.git",
+    "commit": "0507598f7c322f0880eee6f147bd57709749a3b1",
+    "tree": "569de730a1b317857a227da8b1282b0815af513a"
+  },
+  "policy": {
+    "artifact_reuse": "allow-after-runtime-contract-pass",
+    "build_strategy": "portable-shared-default-sparse-family-override-on-evidence",
+    "default_tier": "device_golden",
+    "runtime_claims": "provisional-until-target-capture"
+  },
+  "contracts": {
+    "device-miyoo-a30-v0": {
+      "status": "provisional",
+      "runtime_family_id": "miyoo-a30-v0",
+      "devices": [
+        {
+          "device_id": "MIYOO_A30",
+          "support_status": "official",
+          "release_default": true
+        }
+      ],
+      "default_execution_profile": "ra32-a30-v1",
+      "optional_execution_profiles": [],
+      "candidate_build_flavors": [],
+      "runtime_capture": "device-probe-v3",
+      "effective_abi_ceiling": "unknown",
+      "provider_observations": [
+        {
+          "role": "bundled-first-search-path-provider",
+          "path": "/mnt/SDCARD/spruce/a30/lib/libstdc++.so.6",
+          "sha256": "8014989515dc003f669e87abe4cbd89dcc4d68a458248ceee2528d73ed457a72",
+          "max_versioned_symbols": {
+            "GLIBCXX": "3.4.32",
+            "CXXABI": "1.3.14"
+          },
+          "enforcing": false
+        }
+      ],
+      "missing_evidence": [
+        "target-playback-validation",
+        "target-rootfs-load-validation"
+      ],
+      "library_observations": {
+        "probe_schema": "device-probe-v3",
+        "abi": "armhf",
+        "resolution_method": "loader",
+        "available": [
+          "libEGL.so.1",
+          "libGLESv1_CM.so.1",
+          "libGLESv2.so.2",
+          "libSDL-1.2.so.0",
+          "libSDL2-2.0.so.0",
+          "libasound.so.2",
+          "libatomic.so.1",
+          "libc.so.6",
+          "libdl.so.2",
+          "libfreetype.so.6",
+          "libgcc_s.so.1",
+          "liblzma.so.5",
+          "libm.so.6",
+          "libpng16.so.16",
+          "libpthread.so.0",
+          "libpulse.so.0",
+          "librt.so.1",
+          "libstdc++.so.6",
+          "libudev.so.1",
+          "libz.so.1"
+        ],
+        "absent": [
+          "libGL.so.1",
+          "libbz2.so.1",
+          "libdrm.so.2",
+          "libgbm.so.1",
+          "libmali.so",
+          "libusb-1.0.so.0",
+          "libvulkan.so.1",
+          "libxml2.so.2"
+        ],
+        "unresolvable_installed_cores": [],
+        "enforcing": false
+      }
+    },
+    "device-miyoo-flip-v0": {
+      "status": "provisional",
+      "runtime_family_id": "miyoo-flip-v0",
+      "devices": [
+        {
+          "device_id": "MIYOO_FLIP",
+          "support_status": "official",
+          "release_default": true
+        }
+      ],
+      "default_execution_profile": "ra64-universal-v1",
+      "optional_execution_profiles": [
+        "ra32-universal-v0"
+      ],
+      "candidate_build_flavors": [],
+      "runtime_capture": "device-probe-v3",
+      "effective_abi_ceiling": "unknown",
+      "provider_observations": [
+        {
+          "role": "packaged-fallback-provider",
+          "path": "/usr/lib/libstdc++.so.6.0.29",
+          "sha256": "eb47b110eab5a94b4bd868f71b9ca6e13806156bac4ceb71ee381c07e281dbef",
+          "max_versioned_symbols": {
+            "GLIBCXX": "3.4.32",
+            "CXXABI": "1.3.14"
+          },
+          "enforcing": false
+        }
+      ],
+      "missing_evidence": [
+        "target-playback-validation",
+        "target-rootfs-load-validation"
+      ],
+      "library_observations": {
+        "probe_schema": "device-probe-v3",
+        "abi": "arm64",
+        "resolution_method": "loader",
+        "available": [
+          "libEGL.so.1",
+          "libGLESv1_CM.so.1",
+          "libGLESv2.so.2",
+          "libSDL-1.2.so.0",
+          "libSDL2-2.0.so.0",
+          "libasound.so.2",
+          "libatomic.so.1",
+          "libc.so.6",
+          "libdl.so.2",
+          "libdrm.so.2",
+          "libfreetype.so.6",
+          "libgbm.so.1",
+          "libgcc_s.so.1",
+          "liblzma.so.5",
+          "libm.so.6",
+          "libmali.so",
+          "libpng16.so.16",
+          "libpthread.so.0",
+          "libpulse.so.0",
+          "librt.so.1",
+          "libstdc++.so.6",
+          "libudev.so.1",
+          "libxml2.so.2",
+          "libz.so.1"
+        ],
+        "absent": [
+          "libGL.so.1",
+          "libbz2.so.1",
+          "libusb-1.0.so.0",
+          "libvulkan.so.1"
+        ],
+        "unresolvable_installed_cores": [
+          "easyrpg",
+          "ffmpeg",
+          "uae4arm",
+          "yabasanshiro",
+          "yabasanshiro_a133p",
+          "yabasanshiro_smartpros"
+        ],
+        "enforcing": false
+      }
+    },
+    "device-miyoo-mini-family-v0": {
+      "status": "provisional",
+      "runtime_family_id": "miyoo-mini-v0",
+      "devices": [
+        {
+          "device_id": "MIYOO_MINI",
+          "support_status": "official",
+          "release_default": true
+        },
+        {
+          "device_id": "MIYOO_MINI_V4",
+          "support_status": "official",
+          "release_default": true
+        },
+        {
+          "device_id": "MIYOO_MINI_PLUS",
+          "support_status": "official",
+          "release_default": true
+        },
+        {
+          "device_id": "MIYOO_MINI_FLIP",
+          "support_status": "official",
+          "release_default": true
+        }
+      ],
+      "default_execution_profile": "ra32-mini-v0",
+      "optional_execution_profiles": [],
+      "candidate_build_flavors": [],
+      "runtime_capture": "device-probe-v3",
+      "effective_abi_ceiling": "unknown",
+      "provider_observations": [
+        {
+          "role": "bundled-first-search-path-provider",
+          "path": "/mnt/SDCARD/miyoo/lib/libstdc++.so.6",
+          "sha256": "8014989515dc003f669e87abe4cbd89dcc4d68a458248ceee2528d73ed457a72",
+          "max_versioned_symbols": {
+            "GLIBCXX": "3.4.32",
+            "CXXABI": "1.3.14"
+          },
+          "enforcing": false
+        }
+      ],
+      "missing_evidence": [
+        "target-playback-validation",
+        "target-rootfs-load-validation"
+      ],
+      "library_observations": {
+        "probe_schema": "device-probe-v3",
+        "abi": "armhf",
+        "resolution_method": "loader",
+        "available": [
+          "libSDL-1.2.so.0",
+          "libSDL2-2.0.so.0",
+          "libasound.so.2",
+          "libc.so.6",
+          "libdl.so.2",
+          "libfreetype.so.6",
+          "libgcc_s.so.1",
+          "liblzma.so.5",
+          "libm.so.6",
+          "libpng16.so.16",
+          "libpthread.so.0",
+          "libpulse.so.0",
+          "librt.so.1",
+          "libstdc++.so.6",
+          "libz.so.1"
+        ],
+        "absent": [
+          "libEGL.so.1",
+          "libGL.so.1",
+          "libGLESv1_CM.so.1",
+          "libGLESv2.so.2",
+          "libatomic.so.1",
+          "libbz2.so.1",
+          "libdrm.so.2",
+          "libgbm.so.1",
+          "libmali.so",
+          "libudev.so.1",
+          "libusb-1.0.so.0",
+          "libvulkan.so.1",
+          "libxml2.so.2"
+        ],
+        "unresolvable_installed_cores": [
+          "flycast"
+        ],
+        "enforcing": false
+      }
+    },
+    "device-trimui-a133p-family-v0": {
+      "status": "provisional",
+      "runtime_family_id": "a133p-v0",
+      "devices": [
+        {
+          "device_id": "TRIMUI_SMART_PRO",
+          "support_status": "official",
+          "release_default": true
+        },
+        {
+          "device_id": "TRIMUI_BRICK",
+          "support_status": "official",
+          "release_default": true
+        },
+        {
+          "device_id": "TRIMUI_BRICK_PRO",
+          "support_status": "staged",
+          "release_default": false
+        }
+      ],
+      "default_execution_profile": "ra64-universal-v1",
+      "optional_execution_profiles": [],
+      "candidate_build_flavors": [],
+      "runtime_capture": "device-probe-v3",
+      "effective_abi_ceiling": "unknown",
+      "provider_observations": [
+        {
+          "role": "packaged-fallback-provider",
+          "path": "/usr/lib/libstdc++.so.6.0.28",
+          "sha256": "29d043b7bcd049f0d254cb190b92cfe68105a08b38e8b5f487bfaf1ffb1ce7d1",
+          "max_versioned_symbols": {
+            "GLIBCXX": "3.4.28",
+            "CXXABI": "1.3.12"
+          },
+          "enforcing": false
+        }
+      ],
+      "missing_evidence": [
+        "target-playback-validation",
+        "target-rootfs-load-validation"
+      ],
+      "library_observations": {
+        "probe_schema": "device-probe-v3",
+        "abi": "arm64",
+        "resolution_method": "loader",
+        "available": [
+          "libEGL.so.1",
+          "libGLESv2.so.2",
+          "libSDL-1.2.so.0",
+          "libSDL2-2.0.so.0",
+          "libasound.so.2",
+          "libatomic.so.1",
+          "libc.so.6",
+          "libdl.so.2",
+          "libfreetype.so.6",
+          "libgcc_s.so.1",
+          "liblzma.so.5",
+          "libm.so.6",
+          "libpng16.so.16",
+          "libpthread.so.0",
+          "libpulse.so.0",
+          "librt.so.1",
+          "libstdc++.so.6",
+          "libudev.so.1",
+          "libvulkan.so.1",
+          "libxml2.so.2",
+          "libz.so.1"
+        ],
+        "absent": [
+          "libGL.so.1",
+          "libGLESv1_CM.so.1",
+          "libbz2.so.1",
+          "libdrm.so.2",
+          "libgbm.so.1",
+          "libmali.so",
+          "libusb-1.0.so.0"
+        ],
+        "unresolvable_installed_cores": [
+          "easyrpg",
+          "yabasanshiro_smartpros"
+        ],
+        "enforcing": false
+      }
+    },
+    "device-trimui-smart-pro-s-v0": {
+      "status": "provisional",
+      "runtime_family_id": "trimui-smart-pro-s-v0",
+      "devices": [
+        {
+          "device_id": "TRIMUI_SMART_PRO_S",
+          "support_status": "official",
+          "release_default": true
+        }
+      ],
+      "default_execution_profile": "ra64-universal-v1",
+      "optional_execution_profiles": [],
+      "candidate_build_flavors": [],
+      "runtime_capture": "device-probe-v3",
+      "effective_abi_ceiling": "unknown",
+      "provider_observations": [
+        {
+          "role": "packaged-fallback-provider",
+          "path": "/usr/lib/libstdc++.so.6.0.28",
+          "sha256": "21aa3b6bbbdb88933da4d11f744920f7c71a3511492fe7c4098adfd26d5e408b",
+          "max_versioned_symbols": {
+            "GLIBCXX": "3.4.28",
+            "CXXABI": "1.3.12"
+          },
+          "enforcing": false
+        }
+      ],
+      "missing_evidence": [
+        "target-playback-validation",
+        "target-rootfs-load-validation"
+      ],
+      "library_observations": {
+        "probe_schema": "device-probe-v3",
+        "abi": "arm64",
+        "resolution_method": "loader",
+        "available": [
+          "libEGL.so.1",
+          "libGLESv1_CM.so.1",
+          "libGLESv2.so.2",
+          "libSDL-1.2.so.0",
+          "libSDL2-2.0.so.0",
+          "libasound.so.2",
+          "libatomic.so.1",
+          "libc.so.6",
+          "libdl.so.2",
+          "libdrm.so.2",
+          "libfreetype.so.6",
+          "libgbm.so.1",
+          "libgcc_s.so.1",
+          "liblzma.so.5",
+          "libm.so.6",
+          "libmali.so",
+          "libpng16.so.16",
+          "libpthread.so.0",
+          "libpulse.so.0",
+          "librt.so.1",
+          "libstdc++.so.6",
+          "libudev.so.1",
+          "libusb-1.0.so.0",
+          "libvulkan.so.1",
+          "libxml2.so.2",
+          "libz.so.1"
+        ],
+        "absent": [
+          "libGL.so.1",
+          "libbz2.so.1"
+        ],
+        "unresolvable_installed_cores": [
+          "easyrpg",
+          "ffmpeg",
+          "yabasanshiro",
+          "yabasanshiro_a133p"
+        ],
+        "enforcing": false
+      }
+    },
+    "device-gkd-pixel2-v0": {
+      "status": "provisional",
+      "runtime_family_id": "gkd-pixel2-v0",
+      "devices": [
+        {
+          "device_id": "GKD_PIXEL2",
+          "support_status": "provisional",
+          "release_default": false
+        }
+      ],
+      "default_execution_profile": "ra64-pixel2-v0",
+      "optional_execution_profiles": [],
+      "candidate_build_flavors": [],
+      "runtime_capture": "device-probe-v3",
+      "effective_abi_ceiling": "unknown",
+      "provider_observations": [
+        {
+          "role": "packaged-fallback-provider",
+          "path": "/usr/lib/libstdc++.so.6.0.33",
+          "sha256": "22347a81e63224af1eb2222df273b65fdcfeaab7db90c4c7172c2fe4188fc6d7",
+          "max_versioned_symbols": {
+            "GLIBCXX": "3.4.33",
+            "CXXABI": "1.3.15"
+          },
+          "enforcing": false
+        }
+      ],
+      "missing_evidence": [
+        "target-playback-validation",
+        "target-rootfs-load-validation"
+      ],
+      "library_observations": {
+        "probe_schema": "device-probe-v3",
+        "abi": "arm64",
+        "resolution_method": "loader",
+        "available": [
+          "libEGL.so.1",
+          "libGL.so.1",
+          "libGLESv1_CM.so.1",
+          "libGLESv2.so.2",
+          "libSDL-1.2.so.0",
+          "libSDL2-2.0.so.0",
+          "libasound.so.2",
+          "libatomic.so.1",
+          "libc.so.6",
+          "libdl.so.2",
+          "libdrm.so.2",
+          "libfreetype.so.6",
+          "libgbm.so.1",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libmali.so",
+          "libpng16.so.16",
+          "libpthread.so.0",
+          "libpulse.so.0",
+          "librt.so.1",
+          "libstdc++.so.6",
+          "libudev.so.1",
+          "libusb-1.0.so.0",
+          "libvulkan.so.1",
+          "libxml2.so.2",
+          "libz.so.1"
+        ],
+        "absent": [
+          "libbz2.so.1",
+          "liblzma.so.5"
+        ],
+        "unresolvable_installed_cores": [
+          "easyrpg"
+        ],
+        "enforcing": false
+      }
+    },
+    "device-anbernic-h700-family-v0": {
+      "status": "provisional",
+      "runtime_family_id": "allwinner-h700-v0",
+      "devices": [
+        {
+          "device_id": "ANBERNIC_RG28XX",
+          "support_status": "provisional",
+          "release_default": false
+        },
+        {
+          "device_id": "ANBERNIC_RG34XXSP",
+          "support_status": "provisional",
+          "release_default": false
+        },
+        {
+          "device_id": "ANBERNIC_RGCUBEXX",
+          "support_status": "provisional",
+          "release_default": false
+        },
+        {
+          "device_id": "ANBERNIC_RGXX640480",
+          "support_status": "provisional",
+          "release_default": false
+        }
+      ],
+      "default_execution_profile": "ra64-universal-v1",
+      "optional_execution_profiles": [
+        "ra32-universal-v0"
+      ],
+      "candidate_build_flavors": [],
+      "runtime_capture": "needs-target-runtime",
+      "effective_abi_ceiling": "unknown",
+      "provider_observations": [],
+      "missing_evidence": [
+        "effective-runtime-provider-capture",
+        "target-loader-capture",
+        "target-rootfs-load-validation"
+      ]
+    },
+    "device-magicx-zero28-v0": {
+      "status": "provisional",
+      "runtime_family_id": "a133p-v0",
+      "devices": [
+        {
+          "device_id": "MAGICX_ZERO28",
+          "support_status": "provisional",
+          "release_default": false
+        }
+      ],
+      "default_execution_profile": "ra64-universal-v1",
+      "optional_execution_profiles": [],
+      "candidate_build_flavors": [],
+      "runtime_capture": "needs-target-runtime",
+      "effective_abi_ceiling": "unknown",
+      "provider_observations": [],
+      "missing_evidence": [
+        "effective-runtime-provider-capture",
+        "target-loader-capture",
+        "target-playback-validation",
+        "target-rootfs-load-validation"
+      ]
+    }
+  },
+  "compatibility_constraints": [
+    {
+      "constraint_id": "mini-cxx-provider-unverified-v0",
+      "core_ids": [
+        "gearboy",
+        "gearsystem"
+      ],
+      "execution_profile_id": "ra32-mini-v0",
+      "kind": "provider-ceiling-unverified",
+      "required_symbols": [
+        "GLIBCXX_3.4.32"
+      ],
+      "disposition": "unverified-for-profile",
+      "evidence_scope": "packaged-fallback-observation"
+    }
+  ],
+  "core_policies": {
+    "ffmpeg": {
+      "portable_role": "software-diagnostic-only",
+      "default_selection": "excluded",
+      "accelerated_candidates": [
+        {
+          "build_flavor_id": "trimui-a133p-pvr-v0",
+          "runtime_contract_ids": [
+            "device-trimui-a133p-family-v0",
+            "device-magicx-zero28-v0"
+          ],
+          "runtime_family_ids": [
+            "a133p-v0"
+          ],
+          "status": "provisional"
+        }
+      ],
+      "accelerated_denied_runtime_contracts": [
+        "device-miyoo-flip-v0",
+        "device-trimui-smart-pro-s-v0"
+      ],
+      "runtime_validation": "needs-target-playback"
+    },
+    "swanstation": {
+      "armhf_device_views": "not-consumed",
+      "runtime_contract_ids": [
+        "device-miyoo-a30-v0",
+        "device-miyoo-mini-family-v0"
+      ],
+      "catalog_menu_eligibility": "unsupported"
+    }
+  },
+  "content_sha256": "abaea9f7cba2d69cc88861d96f3a651170f6491eda55c44a550485d1f0e3b964"
+}

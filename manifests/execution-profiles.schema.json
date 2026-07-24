@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/execution-profiles.schema.json",
+  "title": "Cores-spruce RetroArch execution-profile registry",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "registry_id",
+    "local_only",
+    "publication",
+    "spruce_snapshot",
+    "profiles",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {"const": "execution-profiles.schema.json"},
+    "schema_version": {"const": 1},
+    "registry_id": {"const": "execution-profiles-v1"},
+    "local_only": {"const": true},
+    "publication": {"const": "disabled"},
+    "spruce_snapshot": {"$ref": "#/$defs/spruceSnapshot"},
+    "profiles": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {"type": "string", "pattern": "^ra(32|64)-[a-z0-9-]+-v[0-9]+$"},
+      "additionalProperties": {"$ref": "#/$defs/profile"}
+    },
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "spruceSnapshot": {
+      "type": "object",
+      "required": ["repository", "commit", "tree"],
+      "properties": {
+        "repository": {"const": "https://github.com/spruceUI/spruceOS.git"},
+        "commit": {"$ref": "#/$defs/sha1"},
+        "tree": {"$ref": "#/$defs/sha1"}
+      },
+      "additionalProperties": false
+    },
+    "frontend": {
+      "type": "object",
+      "required": [
+        "availability",
+        "spruce_path",
+        "sha256",
+        "elf_class",
+        "machine",
+        "interpreter"
+      ],
+      "properties": {
+        "availability": {"enum": ["present", "missing"]},
+        "spruce_path": {"type": "string", "pattern": "^RetroArch/ra(32|64)\\.[a-z0-9]+$"},
+        "sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "elf_class": {"enum": ["ELF32", "ELF64"]},
+        "machine": {"enum": ["ARM", "AArch64"]},
+        "interpreter": {
+          "enum": ["/lib/ld-linux-armhf.so.3", "/lib/ld-linux-aarch64.so.1"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "coreLayout": {
+      "type": "object",
+      "required": ["directory", "package_directory"],
+      "properties": {
+        "directory": {"enum": ["RetroArch/.retroarch/cores", "RetroArch/.retroarch/cores64"]},
+        "package_directory": {"enum": ["cores", "cores64"]}
+      },
+      "additionalProperties": false
+    },
+    "buildIdentity": {
+      "type": "object",
+      "required": [
+        "toolchain_lock_path",
+        "toolchain_lock_id",
+        "toolchain_lock_file_sha256",
+        "toolchain_lock_content_sha256",
+        "toolchain_architecture",
+        "image_id",
+        "dockerfile_sha256",
+        "dockerfile_linkage",
+        "compiler",
+        "sysroot"
+      ],
+      "properties": {
+        "toolchain_lock_path": {"const": "pins/toolchains/local-cache-v1.json"},
+        "toolchain_lock_id": {"const": "local-cache-v1"},
+        "toolchain_lock_file_sha256": {"$ref": "#/$defs/sha256"},
+        "toolchain_lock_content_sha256": {"$ref": "#/$defs/sha256"},
+        "toolchain_architecture": {"enum": ["arm64", "armhf"]},
+        "image_id": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "dockerfile_sha256": {"$ref": "#/$defs/sha256"},
+        "dockerfile_linkage": {"const": "unverified-local-cache"},
+        "compiler": {"type": "string", "minLength": 1},
+        "sysroot": {"type": "string", "pattern": "^/"}
+      },
+      "additionalProperties": false
+    },
+    "profile": {
+      "type": "object",
+      "required": [
+        "architecture",
+        "status",
+        "frontend",
+        "core_layout",
+        "build_identity",
+        "missing_evidence",
+        "runtime_validation"
+      ],
+      "properties": {
+        "architecture": {"enum": ["arm64", "armhf"]},
+        "status": {
+          "enum": [
+            "locked-build-identity",
+            "provisional",
+            "provisional-missing-frontend"
+          ]
+        },
+        "frontend": {"$ref": "#/$defs/frontend"},
+        "core_layout": {"$ref": "#/$defs/coreLayout"},
+        "build_identity": {
+          "oneOf": [{"$ref": "#/$defs/buildIdentity"}, {"type": "null"}]
+        },
+        "missing_evidence": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "effective-runtime-provider-capture",
+              "frontend-binary",
+              "target-sysroot-capture",
+              "target-toolchain-lock"
+            ]
+          }
+        },
+        "runtime_validation": {"const": "needs-target-runtime"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

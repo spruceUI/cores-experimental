@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "picodrive-f0d4a0118a97",
+  "core_id": "picodrive",
+  "source": {
+    "url": "https://github.com/libretro/picodrive.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "f0d4a0118a9733a1f10bce5a4ac772c474f9300d",
+    "tree": "a9e95a725edb219535032f18d03677361d5657bc",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "46e0c091f403e0f7d7f7032012d5ec0052518afff5a7d72f79b1070c039c038d"
+}

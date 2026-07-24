@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "ardens-661a7dd4febc",
+  "core_id": "ardens",
+  "source": {
+    "url": "https://github.com/tiberiusbrown/Ardens.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "661a7dd4febc8d00e790a4ecde44b936295adf97",
+    "tree": "7c0ada0a9ef3c02443e23b867909c57c2386f0dc",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "402895145871b570fd305a8e83878a938a39a58e740eebb4c67c02e37d07252f"
+}

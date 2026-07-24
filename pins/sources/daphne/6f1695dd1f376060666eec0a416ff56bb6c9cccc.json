@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "daphne-6f1695dd1f37",
+  "core_id": "daphne",
+  "source": {
+    "url": "https://github.com/libretro/daphne.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "6f1695dd1f376060666eec0a416ff56bb6c9cccc",
+    "tree": "99813647ee65593613181fcec730660f417035a3",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "e3f757a38b7f73c8eaea2441cb8fe8349f434c1013b7ae99f00577ac6e1c575a"
+}

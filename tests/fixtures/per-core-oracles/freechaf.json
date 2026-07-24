@@ -1,0 +1,54 @@
+{
+  "core_id": "freechaf",
+  "source": {
+    "commit": "76c7a84f1f7e80f3e6f2bba96fe100cb24e99124",
+    "tree": "da8f96e1b0866e49ecf6a3bcd2b9974670669429",
+    "submodules": [
+      {
+        "path": "src/deps/libretro-common",
+        "commit": "01c6122931a10a7012973054e7067859d2116420"
+      }
+    ]
+  },
+  "positive_runs": [
+    {
+      "role": "native-version-control",
+      "run_id": "tranche21a-freechaf-control-v1",
+      "e2e_file_sha256": "d89a950ace7d1f42ea25a53bad8ebee4bc7ac29bbc1a58ccb8aac473a34abf10",
+      "e2e_content_sha256": "58602ff2d4dc4e2e0c9463f0ecee628c3b526c005181e85d71a9dc16f661c46f",
+      "build_record_sha256": {
+        "arm64": "dcafe9a613ea180b2ef030c481ed77f6c2cd4985906f0c15b8be779b4cd43be7",
+        "armhf": "73da3aa74c741d356c55561182426707fdc5bab5be394e06d928c312f2929782"
+      }
+    },
+    {
+      "role": "migrated-reproduction",
+      "run_id": "tranche21b-freechaf-repro-v1",
+      "e2e_file_sha256": "d20c7b58152736c90dd35853683911bfe897ee7cea3a57bac81b3c075ce45b8d",
+      "e2e_content_sha256": "8b3e2b4bf7c12aa7dc80bc0cbf3a453076ef4455db8e9dbac374832b136f55f3",
+      "build_record_sha256": {
+        "arm64": "effdf88e4d936c2d1b5b6d28fc7503ac441d0cd00f261d8cb7df515f277db09f",
+        "armhf": "ee8d4c7711f4ac50b9ab453645718bd7ac6aeab39808b88bbdb59016eef18e82"
+      }
+    }
+  ],
+  "shared_positive_outputs": {
+    "build_log_sha256": {
+      "arm64": "2fef74b8156d7826eeff6961791ed332c8d0bdb6cc203ad7ac5ed36043e972a1",
+      "armhf": "536a073a5dfb2793c11afd965be63c3d7db238f7b8eb99a92de00130be71dce7"
+    },
+    "artifact_sha256": {
+      "arm64": "54064a6414b18ad7aea1c3284ec48a558a7cef8f3551bf09fdd398fb84c759bf",
+      "armhf": "d25e53ddc6d0bfdc675e7d0c90aa089804235036b47c702c1fdd4f5b1c95d838"
+    },
+    "artifact_size": {
+      "arm64": 112720,
+      "armhf": 97564
+    },
+    "package_sha256": "1e9a85da49e8781bd997422e7d52c12b1a2af6a7e1c98f7fca1a64c2da295114",
+    "package_size": 87346,
+    "metadata_sha256": "f5f320f78744fa100512cb75e3dd13298b11b1e344c8f90b0cdaacb9c7469fec",
+    "metadata_size": 1293,
+    "embedded_version": "1.0 76c7a84"
+  }
+}

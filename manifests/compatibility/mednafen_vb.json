@@ -1,0 +1,72 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "mednafen_vb",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json",
+  "source_commit": "38e7a0ec9ac7079ca1c1e3dd9aaf5b56f527efca",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_vb-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "3e7afd592afd1084e0d093cf5b91c96a411e5b062d257757f5a272e669d10fec",
+  "reproduction_run": ".local-e2e/runs/build-core-mednafen_vb-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "49ae6645ea6c9171523da113311e0158684f67654cfc3b88d3a3870dd4491b2b",
+  "package_state": "reproducible",
+  "package_sha256": "d8383c569494e8e910e5a95230d940b0c33e520b9dade3c6b2f0129c77b4b93c",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mednafen_vb_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, metadata, build logs, and both ABI artifacts byte for byte. Both profiles satisfy the same singleton Virtual Boy source, compile, ordered-link, and diagnostic proof. Execution was local, but each build cloned its pinned source from GitHub; the current pipeline has no offline source cache.",
+    "The pristine source is commit 38e7a0ec9ac7079ca1c1e3dd9aaf5b56f527efca, tree 842c635c9a5fdbef374616f01fa2d57bf1ec3fa7, with no submodules. Upstream native leading-space version ' 38e7a0e' is bound to exactly 13 compiles (10 C and 3 C++) and the exact ordered 13-object C++ link; both binaries expose version 'v1.31.0 38e7a0e'.",
+    "ARM64 contains no warnings, notes, errors, or fatal diagnostics. ARMHF contains exactly two reviewed GCC 7.1 psABI notes with their full context and no warnings, errors, or fatal diagnostics. Missing, changed, reordered, or extra diagnostics, pipeline version markers, source/version markers, compile commands, link arguments, or success frames fail closed.",
+    "Resolver metadata declares GPLv2, display version v0.9.36.1, and vb|vboy|bin content while both binaries report v1.31.0 38e7a0e. That version discrepancy requires operator review. Any public distribution or release remains a human legal and policy gate; corresponding-source and license obligations must be reviewed before publication.",
+    "Resolver metadata declares no external firmware and describes multiple Virtual Boy 3D display modes. Content loading, 3D modes, controls, audio and video pacing, saves, states, compatibility, frontend integration, and sustained performance remain target-runtime gates.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 is build-identity-bound only to ra64-universal-v1; ARMHF is bound only to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so all device views remain ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "9ce1b5bdda22ff0eb9078164d75e0802c82e295bde7e4f426a3cb4af9e5c09bf",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBC_2.17",
+        "GLIBC_2.29"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "aa0df900693e0196416a67752c304fe15cca6d8890ac9dcdf387a448ec72e5f9",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "e3cba696e09c81c1f9ecaed891f649c06e072c2b0878ec42370a0881ef6b16ce"
+}

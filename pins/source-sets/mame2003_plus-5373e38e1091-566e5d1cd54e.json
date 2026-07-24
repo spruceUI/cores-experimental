@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "mame2003_plus-5373e38e1091-566e5d1cd54e",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/mame2003_plus-5373e38e1091-566e5d1cd54e.json",
+    "pin_id": "mame2003_plus-5373e38e1091-566e5d1cd54e",
+    "file_sha256": "4724469225d5f6df3c56e82439dc266a2dc2427ae78599c52c459ad5c2bb76e2",
+    "content_sha256": "70398737b7368117a580ce06e66df593193ce186864fda86dd8199d8d544bd76"
+  },
+  "sources": {
+    "mame2003_plus": {
+      "path": "pins/sources/mame2003_plus/5373e38e1091eb28f075513ecdc2575bafc8a5e3.json",
+      "source_lock_id": "mame2003_plus-5373e38e1091",
+      "commit": "5373e38e1091eb28f075513ecdc2575bafc8a5e3",
+      "file_sha256": "94698018baef295e58746d0cfffd52cddec8e52c21c867673a62e6f54bdab6a0",
+      "content_sha256": "b7e672f3d3c10e190245f1887f9cb3e7acdfbf01f3c9fe24d5964563f5c271bf"
+    }
+  },
+  "content_sha256": "9229f25ecf93ce4da9bf795f0325dc632bf0fc81d62d8231ffa4f67f52d8bf94"
+}

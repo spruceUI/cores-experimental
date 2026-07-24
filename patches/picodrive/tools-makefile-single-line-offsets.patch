@@ -1,0 +1,17 @@
+diff --git a/tools/Makefile b/tools/Makefile
+index 77fd273..aa77a64 100644
+--- a/tools/Makefile
++++ b/tools/Makefile
+@@ -2,11 +2,7 @@ TARGETS = amalgamate textfilter make_carthw_c
+ HOSTCC ?= cc
+ 
+ all:
+-	if [ -f "offsets/$(XPLATFORM)-offsets.h" ]; then \
+-		ln -sf "../tools/offsets/$(XPLATFORM)-offsets.h" ../pico/pico_int_offs.h; \
+-	else \
+-		CC="$(XCC)" CFLAGS="$(XCFLAGS)" sh ./mkoffsets.sh ../pico; \
+-	fi
++	if [ -f "offsets/$(XPLATFORM)-offsets.h" ]; then ln -sf "../tools/offsets/$(XPLATFORM)-offsets.h" ../pico/pico_int_offs.h; else CC="$(XCC)" CFLAGS="$(XCFLAGS)" sh ./mkoffsets.sh ../pico; fi
+ 
+ $(TARGETS): $(addsuffix .c,$(TARGETS))
+ 	$(HOSTCC) -o $@ -O $@.c

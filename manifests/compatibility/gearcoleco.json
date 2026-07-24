@@ -1,0 +1,79 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "gearcoleco",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/gearcoleco-112345747c04-046c086031cf.json",
+  "source_commit": "112345747c04eb7752d1939258881aa10319e32e",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-gearcoleco-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "371223a72cc1529b3ca8761065661c2b41226eebc5c46bf05b331eb635bbace7",
+  "reproduction_run": ".local-e2e/runs/build-core-gearcoleco-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "2cfc9a8588cd1086347b59880f1517ec777ad71da7e1c57703f4ca68c22e80df",
+  "package_state": "reproducible",
+  "package_sha256": "8fadcfe0cb833da023c4b69685c33cf29b9430c2ce4a8cb4c429c6a8c02897a4",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the gearcoleco_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the gearcoleco_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, metadata, both ABI artifacts, and both ABI logs byte for byte. The earlier actions-sim-build-core-gearcoleco-v1 attempt is excluded from selection: its ARM64 build succeeded, but an obsolete proof incorrectly required every parallel compile echo to precede the Processor diagnostic block. Execution was local, but every build cloned its pinned source from GitHub and the current pipeline has no offline source cache.",
+    "The pristine source is commit 112345747c04eb7752d1939258881aa10319e32e, tree 0afbed445cf4689daa878816f961ea4bcb4832a3, with no submodules. The native version 1.6.6-11-g1123457 is bound to all 20 compiles: one C compile and 19 C++ compiles. The gearcoleco-mixed-language-v1 proof requires their exact semantic and ABI-specific invocation digests, followed by the exact ordered 20-object C++ link with -fPIC, -shared, the reviewed version script, and libm.",
+    "Each ABI contains exactly seven reviewed unused-variable warnings from opcode-name tables and no notes. The proof requires the unique contiguous diagnostic block after the Processor.cpp compile and before the link while allowing unrelated parallel compile echoes on either side of that block; exact compile, diagnostic, link, and completion relationships remain fail-closed.",
+    "Resolver metadata declares GPLv3, while the source LICENSE grants GPLv3-or-later and bundled miniz carries permissive and public-domain terms. Metadata declares display version 1.0.0, col|cv|bin|rom content, deterministic savestates, software rendering, and supports_no_game=false, while the compiled core derives runtime version 1.6.6-11-g1123457. Any public distribution or release remains a human legal and policy gate, and the version discrepancy requires operator review before publication.",
+    "The mandatory external colecovision.rom BIOS has MD5 2c66f5911e5b42b8ebe113403548eee7; the source also recognizes fallback filename coleco.rom. Firmware is not packaged, and this evidence establishes no firmware redistribution rights. BIOS discovery, content loading, controls and supported controller variants, SGM and MegaCart behavior, audio and video pacing, saves and states, compatibility, frontend integration, sustained performance, and the reviewed warning paths remain target-runtime gates.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 is build-identity-bound only to ra64-universal-v1; ARMHF is bound only to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Mini fallback provider value GLIBCXX_3.4.24. Provider inspection and target-runtime capture are absent, so every device view remains ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "7d787c5b5f84bf710e25070dc38a806d7c936c2274dea9135458d74a80f3537a",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.11",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.9",
+        "GLIBC_2.17",
+        "GLIBC_2.29"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "5f50ed387710cc80f4026229e05a7bf8632c5865bb0387a6f2b656bab311b48a",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.11",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.32",
+        "GLIBCXX_3.4.9",
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "1ae8014d9f8cc9246e33931972885dec23a354d668a446c489ff6fb7ab99d193"
+}

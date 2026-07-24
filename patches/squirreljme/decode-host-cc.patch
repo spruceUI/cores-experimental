@@ -1,0 +1,13 @@
+diff --git a/nanocoat/cmake/utils/decode/Makefile b/nanocoat/cmake/utils/decode/Makefile
+index d566cd9..e88477e 100644
+--- a/nanocoat/cmake/utils/decode/Makefile
++++ b/nanocoat/cmake/utils/decode/Makefile
+@@ -10,7 +10,7 @@
+ SJME_CFLAGS=-I../ -I../../../include/ -DSJME_CONFIG_HAS_NO_C11_THREADS=1
+ 
+ $(OUTPUT_DIR)/decode$(HOST_EXE_SUFFIX):		decode.c
+-											$(CC) -o "$@" $(SJME_CFLAGS) $<
++											cc -o "$@" $(SJME_CFLAGS) $<
+ 
+ all:					$(OUTPUT_DIR)/decode$(HOST_EXE_SUFFIX)
+ 

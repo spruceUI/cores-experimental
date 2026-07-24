@@ -1,0 +1,9 @@
+{
+  "$schema": "../manifests/core-commit-blacklist.schema.json",
+  "schema_version": 1,
+  "policy_id": "core-commit-blacklist-v1",
+  "local_only": true,
+  "publication": "disabled",
+  "entries": [],
+  "content_sha256": "ec576e761470ed7b47e15d404a783ce1f77f543395d769f78461dca4f177ba89"
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "reminiscence-b0eb4ff6479d-6f5926f8cad5",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/reminiscence-b0eb4ff6479d-6f5926f8cad5.json",
+    "pin_id": "reminiscence-b0eb4ff6479d-6f5926f8cad5",
+    "file_sha256": "c82606c45e65d1f3a9ed7a11fd9e65e111e8d450bd6f15229b4df50c75c4ff55",
+    "content_sha256": "21cc910eefcce9ac100bb07f593a3bf178a0afbb1e351eb439749a030553e752"
+  },
+  "sources": {
+    "reminiscence": {
+      "path": "pins/sources/reminiscence/b0eb4ff6479d3a0f9e327ba595533604713cdb27.json",
+      "source_lock_id": "reminiscence-b0eb4ff6479d",
+      "commit": "b0eb4ff6479d3a0f9e327ba595533604713cdb27",
+      "file_sha256": "3d2a6c5679f0d32eab523e0459f620a87216993a9553d5902cbc09c4208bb299",
+      "content_sha256": "fec3f27b8bf45de8b0c034085d3332635baa779a46f99704ef855fffee5a20a3"
+    }
+  },
+  "content_sha256": "f55dced4db05077edb28a2616c09114479ae88051ea64a86b332b3e554885853"
+}

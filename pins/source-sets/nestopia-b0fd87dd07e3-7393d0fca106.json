@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "nestopia-b0fd87dd07e3-7393d0fca106",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/nestopia-b0fd87dd07e3-7393d0fca106.json",
+    "pin_id": "nestopia-b0fd87dd07e3-7393d0fca106",
+    "file_sha256": "766c86d5a73e97327c0a660465c01f9a38d6ba76d3ff8b6ff240c3d8581d0ebe",
+    "content_sha256": "9b62ba848e508ae0b01aa6c8c11099b1c41b8c7937849573ec802e68db245e6b"
+  },
+  "sources": {
+    "nestopia": {
+      "path": "pins/sources/nestopia/b0fd87dd07e3c52903435d302b04e5e97796f127.json",
+      "source_lock_id": "nestopia-b0fd87dd07e3",
+      "commit": "b0fd87dd07e3c52903435d302b04e5e97796f127",
+      "file_sha256": "f84acc68cf9aacb52d1a35390f6ce6ac9f7e38edfc731dfc17153090d3fc266c",
+      "content_sha256": "8d229945cbce5029d013af684a46bd7bb1d8da120ca9907b961de3ada9f439c6"
+    }
+  },
+  "content_sha256": "f43d55981473b8c7f8d64ff26f33a91a7c24c960b85e008389f617a9f2227caa"
+}

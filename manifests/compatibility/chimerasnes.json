@@ -1,0 +1,51 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "chimerasnes",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/chimerasnes-04c57c2902c2-9d5862282560.json",
+  "source_commit": "04c57c2902c25f36ae5a5d9c57aff851a772c868",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-chimerasnes-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "efe9a71a5d7821b70298c4d281ffd4741d70327b5685acf186f170fe1035d223",
+  "reproduction_run": ".local-e2e/runs/build-core-chimerasnes-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "c8b0aa2e634060996b9181a6ab931d97a770d05e33bb52a0097da269aafb4878",
+  "package_state": "reproducible",
+  "package_sha256": "64a56b69bd697e498a37385ef838310786ee33cdb0c656bf661d8b81e72be461",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the chimerasnes_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "5198d4f6ded589785a0a70c161dc7946e8fbd00ad77ae7971fd33958879672c6",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "2b77fa36b82943c3df926aabdca9225efe3cb84573d3e460cb7c6d8d62f6c324",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "6cdaf664b8a7fbd3cb7d854737649269e6609010c8281e55afd56c0f6357c85b"
+}

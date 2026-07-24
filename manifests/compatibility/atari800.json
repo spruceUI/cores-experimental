@@ -1,0 +1,54 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "atari800",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/atari800-9d3bcf283502-3da2d82d29db.json",
+  "source_commit": "9d3bcf283502512052e21c6f1453fbdf7aa3122b",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-atari800-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "2088dce5c2bd4184602ccc99d885f9f654bb11d4b011a9ac95c80b7a7cac9570",
+  "reproduction_run": ".local-e2e/runs/build-core-atari800-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "a21d2a1bf6f2950d2a1905c9e66f6db0375b38b1317bded2ac4ee595f159236b",
+  "package_state": "reproducible",
+  "package_sha256": "bb6d16a26cd81373a0d6216deaf4e6cb6ad11383485cc5a9c2f9395fe2c10edb",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the atari800_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "9461bbb5e8148b620902f16e65f7ccd8614fee6e4e0284d8e9224ac6bd4e6964",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17",
+        "GLIBC_2.29"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "0a587761a97578384345b85129481eecafe6549d45ba9169efedf6dc8a7e3768",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "6d9fcfa5a0f3815c6e9be8a24de08d9d127f376e8f894112aa75f563f28cae35"
+}

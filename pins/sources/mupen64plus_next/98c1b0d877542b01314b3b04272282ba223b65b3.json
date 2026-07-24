@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "mupen64plus_next-98c1b0d87754",
+  "core_id": "mupen64plus_next",
+  "source": {
+    "url": "https://github.com/libretro/mupen64plus-libretro-nx.git",
+    "requested_ref": "refs/heads/develop",
+    "commit": "98c1b0d877542b01314b3b04272282ba223b65b3",
+    "tree": "e82f86deaeb37d3df9ad2673b53738af96848325",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "37110ae4e6e7962a1f15faff698fcd2caad0f5fe8f66d1b3b4d4e06aed27217a"
+}

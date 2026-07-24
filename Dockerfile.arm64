@@ -1,0 +1,151 @@
+# cores-arm64 v2 -- derived, not rebuilt.
+#
+# FROM the archived image BY ID, so every inherited layer (gcc 9.4 cross
+# toolchain, focal sysroot, libretro-super @ 60f5c627) is byte-exact with what
+# built all 92 promoted cores; the batch below is the only delta. The base's
+# own recipe is Dockerfile.arm64.base (kept for the historical record; its apt
+# layer would re-resolve if rebuilt, which is exactly what deriving avoids).
+FROM sha256:c9c1332ce01845412beed67695d6bd62a3de510e74003480624412f9877fb938
+
+# CMake 3.31.6 (>= 3.22.1 unblocks flycast; >= 3.18 easyrpg), pinned tarball.
+COPY cmake.tar.gz /tmp/cmake.tar.gz
+RUN echo "5a1133ff103c71eb5120e2cc3de922733e7d8a26a98ae716397e8676adb367bf  /tmp/cmake.tar.gz" | sha256sum -c - && \
+    tar -xzf /tmp/cmake.tar.gz -C /usr/local --strip-components=1 && \
+    rm /tmp/cmake.tar.gz && cmake --version
+
+# qemu-user: lets configure-time-executed cross-built tools run (squirreljme
+# class). QEMU_LD_PREFIX points the emulator at the target sysroot.
+# easyrpg's target-arch dev deps ride the same apt transaction.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    qemu-user \
+    libpixman-1-dev:arm64 libfmt-dev:arm64 libexpat1-dev:arm64 \
+    libicu-dev:arm64 \
+    && rm -rf /var/lib/apt/lists/*
+ENV QEMU_LD_PREFIX=/usr/aarch64-linux-gnu
+
+# inih r58 (easyrpg/liblcf hard dep; not packaged in focal), built for arm64.
+COPY inih.tar.gz /tmp/inih.tar.gz
+RUN echo "e79216260d5dffe809bda840be48ab0eec7737b2bb9f02d2275c1b46344ea7b7  /tmp/inih.tar.gz" | sha256sum -c - && \
+    mkdir /tmp/inih && tar -xzf /tmp/inih.tar.gz -C /tmp/inih --strip-components=1 && \
+    cd /tmp/inih && \
+    aarch64-linux-gnu-gcc -O2 -fPIC -c ini.c -o ini.o && \
+    aarch64-linux-gnu-gcc-ar rcs libinih.a ini.o && \
+    install -m 0644 libinih.a /usr/lib/aarch64-linux-gnu/libinih.a && \
+    install -m 0644 ini.h /usr/include/ini.h && \
+    rm -rf /tmp/inih /tmp/inih.tar.gz
+
+# libpng for easyrpg (image batch v3): the target-arch dev package rides the
+# same apt-family path as the other easyrpg deps above. A separate layer so
+# every v2 layer above stays byte-identical via the build cache.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpng-dev:arm64 \
+    && rm -rf /var/lib/apt/lists/*
+
+# mpg123's configure hard-requires a python interpreter (the 24.04-based
+# armhf image already has one; this focal base does not).
+RUN apt-get update && apt-get install -y --no-install-recommends python3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# --- easyrpg static dependency prefix -------------------------------------
+# Everything Player/liblcf needs beyond what devices provably ship
+# (fleet captures show only libpng16.so.16 + libz.so.1 beyond the loader
+# base set). Pinned tarballs built static -fPIC into ONE isolated prefix
+# the core's catalog names explicitly. Versions/args follow EasyRPG's own
+# buildscripts (the recipe behind the working shipped armhf core); pixman
+# stays 0.42.2 (last autotools release) and expat builds via its cmake
+# (the autotools install writes a CONFIG pointing at a .so it never
+# builds). Deliberately ONE COPY + ONE RUN: the toolchain lock captures
+# every tar member <= 4 MiB under a 16 MiB aggregate cap, so dep layers
+# must stay coarse enough to be large.
+COPY pixman.tar.gz expat.tar.gz fmt.tar.gz ogg.tar.gz vorbis.tar.gz \
+     mpg123.tar.gz sndfile.tar.gz icu.tar.gz icudata.tar.gz \
+     icu-fix-data.patch /tmp/deps/
+RUN cd /tmp/deps && \
+    echo "ea1480efada2fd948bc75366f7c349e1c96d3297d09a3fe62626e38e234a625e  pixman.tar.gz" | sha256sum -c - && \
+    echo "d4cf38d26e21a56654ffe4acd9cd5481164619626802328506a2869afab29ab3  expat.tar.gz" | sha256sum -c - && \
+    echo "1250e4cc58bf06ee631567523f48848dc4596133e163f02615c97f78bab6c811  fmt.tar.gz" | sha256sum -c - && \
+    echo "6e24fa9bde081f75c3226c01fc4ccf4f3e7477f77b1f6584e8768711980eba9b  ogg.tar.gz" | sha256sum -c - && \
+    echo "409110db996f42cc89025d1a715a0b787fb66c89322807f4cd46cf0473f3eac2  vorbis.tar.gz" | sha256sum -c - && \
+    echo "e8203efface3b2758225b9b385ed8191bb82b5a45ff6817d7799ef1eb96c8ebb  mpg123.tar.gz" | sha256sum -c - && \
+    echo "9fd68a020440b48888e672679bc5078f4f05ef420b88301958f3da5e242cea5b  sndfile.tar.gz" | sha256sum -c - && \
+    echo "3a2e7a47604ba702f345878308e6fefeca612ee895cf4a5f222e7955fabfe0c0  icu.tar.gz" | sha256sum -c - && \
+    echo "3d6b5537c3ef2e1ba8398108e2c2010cfa3593cd0a24c9c28570ace7af1522f6  icudata.tar.gz" | sha256sum -c - && \
+    echo "ef0d29242cfa7eb9b00fa068ae7d3049516f5bba20d47f815254fb777f7900d1  icu-fix-data.patch" | sha256sum -c - && \
+    mkdir pixman && tar -xzf pixman.tar.gz -C pixman --strip-components=1 && \
+    cd pixman && \
+    ./configure --host=aarch64-linux-gnu --prefix=/usr/local/easyrpg-deps-arm64 \
+      --disable-shared --enable-static CFLAGS="-O2 -fPIC" && \
+    make -j"$(nproc)" && make install && cd .. && \
+    mkdir expat && tar -xzf expat.tar.gz -C expat --strip-components=1 && \
+    CC=aarch64-linux-gnu-gcc \
+    cmake -B expat-build -S expat \
+      -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr/local/easyrpg-deps-arm64 \
+      -DEXPAT_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+      -DEXPAT_BUILD_TOOLS=OFF -DEXPAT_BUILD_EXAMPLES=OFF \
+      -DEXPAT_BUILD_TESTS=OFF -DEXPAT_BUILD_DOCS=OFF && \
+    cmake --build expat-build -j"$(nproc)" && \
+    cmake --install expat-build && \
+    mkdir fmt && tar -xzf fmt.tar.gz -C fmt --strip-components=1 && \
+    CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ \
+    cmake -B fmt-build -S fmt \
+      -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr/local/easyrpg-deps-arm64 \
+      -DBUILD_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+      -DFMT_TEST=OFF -DFMT_DOC=OFF && \
+    cmake --build fmt-build -j"$(nproc)" && \
+    cmake --install fmt-build && \
+    mkdir ogg && tar -xzf ogg.tar.gz -C ogg --strip-components=1 && \
+    cd ogg && \
+    ./configure --host=aarch64-linux-gnu --prefix=/usr/local/easyrpg-deps-arm64 \
+      --disable-shared --enable-static CFLAGS="-O2 -fPIC" && \
+    make -j"$(nproc)" && make install && cd .. && \
+    mkdir vorbis && tar -xzf vorbis.tar.gz -C vorbis --strip-components=1 && \
+    cd vorbis && \
+    ./configure --host=aarch64-linux-gnu --prefix=/usr/local/easyrpg-deps-arm64 \
+      --disable-shared --enable-static --with-ogg=/usr/local/easyrpg-deps-arm64 \
+      CFLAGS="-O2 -fPIC" && \
+    make -j"$(nproc)" && make install && cd .. && \
+    mkdir mpg123 && tar -xzf mpg123.tar.gz -C mpg123 --strip-components=1 && \
+    cd mpg123 && \
+    ./configure --host=aarch64-linux-gnu --prefix=/usr/local/easyrpg-deps-arm64 \
+      --disable-shared --enable-static --with-cpu=generic --disable-fifo \
+      --disable-ipv6 --disable-network --disable-int-quality \
+      --with-default-audio=dummy --with-optimization=2 --disable-components \
+      --enable-libmpg123 CFLAGS="-O2 -fPIC" && \
+    make -j"$(nproc)" && make install && cd .. && \
+    mkdir sndfile && tar -xzf sndfile.tar.gz -C sndfile --strip-components=1 && \
+    cd sndfile && \
+    ./configure --host=aarch64-linux-gnu --prefix=/usr/local/easyrpg-deps-arm64 \
+      --disable-shared --enable-static --disable-alsa --disable-sqlite \
+      --disable-full-suite --disable-external-libs --disable-mpeg \
+      CFLAGS="-O2 -fPIC" && \
+    make -j"$(nproc)" && make install && cd .. && \
+    mkdir icu && tar -xzf icu.tar.gz -C icu --strip-components=1 && \
+    cd icu && git apply -p2 ../icu-fix-data.patch && cd .. && \
+    tar -xzf icudata.tar.gz icudt78l.dat && \
+    cp icudt78l.dat icu/source/data/in/ && \
+    mkdir icu-host && cd icu-host && \
+    ../icu/source/runConfigureICU Linux --prefix=/tmp/deps/icu-host-install \
+      --enable-strict=no --disable-tests --disable-samples --disable-dyload \
+      --disable-extras --disable-icuio --disable-layout --disable-layoutex \
+      --enable-draft=no --with-data-packaging=static && \
+    make -j"$(nproc)" && cd .. && \
+    mkdir icu-target && cd icu-target && \
+    ../icu/source/configure --host=aarch64-linux-gnu \
+      --prefix=/usr/local/easyrpg-deps-arm64 \
+      --with-cross-build=/tmp/deps/icu-host \
+      --enable-strict=no --disable-tests --disable-samples --disable-dyload \
+      --disable-extras --disable-icuio --disable-layout --disable-layoutex \
+      --enable-draft=no --with-data-packaging=static \
+      --enable-static --disable-shared \
+      CFLAGS="-O2 -fPIC" CXXFLAGS="-O2 -fPIC" && \
+    make -j"$(nproc)" && make install && \
+    cd / && rm -rf /tmp/deps
+# --- end easyrpg static dependency prefix ----------------------------------
+
+# The package manifest: the residual determinism gap is apt resolution, so
+# record exactly what this image carries.
+RUN dpkg -l > /apt-manifest.txt

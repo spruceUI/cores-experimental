@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/core-compatibility.schema.json",
+  "title": "Cores-spruce individual core compatibility evidence",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "core_id",
+    "publication",
+    "evidence_availability",
+    "golden_source",
+    "source_commit",
+    "e2e_run",
+    "selected_e2e_content_sha256",
+    "reproduction_run",
+    "reproduction_e2e_content_sha256",
+    "package_state",
+    "package_sha256",
+    "caveats",
+    "targets",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {"const": "../core-compatibility.schema.json"},
+    "schema_version": {"const": 1},
+    "core_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]*$"
+    },
+    "publication": {"const": "disabled"},
+    "evidence_availability": {"const": "workspace-local-ignored"},
+    "golden_source": {
+      "type": "string",
+      "pattern": "^pins/core-sets/[A-Za-z0-9][A-Za-z0-9._-]{0,127}\\.json$"
+    },
+    "source_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "e2e_run": {
+      "type": "string",
+      "pattern": "^\\.local-e2e/runs/(?![A-Za-z0-9._-]*[Tt][Rr][Aa][Nn][Cc][Hh][Ee])[A-Za-z0-9][A-Za-z0-9._-]{0,127}/e2e-record\\.json$"
+    },
+    "selected_e2e_content_sha256": {"$ref": "#/$defs/sha256"},
+    "reproduction_run": {
+      "type": "string",
+      "pattern": "^\\.local-e2e/runs/(?![A-Za-z0-9._-]*[Tt][Rr][Aa][Nn][Cc][Hh][Ee])[A-Za-z0-9][A-Za-z0-9._-]{0,127}/e2e-record\\.json$"
+    },
+    "reproduction_e2e_content_sha256": {"$ref": "#/$defs/sha256"},
+    "package_state": {"const": "reproducible"},
+    "package_sha256": {"$ref": "#/$defs/sha256"},
+    "caveats": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "targets": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 2,
+      "propertyNames": {"enum": ["arm64", "armhf"]},
+      "additionalProperties": {"$ref": "#/$defs/target"}
+    },
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "target": {
+      "type": "object",
+      "required": [
+        "state",
+        "validation_scope",
+        "runtime_validation",
+        "artifact_sha256",
+        "elf",
+        "needed",
+        "version_requirements"
+      ],
+      "properties": {
+        "state": {"const": "local_static_build_golden"},
+        "validation_scope": {"const": "static-build-only"},
+        "runtime_validation": {"const": "needs-target-runtime"},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "elf": {
+          "type": "string",
+          "enum": ["ELF64/AArch64", "ELF32/ARM hard-float"]
+        },
+        "needed": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "version_requirements": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/core-source-lock.schema.json",
+  "title": "Cores-spruce immutable per-core source lock",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "source_lock_id",
+    "core_id",
+    "source",
+    "local_only",
+    "publication",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {"const": "../../../manifests/core-source-lock.schema.json"},
+    "schema_version": {"const": 1},
+    "source_lock_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]*-[0-9a-f]{12}$"
+    },
+    "core_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "source": {"$ref": "#/$defs/source"},
+    "local_only": {"const": true},
+    "publication": {"const": "disabled"},
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "submodule": {
+      "type": "object",
+      "required": ["path", "commit"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[A-Za-z0-9._+-]+(?:/[A-Za-z0-9._+-]+)*$"
+        },
+        "commit": {"$ref": "#/$defs/sha1"}
+      },
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "required": ["url", "requested_ref", "commit", "tree", "submodules"],
+      "properties": {
+        "url": {
+          "type": "string",
+          "pattern": "^https://(?![^/\\s]*@)(?![^\\s]*[?#])[^\\s/?#]+/[^\\s?#]*\\.git$"
+        },
+        "requested_ref": {"type": "string", "pattern": "^refs/(heads|tags)/[^\\s]+$"},
+        "commit": {"$ref": "#/$defs/sha1"},
+        "tree": {"$ref": "#/$defs/sha1"},
+        "submodules": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/submodule"}
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

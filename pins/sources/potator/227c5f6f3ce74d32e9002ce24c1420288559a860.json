@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "potator-227c5f6f3ce7",
+  "core_id": "potator",
+  "source": {
+    "url": "https://github.com/libretro/potator.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "227c5f6f3ce74d32e9002ce24c1420288559a860",
+    "tree": "9111933525a4508075937f251829132cf2081ba9",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "5fcaf01f34d511e0d37d086b8962d4a689ffad1be725f895a66c9137c5bb5086"
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "pokemini",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/pokemini-bb009b1379ad-2f63e84b7b68.json",
+  "source_commit": "bb009b1379ad15f1514f20ca7cbf710b4af42b3e",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-pokemini-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "d53b96265c2b292eeeb07f5e0c35420a29af99b65c8207c3528321fc4cda43ea",
+  "reproduction_run": ".local-e2e/runs/build-core-pokemini-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "f68ecfc829e0a018c2a9e9d173e8e35aa2594a63a033573575e8a769c3466c3d",
+  "package_state": "reproducible",
+  "package_sha256": "b40876d4fdf83cd07c8cb851ab10ceff0946d8ddaa99fb65e8d5c87fdf275e83",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the pokemini_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the pokemini_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, metadata, and both ABI artifacts byte for byte. The ARMHF logs are also byte-identical; parallel compilation changes whole-log ordering on ARM64, but both ARM64 logs independently satisfy the same singleton PokeMini source, compile, ordered-link, warning, and note proof. Execution was local, but every build cloned its pinned source from GitHub and the current pipeline has no offline source cache.",
+    "The pristine source is commit bb009b1379ad15f1514f20ca7cbf710b4af42b3e, tree f3a98fcf910c07bd9e0f5ee8466bed7865536c33, with no submodules. The exact native leading-space version ' bb009b1' is bound to all 43 C compiles, followed by the exact ordered 43-object C link with -fPIC -shared, the reviewed version script, and libm. The binaries expose runtime version v0.60 and do not contain the source hash, so compile-time version evidence is provenance rather than a user-visible runtime identity.",
+    "Each ABI contains exactly five reviewed warnings and five associated notes: four implicit-fallthrough warnings in the Minx CPU and I/O sources, plus a libretro .eep path sprintf warning whose possible 517-byte output exceeds its 512-byte destination. The exact diagnostic multiset and each parallel stream's internal order are fail-closed, but the potential EEPROM-path overflow remains an unresolved runtime safety risk.",
+    "Resolver metadata declares GPLv3, while the source LICENSE grants GPLv3-or-later; it declares display version v0.60, .min content, deterministic savestates, and supports_no_game=false. Any public distribution or release remains a human legal and policy gate.",
+    "The optional external bios.min has suggested MD5 1e4fb124a3a886865acb574f388c803d; it is not packaged, and this evidence establishes no firmware redistribution rights. A compiled-in FreeBIOS 1.3 fallback exists, but real BIOS versus FreeBIOS behavior, content loading, EEPROM and RTC persistence including the warned path, saves and states, controls and rumble, audio and video pacing, and sustained performance remain target-runtime gates.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 is build-identity-bound only to ra64-universal-v1; ARMHF is bound only to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains ineligible despite the portable ABI evidence."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "0f93f77e2f279c75a0f9ea781ab07b51deff95cc80c81a996105a585133d49e9",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "3ec9643aad10ccd9eb8d1ce3f1fdde89f53643a351b685de47b5073a14790545",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "fa4a44a91013c3710abab54acf384cedeaf460fb0c8f3683e6f08ff09740c0e2"
+}

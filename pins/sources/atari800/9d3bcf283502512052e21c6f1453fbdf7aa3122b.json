@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "atari800-9d3bcf283502",
+  "core_id": "atari800",
+  "source": {
+    "url": "https://github.com/libretro/libretro-atari800.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "9d3bcf283502512052e21c6f1453fbdf7aa3122b",
+    "tree": "b42ab0f0a498f3aa076c62825a9082fb7e5889e8",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "9b4dfabb127ceee4ba14df5f92a5cdec881c1ea3e928a0398dedf2bf4784499d"
+}

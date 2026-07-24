@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "reminiscence-b0eb4ff6479d",
+  "core_id": "reminiscence",
+  "source": {
+    "url": "https://github.com/libretro/REminiscence.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "b0eb4ff6479d3a0f9e327ba595533604713cdb27",
+    "tree": "f5fef5de7e6213d6512b8a6036e21f93f237e985",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "fec3f27b8bf45de8b0c034085d3332635baa779a46f99704ef855fffee5a20a3"
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "quicknes",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/quicknes-26bb785c9ded-2f0351a7573f.json",
+  "source_commit": "26bb785c9deddb66a17717b21bb4e328f03ade32",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-quicknes-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "15027c7b969a75fc9d1c07685321f16b4578730e06051e675cc24b2d0230a255",
+  "reproduction_run": ".local-e2e/runs/build-core-quicknes-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "1197065fd03389074a87b45ceaead13ab0e89ea3e22df3661b3c5d8fc1612df4",
+  "package_state": "reproducible",
+  "package_sha256": "5dc6d93890c65f47a4f740584dd077bee79a734087e8df889cb44215607a6181",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the quicknes_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced both ABI artifacts, metadata, warning-free build logs, and package byte for byte. The selected github-actions/simulated/local-docker and reproduction local/native/local-docker runner identities are explicit, and deep validation binds both runs to the pin's content-addressed build records, logs, recipe snapshots, metadata, artifacts, package, and local store evidence; the package also matches the immutable historical QuickNES regression oracle.",
+    "The pristine source is commit 26bb785c9deddb66a17717b21bb4e328f03ade32, tree 52de71e4e1acc5a4a039b07f7ed67d425df97a89, with no submodules. The commit-derived GIT_VERSION is the exact typed Make command-line value '-26bb785' for C++ only; the fail-closed proof binds all 30 C++ compiles per ABI, every compile argv, and the exact 30-object final link.",
+    "ARM64 requires GLIBC_2.17 and records the AArch64 loader, libc, libgcc_s, and libstdc++. ARMHF requires GLIBC_2.4 and CXXABI_ARM_1.3.3 and records libc, libgcc_s, libm, and libstdc++; loader, C++ runtime, and rootfs execution must pass before any device selection.",
+    "Resolver metadata declares LGPLv2.1+; any public distribution or release remains a human legal/policy and corresponding-source gate even though local builds reproduce.",
+    "NES and Famicom loading, controls, audio/video pacing, saves, deterministic states, mapper coverage including the pinned MMC5 IRQ behavior, accuracy, and sustained performance remain target-runtime gates. QuickNES intentionally trades accuracy for speed, so static build evidence establishes no device eligibility.",
+    "No firmware or BIOS is declared or packaged by the pinned resolver metadata, so no firmware requirement is inferred from static evidence.",
+    "The software-only Unix recipe produces one shared artifact per ABI/build profile and implies no device-specific performance claim. ARM64 is build-identity-bound only to ra64-universal-v1 and ARMHF only to ra32-a30-v1; Pixel2, Mini-family, and broader universal mappings remain unproven pending CPU, provider, loader, rootfs, frontend, and target-runtime capture, and all device views remain ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "c1577671eef575ca74af1f9098f99c31c297772e4588fd1ec7c3c1eae5fc028d",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "f4ba641b7c3f98c43aa7f40561471a1fc59f9076f94d34bae4c08be333e1e6c5",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "95f00a1edcf53feabb7dacb13c644de1bc98c3bdd32204ec97bcc35946824739"
+}

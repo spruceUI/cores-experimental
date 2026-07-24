@@ -1,0 +1,74 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "mednafen_lynx",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json",
+  "source_commit": "fcdefcfb3c11d6d2e71be076a5d3df2e88ab73ed",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_lynx-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "bcb0347802262a2801b058f225482cd1d7959a2960881cfe2e23d79824bb264a",
+  "reproduction_run": ".local-e2e/runs/build-core-mednafen_lynx-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "4ec2d8bac52f3fd4707d99bc0763985510c06ea35ade629b3f2c15458b077505",
+  "package_state": "reproducible",
+  "package_sha256": "0b9e88a0c3e246b2dcba45b60459e21bf1e93b6603a29f5a68449308d7c400b0",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mednafen_lynx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4.21 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, metadata, build logs, and both ABI artifacts byte for byte. Both profiles satisfy the same singleton Atari Lynx source, compile, ordered-link, and diagnostic proof. Execution was local, but each build cloned its pinned source from GitHub; the current pipeline has no offline source cache.",
+    "The pristine source is commit fcdefcfb3c11d6d2e71be076a5d3df2e88ab73ed, tree 3e815d4d338aa1a201e009b36cf34e5a53ad4c9e, with no submodules. Upstream native leading-space version ' fcdefcf' occurs exactly once on each of 16 C++ compiles and never on the 13 C compiles across 29 compiles (13 C and 16 C++); the proof also binds the exact ordered 29-object C++ link. Both binaries expose version 'v1.24.0 fcdefcf'.",
+    "Both ABIs contain exactly one reviewed -Wformat-truncation warning and its full snprintf note context. ARMHF additionally contains exactly two reviewed GCC 7.1 psABI notes with their full context. Missing, changed, split, internally reordered, extra, or post-link diagnostics, pipeline version markers, source/version markers, compile commands, link arguments, or success frames fail closed.",
+    "Resolver metadata declares Zlib|GPLv2, display version v1.24.0, and lnx|lyx|bll|o content. External firmware lynxboot.img is required and must match MD5 fcd403db69f54290b51035d82f835e7b. No firmware is packaged in the core archive. Any public distribution or release remains a human legal and policy gate; corresponding-source and license obligations must be reviewed before publication.",
+    "Resolver metadata describes this as an older Mednafen fork of Handy and recommends the regular Handy core for many users. Atari Lynx content loading, mandatory BIOS discovery, controls, rotation, audio and video pacing, saves, states, compatibility, frontend integration, and sustained performance remain target-runtime gates.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 is build-identity-bound only to ra64-universal-v1; ARMHF is bound only to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so all device views remain ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "7681c558428d0490dd91af225ea83a82112a06cf5b19fe6f6d69a362b3bffaf6",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.21",
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "1d3a3dcb98e52186bce0eeaed9ab1a64262be599773f27b18df692674dc12d1a",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "librt.so.1",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.21",
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "d6a5eeb74d2160d21aa97cc9e3848e6af5ba2017b55133a2dbe84ddede6d636e"
+}

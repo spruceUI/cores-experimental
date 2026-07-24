@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "handy-bc55d462f0b2-6923119e1743",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/handy-bc55d462f0b2-6923119e1743.json",
+    "pin_id": "handy-bc55d462f0b2-6923119e1743",
+    "file_sha256": "1bee10047e0aa67e54aadb2cb03be05b7b8e57532c3ea46af14aee1ff4d92fc1",
+    "content_sha256": "521a418ec18fb6942075256f63585f3a6e1ced80d91bf9d95ebc480be96dd0da"
+  },
+  "sources": {
+    "handy": {
+      "path": "pins/sources/handy/bc55d462f0b2d6b073ea93dc552ebd73cec60fd1.json",
+      "source_lock_id": "handy-bc55d462f0b2",
+      "commit": "bc55d462f0b2d6b073ea93dc552ebd73cec60fd1",
+      "file_sha256": "200e9249a80a4c282ddc62cd5ad40dcbcbdda282db8b6e6fe29131684065d07c",
+      "content_sha256": "4fa4777b8ec1d19976b000f79ab1fb238a6960f0c338bd4d0045d1ab70f816e4"
+    }
+  },
+  "content_sha256": "b9a7ac9f88e3954f142b0b0bc6dad2c5b5003c942edc9bd30bbd98dc3b09b879"
+}

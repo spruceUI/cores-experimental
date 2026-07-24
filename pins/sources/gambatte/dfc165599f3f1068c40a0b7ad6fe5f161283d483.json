@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "gambatte-dfc165599f3f",
+  "core_id": "gambatte",
+  "source": {
+    "url": "https://github.com/libretro/gambatte-libretro.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "dfc165599f3f1068c40a0b7ad6fe5f161283d483",
+    "tree": "5ca06b386819d5a99f83531d38d88d1d04db426c",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "219ef7bc2c58c1ed873c6e737bb61154aeffec15026686ceddc7f9477318fac0"
+}

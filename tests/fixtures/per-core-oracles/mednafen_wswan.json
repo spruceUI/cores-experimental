@@ -1,0 +1,49 @@
+{
+  "core_id": "mednafen_wswan",
+  "source": {
+    "commit": "da6d0d9acb8d4e9bd6725ab44225a275325d8352",
+    "tree": "1387c79a0f2e8aad511a26fc4b1e272b152c691d",
+    "submodules": []
+  },
+  "positive_runs": [
+    {
+      "role": "final-golden",
+      "run_id": "tranche24c-mednafen-wswan-pcfx-golden-v1",
+      "e2e_file_sha256": "fed7074d63a79e7a94a7809610cdb81880503de807fa337e501b6b7fad69e737",
+      "e2e_content_sha256": "9f7c65002bf84ae5b9c7ebf375d5a8d49365ae8c102d581eabe92fc4b890ee6e",
+      "build_record_sha256": {
+        "arm64": "bfc9ee4fe9458faf467be891ab0439414d3ba7b395df0dbb2747e486bb31529f",
+        "armhf": "574b18c59ea6c72868fe5f5c561934d6aa974d09ec9d7eeaf2c0a41bdd9d7666"
+      }
+    },
+    {
+      "role": "final-reproduction",
+      "run_id": "tranche24d-mednafen-wswan-pcfx-repro-v1",
+      "e2e_file_sha256": "229f03c63336ff7659ff8a6ab84188abe21e335b3dce08581a52c7af96a84e86",
+      "e2e_content_sha256": "e45b571487e88c632a74230b5aa456426213cb8c903f0273210dff537b7a216c",
+      "build_record_sha256": {
+        "arm64": "6d94a06e6ded49bd958533f71fde1afc4ef5e2a040f9cfd52bb353f72c22bf8d",
+        "armhf": "7229f6f4e59954728c2dfcaa7a54b2525ba2d498420776124d00395410c33b3f"
+      }
+    }
+  ],
+  "shared_positive_outputs": {
+    "build_log_sha256": {
+      "arm64": "9f89613529102ac4b96b4b1beef838c30f2fcb4bb26bde47d7f99e1727837e39",
+      "armhf": "aa5ea3ec4c0dd80dff9343280b252f8e27593f6c777df2cf467ffeba6e8f38cb"
+    },
+    "artifact_sha256": {
+      "arm64": "a08977cb649ad837afd9dd48c015e5b76554712c14567ea3c347b94c224bfb72",
+      "armhf": "37739ee4c3f24744e30ea5bd94a194ace1b57d1dc7e359ae08b62c27e8b2e40c"
+    },
+    "artifact_size": {
+      "arm64": 1156640,
+      "armhf": 659452
+    },
+    "package_sha256": "e242657cab22351dcdfb2baf51a8de230faf1243fffd9b5d9f419731e731157e",
+    "package_size": 264279,
+    "metadata_sha256": "07f595bdc27cf7ee145091ae226b2dc37eeefa499ef9720b64d5384e54ac5ac1",
+    "metadata_size": 627,
+    "embedded_version": "v0.9.35.1 da6d0d9"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "tgbdual",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/tgbdual-bf816b096f1d-8118d938b91c.json",
+  "source_commit": "bf816b096f1dca55ea805337d7c9e78d6b98d839",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-tgbdual-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "ae41fd4eff01d8302a41ecae24e8439dd8b6da80d14fcc84e96b0cfecfc48bbf",
+  "reproduction_run": ".local-e2e/runs/build-core-tgbdual-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "052e0ef33ce6639e28e1ed9c6a062fadec8b773bb41fbfa501299494718d1fc9",
+  "package_state": "reproducible",
+  "package_sha256": "e6278d785507b6b02b0526f1189ce64b3ed1c860c823f27e14381ec4a2c71da4",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the tgbdual_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4.15 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced both ABI artifacts, metadata, warning-free build logs, and package byte for byte. Their artifacts, metadata, and package also match the immutable historical TGB Dual regression oracle; historical logs predate the typed native-version proof markers and are compile/link command oracles only.",
+    "The pristine source is commit bf816b096f1dca55ea805337d7c9e78d6b98d839, tree 96122db14e9117e875c7ecaec7e77519e8be5636, with no submodules. The command-scoped native version is exact leading-space value ' bf816b0' for C++ only; the fail-closed proof binds all 9 C++ compiles per ABI, every compile argv, and the exact 9-object final link.",
+    "ARM64 requires GLIBC_2.17 and GLIBCXX_3.4.15. ARMHF requires GLIBC_2.4, GLIBCXX_3.4.15, and libm in addition to libc, libgcc_s, and libstdc++; loader, C++ runtime, and rootfs execution must pass before any device selection.",
+    "Resolver metadata declares GPLv2; any public distribution or release remains a human legal/policy and corresponding-source gate even though local builds reproduce.",
+    "Game Boy, Game Boy Color, and Super Game Boy loading, controls, audio/video pacing, saves, deterministic states, and sustained performance remain target-runtime gates. TGB Dual's two-ROM local-player link-cable behavior, per-player input, screen switching or combined display, audio routing, and linked save/state behavior require explicit device tests.",
+    "No firmware or BIOS is declared or packaged by the pinned resolver metadata, so no firmware requirement is inferred from static evidence.",
+    "ARM64 is build-identity-bound only to ra64-universal-v1 and ARMHF only to ra32-a30-v1. Candidate Pixel2, Mini-family, and broader universal mappings remain unproven pending provider, loader, rootfs, frontend, and target-runtime capture; all device views remain ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "6d90386426865984b9b9899c35ada65fa47f404e5664658720e0a0f1326d999f",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.15",
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "a161597a355c91ce5a04dea44967dda2152ae5fbb6d8e66b4d0bc17846bfa01d",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.15",
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "0bd850bac6128071ab36682701af7eff98bb9543620f6759b43d72d0848d227a"
+}

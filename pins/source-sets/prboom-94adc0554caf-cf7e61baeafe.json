@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "prboom-94adc0554caf-cf7e61baeafe",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/prboom-94adc0554caf-cf7e61baeafe.json",
+    "pin_id": "prboom-94adc0554caf-cf7e61baeafe",
+    "file_sha256": "c2cd198f4fcccb99edc962e11f090945dacf06727ed1b3146c463203f45339af",
+    "content_sha256": "8ab8564914ebf065691cd1ca835d651103ed60ae31434c4e06dad8ba5ad336bd"
+  },
+  "sources": {
+    "prboom": {
+      "path": "pins/sources/prboom/94adc0554cafbe6628e86408ced27fd8f92bd57d.json",
+      "source_lock_id": "prboom-94adc0554caf",
+      "commit": "94adc0554cafbe6628e86408ced27fd8f92bd57d",
+      "file_sha256": "a0d12479d545a29445a6e7c516331f071779a94a3bc19616bf6752b962f6ab39",
+      "content_sha256": "5e81f93cbdb8e4f48043286a714b5cb92adeefc0ba51f9e074baf6f70a834f00"
+    }
+  },
+  "content_sha256": "3ec216cd2d5e08f857fd5c332a550ab2d7c3f5a906b59bc052de4b9b1c87a4a5"
+}

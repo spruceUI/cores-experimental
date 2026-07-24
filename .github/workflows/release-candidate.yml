@@ -1,0 +1,130 @@
+name: Build release candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_label:
+        description: Candidate label; run ID and attempt form the immutable ID
+        required: true
+        type: string
+      scope:
+        description: Release-plan admission scope
+        required: true
+        type: choice
+        default: canonical
+        options:
+          - canonical
+          - full-workflow-roster
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-candidate-${{ inputs.candidate_label }}
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CANDIDATE_ID: ${{ inputs.candidate_label }}-${{ github.run_id }}-${{ github.run_attempt }}
+      PLAN_PATH: .local-e2e/release-plans/${{ inputs.candidate_label }}-${{ github.run_id }}-${{ github.run_attempt }}.json
+      PLAN_ARTIFACT: release-plan-${{ github.run_id }}-${{ github.run_attempt }}
+      RESULT_ARTIFACT_PREFIX: release-result-${{ github.run_id }}-${{ github.run_attempt }}
+    outputs:
+      candidate_id: ${{ steps.matrix.outputs.candidate_id }}
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      plan_artifact_name: ${{ steps.matrix.outputs.plan_artifact_name }}
+      result_artifact_prefix: ${{ steps.matrix.outputs.result_artifact_prefix }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+
+      - name: Create immutable release plan
+        env:
+          RELEASE_SCOPE: ${{ inputs.scope }}
+        run: >-
+          python3 scripts/core_pipeline.py plan-release
+          --candidate-id "$CANDIDATE_ID"
+          --scope "$RELEASE_SCOPE"
+          --output "$PLAN_PATH"
+
+      - name: Derive matrix only from the validated plan
+        id: matrix
+        run: |
+          matrix="$(python3 scripts/core_pipeline.py release-matrix --plan "$PLAN_PATH")"
+          printf 'candidate_id=%s\n' "$CANDIDATE_ID" >> "$GITHUB_OUTPUT"
+          printf 'matrix=%s\n' "$matrix" >> "$GITHUB_OUTPUT"
+          printf 'plan_artifact_name=%s\n' "$PLAN_ARTIFACT" >> "$GITHUB_OUTPUT"
+          printf 'result_artifact_prefix=%s\n' "$RESULT_ARTIFACT_PREFIX" >> "$GITHUB_OUTPUT"
+
+      - name: Upload immutable release plan
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ env.PLAN_ARTIFACT }}
+          path: ${{ env.PLAN_PATH }}
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
+
+  build:
+    needs: plan
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    uses: ./.github/workflows/_build-one-core.yml
+    with:
+      candidate_id: ${{ needs.plan.outputs.candidate_id }}
+      core_id: ${{ matrix.core_id }}
+      plan_artifact_name: ${{ needs.plan.outputs.plan_artifact_name }}
+      result_artifact_prefix: ${{ needs.plan.outputs.result_artifact_prefix }}
+
+  seal:
+    needs:
+      - plan
+      - build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CANDIDATE_ID: ${{ needs.plan.outputs.candidate_id }}
+      PLAN_PATH: .local-e2e/release-plans/${{ needs.plan.outputs.candidate_id }}.json
+      RESULT_ROOT: .local-e2e/release-results/${{ needs.plan.outputs.candidate_id }}/github-actions
+      CANDIDATE_ROOT: .local-e2e/release-candidates/${{ needs.plan.outputs.candidate_id }}/github-actions
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+
+      - name: Download immutable release plan
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: ${{ needs.plan.outputs.plan_artifact_name }}
+          path: .local-e2e/release-plans
+
+      - name: Merge portable worker results
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: ${{ needs.plan.outputs.result_artifact_prefix }}-*
+          path: ${{ env.RESULT_ROOT }}
+          merge-multiple: true
+
+      - name: Seal exact publication-disabled candidate
+        run: >-
+          python3 scripts/core_pipeline.py seal-release
+          --plan "$PLAN_PATH"
+          --results-root "$RESULT_ROOT"
+          --runner-profile github-actions
+          --output-dir "$CANDIDATE_ROOT"
+
+      - name: Upload sealed candidate
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.CANDIDATE_ROOT }}/
+          if-no-files-found: error
+          include-hidden-files: true
+          compression-level: 0
+          retention-days: 14

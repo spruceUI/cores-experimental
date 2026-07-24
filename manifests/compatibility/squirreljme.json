@@ -1,0 +1,45 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "squirreljme",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/squirreljme-c8de2e47c299-377d07a585fd.json",
+  "source_commit": "c8de2e47c2994f1c36215dd29d44fecf086f25ca",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-squirreljme-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "99f45cbfcf3ea2672ce7abbf1ec9fd3139b3d93d12b29957209b953e25188770",
+  "reproduction_run": ".local-e2e/runs/build-core-squirreljme-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "3fd572cd13b0bfe7a64bec594aef795dc0dc2d55cc2ed9a94bd4fd7343c816dd",
+  "package_state": "reproducible",
+  "package_sha256": "a1825785439ddad8d7ba8e389d9cfcca8bbc1cad9ac83b7735365576aec201cc",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the squirreljme_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, resolver metadata, the armhf artifact, and the build log byte for byte. Both profiles used the generic direct-cmake proof; there is no per-core log contract.",
+    "The pristine source is commit c8de2e47c2994f1c36215dd29d44fecf086f25ca, tree 6ea2d4410275f5c022594050177e2c18e11f0458, from the canonical SquirrelJME/SquirrelJME repository (the legacy rule's XerTheSquirrel URL is a redirect), with no submodules. SOURCE_DATE_EPOCH is pinned to the commit's committer epoch 1784151532.",
+    "Three reviewed build overlays are applied to armhf: a one-token upstream fix adding the missing OR in system-map.cmake's ARM32 elseif, and host-compiler pins for the configure-time decode and sourceize utilities, which CMake otherwise builds with the forwarded cross compiler and then cannot execute. The overlays affect configure only; the artifact is byte-identical across both build profiles.",
+    "The core is shipped and built armhf-only, matching the SpruceOS baseline. It is the nanocoat C virtual machine's libretro frontend; Java ME describes what it runs, not how it builds.",
+    "Content loading (JAR/JAD/SQC), input mapping, audio and video pacing, saves, states, frontend integration, compatibility, licensing review (Mozilla Public License 2.0), and sustained performance remain target-runtime and human gates. Publication remains disabled."
+  ],
+  "targets": {
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "54e821b6b8b790646e99f52fdbe88686173df8e9a40efde2025dee27924f5be6",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "ld-linux-armhf.so.3",
+        "libc.so.6",
+        "libm.so.6",
+        "libpthread.so.0"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17",
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "0000cbd1a4e812d16edf18d64643c3902916f892abd4e15f934ca038fc2e5c1a"
+}

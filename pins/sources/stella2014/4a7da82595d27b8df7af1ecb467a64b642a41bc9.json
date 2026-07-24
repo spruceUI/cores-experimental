@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "stella2014-4a7da82595d2",
+  "core_id": "stella2014",
+  "source": {
+    "url": "https://github.com/libretro/stella2014-libretro.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "4a7da82595d27b8df7af1ecb467a64b642a41bc9",
+    "tree": "25eb55b1241824f7003eb3006847870672bbe4b2",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "9a0677ec20bcc65d0d1085f5d792da59c724e9f9af4fd892115af7ab3e9d86e4"
+}

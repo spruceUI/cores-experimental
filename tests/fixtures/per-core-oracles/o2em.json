@@ -1,0 +1,63 @@
+{
+  "core_id": "o2em",
+  "source": {
+    "commit": "e03d3be88f79fe940b933e53f1515d97313f6c59",
+    "tree": "fef887dc747594a47e9bed9ac7367d2912b579d1",
+    "submodules": []
+  },
+  "positive_runs": [
+    {
+      "role": "native-version-control",
+      "run_id": "tranche21a-o2em-native-control-v1",
+      "e2e_file_sha256": "73caa68d4987177321d2245c31411e2a2f0e33470f285023dcb0c87a40a6348d",
+      "e2e_content_sha256": "edf5f938ad30eab6c8b7bc5c0cdf511193cf89ff75a1b98df57045311becb77c",
+      "build_record_sha256": {
+        "arm64": "be3bb1ebe4a233810debd7fbedfabadba1adf5973824544abbf34a759dbd32c3",
+        "armhf": "adaef6ca7a51f43d0318cdec5923e45ba15c080b7e62158bbed27a2b8892592d"
+      }
+    },
+    {
+      "role": "migrated-reproduction",
+      "run_id": "tranche21b-o2em-repro-v1",
+      "e2e_file_sha256": "4fb536a192fbadfe0f5fb1481a2d7454d3b6018c3b9946ef8e0629c2491e15fe",
+      "e2e_content_sha256": "ead9e9cda6cbd007271f90c1c8174e35d14ccbc473db684c6c118bb78ba754dc",
+      "build_record_sha256": {
+        "arm64": "3b334c5f5d5c540f6a1a0c38678a8ac8ea3a66e4e5361c2b7610ab16b8f9f6ca",
+        "armhf": "841a3f19979b11bf05568ffcc114c4e1af4e9828ba4ef36c0cc299609011b15e"
+      }
+    }
+  ],
+  "shared_positive_outputs": {
+    "build_log_sha256": {
+      "arm64": "9765f77a372c9b024128b44bdade9bdc9e7b25f0a706f23d6a434bd547eee3c3",
+      "armhf": "34260f6ad9a869d157aa5b82d7161424849192c8756b04ee4a938d80097a3448"
+    },
+    "artifact_sha256": {
+      "arm64": "b2bdd1da9d01e6a673debf7b233aee67ef2ebe13ecde4953bb574bdef16766d6",
+      "armhf": "720b854e6ab444ca78a6cdaba9f310064830a2686c714f94eef24507b804b94a"
+    },
+    "package_sha256": "3c46c580de69c0084c45432a132b8efe1d75c1137faa453f21acedbca116af5c",
+    "metadata_sha256": "d8cbfb38f736448d16817a4b2f17d61843e43c1b8bf64fae228a9d9e95e48378",
+    "embedded_version": "1.18 e03d3be"
+  },
+  "rejected_comparison": {
+    "reason": "synthetic injected GIT_VERSION changes the embedded version and artifact bytes",
+    "run_id": "tranche21a-o2em-control-v1",
+    "e2e_file_sha256": "d3af7d3e7bdb04e3ac7a6faa7ab46b5a951bb410875e4dd5042297821d449c57",
+    "e2e_content_sha256": "089f2ff98ed1b8a495725b2c44052f2cf71d3924cb0cee2ffb9462796c62118e",
+    "build_record_sha256": {
+      "arm64": "a2c373f48b8e9bdbef59ccee2ecdbb83f78c7d985c2909a3bfc15dafac6162e4",
+      "armhf": "bc521a21f13213f858102a99b11914a2375dd705603f94a41395aa01dfb9fbf3"
+    },
+    "build_log_sha256": {
+      "arm64": "756e2d4b5e4408b3a664603bf993a1a45983baee8b6b16b16c537b4ff3aacfe0",
+      "armhf": "052f29cb05deeace01b70206f4a387f8a7690728cd89386eb4bb86bfd2de9ffd"
+    },
+    "artifact_sha256": {
+      "arm64": "4a2142d452ff6bc731cb30cccfdd03d0124bd30db715dc48bdb77d1580e9d1ac",
+      "armhf": "7eb059821c0c0d60697f00037fdcb004fc397019d7dfbe02092638442e9dfc74"
+    },
+    "package_sha256": "e0ba75ca4fa4c92cb8604860153c9ec3601abafc4d9c4355e40eb16d4ccd7f7d",
+    "embedded_version": "1.18-e03d3be"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/channel-pointer.schema.json",
+  "title": "Cores-spruce local mutable channel pointer",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "channel",
+    "updated_at",
+    "local_only",
+    "publication",
+    "target"
+  ],
+  "properties": {
+    "$schema": {"const": "../../manifests/channel-pointer.schema.json"},
+    "schema_version": {"enum": [1, 2]},
+    "channel": {"enum": ["nightly", "pinned", "release"]},
+    "core_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]*$"
+    },
+    "updated_at": {"type": "string", "format": "date-time"},
+    "local_only": {"const": true},
+    "publication": {"const": "disabled"},
+    "target": {
+      "type": "object",
+      "required": ["kind", "path", "id", "file_sha256", "content_sha256"],
+      "properties": {
+        "kind": {"enum": ["golden", "pin-set", "local-release"]},
+        "path": {"type": "string", "minLength": 1},
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"schema_version": {"const": 1}}},
+      "then": {"not": {"required": ["core_id"]}}
+    },
+    {
+      "if": {"properties": {"schema_version": {"const": 2}}},
+      "then": {"required": ["core_id"]}
+    },
+    {
+      "if": {"properties": {"channel": {"const": "nightly"}}},
+      "then": {
+        "properties": {
+          "target": {
+            "properties": {
+              "kind": {"const": "golden"},
+              "path": {
+                "pattern": "^\\.local-e2e/nightlies/[A-Za-z0-9][A-Za-z0-9._-]{0,127}/golden\\.json$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"channel": {"const": "pinned"}}},
+      "then": {
+        "properties": {
+          "target": {
+            "properties": {
+              "kind": {"const": "pin-set"},
+              "path": {
+                "pattern": "^pins/core-sets/[A-Za-z0-9][A-Za-z0-9._-]{0,127}\\.json$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"channel": {"const": "release"}}},
+      "then": {
+        "properties": {
+          "target": {
+            "properties": {
+              "kind": {"const": "local-release"},
+              "path": {
+                "pattern": "^\\.local-e2e/releases/[A-Za-z0-9][A-Za-z0-9._-]{0,127}/release-manifest\\.json$"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}

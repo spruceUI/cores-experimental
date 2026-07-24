@@ -1,0 +1,57 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "freechaf",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/freechaf-76c7a84f1f7e-0fced3806666.json",
+  "source_commit": "76c7a84f1f7e80f3e6f2bba96fe100cb24e99124",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-freechaf-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "ec49eb283586679eaf49a32981e3a98486ea32686651356149bce0c9ad3676ac",
+  "reproduction_run": ".local-e2e/runs/build-core-freechaf-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "9a01765a7a8080b42c7833600ae9025d0fea52bfd93cd4dea16423254db87320",
+  "package_state": "reproducible",
+  "package_sha256": "7920fad29b045b305b2aad5fa454348e9f55126da40df4ce41a99b76d2a60049",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the freechaf_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, metadata, build logs, and both ABI artifacts byte for byte. Both profiles satisfy the exact fail-closed FreeChaF compile, link, source, submodule, native-version, and reviewed-warning proof.",
+    "The pristine source is commit 76c7a84f1f7e80f3e6f2bba96fe100cb24e99124, tree da8f96e1b0866e49ecf6a3bcd2b9974670669429, with src/deps/libretro-common pinned at 01c6122931a10a7012973054e7067859d2116420. The catalog deliberately omits a synthetic git_version override; upstream's native leading-space short hash is bound across all 25 C compile commands and both binaries expose version 1.0 76c7a84.",
+    "ARM64 requires GLIBC_2.17 and records the AArch64 loader and libc. ARMHF is EABI5 hard-float, reaches GLIBC_2.7, and records libc. Neither shared object has a PT_INTERP; loader, provider, rootfs, frontend, and target execution remain runtime gates.",
+    "Resolver metadata declares GPLv3. Any public distribution or release remains a human legal and policy gate even though the local builds reproduce.",
+    "Resolver metadata marks sl31253.bin, sl31254.bin, and sl90025.bin as required firmware; no firmware is packaged. Channel F content loading, lawful firmware discovery, controllers, audio and video pacing, saves, deterministic states, compatibility, and sustained performance remain target-runtime gates.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no basis for device-specific duplicate builds. ARM64 is build-identity-bound only to ra64-universal-v1 and ARMHF only to ra32-a30-v1; all device views remain ineligible pending provider and target-runtime evidence."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "54064a6414b18ad7aea1c3284ec48a558a7cef8f3551bf09fdd398fb84c759bf",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "d25e53ddc6d0bfdc675e7d0c90aa089804235036b47c702c1fdd4f5b1c95d838",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "0301dc1a87ff65015fe1fb804f786d9b0e63a4c7e7bd303ecd1b8a806db2bb6f"
+}

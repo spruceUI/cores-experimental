@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "uw8-92e0f7a7678d",
+  "core_id": "uw8",
+  "source": {
+    "url": "https://github.com/libretro/uw8-libretro.git",
+    "requested_ref": "refs/heads/main",
+    "commit": "92e0f7a7678de9955002ecce8501eb1be5e46d35",
+    "tree": "b0abb1ab7a2905e1f67df521a800014f7ca89fac",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "e99825ea706a83f42714ef3b88a62f9556785626d36ac687e1d595db73b0188d"
+}

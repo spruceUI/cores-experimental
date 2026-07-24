@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "genesis_plus_gx_wide-29d9d104338f",
+  "core_id": "genesis_plus_gx_wide",
+  "source": {
+    "url": "https://github.com/libretro/Genesis-Plus-GX-Wide.git",
+    "requested_ref": "refs/heads/main",
+    "commit": "29d9d104338f46bc2e65438fb207bcf54f701e92",
+    "tree": "27e05ed457d9c10e51b6c69067e1c05599df08fb",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "6fe3c024bf90d9b06a0a20794b4bb2093258f6c2062716b62ed179597fe5d19d"
+}

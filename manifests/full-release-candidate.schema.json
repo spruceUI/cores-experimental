@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/full-release-candidate.schema.json",
+  "title": "Cores-spruce sealed local full-release candidate",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "candidate_id",
+    "validation_scope",
+    "local_only",
+    "publication",
+    "result",
+    "plan",
+    "runner",
+    "assets",
+    "summary",
+    "asset_set_sha256",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "../../manifests/full-release-candidate.schema.json"
+    },
+    "schema_version": {"const": 1},
+    "candidate_id": {"$ref": "#/$defs/identifier"},
+    "validation_scope": {"const": "static-build-only"},
+    "local_only": {"const": true},
+    "publication": {"const": "disabled"},
+    "result": {"const": "sealed"},
+    "plan": {"$ref": "#/$defs/planReference"},
+    "runner": {"$ref": "#/$defs/runner"},
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/asset"}
+    },
+    "summary": {"$ref": "#/$defs/summary"},
+    "asset_set_sha256": {"$ref": "#/$defs/sha256"},
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "coreId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]*$"
+    },
+    "planReference": {
+      "type": "object",
+      "required": ["path", "file_sha256", "content_sha256"],
+      "properties": {
+        "path": {"const": "plan.json"},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "resultReference": {
+      "type": "object",
+      "required": ["path", "file_sha256", "content_sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^results/[a-z0-9][a-z0-9_]*/result\\.json$"
+        },
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "runner": {
+      "oneOf": [
+        {"$ref": "#/$defs/localRunner"},
+        {"$ref": "#/$defs/githubRunner"},
+        {"$ref": "#/$defs/simulatedGithubRunner"}
+      ]
+    },
+    "localRunner": {
+      "type": "object",
+      "required": ["profile", "mode", "backend", "local_only", "publication"],
+      "properties": {
+        "profile": {"const": "local"},
+        "mode": {"const": "native"},
+        "backend": {"const": "local-docker"},
+        "local_only": {"const": true},
+        "publication": {"const": "disabled"}
+      },
+      "additionalProperties": false
+    },
+    "githubRunner": {
+      "type": "object",
+      "required": ["profile", "mode", "backend", "local_only", "publication"],
+      "properties": {
+        "profile": {"const": "github-actions"},
+        "mode": {"const": "native"},
+        "backend": {"const": "github-hosted-docker"},
+        "local_only": {"const": true},
+        "publication": {"const": "disabled"}
+      },
+      "additionalProperties": false
+    },
+    "simulatedGithubRunner": {
+      "type": "object",
+      "required": ["profile", "mode", "backend", "local_only", "publication"],
+      "properties": {
+        "profile": {"const": "github-actions"},
+        "mode": {"const": "simulated"},
+        "backend": {"const": "local-docker"},
+        "local_only": {"const": true},
+        "publication": {"const": "disabled"}
+      },
+      "additionalProperties": false
+    },
+    "asset": {
+      "type": "object",
+      "required": ["core_id", "path", "sha256", "size", "result"],
+      "properties": {
+        "core_id": {"$ref": "#/$defs/coreId"},
+        "path": {
+          "type": "string",
+          "pattern": "^assets/[A-Za-z0-9][A-Za-z0-9._+-]*_libretro\\.zip$"
+        },
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "size": {"type": "integer", "minimum": 1},
+        "result": {"$ref": "#/$defs/resultReference"}
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": ["core_count", "asset_count", "asset_bytes"],
+      "properties": {
+        "core_count": {"type": "integer", "minimum": 1},
+        "asset_count": {"type": "integer", "minimum": 1},
+        "asset_bytes": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    }
+  }
+}

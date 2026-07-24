@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "cap32-4abfb8be233b",
+  "core_id": "cap32",
+  "source": {
+    "url": "https://github.com/libretro/libretro-cap32.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "4abfb8be233bec630f369379fb6c1d92d31f1c7d",
+    "tree": "c9704612f7acd0459125bc28427212def1cce681",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "dd74cb116a010edd1c9366003e89d4c956f2c2324e6721c9a31afeb3388805db"
+}

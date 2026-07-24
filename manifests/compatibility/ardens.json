@@ -1,0 +1,73 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "ardens",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/ardens-661a7dd4febc-a4e4d18d1db8.json",
+  "source_commit": "661a7dd4febc8d00e790a4ecde44b936295adf97",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-ardens-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "3469b84760fbc41bf559fb67cd966c71695052ef7bd120b6de3426272ea969c5",
+  "reproduction_run": ".local-e2e/runs/build-core-ardens-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "fd5f7b69520f71516efdaf82495cbbc6b34cf928b553f6e79cd8ca3cb3c6a03f",
+  "package_state": "reproducible",
+  "package_sha256": "0100226ee4a0eb37091ce8cfe2f93fb365645e769ff57d1b9b02f5b1310c5142",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the ardens_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.29, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "46e72191e4d5394ec4a64ccd103e352d7b5ee05c22855e2daa019cda467af9f5",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.18",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.26",
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "37afa209fe8f0462c4442195f5cbf712489f0874f91eb4692497710e01bda5c8",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.4",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.18",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.29",
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "dc9af0730a1a41b8c08788cf9cb72196f07b3711eafb4ea47aec8d2c9a53622e"
+}

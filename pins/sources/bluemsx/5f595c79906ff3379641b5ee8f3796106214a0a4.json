@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "bluemsx-5f595c79906f",
+  "core_id": "bluemsx",
+  "source": {
+    "url": "https://github.com/libretro/blueMSX-libretro.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "5f595c79906ff3379641b5ee8f3796106214a0a4",
+    "tree": "1d6e218616f313f9147aa7ecf3f74584a9aaa23c",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "46a90fa7e78b9c164cd5d834b5ccaa1af8da5c5d7031e07bf52b7c2f79c2d894"
+}

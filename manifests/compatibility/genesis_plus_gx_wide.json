@@ -1,0 +1,62 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "genesis_plus_gx_wide",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/genesis_plus_gx_wide-29d9d104338f-7907e7e03389.json",
+  "source_commit": "29d9d104338f46bc2e65438fb207bcf54f701e92",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx_wide-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "0710b80fc0a732c425a13cf4c2369dca6203cda02c8d228e3c7658af54407d7b",
+  "reproduction_run": ".local-e2e/runs/build-core-genesis_plus_gx_wide-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "4f104f183ce27e13a66a16383ee80099672063b7254aecbf4ff757a61faa1cf1",
+  "package_state": "reproducible",
+  "package_sha256": "e133f0c4c1b8433a925059961aba71a9dad1d7144e3b6f592c7f5dcc1b432607",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the genesis_plus_gx_wide_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the genesis_plus_gx_wide_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, resolver metadata, both ABI artifacts, and both build logs byte for byte. Both fresh runs independently pass the maintained schema-v2 E2E validator and fail-closed Genesis Plus GX Wide proof.",
+    "The pristine fork source is commit 29d9d104338f46bc2e65438fb207bcf54f701e92, tree 27e05ed457d9c10e51b6c69067e1c05599df08fb, with no submodules. The proof binds native leading-space version ` 29d9d10` to all 106 C compile commands per ABI, every source/object and complete compiler invocation, the ordered build phases and exact link, and binary version v1.7.4 29d9d10. ARM64 retains exactly two reviewed warnings and one note; ARMHF is warning- and note-free.",
+    "Resolver metadata reports Non-commercial licensing, MS/GG/MD/CD content, twelve optional firmware files, core_options_version 1.0, full-path loading, disk control, deterministic save states, and libretro saves. The candidate source exposes settings under the distinct genesis_plus_gx_wide_* namespace and includes configurable H40 extra columns/translucency plus additional opt-in renderer and audio behavior; Base-core option values therefore do not establish Wide behavior. Widescreen geometry and per-game coverage, firmware/CD/BRAM handling, option defaults and migration, controls, pacing, saves, states, frontend integration, and sustained performance remain target-runtime gates.",
+    "Spruce currently ships only an ARM64 Genesis Plus GX Wide binary; its SHA-256 differs from the candidate and it embeds state signature GENPLUS-GX 1.7.6, while the candidate embeds GENPLUS-GX 1.7.7. ARMHF is not shipped. Although candidate source contains a legacy-state load fallback, no state has been round-tripped in either direction. Wide is a separate fork/source line, not a build-flag variant of Base; Base-to-Wide, Wide-to-Base, old-Wide-to-candidate, and candidate-to-old-Wide compatibility are unproven, so no in-place upgrade or cross-variant claim is made.",
+    "Resolver metadata declares Non-commercial, while the root license prohibits sale or commercial activity, requires complete corresponding source for modified distributions, and includes separately licensed bundled components. The package contains neither corresponding source nor a license and notice inventory, so any public distribution or release remains a human legal and policy gate even though the local bytes reproduce.",
+    "Both builds clone the exact source over the network; no offline source bundle or network-disabled rebuild is proven. The portable toolchain archives and loaded image identities are locked, but cached images retain dockerfile_linkage=unverified-local-cache as an explicit provenance limitation.",
+    "ARM64 requires GLIBC_2.17 and records the AArch64 loader and libc. ARMHF is EABI5 hard-float, reaches GLIBC_2.7, and records libc and libm. Provider compatibility is unverified. The portable artifacts bind only to ra64-universal-v1 and ra32-a30-v1; they do not establish ra32-universal-v0, Miyoo Mini, or Pixel 2 compatibility, and all device views remain ineligible pending provider and target-runtime evidence. Spruce exposes the Wide selector only for TRIMUI_SMART_PRO and TRIMUI_SMART_PRO_S in 16:9 mode; prioritize those two ra64-universal-v1 targets for load/play/save/state/geometry capture."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "d9a21808b8ec081d0f44134feca26d73d1648e157d249173ef7948e1f17a6e58",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "4cd1ef2a6296c52707ccd5ea4263a02b4f0ffb4b1b90931b68e388d429a9ffa6",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "5470d532cd19628665a115e3a2970b587e35d6a70b05eefc3f3b948ba7f279f9"
+}

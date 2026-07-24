@@ -1,0 +1,49 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "snes9x-185488cd83aa",
+  "core_id": "snes9x",
+  "source": {
+    "url": "https://github.com/libretro/snes9x.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "185488cd83aaf274752a742c94d45561cbecb7af",
+    "tree": "da7c15404a93174aa0972d8ec053471e6cef064d",
+    "submodules": [
+      {
+        "path": "external/SPIRV-Cross",
+        "commit": "bccaa94db814af33d8ef05c153e7c34d8bd4d685"
+      },
+      {
+        "path": "external/cubeb",
+        "commit": "ac8474a5929e9de3bce84f16f8c589240eb9f7c4"
+      },
+      {
+        "path": "external/cubeb/cmake/sanitizers-cmake",
+        "commit": "aab6948fa863bc1cbe5d0850bc46b9ef02ed4c1a"
+      },
+      {
+        "path": "external/cubeb/googletest",
+        "commit": "40412d85124f7c6f3d88454583c4633e5e10fc8c"
+      },
+      {
+        "path": "external/glslang",
+        "commit": "9c7fd1a33e5cecbe465e1cd70170167d5e40d398"
+      },
+      {
+        "path": "external/vulkan-headers",
+        "commit": "577baa05033cf1d9236b3d078ca4b3269ed87a2b"
+      },
+      {
+        "path": "win32/libpng/src",
+        "commit": "b78804f9a2568b270ebd30eca954ef7447ba92f7"
+      },
+      {
+        "path": "win32/zlib/src",
+        "commit": "cacf7f1d4e3d44d871b605da3b647f07d718623f"
+      }
+    ]
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "ebcb743a9e09f42282bb4b0937f8c816ed95e244bf014c2aa873db00d62a5287"
+}

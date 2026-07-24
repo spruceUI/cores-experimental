@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "yabasanshiro-f448097b69a6",
+  "core_id": "yabasanshiro",
+  "source": {
+    "url": "https://github.com/libretro/yabause.git",
+    "requested_ref": "refs/heads/yabasanshiro",
+    "commit": "f448097b69a6037246a08e9dc09eabaa420d7893",
+    "tree": "44271b2e50ba9d9149cefc0285b09dcf6a4b099b",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "a42cf9397995f30d96e4cf5f80a8d88d41c3410e5e3f0410693b6ecf7a5da7d8"
+}

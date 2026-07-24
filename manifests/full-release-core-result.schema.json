@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/full-release-core-result.schema.json",
+  "title": "Cores-spruce validated local full-release core result",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "candidate_id",
+    "core_id",
+    "validation_scope",
+    "local_only",
+    "publication",
+    "result",
+    "plan",
+    "runner",
+    "e2e",
+    "package",
+    "targets",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "../../manifests/full-release-core-result.schema.json"
+    },
+    "schema_version": {"const": 1},
+    "candidate_id": {"$ref": "#/$defs/identifier"},
+    "core_id": {"$ref": "#/$defs/coreId"},
+    "validation_scope": {"const": "static-build-only"},
+    "local_only": {"const": true},
+    "publication": {"const": "disabled"},
+    "result": {"const": "passed"},
+    "plan": {"$ref": "#/$defs/digestReference"},
+    "runner": {"$ref": "#/$defs/runner"},
+    "e2e": {"$ref": "#/$defs/e2e"},
+    "package": {"$ref": "#/$defs/package"},
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/target"}
+    },
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "coreId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]*$"
+    },
+    "digestReference": {
+      "type": "object",
+      "required": ["file_sha256", "content_sha256"],
+      "properties": {
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "runner": {
+      "oneOf": [
+        {"$ref": "#/$defs/localRunner"},
+        {"$ref": "#/$defs/githubRunner"},
+        {"$ref": "#/$defs/simulatedGithubRunner"}
+      ]
+    },
+    "localRunner": {
+      "type": "object",
+      "required": ["profile", "mode", "backend", "local_only", "publication"],
+      "properties": {
+        "profile": {"const": "local"},
+        "mode": {"const": "native"},
+        "backend": {"const": "local-docker"},
+        "local_only": {"const": true},
+        "publication": {"const": "disabled"}
+      },
+      "additionalProperties": false
+    },
+    "githubRunner": {
+      "type": "object",
+      "required": ["profile", "mode", "backend", "local_only", "publication"],
+      "properties": {
+        "profile": {"const": "github-actions"},
+        "mode": {"const": "native"},
+        "backend": {"const": "github-hosted-docker"},
+        "local_only": {"const": true},
+        "publication": {"const": "disabled"}
+      },
+      "additionalProperties": false
+    },
+    "simulatedGithubRunner": {
+      "type": "object",
+      "required": ["profile", "mode", "backend", "local_only", "publication"],
+      "properties": {
+        "profile": {"const": "github-actions"},
+        "mode": {"const": "simulated"},
+        "backend": {"const": "local-docker"},
+        "local_only": {"const": true},
+        "publication": {"const": "disabled"}
+      },
+      "additionalProperties": false
+    },
+    "e2e": {
+      "type": "object",
+      "required": ["run_id", "file_sha256", "content_sha256"],
+      "properties": {
+        "run_id": {"$ref": "#/$defs/identifier"},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "package": {
+      "type": "object",
+      "required": ["name", "sha256", "size"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*_libretro\\.zip$"
+        },
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "size": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "target": {
+      "type": "object",
+      "required": [
+        "architecture",
+        "artifact_sha256",
+        "artifact_size",
+        "build_record_sha256"
+      ],
+      "properties": {
+        "architecture": {"enum": ["arm64", "armhf"]},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "artifact_size": {"type": "integer", "minimum": 1},
+        "build_record_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

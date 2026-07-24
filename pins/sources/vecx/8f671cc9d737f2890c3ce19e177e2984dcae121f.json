@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "vecx-8f671cc9d737",
+  "core_id": "vecx",
+  "source": {
+    "url": "https://github.com/libretro/libretro-vecx.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "8f671cc9d737f2890c3ce19e177e2984dcae121f",
+    "tree": "49ae584713edede2a70792ecf6cb744b11fff2e6",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "c16a9acd1ae14319b3eae91631d2f9d6ed7b7460846190e8822f7a1f6a33a9fb"
+}

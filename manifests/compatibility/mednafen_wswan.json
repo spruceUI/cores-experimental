@@ -1,0 +1,65 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "mednafen_wswan",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16.json",
+  "source_commit": "da6d0d9acb8d4e9bd6725ab44225a275325d8352",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_wswan-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "2346165c06f6fde1e15e2a22e4d4077a0e75945218b98f314b09240faaf681f5",
+  "reproduction_run": ".local-e2e/runs/build-core-mednafen_wswan-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "17f0e5e3085a8d6c5be3b48c260c8a437817ecd5905449842450a67579603ea9",
+  "package_state": "reproducible",
+  "package_sha256": "4c3a76c9160833eb7a28223728efb33d97749bdd0f1b0796cd9a09f99abbed73",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mednafen_wswan_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, metadata, build logs, and both ABI artifacts byte for byte. Both profiles satisfy the same singleton WonderSwan source, compile, ordered-link, and diagnostic proof. Execution was local, but each build cloned its pinned source from GitHub; the current pipeline has no offline source cache.",
+    "The pristine source is commit da6d0d9acb8d4e9bd6725ab44225a275325d8352, tree 1387c79a0f2e8aad511a26fc4b1e272b152c691d, with no submodules. Native leading-space version ' da6d0d9' is bound to exactly 15 compiles (14 C and one C++) and the exact ordered 15-object C++ link; both binaries expose version 'v0.9.35.1 da6d0d9'.",
+    "Both ABIs contain exactly the two reviewed v30mz.c unused-variable warnings. ARMHF additionally contains exactly two reviewed GCC psABI notes and ARM64 contains none. Missing, changed, reordered within a diagnostic stream, or extra warnings, notes, errors, make failures, source/version markers, compile commands, or link arguments fail closed.",
+    "Resolver metadata declares GPLv2, display version v0.9.35.1, ws|wsc|pc2|pcv2 content, and deterministic savestates. Any public distribution or release remains a human legal and policy gate even though the local create-only release reproduces; corresponding-source and license obligations must be reviewed before publication.",
+    "Resolver metadata declares no external firmware and no firmware is packaged. WonderSwan and WonderSwan Color loading, controls, audio and video pacing, saves, deterministic states, compatibility, frontend integration, and sustained performance remain target-runtime gates.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 is build-identity-bound only to ra64-universal-v1; ARMHF is bound only to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so all device views remain ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "a08977cb649ad837afd9dd48c015e5b76554712c14567ea3c347b94c224bfb72",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "GLIBCXX_3.4",
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "37739ee4c3f24744e30ea5bd94a194ace1b57d1dc7e359ae08b62c27e8b2e40c",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3.9",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "13d97b7cb33d6f2c70473eae6ee529d771215856c11b8675480c94f3002172b3"
+}

@@ -1,0 +1,316 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/toolchain-lock.schema.json",
+  "title": "Cores-spruce local toolchain archive lock",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "lock_id",
+    "local_only",
+    "publication",
+    "toolchains",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "../../manifests/toolchain-lock.schema.json"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "lock_id": {
+      "const": "local-cache-v1"
+    },
+    "local_only": {
+      "const": true
+    },
+    "publication": {
+      "const": "disabled"
+    },
+    "toolchains": {
+      "type": "object",
+      "required": [
+        "arm64",
+        "armhf",
+        "rust"
+      ],
+      "properties": {
+        "arm64": {
+          "$ref": "#/$defs/toolchain"
+        },
+        "armhf": {
+          "$ref": "#/$defs/toolchain"
+        },
+        "rust": {
+          "$ref": "#/$defs/toolchain"
+        }
+      },
+      "additionalProperties": false
+    },
+    "content_sha256": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "descriptor": {
+      "type": "object",
+      "required": [
+        "media_type",
+        "sha256",
+        "size"
+      ],
+      "properties": {
+        "media_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "toolchain": {
+      "type": "object",
+      "required": [
+        "architecture",
+        "archive",
+        "image",
+        "oci",
+        "docker_save",
+        "legacy_extra_blobs",
+        "dockerfile"
+      ],
+      "properties": {
+        "architecture": {
+          "enum": [
+            "arm64",
+            "armhf",
+            "rust"
+          ]
+        },
+        "archive": {
+          "type": "object",
+          "required": [
+            "filename",
+            "format",
+            "sha256",
+            "size",
+            "uncompressed_size",
+            "member_count",
+            "store_path"
+          ],
+          "properties": {
+            "filename": {
+              "pattern": "^cores-(arm64|armhf|rust)\\.tar\\.gz$"
+            },
+            "format": {
+              "const": "gzip-compressed-hybrid-oci-docker-save-tar"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "size": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "uncompressed_size": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "member_count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            },
+            "store_path": {
+              "pattern": "^toolchain-archives/sha256/[0-9a-f]{2}/[0-9a-f]{64}$"
+            }
+          },
+          "additionalProperties": false
+        },
+        "image": {
+          "type": "object",
+          "required": [
+            "tag",
+            "id",
+            "container_platform",
+            "target_host_cc",
+            "workdir"
+          ],
+          "properties": {
+            "tag": {
+              "pattern": "^cores-(arm64|armhf|rust):latest$"
+            },
+            "id": {
+              "$ref": "#/$defs/digest"
+            },
+            "container_platform": {
+              "type": "object",
+              "required": [
+                "os",
+                "architecture"
+              ],
+              "properties": {
+                "os": {
+                  "const": "linux"
+                },
+                "architecture": {
+                  "const": "amd64"
+                }
+              },
+              "additionalProperties": false
+            },
+            "target_host_cc": {
+              "enum": [
+                "aarch64-linux-gnu",
+                "arm-a30-linux-gnueabihf",
+                "cc"
+              ]
+            },
+            "workdir": {
+              "enum": [
+                "/libretro-super",
+                "/build"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "oci": {
+          "type": "object",
+          "required": [
+            "manifest",
+            "config",
+            "layers",
+            "rootfs_diff_ids"
+          ],
+          "properties": {
+            "manifest": {
+              "$ref": "#/$defs/descriptor"
+            },
+            "config": {
+              "$ref": "#/$defs/descriptor"
+            },
+            "layers": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/descriptor"
+              }
+            },
+            "rootfs_diff_ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/digest"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "docker_save": {
+          "type": "object",
+          "required": [
+            "repo_tags",
+            "config",
+            "layers",
+            "layer_sources_verified"
+          ],
+          "properties": {
+            "repo_tags": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "pattern": "^cores-(arm64|armhf|rust):latest$"
+              }
+            },
+            "config": {
+              "pattern": "^blobs/sha256/[0-9a-f]{64}$"
+            },
+            "layers": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "pattern": "^blobs/sha256/[0-9a-f]{64}$"
+              }
+            },
+            "layer_sources_verified": {
+              "const": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "legacy_extra_blobs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "sha256",
+              "size",
+              "classification"
+            ],
+            "properties": {
+              "sha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "size": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "classification": {
+                "const": "legacy-docker-save-metadata"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "dockerfile": {
+          "type": "object",
+          "required": [
+            "path",
+            "sha256",
+            "linkage",
+            "reason"
+          ],
+          "properties": {
+            "path": {
+              "enum": [
+                "Dockerfile.arm64",
+                "Dockerfile.armhf",
+                "Dockerfile.rust"
+              ]
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "linkage": {
+              "const": "unverified-local-cache"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

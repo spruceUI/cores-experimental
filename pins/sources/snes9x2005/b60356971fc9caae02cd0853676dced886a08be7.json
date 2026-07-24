@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "snes9x2005-b60356971fc9",
+  "core_id": "snes9x2005",
+  "source": {
+    "url": "https://github.com/libretro/snes9x2005.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "b60356971fc9caae02cd0853676dced886a08be7",
+    "tree": "5a13440308796f67a77f7e8fc16bbeee61ab301d",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "fc58d405652e984a9bb7cd44e2fb640bf83e926438d3f97519fdbb9098e14a65"
+}

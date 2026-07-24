@@ -1,0 +1,180 @@
+PLATFORM: Linux
+ARCHITECTURE: x86_64
+TARGET: unix
+=== CrocoDS
+Fetching crocods...
+git clone "https://github.com/libretro/libretro-crocods.git" "/libretro-super/libretro-crocods"
+Cloning into '/libretro-super/libretro-crocods'...
+1 core(s) successfully processed:
+	crocods
+HEAD is now at 87bbb3d libretro: add webOS to CI (#23)
+CORE_PIPELINE_NATIVE_GIT_VERSION|" 87bbb3d"|file
+PLATFORM: Linux
+ARCHITECTURE: x86_64
+TARGET: unix
+CC = aarch64-linux-gnu-gcc
+CXX = aarch64-linux-gnu-g++
+CXX11 = aarch64-linux-gnu-g++
+CXX17 = aarch64-linux-gnu-g++
+STRIP = aarch64-linux-gnu-strip
+Compiler: CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++"
+=== x86 CPU detected... ===
+=== x86_64 CPU detected... ===
+unix
+unix
+=== CrocoDS
+Building crocods...
+cd "/libretro-super/libretro-crocods"
+make -f Makefile platform="unix" -j24  clean
+rm -f ./libretro.o ./crocods-core/apps_guestinfo.o ./crocods-core/apps_autorun.o ./crocods-core/crtc-cap32.o ./crocods-core/gif_icons.o ./crocods-core/platform.o ./crocods-core/z80_cap32.o ./crocods-core/apps_infopanel.o ./crocods-core/gif_menu.o ./crocods-core/crtc-wincpc.o ./crocods-core/upd.o ./crocods-core/apps_keyboard.o ./crocods-core/sound.o ./crocods-core/cpc6128.bin.o ./crocods-core/apps_disk.o ./crocods-core/gestport.o ./crocods-core/gif_keyboard.o ./crocods-core/apps_browser.o ./crocods-core/ppi.o ./crocods-core/apps_tapeplayer.o ./crocods-core/gif_icons8.o ./crocods-core/idsk_lite.o ./crocods-core/gif_select.o ./crocods-core/emu2149.o ./crocods-core/crtc-arnold.o ./crocods-core/romdisc.bin.o ./crocods-core/snapshot.o ./crocods-core/autotype.o ./crocods-core/multiface.o ./crocods-core/font.o ./crocods-core/asic.o ./crocods-core/vga.o ./crocods-core/crtc.o ./crocods-core/gif.o ./crocods-core/z80.o ./crocods-core/rompack.o ./crocods-core/apps_menu.o ./crocods-core/gif_tape.o ./crocods-core/monitor.o ./crocods-core/apps_shared.o ./crocods-core/iniparser/dictionary.o ./crocods-core/iniparser/iniparser.o ./deps/libz/infblock.o ./deps/libz/infutil.o ./deps/libz/inffast.o ./deps/libz/adler32.o ./deps/libz/zutil.o ./deps/libz/inflate.o ./deps/libz/infcodes.o ./deps/libz/inftrees.o crocods_libretro.so
+make -f Makefile platform="unix" -j24 CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" 
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o libretro.o libretro.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/apps_guestinfo.o crocods-core/apps_guestinfo.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/apps_autorun.o crocods-core/apps_autorun.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/crtc-cap32.o crocods-core/crtc-cap32.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/gif_icons.o crocods-core/gif_icons.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/platform.o crocods-core/platform.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/z80_cap32.o crocods-core/z80_cap32.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/apps_infopanel.o crocods-core/apps_infopanel.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/gif_menu.o crocods-core/gif_menu.c
+crocods-core/apps_autorun.c: In function 'apps_autorun_init':
+crocods-core/apps_autorun.c:94:9: warning: ignoring return value of 'fread', declared with attribute warn_unused_result [-Wunused-result]
+   94 |         fread(dsk, 1, dsk_size, fic);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/crtc-wincpc.o crocods-core/crtc-wincpc.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/upd.o crocods-core/upd.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/apps_keyboard.o crocods-core/apps_keyboard.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/sound.o crocods-core/sound.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/cpc6128.bin.o crocods-core/cpc6128.bin.c
+crocods-core/apps_autorun.c: In function 'DispAutorun':
+crocods-core/apps_autorun.c:355:56: warning: '     ' directive output truncated writing 5 bytes into a region of size 3 [-Wformat-truncation=]
+  355 |             snprintf(text, 27, "   %8s %3s %05d %02x     ", apps_autorun_files[n].name, apps_autorun_files[n].ext, apps_autorun_files[n].nbpages, apps_autorun_files[n].user);
+      |                                                     ~~~^~
+In file included from /usr/aarch64-linux-gnu/include/stdio.h:867,
+                 from crocods-core/crocods.h:30,
+                 from crocods-core/platform.h:25,
+                 from crocods-core/apps_autorun.c:1:
+/usr/aarch64-linux-gnu/include/bits/stdio2.h:67:10: note: '__builtin___snprintf_chk' output 30 or more bytes into a destination of size 27
+   67 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   68 |        __bos (__s), __fmt, __va_arg_pack ());
+      |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/apps_disk.o crocods-core/apps_disk.c
+crocods-core/apps_autorun.c:388:35: warning: '%s' directive writing up to 255 bytes into a region of size 252 [-Wformat-overflow=]
+  388 |         sprintf(autoString, "run\"%s\n", usefile);
+      |                                   ^~     ~~~~~~~
+In file included from /usr/aarch64-linux-gnu/include/stdio.h:867,
+                 from crocods-core/crocods.h:30,
+                 from crocods-core/platform.h:25,
+                 from crocods-core/apps_autorun.c:1:
+/usr/aarch64-linux-gnu/include/bits/stdio2.h:36:10: note: '__builtin___sprintf_chk' output between 6 and 261 bytes into a destination of size 256
+   36 |   return __builtin___sprintf_chk (__s, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   37 |       __bos (__s), __fmt, __va_arg_pack ());
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/gestport.o crocods-core/gestport.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/gif_keyboard.o crocods-core/gif_keyboard.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/apps_browser.o crocods-core/apps_browser.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/ppi.o crocods-core/ppi.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/apps_tapeplayer.o crocods-core/apps_tapeplayer.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/gif_icons8.o crocods-core/gif_icons8.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/idsk_lite.o crocods-core/idsk_lite.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/gif_select.o crocods-core/gif_select.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/emu2149.o crocods-core/emu2149.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/crtc-arnold.o crocods-core/crtc-arnold.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/romdisc.bin.o crocods-core/romdisc.bin.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/snapshot.o crocods-core/snapshot.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/autotype.o crocods-core/autotype.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/multiface.o crocods-core/multiface.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/font.o crocods-core/font.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/asic.o crocods-core/asic.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/vga.o crocods-core/vga.c
+crocods-core/apps_disk.c: In function 'DispAppsDisk':
+crocods-core/apps_disk.c:218:33: warning: '%s' directive output may be truncated writing up to 2047 bytes into a region of size 27 [-Wformat-truncation=]
+  218 |             snprintf(text, 27, "%s", filename);
+      |                                 ^~   ~~~~~~~~
+In file included from /usr/aarch64-linux-gnu/include/stdio.h:867,
+                 from crocods-core/crocods.h:30,
+                 from crocods-core/platform.h:25,
+                 from crocods-core/apps_disk.c:1:
+/usr/aarch64-linux-gnu/include/bits/stdio2.h:67:10: note: '__builtin_snprintf' output between 1 and 2048 bytes into a destination of size 27
+   67 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   68 |        __bos (__s), __fmt, __va_arg_pack ());
+      |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/crtc.o crocods-core/crtc.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/gif.o crocods-core/gif.c
+crocods-core/platform.c: In function 'saveIni.part.0':
+crocods-core/platform.c:515:27: warning: '.ini' directive writing 4 bytes into a region of size between 2 and 2049 [-Wformat-overflow=]
+  515 |      sprintf(iniFile0, "%s.ini", core->filename);
+      |                           ^~~~
+In file included from /usr/aarch64-linux-gnu/include/stdio.h:867,
+                 from crocods-core/crocods.h:30,
+                 from crocods-core/platform.h:25,
+                 from crocods-core/platform.c:1:
+/usr/aarch64-linux-gnu/include/bits/stdio2.h:36:10: note: '__builtin___sprintf_chk' output between 5 and 2052 bytes into a destination of size 2049
+   36 |   return __builtin___sprintf_chk (__s, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   37 |       __bos (__s), __fmt, __va_arg_pack ());
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/z80.o crocods-core/z80.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/rompack.o crocods-core/rompack.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/apps_menu.o crocods-core/apps_menu.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/gif_tape.o crocods-core/gif_tape.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/monitor.o crocods-core/monitor.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/apps_shared.o crocods-core/apps_shared.c
+crocods-core/gif.c: In function 'ReadBackgroundGif':
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/iniparser/dictionary.o crocods-core/iniparser/dictionary.c
+crocods-core/gif.c:142:2: warning: ignoring return value of 'fread', declared with attribute warn_unused_result [-Wunused-result]
+  142 |  fread(pImageFileMem, 1, dwImageFileSize, fic);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o crocods-core/iniparser/iniparser.o crocods-core/iniparser/iniparser.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o deps/libz/infblock.o deps/libz/infblock.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o deps/libz/infutil.o deps/libz/infutil.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o deps/libz/inffast.o deps/libz/inffast.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o deps/libz/adler32.o deps/libz/adler32.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o deps/libz/zutil.o deps/libz/zutil.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o deps/libz/inflate.o deps/libz/inflate.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o deps/libz/infcodes.o deps/libz/infcodes.c
+aarch64-linux-gnu-gcc -DGIT_VERSION=\"" 87bbb3d"\" -O3 -fPIC   -c -o deps/libz/inftrees.o deps/libz/inftrees.c
+crocods-core/platform.c: In function 'loadIni':
+crocods-core/platform.c:1717:30: warning: '.ini' directive writing 4 bytes into a region of size between 2 and 2049 [-Wformat-overflow=]
+ 1717 |         sprintf(iniFile0, "%s.ini", core->filename);
+      |                              ^~~~
+In file included from /usr/aarch64-linux-gnu/include/stdio.h:867,
+                 from crocods-core/crocods.h:30,
+                 from crocods-core/platform.h:25,
+                 from crocods-core/platform.c:1:
+/usr/aarch64-linux-gnu/include/bits/stdio2.h:36:10: note: '__builtin___sprintf_chk' output between 5 and 2052 bytes into a destination of size 2049
+   36 |   return __builtin___sprintf_chk (__s, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   37 |       __bos (__s), __fmt, __va_arg_pack ());
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+crocods-core/platform.c:1684:30: warning: '.ini' directive writing 4 bytes into a region of size between 2 and 2049 [-Wformat-overflow=]
+ 1684 |         sprintf(iniFile0, "%s.ini", core->filename);
+      |                              ^~~~
+In file included from /usr/aarch64-linux-gnu/include/stdio.h:867,
+                 from crocods-core/crocods.h:30,
+                 from crocods-core/platform.h:25,
+                 from crocods-core/platform.c:1:
+/usr/aarch64-linux-gnu/include/bits/stdio2.h:36:10: note: '__builtin___sprintf_chk' output between 5 and 2052 bytes into a destination of size 2049
+   36 |   return __builtin___sprintf_chk (__s, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   37 |       __bos (__s), __fmt, __va_arg_pack ());
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+crocods-core/iniparser/iniparser.c: In function 'iniparser_load':
+crocods-core/iniparser/iniparser.c:791:32: warning: '__builtin___sprintf_chk' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+  791 |             sprintf(tmp, "%s:%s", section, key);
+      |                                ^
+In file included from /usr/aarch64-linux-gnu/include/stdio.h:867,
+                 from crocods-core/iniparser/iniparser.h:17,
+                 from crocods-core/iniparser/iniparser.c:12:
+/usr/aarch64-linux-gnu/include/bits/stdio2.h:36:10: note: '__builtin___sprintf_chk' output between 2 and 2050 bytes into a destination of size 2049
+   36 |   return __builtin___sprintf_chk (__s, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   37 |       __bos (__s), __fmt, __va_arg_pack ());
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+aarch64-linux-gnu-gcc -fPIC -shared -Wl,--no-undefined   -o crocods_libretro.so ./libretro.o ./crocods-core/apps_guestinfo.o ./crocods-core/apps_autorun.o ./crocods-core/crtc-cap32.o ./crocods-core/gif_icons.o ./crocods-core/platform.o ./crocods-core/z80_cap32.o ./crocods-core/apps_infopanel.o ./crocods-core/gif_menu.o ./crocods-core/crtc-wincpc.o ./crocods-core/upd.o ./crocods-core/apps_keyboard.o ./crocods-core/sound.o ./crocods-core/cpc6128.bin.o ./crocods-core/apps_disk.o ./crocods-core/gestport.o ./crocods-core/gif_keyboard.o ./crocods-core/apps_browser.o ./crocods-core/ppi.o ./crocods-core/apps_tapeplayer.o ./crocods-core/gif_icons8.o ./crocods-core/idsk_lite.o ./crocods-core/gif_select.o ./crocods-core/emu2149.o ./crocods-core/crtc-arnold.o ./crocods-core/romdisc.bin.o ./crocods-core/snapshot.o ./crocods-core/autotype.o ./crocods-core/multiface.o ./crocods-core/font.o ./crocods-core/asic.o ./crocods-core/vga.o ./crocods-core/crtc.o ./crocods-core/gif.o ./crocods-core/z80.o ./crocods-core/rompack.o ./crocods-core/apps_menu.o ./crocods-core/gif_tape.o ./crocods-core/monitor.o ./crocods-core/apps_shared.o ./crocods-core/iniparser/dictionary.o ./crocods-core/iniparser/iniparser.o ./deps/libz/infblock.o ./deps/libz/infutil.o ./deps/libz/inffast.o ./deps/libz/adler32.o ./deps/libz/zutil.o ./deps/libz/inflate.o ./deps/libz/infcodes.o ./deps/libz/inftrees.o -lm
+cp "crocods_libretro.so" "/libretro-super/dist/unix/crocods_libretro.so"
+1 core(s) successfully processed:
+	crocods

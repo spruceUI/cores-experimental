@@ -1,0 +1,13 @@
+diff --git a/nanocoat/cmake/utils/sourceize/Makefile b/nanocoat/cmake/utils/sourceize/Makefile
+index 70eb663..50a7990 100644
+--- a/nanocoat/cmake/utils/sourceize/Makefile
++++ b/nanocoat/cmake/utils/sourceize/Makefile
+@@ -10,7 +10,7 @@
+ SJME_CFLAGS=-I../ -I../../../include/ -DSJME_CONFIG_HAS_NO_C11_THREADS=1
+ 
+ $(OUTPUT_DIR)/sourceize$(HOST_EXE_SUFFIX):		sourceize.c
+-												$(CC) -o "$@" $(SJME_CFLAGS) $<
++												cc -o "$@" $(SJME_CFLAGS) $<
+ 
+ all:					$(OUTPUT_DIR)/sourceize$(HOST_EXE_SUFFIX)
+ 

@@ -1,0 +1,67 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "km_parallel_n64_xtreme_amped_turbo",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/km_parallel_n64_xtreme_amped_turbo-be8d13e6fdde-cdd865a36171.json",
+  "source_commit": "be8d13e6fddec4eaf705cb04e755e0cf3687d842",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-km_parallel_n64_xtreme_amped_turbo-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "cb2f9d2e36cb37e5fb03a8d46bc9302b282950aa840b58579fc93519157fa3f5",
+  "reproduction_run": ".local-e2e/runs/build-core-km_parallel_n64_xtreme_amped_turbo-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "49a2e0af53f2fac249e87562c4e1a9e510b4ee6658b2410a934c069ba82ec301",
+  "package_state": "reproducible",
+  "package_sha256": "c001493a29fc31d0faaee29c698c2b78d9be84fe78e41fdde2cdf709f3d75217",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the km_parallel_n64_xtreme_amped_turbo_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.30, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, repo-pinned resolver metadata, the armhf artifact, and the build log byte for byte. The fail-closed km-parallel-n64-c-asm-v1 proof binds all 212 compiles (167 C, 44 C++, 1 ARM dynarec assembly) and the exact ordered GLES C++ link with -lGLESv2 pinned.",
+    "The pristine source is the KMFDManic parallel-n64 fork at commit be8d13e6fddec4eaf705cb04e755e0cf3687d842, tree 2cec86f7b29182ab8c22481ccaf143f37b97cf0f. Five reviewed overlays restore buildability the fork lost under the v2 toolchain: the bundled glsm header's commented-out GLdouble typedef, a missing stdexcept include, an extern plus single definition for the tentative _gSPVertex, and -fcommon restoring the pre-GCC10 commons model its C sources rely on. No behavioral change is intended; the overlays affect declarations, includes, and linkage models only.",
+    "The Makefile's product keeps upstream's parallel_n64_libretro.so name and the driver stages it under the core's canonical artifact name, the same rebrand rule as km_duckswanstation. Metadata is repo-pinned (no libretro-super entry exists for KM forks).",
+    "The core is shipped and built armhf-only (platform=unix WITH_DYNAREC=arm FORCE_GLES=1 NOSSE=1). It links unversioned libGLESv2.so, which the A30 provides; the Mini family has no GLES2 provider. N64 content compatibility, dynarec correctness, GLES2 rendering, saves and states, performance, and licensing review of this personal fork remain target-runtime and human gates. Publication remains disabled."
+  ],
+  "targets": {
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "96433bbf019f1937d3cb42b5fa1500ed36128b91e4c8d35516b6f232b50fc333",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "ld-linux-armhf.so.3",
+        "libGLESv2.so",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libpthread.so.0",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.11",
+        "CXXABI_1.3.13",
+        "CXXABI_1.3.2",
+        "CXXABI_1.3.3",
+        "CXXABI_1.3.8",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.0",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.11",
+        "GLIBCXX_3.4.14",
+        "GLIBCXX_3.4.15",
+        "GLIBCXX_3.4.17",
+        "GLIBCXX_3.4.18",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.22",
+        "GLIBCXX_3.4.29",
+        "GLIBCXX_3.4.30",
+        "GLIBC_2.17",
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "9584cf02d2c10d526f9021e71d56e4225979dca9b1af981b8b41890bf4b57547"
+}

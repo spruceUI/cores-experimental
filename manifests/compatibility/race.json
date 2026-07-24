@@ -1,0 +1,57 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "race",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/race-c7810dd7f172-c3119de987bf.json",
+  "source_commit": "c7810dd7f172827bfa2004813bc000b13786636b",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-race-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "89b3097a73ed5c022b3e98b40d8e288b98deecef29ce4d164ef83421cd8b92dc",
+  "reproduction_run": ".local-e2e/runs/build-core-race-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "153ef3b8e76f83a3fe475d6d8a1be088349fb546a0020df6ae3b41f14cd2ebd6",
+  "package_state": "reproducible",
+  "package_sha256": "7abb3e87ff59d6dac1fe0a74d442bf1b0b6cf2f189f24ea307dd8731d6483b1e",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the race_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the 242149-byte package, 1074-byte resolver metadata, both ABI artifacts, and both build logs byte for byte. Both profiles satisfy the exact singleton RACE source, 27-command C-only native-version compile, ordered C link, source framing, success framing, and zero-diagnostic proof. Execution was local, but both builds cloned the pinned source over the network; no offline source cache is proven.",
+    "The pristine source is commit c7810dd7f172827bfa2004813bc000b13786636b, tree 344c09b682f79f2135479bdd0a76d193edfdf167, with no submodules. Upstream native leading-space version ' c7810dd' occurs exactly once on every one of the 27 C compile commands and never outside that C compile scope. The proof binds every source/object pair, both ABI-specific compiler argv sets, and the exact ordered 27-object C link; both binaries expose version 'v2.16 c7810dd'.",
+    "Both ABIs contain no warnings, notes, errors, or fatal diagnostics. Missing, changed, duplicated, reordered, or extra source markers, native-version markers, compile commands, link arguments, diagnostics, compiler invocations, copy commands, or success frames fail closed.",
+    "Resolver metadata declares GPLv2, display version v2.16, and ngp|ngc|ngpc|npc content. Any public distribution or release remains a human legal and policy gate; GPLv2 license, corresponding-source, notice, and other redistribution obligations must be reviewed before publication. Publication remains disabled regardless of local byte reproducibility.",
+    "No external firmware is declared, required, or packaged by the core archive; ngpBios.c is compiled internal source, not an external firmware blob. Resolver metadata requires full-path content and advertises serialized save states and libretro saves, but content loading, path handling, controls, reset, core options, unaligned-access behavior, audio and video pacing, saves, state round trips, compatibility, frontend integration, and sustained performance remain unverified target-runtime gates. The metadata's performance-focused description is not device validation.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 requires GLIBC_2.17 and is build-identity-bound only to ra64-universal-v1. ARMHF is EABI5 hard-float, requires GLIBC_2.4 and GLIBC_2.7, and is bound only to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so all runtime and device compatibility claims remain provisional and every device view remains ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "67c432adb1c0baf1fdbaceb4851cd3f11545cbc51267f5441fbff5073ea9261c",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "1a337bc84387c054d5c7e2e1027ee8129884ad0ef497c9ac16b7e95e66600f74",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "36cee274f9dcf11035d216f128b6b732de6bfb4b97797b30e8bb7966ed485469"
+}

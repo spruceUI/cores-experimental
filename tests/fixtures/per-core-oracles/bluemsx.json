@@ -1,0 +1,49 @@
+{
+  "core_id": "bluemsx",
+  "source": {
+    "commit": "5f595c79906ff3379641b5ee8f3796106214a0a4",
+    "tree": "1d6e218616f313f9147aa7ecf3f74584a9aaa23c",
+    "submodules": []
+  },
+  "positive_runs": [
+    {
+      "role": "final-golden",
+      "run_id": "tranche28d-bluemsx-final-v1",
+      "e2e_file_sha256": "5cd584101a4ec84d143d70a0da8c489305013ebaf80a59620135ac154e34225d",
+      "e2e_content_sha256": "6e6b7d2b6a4f22d88845a431cdb91adeb036b3a6125e32738cb2fcb678ddf563",
+      "build_record_sha256": {
+        "arm64": "7ab3c27a3a36490c5e75b1efb45535b66f86fc1c7198f3f23448f0b569d5eee9",
+        "armhf": "bb4b04b5b372279ede1e02801c5b323b2a21c4e0b2f76acec9680b4152186257"
+      }
+    },
+    {
+      "role": "final-reproduction",
+      "run_id": "tranche28f-bluemsx-repro-v1",
+      "e2e_file_sha256": "9bace319e0ee36eacec9aa8205340b4bb04db03869f49e0abc2b05f7c112d854",
+      "e2e_content_sha256": "28b69b716ca1a34671b75968f01d8f3bb7cc62f3015ec7c829f89673968c072f",
+      "build_record_sha256": {
+        "arm64": "acf4d058d03d6103bf482a113dd981f4af7078377463300b32f42a8aca620024",
+        "armhf": "e48fc150223ce3e0174a61632fa12dd26a844133709cad5b5da0b476538a53fd"
+      }
+    }
+  ],
+  "shared_positive_outputs": {
+    "build_log_sha256": {
+      "arm64": "51ec8ba37ef3a8732b089e751d79f11293ae6ac7b92728548618d2166a4faae6",
+      "armhf": "1cca54101935e09492f630a6073c8a82199d40b11b6c4b1790124f46c473ef61"
+    },
+    "artifact_sha256": {
+      "arm64": "14f32f0f61aa7a81d6ad34b244d33db0d88420eb132baa660dc48b7f835978bd",
+      "armhf": "604885f77e8cb3b800b4fa881d875af31bb31d66a94d776e1b2e2c4b6d248c3f"
+    },
+    "artifact_size": {
+      "arm64": 1812712,
+      "armhf": 1538228
+    },
+    "package_sha256": "e54b047c7a6dc5715823fda797dfc67ce1fc47b13748824322321de410083a0d",
+    "package_size": 1513399,
+    "metadata_sha256": "e3840e08ff90f8567beedc9f96ee3597d48ea7a568cfd51aadca20850800257e",
+    "metadata_size": 2286,
+    "embedded_version": "git 5f595c7"
+  }
+}

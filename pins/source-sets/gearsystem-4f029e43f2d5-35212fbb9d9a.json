@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "gearsystem-4f029e43f2d5-35212fbb9d9a",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/gearsystem-4f029e43f2d5-35212fbb9d9a.json",
+    "pin_id": "gearsystem-4f029e43f2d5-35212fbb9d9a",
+    "file_sha256": "8e7cf94966b10af6638c4d4e568d720ec5abae06e8d7a8058f6a969caa20fb93",
+    "content_sha256": "d93f645526ac8178ec3076b97e36398b55b2a4047cb55c17013337c953abb8f2"
+  },
+  "sources": {
+    "gearsystem": {
+      "path": "pins/sources/gearsystem/4f029e43f2d5207c5da78792503b0fff89b7b2c5.json",
+      "source_lock_id": "gearsystem-4f029e43f2d5",
+      "commit": "4f029e43f2d5207c5da78792503b0fff89b7b2c5",
+      "file_sha256": "ef38461e30fe2b2769247456f8ebb717c5280169a11aa37b07684dfa8319e3fa",
+      "content_sha256": "c51f145625a63362c4d0f2f13c7d4c17a1332b5ffbfbeeb6e0b483bbf8bd40e1"
+    }
+  },
+  "content_sha256": "da31d67a8db6102565b3b846d197b9afe1afc1148b781625867d5f11671d3549"
+}

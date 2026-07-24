@@ -1,0 +1,25 @@
+diff --git a/core/deps/libchdr/deps/lzma-24.05/src/CpuArch.c b/core/deps/libchdr/deps/lzma-24.05/src/CpuArch.c
+index ccc6f6e..d2844a3 100644
+--- a/core/deps/libchdr/deps/lzma-24.05/src/CpuArch.c
++++ b/core/deps/libchdr/deps/lzma-24.05/src/CpuArch.c
+@@ -829,6 +829,20 @@ static unsigned long MY_getauxval(int aux)
+ #endif
+ // MY_HWCAP_CHECK_FUNC (ASIMD)
+ #elif defined(MY_CPU_ARM)
++  /* Older ARM sysroot UAPI headers predate these HWCAP2 names; a zero mask
++     makes the runtime check report unsupported without forcing features. */
++  #ifndef HWCAP2_CRC32
++    #define HWCAP2_CRC32 0
++  #endif
++  #ifndef HWCAP2_SHA1
++    #define HWCAP2_SHA1 0
++  #endif
++  #ifndef HWCAP2_SHA2
++    #define HWCAP2_SHA2 0
++  #endif
++  #ifndef HWCAP2_AES
++    #define HWCAP2_AES 0
++  #endif
+   #define MY_HWCAP_CHECK_FUNC(name) \
+   BoolInt CPU_IsSupported_ ## name(void) { return (MY_getauxval(AT_HWCAP2) & (HWCAP2_ ## name)); }
+   MY_HWCAP_CHECK_FUNC_2(NEON, NEON)

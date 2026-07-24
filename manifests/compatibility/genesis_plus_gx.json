@@ -1,0 +1,64 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "genesis_plus_gx",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/genesis_plus_gx-fa4dca561e08-0e5a55ff8180.json",
+  "source_commit": "fa4dca561e08d5be9077419f7b255e1da213ed21",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "f37d05ad0925787dd4d350a3bf79430a9e1b046cb4fcb57f22640c90d24a5000",
+  "reproduction_run": ".local-e2e/runs/build-core-genesis_plus_gx-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "a19c73b1fb7ffe95c8e42804af49e371037b1ca5f6d9bc1bc28d2698dc941ee7",
+  "package_state": "reproducible",
+  "package_sha256": "06375fd783735dbc46ba41fdd47d7f774bee35bfa121d74bd6ceb92cdc9bb61f",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the genesis_plus_gx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the genesis_plus_gx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, resolver metadata, and both ABI artifacts byte for byte. ARMHF logs are byte-identical. Parallel ARM64 output differs only in complete-line ordering; both logs share the exact line multiset and all four logs independently satisfy the fail-closed Genesis Plus GX base proof.",
+    "The pristine source is commit fa4dca561e08d5be9077419f7b255e1da213ed21, tree 7f4b0916e938e15e046e1c35acd0173aab1aaac3, with no submodules. The proof binds native leading-space version ` fa4dca5` to all 117 C compile commands per ABI, every source/object and complete compiler invocation, the exact ordered link, and binary version v1.7.4 fa4dca5. ARM64 retains exactly two reviewed warnings and one note; ARMHF is warning- and note-free.",
+    "Resolver metadata reports Non-commercial licensing, MS/GG/MD/CD content, twelve optional firmware files, core_options_version 2.0, full-path loading, disk control, and libretro saves. Spruce currently ships core-options metadata 1.0 and a config using legacy genesis_plus_gx_bram, while the candidate exposes system-BRAM, cart-BRAM, and cart-size settings. Upgrade behavior, Master System, Game Gear, SG-1000, Genesis/Mega Drive, Sega CD, BIOS and CD handling, BRAM and option migration, controls, audio/video pacing, saves, states, frontend integration, and sustained performance remain target-runtime gates.",
+    "The imported Spruce binaries identify as ARM64 f64e0a1 and ARMHF 252a94c rather than candidate fa4dca5, so byte reproducibility does not establish an in-place upgrade claim. Base-to-Wide and Wide-to-Base state compatibility are not proven and no cross-variant state claim is made.",
+    "Resolver metadata declares Non-commercial, while the root license prohibits sale or commercial activity, requires complete corresponding source for modified distributions, and includes separately licensed bundled components. The package contains neither corresponding source nor a license and notice inventory, so any public distribution or release remains a human legal and policy gate even though the local bytes reproduce.",
+    "Both builds clone the exact source over the network; no offline source bundle or network-disabled rebuild is proven. The portable toolchain archives and loaded image identities are locked, but cached images retain dockerfile_linkage=unverified-local-cache as an explicit provenance limitation.",
+    "ARM64 requires GLIBC_2.17 and GLIBC_2.29 and records the AArch64 loader, libc, and libm. ARMHF is EABI5 hard-float, reaches GLIBC_2.7, and records libc and libm. Provider compatibility is unverified. The portable artifacts bind only to ra64-universal-v1 and ra32-a30-v1; they do not establish ra32-universal-v0, Miyoo Mini, or Pixel 2 compatibility, and all device views remain ineligible pending provider and target-runtime evidence."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "fb8fadec4b547e2b51076c06baa4b46c69b1928ac89f9c1c77ceb056eda03982",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17",
+        "GLIBC_2.29"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "c122bf99857172e79fae360a4e5f7a314cb408065cf29c98ae08a57dcfda983b",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "3f1526cf4f779fbceb9a16f168149eb27b2bcc9e090362f2c64c27a0ca9261f2"
+}

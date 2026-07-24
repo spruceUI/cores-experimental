@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/core-golden.schema.json",
+  "title": "Cores-spruce individual core golden",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "core_id",
+    "pin_id",
+    "created_at",
+    "local_only",
+    "publication",
+    "baseline",
+    "summary",
+    "build_goldens",
+    "cores",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {"const": "../../../manifests/core-golden.schema.json"},
+    "schema_version": {"const": 2},
+    "core_id": {"$ref": "#/$defs/coreId"},
+    "pin_id": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9_]*-[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "created_at": {"$ref": "#/$defs/utcTimestamp"},
+    "updated_at": {"$ref": "#/$defs/utcTimestamp"},
+    "local_only": {"const": true},
+    "publication": {"const": "disabled"},
+    "baseline": {"$ref": "#/$defs/baseline"},
+    "summary": {"$ref": "#/$defs/summary"},
+    "build_goldens": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 1,
+      "propertyNames": {"$ref": "#/$defs/coreId"},
+      "additionalProperties": {
+        "type": "object",
+        "minProperties": 0,
+        "maxProperties": 2,
+        "propertyNames": {"enum": ["arm64", "armhf"]},
+        "additionalProperties": {
+          "allOf": [
+            {"$ref": "golden-start.schema.json#/$defs/buildGolden"},
+            {
+              "if": {
+                "properties": {"core_id": {"const": "mgba"}},
+                "required": ["core_id"]
+              },
+              "then": {"required": ["build"]}
+            },
+            {
+              "if": {
+                "properties": {"core_id": {"const": "freeintv"}},
+                "required": ["core_id"]
+              },
+              "then": {"required": ["build"]}
+            },
+            {
+              "if": {
+                "properties": {"core_id": {"const": "atari800"}},
+                "required": ["core_id"]
+              },
+              "then": {"required": ["build"]}
+            },
+            {
+              "if": {
+                "properties": {"core_id": {"const": "picodrive"}},
+                "required": ["core_id"]
+              },
+              "then": {"required": ["build"]}
+            },
+            {
+              "if": {
+                "properties": {"core_id": {"const": "mame2003_plus"}},
+                "required": ["core_id"]
+              },
+              "then": {"required": ["build"]}
+            },
+            {
+              "if": {
+                "properties": {"core_id": {"const": "fbneo"}},
+                "required": ["core_id"]
+              },
+              "then": {"required": ["build"]}
+            }
+          ]
+        }
+      }
+    },
+    "cores": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 1,
+      "propertyNames": {"$ref": "#/$defs/coreId"},
+      "additionalProperties": {"$ref": "#/$defs/coreRecord"}
+    },
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "coreId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]*$"
+    },
+    "sha1": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "utcTimestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "(Z|[+]00:00)$"
+    },
+    "baseline": {
+      "type": "object",
+      "required": ["kind", "repository_commit", "provenance", "warning"],
+      "properties": {
+        "kind": {"const": "spruceos-shipped-artifacts"},
+        "repository_commit": {"$ref": "#/$defs/sha1"},
+        "provenance": {"const": "artifact-only"},
+        "warning": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "core_count",
+        "valid_artifact_count",
+        "invalid_artifacts",
+        "cores_without_valid_artifacts"
+      ],
+      "properties": {
+        "core_count": {"const": 1},
+        "valid_artifact_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "invalid_artifacts": {
+          "type": "array",
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_]*/(arm64|armhf)$"
+          }
+        },
+        "cores_without_valid_artifacts": {
+          "type": "array",
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/coreId"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "coreRecord": {
+      "type": "object",
+      "required": ["workflow", "tier", "promotion_eligible", "artifacts"],
+      "properties": {
+        "workflow": {
+          "type": "string",
+          "pattern": "^\\.github/workflows/build-[A-Za-z0-9._-]+\\.ya?ml$"
+        },
+        "tier": {"const": "imported_baseline"},
+        "promotion_eligible": {"const": false},
+        "artifacts": {
+          "type": "object",
+          "required": ["arm64", "armhf"],
+          "properties": {
+            "arm64": {"$ref": "#/$defs/importedArtifact"},
+            "armhf": {"$ref": "#/$defs/importedArtifact"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "importedArtifact": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": {"const": "not_shipped"}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/validImportedArtifact"
+        },
+        {
+          "$ref": "#/$defs/invalidImportedArtifact"
+        }
+      ]
+    },
+    "validImportedArtifact": {
+      "allOf": [
+        {"$ref": "#/$defs/inspectedArtifact"},
+        {
+          "properties": {
+            "status": {"const": "valid"},
+            "errors": {"maxItems": 0}
+          }
+        }
+      ]
+    },
+    "invalidImportedArtifact": {
+      "allOf": [
+        {"$ref": "#/$defs/inspectedArtifact"},
+        {
+          "properties": {
+            "status": {"const": "invalid"},
+            "errors": {"minItems": 1}
+          }
+        }
+      ]
+    },
+    "inspectedArtifact": {
+      "type": "object",
+      "required": [
+        "path",
+        "status",
+        "size",
+        "sha256",
+        "elf",
+        "needed",
+        "version_requirements",
+        "libretro_symbols",
+        "errors"
+      ],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "status": {"enum": ["valid", "invalid"]},
+        "size": {"type": "integer", "minimum": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "elf": {
+          "type": "object",
+          "required": ["class", "data", "type", "machine", "flags"],
+          "properties": {
+            "class": {"type": "string", "minLength": 1},
+            "data": {"type": "string", "minLength": 1},
+            "type": {"type": "string", "minLength": 1},
+            "machine": {"type": "string", "minLength": 1},
+            "flags": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        },
+        "needed": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "version_requirements": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "libretro_symbols": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "errors": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

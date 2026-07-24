@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/core-commit-blacklist.schema.json",
+  "title": "Cores-spruce source-commit blacklist policy",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "policy_id",
+    "local_only",
+    "publication",
+    "entries",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {"const": "../manifests/core-commit-blacklist.schema.json"},
+    "schema_version": {"const": 1},
+    "policy_id": {"const": "core-commit-blacklist-v1"},
+    "local_only": {"const": true},
+    "publication": {"const": "disabled"},
+    "entries": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/entry"}
+    },
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "coreId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]*$"
+    },
+    "sourceUrl": {
+      "type": "string",
+      "pattern": "^https://[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)*/(?:(?!\\.{1,2}/)[A-Za-z0-9._+-]+/)*(?!\\.git$)[A-Za-z0-9._+-]+\\.git$",
+      "not": {"pattern": "\\s"}
+    },
+    "sha1": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "nonblank": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048,
+      "pattern": "\\S"
+    },
+    "entry": {
+      "type": "object",
+      "required": [
+        "core_id",
+        "source_url",
+        "commit",
+        "disposition",
+        "reason",
+        "evidence"
+      ],
+      "properties": {
+        "core_id": {"$ref": "#/$defs/coreId"},
+        "source_url": {"$ref": "#/$defs/sourceUrl"},
+        "commit": {"$ref": "#/$defs/sha1"},
+        "disposition": {"enum": ["active", "retired"]},
+        "reason": {"$ref": "#/$defs/nonblank"},
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonblank"}
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

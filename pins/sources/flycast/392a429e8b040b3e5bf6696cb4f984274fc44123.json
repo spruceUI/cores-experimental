@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "flycast-392a429e8b04",
+  "core_id": "flycast",
+  "source": {
+    "url": "https://github.com/flyinghead/flycast.git",
+    "requested_ref": "refs/tags/v2.6",
+    "commit": "392a429e8b040b3e5bf6696cb4f984274fc44123",
+    "tree": "712e00d5a9c99abc949bcce2bf02800492de869d",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "437909bd969f4b106bc70411a60c9b6e9f72c64d3ec69982674f0e32912ae6e1"
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "nestopia",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/nestopia-b0fd87dd07e3-7393d0fca106.json",
+  "source_commit": "b0fd87dd07e3c52903435d302b04e5e97796f127",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-nestopia-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "dc02ffdd3ed8471e416e834c29b4729324a7c52bd74b3edcab1a35b017e8f0ae",
+  "reproduction_run": ".local-e2e/runs/build-core-nestopia-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "85a2d0a453a127a3dbd82a7e2e60e7760b42fc5ea2405dad1b0548eae7232e47",
+  "package_state": "reproducible",
+  "package_sha256": "48939946c11f957f910e73a0bddbb99ca7bd29e40d886e8152868fec7acbaa11",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the nestopia_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced both ABI artifacts, metadata, warning-free build logs, and package byte for byte. The selected github-actions/simulated/local-docker and reproduction local/native/local-docker runner identities are explicit, and deep validation binds both runs to the pin's content-addressed build records, logs, recipe snapshots, metadata, artifacts, package, and local store evidence.",
+    "The pristine source is commit b0fd87dd07e3c52903435d302b04e5e97796f127, tree 43152d8aa00233ac56e27bdbce5cd3e77918bc60, with no submodules. The commit-derived GIT_VERSION is the exact typed Make command-line value '-b0fd87d' for C++ only; the fail-closed proof binds all 296 C++ compiles per ABI, every compile argv, and the exact 296-object final link.",
+    "ARM64 requires GLIBC_2.29 and records the AArch64 loader, libc, libgcc_s, libm, and libstdc++. ARMHF requires GLIBC_2.4, CXXABI_ARM_1.3.3, and GLIBCXX_3.4.32 and records libc, libgcc_s, libm, and libstdc++; loader, C++ runtime, and rootfs execution must pass before any device selection.",
+    "Resolver metadata declares GPLv2; any public distribution or release remains a human legal/policy and corresponding-source gate even though local builds reproduce.",
+    "NES, Famicom, and FDS loading, mapper and database behavior, controls and peripherals, PAL/NTSC audio-video pacing, saves, deterministic states, disk-side switching, accuracy, and sustained performance remain target-runtime gates. Static build evidence establishes no device eligibility.",
+    "Resolver metadata declares optional disksys.rom for Family Computer Disk System support, but no firmware or BIOS is packaged. FDS behavior requires a separately supplied lawful BIOS and target-runtime validation; the build record makes no firmware-distribution claim.",
+    "The binary embeds core version 1.53.2-b0fd87d while resolver metadata reports display version 1.53.1; the pinned source commit and artifact digests are authoritative for this build.",
+    "The software-only Unix recipe produces one shared artifact per ABI/build profile and implies no device-specific performance claim. ARM64 is build-identity-bound only to ra64-universal-v1 and ARMHF only to ra32-a30-v1. The ARMHF GLIBCXX_3.4.32 requirement exceeds the observed Mini fallback ceiling of GLIBCXX_3.4.24, so Mini-family use is not claimed; Pixel2 and broader universal mappings also remain unproven pending CPU, provider, loader, rootfs, frontend, and target-runtime capture, and all device views remain ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "399ebf35fa687fd0ff9b4c23c17b5d72446546da41b44c8f45b5c90d98bc762c",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.9",
+        "GLIBC_2.17",
+        "GLIBC_2.27",
+        "GLIBC_2.29"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "824cb51e8b8822569fd89fa58ad7c6bdc874a1b60150eb56144011f3da6665fe",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.29",
+        "GLIBCXX_3.4.32",
+        "GLIBCXX_3.4.9",
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "a38f928353602c745ef09e607a5113bf8b1e4b831cb391138df0f302b65cd1d0"
+}

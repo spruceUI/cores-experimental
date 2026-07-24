@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "mgba-6dce57eef127",
+  "core_id": "mgba",
+  "source": {
+    "url": "https://github.com/libretro/mgba.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "6dce57eef127dc4cc292644f38196e0e7c58590c",
+    "tree": "72edb48f24f569f2b00c850cac61f6db0c80bf4e",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "321827d0fd627b76cc95ee03e6ff8154b673e7957e63cdf5e5df5a56961cecec"
+}

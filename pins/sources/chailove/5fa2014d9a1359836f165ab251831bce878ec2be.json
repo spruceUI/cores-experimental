@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "chailove-5fa2014d9a13",
+  "core_id": "chailove",
+  "source": {
+    "url": "https://github.com/libretro/ChaiLove.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "5fa2014d9a1359836f165ab251831bce878ec2be",
+    "tree": "6d11c7be6a39132d97e99bb81588d581613222ae",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "5af5d8c1d39f64f79458748b7a3bc76c2f71d6d95385cf0a40f77e13316cb05e"
+}

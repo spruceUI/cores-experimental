@@ -1,0 +1,61 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "crocods",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/crocods-87bbb3d9007a-7b4aa1fce1f1.json",
+  "source_commit": "87bbb3d9007ac537864278c6c3149ae3291873f8",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-crocods-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "09c35111444a61fda4d591c0120c84604d5941ea05a124a705ff757872b07207",
+  "reproduction_run": ".local-e2e/runs/build-core-crocods-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "477a92662b148416a35f16fa6214aa017d9117bec196abc7a7a939cb23ac6c61",
+  "package_state": "reproducible",
+  "package_sha256": "0a7ff92c31cf94a7664876c6d8cdf0391a9abe7f70855fe893af4d734403f25b",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the crocods_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the crocods_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, resolver metadata, and both ABI artifacts byte for byte. ARMHF logs are byte-identical. Parallel ARM64 output differs in complete-line ordering, but both current logs and both tracked historical oracles have the same line multiset and independently satisfy the exact fail-closed CrocoDS proof.",
+    "The pristine source is commit 87bbb3d9007ac537864278c6c3149ae3291873f8, tree 5a76585f521954c8e8ebef9b489a4d6c7a8b73db, with no submodules. The proof binds native leading-space version 87bbb3d to all 50 C compile commands per ABI, every source/object and ordered compiler invocation, the exact ordered link, and binary identity git 87bbb3d. ARM64 retains exactly nine reviewed warnings and seven notes across five ordered diagnostic streams; ARMHF is warning- and note-free.",
+    "Resolver metadata reports display_version v1, MIT licensing, DSK/SNA/KCR content, needs_kbd_mouse_focus=true, disk_control=false, and libretro_saves=false. CPC content loading, keyboard focus, controls, disk and tape behavior, audio and video pacing, savestates, frontend integration, compatibility, and sustained performance remain target-runtime gates.",
+    "The repository root license and resolver metadata say MIT, while compiled CrocoDS source headers state GPLv2-or-later and bundled zlib 1.1.3 carries separate notice terms. Compiled cpc6128.bin.c and romdisc.bin.c arrays contain no local license header or provenance record. The package carries neither corresponding source nor a license inventory, so any public distribution or release remains a human legal and policy gate even though the local bytes reproduce.",
+    "Both builds clone the exact source over the network; no offline source bundle or network-disabled rebuild is proven. The portable toolchain archives and loaded image identities are locked, but cached images retain dockerfile_linkage=unverified-local-cache as an explicit provenance limitation.",
+    "ARM64 requires GLIBC_2.17 and records the AArch64 loader and libc. ARMHF is EABI5 hard-float, reaches GLIBC_2.7, and records libc and libm. Provider compatibility is unverified. The portable artifacts bind only to ra64-universal-v1 and ra32-a30-v1; all device views remain ineligible pending provider and target-runtime evidence."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "4bb772d20f1e352efd8d0f9f43788531ec9cf13df295aac04d0a14fe1bcc39e1",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "a53a16452ce5d1e4efea3d6057ef8a86be7400d0703bd82d559deab35a9573e1",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "76b240f75a2969b7d60e02a46305050f78e59496d552a8c3a4ea4b7688f01a60"
+}

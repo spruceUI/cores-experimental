@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "arduous-798e3950f1de",
+  "core_id": "arduous",
+  "source": {
+    "url": "https://github.com/libretro/arduous.git",
+    "requested_ref": "refs/heads/main",
+    "commit": "798e3950f1de7c69455bc988d55eafeebac5a1eb",
+    "tree": "a712c02b7db1b945f8fef81eddf5797b461812bd",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "5004be8603a467ab65258707311e0dadfa66ce999932c87a10aaac1e70b9520b"
+}

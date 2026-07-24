@@ -1,0 +1,79 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "mednafen_supergrafx",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/mednafen_supergrafx-3c6fcd3deded-6f92f2753900.json",
+  "source_commit": "3c6fcd3deded54ebecd69408f108407ac03d11b5",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_supergrafx-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "8aafb99b8638afb3b9d0c13bdfa783d4e240d9549cd67ef42305423a174fe905",
+  "reproduction_run": ".local-e2e/runs/build-core-mednafen_supergrafx-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "9888372cdb76c3ba75ffda508cfd71fdb3623577224e0925a3c6e62ac6cd7841",
+  "package_state": "reproducible",
+  "package_sha256": "88239b36f536da972806db127ead1d4fa6bfedaf258b3dbd5d374ca78d137a1a",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mednafen_supergrafx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4.21 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the package, resolver metadata, and both ABI artifacts byte for byte. Their raw build logs differ only through valid parallel diagnostic ordering; both prove the same exact 89-command mixed-language compile and ordered C++ link contract. Execution was local, but each build cloned its pinned source from GitHub; the current pipeline has no offline source cache.",
+    "The pristine source is commit 3c6fcd3deded54ebecd69408f108407ac03d11b5, tree 076a59d1084ebf3a6ab80f4b5a144fa865c46c9b, with no submodules. Exactly 89 compiles comprise 60 C and 29 C++ commands, the native leading-space version ' 3c6fcd3' is scoped to C++ compilation, and the exact ordered 89-object link uses C++. Both binaries expose version 'v1.29.0 3c6fcd3'.",
+    "ARM64 contains exactly two reviewed warnings and no notes. ARMHF contains exactly seven reviewed warnings and five reviewed notes. Its dangling-pointer warning and three free-nonheap-object warnings at offsets 124, 568, and 624 are runtime-risk caveats rather than waivers. Missing, changed, split, internally reordered, extra, or post-link diagnostics, source/version markers, compile commands, link arguments, or success frames fail closed.",
+    "Resolver metadata declares GPLv2, display version v1.23.0, and pce|sgx|cue|ccd|chd content while both binaries report v1.29.0 3c6fcd3. That version discrepancy requires operator review. Any public distribution or release remains a human legal and policy gate; corresponding-source and license obligations must be reviewed before publication.",
+    "No firmware or BIOS is packaged. Resolver metadata declares four optional PC Engine CD BIOS candidates and identifies syscard3.pce with MD5 38179df8f4ac870017db21ebcbf53114. Legal BIOS provisioning and detection, SuperGrafx, PCE-CD, and CHD loading, full-path and disk-control behavior, controls, audio and video pacing, saves, deterministic states, core options, frontend integration, compatibility, and sustained performance remain target-runtime gates.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 reaches GLIBC 2.27 and is build-identity-bound only to ra64-universal-v1; ARMHF is bound only to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so publication, release, runtime compatibility, and all device views remain ineligible.",
+    "The selected and reproduction evidence establishes only static build reproducibility. SuperGrafx, BIOS-backed CD, CHD, save-state, controller, audio, video, and frontend behavior remain unverified on every Spruce device profile and provider runtime."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "c4d55157ab1bf2fff095348e6f821ba4e5d5219f005fe7ec550556bb7804c164",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBC_2.17",
+        "GLIBC_2.27"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "2536584094622656915bd3fc684fcf7b2f911f17f0e56a87184ae962b41ed6ca",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "librt.so.1",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.9",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "ab826c5fcdc3d51a65c38852d0765b32b882832f4c5e6bce5e6c60c5a9f5c7c5"
+}

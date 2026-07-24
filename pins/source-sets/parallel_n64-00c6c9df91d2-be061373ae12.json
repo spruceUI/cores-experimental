@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "parallel_n64-00c6c9df91d2-be061373ae12",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/parallel_n64-00c6c9df91d2-be061373ae12.json",
+    "pin_id": "parallel_n64-00c6c9df91d2-be061373ae12",
+    "file_sha256": "7445a221f4e9c9cac1e7e2bdd244a89f7bf4d3cb314ca37a2d7c3a568cca8780",
+    "content_sha256": "03e4f795740a302f92fe2b8de5873d95b953754f6f4552d45da68234375b03fa"
+  },
+  "sources": {
+    "parallel_n64": {
+      "path": "pins/sources/parallel_n64/00c6c9df91d2c2daaae615cefad7911be556fbfa.json",
+      "source_lock_id": "parallel_n64-00c6c9df91d2",
+      "commit": "00c6c9df91d2c2daaae615cefad7911be556fbfa",
+      "file_sha256": "42717213f4641522655a5be054444536187a015525c03365a696b68d12c0a0fc",
+      "content_sha256": "d708a3ac0bc83af1f0a7ace0fb990f0324768b92d72d72b4cacaa4d33691c77f"
+    }
+  },
+  "content_sha256": "6a9cd0126338f29ff396ec7dee32c1a392b7e8a6d987798948f0a2c3b6ee7582"
+}

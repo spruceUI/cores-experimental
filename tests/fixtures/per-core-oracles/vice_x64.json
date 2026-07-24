@@ -1,0 +1,78 @@
+{
+  "core_id": "vice_x64",
+  "positive_runs": [
+    {
+      "build_log_sha256": {
+        "arm64": "44acb4e6682a3105ca4813e2c290e987022872acc2b0c5fd4cfeea82b1cc0633",
+        "armhf": "5fabaaa648b77266d80d2bf7311d55d3f84bbaec3deac149d1c49a0e3e546394"
+      },
+      "build_record_sha256": {
+        "arm64": "3f36bff25d61ced9b337aaf742e575757a94cbbd55670e41a926f614bb52a692",
+        "armhf": "dc12234085b5c673eb984bf781fba82558bd067f19ef4cd9f56aa1090d223177"
+      },
+      "e2e_content_sha256": "059728a97043138113651ff61d787e1b7679d5b1d4e0cf46ee71b93fcde5a3d2",
+      "e2e_file_sha256": "c6d51d7c18d7c6a141722b18448d09a2c7777deb3aed57f981116c09a9b5b018",
+      "role": "final-golden",
+      "run_id": "tranche27d-vice-x64-final-v1"
+    },
+    {
+      "build_log_sha256": {
+        "arm64": "3b7818de9d15523ac2f66338910e7663629c8209a5522e63fa270fa9b37c8c1e",
+        "armhf": "2ac7823075e45a61501c52a8c9f367fd6d31784d7c03d69b319bab14409d7927"
+      },
+      "build_record_sha256": {
+        "arm64": "f76ab54e6ea4616568b6c168f03f8dbff2d250cc9554bc8f5eacf1d4ca106331",
+        "armhf": "cb2f30d7d97de62bae13c93ef0a5a1a4b1f5f169bb31a80605bb8dedf37d3d3e"
+      },
+      "e2e_content_sha256": "8d837f74003f31a13b0edf9dfc17526801c9667eb67bb4a91348cdeb4c76072d",
+      "e2e_file_sha256": "66ee0b51db33b8177ad51b3b09e89919c3731c3ae909e143f7d100a413928d6e",
+      "role": "final-reproduction",
+      "run_id": "tranche27f-vice-x64-repro-v1"
+    }
+  ],
+  "production_log_contract": {
+    "compile_count": 564,
+    "compile_invocation_sha256": {
+      "arm64": "7d6daaf8b6ae2b6f36a6ddafe3450cc8e1fbf77d37f76494ced907cc172e440b",
+      "armhf": "289b2fa41eb43af8e39d95b2b0c6d118bced528ed0be8b0424019fba009029da"
+    },
+    "compile_pair_sha256": "276b4e5cbccc4fefbc6d1f937cb9cf7d1cde203ccda05bee3036e26022c59982",
+    "diagnostic_lines_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "language_counts": {
+      "c": 536,
+      "cxx": 28
+    },
+    "link_object_sha256": "a9c89773f61c919e19b022799598f246fffcd861774fe359605ad3e9dffee01b",
+    "ordered_link_argv_sha256": {
+      "arm64": "24f64875755ce45da341e250278ea9458f274d964e5187fd1d6f09543d5c9822",
+      "armhf": "ce167fae339939456917d3f0b583f9f241295e1be4e1a359099470b6b9a4d5ae"
+    },
+    "raw_link_object_sha256": "31f02b19970b0a0dc441dac98908875807984e549ab249e499f3bbcd93eb6b63",
+    "source_suffix_counts": {
+      ".c": 536,
+      ".cc": 12,
+      ".cpp": 16
+    }
+  },
+  "shared_positive_outputs": {
+    "artifact_sha256": {
+      "arm64": "2ec9bd7e0d9cdf35b43ff5e672c998fee10a79119a151b3f5d5c42f0c2d45121",
+      "armhf": "69061cfb98940f0a66200a214a477fb7545dc1a112018acf5aa02a9d07c0780a"
+    },
+    "artifact_size": {
+      "arm64": 3580888,
+      "armhf": 2914924
+    },
+    "embedded_core_name": "VICE x64",
+    "embedded_version": "3.10 7946cfa0d3",
+    "metadata_sha256": "4051f9d21e2e22e8268b2c98cde07bfd942d71e135bf0ad455c3c12a7e1fdd23",
+    "metadata_size": 2210,
+    "package_sha256": "8c5b764edc945f9cec4b94ca19203eb6919ce1b48d50cbb94ca4d82afc57d437",
+    "package_size": 2522812
+  },
+  "source": {
+    "commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
+    "submodules": [],
+    "tree": "db2760ffc97b9c20ef8777fcb7689082be66bc45"
+  }
+}

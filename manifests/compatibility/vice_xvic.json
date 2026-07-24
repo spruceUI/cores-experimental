@@ -1,0 +1,78 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "vice_xvic",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/vice_xvic-7946cfa0d377-6f9943958478.json",
+  "source_commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-vice_xvic-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "f854f8907966ed65aa3674bd00f03647b3bada34e23a3c9469eea433d351a866",
+  "reproduction_run": ".local-e2e/runs/build-core-vice_xvic-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "410f7e5f1db909bc7b9ab0c1e1ed10053586a5c31f4b4be0d3321f494eebeb2a",
+  "package_state": "reproducible",
+  "package_sha256": "6b5e9d4ccb51380fafcdd2d47a86d6f3c0ff28ab55f592dd5f5819f47176c409",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the vice_xvic_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4.11 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the vice_xvic_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4.11 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the 2049997-byte package, metadata, and both ABI artifacts byte for byte. Parallel compilation changes whole-log ordering on both ABIs, but each selected/reproduction pair has the same exact line multiset and every log independently satisfies the singleton VICE xvic proof. Execution was local, but every build cloned its pinned source from GitHub and the current pipeline has no offline source cache.",
+    "The pristine source is commit 7946cfa0d3775e958616d4d107de867a4616ae6c, tree db2760ffc97b9c20ef8777fcb7689082be66bc45, with no submodules. SOURCE_DATE_EPOCH 1780486798 binds the pinned commit time. The vice-xvic-mixed-language-v1 contract proves exactly 438 native-version compiles (428 C and 10 C++), their exact semantic and ABI-specific invocation digests, no diagnostic lines, and the exact ordered link; parallel command-line ordering is compared as a fail-closed line multiset rather than as one incidental scheduler order.",
+    "Resolver metadata declares GPLv2, display version 3.9, supports_no_game=true, needs_fullpath=true, disk control, serialized savestates, libretro saves, and software rendering. The artifacts identify VICE xvic version 3.10 7946cfa0d3 and reproducibly embed build date 'Jun  3 2026' and time '11:39:58'. The metadata description explicitly excludes NTSC interlace mode from complete VIC-I emulation. No source-license capture is present, so this record makes no broader source-license claim; public distribution or release remains a human legal and policy gate, and the metadata/runtime version discrepancy remains an integration gate.",
+    "Base VIC-20 ROMs are embedded through the linked retrodep/embedded/vic20embedded.o object. Resolver metadata declares no external firmware entries, and the package contains no standalone ROM files. Artifact strings expose configurable Kernal, BASIC, character-generator, drive, and cartridge ROM paths, so optional replacement firmware remains outside the build contract and is not packaged. This evidence establishes no firmware redistribution rights. Built-in startup, replacement-ROM discovery, and replacement behavior remain target-runtime gates.",
+    "No-game startup, full-path VIC-20 program loading, cartridges, archives and playlists, disks, tapes and snapshots, disk-control operations, runtime configuration and keymaps, controller, keyboard and light-pen behavior, save disks and libretro saves, serialized save states, load and unload, audio and video pacing, frontend integration, compatibility, the declared NTSC-interlace limitation, and sustained performance remain target-runtime gates.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 is build-identity-bound only to ra64-universal-v1; ARMHF is bound only to ra32-a30-v1. Existing provider observations are non-enforcing, and effective loader, libc, rootfs and target-runtime captures are absent, so every device view remains ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "8b3eda61d9c20032fea521ba24f2e97a690eee6cf2447abd2a02e12255907e0a",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "GCC_3.0",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.11",
+        "GLIBCXX_3.4.9",
+        "GLIBC_2.17",
+        "GLIBC_2.29"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "8bdec5897cd866061a52cb6e7d2f4428e9727692f66b6959c47efbdb5f94e3f5",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libstdc++.so.6"
+      ],
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_ARM_1.3.3",
+        "GCC_3.5",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.11",
+        "GLIBCXX_3.4.9",
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "46903fdbcef5b6a056c8c6b156d81f06d264e671e7ccd4964dd772755cf6ab7c"
+}

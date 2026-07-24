@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../manifests/core-source-lock.schema.json",
+  "schema_version": 1,
+  "source_lock_id": "numero-0ffb2f4d1382",
+  "core_id": "numero",
+  "source": {
+    "url": "https://github.com/nbarkhina/numero.git",
+    "requested_ref": "refs/heads/master",
+    "commit": "0ffb2f4d1382d41675746cb37820d41d79d96309",
+    "tree": "970f0e7be440eff0f5612d27aafa5cdf10764307",
+    "submodules": []
+  },
+  "local_only": true,
+  "publication": "disabled",
+  "content_sha256": "40d4ea0ded220ea477fa13e29f481da09dfdb8ccfe4064a75c760c1fed42ab6d"
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "lutro",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/lutro-1df938b3bf37-6215ec379978.json",
+  "source_commit": "1df938b3bf37b8d1eb6cdd07ec915c4f569a7551",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-lutro-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "41fa0362ebb4427f2877583ceb73f273f19057293006d33be4946fb55bc43b92",
+  "reproduction_run": ".local-e2e/runs/build-core-lutro-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "f05953523a677c9f3bb44b3efde8e278967a37c6e61d6166874ca013b8c97256",
+  "package_state": "reproducible",
+  "package_sha256": "6c9a64d7368a66f6e7dd7dd528374968b3e8807ec2738421de14ef8f2272b8fd",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the lutro_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "9db3b6848c301bc7871b990a8d5a47e3512427cf792197064dd549924567c4b9",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17",
+        "GLIBC_2.29"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "eb0040c2149a5cf3a1887f66ebb6f91cb8e0ab892b37997a8dda78cbe152a007",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6",
+        "libm.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17",
+        "GLIBC_2.4",
+        "GLIBC_2.7"
+      ]
+    }
+  },
+  "content_sha256": "35b4b3beb5e10356d7bda1a78dd6bf5e9aaa4cdecbacd2e099b563639b520a2b"
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "tyrquake-e57bb11597e8-8d9f548a9a38",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/tyrquake-e57bb11597e8-8d9f548a9a38.json",
+    "pin_id": "tyrquake-e57bb11597e8-8d9f548a9a38",
+    "file_sha256": "e1504f0f7706b8fd64958c30e91e9612688981ae5ab56f66e4e6ce833b708768",
+    "content_sha256": "9df1e1945ee99ed7366a6096621481cb64541945abdb83c4dedbfd04fa7b11fc"
+  },
+  "sources": {
+    "tyrquake": {
+      "path": "pins/sources/tyrquake/e57bb11597e8a00380f30f2627d219da960cf69a.json",
+      "source_lock_id": "tyrquake-e57bb11597e8",
+      "commit": "e57bb11597e8a00380f30f2627d219da960cf69a",
+      "file_sha256": "bea6a1d40c7e26071aecb4b33e1305938c5a7096154d1919eb40647d76c02f76",
+      "content_sha256": "c4d47987c740e13d4b2ee027545e4a14730505564df64cac01328fa5e9f60387"
+    }
+  },
+  "content_sha256": "ce28f8949adac839e9de57d37f86d5354035b9d904fad4c76b047bb3f797b8f8"
+}

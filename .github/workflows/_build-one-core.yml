@@ -1,0 +1,115 @@
+name: Build one release core
+
+on:
+  workflow_call:
+    inputs:
+      candidate_id:
+        description: Immutable full-release candidate identity
+        required: true
+        type: string
+      core_id:
+        description: Core selected from the immutable release plan
+        required: true
+        type: string
+      plan_artifact_name:
+        description: Run-attempt-qualified plan artifact
+        required: true
+        type: string
+      result_artifact_prefix:
+        description: Run-attempt-qualified result artifact namespace
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      CANDIDATE_ID: ${{ inputs.candidate_id }}
+      CORE_ID: ${{ inputs.core_id }}
+      PLAN_PATH: .local-e2e/release-plans/${{ inputs.candidate_id }}.json
+      RESULT_PARENT: .local-e2e/release-results/${{ inputs.candidate_id }}/github-actions
+      RUN_ID: actions-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+
+      - name: Download immutable release plan
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: ${{ inputs.plan_artifact_name }}
+          path: .local-e2e/release-plans
+
+      - name: Check plan membership and clean tracked state
+        run: |
+          test -f "$PLAN_PATH"
+          test -z "$(git status --short)"
+          jq -e --arg core "$CORE_ID" \
+            '.cores | any(.core_id == $core)' "$PLAN_PATH" >/dev/null
+
+      - name: Download Docker image archives outside the repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/core-toolchains"
+          gh release download toolchains \
+            --pattern "cores-arm64.tar.gz" \
+            --dir "$RUNNER_TEMP/core-toolchains"
+          gh release download toolchains \
+            --pattern "cores-armhf.tar.gz" \
+            --dir "$RUNNER_TEMP/core-toolchains"
+
+      - name: Verify Docker image archives
+        run: >-
+          python3 scripts/toolchain_archive.py verify-downloads
+          --lock pins/toolchains/local-cache-v1.json
+          --arm64 "$RUNNER_TEMP/core-toolchains/cores-arm64.tar.gz"
+          --armhf "$RUNNER_TEMP/core-toolchains/cores-armhf.tar.gz"
+
+      - name: Load Docker images
+        run: |
+          gunzip -c "$RUNNER_TEMP/core-toolchains/cores-arm64.tar.gz" | docker load
+          gunzip -c "$RUNNER_TEMP/core-toolchains/cores-armhf.tar.gz" | docker load
+
+      - name: Run publication-disabled one-core E2E
+        run: >-
+          python3 scripts/core_pipeline.py build-core
+          --runner-profile github-actions
+          --core "$CORE_ID"
+          --run-id "$RUN_ID"
+
+      - name: Record portable release result
+        run: >-
+          python3 scripts/core_pipeline.py record-release-result
+          --plan "$PLAN_PATH"
+          --core "$CORE_ID"
+          --e2e-record ".local-e2e/runs/$RUN_ID/e2e-record.json"
+          --output-dir "$RESULT_PARENT/$CORE_ID"
+
+      - name: Upload E2E diagnostics
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-e2e-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.core_id }}
+          path: .local-e2e/runs/${{ env.RUN_ID }}/
+          if-no-files-found: ignore
+          include-hidden-files: true
+          compression-level: 0
+          retention-days: 7
+
+      # Keep the immutable portable result last. A failed diagnostic upload
+      # therefore cannot leave a successful result artifact on a failed job.
+      # Upload the parent so fan-in retains one top-level <core>/ directory.
+      - name: Upload portable release result
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ inputs.result_artifact_prefix }}-${{ github.run_attempt }}-${{ inputs.core_id }}
+          path: ${{ env.RESULT_PARENT }}/
+          if-no-files-found: error
+          include-hidden-files: true
+          compression-level: 0
+          retention-days: 7

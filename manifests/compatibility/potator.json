@@ -1,0 +1,56 @@
+{
+  "$schema": "../core-compatibility.schema.json",
+  "schema_version": 1,
+  "core_id": "potator",
+  "publication": "disabled",
+  "evidence_availability": "workspace-local-ignored",
+  "golden_source": "pins/core-sets/potator-227c5f6f3ce7-1617e2249087.json",
+  "source_commit": "227c5f6f3ce74d32e9002ce24c1420288559a860",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-potator-v1/e2e-record.json",
+  "selected_e2e_content_sha256": "1b455b3fab42fb7506c426a95e4ec883d86700fb81ab370eeb58432532af8b96",
+  "reproduction_run": ".local-e2e/runs/build-core-potator-local-v1/e2e-record.json",
+  "reproduction_e2e_content_sha256": "abcf3871f1356ddfe3a4adf09fd342045dcadcff8610963918e1607750a00044",
+  "package_state": "reproducible",
+  "package_sha256": "31d5e38ea09a64ec3f28519a80d1079f009e977099282d30cdba51ec875209b5",
+  "caveats": [
+    "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the potator_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
+    "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
+    "Content, BIOS/firmware handling, controls, audio/video pacing, saves and state round trips, reset and unload behavior, frontend integration, compatibility, licensing review, and sustained performance remain target-runtime and human gates. Publication remains disabled regardless of local byte reproducibility.",
+    "The publication-disabled simulated-Actions build-core run and independent native-local build-core run reproduced the 46580-byte package, 497-byte resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Both profiles satisfy the exact singleton Potator source, 8-command C-only native-version compile, ordered C link, source framing, success framing, and reviewed-diagnostic proof. Execution was local, but both builds cloned the pinned source over the network; no offline source cache is proven.",
+    "The pristine source is commit 227c5f6f3ce74d32e9002ce24c1420288559a860, tree 9111933525a4508075937f251829132cf2081ba9, with no submodules. Upstream native leading-space version ' 227c5f6' occurs exactly once on every one of the eight C compile commands and never outside that C compile scope. The proof binds every source/object pair, both ABI-specific compiler argv sets, and the exact ordered eight-object C link; both binaries expose version '1.0.5  227c5f6'.",
+    "Both ABIs contain exactly four reviewed -Wmisleading-indentation warning/note pairs from common/m6502/m6502.c. They are accepted only with their complete source context, ordering, and pre-link placement; any missing, changed, split, reordered, duplicated, or extra warning, note, error, fatal diagnostic, marker, compile command, link argument, copy command, or success frame fails closed. The misleading branch layout is CPU-behavior runtime debt and requires functional target testing rather than being dismissed as cosmetic compiler output.",
+    "Resolver metadata declares Public Domain, display version 1.0.5, and bin|sv content. Public Domain is a resolver metadata declaration rather than a completed legal or provenance review; any public distribution or release remains a human policy gate, and Publication remains disabled regardless of local byte reproducibility.",
+    "No external firmware is declared, required, or packaged by the core archive. Resolver metadata rejects no-game startup and advertises deterministic save states, but content loading, controls, palettes, ghosting and frameskip options, audio/video pacing, state save/load round trips, reset and unload behavior, frontend integration, compatibility, and sustained performance remain unverified target-runtime gates.",
+    "The software-only Unix recipe produces one shared artifact per ABI and provides no evidence for device-specific duplicate builds. ARM64 requires GLIBC_2.17 and is build-identity-bound only to ra64-universal-v1. ARMHF is EABI5 hard-float, requires GLIBC_2.4, and is bound only to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so all execution profiles and runtime compatibility claims remain provisional and every device view remains ineligible."
+  ],
+  "targets": {
+    "arm64": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "6fd73f2261490a358cb22e5f16be4b51c537b0fd5d0c5a703326bffb1868ea4f",
+      "elf": "ELF64/AArch64",
+      "needed": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.17"
+      ]
+    },
+    "armhf": {
+      "state": "local_static_build_golden",
+      "validation_scope": "static-build-only",
+      "runtime_validation": "needs-target-runtime",
+      "artifact_sha256": "453d625fa5821723e89a54decf22c61bc44edde8287e2f364e58c2df69d7c689",
+      "elf": "ELF32/ARM hard-float",
+      "needed": [
+        "libc.so.6"
+      ],
+      "version_requirements": [
+        "GLIBC_2.4"
+      ]
+    }
+  },
+  "content_sha256": "decd5c23f998476e87d7f06940030212b6b0d0ccd91e4b0d41cc59876efc64f9"
+}
