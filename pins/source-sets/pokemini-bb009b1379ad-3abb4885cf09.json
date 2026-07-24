@@ -1,14 +1,14 @@
 {
   "$schema": "../../manifests/core-source-set.schema.json",
   "schema_version": 1,
-  "source_set_id": "pokemini-bb009b1379ad-2ecf9f68eb0c",
+  "source_set_id": "pokemini-bb009b1379ad-3abb4885cf09",
   "local_only": true,
   "publication": "disabled",
   "evidence_pin": {
-    "path": "pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json",
-    "pin_id": "pokemini-bb009b1379ad-2ecf9f68eb0c",
-    "file_sha256": "c03c3284fe655447995b32205421290d1066b4019e67608c696f98595621101f",
-    "content_sha256": "834e4e82ec4797b978b3de9d05131948568a454173454de345fe624fddb2ef4e"
+    "path": "pins/core-sets/pokemini-bb009b1379ad-3abb4885cf09.json",
+    "pin_id": "pokemini-bb009b1379ad-3abb4885cf09",
+    "file_sha256": "1d89bd17e1c953fde6b572ac6067a92e992b9dbfc599e6d60469882ff6eefcf0",
+    "content_sha256": "161364f2e33638e88b558426aa67c679a7bf531e68ced2f7d74a31ffa1639b0d"
   },
   "sources": {
     "pokemini": {
@@ -19,5 +19,5 @@
       "content_sha256": "6c1d7924a0475a4dfa1c51344fa9f5f2dc4b86fa17fba6aea706c97f0f760651"
     }
   },
-  "content_sha256": "cd7dec0ecb64205f6e46c52167b256d36fd7ab5bf216c2129e4fe4f02c6e4cbe"
+  "content_sha256": "2e6c342ba7fd55da9297cf8d20fa2e0a4860069a0fd739c1c7b665c5e4182562"
 }

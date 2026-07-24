@@ -1,39 +1,39 @@
 {
   "$schema": "../../manifests/core-set.schema.json",
-  "content_sha256": "80c79e0cb6fff5bc820683850b7574d330ecf909550cb2875d82fbc6084c084c",
+  "content_sha256": "bc666625d33ebef608d49482a9557771231385fea5a674bb6e5310823075166d",
   "cores": {
-    "snes9x2005": {
+    "81": {
       "decision": "select_source",
       "selection": {
         "e2e": {
           "build_records": {
-            "arm64": "ea2446b201ead9ccb9bf8cac78d511150ae742103ce19a9449c94da5e05309bf",
-            "armhf": "520b90b127d7186f3aee3dafa544ed77b375245557bcc407dde1848720ac7cf4"
+            "arm64": "06c63d1fe2329c2fe3e93b7b1851e42cd26f41ad1fd146372bbc3c4fbe3b11b5",
+            "armhf": "31e4abbdd559553cae2293346e6e24d4777c7e7064956c00564ae812e163ba5e"
           },
-          "content_sha256": "a452b164c4e64793f95ce5c7ab396bd379674202056e9d5138405341572b0407",
-          "package_sha256": "defdcff77c68c774d4707dc6638974ac6d7583b99f089d9825e893c3fa8da19c",
-          "run_id": "actions-sim-build-core-snes9x2005-w3"
+          "content_sha256": "6cc35cab70c24f71b311c330138ffff72cf0d424b9000a99630cfa49c63e087e",
+          "package_sha256": "3660bc25cc035a38ad736394e63e61251e0cdb0655b8db992ad7daf2af900745",
+          "run_id": "actions-sim-build-core-81-w3c"
         },
         "metadata": {
-          "path": ".local-e2e/store/metadata/sha256/b7/b77d8b7338e11ac85d7e60106ff56579862ec3fc64c2c58c01912537e2e2620c",
-          "sha256": "b77d8b7338e11ac85d7e60106ff56579862ec3fc64c2c58c01912537e2e2620c",
-          "size": 1402
+          "path": ".local-e2e/store/metadata/sha256/06/06036186b108b32901290288cde80b817a22f5a0cd0454da0ce520ad7ab647ec",
+          "sha256": "06036186b108b32901290288cde80b817a22f5a0cd0454da0ce520ad7ab647ec",
+          "size": 1395
         },
         "package": {
-          "name": "snes9x2005_libretro.zip",
-          "path": ".local-e2e/store/packages/sha256/de/defdcff77c68c774d4707dc6638974ac6d7583b99f089d9825e893c3fa8da19c",
-          "sha256": "defdcff77c68c774d4707dc6638974ac6d7583b99f089d9825e893c3fa8da19c",
-          "size": 525268
+          "name": "81_libretro.zip",
+          "path": ".local-e2e/store/packages/sha256/36/3660bc25cc035a38ad736394e63e61251e0cdb0655b8db992ad7daf2af900745",
+          "sha256": "3660bc25cc035a38ad736394e63e61251e0cdb0655b8db992ad7daf2af900745",
+          "size": 213751
         },
-        "selection_sha256": "23fbb6c59d54e35431022dfad885fef4438935faf8588cb65a6439a1d9f41100",
+        "selection_sha256": "8504f7df5dd86a81e14ca5c404cdb88ca53d5f398e38d0875cee049a76af1118",
         "targets": {
           "arm64": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/c6/c6b13597f672643978e3c24e267f5967d24c47a5f4861d8424ca34585ba5bbe9",
-              "sha256": "c6b13597f672643978e3c24e267f5967d24c47a5f4861d8424ca34585ba5bbe9",
-              "size": 913696
+              "path": ".local-e2e/store/artifacts/sha256/d0/d0443666f01e7ab0d87727a233bf857e1a07775446421b448669e224885c189f",
+              "sha256": "d0443666f01e7ab0d87727a233bf857e1a07775446421b448669e224885c189f",
+              "size": 457552
             },
-            "build_record_sha256": "ea2446b201ead9ccb9bf8cac78d511150ae742103ce19a9449c94da5e05309bf",
+            "build_record_sha256": "06c63d1fe2329c2fe3e93b7b1851e42cd26f41ad1fd146372bbc3c4fbe3b11b5",
             "golden_record": {
               "architecture": "arm64",
               "artifact": {
@@ -74,13 +74,17 @@
                 ],
                 "needed": [
                   "ld-linux-aarch64.so.1",
-                  "libc.so.6"
+                  "libc.so.6",
+                  "libstdc++.so.6"
                 ],
-                "path": "snes9x2005_libretro.so",
-                "sha256": "c6b13597f672643978e3c24e267f5967d24c47a5f4861d8424ca34585ba5bbe9",
-                "size": 913696,
+                "path": "81_libretro.so",
+                "sha256": "d0443666f01e7ab0d87727a233bf857e1a07775446421b448669e224885c189f",
+                "size": 457552,
                 "status": "valid",
                 "version_requirements": [
+                  "GLIBCXX_3.4",
+                  "GLIBCXX_3.4.20",
+                  "GLIBCXX_3.4.21",
                   "GLIBC_2.17"
                 ]
               },
@@ -88,84 +92,84 @@
                 "compile_definitions": [],
                 "driver": "libretro-super",
                 "environment": "sanitized-v1",
-                "git_version": {
-                  "compiler_scope": "c",
-                  "derivation": "native-space-short7-v1",
-                  "value": " b603569"
+                "generated_source": {
+                  "kind": "post-build-sha256-v1",
+                  "path": "src/version.c",
+                  "sha256": "5a07d38a3bcd84ee5fa9abbdbe0bd706288d8ec4ee8095485447e35dc28a2862"
                 },
                 "log": "build.log",
-                "log_sha256": "273f7b734f59202d17a5372e044106fdff2dafb9a3ae0417c4b23fb55ad9ab1b"
+                "log_sha256": "2e1b1aacdca0ed38d7bc04dccb54f0b73dda370922cbf6f090bbbe9380e1583b"
               },
-              "core_id": "snes9x2005",
+              "core_id": "81",
               "e2e": {
                 "build_records": {
-                  "arm64": "ea2446b201ead9ccb9bf8cac78d511150ae742103ce19a9449c94da5e05309bf",
-                  "armhf": "520b90b127d7186f3aee3dafa544ed77b375245557bcc407dde1848720ac7cf4"
+                  "arm64": "06c63d1fe2329c2fe3e93b7b1851e42cd26f41ad1fd146372bbc3c4fbe3b11b5",
+                  "armhf": "31e4abbdd559553cae2293346e6e24d4777c7e7064956c00564ae812e163ba5e"
                 },
-                "content_sha256": "a452b164c4e64793f95ce5c7ab396bd379674202056e9d5138405341572b0407",
-                "package": ".local-e2e/runs/actions-sim-build-core-snes9x2005-w3/snes9x2005_libretro.zip",
-                "package_sha256": "defdcff77c68c774d4707dc6638974ac6d7583b99f089d9825e893c3fa8da19c",
-                "record": ".local-e2e/runs/actions-sim-build-core-snes9x2005-w3/e2e-record.json",
-                "record_sha256": "7e7574f6ce96a30b58c78c880fa6793e5ac23fd2048f6d7425e2a8e3f0dfbebe",
-                "run_id": "actions-sim-build-core-snes9x2005-w3"
+                "content_sha256": "6cc35cab70c24f71b311c330138ffff72cf0d424b9000a99630cfa49c63e087e",
+                "package": ".local-e2e/runs/actions-sim-build-core-81-w3c/81_libretro.zip",
+                "package_sha256": "3660bc25cc035a38ad736394e63e61251e0cdb0655b8db992ad7daf2af900745",
+                "record": ".local-e2e/runs/actions-sim-build-core-81-w3c/e2e-record.json",
+                "record_sha256": "692bc3c47d131343e0a4dba962d52f4f5a52af00a529edaf15ab67fb56a9cdc0",
+                "run_id": "actions-sim-build-core-81-w3c"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-snes9x2005-w3/snes9x2005/arm64/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-81-w3c/81/arm64/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/c6/c6b13597f672643978e3c24e267f5967d24c47a5f4861d8424ca34585ba5bbe9",
-                  "sha256": "c6b13597f672643978e3c24e267f5967d24c47a5f4861d8424ca34585ba5bbe9"
+                  "path": ".local-e2e/store/artifacts/sha256/d0/d0443666f01e7ab0d87727a233bf857e1a07775446421b448669e224885c189f",
+                  "sha256": "d0443666f01e7ab0d87727a233bf857e1a07775446421b448669e224885c189f"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/27/273f7b734f59202d17a5372e044106fdff2dafb9a3ae0417c4b23fb55ad9ab1b",
-                    "sha256": "273f7b734f59202d17a5372e044106fdff2dafb9a3ae0417c4b23fb55ad9ab1b"
+                    "path": ".local-e2e/store/logs/sha256/2e/2e1b1aacdca0ed38d7bc04dccb54f0b73dda370922cbf6f090bbbe9380e1583b",
+                    "sha256": "2e1b1aacdca0ed38d7bc04dccb54f0b73dda370922cbf6f090bbbe9380e1583b"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/49/49c9b4984c1785de5e639e4bee051e755e7c02a2004e9ef1b88230ce01e351eb",
-                    "sha256": "49c9b4984c1785de5e639e4bee051e755e7c02a2004e9ef1b88230ce01e351eb"
+                    "path": ".local-e2e/store/logs/sha256/db/dbb379bd38c037d8b52b1f15264ecf7deb5222777b600578bd5680bf3042d81c",
+                    "sha256": "dbb379bd38c037d8b52b1f15264ecf7deb5222777b600578bd5680bf3042d81c"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/ea/ea2446b201ead9ccb9bf8cac78d511150ae742103ce19a9449c94da5e05309bf",
-                    "sha256": "ea2446b201ead9ccb9bf8cac78d511150ae742103ce19a9449c94da5e05309bf"
+                    "path": ".local-e2e/store/build-records/sha256/06/06c63d1fe2329c2fe3e93b7b1851e42cd26f41ad1fd146372bbc3c4fbe3b11b5",
+                    "sha256": "06c63d1fe2329c2fe3e93b7b1851e42cd26f41ad1fd146372bbc3c4fbe3b11b5"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/52/520b90b127d7186f3aee3dafa544ed77b375245557bcc407dde1848720ac7cf4",
-                    "sha256": "520b90b127d7186f3aee3dafa544ed77b375245557bcc407dde1848720ac7cf4"
+                    "path": ".local-e2e/store/build-records/sha256/31/31e4abbdd559553cae2293346e6e24d4777c7e7064956c00564ae812e163ba5e",
+                    "sha256": "31e4abbdd559553cae2293346e6e24d4777c7e7064956c00564ae812e163ba5e"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/7e/7e7574f6ce96a30b58c78c880fa6793e5ac23fd2048f6d7425e2a8e3f0dfbebe",
-                  "sha256": "7e7574f6ce96a30b58c78c880fa6793e5ac23fd2048f6d7425e2a8e3f0dfbebe"
+                  "path": ".local-e2e/store/e2e/sha256/69/692bc3c47d131343e0a4dba962d52f4f5a52af00a529edaf15ab67fb56a9cdc0",
+                  "sha256": "692bc3c47d131343e0a4dba962d52f4f5a52af00a529edaf15ab67fb56a9cdc0"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/b7/b77d8b7338e11ac85d7e60106ff56579862ec3fc64c2c58c01912537e2e2620c",
-                  "sha256": "b77d8b7338e11ac85d7e60106ff56579862ec3fc64c2c58c01912537e2e2620c"
+                  "path": ".local-e2e/store/metadata/sha256/06/06036186b108b32901290288cde80b817a22f5a0cd0454da0ce520ad7ab647ec",
+                  "sha256": "06036186b108b32901290288cde80b817a22f5a0cd0454da0ce520ad7ab647ec"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/de/defdcff77c68c774d4707dc6638974ac6d7583b99f089d9825e893c3fa8da19c",
-                  "sha256": "defdcff77c68c774d4707dc6638974ac6d7583b99f089d9825e893c3fa8da19c"
+                  "path": ".local-e2e/store/packages/sha256/36/3660bc25cc035a38ad736394e63e61251e0cdb0655b8db992ad7daf2af900745",
+                  "sha256": "3660bc25cc035a38ad736394e63e61251e0cdb0655b8db992ad7daf2af900745"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/5e/5ea6975eec232d9df5aa4444012a6663a5126569bb09d1f92b1f8fcf943ddd3a",
-                    "sha256": "5ea6975eec232d9df5aa4444012a6663a5126569bb09d1f92b1f8fcf943ddd3a"
+                    "path": ".local-e2e/store/recipes/sha256/e5/e50514cd041880f446d040b1d9baa828a878c763805efab6b969ba6a016ac636",
+                    "sha256": "e50514cd041880f446d040b1d9baa828a878c763805efab6b969ba6a016ac636"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/dd/dd1bedf1b482e595139489adf1ed9e12bcf15317efbfa9390d0c733d35502cce",
-                    "sha256": "dd1bedf1b482e595139489adf1ed9e12bcf15317efbfa9390d0c733d35502cce"
+                    "path": ".local-e2e/store/recipes/sha256/dc/dc9fa105151be72c787cbc979b6a44ebeef781216906b9c7ccca30b4be873527",
+                    "sha256": "dc9fa105151be72c787cbc979b6a44ebeef781216906b9c7ccca30b4be873527"
                   }
                 }
               },
               "metadata": {
-                "path": "snes9x2005_libretro.info",
-                "sha256": "b77d8b7338e11ac85d7e60106ff56579862ec3fc64c2c58c01912537e2e2620c",
-                "size": 1402,
+                "path": "81_libretro.info",
+                "sha256": "06036186b108b32901290288cde80b817a22f5a0cd0454da0ce520ad7ab647ec",
+                "size": 1395,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T11:34:40+00:00",
+              "promoted_at": "2026-07-24T15:21:14+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
@@ -179,8 +183,8 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "snes9x2005",
-                "core_spec_sha256": "2384a8a9b4c6d5efa2c3b5ced5c9d933d2984f396802d6283b81456b3bfd4f1d",
+                "core_id": "81",
+                "core_spec_sha256": "d1af31c2523ee34bbae7c989539250ff1e9fce7d3279e66b4a522e8375dc6e11",
                 "pipeline_bundle": {
                   "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
                   "files": {
@@ -323,19 +327,19 @@
                   "schema_version": 1
                 },
                 "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-snes9x2005.yml",
-                "workflow_sha256": "29dec7c13f7abe6b9a072574efb4f19623cd8dacb75acb59632b7bd56fc26a41"
+                "repository_dirty": false,
+                "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af",
+                "workflow": ".github/workflows/build-81.yml",
+                "workflow_sha256": "e25a2a36239a6f4c7fadcd64f1491abf19894c471b504fe573bdd87a11b9feae"
               },
               "source": {
-                "commit": "b60356971fc9caae02cd0853676dced886a08be7",
+                "commit": "fa7094910d040baa5fd8b11dbf6a1a618330ecd9",
                 "requested_ref": "refs/heads/master",
-                "resolved_commit": "b60356971fc9caae02cd0853676dced886a08be7",
-                "resolved_url": "https://github.com/libretro/snes9x2005.git",
+                "resolved_commit": "fa7094910d040baa5fd8b11dbf6a1a618330ecd9",
+                "resolved_url": "https://github.com/libretro/81-libretro.git",
                 "submodules": [],
-                "tree": "5a13440308796f67a77f7e8fc16bbeee61ab301d",
-                "url": "https://github.com/libretro/snes9x2005.git"
+                "tree": "d73d124d16714e946ba9490627a4fc38c2aea37a",
+                "url": "https://github.com/libretro/81-libretro.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -378,15 +382,15 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "a7bc423f5973d2ffc6c0f5f55474214c172cd04185d2bab220126b312e29d6f6"
+            "provenance_identity_sha256": "7e50b50afaf1db94765c01c19b8fa242f954456e963ce580b5c2b5e62b0e52c2"
           },
           "armhf": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/4f/4f1bc67226079460aee765875a7036747b798424d14dfe077c7b28b43f25a80b",
-              "sha256": "4f1bc67226079460aee765875a7036747b798424d14dfe077c7b28b43f25a80b",
-              "size": 753224
+              "path": ".local-e2e/store/artifacts/sha256/3b/3b5efaeef6b2ddf3fc2aed5bf1eb9e2df0fecb3cd3408381014ba2a2c435079a",
+              "sha256": "3b5efaeef6b2ddf3fc2aed5bf1eb9e2df0fecb3cd3408381014ba2a2c435079a",
+              "size": 405672
             },
-            "build_record_sha256": "520b90b127d7186f3aee3dafa544ed77b375245557bcc407dde1848720ac7cf4",
+            "build_record_sha256": "31e4abbdd559553cae2293346e6e24d4777c7e7064956c00564ae812e163ba5e",
             "golden_record": {
               "architecture": "armhf",
               "artifact": {
@@ -427,99 +431,105 @@
                 ],
                 "needed": [
                   "libc.so.6",
-                  "libm.so.6"
+                  "libgcc_s.so.1",
+                  "libm.so.6",
+                  "libstdc++.so.6"
                 ],
-                "path": "snes9x2005_libretro.so",
-                "sha256": "4f1bc67226079460aee765875a7036747b798424d14dfe077c7b28b43f25a80b",
-                "size": 753224,
+                "path": "81_libretro.so",
+                "sha256": "3b5efaeef6b2ddf3fc2aed5bf1eb9e2df0fecb3cd3408381014ba2a2c435079a",
+                "size": 405672,
                 "status": "valid",
                 "version_requirements": [
-                  "GLIBC_2.4",
-                  "GLIBC_2.7"
+                  "CXXABI_1.3.9",
+                  "CXXABI_ARM_1.3.3",
+                  "GLIBCXX_3.4",
+                  "GLIBCXX_3.4.20",
+                  "GLIBCXX_3.4.21",
+                  "GLIBC_2.4"
                 ]
               },
               "build": {
                 "compile_definitions": [],
                 "driver": "libretro-super",
                 "environment": "sanitized-v1",
-                "git_version": {
-                  "compiler_scope": "c",
-                  "derivation": "native-space-short7-v1",
-                  "value": " b603569"
+                "generated_source": {
+                  "kind": "post-build-sha256-v1",
+                  "path": "src/version.c",
+                  "sha256": "5a07d38a3bcd84ee5fa9abbdbe0bd706288d8ec4ee8095485447e35dc28a2862"
                 },
                 "log": "build.log",
-                "log_sha256": "49c9b4984c1785de5e639e4bee051e755e7c02a2004e9ef1b88230ce01e351eb"
+                "log_sha256": "dbb379bd38c037d8b52b1f15264ecf7deb5222777b600578bd5680bf3042d81c"
               },
-              "core_id": "snes9x2005",
+              "core_id": "81",
               "e2e": {
                 "build_records": {
-                  "arm64": "ea2446b201ead9ccb9bf8cac78d511150ae742103ce19a9449c94da5e05309bf",
-                  "armhf": "520b90b127d7186f3aee3dafa544ed77b375245557bcc407dde1848720ac7cf4"
+                  "arm64": "06c63d1fe2329c2fe3e93b7b1851e42cd26f41ad1fd146372bbc3c4fbe3b11b5",
+                  "armhf": "31e4abbdd559553cae2293346e6e24d4777c7e7064956c00564ae812e163ba5e"
                 },
-                "content_sha256": "a452b164c4e64793f95ce5c7ab396bd379674202056e9d5138405341572b0407",
-                "package": ".local-e2e/runs/actions-sim-build-core-snes9x2005-w3/snes9x2005_libretro.zip",
-                "package_sha256": "defdcff77c68c774d4707dc6638974ac6d7583b99f089d9825e893c3fa8da19c",
-                "record": ".local-e2e/runs/actions-sim-build-core-snes9x2005-w3/e2e-record.json",
-                "record_sha256": "7e7574f6ce96a30b58c78c880fa6793e5ac23fd2048f6d7425e2a8e3f0dfbebe",
-                "run_id": "actions-sim-build-core-snes9x2005-w3"
+                "content_sha256": "6cc35cab70c24f71b311c330138ffff72cf0d424b9000a99630cfa49c63e087e",
+                "package": ".local-e2e/runs/actions-sim-build-core-81-w3c/81_libretro.zip",
+                "package_sha256": "3660bc25cc035a38ad736394e63e61251e0cdb0655b8db992ad7daf2af900745",
+                "record": ".local-e2e/runs/actions-sim-build-core-81-w3c/e2e-record.json",
+                "record_sha256": "692bc3c47d131343e0a4dba962d52f4f5a52af00a529edaf15ab67fb56a9cdc0",
+                "run_id": "actions-sim-build-core-81-w3c"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-snes9x2005-w3/snes9x2005/armhf/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-81-w3c/81/armhf/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/4f/4f1bc67226079460aee765875a7036747b798424d14dfe077c7b28b43f25a80b",
-                  "sha256": "4f1bc67226079460aee765875a7036747b798424d14dfe077c7b28b43f25a80b"
+                  "path": ".local-e2e/store/artifacts/sha256/3b/3b5efaeef6b2ddf3fc2aed5bf1eb9e2df0fecb3cd3408381014ba2a2c435079a",
+                  "sha256": "3b5efaeef6b2ddf3fc2aed5bf1eb9e2df0fecb3cd3408381014ba2a2c435079a"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/27/273f7b734f59202d17a5372e044106fdff2dafb9a3ae0417c4b23fb55ad9ab1b",
-                    "sha256": "273f7b734f59202d17a5372e044106fdff2dafb9a3ae0417c4b23fb55ad9ab1b"
+                    "path": ".local-e2e/store/logs/sha256/2e/2e1b1aacdca0ed38d7bc04dccb54f0b73dda370922cbf6f090bbbe9380e1583b",
+                    "sha256": "2e1b1aacdca0ed38d7bc04dccb54f0b73dda370922cbf6f090bbbe9380e1583b"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/49/49c9b4984c1785de5e639e4bee051e755e7c02a2004e9ef1b88230ce01e351eb",
-                    "sha256": "49c9b4984c1785de5e639e4bee051e755e7c02a2004e9ef1b88230ce01e351eb"
+                    "path": ".local-e2e/store/logs/sha256/db/dbb379bd38c037d8b52b1f15264ecf7deb5222777b600578bd5680bf3042d81c",
+                    "sha256": "dbb379bd38c037d8b52b1f15264ecf7deb5222777b600578bd5680bf3042d81c"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/ea/ea2446b201ead9ccb9bf8cac78d511150ae742103ce19a9449c94da5e05309bf",
-                    "sha256": "ea2446b201ead9ccb9bf8cac78d511150ae742103ce19a9449c94da5e05309bf"
+                    "path": ".local-e2e/store/build-records/sha256/06/06c63d1fe2329c2fe3e93b7b1851e42cd26f41ad1fd146372bbc3c4fbe3b11b5",
+                    "sha256": "06c63d1fe2329c2fe3e93b7b1851e42cd26f41ad1fd146372bbc3c4fbe3b11b5"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/52/520b90b127d7186f3aee3dafa544ed77b375245557bcc407dde1848720ac7cf4",
-                    "sha256": "520b90b127d7186f3aee3dafa544ed77b375245557bcc407dde1848720ac7cf4"
+                    "path": ".local-e2e/store/build-records/sha256/31/31e4abbdd559553cae2293346e6e24d4777c7e7064956c00564ae812e163ba5e",
+                    "sha256": "31e4abbdd559553cae2293346e6e24d4777c7e7064956c00564ae812e163ba5e"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/7e/7e7574f6ce96a30b58c78c880fa6793e5ac23fd2048f6d7425e2a8e3f0dfbebe",
-                  "sha256": "7e7574f6ce96a30b58c78c880fa6793e5ac23fd2048f6d7425e2a8e3f0dfbebe"
+                  "path": ".local-e2e/store/e2e/sha256/69/692bc3c47d131343e0a4dba962d52f4f5a52af00a529edaf15ab67fb56a9cdc0",
+                  "sha256": "692bc3c47d131343e0a4dba962d52f4f5a52af00a529edaf15ab67fb56a9cdc0"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/b7/b77d8b7338e11ac85d7e60106ff56579862ec3fc64c2c58c01912537e2e2620c",
-                  "sha256": "b77d8b7338e11ac85d7e60106ff56579862ec3fc64c2c58c01912537e2e2620c"
+                  "path": ".local-e2e/store/metadata/sha256/06/06036186b108b32901290288cde80b817a22f5a0cd0454da0ce520ad7ab647ec",
+                  "sha256": "06036186b108b32901290288cde80b817a22f5a0cd0454da0ce520ad7ab647ec"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/de/defdcff77c68c774d4707dc6638974ac6d7583b99f089d9825e893c3fa8da19c",
-                  "sha256": "defdcff77c68c774d4707dc6638974ac6d7583b99f089d9825e893c3fa8da19c"
+                  "path": ".local-e2e/store/packages/sha256/36/3660bc25cc035a38ad736394e63e61251e0cdb0655b8db992ad7daf2af900745",
+                  "sha256": "3660bc25cc035a38ad736394e63e61251e0cdb0655b8db992ad7daf2af900745"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/5e/5ea6975eec232d9df5aa4444012a6663a5126569bb09d1f92b1f8fcf943ddd3a",
-                    "sha256": "5ea6975eec232d9df5aa4444012a6663a5126569bb09d1f92b1f8fcf943ddd3a"
+                    "path": ".local-e2e/store/recipes/sha256/e5/e50514cd041880f446d040b1d9baa828a878c763805efab6b969ba6a016ac636",
+                    "sha256": "e50514cd041880f446d040b1d9baa828a878c763805efab6b969ba6a016ac636"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/dd/dd1bedf1b482e595139489adf1ed9e12bcf15317efbfa9390d0c733d35502cce",
-                    "sha256": "dd1bedf1b482e595139489adf1ed9e12bcf15317efbfa9390d0c733d35502cce"
+                    "path": ".local-e2e/store/recipes/sha256/dc/dc9fa105151be72c787cbc979b6a44ebeef781216906b9c7ccca30b4be873527",
+                    "sha256": "dc9fa105151be72c787cbc979b6a44ebeef781216906b9c7ccca30b4be873527"
                   }
                 }
               },
               "metadata": {
-                "path": "snes9x2005_libretro.info",
-                "sha256": "b77d8b7338e11ac85d7e60106ff56579862ec3fc64c2c58c01912537e2e2620c",
-                "size": 1402,
+                "path": "81_libretro.info",
+                "sha256": "06036186b108b32901290288cde80b817a22f5a0cd0454da0ce520ad7ab647ec",
+                "size": 1395,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T11:34:41+00:00",
+              "promoted_at": "2026-07-24T15:21:14+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
@@ -533,8 +543,8 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "snes9x2005",
-                "core_spec_sha256": "2384a8a9b4c6d5efa2c3b5ced5c9d933d2984f396802d6283b81456b3bfd4f1d",
+                "core_id": "81",
+                "core_spec_sha256": "d1af31c2523ee34bbae7c989539250ff1e9fce7d3279e66b4a522e8375dc6e11",
                 "pipeline_bundle": {
                   "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
                   "files": {
@@ -677,19 +687,19 @@
                   "schema_version": 1
                 },
                 "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-snes9x2005.yml",
-                "workflow_sha256": "29dec7c13f7abe6b9a072574efb4f19623cd8dacb75acb59632b7bd56fc26a41"
+                "repository_dirty": false,
+                "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af",
+                "workflow": ".github/workflows/build-81.yml",
+                "workflow_sha256": "e25a2a36239a6f4c7fadcd64f1491abf19894c471b504fe573bdd87a11b9feae"
               },
               "source": {
-                "commit": "b60356971fc9caae02cd0853676dced886a08be7",
+                "commit": "fa7094910d040baa5fd8b11dbf6a1a618330ecd9",
                 "requested_ref": "refs/heads/master",
-                "resolved_commit": "b60356971fc9caae02cd0853676dced886a08be7",
-                "resolved_url": "https://github.com/libretro/snes9x2005.git",
+                "resolved_commit": "fa7094910d040baa5fd8b11dbf6a1a618330ecd9",
+                "resolved_url": "https://github.com/libretro/81-libretro.git",
                 "submodules": [],
-                "tree": "5a13440308796f67a77f7e8fc16bbeee61ab301d",
-                "url": "https://github.com/libretro/snes9x2005.git"
+                "tree": "d73d124d16714e946ba9490627a4fc38c2aea37a",
+                "url": "https://github.com/libretro/81-libretro.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -732,7 +742,7 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "0cd0a5cee4b38e62b3cbdeaef85bf712a0fc4a371482b64f583cc4fe265e2aca"
+            "provenance_identity_sha256": "9db5d62738fb5fdb436aa80b2756ab1de2053b84d21d78e9f04343aa7b4089ff"
           }
         },
         "tier": "build_golden",
@@ -741,14 +751,14 @@
       "source_index": 0
     }
   },
-  "created_at": "2026-07-24T11:34:41+00:00",
+  "created_at": "2026-07-24T15:21:14+00:00",
   "local_only": true,
   "parent": null,
-  "pin_id": "snes9x2005-b60356971fc9-23fbb6c59d54",
+  "pin_id": "81-fa7094910d04-8504f7df5dd8",
   "publication": "disabled",
   "schema_version": 1,
   "scope": [
-    "snes9x2005"
+    "81"
   ],
   "selection_policy": {
     "failed_candidate": "retain-parent",
@@ -759,10 +769,10 @@
   },
   "sources": [
     {
-      "content_sha256": "85496e4235abe3e663a202924d4c9a4c138e2c16d94ecd12a558f17071c14baf",
-      "file_sha256": "05e173e16d8670d971745bfb214c68fe6d9da526fddc61628cf92ac8be0417b5",
-      "path": ".local-e2e/nightlies/snes9x2005-b60356971fc9-23fbb6c59d54/golden.json",
-      "pin_id": "snes9x2005-b60356971fc9-23fbb6c59d54"
+      "content_sha256": "59072f81a118310f90aea3e143b37725f46d7e784e5835ae6f0e2ec1f2e35198",
+      "file_sha256": "aa9cc87fb3db08fa3437e572f22b4b8113589940d1cc7ca3959b0c5e02d09481",
+      "path": ".local-e2e/nightlies/81-fa7094910d04-8504f7df5dd8/golden.json",
+      "pin_id": "81-fa7094910d04-8504f7df5dd8"
     }
   ],
   "summary": {

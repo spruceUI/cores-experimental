@@ -4,12 +4,12 @@
   "core_id": "mednafen_ngp",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json",
+  "golden_source": "pins/core-sets/mednafen_ngp-a50d5ac288a8-7938cf552d4b.json",
   "source_commit": "a50d5ac288a81f2104ddf43195a4efdd15c72227",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_ngp-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "887ef2f13a2ff12e129a35aabea083e7d1e148b16f1fcbb99c8ca1444ef06a18",
-  "reproduction_run": ".local-e2e/runs/build-core-mednafen_ngp-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "ecde7ae08a8c9ae7ddffaf59882efc7b70dc5897383928b0e697af21c7432fc5",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_ngp-w3c/e2e-record.json",
+  "selected_e2e_content_sha256": "75aef5cde8d1050a50367c790e76dc8b5493cd400051a505c0926662007fa4c2",
+  "reproduction_run": ".local-e2e/runs/build-core-mednafen_ngp-local-w3c/e2e-record.json",
+  "reproduction_e2e_content_sha256": "9313ecce8ce7b4f95642c8037dde75b7ce2090dd358409663257bbb089ea9645",
   "package_state": "reproducible",
   "package_sha256": "6b0e2a5401106e17ecba8c86752b5a824d10044107b68aff1f1901b8b8e2c93b",
   "caveats": [
@@ -66,5 +66,5 @@
       ]
     }
   },
-  "content_sha256": "da95f2c68d0ab9a0d170ed1b60fb8aed88c8b3e38672fa01d0a9db7672ec3ac5"
+  "content_sha256": "3cb7f976bab533d63651992370e0896975c6e1d0a9aa45baee353f3cb15867c3"
 }

@@ -1,39 +1,39 @@
 {
   "$schema": "../../manifests/core-set.schema.json",
-  "content_sha256": "fcb0f9a093a58837c548d640b30b0c7f649fd91f8857e7d2596f923ca7297629",
+  "content_sha256": "84349c820bdea177c583303e57de384176411d45c8ee81e0c718ec93f0cd6dc9",
   "cores": {
-    "snes9x2005_plus": {
+    "genesis_plus_gx_wide": {
       "decision": "select_source",
       "selection": {
         "e2e": {
           "build_records": {
-            "arm64": "61fcf8736eb59c09ae125b0e9359bc3fa0c4db46e661f52e449874e8524ea008",
-            "armhf": "67b5fe574b87763a5bdbd4eb37b67f7e518119aa7d993556ba1ea2192fc83211"
+            "arm64": "1293ac3012191c67c06b4a63ec76f4bfbaef1250dafdd5f53bf688edc1512707",
+            "armhf": "f92d0023424fd4db453f61a69986c74fb1f80a04ab4b7e9942797966dfa53f6d"
           },
-          "content_sha256": "320373dec53a744c0356c8c2312a43070d95f47a0d80a7c7f2eff2af29b51b3e",
-          "package_sha256": "14865c0a4995e7df32d89dfa8604af704a869f351d4cc2f750cabf44fa3a4737",
-          "run_id": "actions-sim-build-core-snes9x2005_plus-w3"
+          "content_sha256": "4d578c0bc71f475fc10fd9749d5f784f7376a3aba5f30bfdbe7b20e5b0cd8ae4",
+          "package_sha256": "192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc",
+          "run_id": "actions-sim-build-core-genesis_plus_gx_wide-w3c"
         },
         "metadata": {
-          "path": ".local-e2e/store/metadata/sha256/2e/2e1f46c49714bcfb59926ebfe394d98004c20e7c0c38d1412dc4196e0eb34dd4",
-          "sha256": "2e1f46c49714bcfb59926ebfe394d98004c20e7c0c38d1412dc4196e0eb34dd4",
-          "size": 1456
+          "path": ".local-e2e/store/metadata/sha256/8a/8aa2205e8a3ea2cf2ed04d5ae83eed52c4e9ca6b8d2722afa2bb853a9939357c",
+          "sha256": "8aa2205e8a3ea2cf2ed04d5ae83eed52c4e9ca6b8d2722afa2bb853a9939357c",
+          "size": 2917
         },
         "package": {
-          "name": "snes9x2005_plus_libretro.zip",
-          "path": ".local-e2e/store/packages/sha256/14/14865c0a4995e7df32d89dfa8604af704a869f351d4cc2f750cabf44fa3a4737",
-          "sha256": "14865c0a4995e7df32d89dfa8604af704a869f351d4cc2f750cabf44fa3a4737",
-          "size": 480522
+          "name": "genesis_plus_gx_wide_libretro.zip",
+          "path": ".local-e2e/store/packages/sha256/19/192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc",
+          "sha256": "192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc",
+          "size": 2218602
         },
-        "selection_sha256": "77ca2d08524038f7396ccba9f395bad7e2a75ab0435518afd91ca5f88e908cd6",
+        "selection_sha256": "6184c4659fe120b95186d6ed505a3b528767ac8d6ed3c1014f876c3ba0d5f9bf",
         "targets": {
           "arm64": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/f6/f6b0e49f3230a8d858f7fe30d27f624e629c9e017f351dd4c4c2b92dc6b56f02",
-              "sha256": "f6b0e49f3230a8d858f7fe30d27f624e629c9e017f351dd4c4c2b92dc6b56f02",
-              "size": 827808
+              "path": ".local-e2e/store/artifacts/sha256/d9/d9a21808b8ec081d0f44134feca26d73d1648e157d249173ef7948e1f17a6e58",
+              "sha256": "d9a21808b8ec081d0f44134feca26d73d1648e157d249173ef7948e1f17a6e58",
+              "size": 12383136
             },
-            "build_record_sha256": "61fcf8736eb59c09ae125b0e9359bc3fa0c4db46e661f52e449874e8524ea008",
+            "build_record_sha256": "1293ac3012191c67c06b4a63ec76f4bfbaef1250dafdd5f53bf688edc1512707",
             "golden_record": {
               "architecture": "arm64",
               "artifact": {
@@ -49,7 +49,11 @@
                   "retro_api_version",
                   "retro_cheat_reset",
                   "retro_cheat_set",
+                  "retro_closedir",
                   "retro_deinit",
+                  "retro_dirent_error",
+                  "retro_dirent_get_name",
+                  "retro_dirent_is_dir",
                   "retro_get_memory_data",
                   "retro_get_memory_size",
                   "retro_get_region",
@@ -58,6 +62,9 @@
                   "retro_init",
                   "retro_load_game",
                   "retro_load_game_special",
+                  "retro_opendir",
+                  "retro_opendir_include_hidden",
+                  "retro_readdir",
                   "retro_reset",
                   "retro_run",
                   "retro_serialize",
@@ -70,15 +77,44 @@
                   "retro_set_input_state",
                   "retro_set_video_refresh",
                   "retro_unload_game",
-                  "retro_unserialize"
+                  "retro_unserialize",
+                  "retro_vfs_closedir_impl",
+                  "retro_vfs_dirent_get_name_impl",
+                  "retro_vfs_dirent_is_dir_impl",
+                  "retro_vfs_file_close_cdrom",
+                  "retro_vfs_file_close_impl",
+                  "retro_vfs_file_error_cdrom",
+                  "retro_vfs_file_error_impl",
+                  "retro_vfs_file_flush_impl",
+                  "retro_vfs_file_get_cdrom_position",
+                  "retro_vfs_file_get_cdrom_toc",
+                  "retro_vfs_file_get_path_impl",
+                  "retro_vfs_file_open_cdrom",
+                  "retro_vfs_file_open_impl",
+                  "retro_vfs_file_read_cdrom",
+                  "retro_vfs_file_read_impl",
+                  "retro_vfs_file_remove_impl",
+                  "retro_vfs_file_rename_impl",
+                  "retro_vfs_file_seek_cdrom",
+                  "retro_vfs_file_seek_impl",
+                  "retro_vfs_file_seek_internal",
+                  "retro_vfs_file_size_impl",
+                  "retro_vfs_file_tell_cdrom",
+                  "retro_vfs_file_tell_impl",
+                  "retro_vfs_file_truncate_impl",
+                  "retro_vfs_file_write_impl",
+                  "retro_vfs_mkdir_impl",
+                  "retro_vfs_opendir_impl",
+                  "retro_vfs_readdir_impl",
+                  "retro_vfs_stat_impl"
                 ],
                 "needed": [
                   "ld-linux-aarch64.so.1",
                   "libc.so.6"
                 ],
-                "path": "snes9x2005_plus_libretro.so",
-                "sha256": "f6b0e49f3230a8d858f7fe30d27f624e629c9e017f351dd4c4c2b92dc6b56f02",
-                "size": 827808,
+                "path": "genesis_plus_gx_wide_libretro.so",
+                "sha256": "d9a21808b8ec081d0f44134feca26d73d1648e157d249173ef7948e1f17a6e58",
+                "size": 12383136,
                 "status": "valid",
                 "version_requirements": [
                   "GLIBC_2.17"
@@ -91,84 +127,81 @@
                 "git_version": {
                   "compiler_scope": "c",
                   "derivation": "native-space-short7-v1",
-                  "value": " b603569"
+                  "value": " 29d9d10"
                 },
                 "log": "build.log",
-                "log_sha256": "7d96670dc3d50d2953874695f616fa9e28f92e746079a79a66e71b06c4fe37e9",
-                "make_variables": {
-                  "USE_BLARGG_APU": 1
-                }
+                "log_sha256": "1df0194482739b79b6a6c740f6b5d8b945018eea6874daed1d70e8dc0419dbe7"
               },
-              "core_id": "snes9x2005_plus",
+              "core_id": "genesis_plus_gx_wide",
               "e2e": {
                 "build_records": {
-                  "arm64": "61fcf8736eb59c09ae125b0e9359bc3fa0c4db46e661f52e449874e8524ea008",
-                  "armhf": "67b5fe574b87763a5bdbd4eb37b67f7e518119aa7d993556ba1ea2192fc83211"
+                  "arm64": "1293ac3012191c67c06b4a63ec76f4bfbaef1250dafdd5f53bf688edc1512707",
+                  "armhf": "f92d0023424fd4db453f61a69986c74fb1f80a04ab4b7e9942797966dfa53f6d"
                 },
-                "content_sha256": "320373dec53a744c0356c8c2312a43070d95f47a0d80a7c7f2eff2af29b51b3e",
-                "package": ".local-e2e/runs/actions-sim-build-core-snes9x2005_plus-w3/snes9x2005_plus_libretro.zip",
-                "package_sha256": "14865c0a4995e7df32d89dfa8604af704a869f351d4cc2f750cabf44fa3a4737",
-                "record": ".local-e2e/runs/actions-sim-build-core-snes9x2005_plus-w3/e2e-record.json",
-                "record_sha256": "df0c0fbc293e83367fc1bcfa0614818e13fe781f117e8053e17e3974cab5b91c",
-                "run_id": "actions-sim-build-core-snes9x2005_plus-w3"
+                "content_sha256": "4d578c0bc71f475fc10fd9749d5f784f7376a3aba5f30bfdbe7b20e5b0cd8ae4",
+                "package": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx_wide-w3c/genesis_plus_gx_wide_libretro.zip",
+                "package_sha256": "192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc",
+                "record": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx_wide-w3c/e2e-record.json",
+                "record_sha256": "98e08a7bf11afb4b55bb64771d367a6841add1dc1f50823a153fcf330b3b5e8a",
+                "run_id": "actions-sim-build-core-genesis_plus_gx_wide-w3c"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-snes9x2005_plus-w3/snes9x2005_plus/arm64/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx_wide-w3c/genesis_plus_gx_wide/arm64/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/f6/f6b0e49f3230a8d858f7fe30d27f624e629c9e017f351dd4c4c2b92dc6b56f02",
-                  "sha256": "f6b0e49f3230a8d858f7fe30d27f624e629c9e017f351dd4c4c2b92dc6b56f02"
+                  "path": ".local-e2e/store/artifacts/sha256/d9/d9a21808b8ec081d0f44134feca26d73d1648e157d249173ef7948e1f17a6e58",
+                  "sha256": "d9a21808b8ec081d0f44134feca26d73d1648e157d249173ef7948e1f17a6e58"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/7d/7d96670dc3d50d2953874695f616fa9e28f92e746079a79a66e71b06c4fe37e9",
-                    "sha256": "7d96670dc3d50d2953874695f616fa9e28f92e746079a79a66e71b06c4fe37e9"
+                    "path": ".local-e2e/store/logs/sha256/1d/1df0194482739b79b6a6c740f6b5d8b945018eea6874daed1d70e8dc0419dbe7",
+                    "sha256": "1df0194482739b79b6a6c740f6b5d8b945018eea6874daed1d70e8dc0419dbe7"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/a5/a526846c10ccc1dd916e21f13976bb4a03218e593ec42fb2979ab4cf5d32d7d3",
-                    "sha256": "a526846c10ccc1dd916e21f13976bb4a03218e593ec42fb2979ab4cf5d32d7d3"
+                    "path": ".local-e2e/store/logs/sha256/9d/9d52149408262de1a3b22b549ecc07b9283ce7c1968e728c2188927ea39551f4",
+                    "sha256": "9d52149408262de1a3b22b549ecc07b9283ce7c1968e728c2188927ea39551f4"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/61/61fcf8736eb59c09ae125b0e9359bc3fa0c4db46e661f52e449874e8524ea008",
-                    "sha256": "61fcf8736eb59c09ae125b0e9359bc3fa0c4db46e661f52e449874e8524ea008"
+                    "path": ".local-e2e/store/build-records/sha256/12/1293ac3012191c67c06b4a63ec76f4bfbaef1250dafdd5f53bf688edc1512707",
+                    "sha256": "1293ac3012191c67c06b4a63ec76f4bfbaef1250dafdd5f53bf688edc1512707"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/67/67b5fe574b87763a5bdbd4eb37b67f7e518119aa7d993556ba1ea2192fc83211",
-                    "sha256": "67b5fe574b87763a5bdbd4eb37b67f7e518119aa7d993556ba1ea2192fc83211"
+                    "path": ".local-e2e/store/build-records/sha256/f9/f92d0023424fd4db453f61a69986c74fb1f80a04ab4b7e9942797966dfa53f6d",
+                    "sha256": "f92d0023424fd4db453f61a69986c74fb1f80a04ab4b7e9942797966dfa53f6d"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/df/df0c0fbc293e83367fc1bcfa0614818e13fe781f117e8053e17e3974cab5b91c",
-                  "sha256": "df0c0fbc293e83367fc1bcfa0614818e13fe781f117e8053e17e3974cab5b91c"
+                  "path": ".local-e2e/store/e2e/sha256/98/98e08a7bf11afb4b55bb64771d367a6841add1dc1f50823a153fcf330b3b5e8a",
+                  "sha256": "98e08a7bf11afb4b55bb64771d367a6841add1dc1f50823a153fcf330b3b5e8a"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/2e/2e1f46c49714bcfb59926ebfe394d98004c20e7c0c38d1412dc4196e0eb34dd4",
-                  "sha256": "2e1f46c49714bcfb59926ebfe394d98004c20e7c0c38d1412dc4196e0eb34dd4"
+                  "path": ".local-e2e/store/metadata/sha256/8a/8aa2205e8a3ea2cf2ed04d5ae83eed52c4e9ca6b8d2722afa2bb853a9939357c",
+                  "sha256": "8aa2205e8a3ea2cf2ed04d5ae83eed52c4e9ca6b8d2722afa2bb853a9939357c"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/14/14865c0a4995e7df32d89dfa8604af704a869f351d4cc2f750cabf44fa3a4737",
-                  "sha256": "14865c0a4995e7df32d89dfa8604af704a869f351d4cc2f750cabf44fa3a4737"
+                  "path": ".local-e2e/store/packages/sha256/19/192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc",
+                  "sha256": "192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/9e/9e06cc395405cff696d5474fbeae15ee643a3eda644ba84ba350870f81f9734b",
-                    "sha256": "9e06cc395405cff696d5474fbeae15ee643a3eda644ba84ba350870f81f9734b"
+                    "path": ".local-e2e/store/recipes/sha256/a0/a0d5ee950845078e01914169783ef0e1336601e4cd58e5a21afd7eeb497318c4",
+                    "sha256": "a0d5ee950845078e01914169783ef0e1336601e4cd58e5a21afd7eeb497318c4"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/89/8987f6568ebc6d5ae433081b7d9a7866bceb820b07f49a9965bac5032fdf2bd5",
-                    "sha256": "8987f6568ebc6d5ae433081b7d9a7866bceb820b07f49a9965bac5032fdf2bd5"
+                    "path": ".local-e2e/store/recipes/sha256/5e/5e69d08a3e694d3b94e80bf1b1c94674b146e60d0f6432003f48dd0e5cb12140",
+                    "sha256": "5e69d08a3e694d3b94e80bf1b1c94674b146e60d0f6432003f48dd0e5cb12140"
                   }
                 }
               },
               "metadata": {
-                "path": "snes9x2005_plus_libretro.info",
-                "sha256": "2e1f46c49714bcfb59926ebfe394d98004c20e7c0c38d1412dc4196e0eb34dd4",
-                "size": 1456,
+                "path": "genesis_plus_gx_wide_libretro.info",
+                "sha256": "8aa2205e8a3ea2cf2ed04d5ae83eed52c4e9ca6b8d2722afa2bb853a9939357c",
+                "size": 2917,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T11:35:02+00:00",
+              "promoted_at": "2026-07-24T15:21:37+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
@@ -182,8 +215,8 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "snes9x2005_plus",
-                "core_spec_sha256": "cc9a4d637c0b0c1fbb90d571f56c58a39b3b8623373945b23f588ee0f5860ff7",
+                "core_id": "genesis_plus_gx_wide",
+                "core_spec_sha256": "cea3bb502e4e5867973fe5a54e25df6cdb59f0d1f83b83cb8583488745bc9cc1",
                 "pipeline_bundle": {
                   "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
                   "files": {
@@ -326,19 +359,19 @@
                   "schema_version": 1
                 },
                 "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-snes9x2005_plus.yml",
-                "workflow_sha256": "63c9747ff53d521db79647370341151533c0f6fbace108a7444e36c5c553ffd1"
+                "repository_dirty": false,
+                "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af",
+                "workflow": ".github/workflows/build-genesis_plus_gx_wide.yml",
+                "workflow_sha256": "58227c8bf376e523894d1a83c66036c09df5b00d359fef10bb5836ffd753c047"
               },
               "source": {
-                "commit": "b60356971fc9caae02cd0853676dced886a08be7",
-                "requested_ref": "refs/heads/master",
-                "resolved_commit": "b60356971fc9caae02cd0853676dced886a08be7",
-                "resolved_url": "https://github.com/libretro/snes9x2005.git",
+                "commit": "29d9d104338f46bc2e65438fb207bcf54f701e92",
+                "requested_ref": "refs/heads/main",
+                "resolved_commit": "29d9d104338f46bc2e65438fb207bcf54f701e92",
+                "resolved_url": "https://github.com/libretro/Genesis-Plus-GX-Wide.git",
                 "submodules": [],
-                "tree": "5a13440308796f67a77f7e8fc16bbeee61ab301d",
-                "url": "https://github.com/libretro/snes9x2005.git"
+                "tree": "27e05ed457d9c10e51b6c69067e1c05599df08fb",
+                "url": "https://github.com/libretro/Genesis-Plus-GX-Wide.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -381,15 +414,15 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "778cb8aac4e88a5b3e7a6175e74dc1c2991518a5ced365e637f0cb619fb61101"
+            "provenance_identity_sha256": "0711e028342f95205101a0ba820dc554fe84363aa7dcf9174435cc58d6ce47bf"
           },
           "armhf": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/5a/5a9825a71f88d41f956067d584aaed1e2620856fdb6cb8b45bc81f9ef8c12a43",
-              "sha256": "5a9825a71f88d41f956067d584aaed1e2620856fdb6cb8b45bc81f9ef8c12a43",
-              "size": 661940
+              "path": ".local-e2e/store/artifacts/sha256/4c/4cd1ef2a6296c52707ccd5ea4263a02b4f0ffb4b1b90931b68e388d429a9ffa6",
+              "sha256": "4cd1ef2a6296c52707ccd5ea4263a02b4f0ffb4b1b90931b68e388d429a9ffa6",
+              "size": 6374200
             },
-            "build_record_sha256": "67b5fe574b87763a5bdbd4eb37b67f7e518119aa7d993556ba1ea2192fc83211",
+            "build_record_sha256": "f92d0023424fd4db453f61a69986c74fb1f80a04ab4b7e9942797966dfa53f6d",
             "golden_record": {
               "architecture": "armhf",
               "artifact": {
@@ -405,7 +438,11 @@
                   "retro_api_version",
                   "retro_cheat_reset",
                   "retro_cheat_set",
+                  "retro_closedir",
                   "retro_deinit",
+                  "retro_dirent_error",
+                  "retro_dirent_get_name",
+                  "retro_dirent_is_dir",
                   "retro_get_memory_data",
                   "retro_get_memory_size",
                   "retro_get_region",
@@ -414,6 +451,9 @@
                   "retro_init",
                   "retro_load_game",
                   "retro_load_game_special",
+                  "retro_opendir",
+                  "retro_opendir_include_hidden",
+                  "retro_readdir",
                   "retro_reset",
                   "retro_run",
                   "retro_serialize",
@@ -426,15 +466,44 @@
                   "retro_set_input_state",
                   "retro_set_video_refresh",
                   "retro_unload_game",
-                  "retro_unserialize"
+                  "retro_unserialize",
+                  "retro_vfs_closedir_impl",
+                  "retro_vfs_dirent_get_name_impl",
+                  "retro_vfs_dirent_is_dir_impl",
+                  "retro_vfs_file_close_cdrom",
+                  "retro_vfs_file_close_impl",
+                  "retro_vfs_file_error_cdrom",
+                  "retro_vfs_file_error_impl",
+                  "retro_vfs_file_flush_impl",
+                  "retro_vfs_file_get_cdrom_position",
+                  "retro_vfs_file_get_cdrom_toc",
+                  "retro_vfs_file_get_path_impl",
+                  "retro_vfs_file_open_cdrom",
+                  "retro_vfs_file_open_impl",
+                  "retro_vfs_file_read_cdrom",
+                  "retro_vfs_file_read_impl",
+                  "retro_vfs_file_remove_impl",
+                  "retro_vfs_file_rename_impl",
+                  "retro_vfs_file_seek_cdrom",
+                  "retro_vfs_file_seek_impl",
+                  "retro_vfs_file_seek_internal",
+                  "retro_vfs_file_size_impl",
+                  "retro_vfs_file_tell_cdrom",
+                  "retro_vfs_file_tell_impl",
+                  "retro_vfs_file_truncate_impl",
+                  "retro_vfs_file_write_impl",
+                  "retro_vfs_mkdir_impl",
+                  "retro_vfs_opendir_impl",
+                  "retro_vfs_readdir_impl",
+                  "retro_vfs_stat_impl"
                 ],
                 "needed": [
                   "libc.so.6",
                   "libm.so.6"
                 ],
-                "path": "snes9x2005_plus_libretro.so",
-                "sha256": "5a9825a71f88d41f956067d584aaed1e2620856fdb6cb8b45bc81f9ef8c12a43",
-                "size": 661940,
+                "path": "genesis_plus_gx_wide_libretro.so",
+                "sha256": "4cd1ef2a6296c52707ccd5ea4263a02b4f0ffb4b1b90931b68e388d429a9ffa6",
+                "size": 6374200,
                 "status": "valid",
                 "version_requirements": [
                   "GLIBC_2.4",
@@ -448,84 +517,81 @@
                 "git_version": {
                   "compiler_scope": "c",
                   "derivation": "native-space-short7-v1",
-                  "value": " b603569"
+                  "value": " 29d9d10"
                 },
                 "log": "build.log",
-                "log_sha256": "a526846c10ccc1dd916e21f13976bb4a03218e593ec42fb2979ab4cf5d32d7d3",
-                "make_variables": {
-                  "USE_BLARGG_APU": 1
-                }
+                "log_sha256": "9d52149408262de1a3b22b549ecc07b9283ce7c1968e728c2188927ea39551f4"
               },
-              "core_id": "snes9x2005_plus",
+              "core_id": "genesis_plus_gx_wide",
               "e2e": {
                 "build_records": {
-                  "arm64": "61fcf8736eb59c09ae125b0e9359bc3fa0c4db46e661f52e449874e8524ea008",
-                  "armhf": "67b5fe574b87763a5bdbd4eb37b67f7e518119aa7d993556ba1ea2192fc83211"
+                  "arm64": "1293ac3012191c67c06b4a63ec76f4bfbaef1250dafdd5f53bf688edc1512707",
+                  "armhf": "f92d0023424fd4db453f61a69986c74fb1f80a04ab4b7e9942797966dfa53f6d"
                 },
-                "content_sha256": "320373dec53a744c0356c8c2312a43070d95f47a0d80a7c7f2eff2af29b51b3e",
-                "package": ".local-e2e/runs/actions-sim-build-core-snes9x2005_plus-w3/snes9x2005_plus_libretro.zip",
-                "package_sha256": "14865c0a4995e7df32d89dfa8604af704a869f351d4cc2f750cabf44fa3a4737",
-                "record": ".local-e2e/runs/actions-sim-build-core-snes9x2005_plus-w3/e2e-record.json",
-                "record_sha256": "df0c0fbc293e83367fc1bcfa0614818e13fe781f117e8053e17e3974cab5b91c",
-                "run_id": "actions-sim-build-core-snes9x2005_plus-w3"
+                "content_sha256": "4d578c0bc71f475fc10fd9749d5f784f7376a3aba5f30bfdbe7b20e5b0cd8ae4",
+                "package": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx_wide-w3c/genesis_plus_gx_wide_libretro.zip",
+                "package_sha256": "192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc",
+                "record": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx_wide-w3c/e2e-record.json",
+                "record_sha256": "98e08a7bf11afb4b55bb64771d367a6841add1dc1f50823a153fcf330b3b5e8a",
+                "run_id": "actions-sim-build-core-genesis_plus_gx_wide-w3c"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-snes9x2005_plus-w3/snes9x2005_plus/armhf/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx_wide-w3c/genesis_plus_gx_wide/armhf/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/5a/5a9825a71f88d41f956067d584aaed1e2620856fdb6cb8b45bc81f9ef8c12a43",
-                  "sha256": "5a9825a71f88d41f956067d584aaed1e2620856fdb6cb8b45bc81f9ef8c12a43"
+                  "path": ".local-e2e/store/artifacts/sha256/4c/4cd1ef2a6296c52707ccd5ea4263a02b4f0ffb4b1b90931b68e388d429a9ffa6",
+                  "sha256": "4cd1ef2a6296c52707ccd5ea4263a02b4f0ffb4b1b90931b68e388d429a9ffa6"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/7d/7d96670dc3d50d2953874695f616fa9e28f92e746079a79a66e71b06c4fe37e9",
-                    "sha256": "7d96670dc3d50d2953874695f616fa9e28f92e746079a79a66e71b06c4fe37e9"
+                    "path": ".local-e2e/store/logs/sha256/1d/1df0194482739b79b6a6c740f6b5d8b945018eea6874daed1d70e8dc0419dbe7",
+                    "sha256": "1df0194482739b79b6a6c740f6b5d8b945018eea6874daed1d70e8dc0419dbe7"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/a5/a526846c10ccc1dd916e21f13976bb4a03218e593ec42fb2979ab4cf5d32d7d3",
-                    "sha256": "a526846c10ccc1dd916e21f13976bb4a03218e593ec42fb2979ab4cf5d32d7d3"
+                    "path": ".local-e2e/store/logs/sha256/9d/9d52149408262de1a3b22b549ecc07b9283ce7c1968e728c2188927ea39551f4",
+                    "sha256": "9d52149408262de1a3b22b549ecc07b9283ce7c1968e728c2188927ea39551f4"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/61/61fcf8736eb59c09ae125b0e9359bc3fa0c4db46e661f52e449874e8524ea008",
-                    "sha256": "61fcf8736eb59c09ae125b0e9359bc3fa0c4db46e661f52e449874e8524ea008"
+                    "path": ".local-e2e/store/build-records/sha256/12/1293ac3012191c67c06b4a63ec76f4bfbaef1250dafdd5f53bf688edc1512707",
+                    "sha256": "1293ac3012191c67c06b4a63ec76f4bfbaef1250dafdd5f53bf688edc1512707"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/67/67b5fe574b87763a5bdbd4eb37b67f7e518119aa7d993556ba1ea2192fc83211",
-                    "sha256": "67b5fe574b87763a5bdbd4eb37b67f7e518119aa7d993556ba1ea2192fc83211"
+                    "path": ".local-e2e/store/build-records/sha256/f9/f92d0023424fd4db453f61a69986c74fb1f80a04ab4b7e9942797966dfa53f6d",
+                    "sha256": "f92d0023424fd4db453f61a69986c74fb1f80a04ab4b7e9942797966dfa53f6d"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/df/df0c0fbc293e83367fc1bcfa0614818e13fe781f117e8053e17e3974cab5b91c",
-                  "sha256": "df0c0fbc293e83367fc1bcfa0614818e13fe781f117e8053e17e3974cab5b91c"
+                  "path": ".local-e2e/store/e2e/sha256/98/98e08a7bf11afb4b55bb64771d367a6841add1dc1f50823a153fcf330b3b5e8a",
+                  "sha256": "98e08a7bf11afb4b55bb64771d367a6841add1dc1f50823a153fcf330b3b5e8a"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/2e/2e1f46c49714bcfb59926ebfe394d98004c20e7c0c38d1412dc4196e0eb34dd4",
-                  "sha256": "2e1f46c49714bcfb59926ebfe394d98004c20e7c0c38d1412dc4196e0eb34dd4"
+                  "path": ".local-e2e/store/metadata/sha256/8a/8aa2205e8a3ea2cf2ed04d5ae83eed52c4e9ca6b8d2722afa2bb853a9939357c",
+                  "sha256": "8aa2205e8a3ea2cf2ed04d5ae83eed52c4e9ca6b8d2722afa2bb853a9939357c"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/14/14865c0a4995e7df32d89dfa8604af704a869f351d4cc2f750cabf44fa3a4737",
-                  "sha256": "14865c0a4995e7df32d89dfa8604af704a869f351d4cc2f750cabf44fa3a4737"
+                  "path": ".local-e2e/store/packages/sha256/19/192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc",
+                  "sha256": "192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/9e/9e06cc395405cff696d5474fbeae15ee643a3eda644ba84ba350870f81f9734b",
-                    "sha256": "9e06cc395405cff696d5474fbeae15ee643a3eda644ba84ba350870f81f9734b"
+                    "path": ".local-e2e/store/recipes/sha256/a0/a0d5ee950845078e01914169783ef0e1336601e4cd58e5a21afd7eeb497318c4",
+                    "sha256": "a0d5ee950845078e01914169783ef0e1336601e4cd58e5a21afd7eeb497318c4"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/89/8987f6568ebc6d5ae433081b7d9a7866bceb820b07f49a9965bac5032fdf2bd5",
-                    "sha256": "8987f6568ebc6d5ae433081b7d9a7866bceb820b07f49a9965bac5032fdf2bd5"
+                    "path": ".local-e2e/store/recipes/sha256/5e/5e69d08a3e694d3b94e80bf1b1c94674b146e60d0f6432003f48dd0e5cb12140",
+                    "sha256": "5e69d08a3e694d3b94e80bf1b1c94674b146e60d0f6432003f48dd0e5cb12140"
                   }
                 }
               },
               "metadata": {
-                "path": "snes9x2005_plus_libretro.info",
-                "sha256": "2e1f46c49714bcfb59926ebfe394d98004c20e7c0c38d1412dc4196e0eb34dd4",
-                "size": 1456,
+                "path": "genesis_plus_gx_wide_libretro.info",
+                "sha256": "8aa2205e8a3ea2cf2ed04d5ae83eed52c4e9ca6b8d2722afa2bb853a9939357c",
+                "size": 2917,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T11:35:03+00:00",
+              "promoted_at": "2026-07-24T15:21:38+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
@@ -539,8 +605,8 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "snes9x2005_plus",
-                "core_spec_sha256": "cc9a4d637c0b0c1fbb90d571f56c58a39b3b8623373945b23f588ee0f5860ff7",
+                "core_id": "genesis_plus_gx_wide",
+                "core_spec_sha256": "cea3bb502e4e5867973fe5a54e25df6cdb59f0d1f83b83cb8583488745bc9cc1",
                 "pipeline_bundle": {
                   "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
                   "files": {
@@ -683,19 +749,19 @@
                   "schema_version": 1
                 },
                 "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-snes9x2005_plus.yml",
-                "workflow_sha256": "63c9747ff53d521db79647370341151533c0f6fbace108a7444e36c5c553ffd1"
+                "repository_dirty": false,
+                "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af",
+                "workflow": ".github/workflows/build-genesis_plus_gx_wide.yml",
+                "workflow_sha256": "58227c8bf376e523894d1a83c66036c09df5b00d359fef10bb5836ffd753c047"
               },
               "source": {
-                "commit": "b60356971fc9caae02cd0853676dced886a08be7",
-                "requested_ref": "refs/heads/master",
-                "resolved_commit": "b60356971fc9caae02cd0853676dced886a08be7",
-                "resolved_url": "https://github.com/libretro/snes9x2005.git",
+                "commit": "29d9d104338f46bc2e65438fb207bcf54f701e92",
+                "requested_ref": "refs/heads/main",
+                "resolved_commit": "29d9d104338f46bc2e65438fb207bcf54f701e92",
+                "resolved_url": "https://github.com/libretro/Genesis-Plus-GX-Wide.git",
                 "submodules": [],
-                "tree": "5a13440308796f67a77f7e8fc16bbeee61ab301d",
-                "url": "https://github.com/libretro/snes9x2005.git"
+                "tree": "27e05ed457d9c10e51b6c69067e1c05599df08fb",
+                "url": "https://github.com/libretro/Genesis-Plus-GX-Wide.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -738,7 +804,7 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "e7be889b3ae9d436208ba7b9ecac8bfa31da1a1a303e0dcb09a756f67d1bcb35"
+            "provenance_identity_sha256": "b1a1dfcb4aa02e20838242658852d61213b1088e83b9d38aa5be0b8c675c3938"
           }
         },
         "tier": "build_golden",
@@ -747,14 +813,14 @@
       "source_index": 0
     }
   },
-  "created_at": "2026-07-24T11:35:03+00:00",
+  "created_at": "2026-07-24T15:21:38+00:00",
   "local_only": true,
   "parent": null,
-  "pin_id": "snes9x2005_plus-b60356971fc9-77ca2d085240",
+  "pin_id": "genesis_plus_gx_wide-29d9d104338f-6184c4659fe1",
   "publication": "disabled",
   "schema_version": 1,
   "scope": [
-    "snes9x2005_plus"
+    "genesis_plus_gx_wide"
   ],
   "selection_policy": {
     "failed_candidate": "retain-parent",
@@ -765,10 +831,10 @@
   },
   "sources": [
     {
-      "content_sha256": "f8726d7300c5d4d5dc21adc8cc5a776ee51d70328528c3486e12dda624a7762c",
-      "file_sha256": "32949bd1396d8da0df4eb1a86d52d3a869f149768744f4a3c1684c825ee28ac4",
-      "path": ".local-e2e/nightlies/snes9x2005_plus-b60356971fc9-77ca2d085240/golden.json",
-      "pin_id": "snes9x2005_plus-b60356971fc9-77ca2d085240"
+      "content_sha256": "f06b324e36bc5ff1f303965d438794e2faffd6a0dde8a51641d100f36dc43ad8",
+      "file_sha256": "04bce18eecef9f3f933794a83f9c3b657ae8a0f630bfb33e3328cb8ee819c217",
+      "path": ".local-e2e/nightlies/genesis_plus_gx_wide-29d9d104338f-6184c4659fe1/golden.json",
+      "pin_id": "genesis_plus_gx_wide-29d9d104338f-6184c4659fe1"
     }
   ],
   "summary": {

@@ -4,12 +4,12 @@
   "core_id": "snes9x2005_plus",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/snes9x2005_plus-b60356971fc9-77ca2d085240.json",
+  "golden_source": "pins/core-sets/snes9x2005_plus-b60356971fc9-1d19ddd8a238.json",
   "source_commit": "b60356971fc9caae02cd0853676dced886a08be7",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-snes9x2005_plus-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "320373dec53a744c0356c8c2312a43070d95f47a0d80a7c7f2eff2af29b51b3e",
-  "reproduction_run": ".local-e2e/runs/build-core-snes9x2005_plus-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "115576ce6dca5e63659fbee834549a03b2d7123c4fa302bfc2b156b1ffa4cf69",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-snes9x2005_plus-w3c/e2e-record.json",
+  "selected_e2e_content_sha256": "0bcf4aa45fafab3c6238d5c47d1b31c652d0b4cdb7f249852ddb6f7aabb05668",
+  "reproduction_run": ".local-e2e/runs/build-core-snes9x2005_plus-local-w3c/e2e-record.json",
+  "reproduction_e2e_content_sha256": "24c81cb6cfdef626a6d1a49b5bfb2d8ed37c013eb002d7a8c63ea20974558e42",
   "package_state": "reproducible",
   "package_sha256": "14865c0a4995e7df32d89dfa8604af704a869f351d4cc2f750cabf44fa3a4737",
   "caveats": [
@@ -59,5 +59,5 @@
       ]
     }
   },
-  "content_sha256": "ab5e465572e8eb6740e0c01b744d73ed59abbfd1c48d2498f21afc78348f9d18"
+  "content_sha256": "539e263902d1f606a2b20921c00087bf4891d66eaee00f747e4983a8511682de"
 }

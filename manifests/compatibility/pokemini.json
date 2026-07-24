@@ -4,12 +4,12 @@
   "core_id": "pokemini",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json",
+  "golden_source": "pins/core-sets/pokemini-bb009b1379ad-3abb4885cf09.json",
   "source_commit": "bb009b1379ad15f1514f20ca7cbf710b4af42b3e",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-pokemini-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "01b07251d3c197577688b5479b96cb034fcd14b38b599e3799e4b4c4fa341cef",
-  "reproduction_run": ".local-e2e/runs/build-core-pokemini-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "5acd99900124207589dc0cb5bc8ab6f7b1047a69d93f53ec9acfb5e945f12d3b",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-pokemini-w3c/e2e-record.json",
+  "selected_e2e_content_sha256": "ab696ca1faa35cd1d3293a0c14f12a642e8d42b8a724af029c06ffaa5f47dffa",
+  "reproduction_run": ".local-e2e/runs/build-core-pokemini-local-w3c/e2e-record.json",
+  "reproduction_e2e_content_sha256": "8076ac02ab1834bee10fddd334df8c2b61eef231b0d2437c0c79188a95c1983f",
   "package_state": "reproducible",
   "package_sha256": "696b0a4992feb760311ef967fe61a78c024d5a95550cf8603874c3ce6ff17b79",
   "caveats": [
@@ -57,5 +57,5 @@
       ]
     }
   },
-  "content_sha256": "fd0d997d36eda58c1da01a01ef4cabfd029f94e02f3a0c3d809f94d76d599e34"
+  "content_sha256": "2526045556e937e68d68668ba910669bf5fa330d262c982426245e1be5b99e0b"
 }

@@ -4,12 +4,12 @@
   "core_id": "crocods",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/crocods-87bbb3d9007a-5a44afda913e.json",
+  "golden_source": "pins/core-sets/crocods-87bbb3d9007a-987ab7429a42.json",
   "source_commit": "87bbb3d9007ac537864278c6c3149ae3291873f8",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-crocods-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "c61fde30675b6a7b41751c3505eccb8d83a3bd23334b099aa9498accf1846016",
-  "reproduction_run": ".local-e2e/runs/build-core-crocods-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "ca9da6d1214d2e5a000a013270d278b7524e10ed9cd2e8ccb0dbc2ed59dab602",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-crocods-w3c/e2e-record.json",
+  "selected_e2e_content_sha256": "cdb74bb80a4259f283c8bcef219d2a2699bb07501089c6ba06092ad199bc2196",
+  "reproduction_run": ".local-e2e/runs/build-core-crocods-local-w3c/e2e-record.json",
+  "reproduction_e2e_content_sha256": "e12f286eaea8aea22efaacaa896214a16e2cee2525ee358bd746925e8dedf891",
   "package_state": "reproducible",
   "package_sha256": "9504d858daaee44be2f789dde40f53ab532ba7c2e3515a0468d19740e1423d35",
   "caveats": [
@@ -57,5 +57,5 @@
       ]
     }
   },
-  "content_sha256": "ac5dd6a26107d59250059b2075454d4a4e56c383befe652a5ae105f945d91b5d"
+  "content_sha256": "5cac7e789f5cc411b533c0d03875fac54f9174da7a12e3c917b9f1b58ffeb9fb"
 }

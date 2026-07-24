@@ -4,12 +4,12 @@
   "core_id": "bluemsx",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/bluemsx-5f595c79906f-e600380ac6d7.json",
+  "golden_source": "pins/core-sets/bluemsx-5f595c79906f-5d1ea1b42de8.json",
   "source_commit": "5f595c79906ff3379641b5ee8f3796106214a0a4",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-bluemsx-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "6866d998e861843d5eb66ecdd65e13e1fe726be17a23fb875570b48f9ffcaec1",
-  "reproduction_run": ".local-e2e/runs/build-core-bluemsx-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "6629b72940b172e07ddd4e416712411e4b438783d2bcbc417e1000f136644cbb",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-bluemsx-w3c/e2e-record.json",
+  "selected_e2e_content_sha256": "cba80340888230cecfd2bd9a36852cc87c84b666ca320b576c915c674d7ccb7e",
+  "reproduction_run": ".local-e2e/runs/build-core-bluemsx-local-w3c/e2e-record.json",
+  "reproduction_e2e_content_sha256": "dca17721dde8ca162fe9733d0a12b064e2ab652f0a476e39fca4b1fd45d8c725",
   "package_state": "reproducible",
   "package_sha256": "8ec3c360d6be309730509311eb5cadce01b9dfeb173debc536f353908c8d7c9f",
   "caveats": [
@@ -70,5 +70,5 @@
       ]
     }
   },
-  "content_sha256": "49ac23b94e7e87edaa47119102fab2d6c43c1ad2f381caa78bf3e3da5114724a"
+  "content_sha256": "0f1117b4be872d14b3bf99be8c45bc72ba8a72a5ed3e0c6bf811a64de7ba9eb6"
 }

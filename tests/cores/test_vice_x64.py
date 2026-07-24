@@ -26,7 +26,7 @@ from .support import (
 
 CORE_ID = "vice_x64"
 OTHER_CORE_ID = "gearcoleco"
-PIN_NAME = "vice_x64-7946cfa0d377-1085a07760d4.json"
+PIN_NAME = "vice_x64-7946cfa0d377-4b611c28b848.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -41,22 +41,22 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "d5d918cb679dfa3ea51a8efca2798cb6051d8fcf139d8519955a476a42d4841e"
 )
 SELECTION_SHA256 = (
-    "1085a07760d4f425962a8f218d0c644bd505296acae17a8a86e5fb7150150219"
+    "4b611c28b84852b61e586639e13c6ab0b0a3ab88b928286b617f529acdf29992"
 )
-SELECTED_RUN = "actions-sim-build-core-vice_x64-w3"
-REPRODUCTION_RUN = "build-core-vice_x64-local-w3"
+SELECTED_RUN = "actions-sim-build-core-vice_x64-w3c"
+REPRODUCTION_RUN = "build-core-vice_x64-local-w3c"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "c57bb46de4cfe6e41dc92ad319e6aa71c9603e55aa6f2fe4d6411f00e507c19c"
+    "799ecd52047cd2478bd7d80acd210d4e4eb0a17d281deb550311762702e3fd1c"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "31302d5bf1ee7eb9e9c9a04acad4d26b2a4e1ef17a90c89277ae55ed6f08dd5a"
+    "f8e08daea026489b8a8f34780a09cf74fa3f27014e029910ed70b56659932464"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "5c2084f40af1848d71a523ee2f1af760162431f99d65511c3340e9e68bf814f9"
+        "a2640ffff16f48c2e379c353c08be78a3fddf89689cbe75992ee66c3bf32484f"
     ),
     REPRODUCTION_RUN: (
-        "c0dd1f8920348ad5adff3a0c4f962cc0361a2ede6efa7c78c8222b41b2cde1db"
+        "e3fbdced94b8f04f52fb6ab1a43b0611c611a5c4cc178d7d58c9207115124f5b"
     ),
 }
 PACKAGE_SHA256 = (
@@ -67,7 +67,7 @@ METADATA_SHA256 = (
     "4051f9d21e2e22e8268b2c98cde07bfd942d71e135bf0ad455c3c12a7e1fdd23"
 )
 METADATA_SIZE = 2210
-RECIPE_HEAD = "9d95cda3d6dce32c8d33d85a58f37adad19d38d7"
+RECIPE_HEAD = "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
 RUNNERS = {
     SELECTED_RUN: {
         "backend": "local-docker",
@@ -92,18 +92,18 @@ TARGETS = {
         "artifact_size": 3580888,
         "record_sha256": {
             SELECTED_RUN: (
-                "c87e49c43a669602b10f1c102d8a353998ae2eba2a2805f25a5ca2ebcfe9a194"
+                "c5dcef07f34e66f1b3ec8ca81574f7597475c261c47f978ee88a460db5713aab"
             ),
             REPRODUCTION_RUN: (
-                "506d1ad753ffdc3f894d5c20b9f5ecf9551ec17f37674168c0abadcd5906ddda"
+                "7f0e1026282d0e559eb7808aeacaafd9d50a4a4285e32623aed9bd8795dfee94"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "040f766c5b686c55d286f0024a5855e60c737d119e0a92d6d1a396d62e0def32"
+                "1dcd0b81a22049b752e5e5e546a6fe812883ee3c4e8e5a665dbba5b996e80959"
             ),
             REPRODUCTION_RUN: (
-                "3beeca425d69c37506a4aa8e8503d11635df6426eb64c693ab9f63de333f3fba"
+                "629114b754df1d7ec885054f1b6d9ca29b11e49de780f4d3326a974f7c0a9326"
             ),
         },
         "elf": "ELF64/AArch64",
@@ -126,12 +126,12 @@ TARGETS = {
         ],
         "execution_profile_id": "ra64-universal-v1",
         "image_id": (
-            "sha256:cc8a545183ab61910e87b86b9d498ebff596ec8a253e28272e96f3f7a7fd4488"
+            "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9"
         ),
         "toolchain_archive_sha256": (
-            "bb1c69cf19fcf3cbccaee06cc8b8a01bf7020fb1ac306d3d876530b6e9636012"
+            "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64"
         ),
-        "toolchain_archive_size": 444660272,
+        "toolchain_archive_size": 502531978,
     },
     "armhf": {
         "artifact_sha256": (
@@ -140,18 +140,18 @@ TARGETS = {
         "artifact_size": 2914924,
         "record_sha256": {
             SELECTED_RUN: (
-                "bd4cee2484aca8c0888385ab0dcdbcfce2ffc06af927530f5b0cfd6a8f6945eb"
+                "155ee6b3cd85c14cab03ddd49fa7e084457fc21c012e8e29da7378fe2e160712"
             ),
             REPRODUCTION_RUN: (
-                "0ffec2870f85f2f1c4ce53b48c00e2405f3a61a2ce82f91a8c028b816f2f9563"
+                "c739b00fd35649e515e47f4a0cb79bce5af5804fae22e1eb428d84a39c441b52"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "f8303045f5ec96d48f3f4d64bd93074b82fb0c2094779a54e473ae51a6917dd2"
+                "b8674e01e1a966544f7a4095a8a6e66fefeaec1c010b916d3486ce627ac4249c"
             ),
             REPRODUCTION_RUN: (
-                "6770809e8b7f353c71b7ea5ef2854e3091227452b22eae4cdda7ffacd67ff342"
+                "5aadd1fa569a5abe1949546e1217087aee0e83eb16293147659cf05c6ea7e1d1"
             ),
         },
         "elf": "ELF32/ARM hard-float",
@@ -169,12 +169,12 @@ TARGETS = {
         ],
         "execution_profile_id": "ra32-a30-v1",
         "image_id": (
-            "sha256:e09ffce413cf62c14a24fd8aa3beebbbfaccd5b0b5223ac529d132f4aabd92b9"
+            "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9"
         ),
         "toolchain_archive_sha256": (
-            "e2b103c7bf1fdc9bb3ce3cf7bcde9cf2f3fd473fb0d916e8b4d0b4d278fd1afe"
+            "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e"
         ),
-        "toolchain_archive_size": 784604625,
+        "toolchain_archive_size": 835303648,
     },
 }
 SOURCE_LOCK_IDENTITY = {

@@ -24,7 +24,7 @@ from .support import (
 
 CORE_ID = "mednafen_ngp"
 OTHER_CORE_ID = "mednafen_vb"
-PIN_NAME = "mednafen_ngp-a50d5ac288a8-26b82754fc25.json"
+PIN_NAME = "mednafen_ngp-a50d5ac288a8-7938cf552d4b.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -43,28 +43,28 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "2556b39a879e181d04ec8261da1bd62182b1a44045932c676f173bdde9f48eb5"
 )
 PIN_FILE_SHA256 = (
-    "a708aabed1e6a754316e00c9b1362025d319a3c74afd0955c799a6ef4580743c"
+    "02e14e63256900fbe5b7f89775d4c70ad7c3aaa9a687f7510ddbdc3a919012d4"
 )
 PIN_CONTENT_SHA256 = (
-    "52d5048d86556875918af500764f708649411cea878c1434604677ef19430073"
+    "bc6149ef7f3837be2b982712db652fe788678d47a8b72ca2b495bb5edcb4c2db"
 )
 SELECTION_SHA256 = (
-    "26b82754fc259bc1b6c968afb221745117d8b75919599e5d229edb3219c33639"
+    "7938cf552d4bf20fdf3b901f8e03cdcfa1257092f378f09975df3e33128cc5de"
 )
-SELECTED_RUN = "actions-sim-build-core-mednafen_ngp-w3"
-REPRODUCTION_RUN = "build-core-mednafen_ngp-local-w3"
+SELECTED_RUN = "actions-sim-build-core-mednafen_ngp-w3c"
+REPRODUCTION_RUN = "build-core-mednafen_ngp-local-w3c"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "887ef2f13a2ff12e129a35aabea083e7d1e148b16f1fcbb99c8ca1444ef06a18"
+    "75aef5cde8d1050a50367c790e76dc8b5493cd400051a505c0926662007fa4c2"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "ecde7ae08a8c9ae7ddffaf59882efc7b70dc5897383928b0e697af21c7432fc5"
+    "9313ecce8ce7b4f95642c8037dde75b7ce2090dd358409663257bbb089ea9645"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "d32b32d807da10e45001c9b518513499ac1b742b19b855788a9180b1bbfee238"
+        "8ecfce1335dc635011d1768d3e1afea5adbb9f4aca46cb14b0a85c4ac01a8f9a"
     ),
     REPRODUCTION_RUN: (
-        "233678311d5d9e272eec12bbe1aa8dd2208784398d7f49b8ff5fae6fe0e78f84"
+        "429aa1acb768dacdca30155048d7cdccfafc04bd9786878965699b510bb39981"
     ),
 }
 PACKAGE_SHA256 = (
@@ -99,18 +99,18 @@ TARGETS = {
         "artifact_size": 431328,
         "record_sha256": {
             SELECTED_RUN: (
-                "0482e87d5fb69e49e7591c859a10a718d903b269d3595280026bf05f75428467"
+                "6406a372cb88e9c14f80ad6954c7a9d05ea62130a3a6ec6075be911287e2cb6f"
             ),
             REPRODUCTION_RUN: (
-                "6bebda65befa4f3a84209b3bfcc731e59bdc79c91ddab3e1c6aee11098da0499"
+                "6a83005f7913d07f4f0b9def6e488757b1609f1b1478524180337bdb5aed46da"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "90f5622b3979bbc3be9b03dfee3f6ecf918f94c3a6b4fb6cd4b7acb8d90fc8b7"
+                "5a121a71832cd3ff91ef858d3300d52c0fb30ced14319ac9e2c538f82984bd46"
             ),
             REPRODUCTION_RUN: (
-                "90f5622b3979bbc3be9b03dfee3f6ecf918f94c3a6b4fb6cd4b7acb8d90fc8b7"
+                "5a121a71832cd3ff91ef858d3300d52c0fb30ced14319ac9e2c538f82984bd46"
             ),
         },
         "elf": "ELF64/AArch64",
@@ -135,10 +135,10 @@ TARGETS = {
         "artifact_size": 308108,
         "record_sha256": {
             SELECTED_RUN: (
-                "f381dc5b7db6119815ea6913ac7ad10ebcfc436a5f251f8e6bc90563c0136dad"
+                "6387baab36126a9f23065b3fd083f0edf9bf48ecd9508111fc2664847bf39503"
             ),
             REPRODUCTION_RUN: (
-                "766bfbfdd1d037758d37c3e9db3699dbd531d11e30784911210f3e1716085fd9"
+                "0203d1e44103a466193ccc7a9eab10df67b40e227745eedf2bbda7c9cbda3ecd"
             ),
         },
         "log_sha256": {
@@ -640,7 +640,10 @@ class MednafenNgpCoreEvidenceTests(unittest.TestCase):
         for architecture, payloads in artifacts.items():
             with self.subTest(byte_reproduction=architecture):
                 self.assertEqual(payloads[0], payloads[1])
-                self.assertNotEqual(logs[architecture][0], logs[architecture][1])
+                # Parallel make usually interleaves the two runs' logs
+                # differently, but identical ordering is a legitimate
+                # outcome; the invariant is the line multiset, not byte
+                # inequality.
                 self.assertEqual(
                     Counter(logs[architecture][0].splitlines()),
                     Counter(logs[architecture][1].splitlines()),

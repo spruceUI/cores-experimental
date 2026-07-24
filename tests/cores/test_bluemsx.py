@@ -27,7 +27,7 @@ from .support import (
 
 CORE_ID = "bluemsx"
 OTHER_CORE_ID = "fmsx"
-PIN_NAME = "bluemsx-5f595c79906f-e600380ac6d7.json"
+PIN_NAME = "bluemsx-5f595c79906f-5d1ea1b42de8.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -46,39 +46,39 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "46a90fa7e78b9c164cd5d834b5ccaa1af8da5c5d7031e07bf52b7c2f79c2d894"
 )
 SOURCE_SET_FILE_SHA256 = (
-    "3d746c6560ed4154c4c9e475ddada028ec8148ec8dc5836b75dff27467051120"
+    "89fb9b9819000f166130323b367df4e84db9a4d73deed81448466da537242feb"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "5a3237a3056a20f5fca2185c5c22587fce09ec402113d661bffbe9f582ec4996"
+    "7ab11c415575e2c20d67d1b5ad79084e285ef05396791fee35286cf6f9789c9c"
 )
 PIN_FILE_SHA256 = (
-    "ccfe1de55c262d6661d38656fdd24a0cdefa27bdcffc16cd019d5538f0b6fbf8"
+    "0e398d19680f64046e0abee2c0683ebb695d2223b511608f49603bcc69c24427"
 )
 PIN_CONTENT_SHA256 = (
-    "f991b2fbed831584737f61d033448c83b647ae7378c8cca1949d86f3a40c0a0e"
+    "1ae07ed47fa8e85ca899e05938b8666310b1c9b4e7a44219c8ee68c92f2ef4a1"
 )
 COMPATIBILITY_CONTENT_SHA256 = (
-    "49ac23b94e7e87edaa47119102fab2d6c43c1ad2f381caa78bf3e3da5114724a"
+    "0f1117b4be872d14b3bf99be8c45bc72ba8a72a5ed3e0c6bf811a64de7ba9eb6"
 )
 SELECTION_SHA256 = (
-    "e600380ac6d791374810b4185b5d506d6be5cd8ec2b92333d139225ac9759c29"
+    "5d1ea1b42de8462e0989872afb6e341eea58b404165185432af23815d0fb25fd"
 )
-SELECTED_RUN = "actions-sim-build-core-bluemsx-w3"
-REPRODUCTION_RUN = "build-core-bluemsx-local-w3"
+SELECTED_RUN = "actions-sim-build-core-bluemsx-w3c"
+REPRODUCTION_RUN = "build-core-bluemsx-local-w3c"
 E2E_CONTENT_SHA256 = {
     SELECTED_RUN: (
-        "6866d998e861843d5eb66ecdd65e13e1fe726be17a23fb875570b48f9ffcaec1"
+        "cba80340888230cecfd2bd9a36852cc87c84b666ca320b576c915c674d7ccb7e"
     ),
     REPRODUCTION_RUN: (
-        "6629b72940b172e07ddd4e416712411e4b438783d2bcbc417e1000f136644cbb"
+        "dca17721dde8ca162fe9733d0a12b064e2ab652f0a476e39fca4b1fd45d8c725"
     ),
 }
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "79834324e1ec83eae1d0184074d0864997bb7491c647a3489695e03b09020d60"
+        "269d346484409f2030c5acc3c6c77389990944d39835daa3f6b0c41fdcf81c4d"
     ),
     REPRODUCTION_RUN: (
-        "23a827566bd9f6d9a5ecd3869d45e443616095d9c4659d8c3cc03441478cff0b"
+        "8895f5936f65a8adac0a5d00f7ad4caaccb54cd3db4f5d8f66fd596c8457e023"
     ),
 }
 PACKAGE_SHA256 = (
@@ -89,27 +89,27 @@ METADATA_SHA256 = (
     "e3840e08ff90f8567beedc9f96ee3597d48ea7a568cfd51aadca20850800257e"
 )
 METADATA_SIZE = 2286
-RECIPE_HEAD = "9d95cda3d6dce32c8d33d85a58f37adad19d38d7"
+RECIPE_HEAD = "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
 CORE_SPEC_SHA256 = (
     "4e7eceb00b599dde521189fff912b92714668561c97b25dd2dea38b810d6afd8"
 )
 CATALOG_SHA256 = (
-    "028a7677a13242cdb2e9a91ba85eab6093498a9d66cd6bb7bd90ec3f3b97670f"
+    "4b374c814b03b543769e485f850b8edf579add8896f2b52c974bddd3b3341415"
 )
 PIPELINE_SHA256 = (
-    "0769decb45af2d38edca1b38171cef230715756533ab5d483ea2a73eb9f8d8ef"
+    "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6"
 )
 PIPELINE_BUNDLE_CONTENT_SHA256 = (
-    "d4f5928d2c412e75ee02378aa03b944d58625e35eae8bc047d50cf03eeed0c0d"
+    "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73"
 )
 WORKFLOW_SHA256 = (
     "5f297670b44d340c7cedc0586c03438d5364af3add69b0fdb835d28455b9c401"
 )
 TOOLCHAIN_LOCK_FILE_SHA256 = (
-    "bc2fc35e12b30b6a7ca333543077f6812ed797001c05dd8dd2719670e1c6989f"
+    "7606e9357490f451df4374d38aad73a0426e3bb956a732dcaaa6b32393ee8639"
 )
 TOOLCHAIN_LOCK_CONTENT_SHA256 = (
-    "538d677d4a8c0f1382c851d93c9d628e6c4dbebcdebda0a4b652b7bcacb4493a"
+    "253f7d84cc71fa859553fa05fab4c2356b842196104953b092501850c217a794"
 )
 LIBRETRO_SUPER_COMMIT = "60f5c62789af16379446544d64228afa1d6b28b7"
 RUNNERS = {
@@ -136,10 +136,10 @@ TARGETS = {
         "artifact_size": 1812712,
         "record_sha256": {
             SELECTED_RUN: (
-                "d958846a9c629c4aa5472cea1d16dcb39e0b5d4f2986d6b081f48517933fcd4a"
+                "1140f00d0d6f5677da34abc1b7f01594fc2b0ade6a8bb26704769bec081cee97"
             ),
             REPRODUCTION_RUN: (
-                "b8013ac988e98c4f1d0217d6fcfa27f6442ed34dd68e7268588461073835c4b5"
+                "807aad70de6e23cf02f79aecbf404cd64283d54154f9bfd96c5f3aa7ef786c87"
             ),
         },
         "log_sha256": (
@@ -156,14 +156,14 @@ TARGETS = {
         ],
         "execution_profile_id": "ra64-universal-v1",
         "image_id": (
-            "sha256:cc8a545183ab61910e87b86b9d498ebff596ec8a253e28272e96f3f7a7fd4488"
+            "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9"
         ),
         "toolchain_archive_sha256": (
-            "bb1c69cf19fcf3cbccaee06cc8b8a01bf7020fb1ac306d3d876530b6e9636012"
+            "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64"
         ),
-        "toolchain_archive_size": 444660272,
+        "toolchain_archive_size": 502531978,
         "recipe_snapshot_sha256": (
-            "c5353b5898df5c5a661aa07cb316d64d1cb09363fe95e12078f56c1e8817852a"
+            "d276b9f77d713260a841c2b47a484774ba246bd2279c2a0e4d2fd3052a518106"
         ),
         "compilers": (
             "aarch64-linux-gnu-gcc",
@@ -178,10 +178,10 @@ TARGETS = {
         "artifact_size": 1538228,
         "record_sha256": {
             SELECTED_RUN: (
-                "797f4a94ae98c9d5f5dbd311a98bb7156948b62f4d24076bced5588cef851b1e"
+                "a17ced2ced17cf4c0311438fec032be7228a3c57498d40a4ed959c8d9d4f9af8"
             ),
             REPRODUCTION_RUN: (
-                "2427046570e1dd137399e6cbf6ed33dc838b5cacb221735920b679e6cb6363ac"
+                "b9657f74496cca08a693be46245cf8ad18fc6cce7142fecc2aa33039e556502c"
             ),
         },
         "log_sha256": (
@@ -199,14 +199,14 @@ TARGETS = {
         ],
         "execution_profile_id": "ra32-a30-v1",
         "image_id": (
-            "sha256:e09ffce413cf62c14a24fd8aa3beebbbfaccd5b0b5223ac529d132f4aabd92b9"
+            "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9"
         ),
         "toolchain_archive_sha256": (
-            "e2b103c7bf1fdc9bb3ce3cf7bcde9cf2f3fd473fb0d916e8b4d0b4d278fd1afe"
+            "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e"
         ),
-        "toolchain_archive_size": 784604625,
+        "toolchain_archive_size": 835303648,
         "recipe_snapshot_sha256": (
-            "e2178a4cc3899f3ec0cc876566b064b4ee093fc56be98535e0e077b467d3a785"
+            "a7946e81f20c14bb26735ef8014f3bb15be0b79603c6814b86004c3178d48e92"
         ),
         "compilers": (
             "arm-a30-linux-gnueabihf-gcc",
@@ -442,20 +442,20 @@ class BlueMsxCoreEvidenceTests(unittest.TestCase):
         }
         target_hashes = {
             "nightly": (
-                "b3be23443add7d382e5d3566ebaad63d0610f0da7a842466e1b7c181e07e2a55"
+                "4309e5a4582bb319f7ba3a95ca527fe5f214be85a0975698863c4b0661f4145d"
             ),
             "pinned": PIN_FILE_SHA256,
             "release": (
-                "0c4330ea6d2022f77069a353ab96f52cfc942f7a9f22a4d8beffcd8f728fce0c"
+                "ad937feb5dcb77e46a9f7656c947d23a21e237d3e1993bb2b07ec6570569844b"
             ),
         }
         content_hashes = {
             "nightly": (
-                "fcd03723f9016de8a9b070cb790b86b5d9bb5d2553e8e83d322181023e174760"
+                "659e7a247a681a4857aeb7a44149bfcbe1043d6809929b56542f5d8c96128c1e"
             ),
             "pinned": PIN_CONTENT_SHA256,
             "release": (
-                "8497b7e4c25349d9dba21dec7b5a413f59313a4812550ed33cd4d53d761b6570"
+                "b632741f02bc3776f1d21fb76b679604c508b452090a1e32a19b9683f000c25a"
             ),
         }
         for channel, target_path in target_paths.items():

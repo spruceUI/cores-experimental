@@ -1,39 +1,39 @@
 {
   "$schema": "../../manifests/core-set.schema.json",
-  "content_sha256": "27481b866249c6e6c946633b22cdf63f76e4aedb0411aba08508428ec68a07c6",
+  "content_sha256": "f68c3b560eedebb018da92fde26952cde636f22604a10a0c9c0a8b0a758b6272",
   "cores": {
-    "gearcoleco": {
+    "vice_xvic": {
       "decision": "select_source",
       "selection": {
         "e2e": {
           "build_records": {
-            "arm64": "156add96633309820aac94597dea9d850348f08b9ed1693072b220dffc569489",
-            "armhf": "e50f87860007d2b0a12dd6280eb674e4af0415029adc4f8b3bd4620ef233e491"
+            "arm64": "f26c8e3a34aa359178c28e3145be883dd0366f19d7343d8cb6db21dc30786d97",
+            "armhf": "9dc9e4557939889ac8613ba6b932eace8e41f0909ba2c74afcc95e072e23e399"
           },
-          "content_sha256": "e8f5aa0a5b8fbd60b24b11438bb9e716a4dffae20e879002fb744647e8cad251",
-          "package_sha256": "b5fabf6b1531d6f343e39d1e95372564b3b65493e17949675a299310fffafc90",
-          "run_id": "actions-sim-build-core-gearcoleco-w3"
+          "content_sha256": "93c879130afe9b69ed63f29d0a5c5638b709c61d5040d9d7b3c896296eea89e1",
+          "package_sha256": "10906ebef5504ea8fb41363da5ee0d0ffa1aac927bc72995e46015db8e63b8d1",
+          "run_id": "actions-sim-build-core-vice_xvic-w3c"
         },
         "metadata": {
-          "path": ".local-e2e/store/metadata/sha256/f1/f14225198347cce8b663b5db3e04c520a883ee5a6c1d1e0bfaf2a47f6ef2759e",
-          "sha256": "f14225198347cce8b663b5db3e04c520a883ee5a6c1d1e0bfaf2a47f6ef2759e",
-          "size": 1288
+          "path": ".local-e2e/store/metadata/sha256/48/48b23d8971b40aad47efb526b23b8ce11a5f21edd83a4b10fdd0de63a911e571",
+          "sha256": "48b23d8971b40aad47efb526b23b8ce11a5f21edd83a4b10fdd0de63a911e571",
+          "size": 1053
         },
         "package": {
-          "name": "gearcoleco_libretro.zip",
-          "path": ".local-e2e/store/packages/sha256/b5/b5fabf6b1531d6f343e39d1e95372564b3b65493e17949675a299310fffafc90",
-          "sha256": "b5fabf6b1531d6f343e39d1e95372564b3b65493e17949675a299310fffafc90",
-          "size": 337806
+          "name": "vice_xvic_libretro.zip",
+          "path": ".local-e2e/store/packages/sha256/10/10906ebef5504ea8fb41363da5ee0d0ffa1aac927bc72995e46015db8e63b8d1",
+          "sha256": "10906ebef5504ea8fb41363da5ee0d0ffa1aac927bc72995e46015db8e63b8d1",
+          "size": 2049996
         },
-        "selection_sha256": "02350ee96cf17307cfb9b49857072deb2affdd27a7b071da1cab6035119e5cfe",
+        "selection_sha256": "e23a9971f265954c7aca8c221523fb35a36710fd6d997c89344632f4e89b4eea",
         "targets": {
           "arm64": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/7d/7d787c5b5f84bf710e25070dc38a806d7c936c2274dea9135458d74a80f3537a",
-              "sha256": "7d787c5b5f84bf710e25070dc38a806d7c936c2274dea9135458d74a80f3537a",
-              "size": 643176
+              "path": ".local-e2e/store/artifacts/sha256/8b/8b3eda61d9c20032fea521ba24f2e97a690eee6cf2447abd2a02e12255907e0a",
+              "sha256": "8b3eda61d9c20032fea521ba24f2e97a690eee6cf2447abd2a02e12255907e0a",
+              "size": 2879480
             },
-            "build_record_sha256": "156add96633309820aac94597dea9d850348f08b9ed1693072b220dffc569489",
+            "build_record_sha256": "f26c8e3a34aa359178c28e3145be883dd0366f19d7343d8cb6db21dc30786d97",
             "golden_record": {
               "architecture": "arm64",
               "artifact": {
@@ -47,18 +47,41 @@
                 "errors": [],
                 "libretro_symbols": [
                   "retro_api_version",
+                  "retro_audio_queue",
                   "retro_cheat_reset",
                   "retro_cheat_set",
+                  "retro_closedir",
                   "retro_deinit",
+                  "retro_dirent_error",
+                  "retro_dirent_get_name",
+                  "retro_dirent_is_dir",
+                  "retro_disk_get_eject_state",
+                  "retro_disk_set_eject_state",
+                  "retro_disk_set_image_index",
+                  "retro_fastforwarding",
+                  "retro_get_aspect_ratio",
                   "retro_get_memory_data",
                   "retro_get_memory_size",
                   "retro_get_region",
                   "retro_get_system_av_info",
                   "retro_get_system_info",
                   "retro_init",
+                  "retro_key_down",
+                  "retro_key_up",
+                  "retro_keyboard_event",
+                  "retro_keymap_id",
+                  "retro_keymap_label",
+                  "retro_keymap_value",
+                  "retro_lightpen_update",
                   "retro_load_game",
                   "retro_load_game_special",
+                  "retro_opendir",
+                  "retro_opendir_include_hidden",
+                  "retro_poll_event",
+                  "retro_readdir",
+                  "retro_remove",
                   "retro_reset",
+                  "retro_rmdir",
                   "retro_run",
                   "retro_serialize",
                   "retro_serialize_size",
@@ -68,26 +91,50 @@
                   "retro_set_environment",
                   "retro_set_input_poll",
                   "retro_set_input_state",
+                  "retro_set_options_display",
                   "retro_set_video_refresh",
+                  "retro_ticks",
+                  "retro_ui_get_pointer_state",
                   "retro_unload_game",
-                  "retro_unserialize"
+                  "retro_unserialize",
+                  "retro_vfs_closedir_impl",
+                  "retro_vfs_dirent_get_name_impl",
+                  "retro_vfs_dirent_is_dir_impl",
+                  "retro_vfs_file_close_impl",
+                  "retro_vfs_file_error_impl",
+                  "retro_vfs_file_flush_impl",
+                  "retro_vfs_file_get_path_impl",
+                  "retro_vfs_file_open_impl",
+                  "retro_vfs_file_read_impl",
+                  "retro_vfs_file_remove_impl",
+                  "retro_vfs_file_rename_impl",
+                  "retro_vfs_file_seek_impl",
+                  "retro_vfs_file_seek_internal",
+                  "retro_vfs_file_size_impl",
+                  "retro_vfs_file_tell_impl",
+                  "retro_vfs_file_truncate_impl",
+                  "retro_vfs_file_write_impl",
+                  "retro_vfs_mkdir_impl",
+                  "retro_vfs_opendir_impl",
+                  "retro_vfs_readdir_impl",
+                  "retro_vfs_stat_impl"
                 ],
                 "needed": [
                   "ld-linux-aarch64.so.1",
                   "libc.so.6",
+                  "libgcc_s.so.1",
                   "libm.so.6",
                   "libstdc++.so.6"
                 ],
-                "path": "gearcoleco_libretro.so",
-                "sha256": "7d787c5b5f84bf710e25070dc38a806d7c936c2274dea9135458d74a80f3537a",
-                "size": 643176,
+                "path": "vice_xvic_libretro.so",
+                "sha256": "8b3eda61d9c20032fea521ba24f2e97a690eee6cf2447abd2a02e12255907e0a",
+                "size": 2879480,
                 "status": "valid",
                 "version_requirements": [
                   "CXXABI_1.3",
+                  "GCC_3.0",
                   "GLIBCXX_3.4",
                   "GLIBCXX_3.4.11",
-                  "GLIBCXX_3.4.20",
-                  "GLIBCXX_3.4.21",
                   "GLIBCXX_3.4.9",
                   "GLIBC_2.17",
                   "GLIBC_2.29"
@@ -98,82 +145,83 @@
                 "driver": "libretro-super",
                 "environment": "sanitized-v1",
                 "git_version": {
-                  "derivation": "native-git-describe-v1",
-                  "value": "1.6.6-11-g1123457"
+                  "derivation": "native-space-short10-v1",
+                  "value": " 7946cfa0d3"
                 },
                 "log": "build.log",
-                "log_sha256": "f480d8b9d05c381a052d3d9f791dfd224bb612cead3c3520197e7707ae79f7ae"
+                "log_sha256": "c5ad18bfc8f1f1e996f91f188f227a9e8ef5d2625828c815d2ad3c541f7bb6ce",
+                "source_date_epoch": 1780486798
               },
-              "core_id": "gearcoleco",
+              "core_id": "vice_xvic",
               "e2e": {
                 "build_records": {
-                  "arm64": "156add96633309820aac94597dea9d850348f08b9ed1693072b220dffc569489",
-                  "armhf": "e50f87860007d2b0a12dd6280eb674e4af0415029adc4f8b3bd4620ef233e491"
+                  "arm64": "f26c8e3a34aa359178c28e3145be883dd0366f19d7343d8cb6db21dc30786d97",
+                  "armhf": "9dc9e4557939889ac8613ba6b932eace8e41f0909ba2c74afcc95e072e23e399"
                 },
-                "content_sha256": "e8f5aa0a5b8fbd60b24b11438bb9e716a4dffae20e879002fb744647e8cad251",
-                "package": ".local-e2e/runs/actions-sim-build-core-gearcoleco-w3/gearcoleco_libretro.zip",
-                "package_sha256": "b5fabf6b1531d6f343e39d1e95372564b3b65493e17949675a299310fffafc90",
-                "record": ".local-e2e/runs/actions-sim-build-core-gearcoleco-w3/e2e-record.json",
-                "record_sha256": "df57362b6c5a078060316ecef928e24741df269d7cd82fe64292a90524c2d694",
-                "run_id": "actions-sim-build-core-gearcoleco-w3"
+                "content_sha256": "93c879130afe9b69ed63f29d0a5c5638b709c61d5040d9d7b3c896296eea89e1",
+                "package": ".local-e2e/runs/actions-sim-build-core-vice_xvic-w3c/vice_xvic_libretro.zip",
+                "package_sha256": "10906ebef5504ea8fb41363da5ee0d0ffa1aac927bc72995e46015db8e63b8d1",
+                "record": ".local-e2e/runs/actions-sim-build-core-vice_xvic-w3c/e2e-record.json",
+                "record_sha256": "2438c579f9b096a4619eab6dea907bd896e224ce105317a88af496ad16d219f3",
+                "run_id": "actions-sim-build-core-vice_xvic-w3c"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-gearcoleco-w3/gearcoleco/arm64/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-vice_xvic-w3c/vice_xvic/arm64/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/7d/7d787c5b5f84bf710e25070dc38a806d7c936c2274dea9135458d74a80f3537a",
-                  "sha256": "7d787c5b5f84bf710e25070dc38a806d7c936c2274dea9135458d74a80f3537a"
+                  "path": ".local-e2e/store/artifacts/sha256/8b/8b3eda61d9c20032fea521ba24f2e97a690eee6cf2447abd2a02e12255907e0a",
+                  "sha256": "8b3eda61d9c20032fea521ba24f2e97a690eee6cf2447abd2a02e12255907e0a"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/f4/f480d8b9d05c381a052d3d9f791dfd224bb612cead3c3520197e7707ae79f7ae",
-                    "sha256": "f480d8b9d05c381a052d3d9f791dfd224bb612cead3c3520197e7707ae79f7ae"
+                    "path": ".local-e2e/store/logs/sha256/c5/c5ad18bfc8f1f1e996f91f188f227a9e8ef5d2625828c815d2ad3c541f7bb6ce",
+                    "sha256": "c5ad18bfc8f1f1e996f91f188f227a9e8ef5d2625828c815d2ad3c541f7bb6ce"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/8d/8dc6bdae34799661556c8ebe3fd70be4f9e8deff7b6727cf5d64f0c056db23f7",
-                    "sha256": "8dc6bdae34799661556c8ebe3fd70be4f9e8deff7b6727cf5d64f0c056db23f7"
+                    "path": ".local-e2e/store/logs/sha256/db/db72cd5f8990d75702edf0e28e313870b9fa827db6576ad0fdd3cfc382e30a02",
+                    "sha256": "db72cd5f8990d75702edf0e28e313870b9fa827db6576ad0fdd3cfc382e30a02"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/15/156add96633309820aac94597dea9d850348f08b9ed1693072b220dffc569489",
-                    "sha256": "156add96633309820aac94597dea9d850348f08b9ed1693072b220dffc569489"
+                    "path": ".local-e2e/store/build-records/sha256/f2/f26c8e3a34aa359178c28e3145be883dd0366f19d7343d8cb6db21dc30786d97",
+                    "sha256": "f26c8e3a34aa359178c28e3145be883dd0366f19d7343d8cb6db21dc30786d97"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/e5/e50f87860007d2b0a12dd6280eb674e4af0415029adc4f8b3bd4620ef233e491",
-                    "sha256": "e50f87860007d2b0a12dd6280eb674e4af0415029adc4f8b3bd4620ef233e491"
+                    "path": ".local-e2e/store/build-records/sha256/9d/9dc9e4557939889ac8613ba6b932eace8e41f0909ba2c74afcc95e072e23e399",
+                    "sha256": "9dc9e4557939889ac8613ba6b932eace8e41f0909ba2c74afcc95e072e23e399"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/df/df57362b6c5a078060316ecef928e24741df269d7cd82fe64292a90524c2d694",
-                  "sha256": "df57362b6c5a078060316ecef928e24741df269d7cd82fe64292a90524c2d694"
+                  "path": ".local-e2e/store/e2e/sha256/24/2438c579f9b096a4619eab6dea907bd896e224ce105317a88af496ad16d219f3",
+                  "sha256": "2438c579f9b096a4619eab6dea907bd896e224ce105317a88af496ad16d219f3"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/f1/f14225198347cce8b663b5db3e04c520a883ee5a6c1d1e0bfaf2a47f6ef2759e",
-                  "sha256": "f14225198347cce8b663b5db3e04c520a883ee5a6c1d1e0bfaf2a47f6ef2759e"
+                  "path": ".local-e2e/store/metadata/sha256/48/48b23d8971b40aad47efb526b23b8ce11a5f21edd83a4b10fdd0de63a911e571",
+                  "sha256": "48b23d8971b40aad47efb526b23b8ce11a5f21edd83a4b10fdd0de63a911e571"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/b5/b5fabf6b1531d6f343e39d1e95372564b3b65493e17949675a299310fffafc90",
-                  "sha256": "b5fabf6b1531d6f343e39d1e95372564b3b65493e17949675a299310fffafc90"
+                  "path": ".local-e2e/store/packages/sha256/10/10906ebef5504ea8fb41363da5ee0d0ffa1aac927bc72995e46015db8e63b8d1",
+                  "sha256": "10906ebef5504ea8fb41363da5ee0d0ffa1aac927bc72995e46015db8e63b8d1"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/d5/d57033dee4e6353be6eb2cd6d93ea912ca809af93be136ef6bcd6e88bf32efe5",
-                    "sha256": "d57033dee4e6353be6eb2cd6d93ea912ca809af93be136ef6bcd6e88bf32efe5"
+                    "path": ".local-e2e/store/recipes/sha256/f2/f2b5365d693013bd5a1f84a2f49f5e0d7b009279e10408cbd3bd3e3b9967581d",
+                    "sha256": "f2b5365d693013bd5a1f84a2f49f5e0d7b009279e10408cbd3bd3e3b9967581d"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/fb/fba4c309dd06eea4a5566769583c0685b71320f249036806c03cf6d0f7313e3f",
-                    "sha256": "fba4c309dd06eea4a5566769583c0685b71320f249036806c03cf6d0f7313e3f"
+                    "path": ".local-e2e/store/recipes/sha256/82/822c091b612b8f0b88fe0de0ee121f795f153988a25c4e1cb794202c794c459a",
+                    "sha256": "822c091b612b8f0b88fe0de0ee121f795f153988a25c4e1cb794202c794c459a"
                   }
                 }
               },
               "metadata": {
-                "path": "gearcoleco_libretro.info",
-                "sha256": "f14225198347cce8b663b5db3e04c520a883ee5a6c1d1e0bfaf2a47f6ef2759e",
-                "size": 1288,
+                "path": "vice_xvic_libretro.info",
+                "sha256": "48b23d8971b40aad47efb526b23b8ce11a5f21edd83a4b10fdd0de63a911e571",
+                "size": 1053,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T10:47:14+00:00",
+              "promoted_at": "2026-07-24T15:22:12+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
@@ -187,8 +235,8 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "gearcoleco",
-                "core_spec_sha256": "ce2bfe37e2aa0ecebe88eabdf9e371eb8a71af30033914a5e7395229ba53f226",
+                "core_id": "vice_xvic",
+                "core_spec_sha256": "77071ace425419398bafd5bf0aed105b0868aed29beab6596476dc6335852731",
                 "pipeline_bundle": {
                   "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
                   "files": {
@@ -331,19 +379,19 @@
                   "schema_version": 1
                 },
                 "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-gearcoleco.yml",
-                "workflow_sha256": "dbba4582c9edec7083b30d914df86cb11439a4d93440bb471061436ab41c2919"
+                "repository_dirty": false,
+                "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af",
+                "workflow": ".github/workflows/build-vice_xvic.yml",
+                "workflow_sha256": "122c27f1653797d05dde6bef49452f9c126c84fc5e89e1fc92d15cdc6feb5815"
               },
               "source": {
-                "commit": "112345747c04eb7752d1939258881aa10319e32e",
-                "requested_ref": "refs/heads/main",
-                "resolved_commit": "112345747c04eb7752d1939258881aa10319e32e",
-                "resolved_url": "https://github.com/drhelius/Gearcoleco.git",
+                "commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
+                "requested_ref": "refs/heads/master",
+                "resolved_commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
+                "resolved_url": "https://github.com/libretro/vice-libretro.git",
                 "submodules": [],
-                "tree": "0afbed445cf4689daa878816f961ea4bcb4832a3",
-                "url": "https://github.com/drhelius/Gearcoleco.git"
+                "tree": "db2760ffc97b9c20ef8777fcb7689082be66bc45",
+                "url": "https://github.com/libretro/vice-libretro.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -386,15 +434,15 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "aa835f170a3ee236cc5911344375e06e6e85251d502850701f29ac46b2a62a5e"
+            "provenance_identity_sha256": "b962f3ec04594fd700ea81b782bac7dd6116add40f36ef75cfd053f54c89c1bc"
           },
           "armhf": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/5f/5f50ed387710cc80f4026229e05a7bf8632c5865bb0387a6f2b656bab311b48a",
-              "sha256": "5f50ed387710cc80f4026229e05a7bf8632c5865bb0387a6f2b656bab311b48a",
-              "size": 519388
+              "path": ".local-e2e/store/artifacts/sha256/8b/8bdec5897cd866061a52cb6e7d2f4428e9727692f66b6959c47efbdb5f94e3f5",
+              "sha256": "8bdec5897cd866061a52cb6e7d2f4428e9727692f66b6959c47efbdb5f94e3f5",
+              "size": 2374668
             },
-            "build_record_sha256": "e50f87860007d2b0a12dd6280eb674e4af0415029adc4f8b3bd4620ef233e491",
+            "build_record_sha256": "9dc9e4557939889ac8613ba6b932eace8e41f0909ba2c74afcc95e072e23e399",
             "golden_record": {
               "architecture": "armhf",
               "artifact": {
@@ -408,18 +456,41 @@
                 "errors": [],
                 "libretro_symbols": [
                   "retro_api_version",
+                  "retro_audio_queue",
                   "retro_cheat_reset",
                   "retro_cheat_set",
+                  "retro_closedir",
                   "retro_deinit",
+                  "retro_dirent_error",
+                  "retro_dirent_get_name",
+                  "retro_dirent_is_dir",
+                  "retro_disk_get_eject_state",
+                  "retro_disk_set_eject_state",
+                  "retro_disk_set_image_index",
+                  "retro_fastforwarding",
+                  "retro_get_aspect_ratio",
                   "retro_get_memory_data",
                   "retro_get_memory_size",
                   "retro_get_region",
                   "retro_get_system_av_info",
                   "retro_get_system_info",
                   "retro_init",
+                  "retro_key_down",
+                  "retro_key_up",
+                  "retro_keyboard_event",
+                  "retro_keymap_id",
+                  "retro_keymap_label",
+                  "retro_keymap_value",
+                  "retro_lightpen_update",
                   "retro_load_game",
                   "retro_load_game_special",
+                  "retro_opendir",
+                  "retro_opendir_include_hidden",
+                  "retro_poll_event",
+                  "retro_readdir",
+                  "retro_remove",
                   "retro_reset",
+                  "retro_rmdir",
                   "retro_run",
                   "retro_serialize",
                   "retro_serialize_size",
@@ -429,9 +500,33 @@
                   "retro_set_environment",
                   "retro_set_input_poll",
                   "retro_set_input_state",
+                  "retro_set_options_display",
                   "retro_set_video_refresh",
+                  "retro_ticks",
+                  "retro_ui_get_pointer_state",
                   "retro_unload_game",
-                  "retro_unserialize"
+                  "retro_unserialize",
+                  "retro_vfs_closedir_impl",
+                  "retro_vfs_dirent_get_name_impl",
+                  "retro_vfs_dirent_is_dir_impl",
+                  "retro_vfs_file_close_impl",
+                  "retro_vfs_file_error_impl",
+                  "retro_vfs_file_flush_impl",
+                  "retro_vfs_file_get_path_impl",
+                  "retro_vfs_file_open_impl",
+                  "retro_vfs_file_read_impl",
+                  "retro_vfs_file_remove_impl",
+                  "retro_vfs_file_rename_impl",
+                  "retro_vfs_file_seek_impl",
+                  "retro_vfs_file_seek_internal",
+                  "retro_vfs_file_size_impl",
+                  "retro_vfs_file_tell_impl",
+                  "retro_vfs_file_truncate_impl",
+                  "retro_vfs_file_write_impl",
+                  "retro_vfs_mkdir_impl",
+                  "retro_vfs_opendir_impl",
+                  "retro_vfs_readdir_impl",
+                  "retro_vfs_stat_impl"
                 ],
                 "needed": [
                   "libc.so.6",
@@ -439,20 +534,19 @@
                   "libm.so.6",
                   "libstdc++.so.6"
                 ],
-                "path": "gearcoleco_libretro.so",
-                "sha256": "5f50ed387710cc80f4026229e05a7bf8632c5865bb0387a6f2b656bab311b48a",
-                "size": 519388,
+                "path": "vice_xvic_libretro.so",
+                "sha256": "8bdec5897cd866061a52cb6e7d2f4428e9727692f66b6959c47efbdb5f94e3f5",
+                "size": 2374668,
                 "status": "valid",
                 "version_requirements": [
                   "CXXABI_1.3",
+                  "CXXABI_ARM_1.3.3",
                   "GCC_3.5",
                   "GLIBCXX_3.4",
                   "GLIBCXX_3.4.11",
-                  "GLIBCXX_3.4.20",
-                  "GLIBCXX_3.4.21",
-                  "GLIBCXX_3.4.32",
                   "GLIBCXX_3.4.9",
-                  "GLIBC_2.4"
+                  "GLIBC_2.4",
+                  "GLIBC_2.7"
                 ]
               },
               "build": {
@@ -460,82 +554,83 @@
                 "driver": "libretro-super",
                 "environment": "sanitized-v1",
                 "git_version": {
-                  "derivation": "native-git-describe-v1",
-                  "value": "1.6.6-11-g1123457"
+                  "derivation": "native-space-short10-v1",
+                  "value": " 7946cfa0d3"
                 },
                 "log": "build.log",
-                "log_sha256": "8dc6bdae34799661556c8ebe3fd70be4f9e8deff7b6727cf5d64f0c056db23f7"
+                "log_sha256": "db72cd5f8990d75702edf0e28e313870b9fa827db6576ad0fdd3cfc382e30a02",
+                "source_date_epoch": 1780486798
               },
-              "core_id": "gearcoleco",
+              "core_id": "vice_xvic",
               "e2e": {
                 "build_records": {
-                  "arm64": "156add96633309820aac94597dea9d850348f08b9ed1693072b220dffc569489",
-                  "armhf": "e50f87860007d2b0a12dd6280eb674e4af0415029adc4f8b3bd4620ef233e491"
+                  "arm64": "f26c8e3a34aa359178c28e3145be883dd0366f19d7343d8cb6db21dc30786d97",
+                  "armhf": "9dc9e4557939889ac8613ba6b932eace8e41f0909ba2c74afcc95e072e23e399"
                 },
-                "content_sha256": "e8f5aa0a5b8fbd60b24b11438bb9e716a4dffae20e879002fb744647e8cad251",
-                "package": ".local-e2e/runs/actions-sim-build-core-gearcoleco-w3/gearcoleco_libretro.zip",
-                "package_sha256": "b5fabf6b1531d6f343e39d1e95372564b3b65493e17949675a299310fffafc90",
-                "record": ".local-e2e/runs/actions-sim-build-core-gearcoleco-w3/e2e-record.json",
-                "record_sha256": "df57362b6c5a078060316ecef928e24741df269d7cd82fe64292a90524c2d694",
-                "run_id": "actions-sim-build-core-gearcoleco-w3"
+                "content_sha256": "93c879130afe9b69ed63f29d0a5c5638b709c61d5040d9d7b3c896296eea89e1",
+                "package": ".local-e2e/runs/actions-sim-build-core-vice_xvic-w3c/vice_xvic_libretro.zip",
+                "package_sha256": "10906ebef5504ea8fb41363da5ee0d0ffa1aac927bc72995e46015db8e63b8d1",
+                "record": ".local-e2e/runs/actions-sim-build-core-vice_xvic-w3c/e2e-record.json",
+                "record_sha256": "2438c579f9b096a4619eab6dea907bd896e224ce105317a88af496ad16d219f3",
+                "run_id": "actions-sim-build-core-vice_xvic-w3c"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-gearcoleco-w3/gearcoleco/armhf/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-vice_xvic-w3c/vice_xvic/armhf/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/5f/5f50ed387710cc80f4026229e05a7bf8632c5865bb0387a6f2b656bab311b48a",
-                  "sha256": "5f50ed387710cc80f4026229e05a7bf8632c5865bb0387a6f2b656bab311b48a"
+                  "path": ".local-e2e/store/artifacts/sha256/8b/8bdec5897cd866061a52cb6e7d2f4428e9727692f66b6959c47efbdb5f94e3f5",
+                  "sha256": "8bdec5897cd866061a52cb6e7d2f4428e9727692f66b6959c47efbdb5f94e3f5"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/f4/f480d8b9d05c381a052d3d9f791dfd224bb612cead3c3520197e7707ae79f7ae",
-                    "sha256": "f480d8b9d05c381a052d3d9f791dfd224bb612cead3c3520197e7707ae79f7ae"
+                    "path": ".local-e2e/store/logs/sha256/c5/c5ad18bfc8f1f1e996f91f188f227a9e8ef5d2625828c815d2ad3c541f7bb6ce",
+                    "sha256": "c5ad18bfc8f1f1e996f91f188f227a9e8ef5d2625828c815d2ad3c541f7bb6ce"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/8d/8dc6bdae34799661556c8ebe3fd70be4f9e8deff7b6727cf5d64f0c056db23f7",
-                    "sha256": "8dc6bdae34799661556c8ebe3fd70be4f9e8deff7b6727cf5d64f0c056db23f7"
+                    "path": ".local-e2e/store/logs/sha256/db/db72cd5f8990d75702edf0e28e313870b9fa827db6576ad0fdd3cfc382e30a02",
+                    "sha256": "db72cd5f8990d75702edf0e28e313870b9fa827db6576ad0fdd3cfc382e30a02"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/15/156add96633309820aac94597dea9d850348f08b9ed1693072b220dffc569489",
-                    "sha256": "156add96633309820aac94597dea9d850348f08b9ed1693072b220dffc569489"
+                    "path": ".local-e2e/store/build-records/sha256/f2/f26c8e3a34aa359178c28e3145be883dd0366f19d7343d8cb6db21dc30786d97",
+                    "sha256": "f26c8e3a34aa359178c28e3145be883dd0366f19d7343d8cb6db21dc30786d97"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/e5/e50f87860007d2b0a12dd6280eb674e4af0415029adc4f8b3bd4620ef233e491",
-                    "sha256": "e50f87860007d2b0a12dd6280eb674e4af0415029adc4f8b3bd4620ef233e491"
+                    "path": ".local-e2e/store/build-records/sha256/9d/9dc9e4557939889ac8613ba6b932eace8e41f0909ba2c74afcc95e072e23e399",
+                    "sha256": "9dc9e4557939889ac8613ba6b932eace8e41f0909ba2c74afcc95e072e23e399"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/df/df57362b6c5a078060316ecef928e24741df269d7cd82fe64292a90524c2d694",
-                  "sha256": "df57362b6c5a078060316ecef928e24741df269d7cd82fe64292a90524c2d694"
+                  "path": ".local-e2e/store/e2e/sha256/24/2438c579f9b096a4619eab6dea907bd896e224ce105317a88af496ad16d219f3",
+                  "sha256": "2438c579f9b096a4619eab6dea907bd896e224ce105317a88af496ad16d219f3"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/f1/f14225198347cce8b663b5db3e04c520a883ee5a6c1d1e0bfaf2a47f6ef2759e",
-                  "sha256": "f14225198347cce8b663b5db3e04c520a883ee5a6c1d1e0bfaf2a47f6ef2759e"
+                  "path": ".local-e2e/store/metadata/sha256/48/48b23d8971b40aad47efb526b23b8ce11a5f21edd83a4b10fdd0de63a911e571",
+                  "sha256": "48b23d8971b40aad47efb526b23b8ce11a5f21edd83a4b10fdd0de63a911e571"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/b5/b5fabf6b1531d6f343e39d1e95372564b3b65493e17949675a299310fffafc90",
-                  "sha256": "b5fabf6b1531d6f343e39d1e95372564b3b65493e17949675a299310fffafc90"
+                  "path": ".local-e2e/store/packages/sha256/10/10906ebef5504ea8fb41363da5ee0d0ffa1aac927bc72995e46015db8e63b8d1",
+                  "sha256": "10906ebef5504ea8fb41363da5ee0d0ffa1aac927bc72995e46015db8e63b8d1"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/d5/d57033dee4e6353be6eb2cd6d93ea912ca809af93be136ef6bcd6e88bf32efe5",
-                    "sha256": "d57033dee4e6353be6eb2cd6d93ea912ca809af93be136ef6bcd6e88bf32efe5"
+                    "path": ".local-e2e/store/recipes/sha256/f2/f2b5365d693013bd5a1f84a2f49f5e0d7b009279e10408cbd3bd3e3b9967581d",
+                    "sha256": "f2b5365d693013bd5a1f84a2f49f5e0d7b009279e10408cbd3bd3e3b9967581d"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/fb/fba4c309dd06eea4a5566769583c0685b71320f249036806c03cf6d0f7313e3f",
-                    "sha256": "fba4c309dd06eea4a5566769583c0685b71320f249036806c03cf6d0f7313e3f"
+                    "path": ".local-e2e/store/recipes/sha256/82/822c091b612b8f0b88fe0de0ee121f795f153988a25c4e1cb794202c794c459a",
+                    "sha256": "822c091b612b8f0b88fe0de0ee121f795f153988a25c4e1cb794202c794c459a"
                   }
                 }
               },
               "metadata": {
-                "path": "gearcoleco_libretro.info",
-                "sha256": "f14225198347cce8b663b5db3e04c520a883ee5a6c1d1e0bfaf2a47f6ef2759e",
-                "size": 1288,
+                "path": "vice_xvic_libretro.info",
+                "sha256": "48b23d8971b40aad47efb526b23b8ce11a5f21edd83a4b10fdd0de63a911e571",
+                "size": 1053,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T10:47:15+00:00",
+              "promoted_at": "2026-07-24T15:22:14+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
@@ -549,8 +644,8 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "gearcoleco",
-                "core_spec_sha256": "ce2bfe37e2aa0ecebe88eabdf9e371eb8a71af30033914a5e7395229ba53f226",
+                "core_id": "vice_xvic",
+                "core_spec_sha256": "77071ace425419398bafd5bf0aed105b0868aed29beab6596476dc6335852731",
                 "pipeline_bundle": {
                   "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
                   "files": {
@@ -693,19 +788,19 @@
                   "schema_version": 1
                 },
                 "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-gearcoleco.yml",
-                "workflow_sha256": "dbba4582c9edec7083b30d914df86cb11439a4d93440bb471061436ab41c2919"
+                "repository_dirty": false,
+                "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af",
+                "workflow": ".github/workflows/build-vice_xvic.yml",
+                "workflow_sha256": "122c27f1653797d05dde6bef49452f9c126c84fc5e89e1fc92d15cdc6feb5815"
               },
               "source": {
-                "commit": "112345747c04eb7752d1939258881aa10319e32e",
-                "requested_ref": "refs/heads/main",
-                "resolved_commit": "112345747c04eb7752d1939258881aa10319e32e",
-                "resolved_url": "https://github.com/drhelius/Gearcoleco.git",
+                "commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
+                "requested_ref": "refs/heads/master",
+                "resolved_commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
+                "resolved_url": "https://github.com/libretro/vice-libretro.git",
                 "submodules": [],
-                "tree": "0afbed445cf4689daa878816f961ea4bcb4832a3",
-                "url": "https://github.com/drhelius/Gearcoleco.git"
+                "tree": "db2760ffc97b9c20ef8777fcb7689082be66bc45",
+                "url": "https://github.com/libretro/vice-libretro.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -748,7 +843,7 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "de6627b30b399b49ec6872a42ef42f957190913d044f47bcbbc06b8156fe1ae1"
+            "provenance_identity_sha256": "4a412fec7c9d84bd0e359025c83b2080079123ece6ea8da559935ffe02a90238"
           }
         },
         "tier": "build_golden",
@@ -757,14 +852,14 @@
       "source_index": 0
     }
   },
-  "created_at": "2026-07-24T10:47:15+00:00",
+  "created_at": "2026-07-24T15:22:14+00:00",
   "local_only": true,
   "parent": null,
-  "pin_id": "gearcoleco-112345747c04-02350ee96cf1",
+  "pin_id": "vice_xvic-7946cfa0d377-e23a9971f265",
   "publication": "disabled",
   "schema_version": 1,
   "scope": [
-    "gearcoleco"
+    "vice_xvic"
   ],
   "selection_policy": {
     "failed_candidate": "retain-parent",
@@ -775,10 +870,10 @@
   },
   "sources": [
     {
-      "content_sha256": "4342ceadf2154d04fb813abcaa0fd8cfcbda3b6df785bec2ee95dba4c2dd3a95",
-      "file_sha256": "f67360f82691e878ac6a76cc5b4e5509c317a0bbaa75403388bc5c9eca1b1b55",
-      "path": ".local-e2e/nightlies/gearcoleco-112345747c04-02350ee96cf1/golden.json",
-      "pin_id": "gearcoleco-112345747c04-02350ee96cf1"
+      "content_sha256": "11941f2a5881e73141233f79cecea4a839b57c8363e989381e25c4e0bebffbc4",
+      "file_sha256": "efd421d3c6021318b256a683ccca7c7f5053ea1625f2786014ccb95ebe2e4cd5",
+      "path": ".local-e2e/nightlies/vice_xvic-7946cfa0d377-e23a9971f265/golden.json",
+      "pin_id": "vice_xvic-7946cfa0d377-e23a9971f265"
     }
   ],
   "summary": {

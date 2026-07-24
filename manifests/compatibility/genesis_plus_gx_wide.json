@@ -4,12 +4,12 @@
   "core_id": "genesis_plus_gx_wide",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json",
+  "golden_source": "pins/core-sets/genesis_plus_gx_wide-29d9d104338f-6184c4659fe1.json",
   "source_commit": "29d9d104338f46bc2e65438fb207bcf54f701e92",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx_wide-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "bed2dc20b754b6223a6b8c40580e2be4570c14c160d2f5ec8d47347eaf0c8ed4",
-  "reproduction_run": ".local-e2e/runs/build-core-genesis_plus_gx_wide-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "89a6f437540988c8f818758a8934705f46f0784d1ed090984157c4380afcf6a7",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx_wide-w3c/e2e-record.json",
+  "selected_e2e_content_sha256": "4d578c0bc71f475fc10fd9749d5f784f7376a3aba5f30bfdbe7b20e5b0cd8ae4",
+  "reproduction_run": ".local-e2e/runs/build-core-genesis_plus_gx_wide-local-w3c/e2e-record.json",
+  "reproduction_e2e_content_sha256": "8c68eea6dd90219ae98cab6072b5ccb28298963c9f1411b5dbf97e8a70b63340",
   "package_state": "reproducible",
   "package_sha256": "192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc",
   "caveats": [
@@ -58,5 +58,5 @@
       ]
     }
   },
-  "content_sha256": "c740ae102d56ab630d04735f750a4c2c2af45ee173ca19c5ed877e98a21f5ec9"
+  "content_sha256": "d7092e306609699a3a1f6fecc3044d432ecac24437cfb62c603248ad491ee8e1"
 }

@@ -1,14 +1,14 @@
 {
   "$schema": "../../manifests/core-source-set.schema.json",
   "schema_version": 1,
-  "source_set_id": "genesis_plus_gx_wide-29d9d104338f-5035640f9981",
+  "source_set_id": "genesis_plus_gx_wide-29d9d104338f-6184c4659fe1",
   "local_only": true,
   "publication": "disabled",
   "evidence_pin": {
-    "path": "pins/core-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json",
-    "pin_id": "genesis_plus_gx_wide-29d9d104338f-5035640f9981",
-    "file_sha256": "f3c1ee89d8efa3694e857d733c7f53de734cc10f83e914018d78f5100aab6deb",
-    "content_sha256": "0ac0ab3de77c84b89de7e34251d905b1eb06d9c3db06e012e311511c94a94417"
+    "path": "pins/core-sets/genesis_plus_gx_wide-29d9d104338f-6184c4659fe1.json",
+    "pin_id": "genesis_plus_gx_wide-29d9d104338f-6184c4659fe1",
+    "file_sha256": "f01910057d7ff502756d7f88ce37d7b3b3598835fef4d209cbe59e9e22b9ea59",
+    "content_sha256": "84349c820bdea177c583303e57de384176411d45c8ee81e0c718ec93f0cd6dc9"
   },
   "sources": {
     "genesis_plus_gx_wide": {
@@ -19,5 +19,5 @@
       "content_sha256": "6fe3c024bf90d9b06a0a20794b4bb2093258f6c2062716b62ed179597fe5d19d"
     }
   },
-  "content_sha256": "dec8708254e34162934257840957de9893cfcaebb943a356a203a99e55e715f2"
+  "content_sha256": "0d55183d152232cc9c8b78afd5240726264026d2f3665f47085be38b6601f010"
 }

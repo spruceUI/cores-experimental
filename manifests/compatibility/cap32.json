@@ -4,12 +4,12 @@
   "core_id": "cap32",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/cap32-4abfb8be233b-4f89ee89dec9.json",
+  "golden_source": "pins/core-sets/cap32-4abfb8be233b-82ddcfcacee0.json",
   "source_commit": "4abfb8be233bec630f369379fb6c1d92d31f1c7d",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-cap32-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "62d33a55909deb7e65c0dc387952b8877f248ebb7bf262dc40e37cc555cf4a5b",
-  "reproduction_run": ".local-e2e/runs/build-core-cap32-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "343ca08a3179846c59bdcd68a7c1da993c1ffa10e3b33d2561a4bd8ad84382ce",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-cap32-w3c/e2e-record.json",
+  "selected_e2e_content_sha256": "b7dd6e256ea22a6bf5e088e4e6438f08272e565203aa213990655c49e48d7d3f",
+  "reproduction_run": ".local-e2e/runs/build-core-cap32-local-w3c/e2e-record.json",
+  "reproduction_e2e_content_sha256": "2ba483fdabe0592ebebcf2fd37fd1c23ebf51e950e1744140b3229fb583715d0",
   "package_state": "reproducible",
   "package_sha256": "dde0c3a43530d4867fd04c6b68e95a65b7b677834afc6b0d60d5ab280f84814f",
   "caveats": [
@@ -59,5 +59,5 @@
       ]
     }
   },
-  "content_sha256": "314f18958d9ed45d4a69dc527c125ee1c718926ffa2f4b161d937b1ac465209a"
+  "content_sha256": "33f76a66c2c8f41195cd54c1420332d6bebd426b354e6a55562cf49cf90e2ad4"
 }

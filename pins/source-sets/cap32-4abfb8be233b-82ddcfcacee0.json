@@ -1,14 +1,14 @@
 {
   "$schema": "../../manifests/core-source-set.schema.json",
   "schema_version": 1,
-  "source_set_id": "cap32-4abfb8be233b-4f89ee89dec9",
+  "source_set_id": "cap32-4abfb8be233b-82ddcfcacee0",
   "local_only": true,
   "publication": "disabled",
   "evidence_pin": {
-    "path": "pins/core-sets/cap32-4abfb8be233b-4f89ee89dec9.json",
-    "pin_id": "cap32-4abfb8be233b-4f89ee89dec9",
-    "file_sha256": "fefc25c2c9aba38d6c32d8da03cba2fd35b78121c50392c38acdc8f712b2f850",
-    "content_sha256": "08a646e6e15397846d58efc549b037c991f6078c8235a4855b3d34032d9f122e"
+    "path": "pins/core-sets/cap32-4abfb8be233b-82ddcfcacee0.json",
+    "pin_id": "cap32-4abfb8be233b-82ddcfcacee0",
+    "file_sha256": "1a3e96431f865e5181ed22c7d89336c4e3bfcbeef40f211ad84526dca8c24b63",
+    "content_sha256": "83c8540bf021174c904751a99e3b95277c16dd36af11984a0714fd23acd3621a"
   },
   "sources": {
     "cap32": {
@@ -19,5 +19,5 @@
       "content_sha256": "dd74cb116a010edd1c9366003e89d4c956f2c2324e6721c9a31afeb3388805db"
     }
   },
-  "content_sha256": "e150405887726b14bf8d0223e7493367ac0be7c7bf00b87175f4815b66333802"
+  "content_sha256": "d69d4deef2a78e4bd9b352672c46aad1236f6ac0083345e9ace14bf47086bec9"
 }

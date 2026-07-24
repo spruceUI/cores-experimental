@@ -4,12 +4,12 @@
   "core_id": "vice_x64",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/vice_x64-7946cfa0d377-1085a07760d4.json",
+  "golden_source": "pins/core-sets/vice_x64-7946cfa0d377-4b611c28b848.json",
   "source_commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-vice_x64-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "c57bb46de4cfe6e41dc92ad319e6aa71c9603e55aa6f2fe4d6411f00e507c19c",
-  "reproduction_run": ".local-e2e/runs/build-core-vice_x64-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "31302d5bf1ee7eb9e9c9a04acad4d26b2a4e1ef17a90c89277ae55ed6f08dd5a",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-vice_x64-w3c/e2e-record.json",
+  "selected_e2e_content_sha256": "799ecd52047cd2478bd7d80acd210d4e4eb0a17d281deb550311762702e3fd1c",
+  "reproduction_run": ".local-e2e/runs/build-core-vice_x64-local-w3c/e2e-record.json",
+  "reproduction_e2e_content_sha256": "f8e08daea026489b8a8f34780a09cf74fa3f27014e029910ed70b56659932464",
   "package_state": "reproducible",
   "package_sha256": "d414b84404b0fb940232df2955710e3a5b8b4dd5b7aff64968a58bb77d4cd076",
   "caveats": [
@@ -76,5 +76,5 @@
       ]
     }
   },
-  "content_sha256": "14ebc8fee5019254bcf173d1f555bc99a15e85e40b5f08f6324cc17a03d0afa3"
+  "content_sha256": "7902fea2205bd40674e53ce8e94105753044d27f9ff676d0cee06682be25e1fd"
 }

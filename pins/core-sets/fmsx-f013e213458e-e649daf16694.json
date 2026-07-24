@@ -1,39 +1,39 @@
 {
   "$schema": "../../manifests/core-set.schema.json",
-  "content_sha256": "d61c83a91320621516adf26dbdb52e4cde11192a59337e4a4c87561bb1c7abe0",
+  "content_sha256": "1129b0a2ddd0c441b825cb9ab78c89434c1c6de70e28dfeb529741e92ff0ae05",
   "cores": {
-    "mednafen_pcfx": {
+    "fmsx": {
       "decision": "select_source",
       "selection": {
         "e2e": {
           "build_records": {
-            "arm64": "5ff73cf09fc24c859107f285dffc9402a0b31267f58b8f80a5f1f60b8af9f1a9",
-            "armhf": "be70f0e683896738a8d0c060cdbd3860fc8ac8abb09b41bf1d35489d2aa21718"
+            "arm64": "ada44f1de7428feb9678a9d13f85e20cf9476cc9cc61a04bf43a751c85d7ecb6",
+            "armhf": "d19d60e8efe42ae4c74a543ad37cd2e951ea5ece0734623879a25285a703b8d4"
           },
-          "content_sha256": "c026cfee1bf61db2ef1eeab8e468b21c8753209a7f064c1199a3c88581963700",
-          "package_sha256": "0a5963688e03ea1ab6a1061bcbaafa1295c6272ba24c63a5bf0a31e2b89f36f1",
-          "run_id": "actions-sim-build-core-mednafen_pcfx-w3"
+          "content_sha256": "df451abe93f0c33840fceb7e517172203d5216b5a23ab81630f89ae7d193d695",
+          "package_sha256": "a7fef9470eecde513073ded334746fea43bdd6f6b1235c00a5226ae448df1b51",
+          "run_id": "actions-sim-build-core-fmsx-w3c"
         },
         "metadata": {
-          "path": ".local-e2e/store/metadata/sha256/d3/d352e83266f1d965e1b0fcb190dc3300158f419985b8d77374a2994d00f38f19",
-          "sha256": "d352e83266f1d965e1b0fcb190dc3300158f419985b8d77374a2994d00f38f19",
-          "size": 700
+          "path": ".local-e2e/store/metadata/sha256/a7/a7b863ff5e75c538ea77dbf3e7a75d1d57f56abad1b2c946dc5d30c7b206bc98",
+          "sha256": "a7b863ff5e75c538ea77dbf3e7a75d1d57f56abad1b2c946dc5d30c7b206bc98",
+          "size": 2128
         },
         "package": {
-          "name": "mednafen_pcfx_libretro.zip",
-          "path": ".local-e2e/store/packages/sha256/0a/0a5963688e03ea1ab6a1061bcbaafa1295c6272ba24c63a5bf0a31e2b89f36f1",
-          "sha256": "0a5963688e03ea1ab6a1061bcbaafa1295c6272ba24c63a5bf0a31e2b89f36f1",
-          "size": 708768
+          "name": "fmsx_libretro.zip",
+          "path": ".local-e2e/store/packages/sha256/a7/a7fef9470eecde513073ded334746fea43bdd6f6b1235c00a5226ae448df1b51",
+          "sha256": "a7fef9470eecde513073ded334746fea43bdd6f6b1235c00a5226ae448df1b51",
+          "size": 254343
         },
-        "selection_sha256": "1c9309580e681edc981870128eb75c54727d44325ffeadc4e26f03e5940dc9a6",
+        "selection_sha256": "e649daf166940631a4482e86471b436e1dc89c77a08fc40a9d84f8834d70c751",
         "targets": {
           "arm64": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/94/943dcb6075159ef8a0e729622729bcc5a56110e904fa7d99ea94e59d79d3656e",
-              "sha256": "943dcb6075159ef8a0e729622729bcc5a56110e904fa7d99ea94e59d79d3656e",
-              "size": 1904856
+              "path": ".local-e2e/store/artifacts/sha256/5e/5e72c1e9d7c6afa31cb1396cd700254c589e94a4327ef4cbcc11aa0fff0663f7",
+              "sha256": "5e72c1e9d7c6afa31cb1396cd700254c589e94a4327ef4cbcc11aa0fff0663f7",
+              "size": 282848
             },
-            "build_record_sha256": "5ff73cf09fc24c859107f285dffc9402a0b31267f58b8f80a5f1f60b8af9f1a9",
+            "build_record_sha256": "ada44f1de7428feb9678a9d13f85e20cf9476cc9cc61a04bf43a751c85d7ecb6",
             "golden_record": {
               "architecture": "arm64",
               "artifact": {
@@ -81,25 +81,17 @@
                   "retro_vfs_closedir_impl",
                   "retro_vfs_dirent_get_name_impl",
                   "retro_vfs_dirent_is_dir_impl",
-                  "retro_vfs_file_close_cdrom",
                   "retro_vfs_file_close_impl",
-                  "retro_vfs_file_error_cdrom",
                   "retro_vfs_file_error_impl",
                   "retro_vfs_file_flush_impl",
-                  "retro_vfs_file_get_cdrom_position",
-                  "retro_vfs_file_get_cdrom_toc",
                   "retro_vfs_file_get_path_impl",
-                  "retro_vfs_file_open_cdrom",
                   "retro_vfs_file_open_impl",
-                  "retro_vfs_file_read_cdrom",
                   "retro_vfs_file_read_impl",
                   "retro_vfs_file_remove_impl",
                   "retro_vfs_file_rename_impl",
-                  "retro_vfs_file_seek_cdrom",
                   "retro_vfs_file_seek_impl",
                   "retro_vfs_file_seek_internal",
                   "retro_vfs_file_size_impl",
-                  "retro_vfs_file_tell_cdrom",
                   "retro_vfs_file_tell_impl",
                   "retro_vfs_file_truncate_impl",
                   "retro_vfs_file_write_impl",
@@ -110,25 +102,14 @@
                 ],
                 "needed": [
                   "ld-linux-aarch64.so.1",
-                  "libc.so.6",
-                  "libgcc_s.so.1",
-                  "libm.so.6",
-                  "libpthread.so.0",
-                  "libstdc++.so.6"
+                  "libc.so.6"
                 ],
-                "path": "mednafen_pcfx_libretro.so",
-                "sha256": "943dcb6075159ef8a0e729622729bcc5a56110e904fa7d99ea94e59d79d3656e",
-                "size": 1904856,
+                "path": "fmsx_libretro.so",
+                "sha256": "5e72c1e9d7c6afa31cb1396cd700254c589e94a4327ef4cbcc11aa0fff0663f7",
+                "size": 282848,
                 "status": "valid",
                 "version_requirements": [
-                  "CXXABI_1.3",
-                  "CXXABI_1.3.9",
-                  "GCC_3.0",
-                  "GLIBCXX_3.4",
-                  "GLIBCXX_3.4.20",
-                  "GLIBCXX_3.4.21",
-                  "GLIBC_2.17",
-                  "GLIBC_2.27"
+                  "GLIBC_2.17"
                 ]
               },
               "build": {
@@ -136,86 +117,82 @@
                 "driver": "libretro-super",
                 "environment": "sanitized-v1",
                 "git_version": {
-                  "compiler_scope": "cxx",
                   "derivation": "native-space-short7-v1",
-                  "value": " 650c30e"
+                  "value": " f013e21"
                 },
                 "log": "build.log",
-                "log_sha256": "b58d92a27857edd44b226cefa13af24f61a6c6a6da8e6a29152d44a7a34ae9b1",
-                "make_variables": {
-                  "IS_X86": 0
-                }
+                "log_sha256": "6c91821864091514e6576c409c67353afc0dd9d181075bcb608f76bbbb701878"
               },
-              "core_id": "mednafen_pcfx",
+              "core_id": "fmsx",
               "e2e": {
                 "build_records": {
-                  "arm64": "5ff73cf09fc24c859107f285dffc9402a0b31267f58b8f80a5f1f60b8af9f1a9",
-                  "armhf": "be70f0e683896738a8d0c060cdbd3860fc8ac8abb09b41bf1d35489d2aa21718"
+                  "arm64": "ada44f1de7428feb9678a9d13f85e20cf9476cc9cc61a04bf43a751c85d7ecb6",
+                  "armhf": "d19d60e8efe42ae4c74a543ad37cd2e951ea5ece0734623879a25285a703b8d4"
                 },
-                "content_sha256": "c026cfee1bf61db2ef1eeab8e468b21c8753209a7f064c1199a3c88581963700",
-                "package": ".local-e2e/runs/actions-sim-build-core-mednafen_pcfx-w3/mednafen_pcfx_libretro.zip",
-                "package_sha256": "0a5963688e03ea1ab6a1061bcbaafa1295c6272ba24c63a5bf0a31e2b89f36f1",
-                "record": ".local-e2e/runs/actions-sim-build-core-mednafen_pcfx-w3/e2e-record.json",
-                "record_sha256": "f3bc9151100526cecd3745a5341d028ea081b767e3d647c9e36f1dc53f8c4164",
-                "run_id": "actions-sim-build-core-mednafen_pcfx-w3"
+                "content_sha256": "df451abe93f0c33840fceb7e517172203d5216b5a23ab81630f89ae7d193d695",
+                "package": ".local-e2e/runs/actions-sim-build-core-fmsx-w3c/fmsx_libretro.zip",
+                "package_sha256": "a7fef9470eecde513073ded334746fea43bdd6f6b1235c00a5226ae448df1b51",
+                "record": ".local-e2e/runs/actions-sim-build-core-fmsx-w3c/e2e-record.json",
+                "record_sha256": "e3389942727a15844ef7ce56a70cc7912d61ad73ab866c40b6355483a150c7ef",
+                "run_id": "actions-sim-build-core-fmsx-w3c"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-mednafen_pcfx-w3/mednafen_pcfx/arm64/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-fmsx-w3c/fmsx/arm64/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/94/943dcb6075159ef8a0e729622729bcc5a56110e904fa7d99ea94e59d79d3656e",
-                  "sha256": "943dcb6075159ef8a0e729622729bcc5a56110e904fa7d99ea94e59d79d3656e"
+                  "path": ".local-e2e/store/artifacts/sha256/5e/5e72c1e9d7c6afa31cb1396cd700254c589e94a4327ef4cbcc11aa0fff0663f7",
+                  "sha256": "5e72c1e9d7c6afa31cb1396cd700254c589e94a4327ef4cbcc11aa0fff0663f7"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/b5/b58d92a27857edd44b226cefa13af24f61a6c6a6da8e6a29152d44a7a34ae9b1",
-                    "sha256": "b58d92a27857edd44b226cefa13af24f61a6c6a6da8e6a29152d44a7a34ae9b1"
+                    "path": ".local-e2e/store/logs/sha256/6c/6c91821864091514e6576c409c67353afc0dd9d181075bcb608f76bbbb701878",
+                    "sha256": "6c91821864091514e6576c409c67353afc0dd9d181075bcb608f76bbbb701878"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/cd/cda94e1c2cd8e914ecd10a9f3ef90771bcbe77c09cbcd0efab064e831583ac8c",
-                    "sha256": "cda94e1c2cd8e914ecd10a9f3ef90771bcbe77c09cbcd0efab064e831583ac8c"
+                    "path": ".local-e2e/store/logs/sha256/cc/cc359c1b9073b241c9f91fc650a72a677e68e54af64d7af2cbe4a980eb82dad6",
+                    "sha256": "cc359c1b9073b241c9f91fc650a72a677e68e54af64d7af2cbe4a980eb82dad6"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/5f/5ff73cf09fc24c859107f285dffc9402a0b31267f58b8f80a5f1f60b8af9f1a9",
-                    "sha256": "5ff73cf09fc24c859107f285dffc9402a0b31267f58b8f80a5f1f60b8af9f1a9"
+                    "path": ".local-e2e/store/build-records/sha256/ad/ada44f1de7428feb9678a9d13f85e20cf9476cc9cc61a04bf43a751c85d7ecb6",
+                    "sha256": "ada44f1de7428feb9678a9d13f85e20cf9476cc9cc61a04bf43a751c85d7ecb6"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/be/be70f0e683896738a8d0c060cdbd3860fc8ac8abb09b41bf1d35489d2aa21718",
-                    "sha256": "be70f0e683896738a8d0c060cdbd3860fc8ac8abb09b41bf1d35489d2aa21718"
+                    "path": ".local-e2e/store/build-records/sha256/d1/d19d60e8efe42ae4c74a543ad37cd2e951ea5ece0734623879a25285a703b8d4",
+                    "sha256": "d19d60e8efe42ae4c74a543ad37cd2e951ea5ece0734623879a25285a703b8d4"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/f3/f3bc9151100526cecd3745a5341d028ea081b767e3d647c9e36f1dc53f8c4164",
-                  "sha256": "f3bc9151100526cecd3745a5341d028ea081b767e3d647c9e36f1dc53f8c4164"
+                  "path": ".local-e2e/store/e2e/sha256/e3/e3389942727a15844ef7ce56a70cc7912d61ad73ab866c40b6355483a150c7ef",
+                  "sha256": "e3389942727a15844ef7ce56a70cc7912d61ad73ab866c40b6355483a150c7ef"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/d3/d352e83266f1d965e1b0fcb190dc3300158f419985b8d77374a2994d00f38f19",
-                  "sha256": "d352e83266f1d965e1b0fcb190dc3300158f419985b8d77374a2994d00f38f19"
+                  "path": ".local-e2e/store/metadata/sha256/a7/a7b863ff5e75c538ea77dbf3e7a75d1d57f56abad1b2c946dc5d30c7b206bc98",
+                  "sha256": "a7b863ff5e75c538ea77dbf3e7a75d1d57f56abad1b2c946dc5d30c7b206bc98"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/0a/0a5963688e03ea1ab6a1061bcbaafa1295c6272ba24c63a5bf0a31e2b89f36f1",
-                  "sha256": "0a5963688e03ea1ab6a1061bcbaafa1295c6272ba24c63a5bf0a31e2b89f36f1"
+                  "path": ".local-e2e/store/packages/sha256/a7/a7fef9470eecde513073ded334746fea43bdd6f6b1235c00a5226ae448df1b51",
+                  "sha256": "a7fef9470eecde513073ded334746fea43bdd6f6b1235c00a5226ae448df1b51"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/ee/ee733aa4bdd3404a2032bf19f9599f894ab676e9bd511fe2289455c6a95d82b1",
-                    "sha256": "ee733aa4bdd3404a2032bf19f9599f894ab676e9bd511fe2289455c6a95d82b1"
+                    "path": ".local-e2e/store/recipes/sha256/b3/b3609990f0ebcb8804525e9f795582d6baf419e906abdbe40f23b20a37022aee",
+                    "sha256": "b3609990f0ebcb8804525e9f795582d6baf419e906abdbe40f23b20a37022aee"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/36/36d1841d46efa9f7f3cc4184666aeef3e0098cdc579d52b48a2f002e24c15e54",
-                    "sha256": "36d1841d46efa9f7f3cc4184666aeef3e0098cdc579d52b48a2f002e24c15e54"
+                    "path": ".local-e2e/store/recipes/sha256/00/000573716dbe09ce9e00518c151dd100b26d7cd096ff4f78874e703ec7e2f060",
+                    "sha256": "000573716dbe09ce9e00518c151dd100b26d7cd096ff4f78874e703ec7e2f060"
                   }
                 }
               },
               "metadata": {
-                "path": "mednafen_pcfx_libretro.info",
-                "sha256": "d352e83266f1d965e1b0fcb190dc3300158f419985b8d77374a2994d00f38f19",
-                "size": 700,
+                "path": "fmsx_libretro.info",
+                "sha256": "a7b863ff5e75c538ea77dbf3e7a75d1d57f56abad1b2c946dc5d30c7b206bc98",
+                "size": 2128,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T11:03:09+00:00",
+              "promoted_at": "2026-07-24T15:21:27+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
@@ -229,8 +206,8 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "mednafen_pcfx",
-                "core_spec_sha256": "f9f5fee6bea6e1606c1eaaaa71d174e190de91757bb2e1771320044d2dd91fdf",
+                "core_id": "fmsx",
+                "core_spec_sha256": "50835aecd3468db226fc4962a3d123cd81a4e2c730c216724cb8c6916ab9ecd3",
                 "pipeline_bundle": {
                   "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
                   "files": {
@@ -373,19 +350,19 @@
                   "schema_version": 1
                 },
                 "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-mednafen_pcfx.yml",
-                "workflow_sha256": "f13f27ead64cb481920ff3eebd8006f491f739a9728e6bcb2dcbf04d11d3356e"
+                "repository_dirty": false,
+                "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af",
+                "workflow": ".github/workflows/build-fmsx.yml",
+                "workflow_sha256": "9168b3c9aa8b50b5f18ea651fe5409c154ea05e1f04ea3f9dae98f145d5a6feb"
               },
               "source": {
-                "commit": "650c30ea2203636a1716675854d11c608ed6eacc",
+                "commit": "f013e213458e06d9df718e4bc4b09d46f88aa899",
                 "requested_ref": "refs/heads/master",
-                "resolved_commit": "650c30ea2203636a1716675854d11c608ed6eacc",
-                "resolved_url": "https://github.com/libretro/beetle-pcfx-libretro.git",
+                "resolved_commit": "f013e213458e06d9df718e4bc4b09d46f88aa899",
+                "resolved_url": "https://github.com/libretro/fmsx-libretro.git",
                 "submodules": [],
-                "tree": "de7ad272c9210e5dd7772a53a1480dbab47d49cc",
-                "url": "https://github.com/libretro/beetle-pcfx-libretro.git"
+                "tree": "ae1b15cee162c073452cc9826b1e208d2250d2bf",
+                "url": "https://github.com/libretro/fmsx-libretro.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -428,15 +405,15 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "e1ee5defa583c590a9efea6a52c71783ebfb8f85e50e7d0aea9e3ff05cb33614"
+            "provenance_identity_sha256": "0caf498f35c160d0e5fd5288d1940858998155e70477ca7d7dd46d80084cbc71"
           },
           "armhf": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/26/26ada82ee4da4170454b7e2af05d242b21dc77467ccb630ff5f058c28efef30c",
-              "sha256": "26ada82ee4da4170454b7e2af05d242b21dc77467ccb630ff5f058c28efef30c",
-              "size": 1237788
+              "path": ".local-e2e/store/artifacts/sha256/73/738520c499279643a51900bc5360ecbdc323a46fbfc655f4284aa9624908d67f",
+              "sha256": "738520c499279643a51900bc5360ecbdc323a46fbfc655f4284aa9624908d67f",
+              "size": 301172
             },
-            "build_record_sha256": "be70f0e683896738a8d0c060cdbd3860fc8ac8abb09b41bf1d35489d2aa21718",
+            "build_record_sha256": "d19d60e8efe42ae4c74a543ad37cd2e951ea5ece0734623879a25285a703b8d4",
             "golden_record": {
               "architecture": "armhf",
               "artifact": {
@@ -484,25 +461,17 @@
                   "retro_vfs_closedir_impl",
                   "retro_vfs_dirent_get_name_impl",
                   "retro_vfs_dirent_is_dir_impl",
-                  "retro_vfs_file_close_cdrom",
                   "retro_vfs_file_close_impl",
-                  "retro_vfs_file_error_cdrom",
                   "retro_vfs_file_error_impl",
                   "retro_vfs_file_flush_impl",
-                  "retro_vfs_file_get_cdrom_position",
-                  "retro_vfs_file_get_cdrom_toc",
                   "retro_vfs_file_get_path_impl",
-                  "retro_vfs_file_open_cdrom",
                   "retro_vfs_file_open_impl",
-                  "retro_vfs_file_read_cdrom",
                   "retro_vfs_file_read_impl",
                   "retro_vfs_file_remove_impl",
                   "retro_vfs_file_rename_impl",
-                  "retro_vfs_file_seek_cdrom",
                   "retro_vfs_file_seek_impl",
                   "retro_vfs_file_seek_internal",
                   "retro_vfs_file_size_impl",
-                  "retro_vfs_file_tell_cdrom",
                   "retro_vfs_file_tell_impl",
                   "retro_vfs_file_truncate_impl",
                   "retro_vfs_file_write_impl",
@@ -512,26 +481,13 @@
                   "retro_vfs_stat_impl"
                 ],
                 "needed": [
-                  "libc.so.6",
-                  "libgcc_s.so.1",
-                  "libm.so.6",
-                  "libpthread.so.0",
-                  "libstdc++.so.6"
+                  "libc.so.6"
                 ],
-                "path": "mednafen_pcfx_libretro.so",
-                "sha256": "26ada82ee4da4170454b7e2af05d242b21dc77467ccb630ff5f058c28efef30c",
-                "size": 1237788,
+                "path": "fmsx_libretro.so",
+                "sha256": "738520c499279643a51900bc5360ecbdc323a46fbfc655f4284aa9624908d67f",
+                "size": 301172,
                 "status": "valid",
                 "version_requirements": [
-                  "CXXABI_1.3",
-                  "CXXABI_1.3.9",
-                  "CXXABI_ARM_1.3.3",
-                  "GCC_3.5",
-                  "GLIBCXX_3.4",
-                  "GLIBCXX_3.4.20",
-                  "GLIBCXX_3.4.21",
-                  "GLIBCXX_3.4.29",
-                  "GLIBC_2.17",
                   "GLIBC_2.4",
                   "GLIBC_2.7"
                 ]
@@ -541,86 +497,82 @@
                 "driver": "libretro-super",
                 "environment": "sanitized-v1",
                 "git_version": {
-                  "compiler_scope": "cxx",
                   "derivation": "native-space-short7-v1",
-                  "value": " 650c30e"
+                  "value": " f013e21"
                 },
                 "log": "build.log",
-                "log_sha256": "cda94e1c2cd8e914ecd10a9f3ef90771bcbe77c09cbcd0efab064e831583ac8c",
-                "make_variables": {
-                  "IS_X86": 0
-                }
+                "log_sha256": "cc359c1b9073b241c9f91fc650a72a677e68e54af64d7af2cbe4a980eb82dad6"
               },
-              "core_id": "mednafen_pcfx",
+              "core_id": "fmsx",
               "e2e": {
                 "build_records": {
-                  "arm64": "5ff73cf09fc24c859107f285dffc9402a0b31267f58b8f80a5f1f60b8af9f1a9",
-                  "armhf": "be70f0e683896738a8d0c060cdbd3860fc8ac8abb09b41bf1d35489d2aa21718"
+                  "arm64": "ada44f1de7428feb9678a9d13f85e20cf9476cc9cc61a04bf43a751c85d7ecb6",
+                  "armhf": "d19d60e8efe42ae4c74a543ad37cd2e951ea5ece0734623879a25285a703b8d4"
                 },
-                "content_sha256": "c026cfee1bf61db2ef1eeab8e468b21c8753209a7f064c1199a3c88581963700",
-                "package": ".local-e2e/runs/actions-sim-build-core-mednafen_pcfx-w3/mednafen_pcfx_libretro.zip",
-                "package_sha256": "0a5963688e03ea1ab6a1061bcbaafa1295c6272ba24c63a5bf0a31e2b89f36f1",
-                "record": ".local-e2e/runs/actions-sim-build-core-mednafen_pcfx-w3/e2e-record.json",
-                "record_sha256": "f3bc9151100526cecd3745a5341d028ea081b767e3d647c9e36f1dc53f8c4164",
-                "run_id": "actions-sim-build-core-mednafen_pcfx-w3"
+                "content_sha256": "df451abe93f0c33840fceb7e517172203d5216b5a23ab81630f89ae7d193d695",
+                "package": ".local-e2e/runs/actions-sim-build-core-fmsx-w3c/fmsx_libretro.zip",
+                "package_sha256": "a7fef9470eecde513073ded334746fea43bdd6f6b1235c00a5226ae448df1b51",
+                "record": ".local-e2e/runs/actions-sim-build-core-fmsx-w3c/e2e-record.json",
+                "record_sha256": "e3389942727a15844ef7ce56a70cc7912d61ad73ab866c40b6355483a150c7ef",
+                "run_id": "actions-sim-build-core-fmsx-w3c"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-mednafen_pcfx-w3/mednafen_pcfx/armhf/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-fmsx-w3c/fmsx/armhf/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/26/26ada82ee4da4170454b7e2af05d242b21dc77467ccb630ff5f058c28efef30c",
-                  "sha256": "26ada82ee4da4170454b7e2af05d242b21dc77467ccb630ff5f058c28efef30c"
+                  "path": ".local-e2e/store/artifacts/sha256/73/738520c499279643a51900bc5360ecbdc323a46fbfc655f4284aa9624908d67f",
+                  "sha256": "738520c499279643a51900bc5360ecbdc323a46fbfc655f4284aa9624908d67f"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/b5/b58d92a27857edd44b226cefa13af24f61a6c6a6da8e6a29152d44a7a34ae9b1",
-                    "sha256": "b58d92a27857edd44b226cefa13af24f61a6c6a6da8e6a29152d44a7a34ae9b1"
+                    "path": ".local-e2e/store/logs/sha256/6c/6c91821864091514e6576c409c67353afc0dd9d181075bcb608f76bbbb701878",
+                    "sha256": "6c91821864091514e6576c409c67353afc0dd9d181075bcb608f76bbbb701878"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/cd/cda94e1c2cd8e914ecd10a9f3ef90771bcbe77c09cbcd0efab064e831583ac8c",
-                    "sha256": "cda94e1c2cd8e914ecd10a9f3ef90771bcbe77c09cbcd0efab064e831583ac8c"
+                    "path": ".local-e2e/store/logs/sha256/cc/cc359c1b9073b241c9f91fc650a72a677e68e54af64d7af2cbe4a980eb82dad6",
+                    "sha256": "cc359c1b9073b241c9f91fc650a72a677e68e54af64d7af2cbe4a980eb82dad6"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/5f/5ff73cf09fc24c859107f285dffc9402a0b31267f58b8f80a5f1f60b8af9f1a9",
-                    "sha256": "5ff73cf09fc24c859107f285dffc9402a0b31267f58b8f80a5f1f60b8af9f1a9"
+                    "path": ".local-e2e/store/build-records/sha256/ad/ada44f1de7428feb9678a9d13f85e20cf9476cc9cc61a04bf43a751c85d7ecb6",
+                    "sha256": "ada44f1de7428feb9678a9d13f85e20cf9476cc9cc61a04bf43a751c85d7ecb6"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/be/be70f0e683896738a8d0c060cdbd3860fc8ac8abb09b41bf1d35489d2aa21718",
-                    "sha256": "be70f0e683896738a8d0c060cdbd3860fc8ac8abb09b41bf1d35489d2aa21718"
+                    "path": ".local-e2e/store/build-records/sha256/d1/d19d60e8efe42ae4c74a543ad37cd2e951ea5ece0734623879a25285a703b8d4",
+                    "sha256": "d19d60e8efe42ae4c74a543ad37cd2e951ea5ece0734623879a25285a703b8d4"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/f3/f3bc9151100526cecd3745a5341d028ea081b767e3d647c9e36f1dc53f8c4164",
-                  "sha256": "f3bc9151100526cecd3745a5341d028ea081b767e3d647c9e36f1dc53f8c4164"
+                  "path": ".local-e2e/store/e2e/sha256/e3/e3389942727a15844ef7ce56a70cc7912d61ad73ab866c40b6355483a150c7ef",
+                  "sha256": "e3389942727a15844ef7ce56a70cc7912d61ad73ab866c40b6355483a150c7ef"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/d3/d352e83266f1d965e1b0fcb190dc3300158f419985b8d77374a2994d00f38f19",
-                  "sha256": "d352e83266f1d965e1b0fcb190dc3300158f419985b8d77374a2994d00f38f19"
+                  "path": ".local-e2e/store/metadata/sha256/a7/a7b863ff5e75c538ea77dbf3e7a75d1d57f56abad1b2c946dc5d30c7b206bc98",
+                  "sha256": "a7b863ff5e75c538ea77dbf3e7a75d1d57f56abad1b2c946dc5d30c7b206bc98"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/0a/0a5963688e03ea1ab6a1061bcbaafa1295c6272ba24c63a5bf0a31e2b89f36f1",
-                  "sha256": "0a5963688e03ea1ab6a1061bcbaafa1295c6272ba24c63a5bf0a31e2b89f36f1"
+                  "path": ".local-e2e/store/packages/sha256/a7/a7fef9470eecde513073ded334746fea43bdd6f6b1235c00a5226ae448df1b51",
+                  "sha256": "a7fef9470eecde513073ded334746fea43bdd6f6b1235c00a5226ae448df1b51"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/ee/ee733aa4bdd3404a2032bf19f9599f894ab676e9bd511fe2289455c6a95d82b1",
-                    "sha256": "ee733aa4bdd3404a2032bf19f9599f894ab676e9bd511fe2289455c6a95d82b1"
+                    "path": ".local-e2e/store/recipes/sha256/b3/b3609990f0ebcb8804525e9f795582d6baf419e906abdbe40f23b20a37022aee",
+                    "sha256": "b3609990f0ebcb8804525e9f795582d6baf419e906abdbe40f23b20a37022aee"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/36/36d1841d46efa9f7f3cc4184666aeef3e0098cdc579d52b48a2f002e24c15e54",
-                    "sha256": "36d1841d46efa9f7f3cc4184666aeef3e0098cdc579d52b48a2f002e24c15e54"
+                    "path": ".local-e2e/store/recipes/sha256/00/000573716dbe09ce9e00518c151dd100b26d7cd096ff4f78874e703ec7e2f060",
+                    "sha256": "000573716dbe09ce9e00518c151dd100b26d7cd096ff4f78874e703ec7e2f060"
                   }
                 }
               },
               "metadata": {
-                "path": "mednafen_pcfx_libretro.info",
-                "sha256": "d352e83266f1d965e1b0fcb190dc3300158f419985b8d77374a2994d00f38f19",
-                "size": 700,
+                "path": "fmsx_libretro.info",
+                "sha256": "a7b863ff5e75c538ea77dbf3e7a75d1d57f56abad1b2c946dc5d30c7b206bc98",
+                "size": 2128,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T11:03:10+00:00",
+              "promoted_at": "2026-07-24T15:21:27+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
@@ -634,8 +586,8 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "mednafen_pcfx",
-                "core_spec_sha256": "f9f5fee6bea6e1606c1eaaaa71d174e190de91757bb2e1771320044d2dd91fdf",
+                "core_id": "fmsx",
+                "core_spec_sha256": "50835aecd3468db226fc4962a3d123cd81a4e2c730c216724cb8c6916ab9ecd3",
                 "pipeline_bundle": {
                   "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
                   "files": {
@@ -778,19 +730,19 @@
                   "schema_version": 1
                 },
                 "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-mednafen_pcfx.yml",
-                "workflow_sha256": "f13f27ead64cb481920ff3eebd8006f491f739a9728e6bcb2dcbf04d11d3356e"
+                "repository_dirty": false,
+                "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af",
+                "workflow": ".github/workflows/build-fmsx.yml",
+                "workflow_sha256": "9168b3c9aa8b50b5f18ea651fe5409c154ea05e1f04ea3f9dae98f145d5a6feb"
               },
               "source": {
-                "commit": "650c30ea2203636a1716675854d11c608ed6eacc",
+                "commit": "f013e213458e06d9df718e4bc4b09d46f88aa899",
                 "requested_ref": "refs/heads/master",
-                "resolved_commit": "650c30ea2203636a1716675854d11c608ed6eacc",
-                "resolved_url": "https://github.com/libretro/beetle-pcfx-libretro.git",
+                "resolved_commit": "f013e213458e06d9df718e4bc4b09d46f88aa899",
+                "resolved_url": "https://github.com/libretro/fmsx-libretro.git",
                 "submodules": [],
-                "tree": "de7ad272c9210e5dd7772a53a1480dbab47d49cc",
-                "url": "https://github.com/libretro/beetle-pcfx-libretro.git"
+                "tree": "ae1b15cee162c073452cc9826b1e208d2250d2bf",
+                "url": "https://github.com/libretro/fmsx-libretro.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -833,7 +785,7 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "c81b2b88c310802e48678b3f9071d3473b8698df4df3fcb3b7ed36b998a9cf0c"
+            "provenance_identity_sha256": "eee117b5158c2a25fdb08a91d5232f793d399891b5964b6f313a56e1503bca03"
           }
         },
         "tier": "build_golden",
@@ -842,14 +794,14 @@
       "source_index": 0
     }
   },
-  "created_at": "2026-07-24T11:03:10+00:00",
+  "created_at": "2026-07-24T15:21:27+00:00",
   "local_only": true,
   "parent": null,
-  "pin_id": "mednafen_pcfx-650c30ea2203-1c9309580e68",
+  "pin_id": "fmsx-f013e213458e-e649daf16694",
   "publication": "disabled",
   "schema_version": 1,
   "scope": [
-    "mednafen_pcfx"
+    "fmsx"
   ],
   "selection_policy": {
     "failed_candidate": "retain-parent",
@@ -860,10 +812,10 @@
   },
   "sources": [
     {
-      "content_sha256": "380d3f2c85700b00536ec46004f109d3c90ea7a47ef2051b6cedc179d459701f",
-      "file_sha256": "c6ae80849039f6b1593466dbffb7c3e4424c10e0775b7614e8ae3bf798ac826f",
-      "path": ".local-e2e/nightlies/mednafen_pcfx-650c30ea2203-1c9309580e68/golden.json",
-      "pin_id": "mednafen_pcfx-650c30ea2203-1c9309580e68"
+      "content_sha256": "2337314a11b03db47226631defcfae74a57f5cdd49e2798605b33fcaf293c574",
+      "file_sha256": "a8f36fbf64ffe1a590447ccf5b16dd47a9c690b30a3de5a870502e9bb58ac665",
+      "path": ".local-e2e/nightlies/fmsx-f013e213458e-e649daf16694/golden.json",
+      "pin_id": "fmsx-f013e213458e-e649daf16694"
     }
   ],
   "summary": {

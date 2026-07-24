@@ -4,12 +4,12 @@
   "core_id": "vice_xvic",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/vice_xvic-7946cfa0d377-f1e6abfe933c.json",
+  "golden_source": "pins/core-sets/vice_xvic-7946cfa0d377-e23a9971f265.json",
   "source_commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-vice_xvic-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "fa8045924e075af7fcac8b3a8c1a3915274ee7f70aa9d578a5750b09e4555156",
-  "reproduction_run": ".local-e2e/runs/build-core-vice_xvic-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "78120132173e48a5e634af7357bd36434da1c40aa7cd07bfdb8baffc596fd95b",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-vice_xvic-w3c/e2e-record.json",
+  "selected_e2e_content_sha256": "93c879130afe9b69ed63f29d0a5c5638b709c61d5040d9d7b3c896296eea89e1",
+  "reproduction_run": ".local-e2e/runs/build-core-vice_xvic-local-w3c/e2e-record.json",
+  "reproduction_e2e_content_sha256": "ad4231056ef69eca6347f533840f657e52cfa6cb092e666cda677ee790657bde",
   "package_state": "reproducible",
   "package_sha256": "10906ebef5504ea8fb41363da5ee0d0ffa1aac927bc72995e46015db8e63b8d1",
   "caveats": [
@@ -74,5 +74,5 @@
       ]
     }
   },
-  "content_sha256": "261e1586ec832d8bdcf9100fa29fc9fea5f8693c05587b9b7692aa8990140aa5"
+  "content_sha256": "2843245047d519da890beaf6efc6270481e9d17109e7e9d639d98bce56d6f9c5"
 }

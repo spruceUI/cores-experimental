@@ -4,12 +4,12 @@
   "core_id": "gearcoleco",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/gearcoleco-112345747c04-02350ee96cf1.json",
+  "golden_source": "pins/core-sets/gearcoleco-112345747c04-cc2d4bc38005.json",
   "source_commit": "112345747c04eb7752d1939258881aa10319e32e",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-gearcoleco-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "e8f5aa0a5b8fbd60b24b11438bb9e716a4dffae20e879002fb744647e8cad251",
-  "reproduction_run": ".local-e2e/runs/build-core-gearcoleco-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "41939f93288fe37a2a75f20464bb9b7d535e670d917f8f11284b899152e3b116",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-gearcoleco-w3c/e2e-record.json",
+  "selected_e2e_content_sha256": "7e1665d348d0f3142dfe1c71d209b61f28d1875dcef76b70e11ce388e61874ca",
+  "reproduction_run": ".local-e2e/runs/build-core-gearcoleco-local-w3c/e2e-record.json",
+  "reproduction_e2e_content_sha256": "9602a4c008af01bec84387448875b0e0fcdf07886e3164409aa8291e71536fe1",
   "package_state": "reproducible",
   "package_sha256": "b5fabf6b1531d6f343e39d1e95372564b3b65493e17949675a299310fffafc90",
   "caveats": [
@@ -75,5 +75,5 @@
       ]
     }
   },
-  "content_sha256": "2f350200788395a587dbbd6f614d61592bf51c1e5c432cd849121152a96dbd1b"
+  "content_sha256": "930ee2b8bd9e121662681d74a6972d489b7f4e016dad4c816803bb0958e1396a"
 }
