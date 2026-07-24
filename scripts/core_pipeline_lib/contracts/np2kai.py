@@ -68,14 +68,14 @@ NP2KAI_LIBRETRO_SORT_OVERLAY = {
     "kind": "git-apply-v1",
     "patch_path": "patches/np2kai/makefile-libretro-sort-wildcard-sources.patch",
     "patch_sha256": (
-        "fbbf83c0357d4c4f13c364060352d019d330e1e161c4948dd915008579a60941"
+        "991c04e75fd495a0e6bbbedde0ff4ef230e50cdf3ac66e969cd9cf226ae88591"
     ),
     "source_path": "sdl/Makefile.libretro",
     "preimage_sha256": (
-        "2297a7200d42f09b842791f2c8bce663cee5df3ecfc263ccb01cec29121a3d93"
+        "ca32b7434074c51b8c1c8a32867359f12c46a8e9735470ff259fecca06dfa62f"
     ),
     "postimage_sha256": (
-        "a35cd56a7145bd2a7da4fe56782fe05e0976e503b894a5b9f261c54f49d7fc79"
+        "56f4833c9589d0d536e52c797c9acc3ba081157dc3a13b87ed3cffe6ef98e102"
     ),
 }
 
