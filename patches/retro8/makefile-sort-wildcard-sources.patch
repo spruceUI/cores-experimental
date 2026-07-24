@@ -1,0 +1,15 @@
+diff --git a/Makefile.common b/Makefile.common
+--- a/Makefile.common
++++ b/Makefile.common
+@@ -15,9 +15,9 @@
+ 
+ INCFLAGS   := $(foreach dir,$(INCLUDES), -I$(dir))
+ 
+-SRC_CORE_CXX := $(foreach dir, $(SRC_FOLDERS), $(wildcard $(dir)/*.cpp))
++SRC_CORE_CXX := $(foreach dir, $(SRC_FOLDERS), $(sort $(wildcard $(dir)/*.cpp)))
+ 
+-SRC_CORE_C  := $(foreach dir,$(SRC_FOLDERS_C), $(wildcard $(dir)/*.c))
++SRC_CORE_C  := $(foreach dir,$(SRC_FOLDERS_C), $(sort $(wildcard $(dir)/*.c)))
+ 
+ SOURCES_CXX	:= $(SRC_CORE_CXX)	
+ 

@@ -45,6 +45,22 @@ SPEC_GUARD_MESSAGE = (
 )
 
 
+RETRO8_SORT_OVERLAY = {
+    "kind": "git-apply-v1",
+    "patch_path": "patches/retro8/makefile-sort-wildcard-sources.patch",
+    "patch_sha256": (
+        "4169d33ee8eea2a421ed93422db75d449fd6225b8143dcd42ccfabb6b48914d5"
+    ),
+    "source_path": "Makefile.common",
+    "preimage_sha256": (
+        "7c5bde4d58473199fae85583db9709758df13290dcdfff9a9f58edfd62ec082e"
+    ),
+    "postimage_sha256": (
+        "55a526e701f3be41d2ac435253968433fa4eaac291dc2463b6056e2f6b635fd3"
+    ),
+}
+
+
 def retro8_spec_is_well_formed(spec: object) -> bool:
     """Require retro8's exact immutable catalog identity."""
 
@@ -66,6 +82,10 @@ def retro8_spec_is_well_formed(spec: object) -> bool:
                 "source_dir": identity["source_dir"],
                 "output_path": identity["output_path"],
                 "artifact_name": identity["artifact_name"],
+                "overlays": {
+                    "arm64": [dict(RETRO8_SORT_OVERLAY)],
+                    "armhf": [dict(RETRO8_SORT_OVERLAY)],
+                },
             },
             "metadata": {
                 "source_path": identity["metadata_source_path"],

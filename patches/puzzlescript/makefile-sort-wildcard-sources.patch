@@ -1,0 +1,12 @@
+diff --git a/Makefile.common b/Makefile.common
+--- a/Makefile.common
++++ b/Makefile.common
+@@ -14,7 +14,7 @@
+ COREDEFINES = \
+ 	-D__LIBRETRO__
+ 
+-SOURCES_CXX := $(foreach dir,$(SRC_DIR),$(wildcard $(dir)/*.cpp))
++SOURCES_CXX := $(foreach dir,$(SRC_DIR),$(sort $(wildcard $(dir)/*.cpp)))
+ 
+ CXXFLAGS += -DUSE_PRECOMPILED_BUNDLE
+ 

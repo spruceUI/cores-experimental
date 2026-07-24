@@ -51,6 +51,22 @@ SPEC_GUARD_MESSAGE = (
 )
 
 
+PUZZLESCRIPT_SORT_OVERLAY = {
+    "kind": "git-apply-v1",
+    "patch_path": "patches/puzzlescript/makefile-sort-wildcard-sources.patch",
+    "patch_sha256": (
+        "e54095d495afa808e85a7b9fba1d40b4f13ef6752427574f147559590dc6eec3"
+    ),
+    "source_path": "Makefile.common",
+    "preimage_sha256": (
+        "e595621d8fe6baa97ae357ef6dd2f70a18d2c2cca6b747b8c2d5a89c434f531c"
+    ),
+    "postimage_sha256": (
+        "9d352d25d505960c88b9ce5b9ed5b8dcfb9cc84d4fe930dab291da9971cc67a3"
+    ),
+}
+
+
 def puzzlescript_spec_is_well_formed(spec: object) -> bool:
     """Require PuzzleScript's exact immutable catalog identity."""
 
@@ -72,6 +88,10 @@ def puzzlescript_spec_is_well_formed(spec: object) -> bool:
                 "source_dir": identity["source_dir"],
                 "output_path": identity["output_path"],
                 "artifact_name": identity["artifact_name"],
+                "overlays": {
+                    "arm64": [dict(PUZZLESCRIPT_SORT_OVERLAY)],
+                    "armhf": [dict(PUZZLESCRIPT_SORT_OVERLAY)],
+                },
                 "recursive_submodules": False,
             },
             "metadata": {

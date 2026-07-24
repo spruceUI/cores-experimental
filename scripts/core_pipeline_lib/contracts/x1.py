@@ -45,6 +45,22 @@ SPEC_GUARD_MESSAGE = (
 )
 
 
+X1_SORT_OVERLAY = {
+    "kind": "git-apply-v1",
+    "patch_path": "patches/x1/makefile-sort-wildcard-sources.patch",
+    "patch_sha256": (
+        "fa34cfb048a1d33aa09f7c68aacea2a81b88ae56aa67e080050fbcdaee455bcb"
+    ),
+    "source_path": "libretro/Makefile.common",
+    "preimage_sha256": (
+        "77b35d9d6e9694b2f0d2e8333bc413090d42a2269a9f04517585b0123d0dd5fc"
+    ),
+    "postimage_sha256": (
+        "a942669a2d3d6d73524d1a77bcd6ac1f40be4d774a72db92c7203c0e71948cdc"
+    ),
+}
+
+
 def x1_spec_is_well_formed(spec: object) -> bool:
     """Require X1's exact immutable catalog identity."""
 
@@ -66,6 +82,10 @@ def x1_spec_is_well_formed(spec: object) -> bool:
                 "source_dir": identity["source_dir"],
                 "output_path": identity["output_path"],
                 "artifact_name": identity["artifact_name"],
+                "overlays": {
+                    "arm64": [dict(X1_SORT_OVERLAY)],
+                    "armhf": [dict(X1_SORT_OVERLAY)],
+                },
             },
             "metadata": {
                 "source_path": identity["metadata_source_path"],
