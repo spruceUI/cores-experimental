@@ -289,12 +289,11 @@ class GenesisPlusGxLogContractTests(unittest.TestCase):
                 .expected_raw_link_object_sha256
             ),
         )
-        self.assertEqual(
-            genesis_plus_gx.GENESIS_PLUS_GX_LINK_INVOCATION_SHA256,
-            (
-                genesis_plus_gx.GENESIS_PLUS_GX_LOG_CONTRACT
-                .expected_link_invocation_sha256
-            ),
+        # No link-invocation pin: filesystem-ordered object list, tolerated
+        # by design; the object multisets stay pinned.
+        self.assertIsNone(
+            genesis_plus_gx.GENESIS_PLUS_GX_LOG_CONTRACT
+            .expected_link_invocation_sha256
         )
         self.assertEqual(
             "c67efaa2ee59bcc7843af62f3988b0d21aa4efc33b76c123b4456159b8dba226",
@@ -314,17 +313,6 @@ class GenesisPlusGxLogContractTests(unittest.TestCase):
         self.assertEqual(
             "fb819ef64ee50aff786ce185fcb8205e7345ceada1d3f41b7ae596e9992a1bdf",
             genesis_plus_gx.GENESIS_PLUS_GX_RAW_LINK_OBJECT_SHA256,
-        )
-        self.assertEqual(
-            {
-                "arm64": (
-                    "07ddd853e57b5680ae4019059d195532ae01491a2799bcc168b32031f2e188ec"
-                ),
-                "armhf": (
-                    "4a657626685635cb3c98099aedce196926d634611d16b1ebfc0cc0cb787265b4"
-                ),
-            },
-            genesis_plus_gx.GENESIS_PLUS_GX_LINK_INVOCATION_SHA256,
         )
         self.assertEqual(
             {

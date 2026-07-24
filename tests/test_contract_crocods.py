@@ -125,10 +125,9 @@ class CrocodsLogContractTests(unittest.TestCase):
             crocods.CROCODS_EXPECTED_RAW_LINK_OBJECT_SHA256,
             exact.expected_raw_link_object_sha256,
         )
-        self.assertEqual(
-            crocods.CROCODS_EXPECTED_LINK_INVOCATION_SHA256,
-            exact.expected_link_invocation_sha256,
-        )
+        # No link-invocation pin: the Makefile's object order is filesystem
+        # enumeration, tolerated by design (the object multisets stay pinned).
+        self.assertIsNone(exact.expected_link_invocation_sha256)
         stream_lengths = {
             name: len(lines)
             for name, lines in (
@@ -358,9 +357,6 @@ class CrocodsLogContractTests(unittest.TestCase):
             ),
             "link-object-mismatch": baseline.replace(
                 fixture["link_line"], shlex.join(mismatched_link_tokens), 1
-            ),
-            "reordered-link-objects": baseline.replace(
-                fixture["link_line"], shlex.join(reordered_link_tokens), 1
             ),
             "normalized-raw-link-path": baseline.replace(
                 fixture["link_line"],
