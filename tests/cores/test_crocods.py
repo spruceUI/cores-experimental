@@ -16,7 +16,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "crocods"
 OTHER_CORE_ID = "cap32"
-PIN_NAME = "crocods-87bbb3d9007a-5a44afda913e.json"
+PIN_NAME = "crocods-87bbb3d9007a-987ab7429a42.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -34,42 +34,42 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "153fa581737cacd3879922bacdfbbd2114651af6d8b900daef8c571e267e5268"
 )
 PIN_FILE_SHA256 = (
-    "f8a6a3f72fa41f84c0b657b52a7d63afdb183fce24d6f5325a2ebfe3fa5ce0e1"
+    "d1712d092ab545b5cbaa5432f4eefdd708f887f02c1a745422ecba151190c2ea"
 )
 PIN_CONTENT_SHA256 = (
-    "b24f1a3c769b7afe1b6803fe92186f81f4d0bbf2b2aa62e51c968a6069a3c56c"
+    "3c815c61ab37ad61c2c690e81a31962af8266e4b777b50cad87e3552110b96e2"
 )
 SOURCE_SET_FILE_SHA256 = (
-    "454ca209ed2f8e946d603e510697ef56b67d9fa7ac42db76fbb72fcd2738e5d2"
+    "9d12acd1b06b93b2deec5efa02d38326ba3a42b6a7382cff3bac32f5a509548b"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "3a9b57821d089d52879b73030483a28a6dd9f0acf1213674602b149ec081c8ae"
+    "89f714452581c5f2be1b7b436bdb669e4d4c7c67b6de4ae3bb595d750a3b4e02"
 )
 COMPATIBILITY_FILE_SHA256 = (
-    "be2436f16c79e41a7aac0ed5ebaf575daecca4ec311907d1b1fb67e08f0cab3f"
+    "3f27156bfc5e213bda18a6428c67f09e0e6245daf75cdb4a78e948d3d1b84b6a"
 )
 COMPATIBILITY_CONTENT_SHA256 = (
-    "ac5dd6a26107d59250059b2075454d4a4e56c383befe652a5ae105f945d91b5d"
+    "5cac7e789f5cc411b533c0d03875fac54f9174da7a12e3c917b9f1b58ffeb9fb"
 )
 SELECTION_SHA256 = (
-    "5a44afda913e54a39aa8674ae0eed6558a2f1b1900c7baf5254dc4eb0c383351"
+    "987ab7429a4298b79f84eaec644a54bbba1b6e982d67f6172536c3a8d667aaaf"
 )
-SELECTED_RUN = "actions-sim-build-core-crocods-w3"
-REPRODUCTION_RUN = "build-core-crocods-local-w3"
+SELECTED_RUN = "actions-sim-build-core-crocods-w3c"
+REPRODUCTION_RUN = "build-core-crocods-local-w3c"
 E2E_CONTENT_SHA256 = {
     SELECTED_RUN: (
-        "c61fde30675b6a7b41751c3505eccb8d83a3bd23334b099aa9498accf1846016"
+        "cdb74bb80a4259f283c8bcef219d2a2699bb07501089c6ba06092ad199bc2196"
     ),
     REPRODUCTION_RUN: (
-        "ca9da6d1214d2e5a000a013270d278b7524e10ed9cd2e8ccb0dbc2ed59dab602"
+        "e12f286eaea8aea22efaacaa896214a16e2cee2525ee358bd746925e8dedf891"
     ),
 }
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "1d1e04c961f182d33a1585fab2d70fa19023f1a1aafaea014a28c52875717a7d"
+        "b8481ef4fb34b8b26037ea60d516564c01bd8786d6e90afe4b525ddcd1cb5240"
     ),
     REPRODUCTION_RUN: (
-        "94219a0e3c4c83b320be830b1bb5f91eb861f9a0358e5e85a74df6be2d65fbbd"
+        "72c9ee77c6d8898b242e79f6c0fe8cb2efb487a72cf8df5c435161116ab23f4e"
     ),
 }
 PACKAGE_SHA256 = (
@@ -81,9 +81,9 @@ METADATA_SHA256 = (
 )
 METADATA_SIZE = 944
 PIPELINE_BUNDLE_SHA256 = (
-    "d4f5928d2c412e75ee02378aa03b944d58625e35eae8bc047d50cf03eeed0c0d"
+    "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73"
 )
-REPOSITORY_HEAD = "9d95cda3d6dce32c8d33d85a58f37adad19d38d7"
+REPOSITORY_HEAD = "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
 WORKFLOW_SHA256 = (
     "219b513f5a38220c1338dfa9b855c50da7ef8506bd8a0ab583bedf4849efe88d"
 )
@@ -111,18 +111,18 @@ TARGETS = {
         "artifact_size": 632216,
         "record_sha256": {
             SELECTED_RUN: (
-                "35364a216b9988be4ed3182e7c39c7c6e8b24ec834079cd5b7d1c5f325198930"
+                "a604572212b0718578aa33227837c7461b9e88058d3d4f1f75df704e75485cfb"
             ),
             REPRODUCTION_RUN: (
-                "c7f73aa5bb1429cb7dd35d9a7de1952c440b0270ae9e4ba7420bceefda0cefba"
+                "33edd8cd91b481d04706f03776cf68d8b9ded7fafc7f1eda2395f4e946f15d28"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "6b22fd62c2e2ed687090c5f43c0dc5b63b9b7ab022438a9e689616aa5faf87a6"
+                "c36ba81c6bf83bf693031f2a34cab9d9436ca3c7536447c93521d7597c022cef"
             ),
             REPRODUCTION_RUN: (
-                "764cba640ae6daab3075d8cd1335c72c97bdee5bfaba440dfebd1d836017693c"
+                "e247c972432874c13d3f777d262621c600e300aba6bf0e3950284dd82cd8ab28"
             ),
         },
         "log_size": 16595,
@@ -136,12 +136,12 @@ TARGETS = {
             "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9"
         ),
         "archive_sha256": (
-            "bb1c69cf19fcf3cbccaee06cc8b8a01bf7020fb1ac306d3d876530b6e9636012"
+            "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64"
         ),
         "recipe_snapshot_sha256": (
-            "0b223eeed461cea8c173a97fcdbbe021332c4f0c06a59b0f4c9ee77585ad5b03"
+            "6e88d53efb75fe8362cb42a227b5ea23cae8a4e03fb15a035dc6b3461ddd7411"
         ),
-        "recipe_snapshot_size": 1980846,
+        "recipe_snapshot_size": 2047120,
     },
     "armhf": {
         "artifact_sha256": (
@@ -150,10 +150,10 @@ TARGETS = {
         "artifact_size": 560764,
         "record_sha256": {
             SELECTED_RUN: (
-                "77f3c243f054f4d9c143af06299557117711cd1742d01d5d84c4b7e71ee24b3b"
+                "89c6ff1816da20462d6a5d903c54015cc897188160c2d525d8dc1dacedfee184"
             ),
             REPRODUCTION_RUN: (
-                "b138c1b2e1e5c63322d6dbd833b3f94ae55609b1686a9291b7bfe16a6749f8f4"
+                "af1bd3702001961cb2eda90c8f25da29b82b01723a92acfa6a4e1a21b0b8e707"
             ),
         },
         "log_sha256": {
@@ -175,12 +175,12 @@ TARGETS = {
             "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9"
         ),
         "archive_sha256": (
-            "e2b103c7bf1fdc9bb3ce3cf7bcde9cf2f3fd473fb0d916e8b4d0b4d278fd1afe"
+            "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e"
         ),
         "recipe_snapshot_sha256": (
-            "d0b6bc89578a757c79d76c70323072ce01f27e674a88575bd85611cd920d576b"
+            "c94e92ce2baca332d1283f43b80f13c4d1bdd8f176f051a5a8e6b4bf68f623c8"
         ),
-        "recipe_snapshot_size": 1980555,
+        "recipe_snapshot_size": 2047128,
     },
 }
 SOURCE_RECORD_IDENTITY = {

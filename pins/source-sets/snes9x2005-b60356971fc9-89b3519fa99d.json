@@ -1,14 +1,14 @@
 {
   "$schema": "../../manifests/core-source-set.schema.json",
   "schema_version": 1,
-  "source_set_id": "snes9x2005-b60356971fc9-23fbb6c59d54",
+  "source_set_id": "snes9x2005-b60356971fc9-89b3519fa99d",
   "local_only": true,
   "publication": "disabled",
   "evidence_pin": {
-    "path": "pins/core-sets/snes9x2005-b60356971fc9-23fbb6c59d54.json",
-    "pin_id": "snes9x2005-b60356971fc9-23fbb6c59d54",
-    "file_sha256": "556e1a078634287ffbf2c731f9eac166530741416ccd89d2574e2c5f39cb7098",
-    "content_sha256": "80c79e0cb6fff5bc820683850b7574d330ecf909550cb2875d82fbc6084c084c"
+    "path": "pins/core-sets/snes9x2005-b60356971fc9-89b3519fa99d.json",
+    "pin_id": "snes9x2005-b60356971fc9-89b3519fa99d",
+    "file_sha256": "00b6f5a7eec716f3ee2d14378a87078e36cf9cfc88ed39e59b73186079186e21",
+    "content_sha256": "0270f960dc934c880534195d2b521c0618ec7175e2bb7d9577421c45ec937ba0"
   },
   "sources": {
     "snes9x2005": {
@@ -19,5 +19,5 @@
       "content_sha256": "fc58d405652e984a9bb7cd44e2fb640bf83e926438d3f97519fdbb9098e14a65"
     }
   },
-  "content_sha256": "5f63fbeea0aa74e5ca433784f5b95230d1db5ae27b6594bf50aa5f757d8e5189"
+  "content_sha256": "f6ab29cb83641243b7a879100b0a28c073fff15eb81ee6db83b035c4fe2913d4"
 }

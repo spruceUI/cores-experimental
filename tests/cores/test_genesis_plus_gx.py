@@ -15,7 +15,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "genesis_plus_gx"
 OTHER_CORE_ID = "genesis_plus_gx_wide"
-PIN_NAME = "genesis_plus_gx-fa4dca561e08-b94a8729a601.json"
+PIN_NAME = "genesis_plus_gx-fa4dca561e08-cea516791c3b.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -34,42 +34,42 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "c8f9eb3c43905052f6897b247f4229c661db58d96c2c92bb3894d749d9e1117c"
 )
 PIN_FILE_SHA256 = (
-    "363750f09adf1e6ec92569b0f7f28fbc99677ddccc4b976ce7243c76ed382e3a"
+    "53be921615e743e148d4086fdf8fc1608b73b55f3a2aae03431ac62426f1e61d"
 )
 PIN_CONTENT_SHA256 = (
-    "14e62a2e36e83a738db7a755e9ec4b386f03cda879266bc2309fee7a72f2e9b5"
+    "0cc0e37e267c894922cdf9e0e14984f6486ac0d845a9ec376d84dd8b74078d90"
 )
 SOURCE_SET_FILE_SHA256 = (
-    "907735c066f981eec83dbd9e1759a6e52a5271e61afff4f222154ff307843502"
+    "94b7ab5410108e274668a006ebf408c1733e2d20b4888c9ea12b8228d0c6ca4e"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "33ed18e0b2d1414beb7bd567a5a85b1fd6c11ca27ac7ad10bd35d1364ba18a66"
+    "7ba6a65cf86f2843b902f5c341c0e331471d87aa0f8c20baa35bae39805c1682"
 )
 COMPATIBILITY_FILE_SHA256 = (
-    "f40e57aff871ace13e61087605d9e58b2eecce1f3ec40b0d94c4737c9d034525"
+    "107755301875accf8f722d51df8eebe0988241675b063e27ffb5c46300fca5c4"
 )
 COMPATIBILITY_CONTENT_SHA256 = (
-    "009c0e14345142829a255defd375eb8f1b28980a49678a7cce6c8091cf3c6d31"
+    "c317b3dd5367cb34e5ffc4dd5096fe2a032e161de671314e553aab754de2521b"
 )
 SELECTION_SHA256 = (
-    "b94a8729a601a9538c9d0fd7dd1d9de0dabc6cdce3fe2909f246e769edd7edb2"
+    "cea516791c3bcb16030f2a0c07a60d0b1824581bbcbbefa5f1b002cb5f6b3255"
 )
-SELECTED_RUN = "actions-sim-build-core-genesis_plus_gx-w3"
-REPRODUCTION_RUN = "build-core-genesis_plus_gx-local-w3"
+SELECTED_RUN = "actions-sim-build-core-genesis_plus_gx-w3c"
+REPRODUCTION_RUN = "build-core-genesis_plus_gx-local-w3c"
 E2E_CONTENT_SHA256 = {
     SELECTED_RUN: (
-        "caeeccd791699bf42ef4b31391f669eda20fbdf428f2c77f76c09e8d4b7232cb"
+        "e8566ec3cb56ffc0c7f8c865c72fd374c5d80be9d7909b7b31412d903fdb3028"
     ),
     REPRODUCTION_RUN: (
-        "80960fc4d608012257e98a277a91cd8a3d8484b2a95c438b56b07ec7a4df3507"
+        "298ae9d8e5e4a9d38fc0e76a258ef46557ab97eb6190309ca83b91aa416053b9"
     ),
 }
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "f847573e1c9b0ec4d65a2bebc2baf4036488eab048514e26defe4a26ae032637"
+        "baf896bad2ad48b71c4737623c98ecbfa7eacf0d6f592a1f6089b0e68330d4f5"
     ),
     REPRODUCTION_RUN: (
-        "e0ff653fb0898b8542ad591a295a3f666eb6e6de3b9100bb0f3e2a007fd2f1b7"
+        "5405e849758ec143fe5f87665564a0b08a84dc3ed1180502f2371a52a1c7ea8e"
     ),
 }
 PACKAGE_SHA256 = (
@@ -81,9 +81,9 @@ METADATA_SHA256 = (
 )
 METADATA_SIZE = 2788
 PIPELINE_BUNDLE_SHA256 = (
-    "d4f5928d2c412e75ee02378aa03b944d58625e35eae8bc047d50cf03eeed0c0d"
+    "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73"
 )
-REPOSITORY_HEAD = "9d95cda3d6dce32c8d33d85a58f37adad19d38d7"
+REPOSITORY_HEAD = "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
 WORKFLOW_SHA256 = (
     "cbb408b254dd1adbda2acb07f3dd9d767193f431be58badd7beaf37e387d3d97"
 )
@@ -115,18 +115,18 @@ TARGETS = {
         ),
         "record_sha256": {
             SELECTED_RUN: (
-                "b98fd2dbd9152236ffedb3a7a15a89ba940ca72abc3a67dc1dc868f1e52ab28f"
+                "717f0c9d6bdcd135fe00820393fcac87df821f00b1fa1710f68ecf04b19eed77"
             ),
             REPRODUCTION_RUN: (
-                "91041d322c4161ddf02fbe5c075af0f1f46fad86fbb9912d05cdc5b7fa41d2de"
+                "1bcc6c6b88ee57bac594bc0e94c56ef53712c5ec65dd511ac965aae9d8c935d6"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "973ad53207d3ec736f61c4528e48134ddaff73408a18d2b4315cce0711832f26"
+                "6b90b5ab7fb16cfcd21ed58d7b2f1e492b1c31aa79b86110d5feea1bbcb4ffae"
             ),
             REPRODUCTION_RUN: (
-                "6b90b5ab7fb16cfcd21ed58d7b2f1e492b1c31aa79b86110d5feea1bbcb4ffae"
+                "1b946fc9d4e4cb700c12aab1deaa8ccb03943405b401bf19ad47db1f1e0cc93c"
             ),
         },
         "log_size": 110092,
@@ -140,12 +140,12 @@ TARGETS = {
             "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9"
         ),
         "archive_sha256": (
-            "bb1c69cf19fcf3cbccaee06cc8b8a01bf7020fb1ac306d3d876530b6e9636012"
+            "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64"
         ),
         "recipe_snapshot_sha256": (
-            "b3cf1e554f4a4bb1dfaead93d495e5f13ddded4e1fef872eb9fd0cd8c3afc98a"
+            "363580320af7f6cbc0f2f168ac550039b2dd515cb55a6d37bc2a4e01e6024b14"
         ),
-        "recipe_snapshot_size": 1980892,
+        "recipe_snapshot_size": 2047166,
     },
     "armhf": {
         "artifact_sha256": (
@@ -157,10 +157,10 @@ TARGETS = {
         ),
         "record_sha256": {
             SELECTED_RUN: (
-                "80f9ffdb9c8525ec84e64bac3909fd99a710df6e5d05c5bed9a0e4a86b0936cf"
+                "13af689eac664adc6b4a2286fea5fabd137993e31e3390f7d636eeb2fa2b32c2"
             ),
             REPRODUCTION_RUN: (
-                "071ee8491d60b7e9748d93b35afe77b5d5935aa00078d8a85443bdce3d350741"
+                "8c2d9f297ff3eb40323569050f4ffd4b401c848c0aa4871e7cd358386298e35a"
             ),
         },
         "log_sha256": {
@@ -182,12 +182,12 @@ TARGETS = {
             "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9"
         ),
         "archive_sha256": (
-            "e2b103c7bf1fdc9bb3ce3cf7bcde9cf2f3fd473fb0d916e8b4d0b4d278fd1afe"
+            "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e"
         ),
         "recipe_snapshot_sha256": (
-            "78e0dce89bfd5698aff873d8c9f0253d24094fd63ba97677eff4e08fc7495653"
+            "a05df5b0026f6ba866949c5580f1e11087152567cf881bcbf664cfaebcb5be89"
         ),
-        "recipe_snapshot_size": 1980601,
+        "recipe_snapshot_size": 2047174,
     },
 }
 SOURCE_RECORD_IDENTITY = {

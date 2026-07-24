@@ -25,7 +25,7 @@ from .support import (
 
 CORE_ID = "fmsx"
 OTHER_CORE_ID = "bluemsx"
-PIN_NAME = "fmsx-f013e213458e-b015409bc42c.json"
+PIN_NAME = "fmsx-f013e213458e-e649daf16694.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -44,36 +44,36 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "0c8e8fbad60f1abc86e3e28d40939912db5dfe8947cc1ccb8fb3ec48407b8221"
 )
 SOURCE_SET_FILE_SHA256 = (
-    "4bc1e5af210130f1bd5496a39cc2706f12719aabb792ddc5ba603ef64f77e28c"
+    "003c1b385dbd83851e65476296921e807c70fb0322e35268c89878eac22ec1cd"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "bb81c330b804e12a1c6db3d2aa42ab7c2058b13142aa8a2df0270a34fb4dceea"
+    "0edd92c62dc1de19cae86e8ba7b2bfa1de38552f5e8f2a1f3d7424ea53d4502c"
 )
 PIN_FILE_SHA256 = (
-    "606b506040bdcec79720c4fef72eb22d01adb741ee778f89819be4ed6edfa781"
+    "e4c577421f987d63c3f670938cf2d115f3e7a1aacabd81214b23fe8287da8938"
 )
 PIN_CONTENT_SHA256 = (
-    "28f887944c9b2defca5dfe8715ec2e4bc6e092c8133573134df44f9c6c4b72d9"
+    "1129b0a2ddd0c441b825cb9ab78c89434c1c6de70e28dfeb529741e92ff0ae05"
 )
 SELECTION_SHA256 = (
-    "b015409bc42c3a8c419324cd9b8f7d9f9fd54aa0036edc0a512be972348b2e77"
+    "e649daf166940631a4482e86471b436e1dc89c77a08fc40a9d84f8834d70c751"
 )
-SELECTED_RUN = "actions-sim-build-core-fmsx-w3"
-REPRODUCTION_RUN = "build-core-fmsx-local-w3"
+SELECTED_RUN = "actions-sim-build-core-fmsx-w3c"
+REPRODUCTION_RUN = "build-core-fmsx-local-w3c"
 E2E_CONTENT_SHA256 = {
     SELECTED_RUN: (
-        "6c32ca2b7cb946e4c5b8d34d7e994c32678ba359414b51004ade65e88cdcd744"
+        "df451abe93f0c33840fceb7e517172203d5216b5a23ab81630f89ae7d193d695"
     ),
     REPRODUCTION_RUN: (
-        "8b2a13e55a3121719e365fb19bc1845b945e5046b1133249aae35615fa6f8db5"
+        "36506ddf026f335634cf68999fe4252bf1c5e7f0e888e6637234fdd55d615049"
     ),
 }
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "634a4d9265182e9f66a11569a0426dc9f229c9cb5d8a4e623ae82056a6a196cb"
+        "e3389942727a15844ef7ce56a70cc7912d61ad73ab866c40b6355483a150c7ef"
     ),
     REPRODUCTION_RUN: (
-        "97a7531c4412dab4837a12182e099f8fbda3284f69be5164cff3bedbce5f9823"
+        "a9125fbcfecb47d560835dc5d1d912cee25a6cc877b85ab4469f2af22b2b7d33"
     ),
 }
 PACKAGE_SHA256 = (
@@ -84,7 +84,7 @@ METADATA_SHA256 = (
     "a7b863ff5e75c538ea77dbf3e7a75d1d57f56abad1b2c946dc5d30c7b206bc98"
 )
 METADATA_SIZE = 2128
-RECIPE_HEAD = "9d95cda3d6dce32c8d33d85a58f37adad19d38d7"
+RECIPE_HEAD = "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
 RUNNERS = {
     SELECTED_RUN: {
         "backend": "local-docker",
@@ -109,10 +109,10 @@ TARGETS = {
         "artifact_size": 282848,
         "record_sha256": {
             SELECTED_RUN: (
-                "ecc871765e16801252bcb6b07177c190b3387ba2de941f77f12657c4891e5d97"
+                "ada44f1de7428feb9678a9d13f85e20cf9476cc9cc61a04bf43a751c85d7ecb6"
             ),
             REPRODUCTION_RUN: (
-                "883083551ed35b5d8e3e9f8a70a86819e5768bfcb6bc76e3daa5564b17cae86c"
+                "fba84cf7812d74ae325f2e49250f6e2c1d9aaf5d9cbb8f8f0d97172d54d971e6"
             ),
         },
         "log_sha256": (
@@ -123,12 +123,12 @@ TARGETS = {
         "version_requirements": ["GLIBC_2.17"],
         "execution_profile_id": "ra64-universal-v1",
         "image_id": (
-            "sha256:cc8a545183ab61910e87b86b9d498ebff596ec8a253e28272e96f3f7a7fd4488"
+            "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9"
         ),
         "toolchain_archive_sha256": (
-            "bb1c69cf19fcf3cbccaee06cc8b8a01bf7020fb1ac306d3d876530b6e9636012"
+            "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64"
         ),
-        "toolchain_archive_size": 444660272,
+        "toolchain_archive_size": 502531978,
     },
     "armhf": {
         "artifact_sha256": (
@@ -137,10 +137,10 @@ TARGETS = {
         "artifact_size": 301172,
         "record_sha256": {
             SELECTED_RUN: (
-                "2dc18d95d9a494aedd6fcd583214786dd0e3a31d691c58a1b6b68020b26d5618"
+                "d19d60e8efe42ae4c74a543ad37cd2e951ea5ece0734623879a25285a703b8d4"
             ),
             REPRODUCTION_RUN: (
-                "455ae80ab752dc8084794731011275891237eac38c5754071aaa14e30b49e9d6"
+                "e8b14b781c60d72a41b64c5de3213f542eb7892e1d8726ec21dcc2805f68e488"
             ),
         },
         "log_sha256": (
@@ -151,12 +151,12 @@ TARGETS = {
         "version_requirements": ["GLIBC_2.4", "GLIBC_2.7"],
         "execution_profile_id": "ra32-a30-v1",
         "image_id": (
-            "sha256:e09ffce413cf62c14a24fd8aa3beebbbfaccd5b0b5223ac529d132f4aabd92b9"
+            "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9"
         ),
         "toolchain_archive_sha256": (
-            "e2b103c7bf1fdc9bb3ce3cf7bcde9cf2f3fd473fb0d916e8b4d0b4d278fd1afe"
+            "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e"
         ),
-        "toolchain_archive_size": 784604625,
+        "toolchain_archive_size": 835303648,
     },
 }
 SOURCE_LOCK_IDENTITY = {
@@ -385,20 +385,20 @@ class FmsxCoreEvidenceTests(unittest.TestCase):
         }
         target_hashes = {
             "nightly": (
-                "678de78ebd0ddccb3b78cda2c81cf995f5a862a2844ae93f7fa6cd5ea2082d7f"
+                "a8f36fbf64ffe1a590447ccf5b16dd47a9c690b30a3de5a870502e9bb58ac665"
             ),
             "pinned": PIN_FILE_SHA256,
             "release": (
-                "d9227b5eefe191543825cbe260627247cdec27cc483bbc76bb800275e43485ef"
+                "a1515323e79261e71274c23fc84e878b56e003ff1112a479c5577ceb02422038"
             ),
         }
         content_hashes = {
             "nightly": (
-                "1ba60196c3d4a6e2d6cc3de4ed0c17bc235e752b26d65fd1e54189afde74eeaa"
+                "2337314a11b03db47226631defcfae74a57f5cdd49e2798605b33fcaf293c574"
             ),
             "pinned": PIN_CONTENT_SHA256,
             "release": (
-                "c44d67bb6a3fc793f70826ebb9fe3038be6f43ff2fd00c6f08344ddf6c05419c"
+                "ab18dc065b58828687694566fb51f51ebe93436b96cdac28609d2559cbd6754a"
             ),
         }
         for channel, target_path in target_paths.items():

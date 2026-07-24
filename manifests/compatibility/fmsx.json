@@ -4,12 +4,12 @@
   "core_id": "fmsx",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/fmsx-f013e213458e-b015409bc42c.json",
+  "golden_source": "pins/core-sets/fmsx-f013e213458e-e649daf16694.json",
   "source_commit": "f013e213458e06d9df718e4bc4b09d46f88aa899",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-fmsx-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "6c32ca2b7cb946e4c5b8d34d7e994c32678ba359414b51004ade65e88cdcd744",
-  "reproduction_run": ".local-e2e/runs/build-core-fmsx-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "8b2a13e55a3121719e365fb19bc1845b945e5046b1133249aae35615fa6f8db5",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-fmsx-w3c/e2e-record.json",
+  "selected_e2e_content_sha256": "df451abe93f0c33840fceb7e517172203d5216b5a23ab81630f89ae7d193d695",
+  "reproduction_run": ".local-e2e/runs/build-core-fmsx-local-w3c/e2e-record.json",
+  "reproduction_e2e_content_sha256": "36506ddf026f335634cf68999fe4252bf1c5e7f0e888e6637234fdd55d615049",
   "package_state": "reproducible",
   "package_sha256": "a7fef9470eecde513073ded334746fea43bdd6f6b1235c00a5226ae448df1b51",
   "caveats": [
@@ -58,5 +58,5 @@
       ]
     }
   },
-  "content_sha256": "8f48b515d51a2b30b0d5cb981a3efd6250c9710079b5a791dcccf2d2818f684f"
+  "content_sha256": "5f26178ca0e8dc1d5263bd4d9691f12ba31be6bbc4ac5e6bd737970d7614a683"
 }

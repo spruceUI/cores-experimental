@@ -1,14 +1,14 @@
 {
   "$schema": "../../manifests/core-source-set.schema.json",
   "schema_version": 1,
-  "source_set_id": "gearcoleco-112345747c04-02350ee96cf1",
+  "source_set_id": "gearcoleco-112345747c04-cc2d4bc38005",
   "local_only": true,
   "publication": "disabled",
   "evidence_pin": {
-    "path": "pins/core-sets/gearcoleco-112345747c04-02350ee96cf1.json",
-    "pin_id": "gearcoleco-112345747c04-02350ee96cf1",
-    "file_sha256": "09efcbc9b154b806b7f24355505b8317a22152e681a51eafcbde59633aba0101",
-    "content_sha256": "27481b866249c6e6c946633b22cdf63f76e4aedb0411aba08508428ec68a07c6"
+    "path": "pins/core-sets/gearcoleco-112345747c04-cc2d4bc38005.json",
+    "pin_id": "gearcoleco-112345747c04-cc2d4bc38005",
+    "file_sha256": "bb2aeefd00cdac1d693bba3c4aec577611f406c53d4fb043586fa86491b4e0aa",
+    "content_sha256": "20b293e814df24ec794e520d20c99b2a1df9c5628cc408a3c23cad7e13f2708c"
   },
   "sources": {
     "gearcoleco": {
@@ -19,5 +19,5 @@
       "content_sha256": "6d67ecb53d00218fab62a9d7964633cc6b6e951ea6c8ada837feb568a9449467"
     }
   },
-  "content_sha256": "388c89b7554ae95babdcbcb068c5affc76e66d6c5e81414de3320cb19c5de7b7"
+  "content_sha256": "faaf35878824076d6d08c96071de9f51038b0bbf4bfc8c2a82c5ffa096e6c201"
 }

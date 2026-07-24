@@ -26,7 +26,7 @@ from .support import (
 
 CORE_ID = "mednafen_pcfx"
 OTHER_CORE_ID = "mednafen_wswan"
-PIN_NAME = "mednafen_pcfx-650c30ea2203-1c9309580e68.json"
+PIN_NAME = "mednafen_pcfx-650c30ea2203-d3672dc81b75.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -35,22 +35,22 @@ SOURCE_TREE = "de7ad272c9210e5dd7772a53a1480dbab47d49cc"
 SOURCE_URL = "https://github.com/libretro/beetle-pcfx-libretro.git"
 SOURCE_LOCK_ID = "mednafen_pcfx-650c30ea2203"
 SELECTION_SHA256 = (
-    "1c9309580e681edc981870128eb75c54727d44325ffeadc4e26f03e5940dc9a6"
+    "d3672dc81b75715ee2199602a4167b3a4922ebb06d694acbf6acc069fb92757b"
 )
-SELECTED_RUN = "actions-sim-build-core-mednafen_pcfx-w3"
-REPRODUCTION_RUN = "build-core-mednafen_pcfx-local-w3"
+SELECTED_RUN = "actions-sim-build-core-mednafen_pcfx-w3c"
+REPRODUCTION_RUN = "build-core-mednafen_pcfx-local-w3c"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "c026cfee1bf61db2ef1eeab8e468b21c8753209a7f064c1199a3c88581963700"
+    "44ace53030603f57e3a1c34ad4f16c74b8f68eb171861e8b58597cee49a1e013"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "85b3ca93560b1c5d0e19ead96d09525500a792901130c144ddfeb1a2ad5d37d4"
+    "2e081e4631da954adba3ecb73a6a9af310aa217e55baea4b1f92330d9f360006"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "f3bc9151100526cecd3745a5341d028ea081b767e3d647c9e36f1dc53f8c4164"
+        "cea7eec282d82c471c78d8333baba5c6771805659c162ce1c6b69be9e7fa6a98"
     ),
     REPRODUCTION_RUN: (
-        "9ca18633ac391be9c0141aad467118fb47add2e323572968c6e4a0e5631477dd"
+        "7da913e7bdb9fa2f15ea0b70ee969bea26fed4a6342fc5d8d2dfef89e64210d7"
     ),
 }
 PACKAGE_SHA256 = (
@@ -85,18 +85,18 @@ TARGETS = {
         "artifact_size": 1904856,
         "record_sha256": {
             SELECTED_RUN: (
-                "5ff73cf09fc24c859107f285dffc9402a0b31267f58b8f80a5f1f60b8af9f1a9"
+                "5f64b748b580c8fd9fea49dfa61518905ae71158f42a86d092b082aae9866eef"
             ),
             REPRODUCTION_RUN: (
-                "a2efc1e51bf21bc96ba28af5e50bfe2bccb0e4f76038ea1ad644ece18882b581"
+                "40aac4c65b67f4a039bd4eb930c128ad80c305df460561e42d3305674e35d62c"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "20815da1ca19ca4c6ed2a7dfe3acd6c3708e3f545a5fa00aa6cc6378f07075ab"
+                "040aed48ae509f20c6d6a0737e009f3d8b651fdc6a851068c49708fe13f80138"
             ),
             REPRODUCTION_RUN: (
-                "4635f77faa503e99953240887c77d8cb79a24134a03f36691b17b0ef4148cb68"
+                "193c504bf013807ec35d63fb989bd0f852e4233b659268e4c2a010d3db3e32d2"
             ),
         },
         "elf": "ELF64/AArch64",
@@ -120,12 +120,12 @@ TARGETS = {
         ],
         "execution_profile_id": "ra64-universal-v1",
         "image_id": (
-            "sha256:cc8a545183ab61910e87b86b9d498ebff596ec8a253e28272e96f3f7a7fd4488"
+            "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9"
         ),
         "toolchain_archive_sha256": (
-            "bb1c69cf19fcf3cbccaee06cc8b8a01bf7020fb1ac306d3d876530b6e9636012"
+            "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64"
         ),
-        "toolchain_archive_size": 444660272,
+        "toolchain_archive_size": 502531978,
     },
     "armhf": {
         "artifact_sha256": (
@@ -134,18 +134,18 @@ TARGETS = {
         "artifact_size": 1237788,
         "record_sha256": {
             SELECTED_RUN: (
-                "be70f0e683896738a8d0c060cdbd3860fc8ac8abb09b41bf1d35489d2aa21718"
+                "3b4b48f1afb80ee85081442f0aad3012cff25c58c78a2da9b29199deecffadb1"
             ),
             REPRODUCTION_RUN: (
-                "2614e112b43cd59b679d6f68510f8c25eee41625588a8aec34246ac46abeb490"
+                "e53f50d820c2705202df51872d25afd24659aae847a68e7ce927cba1fe1097b0"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "baff78adc64ff0cee852b3d53d2b18ce6c36bfba968a3c46a0211ec95923a842"
+                "88c18ae28c442a04fd93cd4c13be3dde71d8fa60baab5f0d0735bfcacdc35b75"
             ),
             REPRODUCTION_RUN: (
-                "a7ee3fe38fb567487d75de6b63ec81e692a0b1766507682a44ebf99965240bf8"
+                "20e521c20e906ac5015e1228e22a55981d8dbc6a5840e475dd47e1c49718795f"
             ),
         },
         "elf": "ELF32/ARM hard-float",
@@ -171,12 +171,12 @@ TARGETS = {
         ],
         "execution_profile_id": "ra32-a30-v1",
         "image_id": (
-            "sha256:e09ffce413cf62c14a24fd8aa3beebbbfaccd5b0b5223ac529d132f4aabd92b9"
+            "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9"
         ),
         "toolchain_archive_sha256": (
-            "e2b103c7bf1fdc9bb3ce3cf7bcde9cf2f3fd473fb0d916e8b4d0b4d278fd1afe"
+            "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e"
         ),
-        "toolchain_archive_size": 784604625,
+        "toolchain_archive_size": 835303648,
     },
 }
 SOURCE_LOCK_IDENTITY = {

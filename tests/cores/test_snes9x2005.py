@@ -14,7 +14,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "snes9x2005"
 OTHER_CORE_ID = "snes9x"
-PIN_NAME = "snes9x2005-b60356971fc9-23fbb6c59d54.json"
+PIN_NAME = "snes9x2005-b60356971fc9-89b3519fa99d.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -33,39 +33,39 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "fc58d405652e984a9bb7cd44e2fb640bf83e926438d3f97519fdbb9098e14a65"
 )
 SOURCE_SET_FILE_SHA256 = (
-    "35a538bdadd8cda3f503ff6f49f6c3e46c1cb56077f730ca909ae3a9e1fe9e04"
+    "058084e1e4d283c3353d3720d36b2faebe774a8e224188e64e57e437d542bce0"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "5f63fbeea0aa74e5ca433784f5b95230d1db5ae27b6594bf50aa5f757d8e5189"
+    "f6ab29cb83641243b7a879100b0a28c073fff15eb81ee6db83b035c4fe2913d4"
 )
 PIN_FILE_SHA256 = (
-    "556e1a078634287ffbf2c731f9eac166530741416ccd89d2574e2c5f39cb7098"
+    "00b6f5a7eec716f3ee2d14378a87078e36cf9cfc88ed39e59b73186079186e21"
 )
 PIN_CONTENT_SHA256 = (
-    "80c79e0cb6fff5bc820683850b7574d330ecf909550cb2875d82fbc6084c084c"
+    "0270f960dc934c880534195d2b521c0618ec7175e2bb7d9577421c45ec937ba0"
 )
 COMPATIBILITY_CONTENT_SHA256 = (
-    "d67d0e3701c9009384c215a8f633ef0729aa1e4a91cb0529173664ffa4a68fc6"
+    "931d750544e86f57f7f060a685fa86c489e33c98816c62d0662b306d91c276d2"
 )
 SELECTION_SHA256 = (
-    "23fbb6c59d54e35431022dfad885fef4438935faf8588cb65a6439a1d9f41100"
+    "89b3519fa99d17aa8b577369a079fb3a05facea3525f06049687c1d5fd306350"
 )
-SELECTED_RUN = "actions-sim-build-core-snes9x2005-w3"
-REPRODUCTION_RUN = "build-core-snes9x2005-local-w3"
+SELECTED_RUN = "actions-sim-build-core-snes9x2005-w3c"
+REPRODUCTION_RUN = "build-core-snes9x2005-local-w3c"
 E2E_CONTENT_SHA256 = {
     SELECTED_RUN: (
-        "a452b164c4e64793f95ce5c7ab396bd379674202056e9d5138405341572b0407"
+        "f9f578e38d9a4a96b8735177a07b2d60316d8083415b1e4762743e25ed1334e4"
     ),
     REPRODUCTION_RUN: (
-        "17e9b71569aeb9796908a4c50f190c4e65865b51c75f63867fed513243518523"
+        "cb0163831462b3d98c7f5fb54c2a0c1d0957adb195e682ba61606f52ba523627"
     ),
 }
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "7e7574f6ce96a30b58c78c880fa6793e5ac23fd2048f6d7425e2a8e3f0dfbebe"
+        "267e23534f339532fbfd8a8e50e95a675836d829f1f8be1f4b3f7cdca11ae9f5"
     ),
     REPRODUCTION_RUN: (
-        "f88a85c925f7333fa52df20eff53054e48773d586391833a271ec307b6cf47c3"
+        "9668e28c1806c457518a2912ea46271b1b260a0f34bb12eecd5b916d12504ecb"
     ),
 }
 PACKAGE_SHA256 = (
@@ -76,27 +76,27 @@ METADATA_SHA256 = (
     "b77d8b7338e11ac85d7e60106ff56579862ec3fc64c2c58c01912537e2e2620c"
 )
 METADATA_SIZE = 1402
-RECIPE_HEAD = "9d95cda3d6dce32c8d33d85a58f37adad19d38d7"
+RECIPE_HEAD = "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
 CORE_SPEC_SHA256 = (
     "2384a8a9b4c6d5efa2c3b5ced5c9d933d2984f396802d6283b81456b3bfd4f1d"
 )
 CATALOG_SHA256 = (
-    "028a7677a13242cdb2e9a91ba85eab6093498a9d66cd6bb7bd90ec3f3b97670f"
+    "4b374c814b03b543769e485f850b8edf579add8896f2b52c974bddd3b3341415"
 )
 PIPELINE_SHA256 = (
-    "0769decb45af2d38edca1b38171cef230715756533ab5d483ea2a73eb9f8d8ef"
+    "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6"
 )
 PIPELINE_BUNDLE_CONTENT_SHA256 = (
-    "d4f5928d2c412e75ee02378aa03b944d58625e35eae8bc047d50cf03eeed0c0d"
+    "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73"
 )
 WORKFLOW_SHA256 = (
     "29dec7c13f7abe6b9a072574efb4f19623cd8dacb75acb59632b7bd56fc26a41"
 )
 TOOLCHAIN_LOCK_FILE_SHA256 = (
-    "bc2fc35e12b30b6a7ca333543077f6812ed797001c05dd8dd2719670e1c6989f"
+    "7606e9357490f451df4374d38aad73a0426e3bb956a732dcaaa6b32393ee8639"
 )
 TOOLCHAIN_LOCK_CONTENT_SHA256 = (
-    "538d677d4a8c0f1382c851d93c9d628e6c4dbebcdebda0a4b652b7bcacb4493a"
+    "253f7d84cc71fa859553fa05fab4c2356b842196104953b092501850c217a794"
 )
 LIBRETRO_SUPER_COMMIT = "60f5c62789af16379446544d64228afa1d6b28b7"
 RUNNERS = {
@@ -126,10 +126,10 @@ TARGETS = {
         ),
         "record_sha256": {
             SELECTED_RUN: (
-                "ea2446b201ead9ccb9bf8cac78d511150ae742103ce19a9449c94da5e05309bf"
+                "355c5ff243c35e2616bd8fc0149245827125f7bdce8dbd3a08d59ffe5a21f5dc"
             ),
             REPRODUCTION_RUN: (
-                "d2ef26afc13936020ff2a8c79bb4e4781e6a846e93920f246ae8aee6bdf0232d"
+                "14572d14dc11ba64d10b8e3e3ea12b286b2925fc56e988758a14c105c313cce4"
             ),
         },
         "elf": "ELF64/AArch64",
@@ -137,14 +137,14 @@ TARGETS = {
         "version_requirements": ["GLIBC_2.17"],
         "execution_profile_id": "ra64-universal-v1",
         "image_id": (
-            "sha256:cc8a545183ab61910e87b86b9d498ebff596ec8a253e28272e96f3f7a7fd4488"
+            "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9"
         ),
         "toolchain_archive_sha256": (
-            "bb1c69cf19fcf3cbccaee06cc8b8a01bf7020fb1ac306d3d876530b6e9636012"
+            "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64"
         ),
-        "toolchain_archive_size": 444660272,
+        "toolchain_archive_size": 502531978,
         "recipe_snapshot_sha256": (
-            "012b69735182e547c00b472384c61beb1cf4f9936c0027b4788f054edb9cf3e6"
+            "fca52a0626b4398dee617aec115a48696dbf5b6c286163e676aba96f96a99ec9"
         ),
     },
     "armhf": {
@@ -157,10 +157,10 @@ TARGETS = {
         ),
         "record_sha256": {
             SELECTED_RUN: (
-                "520b90b127d7186f3aee3dafa544ed77b375245557bcc407dde1848720ac7cf4"
+                "c3c03fb98f7f20425fa93aa051af8adb71a802809abd1d077ab9120e1d50fc76"
             ),
             REPRODUCTION_RUN: (
-                "7705897a27368a22d23e5673d0d79e628be1ac14b184dd1542da2d0238ca009b"
+                "d8daecaf60041e0c8ca3ade57b3317f418917995117f124bf19accb1da196d98"
             ),
         },
         "elf": "ELF32/ARM hard-float",
@@ -168,14 +168,14 @@ TARGETS = {
         "version_requirements": ["GLIBC_2.4", "GLIBC_2.7"],
         "execution_profile_id": "ra32-a30-v1",
         "image_id": (
-            "sha256:e09ffce413cf62c14a24fd8aa3beebbbfaccd5b0b5223ac529d132f4aabd92b9"
+            "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9"
         ),
         "toolchain_archive_sha256": (
-            "e2b103c7bf1fdc9bb3ce3cf7bcde9cf2f3fd473fb0d916e8b4d0b4d278fd1afe"
+            "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e"
         ),
-        "toolchain_archive_size": 784604625,
+        "toolchain_archive_size": 835303648,
         "recipe_snapshot_sha256": (
-            "a1bba9a896a4b75a236cc336a4ea3d3ee471c8887d2791ec4ce236605d447204"
+            "8298b5b15dbb58712e0660cbcc73ec30116eb2665fb13ad5e284d4b0b464f4fb"
         ),
     },
 }

@@ -1,39 +1,39 @@
 {
   "$schema": "../../manifests/core-set.schema.json",
-  "content_sha256": "f991b2fbed831584737f61d033448c83b647ae7378c8cca1949d86f3a40c0a0e",
+  "content_sha256": "3c815c61ab37ad61c2c690e81a31962af8266e4b777b50cad87e3552110b96e2",
   "cores": {
-    "bluemsx": {
+    "crocods": {
       "decision": "select_source",
       "selection": {
         "e2e": {
           "build_records": {
-            "arm64": "d958846a9c629c4aa5472cea1d16dcb39e0b5d4f2986d6b081f48517933fcd4a",
-            "armhf": "797f4a94ae98c9d5f5dbd311a98bb7156948b62f4d24076bced5588cef851b1e"
+            "arm64": "a604572212b0718578aa33227837c7461b9e88058d3d4f1f75df704e75485cfb",
+            "armhf": "89c6ff1816da20462d6a5d903c54015cc897188160c2d525d8dc1dacedfee184"
           },
-          "content_sha256": "6866d998e861843d5eb66ecdd65e13e1fe726be17a23fb875570b48f9ffcaec1",
-          "package_sha256": "8ec3c360d6be309730509311eb5cadce01b9dfeb173debc536f353908c8d7c9f",
-          "run_id": "actions-sim-build-core-bluemsx-w3"
+          "content_sha256": "cdb74bb80a4259f283c8bcef219d2a2699bb07501089c6ba06092ad199bc2196",
+          "package_sha256": "9504d858daaee44be2f789dde40f53ab532ba7c2e3515a0468d19740e1423d35",
+          "run_id": "actions-sim-build-core-crocods-w3c"
         },
         "metadata": {
-          "path": ".local-e2e/store/metadata/sha256/e3/e3840e08ff90f8567beedc9f96ee3597d48ea7a568cfd51aadca20850800257e",
-          "sha256": "e3840e08ff90f8567beedc9f96ee3597d48ea7a568cfd51aadca20850800257e",
-          "size": 2286
+          "path": ".local-e2e/store/metadata/sha256/4b/4bf12dc021fcb628de8d14542a9e5b0ee8aa69828a99adda85346fe54c879cf8",
+          "sha256": "4bf12dc021fcb628de8d14542a9e5b0ee8aa69828a99adda85346fe54c879cf8",
+          "size": 944
         },
         "package": {
-          "name": "bluemsx_libretro.zip",
-          "path": ".local-e2e/store/packages/sha256/8e/8ec3c360d6be309730509311eb5cadce01b9dfeb173debc536f353908c8d7c9f",
-          "sha256": "8ec3c360d6be309730509311eb5cadce01b9dfeb173debc536f353908c8d7c9f",
-          "size": 1513398
+          "name": "crocods_libretro.zip",
+          "path": ".local-e2e/store/packages/sha256/95/9504d858daaee44be2f789dde40f53ab532ba7c2e3515a0468d19740e1423d35",
+          "sha256": "9504d858daaee44be2f789dde40f53ab532ba7c2e3515a0468d19740e1423d35",
+          "size": 519486
         },
-        "selection_sha256": "e600380ac6d791374810b4185b5d506d6be5cd8ec2b92333d139225ac9759c29",
+        "selection_sha256": "987ab7429a4298b79f84eaec644a54bbba1b6e982d67f6172536c3a8d667aaaf",
         "targets": {
           "arm64": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/14/14f32f0f61aa7a81d6ad34b244d33db0d88420eb132baa660dc48b7f835978bd",
-              "sha256": "14f32f0f61aa7a81d6ad34b244d33db0d88420eb132baa660dc48b7f835978bd",
-              "size": 1812712
+              "path": ".local-e2e/store/artifacts/sha256/4b/4bb772d20f1e352efd8d0f9f43788531ec9cf13df295aac04d0a14fe1bcc39e1",
+              "sha256": "4bb772d20f1e352efd8d0f9f43788531ec9cf13df295aac04d0a14fe1bcc39e1",
+              "size": 632216
             },
-            "build_record_sha256": "d958846a9c629c4aa5472cea1d16dcb39e0b5d4f2986d6b081f48517933fcd4a",
+            "build_record_sha256": "a604572212b0718578aa33227837c7461b9e88058d3d4f1f75df704e75485cfb",
             "golden_record": {
               "architecture": "arm64",
               "artifact": {
@@ -49,12 +49,7 @@
                   "retro_api_version",
                   "retro_cheat_reset",
                   "retro_cheat_set",
-                  "retro_closedir",
                   "retro_deinit",
-                  "retro_dirent_error",
-                  "retro_dirent_get_name",
-                  "retro_dirent_include_hidden",
-                  "retro_dirent_is_dir",
                   "retro_get_memory_data",
                   "retro_get_memory_size",
                   "retro_get_region",
@@ -63,8 +58,6 @@
                   "retro_init",
                   "retro_load_game",
                   "retro_load_game_special",
-                  "retro_opendir",
-                  "retro_readdir",
                   "retro_reset",
                   "retro_run",
                   "retro_serialize",
@@ -81,19 +74,14 @@
                 ],
                 "needed": [
                   "ld-linux-aarch64.so.1",
-                  "libc.so.6",
-                  "libstdc++.so.6"
+                  "libc.so.6"
                 ],
-                "path": "bluemsx_libretro.so",
-                "sha256": "14f32f0f61aa7a81d6ad34b244d33db0d88420eb132baa660dc48b7f835978bd",
-                "size": 1812712,
+                "path": "crocods_libretro.so",
+                "sha256": "4bb772d20f1e352efd8d0f9f43788531ec9cf13df295aac04d0a14fe1bcc39e1",
+                "size": 632216,
                 "status": "valid",
                 "version_requirements": [
-                  "CXXABI_1.3",
-                  "GLIBCXX_3.4",
-                  "GLIBCXX_3.4.21",
-                  "GLIBC_2.17",
-                  "GLIBC_2.27"
+                  "GLIBC_2.17"
                 ]
               },
               "build": {
@@ -103,81 +91,81 @@
                 "git_version": {
                   "compiler_scope": "c",
                   "derivation": "native-space-short7-v1",
-                  "value": " 5f595c7"
+                  "value": " 87bbb3d"
                 },
                 "log": "build.log",
-                "log_sha256": "51ec8ba37ef3a8732b089e751d79f11293ae6ac7b92728548618d2166a4faae6"
+                "log_sha256": "c36ba81c6bf83bf693031f2a34cab9d9436ca3c7536447c93521d7597c022cef"
               },
-              "core_id": "bluemsx",
+              "core_id": "crocods",
               "e2e": {
                 "build_records": {
-                  "arm64": "d958846a9c629c4aa5472cea1d16dcb39e0b5d4f2986d6b081f48517933fcd4a",
-                  "armhf": "797f4a94ae98c9d5f5dbd311a98bb7156948b62f4d24076bced5588cef851b1e"
+                  "arm64": "a604572212b0718578aa33227837c7461b9e88058d3d4f1f75df704e75485cfb",
+                  "armhf": "89c6ff1816da20462d6a5d903c54015cc897188160c2d525d8dc1dacedfee184"
                 },
-                "content_sha256": "6866d998e861843d5eb66ecdd65e13e1fe726be17a23fb875570b48f9ffcaec1",
-                "package": ".local-e2e/runs/actions-sim-build-core-bluemsx-w3/bluemsx_libretro.zip",
-                "package_sha256": "8ec3c360d6be309730509311eb5cadce01b9dfeb173debc536f353908c8d7c9f",
-                "record": ".local-e2e/runs/actions-sim-build-core-bluemsx-w3/e2e-record.json",
-                "record_sha256": "79834324e1ec83eae1d0184074d0864997bb7491c647a3489695e03b09020d60",
-                "run_id": "actions-sim-build-core-bluemsx-w3"
+                "content_sha256": "cdb74bb80a4259f283c8bcef219d2a2699bb07501089c6ba06092ad199bc2196",
+                "package": ".local-e2e/runs/actions-sim-build-core-crocods-w3c/crocods_libretro.zip",
+                "package_sha256": "9504d858daaee44be2f789dde40f53ab532ba7c2e3515a0468d19740e1423d35",
+                "record": ".local-e2e/runs/actions-sim-build-core-crocods-w3c/e2e-record.json",
+                "record_sha256": "b8481ef4fb34b8b26037ea60d516564c01bd8786d6e90afe4b525ddcd1cb5240",
+                "run_id": "actions-sim-build-core-crocods-w3c"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-bluemsx-w3/bluemsx/arm64/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-crocods-w3c/crocods/arm64/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/14/14f32f0f61aa7a81d6ad34b244d33db0d88420eb132baa660dc48b7f835978bd",
-                  "sha256": "14f32f0f61aa7a81d6ad34b244d33db0d88420eb132baa660dc48b7f835978bd"
+                  "path": ".local-e2e/store/artifacts/sha256/4b/4bb772d20f1e352efd8d0f9f43788531ec9cf13df295aac04d0a14fe1bcc39e1",
+                  "sha256": "4bb772d20f1e352efd8d0f9f43788531ec9cf13df295aac04d0a14fe1bcc39e1"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/51/51ec8ba37ef3a8732b089e751d79f11293ae6ac7b92728548618d2166a4faae6",
-                    "sha256": "51ec8ba37ef3a8732b089e751d79f11293ae6ac7b92728548618d2166a4faae6"
+                    "path": ".local-e2e/store/logs/sha256/c3/c36ba81c6bf83bf693031f2a34cab9d9436ca3c7536447c93521d7597c022cef",
+                    "sha256": "c36ba81c6bf83bf693031f2a34cab9d9436ca3c7536447c93521d7597c022cef"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/1c/1cca54101935e09492f630a6073c8a82199d40b11b6c4b1790124f46c473ef61",
-                    "sha256": "1cca54101935e09492f630a6073c8a82199d40b11b6c4b1790124f46c473ef61"
+                    "path": ".local-e2e/store/logs/sha256/05/05c5c87eedb63795e408c68da023507c71edf1d94811643bcac33133272708d3",
+                    "sha256": "05c5c87eedb63795e408c68da023507c71edf1d94811643bcac33133272708d3"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/d9/d958846a9c629c4aa5472cea1d16dcb39e0b5d4f2986d6b081f48517933fcd4a",
-                    "sha256": "d958846a9c629c4aa5472cea1d16dcb39e0b5d4f2986d6b081f48517933fcd4a"
+                    "path": ".local-e2e/store/build-records/sha256/a6/a604572212b0718578aa33227837c7461b9e88058d3d4f1f75df704e75485cfb",
+                    "sha256": "a604572212b0718578aa33227837c7461b9e88058d3d4f1f75df704e75485cfb"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/79/797f4a94ae98c9d5f5dbd311a98bb7156948b62f4d24076bced5588cef851b1e",
-                    "sha256": "797f4a94ae98c9d5f5dbd311a98bb7156948b62f4d24076bced5588cef851b1e"
+                    "path": ".local-e2e/store/build-records/sha256/89/89c6ff1816da20462d6a5d903c54015cc897188160c2d525d8dc1dacedfee184",
+                    "sha256": "89c6ff1816da20462d6a5d903c54015cc897188160c2d525d8dc1dacedfee184"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/79/79834324e1ec83eae1d0184074d0864997bb7491c647a3489695e03b09020d60",
-                  "sha256": "79834324e1ec83eae1d0184074d0864997bb7491c647a3489695e03b09020d60"
+                  "path": ".local-e2e/store/e2e/sha256/b8/b8481ef4fb34b8b26037ea60d516564c01bd8786d6e90afe4b525ddcd1cb5240",
+                  "sha256": "b8481ef4fb34b8b26037ea60d516564c01bd8786d6e90afe4b525ddcd1cb5240"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/e3/e3840e08ff90f8567beedc9f96ee3597d48ea7a568cfd51aadca20850800257e",
-                  "sha256": "e3840e08ff90f8567beedc9f96ee3597d48ea7a568cfd51aadca20850800257e"
+                  "path": ".local-e2e/store/metadata/sha256/4b/4bf12dc021fcb628de8d14542a9e5b0ee8aa69828a99adda85346fe54c879cf8",
+                  "sha256": "4bf12dc021fcb628de8d14542a9e5b0ee8aa69828a99adda85346fe54c879cf8"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/8e/8ec3c360d6be309730509311eb5cadce01b9dfeb173debc536f353908c8d7c9f",
-                  "sha256": "8ec3c360d6be309730509311eb5cadce01b9dfeb173debc536f353908c8d7c9f"
+                  "path": ".local-e2e/store/packages/sha256/95/9504d858daaee44be2f789dde40f53ab532ba7c2e3515a0468d19740e1423d35",
+                  "sha256": "9504d858daaee44be2f789dde40f53ab532ba7c2e3515a0468d19740e1423d35"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/5e/5ec4fffde3e339006b53c7b6c15fb62279774c1ae5ac5ccc0ef3604c6b9834ac",
-                    "sha256": "5ec4fffde3e339006b53c7b6c15fb62279774c1ae5ac5ccc0ef3604c6b9834ac"
+                    "path": ".local-e2e/store/recipes/sha256/6e/6e88d53efb75fe8362cb42a227b5ea23cae8a4e03fb15a035dc6b3461ddd7411",
+                    "sha256": "6e88d53efb75fe8362cb42a227b5ea23cae8a4e03fb15a035dc6b3461ddd7411"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/f3/f3a45aa4ae494ee5778b3bb92afe53eef4ce11f264e61faaed0589cd1ab3b889",
-                    "sha256": "f3a45aa4ae494ee5778b3bb92afe53eef4ce11f264e61faaed0589cd1ab3b889"
+                    "path": ".local-e2e/store/recipes/sha256/c9/c94e92ce2baca332d1283f43b80f13c4d1bdd8f176f051a5a8e6b4bf68f623c8",
+                    "sha256": "c94e92ce2baca332d1283f43b80f13c4d1bdd8f176f051a5a8e6b4bf68f623c8"
                   }
                 }
               },
               "metadata": {
-                "path": "bluemsx_libretro.info",
-                "sha256": "e3840e08ff90f8567beedc9f96ee3597d48ea7a568cfd51aadca20850800257e",
-                "size": 2286,
+                "path": "crocods_libretro.info",
+                "sha256": "4bf12dc021fcb628de8d14542a9e5b0ee8aa69828a99adda85346fe54c879cf8",
+                "size": 944,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T10:04:58+00:00",
+              "promoted_at": "2026-07-24T15:21:24+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
@@ -191,8 +179,8 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "bluemsx",
-                "core_spec_sha256": "4e7eceb00b599dde521189fff912b92714668561c97b25dd2dea38b810d6afd8",
+                "core_id": "crocods",
+                "core_spec_sha256": "801efc89361a0999fd4de819613c5dff3ecb3c5851601e277fbdca19b4d87bd6",
                 "pipeline_bundle": {
                   "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
                   "files": {
@@ -335,19 +323,19 @@
                   "schema_version": 1
                 },
                 "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-bluemsx.yml",
-                "workflow_sha256": "5f297670b44d340c7cedc0586c03438d5364af3add69b0fdb835d28455b9c401"
+                "repository_dirty": false,
+                "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af",
+                "workflow": ".github/workflows/build-crocods.yml",
+                "workflow_sha256": "219b513f5a38220c1338dfa9b855c50da7ef8506bd8a0ab583bedf4849efe88d"
               },
               "source": {
-                "commit": "5f595c79906ff3379641b5ee8f3796106214a0a4",
+                "commit": "87bbb3d9007ac537864278c6c3149ae3291873f8",
                 "requested_ref": "refs/heads/master",
-                "resolved_commit": "5f595c79906ff3379641b5ee8f3796106214a0a4",
-                "resolved_url": "https://github.com/libretro/blueMSX-libretro.git",
+                "resolved_commit": "87bbb3d9007ac537864278c6c3149ae3291873f8",
+                "resolved_url": "https://github.com/libretro/libretro-crocods.git",
                 "submodules": [],
-                "tree": "1d6e218616f313f9147aa7ecf3f74584a9aaa23c",
-                "url": "https://github.com/libretro/blueMSX-libretro.git"
+                "tree": "5a76585f521954c8e8ebef9b489a4d6c7a8b73db",
+                "url": "https://github.com/libretro/libretro-crocods.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -390,15 +378,15 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "534e720dd22666d500a27a647cd62fbde9da12a2dd80a29460edbad94316881e"
+            "provenance_identity_sha256": "929e28a1542bd5779e622780cdfc96bd0aad295c890021b7c87e5c4e709406ad"
           },
           "armhf": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/60/604885f77e8cb3b800b4fa881d875af31bb31d66a94d776e1b2e2c4b6d248c3f",
-              "sha256": "604885f77e8cb3b800b4fa881d875af31bb31d66a94d776e1b2e2c4b6d248c3f",
-              "size": 1538228
+              "path": ".local-e2e/store/artifacts/sha256/a5/a53a16452ce5d1e4efea3d6057ef8a86be7400d0703bd82d559deab35a9573e1",
+              "sha256": "a53a16452ce5d1e4efea3d6057ef8a86be7400d0703bd82d559deab35a9573e1",
+              "size": 560764
             },
-            "build_record_sha256": "797f4a94ae98c9d5f5dbd311a98bb7156948b62f4d24076bced5588cef851b1e",
+            "build_record_sha256": "89c6ff1816da20462d6a5d903c54015cc897188160c2d525d8dc1dacedfee184",
             "golden_record": {
               "architecture": "armhf",
               "artifact": {
@@ -414,12 +402,7 @@
                   "retro_api_version",
                   "retro_cheat_reset",
                   "retro_cheat_set",
-                  "retro_closedir",
                   "retro_deinit",
-                  "retro_dirent_error",
-                  "retro_dirent_get_name",
-                  "retro_dirent_include_hidden",
-                  "retro_dirent_is_dir",
                   "retro_get_memory_data",
                   "retro_get_memory_size",
                   "retro_get_region",
@@ -428,8 +411,6 @@
                   "retro_init",
                   "retro_load_game",
                   "retro_load_game_special",
-                  "retro_opendir",
-                  "retro_readdir",
                   "retro_reset",
                   "retro_run",
                   "retro_serialize",
@@ -446,21 +427,15 @@
                 ],
                 "needed": [
                   "libc.so.6",
-                  "libgcc_s.so.1",
-                  "libm.so.6",
-                  "libstdc++.so.6"
+                  "libm.so.6"
                 ],
-                "path": "bluemsx_libretro.so",
-                "sha256": "604885f77e8cb3b800b4fa881d875af31bb31d66a94d776e1b2e2c4b6d248c3f",
-                "size": 1538228,
+                "path": "crocods_libretro.so",
+                "sha256": "a53a16452ce5d1e4efea3d6057ef8a86be7400d0703bd82d559deab35a9573e1",
+                "size": 560764,
                 "status": "valid",
                 "version_requirements": [
-                  "CXXABI_1.3",
-                  "CXXABI_ARM_1.3.3",
-                  "GCC_3.5",
-                  "GLIBCXX_3.4",
-                  "GLIBCXX_3.4.21",
-                  "GLIBC_2.4"
+                  "GLIBC_2.4",
+                  "GLIBC_2.7"
                 ]
               },
               "build": {
@@ -470,81 +445,81 @@
                 "git_version": {
                   "compiler_scope": "c",
                   "derivation": "native-space-short7-v1",
-                  "value": " 5f595c7"
+                  "value": " 87bbb3d"
                 },
                 "log": "build.log",
-                "log_sha256": "1cca54101935e09492f630a6073c8a82199d40b11b6c4b1790124f46c473ef61"
+                "log_sha256": "05c5c87eedb63795e408c68da023507c71edf1d94811643bcac33133272708d3"
               },
-              "core_id": "bluemsx",
+              "core_id": "crocods",
               "e2e": {
                 "build_records": {
-                  "arm64": "d958846a9c629c4aa5472cea1d16dcb39e0b5d4f2986d6b081f48517933fcd4a",
-                  "armhf": "797f4a94ae98c9d5f5dbd311a98bb7156948b62f4d24076bced5588cef851b1e"
+                  "arm64": "a604572212b0718578aa33227837c7461b9e88058d3d4f1f75df704e75485cfb",
+                  "armhf": "89c6ff1816da20462d6a5d903c54015cc897188160c2d525d8dc1dacedfee184"
                 },
-                "content_sha256": "6866d998e861843d5eb66ecdd65e13e1fe726be17a23fb875570b48f9ffcaec1",
-                "package": ".local-e2e/runs/actions-sim-build-core-bluemsx-w3/bluemsx_libretro.zip",
-                "package_sha256": "8ec3c360d6be309730509311eb5cadce01b9dfeb173debc536f353908c8d7c9f",
-                "record": ".local-e2e/runs/actions-sim-build-core-bluemsx-w3/e2e-record.json",
-                "record_sha256": "79834324e1ec83eae1d0184074d0864997bb7491c647a3489695e03b09020d60",
-                "run_id": "actions-sim-build-core-bluemsx-w3"
+                "content_sha256": "cdb74bb80a4259f283c8bcef219d2a2699bb07501089c6ba06092ad199bc2196",
+                "package": ".local-e2e/runs/actions-sim-build-core-crocods-w3c/crocods_libretro.zip",
+                "package_sha256": "9504d858daaee44be2f789dde40f53ab532ba7c2e3515a0468d19740e1423d35",
+                "record": ".local-e2e/runs/actions-sim-build-core-crocods-w3c/e2e-record.json",
+                "record_sha256": "b8481ef4fb34b8b26037ea60d516564c01bd8786d6e90afe4b525ddcd1cb5240",
+                "run_id": "actions-sim-build-core-crocods-w3c"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-bluemsx-w3/bluemsx/armhf/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-crocods-w3c/crocods/armhf/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/60/604885f77e8cb3b800b4fa881d875af31bb31d66a94d776e1b2e2c4b6d248c3f",
-                  "sha256": "604885f77e8cb3b800b4fa881d875af31bb31d66a94d776e1b2e2c4b6d248c3f"
+                  "path": ".local-e2e/store/artifacts/sha256/a5/a53a16452ce5d1e4efea3d6057ef8a86be7400d0703bd82d559deab35a9573e1",
+                  "sha256": "a53a16452ce5d1e4efea3d6057ef8a86be7400d0703bd82d559deab35a9573e1"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/51/51ec8ba37ef3a8732b089e751d79f11293ae6ac7b92728548618d2166a4faae6",
-                    "sha256": "51ec8ba37ef3a8732b089e751d79f11293ae6ac7b92728548618d2166a4faae6"
+                    "path": ".local-e2e/store/logs/sha256/c3/c36ba81c6bf83bf693031f2a34cab9d9436ca3c7536447c93521d7597c022cef",
+                    "sha256": "c36ba81c6bf83bf693031f2a34cab9d9436ca3c7536447c93521d7597c022cef"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/1c/1cca54101935e09492f630a6073c8a82199d40b11b6c4b1790124f46c473ef61",
-                    "sha256": "1cca54101935e09492f630a6073c8a82199d40b11b6c4b1790124f46c473ef61"
+                    "path": ".local-e2e/store/logs/sha256/05/05c5c87eedb63795e408c68da023507c71edf1d94811643bcac33133272708d3",
+                    "sha256": "05c5c87eedb63795e408c68da023507c71edf1d94811643bcac33133272708d3"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/d9/d958846a9c629c4aa5472cea1d16dcb39e0b5d4f2986d6b081f48517933fcd4a",
-                    "sha256": "d958846a9c629c4aa5472cea1d16dcb39e0b5d4f2986d6b081f48517933fcd4a"
+                    "path": ".local-e2e/store/build-records/sha256/a6/a604572212b0718578aa33227837c7461b9e88058d3d4f1f75df704e75485cfb",
+                    "sha256": "a604572212b0718578aa33227837c7461b9e88058d3d4f1f75df704e75485cfb"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/79/797f4a94ae98c9d5f5dbd311a98bb7156948b62f4d24076bced5588cef851b1e",
-                    "sha256": "797f4a94ae98c9d5f5dbd311a98bb7156948b62f4d24076bced5588cef851b1e"
+                    "path": ".local-e2e/store/build-records/sha256/89/89c6ff1816da20462d6a5d903c54015cc897188160c2d525d8dc1dacedfee184",
+                    "sha256": "89c6ff1816da20462d6a5d903c54015cc897188160c2d525d8dc1dacedfee184"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/79/79834324e1ec83eae1d0184074d0864997bb7491c647a3489695e03b09020d60",
-                  "sha256": "79834324e1ec83eae1d0184074d0864997bb7491c647a3489695e03b09020d60"
+                  "path": ".local-e2e/store/e2e/sha256/b8/b8481ef4fb34b8b26037ea60d516564c01bd8786d6e90afe4b525ddcd1cb5240",
+                  "sha256": "b8481ef4fb34b8b26037ea60d516564c01bd8786d6e90afe4b525ddcd1cb5240"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/e3/e3840e08ff90f8567beedc9f96ee3597d48ea7a568cfd51aadca20850800257e",
-                  "sha256": "e3840e08ff90f8567beedc9f96ee3597d48ea7a568cfd51aadca20850800257e"
+                  "path": ".local-e2e/store/metadata/sha256/4b/4bf12dc021fcb628de8d14542a9e5b0ee8aa69828a99adda85346fe54c879cf8",
+                  "sha256": "4bf12dc021fcb628de8d14542a9e5b0ee8aa69828a99adda85346fe54c879cf8"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/8e/8ec3c360d6be309730509311eb5cadce01b9dfeb173debc536f353908c8d7c9f",
-                  "sha256": "8ec3c360d6be309730509311eb5cadce01b9dfeb173debc536f353908c8d7c9f"
+                  "path": ".local-e2e/store/packages/sha256/95/9504d858daaee44be2f789dde40f53ab532ba7c2e3515a0468d19740e1423d35",
+                  "sha256": "9504d858daaee44be2f789dde40f53ab532ba7c2e3515a0468d19740e1423d35"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/5e/5ec4fffde3e339006b53c7b6c15fb62279774c1ae5ac5ccc0ef3604c6b9834ac",
-                    "sha256": "5ec4fffde3e339006b53c7b6c15fb62279774c1ae5ac5ccc0ef3604c6b9834ac"
+                    "path": ".local-e2e/store/recipes/sha256/6e/6e88d53efb75fe8362cb42a227b5ea23cae8a4e03fb15a035dc6b3461ddd7411",
+                    "sha256": "6e88d53efb75fe8362cb42a227b5ea23cae8a4e03fb15a035dc6b3461ddd7411"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/f3/f3a45aa4ae494ee5778b3bb92afe53eef4ce11f264e61faaed0589cd1ab3b889",
-                    "sha256": "f3a45aa4ae494ee5778b3bb92afe53eef4ce11f264e61faaed0589cd1ab3b889"
+                    "path": ".local-e2e/store/recipes/sha256/c9/c94e92ce2baca332d1283f43b80f13c4d1bdd8f176f051a5a8e6b4bf68f623c8",
+                    "sha256": "c94e92ce2baca332d1283f43b80f13c4d1bdd8f176f051a5a8e6b4bf68f623c8"
                   }
                 }
               },
               "metadata": {
-                "path": "bluemsx_libretro.info",
-                "sha256": "e3840e08ff90f8567beedc9f96ee3597d48ea7a568cfd51aadca20850800257e",
-                "size": 2286,
+                "path": "crocods_libretro.info",
+                "sha256": "4bf12dc021fcb628de8d14542a9e5b0ee8aa69828a99adda85346fe54c879cf8",
+                "size": 944,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T10:04:59+00:00",
+              "promoted_at": "2026-07-24T15:21:25+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
@@ -558,8 +533,8 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "bluemsx",
-                "core_spec_sha256": "4e7eceb00b599dde521189fff912b92714668561c97b25dd2dea38b810d6afd8",
+                "core_id": "crocods",
+                "core_spec_sha256": "801efc89361a0999fd4de819613c5dff3ecb3c5851601e277fbdca19b4d87bd6",
                 "pipeline_bundle": {
                   "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
                   "files": {
@@ -702,19 +677,19 @@
                   "schema_version": 1
                 },
                 "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-bluemsx.yml",
-                "workflow_sha256": "5f297670b44d340c7cedc0586c03438d5364af3add69b0fdb835d28455b9c401"
+                "repository_dirty": false,
+                "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af",
+                "workflow": ".github/workflows/build-crocods.yml",
+                "workflow_sha256": "219b513f5a38220c1338dfa9b855c50da7ef8506bd8a0ab583bedf4849efe88d"
               },
               "source": {
-                "commit": "5f595c79906ff3379641b5ee8f3796106214a0a4",
+                "commit": "87bbb3d9007ac537864278c6c3149ae3291873f8",
                 "requested_ref": "refs/heads/master",
-                "resolved_commit": "5f595c79906ff3379641b5ee8f3796106214a0a4",
-                "resolved_url": "https://github.com/libretro/blueMSX-libretro.git",
+                "resolved_commit": "87bbb3d9007ac537864278c6c3149ae3291873f8",
+                "resolved_url": "https://github.com/libretro/libretro-crocods.git",
                 "submodules": [],
-                "tree": "1d6e218616f313f9147aa7ecf3f74584a9aaa23c",
-                "url": "https://github.com/libretro/blueMSX-libretro.git"
+                "tree": "5a76585f521954c8e8ebef9b489a4d6c7a8b73db",
+                "url": "https://github.com/libretro/libretro-crocods.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -757,7 +732,7 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "4a75739ff303857ab2404042d4f78c0603947ee53ac1d4b69f2830c199c816f9"
+            "provenance_identity_sha256": "75eb27fa9b9fba9aae34e103266ead231916648b9ca1c72385096b75c45c45a0"
           }
         },
         "tier": "build_golden",
@@ -766,14 +741,14 @@
       "source_index": 0
     }
   },
-  "created_at": "2026-07-24T10:04:59+00:00",
+  "created_at": "2026-07-24T15:21:25+00:00",
   "local_only": true,
   "parent": null,
-  "pin_id": "bluemsx-5f595c79906f-e600380ac6d7",
+  "pin_id": "crocods-87bbb3d9007a-987ab7429a42",
   "publication": "disabled",
   "schema_version": 1,
   "scope": [
-    "bluemsx"
+    "crocods"
   ],
   "selection_policy": {
     "failed_candidate": "retain-parent",
@@ -784,10 +759,10 @@
   },
   "sources": [
     {
-      "content_sha256": "fcd03723f9016de8a9b070cb790b86b5d9bb5d2553e8e83d322181023e174760",
-      "file_sha256": "b3be23443add7d382e5d3566ebaad63d0610f0da7a842466e1b7c181e07e2a55",
-      "path": ".local-e2e/nightlies/bluemsx-5f595c79906f-e600380ac6d7/golden.json",
-      "pin_id": "bluemsx-5f595c79906f-e600380ac6d7"
+      "content_sha256": "f0fcb3a353aed9d07c62d3c52edd60ac9dc4be04b7259cfc1f3918e6e330b763",
+      "file_sha256": "f37b8b431bb3434a06c64c57c5e8ab146b14e325065e06d753b00246027a0713",
+      "path": ".local-e2e/nightlies/crocods-87bbb3d9007a-987ab7429a42/golden.json",
+      "pin_id": "crocods-87bbb3d9007a-987ab7429a42"
     }
   ],
   "summary": {

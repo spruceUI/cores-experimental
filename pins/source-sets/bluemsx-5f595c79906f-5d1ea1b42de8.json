@@ -1,14 +1,14 @@
 {
   "$schema": "../../manifests/core-source-set.schema.json",
   "schema_version": 1,
-  "source_set_id": "bluemsx-5f595c79906f-e600380ac6d7",
+  "source_set_id": "bluemsx-5f595c79906f-5d1ea1b42de8",
   "local_only": true,
   "publication": "disabled",
   "evidence_pin": {
-    "path": "pins/core-sets/bluemsx-5f595c79906f-e600380ac6d7.json",
-    "pin_id": "bluemsx-5f595c79906f-e600380ac6d7",
-    "file_sha256": "ccfe1de55c262d6661d38656fdd24a0cdefa27bdcffc16cd019d5538f0b6fbf8",
-    "content_sha256": "f991b2fbed831584737f61d033448c83b647ae7378c8cca1949d86f3a40c0a0e"
+    "path": "pins/core-sets/bluemsx-5f595c79906f-5d1ea1b42de8.json",
+    "pin_id": "bluemsx-5f595c79906f-5d1ea1b42de8",
+    "file_sha256": "0e398d19680f64046e0abee2c0683ebb695d2223b511608f49603bcc69c24427",
+    "content_sha256": "1ae07ed47fa8e85ca899e05938b8666310b1c9b4e7a44219c8ee68c92f2ef4a1"
   },
   "sources": {
     "bluemsx": {
@@ -19,5 +19,5 @@
       "content_sha256": "46a90fa7e78b9c164cd5d834b5ccaa1af8da5c5d7031e07bf52b7c2f79c2d894"
     }
   },
-  "content_sha256": "5a3237a3056a20f5fca2185c5c22587fce09ec402113d661bffbe9f582ec4996"
+  "content_sha256": "7ab11c415575e2c20d67d1b5ad79084e285ef05396791fee35286cf6f9789c9c"
 }

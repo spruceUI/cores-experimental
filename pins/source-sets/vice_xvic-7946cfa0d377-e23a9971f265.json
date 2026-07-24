@@ -1,14 +1,14 @@
 {
   "$schema": "../../manifests/core-source-set.schema.json",
   "schema_version": 1,
-  "source_set_id": "vice_xvic-7946cfa0d377-f1e6abfe933c",
+  "source_set_id": "vice_xvic-7946cfa0d377-e23a9971f265",
   "local_only": true,
   "publication": "disabled",
   "evidence_pin": {
-    "path": "pins/core-sets/vice_xvic-7946cfa0d377-f1e6abfe933c.json",
-    "pin_id": "vice_xvic-7946cfa0d377-f1e6abfe933c",
-    "file_sha256": "fb091386d8b2aee74995c079d461948cc9d2f3ea86de93ba9804b7d2b8c9cae1",
-    "content_sha256": "5c097d528c9a931ad0af7d10d4001f0a81485a3f8abb9ac12d7d4217f1ab11e5"
+    "path": "pins/core-sets/vice_xvic-7946cfa0d377-e23a9971f265.json",
+    "pin_id": "vice_xvic-7946cfa0d377-e23a9971f265",
+    "file_sha256": "fd6a267253123b4b2e33b47c943a5dd7f7ac65c8ba02555f31d76923ba2db134",
+    "content_sha256": "f68c3b560eedebb018da92fde26952cde636f22604a10a0c9c0a8b0a758b6272"
   },
   "sources": {
     "vice_xvic": {
@@ -19,5 +19,5 @@
       "content_sha256": "db0c1810cf88141e880e6803f5874f8fecc24f35978c889928dbebbd143e7e4f"
     }
   },
-  "content_sha256": "43ccf5d4e0e1fe67873a0b1b18dc8ab273af26a1a475845b96f321f4d5bcb6a3"
+  "content_sha256": "c4f12ff9156e278828d269e585240ebbd514c533360937266203bcc8929de94b"
 }

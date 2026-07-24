@@ -1,39 +1,39 @@
 {
   "$schema": "../../manifests/core-set.schema.json",
-  "content_sha256": "52d5048d86556875918af500764f708649411cea878c1434604677ef19430073",
+  "content_sha256": "0cc0e37e267c894922cdf9e0e14984f6486ac0d845a9ec376d84dd8b74078d90",
   "cores": {
-    "mednafen_ngp": {
+    "genesis_plus_gx": {
       "decision": "select_source",
       "selection": {
         "e2e": {
           "build_records": {
-            "arm64": "0482e87d5fb69e49e7591c859a10a718d903b269d3595280026bf05f75428467",
-            "armhf": "f381dc5b7db6119815ea6913ac7ad10ebcfc436a5f251f8e6bc90563c0136dad"
+            "arm64": "717f0c9d6bdcd135fe00820393fcac87df821f00b1fa1710f68ecf04b19eed77",
+            "armhf": "13af689eac664adc6b4a2286fea5fabd137993e31e3390f7d636eeb2fa2b32c2"
           },
-          "content_sha256": "887ef2f13a2ff12e129a35aabea083e7d1e148b16f1fcbb99c8ca1444ef06a18",
-          "package_sha256": "6b0e2a5401106e17ecba8c86752b5a824d10044107b68aff1f1901b8b8e2c93b",
-          "run_id": "actions-sim-build-core-mednafen_ngp-w3"
+          "content_sha256": "e8566ec3cb56ffc0c7f8c865c72fd374c5d80be9d7909b7b31412d903fdb3028",
+          "package_sha256": "77c2dc9d6c84f173bb0b38b457df5ef34874a3db3d76e46691f583b0dfaa8f26",
+          "run_id": "actions-sim-build-core-genesis_plus_gx-w3c"
         },
         "metadata": {
-          "path": ".local-e2e/store/metadata/sha256/1e/1e7485277cffaf01ae4c4c5406a7dfc6f85f4d2a6949273feae5634781ec396b",
-          "sha256": "1e7485277cffaf01ae4c4c5406a7dfc6f85f4d2a6949273feae5634781ec396b",
-          "size": 788
+          "path": ".local-e2e/store/metadata/sha256/97/9793bff8d9e298a7ee0c94c0511dab242200ca60fbe87e3720eb9231a3e0166a",
+          "sha256": "9793bff8d9e298a7ee0c94c0511dab242200ca60fbe87e3720eb9231a3e0166a",
+          "size": 2788
         },
         "package": {
-          "name": "mednafen_ngp_libretro.zip",
-          "path": ".local-e2e/store/packages/sha256/6b/6b0e2a5401106e17ecba8c86752b5a824d10044107b68aff1f1901b8b8e2c93b",
-          "sha256": "6b0e2a5401106e17ecba8c86752b5a824d10044107b68aff1f1901b8b8e2c93b",
-          "size": 223312
+          "name": "genesis_plus_gx_libretro.zip",
+          "path": ".local-e2e/store/packages/sha256/77/77c2dc9d6c84f173bb0b38b457df5ef34874a3db3d76e46691f583b0dfaa8f26",
+          "sha256": "77c2dc9d6c84f173bb0b38b457df5ef34874a3db3d76e46691f583b0dfaa8f26",
+          "size": 2433019
         },
-        "selection_sha256": "26b82754fc259bc1b6c968afb221745117d8b75919599e5d229edb3219c33639",
+        "selection_sha256": "cea516791c3bcb16030f2a0c07a60d0b1824581bbcbbefa5f1b002cb5f6b3255",
         "targets": {
           "arm64": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/67/675aa77885a8f61a93762067406ef42b0dad56eb2372b1e0d6306eaec70fa0f4",
-              "sha256": "675aa77885a8f61a93762067406ef42b0dad56eb2372b1e0d6306eaec70fa0f4",
-              "size": 431328
+              "path": ".local-e2e/store/artifacts/sha256/fb/fb8fadec4b547e2b51076c06baa4b46c69b1928ac89f9c1c77ceb056eda03982",
+              "sha256": "fb8fadec4b547e2b51076c06baa4b46c69b1928ac89f9c1c77ceb056eda03982",
+              "size": 13067184
             },
-            "build_record_sha256": "0482e87d5fb69e49e7591c859a10a718d903b269d3595280026bf05f75428467",
+            "build_record_sha256": "717f0c9d6bdcd135fe00820393fcac87df821f00b1fa1710f68ecf04b19eed77",
             "golden_record": {
               "architecture": "arm64",
               "artifact": {
@@ -49,7 +49,11 @@
                   "retro_api_version",
                   "retro_cheat_reset",
                   "retro_cheat_set",
+                  "retro_closedir",
                   "retro_deinit",
+                  "retro_dirent_error",
+                  "retro_dirent_get_name",
+                  "retro_dirent_is_dir",
                   "retro_get_memory_data",
                   "retro_get_memory_size",
                   "retro_get_region",
@@ -58,6 +62,9 @@
                   "retro_init",
                   "retro_load_game",
                   "retro_load_game_special",
+                  "retro_opendir",
+                  "retro_opendir_include_hidden",
+                  "retro_readdir",
                   "retro_reset",
                   "retro_run",
                   "retro_serialize",
@@ -74,17 +81,25 @@
                   "retro_vfs_closedir_impl",
                   "retro_vfs_dirent_get_name_impl",
                   "retro_vfs_dirent_is_dir_impl",
+                  "retro_vfs_file_close_cdrom",
                   "retro_vfs_file_close_impl",
+                  "retro_vfs_file_error_cdrom",
                   "retro_vfs_file_error_impl",
                   "retro_vfs_file_flush_impl",
+                  "retro_vfs_file_get_cdrom_position",
+                  "retro_vfs_file_get_cdrom_toc",
                   "retro_vfs_file_get_path_impl",
+                  "retro_vfs_file_open_cdrom",
                   "retro_vfs_file_open_impl",
+                  "retro_vfs_file_read_cdrom",
                   "retro_vfs_file_read_impl",
                   "retro_vfs_file_remove_impl",
                   "retro_vfs_file_rename_impl",
+                  "retro_vfs_file_seek_cdrom",
                   "retro_vfs_file_seek_impl",
                   "retro_vfs_file_seek_internal",
                   "retro_vfs_file_size_impl",
+                  "retro_vfs_file_tell_cdrom",
                   "retro_vfs_file_tell_impl",
                   "retro_vfs_file_truncate_impl",
                   "retro_vfs_file_write_impl",
@@ -96,97 +111,99 @@
                 "needed": [
                   "ld-linux-aarch64.so.1",
                   "libc.so.6",
-                  "libgcc_s.so.1",
-                  "libstdc++.so.6"
+                  "libm.so.6"
                 ],
-                "path": "mednafen_ngp_libretro.so",
-                "sha256": "675aa77885a8f61a93762067406ef42b0dad56eb2372b1e0d6306eaec70fa0f4",
-                "size": 431328,
+                "path": "genesis_plus_gx_libretro.so",
+                "sha256": "fb8fadec4b547e2b51076c06baa4b46c69b1928ac89f9c1c77ceb056eda03982",
+                "size": 13067184,
                 "status": "valid",
                 "version_requirements": [
-                  "CXXABI_1.3",
-                  "GCC_3.0",
-                  "GLIBCXX_3.4",
-                  "GLIBC_2.17"
+                  "GLIBC_2.17",
+                  "GLIBC_2.29"
                 ]
               },
               "build": {
                 "compile_definitions": [],
                 "driver": "libretro-super",
                 "environment": "sanitized-v1",
+                "git_version": {
+                  "compiler_scope": "c",
+                  "derivation": "native-space-short7-v1",
+                  "value": " fa4dca5"
+                },
                 "log": "build.log",
-                "log_sha256": "90f5622b3979bbc3be9b03dfee3f6ecf918f94c3a6b4fb6cd4b7acb8d90fc8b7"
+                "log_sha256": "6b90b5ab7fb16cfcd21ed58d7b2f1e492b1c31aa79b86110d5feea1bbcb4ffae"
               },
-              "core_id": "mednafen_ngp",
+              "core_id": "genesis_plus_gx",
               "e2e": {
                 "build_records": {
-                  "arm64": "0482e87d5fb69e49e7591c859a10a718d903b269d3595280026bf05f75428467",
-                  "armhf": "f381dc5b7db6119815ea6913ac7ad10ebcfc436a5f251f8e6bc90563c0136dad"
+                  "arm64": "717f0c9d6bdcd135fe00820393fcac87df821f00b1fa1710f68ecf04b19eed77",
+                  "armhf": "13af689eac664adc6b4a2286fea5fabd137993e31e3390f7d636eeb2fa2b32c2"
                 },
-                "content_sha256": "887ef2f13a2ff12e129a35aabea083e7d1e148b16f1fcbb99c8ca1444ef06a18",
-                "package": ".local-e2e/runs/actions-sim-build-core-mednafen_ngp-w3/mednafen_ngp_libretro.zip",
-                "package_sha256": "6b0e2a5401106e17ecba8c86752b5a824d10044107b68aff1f1901b8b8e2c93b",
-                "record": ".local-e2e/runs/actions-sim-build-core-mednafen_ngp-w3/e2e-record.json",
-                "record_sha256": "d32b32d807da10e45001c9b518513499ac1b742b19b855788a9180b1bbfee238",
-                "run_id": "actions-sim-build-core-mednafen_ngp-w3"
+                "content_sha256": "e8566ec3cb56ffc0c7f8c865c72fd374c5d80be9d7909b7b31412d903fdb3028",
+                "package": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx-w3c/genesis_plus_gx_libretro.zip",
+                "package_sha256": "77c2dc9d6c84f173bb0b38b457df5ef34874a3db3d76e46691f583b0dfaa8f26",
+                "record": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx-w3c/e2e-record.json",
+                "record_sha256": "baf896bad2ad48b71c4737623c98ecbfa7eacf0d6f592a1f6089b0e68330d4f5",
+                "run_id": "actions-sim-build-core-genesis_plus_gx-w3c"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-mednafen_ngp-w3/mednafen_ngp/arm64/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx-w3c/genesis_plus_gx/arm64/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/67/675aa77885a8f61a93762067406ef42b0dad56eb2372b1e0d6306eaec70fa0f4",
-                  "sha256": "675aa77885a8f61a93762067406ef42b0dad56eb2372b1e0d6306eaec70fa0f4"
+                  "path": ".local-e2e/store/artifacts/sha256/fb/fb8fadec4b547e2b51076c06baa4b46c69b1928ac89f9c1c77ceb056eda03982",
+                  "sha256": "fb8fadec4b547e2b51076c06baa4b46c69b1928ac89f9c1c77ceb056eda03982"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/90/90f5622b3979bbc3be9b03dfee3f6ecf918f94c3a6b4fb6cd4b7acb8d90fc8b7",
-                    "sha256": "90f5622b3979bbc3be9b03dfee3f6ecf918f94c3a6b4fb6cd4b7acb8d90fc8b7"
+                    "path": ".local-e2e/store/logs/sha256/6b/6b90b5ab7fb16cfcd21ed58d7b2f1e492b1c31aa79b86110d5feea1bbcb4ffae",
+                    "sha256": "6b90b5ab7fb16cfcd21ed58d7b2f1e492b1c31aa79b86110d5feea1bbcb4ffae"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/e7/e7172c519d20676baef55cd34a3a35eaa9b44f24be939f8f7ed5f86aa790e44a",
-                    "sha256": "e7172c519d20676baef55cd34a3a35eaa9b44f24be939f8f7ed5f86aa790e44a"
+                    "path": ".local-e2e/store/logs/sha256/fc/fcac51db9ea06dee58581de12c2dd1b62674ebb7f74c2d1b173415ad91ca4140",
+                    "sha256": "fcac51db9ea06dee58581de12c2dd1b62674ebb7f74c2d1b173415ad91ca4140"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/04/0482e87d5fb69e49e7591c859a10a718d903b269d3595280026bf05f75428467",
-                    "sha256": "0482e87d5fb69e49e7591c859a10a718d903b269d3595280026bf05f75428467"
+                    "path": ".local-e2e/store/build-records/sha256/71/717f0c9d6bdcd135fe00820393fcac87df821f00b1fa1710f68ecf04b19eed77",
+                    "sha256": "717f0c9d6bdcd135fe00820393fcac87df821f00b1fa1710f68ecf04b19eed77"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/f3/f381dc5b7db6119815ea6913ac7ad10ebcfc436a5f251f8e6bc90563c0136dad",
-                    "sha256": "f381dc5b7db6119815ea6913ac7ad10ebcfc436a5f251f8e6bc90563c0136dad"
+                    "path": ".local-e2e/store/build-records/sha256/13/13af689eac664adc6b4a2286fea5fabd137993e31e3390f7d636eeb2fa2b32c2",
+                    "sha256": "13af689eac664adc6b4a2286fea5fabd137993e31e3390f7d636eeb2fa2b32c2"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/d3/d32b32d807da10e45001c9b518513499ac1b742b19b855788a9180b1bbfee238",
-                  "sha256": "d32b32d807da10e45001c9b518513499ac1b742b19b855788a9180b1bbfee238"
+                  "path": ".local-e2e/store/e2e/sha256/ba/baf896bad2ad48b71c4737623c98ecbfa7eacf0d6f592a1f6089b0e68330d4f5",
+                  "sha256": "baf896bad2ad48b71c4737623c98ecbfa7eacf0d6f592a1f6089b0e68330d4f5"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/1e/1e7485277cffaf01ae4c4c5406a7dfc6f85f4d2a6949273feae5634781ec396b",
-                  "sha256": "1e7485277cffaf01ae4c4c5406a7dfc6f85f4d2a6949273feae5634781ec396b"
+                  "path": ".local-e2e/store/metadata/sha256/97/9793bff8d9e298a7ee0c94c0511dab242200ca60fbe87e3720eb9231a3e0166a",
+                  "sha256": "9793bff8d9e298a7ee0c94c0511dab242200ca60fbe87e3720eb9231a3e0166a"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/6b/6b0e2a5401106e17ecba8c86752b5a824d10044107b68aff1f1901b8b8e2c93b",
-                  "sha256": "6b0e2a5401106e17ecba8c86752b5a824d10044107b68aff1f1901b8b8e2c93b"
+                  "path": ".local-e2e/store/packages/sha256/77/77c2dc9d6c84f173bb0b38b457df5ef34874a3db3d76e46691f583b0dfaa8f26",
+                  "sha256": "77c2dc9d6c84f173bb0b38b457df5ef34874a3db3d76e46691f583b0dfaa8f26"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/4d/4debf668624827c57a121cbd028abff830c9bb4897984c0e442b03b4d99f1b24",
-                    "sha256": "4debf668624827c57a121cbd028abff830c9bb4897984c0e442b03b4d99f1b24"
+                    "path": ".local-e2e/store/recipes/sha256/36/363580320af7f6cbc0f2f168ac550039b2dd515cb55a6d37bc2a4e01e6024b14",
+                    "sha256": "363580320af7f6cbc0f2f168ac550039b2dd515cb55a6d37bc2a4e01e6024b14"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/7d/7d07e68fb574420e9b04eab4c9a5390e77db3af7af742b772024dda993148cbd",
-                    "sha256": "7d07e68fb574420e9b04eab4c9a5390e77db3af7af742b772024dda993148cbd"
+                    "path": ".local-e2e/store/recipes/sha256/a0/a05df5b0026f6ba866949c5580f1e11087152567cf881bcbf664cfaebcb5be89",
+                    "sha256": "a05df5b0026f6ba866949c5580f1e11087152567cf881bcbf664cfaebcb5be89"
                   }
                 }
               },
               "metadata": {
-                "path": "mednafen_ngp_libretro.info",
-                "sha256": "1e7485277cffaf01ae4c4c5406a7dfc6f85f4d2a6949273feae5634781ec396b",
-                "size": 788,
+                "path": "genesis_plus_gx_libretro.info",
+                "sha256": "9793bff8d9e298a7ee0c94c0511dab242200ca60fbe87e3720eb9231a3e0166a",
+                "size": 2788,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T11:01:55+00:00",
+              "promoted_at": "2026-07-24T15:21:33+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
@@ -200,8 +217,8 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "mednafen_ngp",
-                "core_spec_sha256": "effabaa894956069d22b53442465cddadeef0513936df6c03ef7a5ce5787f6fd",
+                "core_id": "genesis_plus_gx",
+                "core_spec_sha256": "f405dc56a29322f6d6dcad7d778e1f0852274d7d9e75bad8af39971a8a474063",
                 "pipeline_bundle": {
                   "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
                   "files": {
@@ -344,19 +361,19 @@
                   "schema_version": 1
                 },
                 "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-mednafen_ngp.yml",
-                "workflow_sha256": "3c1a5a29f4b5f7eceb7a740979633955bde4a2c74eaa8b8afe7af9d2ed7289ed"
+                "repository_dirty": false,
+                "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af",
+                "workflow": ".github/workflows/build-genesis_plus_gx.yml",
+                "workflow_sha256": "cbb408b254dd1adbda2acb07f3dd9d767193f431be58badd7beaf37e387d3d97"
               },
               "source": {
-                "commit": "a50d5ac288a81f2104ddf43195a4efdd15c72227",
+                "commit": "fa4dca561e08d5be9077419f7b255e1da213ed21",
                 "requested_ref": "refs/heads/master",
-                "resolved_commit": "a50d5ac288a81f2104ddf43195a4efdd15c72227",
-                "resolved_url": "https://github.com/libretro/beetle-ngp-libretro.git",
+                "resolved_commit": "fa4dca561e08d5be9077419f7b255e1da213ed21",
+                "resolved_url": "https://github.com/libretro/Genesis-Plus-GX.git",
                 "submodules": [],
-                "tree": "2614efc4a43347f75a16e4b87c536806f7de2ba1",
-                "url": "https://github.com/libretro/beetle-ngp-libretro.git"
+                "tree": "7f4b0916e938e15e046e1c35acd0173aab1aaac3",
+                "url": "https://github.com/libretro/Genesis-Plus-GX.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -399,15 +416,15 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "a9a0d1d4e228d3faccbd34fe975eb4ffaf0433c645fa51628409d7ca71f6c288"
+            "provenance_identity_sha256": "febf6bee121faaeb2d0ca3138b9d8c80020ea2650c7a1f7974c1200799fe3004"
           },
           "armhf": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/3b/3bbc12b63a46c394e19e205cefaa8449670f80ac23fd13f02b653d91ac2b155e",
-              "sha256": "3bbc12b63a46c394e19e205cefaa8449670f80ac23fd13f02b653d91ac2b155e",
-              "size": 308108
+              "path": ".local-e2e/store/artifacts/sha256/c1/c122bf99857172e79fae360a4e5f7a314cb408065cf29c98ae08a57dcfda983b",
+              "sha256": "c122bf99857172e79fae360a4e5f7a314cb408065cf29c98ae08a57dcfda983b",
+              "size": 6793332
             },
-            "build_record_sha256": "f381dc5b7db6119815ea6913ac7ad10ebcfc436a5f251f8e6bc90563c0136dad",
+            "build_record_sha256": "13af689eac664adc6b4a2286fea5fabd137993e31e3390f7d636eeb2fa2b32c2",
             "golden_record": {
               "architecture": "armhf",
               "artifact": {
@@ -423,7 +440,11 @@
                   "retro_api_version",
                   "retro_cheat_reset",
                   "retro_cheat_set",
+                  "retro_closedir",
                   "retro_deinit",
+                  "retro_dirent_error",
+                  "retro_dirent_get_name",
+                  "retro_dirent_is_dir",
                   "retro_get_memory_data",
                   "retro_get_memory_size",
                   "retro_get_region",
@@ -432,6 +453,9 @@
                   "retro_init",
                   "retro_load_game",
                   "retro_load_game_special",
+                  "retro_opendir",
+                  "retro_opendir_include_hidden",
+                  "retro_readdir",
                   "retro_reset",
                   "retro_run",
                   "retro_serialize",
@@ -448,17 +472,25 @@
                   "retro_vfs_closedir_impl",
                   "retro_vfs_dirent_get_name_impl",
                   "retro_vfs_dirent_is_dir_impl",
+                  "retro_vfs_file_close_cdrom",
                   "retro_vfs_file_close_impl",
+                  "retro_vfs_file_error_cdrom",
                   "retro_vfs_file_error_impl",
                   "retro_vfs_file_flush_impl",
+                  "retro_vfs_file_get_cdrom_position",
+                  "retro_vfs_file_get_cdrom_toc",
                   "retro_vfs_file_get_path_impl",
+                  "retro_vfs_file_open_cdrom",
                   "retro_vfs_file_open_impl",
+                  "retro_vfs_file_read_cdrom",
                   "retro_vfs_file_read_impl",
                   "retro_vfs_file_remove_impl",
                   "retro_vfs_file_rename_impl",
+                  "retro_vfs_file_seek_cdrom",
                   "retro_vfs_file_seek_impl",
                   "retro_vfs_file_seek_internal",
                   "retro_vfs_file_size_impl",
+                  "retro_vfs_file_tell_cdrom",
                   "retro_vfs_file_tell_impl",
                   "retro_vfs_file_truncate_impl",
                   "retro_vfs_file_write_impl",
@@ -469,20 +501,13 @@
                 ],
                 "needed": [
                   "libc.so.6",
-                  "libgcc_s.so.1",
-                  "libm.so.6",
-                  "libstdc++.so.6"
+                  "libm.so.6"
                 ],
-                "path": "mednafen_ngp_libretro.so",
-                "sha256": "3bbc12b63a46c394e19e205cefaa8449670f80ac23fd13f02b653d91ac2b155e",
-                "size": 308108,
+                "path": "genesis_plus_gx_libretro.so",
+                "sha256": "c122bf99857172e79fae360a4e5f7a314cb408065cf29c98ae08a57dcfda983b",
+                "size": 6793332,
                 "status": "valid",
                 "version_requirements": [
-                  "CXXABI_1.3",
-                  "CXXABI_1.3.9",
-                  "CXXABI_ARM_1.3.3",
-                  "GCC_3.5",
-                  "GLIBCXX_3.4",
                   "GLIBC_2.4",
                   "GLIBC_2.7"
                 ]
@@ -491,79 +516,84 @@
                 "compile_definitions": [],
                 "driver": "libretro-super",
                 "environment": "sanitized-v1",
+                "git_version": {
+                  "compiler_scope": "c",
+                  "derivation": "native-space-short7-v1",
+                  "value": " fa4dca5"
+                },
                 "log": "build.log",
-                "log_sha256": "e7172c519d20676baef55cd34a3a35eaa9b44f24be939f8f7ed5f86aa790e44a"
+                "log_sha256": "fcac51db9ea06dee58581de12c2dd1b62674ebb7f74c2d1b173415ad91ca4140"
               },
-              "core_id": "mednafen_ngp",
+              "core_id": "genesis_plus_gx",
               "e2e": {
                 "build_records": {
-                  "arm64": "0482e87d5fb69e49e7591c859a10a718d903b269d3595280026bf05f75428467",
-                  "armhf": "f381dc5b7db6119815ea6913ac7ad10ebcfc436a5f251f8e6bc90563c0136dad"
+                  "arm64": "717f0c9d6bdcd135fe00820393fcac87df821f00b1fa1710f68ecf04b19eed77",
+                  "armhf": "13af689eac664adc6b4a2286fea5fabd137993e31e3390f7d636eeb2fa2b32c2"
                 },
-                "content_sha256": "887ef2f13a2ff12e129a35aabea083e7d1e148b16f1fcbb99c8ca1444ef06a18",
-                "package": ".local-e2e/runs/actions-sim-build-core-mednafen_ngp-w3/mednafen_ngp_libretro.zip",
-                "package_sha256": "6b0e2a5401106e17ecba8c86752b5a824d10044107b68aff1f1901b8b8e2c93b",
-                "record": ".local-e2e/runs/actions-sim-build-core-mednafen_ngp-w3/e2e-record.json",
-                "record_sha256": "d32b32d807da10e45001c9b518513499ac1b742b19b855788a9180b1bbfee238",
-                "run_id": "actions-sim-build-core-mednafen_ngp-w3"
+                "content_sha256": "e8566ec3cb56ffc0c7f8c865c72fd374c5d80be9d7909b7b31412d903fdb3028",
+                "package": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx-w3c/genesis_plus_gx_libretro.zip",
+                "package_sha256": "77c2dc9d6c84f173bb0b38b457df5ef34874a3db3d76e46691f583b0dfaa8f26",
+                "record": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx-w3c/e2e-record.json",
+                "record_sha256": "baf896bad2ad48b71c4737623c98ecbfa7eacf0d6f592a1f6089b0e68330d4f5",
+                "run_id": "actions-sim-build-core-genesis_plus_gx-w3c"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-mednafen_ngp-w3/mednafen_ngp/armhf/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx-w3c/genesis_plus_gx/armhf/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/3b/3bbc12b63a46c394e19e205cefaa8449670f80ac23fd13f02b653d91ac2b155e",
-                  "sha256": "3bbc12b63a46c394e19e205cefaa8449670f80ac23fd13f02b653d91ac2b155e"
+                  "path": ".local-e2e/store/artifacts/sha256/c1/c122bf99857172e79fae360a4e5f7a314cb408065cf29c98ae08a57dcfda983b",
+                  "sha256": "c122bf99857172e79fae360a4e5f7a314cb408065cf29c98ae08a57dcfda983b"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/90/90f5622b3979bbc3be9b03dfee3f6ecf918f94c3a6b4fb6cd4b7acb8d90fc8b7",
-                    "sha256": "90f5622b3979bbc3be9b03dfee3f6ecf918f94c3a6b4fb6cd4b7acb8d90fc8b7"
+                    "path": ".local-e2e/store/logs/sha256/6b/6b90b5ab7fb16cfcd21ed58d7b2f1e492b1c31aa79b86110d5feea1bbcb4ffae",
+                    "sha256": "6b90b5ab7fb16cfcd21ed58d7b2f1e492b1c31aa79b86110d5feea1bbcb4ffae"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/e7/e7172c519d20676baef55cd34a3a35eaa9b44f24be939f8f7ed5f86aa790e44a",
-                    "sha256": "e7172c519d20676baef55cd34a3a35eaa9b44f24be939f8f7ed5f86aa790e44a"
+                    "path": ".local-e2e/store/logs/sha256/fc/fcac51db9ea06dee58581de12c2dd1b62674ebb7f74c2d1b173415ad91ca4140",
+                    "sha256": "fcac51db9ea06dee58581de12c2dd1b62674ebb7f74c2d1b173415ad91ca4140"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/04/0482e87d5fb69e49e7591c859a10a718d903b269d3595280026bf05f75428467",
-                    "sha256": "0482e87d5fb69e49e7591c859a10a718d903b269d3595280026bf05f75428467"
+                    "path": ".local-e2e/store/build-records/sha256/71/717f0c9d6bdcd135fe00820393fcac87df821f00b1fa1710f68ecf04b19eed77",
+                    "sha256": "717f0c9d6bdcd135fe00820393fcac87df821f00b1fa1710f68ecf04b19eed77"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/f3/f381dc5b7db6119815ea6913ac7ad10ebcfc436a5f251f8e6bc90563c0136dad",
-                    "sha256": "f381dc5b7db6119815ea6913ac7ad10ebcfc436a5f251f8e6bc90563c0136dad"
+                    "path": ".local-e2e/store/build-records/sha256/13/13af689eac664adc6b4a2286fea5fabd137993e31e3390f7d636eeb2fa2b32c2",
+                    "sha256": "13af689eac664adc6b4a2286fea5fabd137993e31e3390f7d636eeb2fa2b32c2"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/d3/d32b32d807da10e45001c9b518513499ac1b742b19b855788a9180b1bbfee238",
-                  "sha256": "d32b32d807da10e45001c9b518513499ac1b742b19b855788a9180b1bbfee238"
+                  "path": ".local-e2e/store/e2e/sha256/ba/baf896bad2ad48b71c4737623c98ecbfa7eacf0d6f592a1f6089b0e68330d4f5",
+                  "sha256": "baf896bad2ad48b71c4737623c98ecbfa7eacf0d6f592a1f6089b0e68330d4f5"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/1e/1e7485277cffaf01ae4c4c5406a7dfc6f85f4d2a6949273feae5634781ec396b",
-                  "sha256": "1e7485277cffaf01ae4c4c5406a7dfc6f85f4d2a6949273feae5634781ec396b"
+                  "path": ".local-e2e/store/metadata/sha256/97/9793bff8d9e298a7ee0c94c0511dab242200ca60fbe87e3720eb9231a3e0166a",
+                  "sha256": "9793bff8d9e298a7ee0c94c0511dab242200ca60fbe87e3720eb9231a3e0166a"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/6b/6b0e2a5401106e17ecba8c86752b5a824d10044107b68aff1f1901b8b8e2c93b",
-                  "sha256": "6b0e2a5401106e17ecba8c86752b5a824d10044107b68aff1f1901b8b8e2c93b"
+                  "path": ".local-e2e/store/packages/sha256/77/77c2dc9d6c84f173bb0b38b457df5ef34874a3db3d76e46691f583b0dfaa8f26",
+                  "sha256": "77c2dc9d6c84f173bb0b38b457df5ef34874a3db3d76e46691f583b0dfaa8f26"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/4d/4debf668624827c57a121cbd028abff830c9bb4897984c0e442b03b4d99f1b24",
-                    "sha256": "4debf668624827c57a121cbd028abff830c9bb4897984c0e442b03b4d99f1b24"
+                    "path": ".local-e2e/store/recipes/sha256/36/363580320af7f6cbc0f2f168ac550039b2dd515cb55a6d37bc2a4e01e6024b14",
+                    "sha256": "363580320af7f6cbc0f2f168ac550039b2dd515cb55a6d37bc2a4e01e6024b14"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/7d/7d07e68fb574420e9b04eab4c9a5390e77db3af7af742b772024dda993148cbd",
-                    "sha256": "7d07e68fb574420e9b04eab4c9a5390e77db3af7af742b772024dda993148cbd"
+                    "path": ".local-e2e/store/recipes/sha256/a0/a05df5b0026f6ba866949c5580f1e11087152567cf881bcbf664cfaebcb5be89",
+                    "sha256": "a05df5b0026f6ba866949c5580f1e11087152567cf881bcbf664cfaebcb5be89"
                   }
                 }
               },
               "metadata": {
-                "path": "mednafen_ngp_libretro.info",
-                "sha256": "1e7485277cffaf01ae4c4c5406a7dfc6f85f4d2a6949273feae5634781ec396b",
-                "size": 788,
+                "path": "genesis_plus_gx_libretro.info",
+                "sha256": "9793bff8d9e298a7ee0c94c0511dab242200ca60fbe87e3720eb9231a3e0166a",
+                "size": 2788,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T11:01:56+00:00",
+              "promoted_at": "2026-07-24T15:21:33+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
@@ -577,8 +607,8 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "mednafen_ngp",
-                "core_spec_sha256": "effabaa894956069d22b53442465cddadeef0513936df6c03ef7a5ce5787f6fd",
+                "core_id": "genesis_plus_gx",
+                "core_spec_sha256": "f405dc56a29322f6d6dcad7d778e1f0852274d7d9e75bad8af39971a8a474063",
                 "pipeline_bundle": {
                   "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
                   "files": {
@@ -721,19 +751,19 @@
                   "schema_version": 1
                 },
                 "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-mednafen_ngp.yml",
-                "workflow_sha256": "3c1a5a29f4b5f7eceb7a740979633955bde4a2c74eaa8b8afe7af9d2ed7289ed"
+                "repository_dirty": false,
+                "repository_head": "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af",
+                "workflow": ".github/workflows/build-genesis_plus_gx.yml",
+                "workflow_sha256": "cbb408b254dd1adbda2acb07f3dd9d767193f431be58badd7beaf37e387d3d97"
               },
               "source": {
-                "commit": "a50d5ac288a81f2104ddf43195a4efdd15c72227",
+                "commit": "fa4dca561e08d5be9077419f7b255e1da213ed21",
                 "requested_ref": "refs/heads/master",
-                "resolved_commit": "a50d5ac288a81f2104ddf43195a4efdd15c72227",
-                "resolved_url": "https://github.com/libretro/beetle-ngp-libretro.git",
+                "resolved_commit": "fa4dca561e08d5be9077419f7b255e1da213ed21",
+                "resolved_url": "https://github.com/libretro/Genesis-Plus-GX.git",
                 "submodules": [],
-                "tree": "2614efc4a43347f75a16e4b87c536806f7de2ba1",
-                "url": "https://github.com/libretro/beetle-ngp-libretro.git"
+                "tree": "7f4b0916e938e15e046e1c35acd0173aab1aaac3",
+                "url": "https://github.com/libretro/Genesis-Plus-GX.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -776,7 +806,7 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "33327a4ebb29fdaeccfd96c3a8289fa646a680878c77d8c7b4fdd34580357477"
+            "provenance_identity_sha256": "7ee2d560db9638a4fc77cd6a102861b1d9cfdcc8581ed0bbb93282088d7cbfb0"
           }
         },
         "tier": "build_golden",
@@ -785,14 +815,14 @@
       "source_index": 0
     }
   },
-  "created_at": "2026-07-24T11:01:56+00:00",
+  "created_at": "2026-07-24T15:21:33+00:00",
   "local_only": true,
   "parent": null,
-  "pin_id": "mednafen_ngp-a50d5ac288a8-26b82754fc25",
+  "pin_id": "genesis_plus_gx-fa4dca561e08-cea516791c3b",
   "publication": "disabled",
   "schema_version": 1,
   "scope": [
-    "mednafen_ngp"
+    "genesis_plus_gx"
   ],
   "selection_policy": {
     "failed_candidate": "retain-parent",
@@ -803,10 +833,10 @@
   },
   "sources": [
     {
-      "content_sha256": "82d5e477c6bd0072b4fb57c192944e946ed430b52c233590a4bc6e9a33a54775",
-      "file_sha256": "6d6a95f231daeb16351c20e0abc32ecfe658795991410c0bb2398903945cf036",
-      "path": ".local-e2e/nightlies/mednafen_ngp-a50d5ac288a8-26b82754fc25/golden.json",
-      "pin_id": "mednafen_ngp-a50d5ac288a8-26b82754fc25"
+      "content_sha256": "ba290c70bb303b2236d12df53d3e6133cbd2d9492c37d71d91d812a1fe2131ab",
+      "file_sha256": "3a3528771e192fa5e9423e4faa929a78a9cc0a969565897e6e3b6c961f77d914",
+      "path": ".local-e2e/nightlies/genesis_plus_gx-fa4dca561e08-cea516791c3b/golden.json",
+      "pin_id": "genesis_plus_gx-fa4dca561e08-cea516791c3b"
     }
   ],
   "summary": {

@@ -26,7 +26,7 @@ from .support import (
 
 CORE_ID = "pokemini"
 OTHER_CORE_ID = "gearcoleco"
-PIN_NAME = "pokemini-bb009b1379ad-2ecf9f68eb0c.json"
+PIN_NAME = "pokemini-bb009b1379ad-3abb4885cf09.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -35,22 +35,22 @@ SOURCE_TREE = "f3a98fcf910c07bd9e0f5ee8466bed7865536c33"
 SOURCE_URL = "https://github.com/libretro/PokeMini.git"
 SOURCE_LOCK_ID = "pokemini-bb009b1379ad"
 SELECTION_SHA256 = (
-    "2ecf9f68eb0c13676c959c497429b2d2ed62a3563f0a0af44577aae077ba5e70"
+    "3abb4885cf0930efb3516e75ef026d57e5a39a9f6d526eb9a241245b7e897eff"
 )
-SELECTED_RUN = "actions-sim-build-core-pokemini-w3"
-REPRODUCTION_RUN = "build-core-pokemini-local-w3"
+SELECTED_RUN = "actions-sim-build-core-pokemini-w3c"
+REPRODUCTION_RUN = "build-core-pokemini-local-w3c"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "01b07251d3c197577688b5479b96cb034fcd14b38b599e3799e4b4c4fa341cef"
+    "ab696ca1faa35cd1d3293a0c14f12a642e8d42b8a724af029c06ffaa5f47dffa"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "5acd99900124207589dc0cb5bc8ab6f7b1047a69d93f53ec9acfb5e945f12d3b"
+    "8076ac02ab1834bee10fddd334df8c2b61eef231b0d2437c0c79188a95c1983f"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "8d00532d5b1f2673da895bfe3be715c5e789792093dc533aaa8519de78bd463b"
+        "8cd5d0a2c0d832005ef6991b5dbfa88cf9316c9d2fd4d1c31cfd0ea2be25b43e"
     ),
     REPRODUCTION_RUN: (
-        "1aa56206438fdd65d601e5e27fc70f315f1a26cd27c46ef794435bbcd2f0fdc8"
+        "ab2a96acc3659b0e0a1dd2a126d091761f2b63397ad8182b9879179ee18d18e6"
     ),
 }
 PACKAGE_SHA256 = (
@@ -85,10 +85,10 @@ TARGETS = {
         "artifact_size": 404904,
         "record_sha256": {
             SELECTED_RUN: (
-                "7500f7f3ed70ece99f48370e2e1884840fb568d8d1a6e9d4c9ed7030fbd3b915"
+                "d28f146242ba6cccc7981a6a268e0ad2c2a20139820e787a57bbad9889f5bb85"
             ),
             REPRODUCTION_RUN: (
-                "10e129256c644928d7f8cbac005bd078634e07b0ef9da9ba718d1fcc26a272da"
+                "93fbd85bf2ee1082cfdb08badf56dc34edf871492ef518dd64e84b903f9d2377"
             ),
         },
         "log_sha256": {
@@ -96,7 +96,7 @@ TARGETS = {
                 "4fbaf836e15d06f36732f28d79984b57c3ac9da49c72332f7d5cb8c39d37f9d5"
             ),
             REPRODUCTION_RUN: (
-                "4fbaf836e15d06f36732f28d79984b57c3ac9da49c72332f7d5cb8c39d37f9d5"
+                "f1b9270ccae778b92d688a9670b883b619b81c9513b36eea01dd0fc13ef6b5dc"
             ),
         },
         "elf": "ELF64/AArch64",
@@ -104,12 +104,12 @@ TARGETS = {
         "version_requirements": ["GLIBC_2.17"],
         "execution_profile_id": "ra64-universal-v1",
         "image_id": (
-            "sha256:cc8a545183ab61910e87b86b9d498ebff596ec8a253e28272e96f3f7a7fd4488"
+            "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9"
         ),
         "toolchain_archive_sha256": (
-            "bb1c69cf19fcf3cbccaee06cc8b8a01bf7020fb1ac306d3d876530b6e9636012"
+            "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64"
         ),
-        "toolchain_archive_size": 444660272,
+        "toolchain_archive_size": 502531978,
     },
     "armhf": {
         "artifact_sha256": (
@@ -118,10 +118,10 @@ TARGETS = {
         "artifact_size": 326608,
         "record_sha256": {
             SELECTED_RUN: (
-                "1d4e4712215a1dadeb9aac72e6dce13da58f8b63e8fb341baeb56b1f45d55052"
+                "ab00ee4372142b11785c547c1beaa270ae6e17ee2d990c29d8d708d52247b136"
             ),
             REPRODUCTION_RUN: (
-                "b3a1357254e89ff1882041b399e7a40e6430acd58a4b4f1e6e6c59d17e560136"
+                "7c3bc1eadcac41167abd028015ef959633fed70a4f6ab51129c000a31d3d5c8f"
             ),
         },
         "log_sha256": {
@@ -137,12 +137,12 @@ TARGETS = {
         "version_requirements": ["GLIBC_2.4", "GLIBC_2.7"],
         "execution_profile_id": "ra32-a30-v1",
         "image_id": (
-            "sha256:e09ffce413cf62c14a24fd8aa3beebbbfaccd5b0b5223ac529d132f4aabd92b9"
+            "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9"
         ),
         "toolchain_archive_sha256": (
-            "e2b103c7bf1fdc9bb3ce3cf7bcde9cf2f3fd473fb0d916e8b4d0b4d278fd1afe"
+            "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e"
         ),
-        "toolchain_archive_size": 784604625,
+        "toolchain_archive_size": 835303648,
     },
 }
 SOURCE_LOCK_IDENTITY = {
