@@ -37,7 +37,7 @@ git history.
   breaching symbols (`__throw_bad_array_new_length`,
   `ios_base_library_init`, …) are GCC-13-emitted for any source version,
   so only a provider or `-static-libstdc++` remedy could work. The
-  spruceOS-side change is committed locally (`ee825739d`); pushing it
+  spruceOS-side change is committed locally (`97f9fb558`); pushing it
   remains the user's call.
 - **TSPS is Mali, not PowerVR.** The TG5050 SDK teardown (aarch64-only
   buildroot, sysroot GLIBCXX 3.4.28 — exactly the captured device
