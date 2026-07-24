@@ -14,8 +14,8 @@ CORE_ID = "puae2021"
 SOURCE_URL = "https://github.com/libretro/libretro-uae.git"
 SOURCE_COMMIT = "0fece7d9514e2224530cd252489c8928d49eebca"
 SOURCE_TREE = "90e86c39361baebcbc7c2a9a302aa88e30034d6a"
-SELECTED_RUN = "actions-sim-build-core-puae2021-v1"
-REPRODUCTION_RUN = "build-core-puae2021-local-v1"
+SELECTED_RUN = "actions-sim-build-core-puae2021-w3"
+REPRODUCTION_RUN = "build-core-puae2021-local-w3"
 
 
 class Puae2021ManifestTests(unittest.TestCase):

@@ -21,7 +21,7 @@ from .support import (
 
 CORE_ID = "lowresnx"
 OTHER_CORE_ID = "prosystem"
-PIN_NAME = "lowresnx-35adc1a215e9-837092a5ffca.json"
+PIN_NAME = "lowresnx-35adc1a215e9-bcaea00ea240.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -30,26 +30,26 @@ SOURCE_TREE = "766c70ca84d3a48769781072913a01db7f488a7b"
 SOURCE_URL = "https://github.com/timoinutilis/lowres-nx.git"
 SOURCE_LOCK_ID = "lowresnx-35adc1a215e9"
 SELECTION_SHA256 = (
-    "837092a5ffca952609deda19e4b585acb74ac07f2b2c53c797282c3807875787"
+    "bcaea00ea240aa049a4cd341baf74c63d832ebf7c37d27a742afef9daf9a7201"
 )
-SELECTED_RUN = "actions-sim-build-core-lowresnx-v1"
-REPRODUCTION_RUN = "build-core-lowresnx-local-v1"
+SELECTED_RUN = "actions-sim-build-core-lowresnx-w3"
+REPRODUCTION_RUN = "build-core-lowresnx-local-w3"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "dc97b2cf6a9042b349d632c3b4aa5a5224e306387c0a23b16daa2620b13c5985"
+    "b416de0fceb94aa968cfa04552b623e3f180b082e88026e39da0cdd74e15b713"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "b83f408fc3d7eb340725c3eb4424f11084228afce69f2cd996a1189a898ae531"
+    "a91179ddc86eaa2f1d8564e132e070c3029e3bf95d69c3498eb65e199c0d29bb"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "355363d03efa8e9e0b60ef225b8552a5088f6a712b34515e0e9b771326baf885"
+        "c2ca5841e4b5beb65e3b29f319226782055681268cf552793dd461acfab13924"
     ),
     REPRODUCTION_RUN: (
-        "96cc948f5337fefc9f0861994170f7b3a053dac0e35f1f6a4237b0d8fc17c039"
+        "697b3803b46c91963303fc8607cedf04d869b43ae92650516385ef224f9b9f2b"
     ),
 }
 PACKAGE_SHA256 = (
-    "43c5ad141911d4b3bd10ec04bf37c8116848e6f7c39aa7863fccf150695b8894"
+    "e1db09b30c49fcb68f5fc1989fbbc7329d0666df39a36c3f85b937b2c19c91d3"
 )
 METADATA_SHA256 = (
     "3e6b2bf33038acb57158183eb030ac069ce95febc65bc61b79d1305273ad8d7a"
@@ -78,10 +78,10 @@ TARGETS = {
         "artifact_size": 155672,
         "record_sha256": {
             SELECTED_RUN: (
-                "bd7d2d34491867b31fbe379442f5b713e4b6da93efcbc1ef2b96a4520e936a3b"
+                "c23c240973df13a68e0cd838797b89ae2cd77e959033daaf4972c13a879f657d"
             ),
             REPRODUCTION_RUN: (
-                "e77a6a1582eb05db411eed29b796d3b353e273db16e9d68f0be420183b3826f6"
+                "c37129051475728bc3318c568f65a9a0160d66be666efbd3d6bcdb2579dcf288"
             ),
         },
         "log_sha256": (
@@ -103,10 +103,10 @@ TARGETS = {
         "artifact_size": 117208,
         "record_sha256": {
             SELECTED_RUN: (
-                "914cab2ad7d313929e0dcc080d484bc1ff83506aa0a27569922a3ab819d266e0"
+                "f38da6cc05feea93ffd72441ea68c2e9965df0f9f745de68bda3d2843933b6d4"
             ),
             REPRODUCTION_RUN: (
-                "a2bf7f1888245159ba8e5c78e291fe21d943c81a8f8759775c092c826194f74d"
+                "cd3ae49e5200a131e7ededbb95a28d3331c7fcf05b16a0bb7ba30ba64d7a6409"
             ),
         },
         "log_sha256": (
@@ -466,7 +466,7 @@ class LowResNxCoreTests(unittest.TestCase):
                 )
                 package = evidence["packages"][0]
                 self.assertEqual("packaged", package["result"])
-                self.assertEqual(119286, package["size"])
+                self.assertEqual(119288, package["size"])
                 self.assertEqual(PACKAGE_SHA256, package["sha256"])
                 package_path = run_root / package["path"]
                 self.assertEqual(PACKAGE_SHA256, file_sha256(package_path))

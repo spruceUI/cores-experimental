@@ -19,7 +19,7 @@ ORACLE_FIXTURE = pipeline.load_json(
     / "tests/fixtures/per-core-oracles/mednafen_supafaust.json"
 )
 POSITIVE_ORACLES = tuple(ORACLE_FIXTURE["positive_runs"])
-SELECTED_RUN = "actions-sim-build-core-mednafen_supafaust-v1"
+SELECTED_RUN = "actions-sim-build-core-mednafen_supafaust-w3"
 
 
 class MednafenSupafaustLogContractTests(unittest.TestCase):

@@ -4,14 +4,14 @@
   "core_id": "puzzlescript",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/puzzlescript-6d859b47092f-cf17852c8f58.json",
+  "golden_source": "pins/core-sets/puzzlescript-6d859b47092f-ab7757b08058.json",
   "source_commit": "6d859b47092f585a7ec05804c1d51a1676a06531",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-puzzlescript-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "9c9ab50e25133ff7a5d0b01105de5a95766200381179c5da8355ca60c3da5781",
-  "reproduction_run": ".local-e2e/runs/build-core-puzzlescript-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "a745cebef5b92fb2843b9664cc4607f4963ba7a01e90ed545eb30dc7c276707e",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-puzzlescript-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "27054eec70377123a17dd3813bbec8ede67d531d9ba8bde49b8e25af967f17b5",
+  "reproduction_run": ".local-e2e/runs/build-core-puzzlescript-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "f171a4ee495277ca9e6f790d1dd289197f9d3eb04477c9143435f15cc19e3b33",
   "package_state": "reproducible",
-  "package_sha256": "89ff4d96d7589283a21303fa62b794aa11a244898b817c473dd6348d3012ba23",
+  "package_sha256": "5c7bcced9a51f44732b8019d24b51dc2f32e11f78997aaa8ebf3a07ac2efcc9c",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the puzzlescript_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -79,5 +79,5 @@
       ]
     }
   },
-  "content_sha256": "2973882a218a868fe0112ac36a53ba51004b9687aa452b0e926103683a7c7073"
+  "content_sha256": "16b86d5e0c836fc21c48021f2bd8bf460d8d8cbcdda1300bf61d450ee1979cc8"
 }

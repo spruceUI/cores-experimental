@@ -14,8 +14,8 @@ CORE_ID = "gpsp"
 SOURCE_URL = "https://github.com/libretro/gpsp.git"
 SOURCE_COMMIT = "69e86ebe89f14c3f5f75b809c12c0a953b3d6ce4"
 SOURCE_TREE = "de26635ae1419714d0efe3c85b75faf494be950c"
-SELECTED_RUN = "actions-sim-build-core-gpsp-v1"
-REPRODUCTION_RUN = "build-core-gpsp-local-v1"
+SELECTED_RUN = "actions-sim-build-core-gpsp-w3"
+REPRODUCTION_RUN = "build-core-gpsp-local-w3"
 
 
 class GpspManifestTests(unittest.TestCase):

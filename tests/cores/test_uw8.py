@@ -16,8 +16,8 @@ CORE_ID = "uw8"
 SOURCE_URL = "https://github.com/libretro/uw8-libretro.git"
 SOURCE_COMMIT = "92e0f7a7678de9955002ecce8501eb1be5e46d35"
 SOURCE_TREE = "b0abb1ab7a2905e1f67df521a800014f7ca89fac"
-SELECTED_RUN = "actions-sim-build-core-uw8-v1"
-REPRODUCTION_RUN = "build-core-uw8-local-v1"
+SELECTED_RUN = "actions-sim-build-core-uw8-w3"
+REPRODUCTION_RUN = "build-core-uw8-local-w3"
 
 
 class Uw8ManifestTests(unittest.TestCase):

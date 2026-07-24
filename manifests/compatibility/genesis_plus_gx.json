@@ -4,14 +4,14 @@
   "core_id": "genesis_plus_gx",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/genesis_plus_gx-fa4dca561e08-0e5a55ff8180.json",
+  "golden_source": "pins/core-sets/genesis_plus_gx-fa4dca561e08-b94a8729a601.json",
   "source_commit": "fa4dca561e08d5be9077419f7b255e1da213ed21",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "f37d05ad0925787dd4d350a3bf79430a9e1b046cb4fcb57f22640c90d24a5000",
-  "reproduction_run": ".local-e2e/runs/build-core-genesis_plus_gx-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "a19c73b1fb7ffe95c8e42804af49e371037b1ca5f6d9bc1bc28d2698dc941ee7",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "caeeccd791699bf42ef4b31391f669eda20fbdf428f2c77f76c09e8d4b7232cb",
+  "reproduction_run": ".local-e2e/runs/build-core-genesis_plus_gx-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "80960fc4d608012257e98a277a91cd8a3d8484b2a95c438b56b07ec7a4df3507",
   "package_state": "reproducible",
-  "package_sha256": "06375fd783735dbc46ba41fdd47d7f774bee35bfa121d74bd6ceb92cdc9bb61f",
+  "package_sha256": "77c2dc9d6c84f173bb0b38b457df5ef34874a3db3d76e46691f583b0dfaa8f26",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the genesis_plus_gx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -60,5 +60,5 @@
       ]
     }
   },
-  "content_sha256": "3f1526cf4f779fbceb9a16f168149eb27b2bcc9e090362f2c64c27a0ca9261f2"
+  "content_sha256": "009c0e14345142829a255defd375eb8f1b28980a49678a7cce6c8091cf3c6d31"
 }

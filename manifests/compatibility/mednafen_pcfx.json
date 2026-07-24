@@ -4,14 +4,14 @@
   "core_id": "mednafen_pcfx",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/mednafen_pcfx-650c30ea2203-5c0f9a256d9a.json",
+  "golden_source": "pins/core-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json",
   "source_commit": "650c30ea2203636a1716675854d11c608ed6eacc",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_pcfx-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "b83a4c3420da0d2b70998db8dd38433c38da22ad0b2d9cb7a213fd06961f2055",
-  "reproduction_run": ".local-e2e/runs/build-core-mednafen_pcfx-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "f2d912531caab619df7b931064194d481644014dc0e48be8eb72b7842e7cf3b5",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_pcfx-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "c026cfee1bf61db2ef1eeab8e468b21c8753209a7f064c1199a3c88581963700",
+  "reproduction_run": ".local-e2e/runs/build-core-mednafen_pcfx-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "85b3ca93560b1c5d0e19ead96d09525500a792901130c144ddfeb1a2ad5d37d4",
   "package_state": "reproducible",
-  "package_sha256": "eae5ad43f2df1a52d129a65bc79042e06ecad6de7ee9a126b40f5d0d0e44dd9e",
+  "package_sha256": "0a5963688e03ea1ab6a1061bcbaafa1295c6272ba24c63a5bf0a31e2b89f36f1",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mednafen_pcfx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.29, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -80,5 +80,5 @@
       ]
     }
   },
-  "content_sha256": "de13c6740541c90c927a4d35e2a86317ed98f0b7725cb8f296cb78ce414377d7"
+  "content_sha256": "adefbbe945b533979a8ea5d22534c854ffeda0c00ce3cd723beec7a9d90610ba"
 }

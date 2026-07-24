@@ -17,8 +17,8 @@ CORE_ID = "parallel_n64"
 SOURCE_URL = "https://github.com/libretro/parallel-n64.git"
 SOURCE_COMMIT = "00c6c9df91d2c2daaae615cefad7911be556fbfa"
 SOURCE_TREE = "d762ea5fe18afe5f245080082148005f1c7ce811"
-SELECTED_RUN = "actions-sim-build-core-parallel_n64-v1"
-REPRODUCTION_RUN = "build-core-parallel_n64-local-v1"
+SELECTED_RUN = "actions-sim-build-core-parallel_n64-w3"
+REPRODUCTION_RUN = "build-core-parallel_n64-local-w3"
 
 
 class ParallelN64ManifestTests(unittest.TestCase):

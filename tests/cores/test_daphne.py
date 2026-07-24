@@ -14,8 +14,8 @@ CORE_ID = "daphne"
 SOURCE_URL = "https://github.com/libretro/daphne.git"
 SOURCE_COMMIT = "6f1695dd1f376060666eec0a416ff56bb6c9cccc"
 SOURCE_TREE = "99813647ee65593613181fcec730660f417035a3"
-SELECTED_RUN = "actions-sim-build-core-daphne-v1"
-REPRODUCTION_RUN = "build-core-daphne-local-v1"
+SELECTED_RUN = "actions-sim-build-core-daphne-w3"
+REPRODUCTION_RUN = "build-core-daphne-local-w3"
 
 
 class DaphneManifestTests(unittest.TestCase):

@@ -16,7 +16,7 @@ assert _spec is not None and _spec.loader is not None
 promote_core = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(promote_core)
 
-UZEM_ID = "uzem-d4fe82c38bf3-6bd666f20bed"
+UZEM_ID = "uzem-d4fe82c38bf3-34eca38274ae"
 
 
 class HelperTests(unittest.TestCase):
@@ -97,7 +97,7 @@ class ComposeCompatibilityTests(unittest.TestCase):
         try:
             manifest = promote_core.compose_compatibility(
                 "uzem", UZEM_ID,
-                "actions-sim-build-core-uzem-v1", "build-core-uzem-local-v1",
+                "actions-sim-build-core-uzem-w3", "build-core-uzem-local-w3",
             )
         except promote_core.PromoteCoreError:
             self.skipTest("uzem promotion evidence not present")
@@ -121,7 +121,7 @@ class ComposeCompatibilityTests(unittest.TestCase):
         try:
             manifest = promote_core.compose_compatibility(
                 "uzem", UZEM_ID,
-                "actions-sim-build-core-uzem-v1", "build-core-uzem-local-v1",
+                "actions-sim-build-core-uzem-w3", "build-core-uzem-local-w3",
                 extra_caveats=["GPLv3 review pending."],
             )
         except promote_core.PromoteCoreError:

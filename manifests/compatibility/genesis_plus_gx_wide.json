@@ -4,14 +4,14 @@
   "core_id": "genesis_plus_gx_wide",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/genesis_plus_gx_wide-29d9d104338f-7907e7e03389.json",
+  "golden_source": "pins/core-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json",
   "source_commit": "29d9d104338f46bc2e65438fb207bcf54f701e92",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx_wide-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "0710b80fc0a732c425a13cf4c2369dca6203cda02c8d228e3c7658af54407d7b",
-  "reproduction_run": ".local-e2e/runs/build-core-genesis_plus_gx_wide-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "4f104f183ce27e13a66a16383ee80099672063b7254aecbf4ff757a61faa1cf1",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx_wide-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "bed2dc20b754b6223a6b8c40580e2be4570c14c160d2f5ec8d47347eaf0c8ed4",
+  "reproduction_run": ".local-e2e/runs/build-core-genesis_plus_gx_wide-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "89a6f437540988c8f818758a8934705f46f0784d1ed090984157c4380afcf6a7",
   "package_state": "reproducible",
-  "package_sha256": "e133f0c4c1b8433a925059961aba71a9dad1d7144e3b6f592c7f5dcc1b432607",
+  "package_sha256": "192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the genesis_plus_gx_wide_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -58,5 +58,5 @@
       ]
     }
   },
-  "content_sha256": "5470d532cd19628665a115e3a2970b587e35d6a70b05eefc3f3b948ba7f279f9"
+  "content_sha256": "c740ae102d56ab630d04735f750a4c2c2af45ee173ca19c5ed877e98a21f5ec9"
 }

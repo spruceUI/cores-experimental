@@ -15,7 +15,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "snes9x"
 OTHER_CORE_ID = "prosystem"
-PIN_NAME = "snes9x-185488cd83aa-1007f6c98b6b.json"
+PIN_NAME = "snes9x-185488cd83aa-b7aaac2ae7c1.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -23,12 +23,12 @@ SOURCE_COMMIT = "185488cd83aaf274752a742c94d45561cbecb7af"
 SOURCE_TREE = "da7c15404a93174aa0972d8ec053471e6cef064d"
 SOURCE_LOCK_ID = "snes9x-185488cd83aa"
 SELECTION_SHA256 = (
-    "1007f6c98b6b1a4c4dd688c36c5169ac86bf56e46b3ba76918a237d75811f4c1"
+    "b7aaac2ae7c17a5b5573ea2b2b2ba9d5c930916a49f2e529deeeb308f50e3938"
 )
-SELECTED_RUN = "actions-sim-build-core-snes9x-v1"
-REPRODUCTION_RUN = "build-core-snes9x-local-v1"
+SELECTED_RUN = "actions-sim-build-core-snes9x-w3"
+REPRODUCTION_RUN = "build-core-snes9x-local-w3"
 PACKAGE_SHA256 = (
-    "3d734cbaeb15e0ef12bc682970cf6cf26cc2be4ab4cbfaa2c4b92d8b799a81ef"
+    "83223c6aa78ed8ff1d55d8990ff6e47d4a3f6c222737c5a8e0c4b63246cdfe40"
 )
 METADATA_SHA256 = (
     "fa62b78d58bc4c30f4e0a4a581f0cb3252447b7f198b55bd6ebe2e4b9bde5cc2"
@@ -56,10 +56,10 @@ TARGETS = {
         ),
         "log_sha256": {
             SELECTED_RUN: (
-                "a71f14117ed3cb767323c459547f44337cf8d78ab8f5819c43a65eb8fbf68e7f"
+                "6114eabdcba07a7730c63ee20a321b2041eddc947c58343b3cefb8400f5fd47f"
             ),
             REPRODUCTION_RUN: (
-                "4b479c7d71b7fa85f58efeca993f2f2830985eb09b3dad544a81711cd57cb4cc"
+                "a71f14117ed3cb767323c459547f44337cf8d78ab8f5819c43a65eb8fbf68e7f"
             ),
         },
         "elf": "ELF64/AArch64",
@@ -88,10 +88,10 @@ TARGETS = {
         ),
         "log_sha256": {
             SELECTED_RUN: (
-                "34ad1737dddfebb8db2dce9f8b346700ce361cdee9bb0c058e345b1d266b2de0"
+                "680757897d626826bd179f178b2fddf787af5190f43b2d5a51e8c59990cd1bed"
             ),
             REPRODUCTION_RUN: (
-                "34ad1737dddfebb8db2dce9f8b346700ce361cdee9bb0c058e345b1d266b2de0"
+                "7016bd4a6552df6f22e0155cb86e90cf6b8196392e68e5648791a6fe54b2cf91"
             ),
         },
         "elf": "ELF32/ARM hard-float",

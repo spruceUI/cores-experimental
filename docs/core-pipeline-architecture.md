@@ -436,28 +436,28 @@ controls predate the finalized provenance markers and its ARMHF artifact needs
 release, channel, runtime, or device claim.
 
 Mednafen Supafaust's current semantic ID is
-`mednafen_supafaust-2b93c0d7dff5-21be3575be39`. Its pin and source set use
+`mednafen_supafaust-2b93c0d7dff5-debb21b70273`. Its pin and source set use
 that exact individual-core ID; its compatibility and lifecycle owners are
 `manifests/compatibility/mednafen_supafaust.json` and
 `tests/cores/test_mednafen_supafaust.py`; and its exact build proof remains in
 `tests/test_contract_mednafen_supafaust.py`. The selected
-`actions-sim-build-core-mednafen_supafaust-v2` and reproduction
-`build-core-mednafen_supafaust-local-v2` run IDs are individual-core evidence,
+`actions-sim-build-core-mednafen_supafaust-w3` and reproduction
+`build-core-mednafen_supafaust-local-w3` run IDs are individual-core evidence,
 as are `.local-e2e/channels/<channel>.mednafen_supafaust.json` aliases. New
 canonical contract, pin, manifest, test, and run identities must retain this
 individual-core ownership.
 
 Mednafen Virtual Boy's current semantic ID is
-`mednafen_vb-38e7a0ec9ac7-20575c76c389`. Its independent owners are
+`mednafen_vb-38e7a0ec9ac7-ed193088da99`. Its independent owners are
 `scripts/core_pipeline_lib/contracts/mednafen_vb.py`,
-`pins/core-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json`,
-`pins/source-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json`,
+`pins/core-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json`,
+`pins/source-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json`,
 `manifests/compatibility/mednafen_vb.json`, `tests/cores/test_mednafen_vb.py`,
 and `tests/test_contract_mednafen_vb.py`. The selected
-`actions-sim-build-core-mednafen_vb-v1` and reproduction
-`build-core-mednafen_vb-local-v1` runs bind the same package and ABI artifacts.
+`actions-sim-build-core-mednafen_vb-w3` and reproduction
+`build-core-mednafen_vb-local-w3` runs bind the same package and ABI artifacts.
 The local release lives at
-`.local-e2e/releases/mednafen_vb-38e7a0ec9ac7-20575c76c389`; the nightly,
+`.local-e2e/releases/mednafen_vb-38e7a0ec9ac7-ed193088da99`; the nightly,
 pinned, and release aliases are respectively
 `.local-e2e/channels/nightly.mednafen_vb.json`,
 `.local-e2e/channels/pinned.mednafen_vb.json`, and
@@ -466,18 +466,18 @@ publication-disabled static-build evidence, and no device view is eligible
 without target-runtime validation.
 
 Mednafen Neo Geo Pocket's current semantic ID is
-`mednafen_ngp-a50d5ac288a8-d2dabb68d075`. Its independent owners are
+`mednafen_ngp-a50d5ac288a8-26b82754fc25`. Its independent owners are
 `scripts/core_pipeline_lib/contracts/mednafen_ngp.py`,
-`pins/core-sets/mednafen_ngp-a50d5ac288a8-d2dabb68d075.json`,
-`pins/source-sets/mednafen_ngp-a50d5ac288a8-d2dabb68d075.json`,
+`pins/core-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json`,
+`pins/source-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json`,
 `manifests/compatibility/mednafen_ngp.json`,
 `tests/cores/test_mednafen_ngp.py`, and
 `tests/test_contract_mednafen_ngp.py`. The selected
-`actions-sim-build-core-mednafen_ngp-v1` and reproduction
-`build-core-mednafen_ngp-local-v1` runs bind the same package, metadata, and ABI
+`actions-sim-build-core-mednafen_ngp-w3` and reproduction
+`build-core-mednafen_ngp-local-w3` runs bind the same package, metadata, and ABI
 artifacts; their complete log-line multisets match while parallel placement may
 differ. The local release lives at
-`.local-e2e/releases/mednafen_ngp-a50d5ac288a8-d2dabb68d075`; the nightly,
+`.local-e2e/releases/mednafen_ngp-a50d5ac288a8-26b82754fc25`; the nightly,
 pinned, and release aliases are respectively
 `.local-e2e/channels/nightly.mednafen_ngp.json`,
 `.local-e2e/channels/pinned.mednafen_ngp.json`, and
@@ -486,17 +486,17 @@ publication-disabled static-build evidence, and no device view is eligible
 without target-runtime validation.
 
 Mednafen Lynx's current semantic ID is
-`mednafen_lynx-fcdefcfb3c11-c2247f1f6de1`. Its independent owners are
+`mednafen_lynx-fcdefcfb3c11-29e56373f32a`. Its independent owners are
 `scripts/core_pipeline_lib/contracts/mednafen_lynx.py`,
-`pins/core-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json`,
-`pins/source-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json`,
+`pins/core-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json`,
+`pins/source-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json`,
 `manifests/compatibility/mednafen_lynx.json`,
 `tests/cores/test_mednafen_lynx.py`, and
 `tests/test_contract_mednafen_lynx.py`. The selected
-`actions-sim-build-core-mednafen_lynx-v1` and reproduction
-`build-core-mednafen_lynx-local-v1` runs bind the same package, metadata, and
+`actions-sim-build-core-mednafen_lynx-w3` and reproduction
+`build-core-mednafen_lynx-local-w3` runs bind the same package, metadata, and
 ABI artifacts. The local release lives at
-`.local-e2e/releases/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1`; the nightly,
+`.local-e2e/releases/mednafen_lynx-fcdefcfb3c11-29e56373f32a`; the nightly,
 pinned, and release aliases are respectively
 `.local-e2e/channels/nightly.mednafen_lynx.json`,
 `.local-e2e/channels/pinned.mednafen_lynx.json`, and
@@ -507,17 +507,17 @@ content, controls, rotation, A/V, saves, states, compatibility, frontend
 integration, and performance keep every device view ineligible.
 
 Mednafen PCE Fast's current semantic ID is
-`mednafen_pce_fast-0bc6c8692834-8e747136926e`. Its independent owners are
+`mednafen_pce_fast-0bc6c8692834-cdd0e0603032`. Its independent owners are
 `scripts/core_pipeline_lib/contracts/mednafen_pce_fast.py`,
-`pins/core-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json`,
-`pins/source-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json`,
+`pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json`,
+`pins/source-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json`,
 `manifests/compatibility/mednafen_pce_fast.json`,
 `tests/cores/test_mednafen_pce_fast.py`, and
 `tests/test_contract_mednafen_pce_fast.py`. The selected
-`actions-sim-build-core-mednafen_pce_fast-v1` and reproduction
-`build-core-mednafen_pce_fast-local-v1` runs bind the same package, metadata,
+`actions-sim-build-core-mednafen_pce_fast-w3` and reproduction
+`build-core-mednafen_pce_fast-local-w3` runs bind the same package, metadata,
 and ABI artifacts. The local release lives at
-`.local-e2e/releases/mednafen_pce_fast-0bc6c8692834-8e747136926e`; the nightly,
+`.local-e2e/releases/mednafen_pce_fast-0bc6c8692834-cdd0e0603032`; the nightly,
 pinned, and release aliases are respectively
 `.local-e2e/channels/nightly.mednafen_pce_fast.json`,
 `.local-e2e/channels/pinned.mednafen_pce_fast.json`, and
@@ -528,24 +528,24 @@ compatibility boundaries, frontend integration, and performance keep every
 device view ineligible pending target-runtime validation.
 
 Mednafen WonderSwan's current semantic ID is
-`mednafen_wswan-da6d0d9acb8d-cc4a98ceff16`. Its pin and source set use that
+`mednafen_wswan-da6d0d9acb8d-da715bbcb6da`. Its pin and source set use that
 exact individual-core ID; its compatibility and lifecycle owners are
 `manifests/compatibility/mednafen_wswan.json` and
 `tests/cores/test_mednafen_wswan.py`; and its exact build proof remains in
 `tests/test_contract_mednafen_wswan.py`. The selected
-`actions-sim-build-core-mednafen_wswan-v1` and reproduction
-`build-core-mednafen_wswan-local-v1` runs bind the same package and ABI
+`actions-sim-build-core-mednafen_wswan-w3` and reproduction
+`build-core-mednafen_wswan-local-w3` runs bind the same package and ABI
 artifacts, while `.local-e2e/channels/<channel>.mednafen_wswan.json` aliases
 retain exact one-core ownership.
 
 Mednafen PC-FX's current semantic ID is
-`mednafen_pcfx-650c30ea2203-5c0f9a256d9a`. Its pin and source set use that
+`mednafen_pcfx-650c30ea2203-1c9309580e68`. Its pin and source set use that
 exact individual-core ID; its compatibility and lifecycle owners are
 `manifests/compatibility/mednafen_pcfx.json` and
 `tests/cores/test_mednafen_pcfx.py`; and its exact build proof remains in
 `tests/test_contract_mednafen_pcfx.py`. The selected
-`actions-sim-build-core-mednafen_pcfx-v1` and reproduction
-`build-core-mednafen_pcfx-local-v1` runs bind the same package and ABI
+`actions-sim-build-core-mednafen_pcfx-w3` and reproduction
+`build-core-mednafen_pcfx-local-w3` runs bind the same package and ABI
 artifacts while tolerating only valid parallel-log interleaving. The three
 `.local-e2e/channels/<channel>.mednafen_pcfx.json` aliases retain exact
 one-core ownership. Its records remain static-build evidence: `pcfx.rom` is
@@ -553,13 +553,13 @@ required but unbundled, the metadata and compiled versions differ, and no
 device view is eligible until provider and target-runtime gates pass.
 
 PokéMini's current semantic ID is
-`pokemini-bb009b1379ad-2f63e84b7b68`. Its matching one-core files are
-`pins/core-sets/pokemini-bb009b1379ad-2f63e84b7b68.json`,
-`pins/source-sets/pokemini-bb009b1379ad-2f63e84b7b68.json`,
+`pokemini-bb009b1379ad-2ecf9f68eb0c`. Its matching one-core files are
+`pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json`,
+`pins/source-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json`,
 `manifests/compatibility/pokemini.json`, `tests/cores/test_pokemini.py`, and
 `tests/test_contract_pokemini.py`. These are its independent owners. The selected
-`actions-sim-build-core-pokemini-v1` and reproduction
-`build-core-pokemini-local-v1` runs bind identical package, metadata, and ABI
+`actions-sim-build-core-pokemini-w3` and reproduction
+`build-core-pokemini-local-w3` runs bind identical package, metadata, and ABI
 artifacts. ARM64 whole-log ordering differs under parallel compilation, while
 each log still proves the exact 43-command C build and reviewed diagnostic
 streams. The three `.local-e2e/channels/<channel>.pokemini.json` aliases remain
@@ -568,15 +568,15 @@ the optional unbundled `bios.min`, the unresolved potential `.eep` path
 overflow, provider inspection, and target runtime all remain external gates.
 
 GearColeco's current semantic ID is
-`gearcoleco-112345747c04-046c086031cf`. Its independent owners are
-`pins/core-sets/gearcoleco-112345747c04-046c086031cf.json`,
-`pins/source-sets/gearcoleco-112345747c04-046c086031cf.json`,
+`gearcoleco-112345747c04-02350ee96cf1`. Its independent owners are
+`pins/core-sets/gearcoleco-112345747c04-02350ee96cf1.json`,
+`pins/source-sets/gearcoleco-112345747c04-02350ee96cf1.json`,
 `manifests/compatibility/gearcoleco.json`, `tests/cores/test_gearcoleco.py`, and
 `tests/test_contract_gearcoleco.py`. The selected
-`actions-sim-build-core-gearcoleco-v2` run has E2E content SHA-256
+`actions-sim-build-core-gearcoleco-w3` run has E2E content SHA-256
 `43c20dfc81e417c9c74cb935710c4a50d3e8766ae39b137738e3c7467ddc178b` and
 uses `github-actions/simulated/local-docker`; the independent
-`build-core-gearcoleco-local-v1` run has E2E content SHA-256
+`build-core-gearcoleco-local-w3` run has E2E content SHA-256
 `29653ff1ed53ec3a72e604f520d7c9ca0672c2e75370f77c490a0b56752c4a30` and
 uses `local/native/local-docker`. They reproduce package, metadata, ABI
 artifacts, and logs byte for byte. The core-owned proof still models parallel
@@ -587,15 +587,15 @@ diagnostic must precede the link. Its three
 pointers.
 
 VICE x64's current semantic ID is
-`vice_x64-7946cfa0d377-290256f3bebd`. Its independent owners are
-`pins/core-sets/vice_x64-7946cfa0d377-290256f3bebd.json`,
-`pins/source-sets/vice_x64-7946cfa0d377-290256f3bebd.json`,
+`vice_x64-7946cfa0d377-1085a07760d4`. Its independent owners are
+`pins/core-sets/vice_x64-7946cfa0d377-1085a07760d4.json`,
+`pins/source-sets/vice_x64-7946cfa0d377-1085a07760d4.json`,
 `manifests/compatibility/vice_x64.json`, `tests/cores/test_vice_x64.py`, and
 `tests/test_contract_vice_x64.py`. The selected
-`actions-sim-build-core-vice_x64-v1` run has E2E content SHA-256
+`actions-sim-build-core-vice_x64-w3` run has E2E content SHA-256
 `34005d085b8b1df201cc4dec35dd9373a7b3ffc2e60ad96f748952c32c892378` and
 uses `github-actions/simulated/local-docker`; the independent
-`build-core-vice_x64-local-v1` run has E2E content SHA-256
+`build-core-vice_x64-local-w3` run has E2E content SHA-256
 `5c729210b41a25651e8202449616989db00c2591b17394d1b4f27927bd4b6e75` and
 uses `local/native/local-docker`. The runs reproduce the package, metadata, and
 both ABI artifacts exactly. Their four build-log hashes differ because of
@@ -612,15 +612,15 @@ disk, tape, cartridge, optional JiffyDOS, save/state, controls, audio/video,
 load/unload, and sustained-performance gates pass on target devices.
 
 VICE xvic's current semantic ID is
-`vice_xvic-7946cfa0d377-6f9943958478`. Its independent owners are
-`pins/core-sets/vice_xvic-7946cfa0d377-6f9943958478.json`,
-`pins/source-sets/vice_xvic-7946cfa0d377-6f9943958478.json`,
+`vice_xvic-7946cfa0d377-f1e6abfe933c`. Its independent owners are
+`pins/core-sets/vice_xvic-7946cfa0d377-f1e6abfe933c.json`,
+`pins/source-sets/vice_xvic-7946cfa0d377-f1e6abfe933c.json`,
 `manifests/compatibility/vice_xvic.json`, `tests/cores/test_vice_xvic.py`, and
 `tests/test_contract_vice_xvic.py`. The selected
-`actions-sim-build-core-vice_xvic-v1` run has E2E content SHA-256
+`actions-sim-build-core-vice_xvic-w3` run has E2E content SHA-256
 `7ceed43317329dab1fd6e0f455c00ba92c882ac37f847276e31f8023a1e9422c` and
 uses `github-actions/simulated/local-docker`; the independent
-`build-core-vice_xvic-local-v1` run has E2E content SHA-256
+`build-core-vice_xvic-local-w3` run has E2E content SHA-256
 `1ff6ea3c539445a94945f0350f49c5468e140cfd4f543d52aea7b889df65c972` and
 uses `local/native/local-docker`. The runs reproduce package
 `9f69e0fda8cfe3275be2570627bfbcbcb0e318fac70057803b8d0e296e99421a`, metadata
@@ -643,16 +643,16 @@ replacement, saves/states, controls, audio/video, load/unload, the declared
 NTSC-interlace limitation, and sustained-performance gates pass on target
 devices.
 
-fMSX's current semantic ID is `fmsx-f013e213458e-194b406b9096`. Its
+fMSX's current semantic ID is `fmsx-f013e213458e-b015409bc42c`. Its
 independent owners are
-`pins/core-sets/fmsx-f013e213458e-194b406b9096.json`,
-`pins/source-sets/fmsx-f013e213458e-194b406b9096.json`,
+`pins/core-sets/fmsx-f013e213458e-b015409bc42c.json`,
+`pins/source-sets/fmsx-f013e213458e-b015409bc42c.json`,
 `manifests/compatibility/fmsx.json`, `tests/cores/test_fmsx.py`, and
 `tests/test_contract_fmsx.py`. The selected
-`actions-sim-build-core-fmsx-v1` run has E2E content SHA-256
+`actions-sim-build-core-fmsx-w3` run has E2E content SHA-256
 `b28d61b162360e702e873b89e469a1f446bc9aeb752e930e82e64e16f688dc8d` and
 uses `github-actions/simulated/local-docker`; the independent
-`build-core-fmsx-local-v1` run has E2E content SHA-256
+`build-core-fmsx-local-w3` run has E2E content SHA-256
 `f57a53ef3c116eb22e954b0ed7383b74b9a7740737c477ccbe40c7bff059d12b` and
 uses `local/native/local-docker`. Both runs bind pristine source commit
 `f013e213458e06d9df718e4bc4b09d46f88aa899` and reproduce package
@@ -680,16 +680,16 @@ sustained performance, and the ABI provider gates pass on target devices. The
 portable artifacts are build-identity-bound only to `ra64-universal-v1` and
 `ra32-a30-v1`; all eight device views remain empty and ineligible.
 
-blueMSX's current semantic ID is `bluemsx-5f595c79906f-a1c1fd914a76`. Its
+blueMSX's current semantic ID is `bluemsx-5f595c79906f-e600380ac6d7`. Its
 independent owners are
-`pins/core-sets/bluemsx-5f595c79906f-a1c1fd914a76.json`,
-`pins/source-sets/bluemsx-5f595c79906f-a1c1fd914a76.json`,
+`pins/core-sets/bluemsx-5f595c79906f-e600380ac6d7.json`,
+`pins/source-sets/bluemsx-5f595c79906f-e600380ac6d7.json`,
 `manifests/compatibility/bluemsx.json`, `tests/cores/test_bluemsx.py`, and
 `tests/test_contract_bluemsx.py`. The selected
-`actions-sim-build-core-bluemsx-v1` run has E2E content SHA-256
+`actions-sim-build-core-bluemsx-w3` run has E2E content SHA-256
 `5dc0241fddb63fbbdff33fd9c37cbe223c1a62bdaf8148428f56b75479deb7da` and
 uses `github-actions/simulated/local-docker`; the independent
-`build-core-bluemsx-local-v1` run has E2E content SHA-256
+`build-core-bluemsx-local-w3` run has E2E content SHA-256
 `c41eaadb2f88ff9ab2c633607d7386b022cd7637e97888fec6cb5f98912a5f78` and
 uses `local/native/local-docker`. Both runs bind pristine source commit
 `5f595c79906ff3379641b5ee8f3796106214a0a4` and reproduce package
@@ -732,12 +732,12 @@ unverified; mouse entry points are stubs. ARM64 reaches `GLIBC_2.27` and
 all 16 device entries remain ineligible.
 
 Snes9x 2005's current semantic ID is
-`snes9x2005-b60356971fc9-06b9f12c860c`. Its independent owners are the
+`snes9x2005-b60356971fc9-23fbb6c59d54`. Its independent owners are the
 matching files under `pins/core-sets/`, `pins/source-sets/`, and
 `manifests/compatibility/`, plus `tests/cores/test_snes9x2005.py` and
 `tests/test_contract_snes9x2005.py`. The selected
-`actions-sim-build-core-snes9x2005-v1` and reproduction
-`build-core-snes9x2005-local-v1` runs bind pristine source commit
+`actions-sim-build-core-snes9x2005-w3` and reproduction
+`build-core-snes9x2005-local-w3` runs bind pristine source commit
 `b60356971fc9caae02cd0853676dced886a08be7`. They reproduce package
 `900db7efba34050edac030de8f7d29b96c5b9b1c53b133239723e58df5505fab`,
 metadata, both ABI artifacts, and both reviewed logs byte for byte. The three
@@ -756,12 +756,12 @@ only to `ra64-universal-v1` and `ra32-a30-v1`; all device views remain
 ineligible.
 
 Snes9x 2005 Plus's current semantic ID is
-`snes9x2005_plus-b60356971fc9-32f28e9ec741`. Its independent owners are the
+`snes9x2005_plus-b60356971fc9-77ca2d085240`. Its independent owners are the
 matching files under `pins/core-sets/`, `pins/source-sets/`, and
 `manifests/compatibility/`, plus `tests/cores/test_snes9x2005_plus.py` and
 `tests/test_contract_snes9x2005_plus.py`. The selected
-`actions-sim-build-core-snes9x2005_plus-v1` and reproduction
-`build-core-snes9x2005_plus-local-v1` runs bind pristine source commit
+`actions-sim-build-core-snes9x2005_plus-w3` and reproduction
+`build-core-snes9x2005_plus-local-w3` runs bind pristine source commit
 `b60356971fc9caae02cd0853676dced886a08be7`. They reproduce package
 `4d8ec2e2ea4e28afef66484d82a3eb0370dcccbd0c1285d1d734c8403dce755c`,
 metadata, both ABI artifacts, and both reviewed logs byte for byte. The three
@@ -779,12 +779,12 @@ target-runtime gates. Cross-variant state compatibility is not claimed. The
 artifacts bind only to `ra64-universal-v1` and `ra32-a30-v1`; all device views
 remain ineligible.
 
-Cap32's current semantic ID is `cap32-4abfb8be233b-afbc043051e8`. Its
+Cap32's current semantic ID is `cap32-4abfb8be233b-4f89ee89dec9`. Its
 independent owners are the matching files under `pins/core-sets/`,
 `pins/source-sets/`, and `manifests/compatibility/`, plus
 `tests/cores/test_cap32.py` and `tests/test_contract_cap32.py`. Selected
-`actions-sim-build-core-cap32-v2` and reproduction
-`build-core-cap32-local-v2` runs bind pristine source commit
+`actions-sim-build-core-cap32-w3` and reproduction
+`build-core-cap32-local-w3` runs bind pristine source commit
 `4abfb8be233bec630f369379fb6c1d92d31f1c7d` and reproduce package
 `be763dbd6017626b588f0385c3a03bf92d9cf705c75fab5ebed34cdc21110953`,
 metadata, and both ABI artifacts byte for byte. Their per-ABI build-log line
@@ -799,14 +799,14 @@ states, frontend integration, compatibility, and sustained performance remain
 explicit gates. The artifacts bind only to `ra64-universal-v1` and
 `ra32-a30-v1`; all device views remain ineligible.
 
-CrocoDS's current semantic ID is `crocods-87bbb3d9007a-7b4aa1fce1f1`. Its
+CrocoDS's current semantic ID is `crocods-87bbb3d9007a-5a44afda913e`. Its
 matching one-core files are
-`pins/core-sets/crocods-87bbb3d9007a-7b4aa1fce1f1.json`,
-`pins/source-sets/crocods-87bbb3d9007a-7b4aa1fce1f1.json`,
+`pins/core-sets/crocods-87bbb3d9007a-5a44afda913e.json`,
+`pins/source-sets/crocods-87bbb3d9007a-5a44afda913e.json`,
 `manifests/compatibility/crocods.json`, `tests/cores/test_crocods.py`, and
 `tests/test_contract_crocods.py`. Selected
-`actions-sim-build-core-crocods-v1` and reproduction
-`build-core-crocods-local-v1` runs reproduce the package, metadata, and both
+`actions-sim-build-core-crocods-w3` and reproduction
+`build-core-crocods-local-w3` runs reproduce the package, metadata, and both
 ABI artifacts byte for byte. ARMHF logs are byte-identical. ARM64 logs differ
 only by valid parallel complete-line ordering; their line multisets match and
 both independently prove the exact 50-command C build plus the five reviewed
@@ -822,14 +822,14 @@ runtime evidence remain absent, and no device view is eligible. The three
 ownership.
 
 Genesis Plus GX's current semantic ID is
-`genesis_plus_gx-fa4dca561e08-0e5a55ff8180`. Its matching one-core files are
-`pins/core-sets/genesis_plus_gx-fa4dca561e08-0e5a55ff8180.json`,
-`pins/source-sets/genesis_plus_gx-fa4dca561e08-0e5a55ff8180.json`,
+`genesis_plus_gx-fa4dca561e08-b94a8729a601`. Its matching one-core files are
+`pins/core-sets/genesis_plus_gx-fa4dca561e08-b94a8729a601.json`,
+`pins/source-sets/genesis_plus_gx-fa4dca561e08-b94a8729a601.json`,
 `manifests/compatibility/genesis_plus_gx.json`,
 `tests/cores/test_genesis_plus_gx.py`, and
 `tests/test_contract_genesis_plus_gx.py`. Selected
-`actions-sim-build-core-genesis_plus_gx-v1` and reproduction
-`build-core-genesis_plus_gx-local-v1` runs reproduce the package, metadata,
+`actions-sim-build-core-genesis_plus_gx-w3` and reproduction
+`build-core-genesis_plus_gx-local-w3` runs reproduce the package, metadata,
 and both ABI artifacts byte for byte. ARMHF logs are byte-identical. ARM64
 logs differ only by valid parallel complete-line ordering; their line
 multisets match and both independently prove the exact 117-command C build,
@@ -848,14 +848,14 @@ three `.local-e2e/channels/<channel>.genesis_plus_gx.json` aliases retain
 one-core local ownership.
 
 Genesis Plus GX Wide's current semantic ID is
-`genesis_plus_gx_wide-29d9d104338f-7907e7e03389`. Its matching one-core files
-are `pins/core-sets/genesis_plus_gx_wide-29d9d104338f-7907e7e03389.json`,
-`pins/source-sets/genesis_plus_gx_wide-29d9d104338f-7907e7e03389.json`,
+`genesis_plus_gx_wide-29d9d104338f-5035640f9981`. Its matching one-core files
+are `pins/core-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json`,
+`pins/source-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json`,
 `manifests/compatibility/genesis_plus_gx_wide.json`,
 `tests/cores/test_genesis_plus_gx_wide.py`, and
 `tests/test_contract_genesis_plus_gx_wide.py`. Fresh selected
-`actions-sim-build-core-genesis_plus_gx_wide-v1` and reproduction
-`build-core-genesis_plus_gx_wide-local-v1` runs reproduce the package,
+`actions-sim-build-core-genesis_plus_gx_wide-w3` and reproduction
+`build-core-genesis_plus_gx_wide-local-w3` runs reproduce the package,
 metadata, both ABI artifacts, and both logs byte for byte while independently
 proving the exact 106-command C build.
 
@@ -869,30 +869,30 @@ views remain ineligible. The three
 `.local-e2e/channels/<channel>.genesis_plus_gx_wide.json` aliases retain
 one-core local ownership.
 
-O2EM's current semantic ID is `o2em-e03d3be88f79-ede84c3862de`. Its selected
-`actions-sim-build-core-o2em-v1` and reproduction `build-core-o2em-local-v1`
-runs bind `pins/core-sets/o2em-e03d3be88f79-ede84c3862de.json`, the matching
+O2EM's current semantic ID is `o2em-e03d3be88f79-a966ff1d0775`. Its selected
+`actions-sim-build-core-o2em-w3` and reproduction `build-core-o2em-local-w3`
+runs bind `pins/core-sets/o2em-e03d3be88f79-a966ff1d0775.json`, the matching
 source set, `manifests/compatibility/o2em.json`, `tests/cores/test_o2em.py`, and
 the three `.local-e2e/channels/<channel>.o2em.json` aliases.
 
 FreeChaF's current semantic ID is
-`freechaf-76c7a84f1f7e-0fced3806666`. Its selected
-`actions-sim-build-core-freechaf-v1` and reproduction
-`build-core-freechaf-local-v1` runs bind the matching one-core pin and source
+`freechaf-76c7a84f1f7e-3fc6b43191ef`. Its selected
+`actions-sim-build-core-freechaf-w3` and reproduction
+`build-core-freechaf-local-w3` runs bind the matching one-core pin and source
 set, `manifests/compatibility/freechaf.json`,
 `tests/cores/test_freechaf.py`, and the three
 `.local-e2e/channels/<channel>.freechaf.json` aliases.
 
-VecX's current semantic ID is `vecx-8f671cc9d737-4686ef94bf56`. Its selected
-`actions-sim-build-core-vecx-v2` and reproduction
-`build-core-vecx-local-v1` runs bind the matching one-core pin and source set,
+VecX's current semantic ID is `vecx-8f671cc9d737-599c2197e36a`. Its selected
+`actions-sim-build-core-vecx-w3` and reproduction
+`build-core-vecx-local-w3` runs bind the matching one-core pin and source set,
 `manifests/compatibility/vecx.json`, `tests/cores/test_vecx.py`, and the three
 `.local-e2e/channels/<channel>.vecx.json` aliases.
 
 LowRes NX's current semantic ID is
-`lowresnx-35adc1a215e9-837092a5ffca`. Its selected
-`actions-sim-build-core-lowresnx-v1` and reproduction
-`build-core-lowresnx-local-v1` runs bind the matching one-core pin and source
+`lowresnx-35adc1a215e9-bcaea00ea240`. Its selected
+`actions-sim-build-core-lowresnx-w3` and reproduction
+`build-core-lowresnx-local-w3` runs bind the matching one-core pin and source
 set, `manifests/compatibility/lowresnx.json`,
 `tests/cores/test_lowresnx.py`, and the three
 `.local-e2e/channels/<channel>.lowresnx.json` aliases. ARM64 reaches
@@ -900,9 +900,9 @@ set, `manifests/compatibility/lowresnx.json`,
 unverified, so every device view stays ineligible even though the artifacts
 are build-identity-bound to `ra64-universal-v1` and `ra32-a30-v1`.
 
-RACE's current semantic ID is `race-c7810dd7f172-c3119de987bf`. Its selected
-`actions-sim-build-core-race-v1` and reproduction
-`build-core-race-local-v1` runs bind the matching one-core pin and source set,
+RACE's current semantic ID is `race-c7810dd7f172-c0ea16475d19`. Its selected
+`actions-sim-build-core-race-w3` and reproduction
+`build-core-race-local-w3` runs bind the matching one-core pin and source set,
 `manifests/compatibility/race.json`, `tests/cores/test_race.py`, and the three
 `.local-e2e/channels/<channel>.race.json` aliases. Both ABIs reproduce the
 package, metadata, artifacts, and exact logs byte for byte. Publication remains
@@ -911,18 +911,18 @@ reset, core options, unaligned-access behavior, provider compatibility, target
 runtime, and every device view remain provisional and unverified.
 
 Mednafen SuperGrafx's current semantic ID is
-`mednafen_supergrafx-3c6fcd3deded-6f92f2753900`. Its independent owners are
+`mednafen_supergrafx-3c6fcd3deded-c84693b9711a`. Its independent owners are
 `scripts/core_pipeline_lib/contracts/mednafen_supergrafx.py`,
-`pins/core-sets/mednafen_supergrafx-3c6fcd3deded-6f92f2753900.json`,
-`pins/source-sets/mednafen_supergrafx-3c6fcd3deded-6f92f2753900.json`,
+`pins/core-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json`,
+`pins/source-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json`,
 `manifests/compatibility/mednafen_supergrafx.json`,
 `tests/cores/test_mednafen_supergrafx.py`, and
 `tests/test_contract_mednafen_supergrafx.py`. Selected
-`actions-sim-build-core-mednafen_supergrafx-v1` and reproduction
-`build-core-mednafen_supergrafx-local-v1` runs reproduce package, metadata, and
+`actions-sim-build-core-mednafen_supergrafx-w3` and reproduction
+`build-core-mednafen_supergrafx-local-w3` runs reproduce package, metadata, and
 both ABI artifacts exactly. Parallel logs differ, but both pass the exact
 occurrence-aware proof. The local release is
-`.local-e2e/releases/mednafen_supergrafx-3c6fcd3deded-6f92f2753900`; the three
+`.local-e2e/releases/mednafen_supergrafx-3c6fcd3deded-c84693b9711a`; the three
 `.local-e2e/channels/<channel>.mednafen_supergrafx.json` aliases retain one-core
 ownership. Publication remains disabled behind GPLv2 review; no optional PCE-CD
 BIOS candidate is packaged. Metadata display version `1.23.0` differs from
@@ -930,28 +930,28 @@ binary version `1.29.0`, ARMHF preserves the reviewed free-nonheap warning risk,
 and SGX/CD/CHD, provider, runtime, and device behavior remain unverified. Every
 device view is ineligible.
 
-Potator's current semantic ID is `potator-227c5f6f3ce7-1617e2249087`. Its
+Potator's current semantic ID is `potator-227c5f6f3ce7-66e2c96acf38`. Its
 independent owners are `scripts/core_pipeline_lib/contracts/potator.py`,
-`pins/core-sets/potator-227c5f6f3ce7-1617e2249087.json`,
-`pins/source-sets/potator-227c5f6f3ce7-1617e2249087.json`,
+`pins/core-sets/potator-227c5f6f3ce7-66e2c96acf38.json`,
+`pins/source-sets/potator-227c5f6f3ce7-66e2c96acf38.json`,
 `manifests/compatibility/potator.json`,
 `tests/cores/test_potator.py`, and `tests/test_contract_potator.py`. Selected
-`actions-sim-build-core-potator-v1` and reproduction
-`build-core-potator-local-v1` runs reproduce package, metadata, both ABI
+`actions-sim-build-core-potator-w3` and reproduction
+`build-core-potator-local-w3` runs reproduce package, metadata, both ABI
 artifacts, and both logs byte for byte. Resolver metadata declares
 `Public Domain`, no firmware is packaged or required, and all four reviewed
 misleading-indentation CPU warning/note pairs remain preserved. The local
-release is `.local-e2e/releases/potator-227c5f6f3ce7-1617e2249087`; the three
+release is `.local-e2e/releases/potator-227c5f6f3ce7-66e2c96acf38`; the three
 `.local-e2e/channels/<channel>.potator.json` aliases retain one-core ownership,
 but publication remains disabled and runtime/device behavior remains unverified;
 every device view is ineligible.
 
-Gearboy's current semantic ID is `gearboy-36d723ff4410-f6f1b63e8798`, and
-Gearsystem's is `gearsystem-4f029e43f2d5-35212fbb9d9a`. Each independently
+Gearboy's current semantic ID is `gearboy-36d723ff4410-34b7df6bcf6b`, and
+Gearsystem's is `gearsystem-4f029e43f2d5-0f8b301c259a`. Each independently
 owns its contract, one-core pin, matching source set, compatibility record,
 lifecycle test, and exact contract test. Selected
-`actions-sim-build-core-gearboy-v1` and
-`actions-sim-build-core-gearsystem-v1` reproduce their respective
+`actions-sim-build-core-gearboy-w3` and
+`actions-sim-build-core-gearsystem-w3` reproduce their respective
 `build-core-*-local-v1` packages, metadata, both ABI artifacts, and both build
 logs byte for byte. Their local releases and per-core nightly, pinned, and
 release channels remain publication-disabled. GPLv3 review, optional boot-ROM
@@ -959,8 +959,8 @@ handling, metadata display-version drift, provider and target-runtime
 validation, and all device claims remain open; ARMHF's `GLIBCXX_3.4.32`
 requirement leaves every Mini device view ineligible.
 
-EightyOne's current semantic ID is `81-fa7094910d04-a82f6eb4a7cc`. Its selected
-`actions-sim-build-core-81-v2` and reproduction `build-core-81-local-v1` runs
+EightyOne's current semantic ID is `81-fa7094910d04-22dd2ebacdc6`. Its selected
+`actions-sim-build-core-81-w3` and reproduction `build-core-81-local-w3` runs
 bind the matching one-core pin and source set,
 `manifests/compatibility/81.json`, `tests/cores/test_81.py`, and the three
 `.local-e2e/channels/<channel>.81.json` aliases. The proof admits exactly 39

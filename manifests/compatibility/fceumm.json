@@ -4,14 +4,14 @@
   "core_id": "fceumm",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/fceumm-718c5a2e1757-741c3fcc6002.json",
+  "golden_source": "pins/core-sets/fceumm-718c5a2e1757-b9cb59f371db.json",
   "source_commit": "718c5a2e175735df92ba17a2945a8d1abbc48652",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-fceumm-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "de573bce689a0148d070cad6945cb2c02f4b721624e8ee10caf346ecf535912f",
-  "reproduction_run": ".local-e2e/runs/build-core-fceumm-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "0bc94eab0665ffa81514d15360b155a41ea8c872724e443cab71b0b1e05f57e1",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-fceumm-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "e287768156e12a1463eb1860773f0b018e5036f7c70107dbe9477abdabc454c3",
+  "reproduction_run": ".local-e2e/runs/build-core-fceumm-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "de8d02c866c0af0f58e1cdbf8f54db90a47cc781c6a9e238abce1f734d7e76bf",
   "package_state": "reproducible",
-  "package_sha256": "dc89cb45a3674a07e3d0967f6c46cb95bc660d2c338b64344f3bb5fbaea1686a",
+  "package_sha256": "f3426947adbd37b86c10d13d8abe19ca7611119f8dc92fd5ecc7910da4a0f044",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the fceumm_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -57,5 +57,5 @@
       ]
     }
   },
-  "content_sha256": "fb282c7dce3d047ac6bc1eecb1b0e8233cba53ffc54d3defbaccb29d4ba37a4d"
+  "content_sha256": "6eff68b643b56990135782dc99708bc614a121b662d92c96c093604546339c05"
 }

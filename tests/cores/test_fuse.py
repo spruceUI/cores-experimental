@@ -14,8 +14,8 @@ CORE_ID = "fuse"
 SOURCE_URL = "https://github.com/libretro/fuse-libretro.git"
 SOURCE_COMMIT = "bce196fb774835fe65b3e5b821887a4ccf657167"
 SOURCE_TREE = "416338297e3923163ea2ce6f5e0347502368207c"
-SELECTED_RUN = "actions-sim-build-core-fuse-v1"
-REPRODUCTION_RUN = "build-core-fuse-local-v1"
+SELECTED_RUN = "actions-sim-build-core-fuse-w3"
+REPRODUCTION_RUN = "build-core-fuse-local-w3"
 
 
 class FuseManifestTests(unittest.TestCase):

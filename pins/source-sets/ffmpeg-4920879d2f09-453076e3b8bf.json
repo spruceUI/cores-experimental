@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "ffmpeg-4920879d2f09-453076e3b8bf",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/ffmpeg-4920879d2f09-453076e3b8bf.json",
+    "pin_id": "ffmpeg-4920879d2f09-453076e3b8bf",
+    "file_sha256": "5971237fc40eca6b51fedf09d5afb4d5ddb09f494c710db310ecf62602090e7a",
+    "content_sha256": "df1f1a062a6785b299a9aca5bec287df6bf19a1cee10ee2e35f7858a3766f71d"
+  },
+  "sources": {
+    "ffmpeg": {
+      "path": "pins/sources/ffmpeg/4920879d2f09a78cdf855403c349457cee1c31da.json",
+      "source_lock_id": "ffmpeg-4920879d2f09",
+      "commit": "4920879d2f09a78cdf855403c349457cee1c31da",
+      "file_sha256": "ba1c2eaac6d64e1560a44aef741ca35ff04fc2aee89df205bcc127c7fd37bbb6",
+      "content_sha256": "6229bb21ee7c478b4f8bbc98cbcc4a24f08e4390554ebb0b142328978dd45f60"
+    }
+  },
+  "content_sha256": "fa966c707c417c64d608587c9b823fc3f9beb29abab5e107dcad3e4af182ace4"
+}

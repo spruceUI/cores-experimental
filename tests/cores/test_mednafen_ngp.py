@@ -24,7 +24,7 @@ from .support import (
 
 CORE_ID = "mednafen_ngp"
 OTHER_CORE_ID = "mednafen_vb"
-PIN_NAME = "mednafen_ngp-a50d5ac288a8-d2dabb68d075.json"
+PIN_NAME = "mednafen_ngp-a50d5ac288a8-26b82754fc25.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -43,32 +43,32 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "2556b39a879e181d04ec8261da1bd62182b1a44045932c676f173bdde9f48eb5"
 )
 PIN_FILE_SHA256 = (
-    "8cc616bc99dc081a3346cc0088f4f8af30a87788d2d9217b25344393b1a1e014"
+    "a708aabed1e6a754316e00c9b1362025d319a3c74afd0955c799a6ef4580743c"
 )
 PIN_CONTENT_SHA256 = (
-    "db5881b401783a4801ba082f05ecb9d9d6d6abc7a2ac73add8ae9f5a78a40ffc"
+    "52d5048d86556875918af500764f708649411cea878c1434604677ef19430073"
 )
 SELECTION_SHA256 = (
-    "d2dabb68d07500bd82e2eb645bb7e0e7c170daf54fcab95169510a282d3efdcb"
+    "26b82754fc259bc1b6c968afb221745117d8b75919599e5d229edb3219c33639"
 )
-SELECTED_RUN = "actions-sim-build-core-mednafen_ngp-v1"
-REPRODUCTION_RUN = "build-core-mednafen_ngp-local-v1"
+SELECTED_RUN = "actions-sim-build-core-mednafen_ngp-w3"
+REPRODUCTION_RUN = "build-core-mednafen_ngp-local-w3"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "70ec2ea0d57ac1923d4a94600776d894f5e8ef040309a816fa6fb5841fd05d2e"
+    "887ef2f13a2ff12e129a35aabea083e7d1e148b16f1fcbb99c8ca1444ef06a18"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "04f61b2c9a8a0037e2ebcb512634bc72385d8716be1f6d1090d1f7b32d4ef0e0"
+    "ecde7ae08a8c9ae7ddffaf59882efc7b70dc5897383928b0e697af21c7432fc5"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "68db96aa3ec16b4ee77e9cde537f2b6d3bc6a3707b4052107f29c527239ed531"
+        "d32b32d807da10e45001c9b518513499ac1b742b19b855788a9180b1bbfee238"
     ),
     REPRODUCTION_RUN: (
-        "91d8ddf76efeabd7cd9ace556aed0b6ca8bf31117d765798e8a328ae73c9ce83"
+        "233678311d5d9e272eec12bbe1aa8dd2208784398d7f49b8ff5fae6fe0e78f84"
     ),
 }
 PACKAGE_SHA256 = (
-    "bb1226f4ee59d4de17db669c9afa1a1b4b683328a8e59c030b6eab8b255971d1"
+    "6b0e2a5401106e17ecba8c86752b5a824d10044107b68aff1f1901b8b8e2c93b"
 )
 PACKAGE_SIZE = 223312
 METADATA_SHA256 = (
@@ -99,10 +99,10 @@ TARGETS = {
         "artifact_size": 431328,
         "record_sha256": {
             SELECTED_RUN: (
-                "b1b782a352b947dba28913e69c4dbe1a4199e1efd1612be649d2cd94ed804e5e"
+                "0482e87d5fb69e49e7591c859a10a718d903b269d3595280026bf05f75428467"
             ),
             REPRODUCTION_RUN: (
-                "b3a363440f73f660e11cdbdbd560aead46929a6d17779a4ab2de95a39d2a5274"
+                "6bebda65befa4f3a84209b3bfcc731e59bdc79c91ddab3e1c6aee11098da0499"
             ),
         },
         "log_sha256": {
@@ -110,7 +110,7 @@ TARGETS = {
                 "90f5622b3979bbc3be9b03dfee3f6ecf918f94c3a6b4fb6cd4b7acb8d90fc8b7"
             ),
             REPRODUCTION_RUN: (
-                "2c6be487529ead58ee4900ee0e5e7b086d53270f1a178647f1ffe864c5ca5341"
+                "90f5622b3979bbc3be9b03dfee3f6ecf918f94c3a6b4fb6cd4b7acb8d90fc8b7"
             ),
         },
         "elf": "ELF64/AArch64",
@@ -135,10 +135,10 @@ TARGETS = {
         "artifact_size": 308108,
         "record_sha256": {
             SELECTED_RUN: (
-                "e424722819dd4137ee541f8d898316ded04ee18bafdf496e806dd6d9ad75b797"
+                "f381dc5b7db6119815ea6913ac7ad10ebcfc436a5f251f8e6bc90563c0136dad"
             ),
             REPRODUCTION_RUN: (
-                "3ecd13204180eca088b9e96dc5142e574f725024c6b9e93c20806b1c03e6317f"
+                "766bfbfdd1d037758d37c3e9db3699dbd531d11e30784911210f3e1716085fd9"
             ),
         },
         "log_sha256": {
@@ -146,7 +146,7 @@ TARGETS = {
                 "e7172c519d20676baef55cd34a3a35eaa9b44f24be939f8f7ed5f86aa790e44a"
             ),
             REPRODUCTION_RUN: (
-                "98d1adea6a8acf21a2d6e08f23734a96ee10a889863c4763394cd16a544de68f"
+                "157abf99ae7decc2b6a75f558058025e8ea29004aaad597b85a56e0278bba803"
             ),
         },
         "elf": "ELF32/ARM hard-float",

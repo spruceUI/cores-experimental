@@ -16,8 +16,8 @@ CORE_ID = "lutro"
 SOURCE_URL = "https://github.com/libretro/libretro-lutro.git"
 SOURCE_COMMIT = "1df938b3bf37b8d1eb6cdd07ec915c4f569a7551"
 SOURCE_TREE = "d20aac44229476877084e26c2558c63737a86c98"
-SELECTED_RUN = "actions-sim-build-core-lutro-v1"
-REPRODUCTION_RUN = "build-core-lutro-local-v1"
+SELECTED_RUN = "actions-sim-build-core-lutro-w3"
+REPRODUCTION_RUN = "build-core-lutro-local-w3"
 
 
 class LutroManifestTests(unittest.TestCase):

@@ -26,7 +26,7 @@ from .support import (
 
 CORE_ID = "pokemini"
 OTHER_CORE_ID = "gearcoleco"
-PIN_NAME = "pokemini-bb009b1379ad-2f63e84b7b68.json"
+PIN_NAME = "pokemini-bb009b1379ad-2ecf9f68eb0c.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -35,28 +35,28 @@ SOURCE_TREE = "f3a98fcf910c07bd9e0f5ee8466bed7865536c33"
 SOURCE_URL = "https://github.com/libretro/PokeMini.git"
 SOURCE_LOCK_ID = "pokemini-bb009b1379ad"
 SELECTION_SHA256 = (
-    "2f63e84b7b68247e36cf0d331176c0d6e479a52285be57a9f5e82c7627ced8b4"
+    "2ecf9f68eb0c13676c959c497429b2d2ed62a3563f0a0af44577aae077ba5e70"
 )
-SELECTED_RUN = "actions-sim-build-core-pokemini-v1"
-REPRODUCTION_RUN = "build-core-pokemini-local-v1"
+SELECTED_RUN = "actions-sim-build-core-pokemini-w3"
+REPRODUCTION_RUN = "build-core-pokemini-local-w3"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "d53b96265c2b292eeeb07f5e0c35420a29af99b65c8207c3528321fc4cda43ea"
+    "01b07251d3c197577688b5479b96cb034fcd14b38b599e3799e4b4c4fa341cef"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "f68ecfc829e0a018c2a9e9d173e8e35aa2594a63a033573575e8a769c3466c3d"
+    "5acd99900124207589dc0cb5bc8ab6f7b1047a69d93f53ec9acfb5e945f12d3b"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "cb5feecd96b7eb1d7a3ddaaeba8e8066ff8e82cb70dcc7dcf18aefa8fbbda300"
+        "8d00532d5b1f2673da895bfe3be715c5e789792093dc533aaa8519de78bd463b"
     ),
     REPRODUCTION_RUN: (
-        "51719a993e7cb884b93460736a936a9a9702f28b01380ee78fdfcbeffef33ec2"
+        "1aa56206438fdd65d601e5e27fc70f315f1a26cd27c46ef794435bbcd2f0fdc8"
     ),
 }
 PACKAGE_SHA256 = (
-    "b40876d4fdf83cd07c8cb851ab10ceff0946d8ddaa99fb65e8d5c87fdf275e83"
+    "696b0a4992feb760311ef967fe61a78c024d5a95550cf8603874c3ce6ff17b79"
 )
-PACKAGE_SIZE = 230529
+PACKAGE_SIZE = 230530
 METADATA_SHA256 = (
     "514da066db31dd673aabf9c0e54b1b24e485775615217a02ac7de635d621b8b2"
 )
@@ -85,10 +85,10 @@ TARGETS = {
         "artifact_size": 404904,
         "record_sha256": {
             SELECTED_RUN: (
-                "b840d73d87eecc5c4d645a428357c6471f7648cdf0bee82ff31e4aa794b5dcd0"
+                "7500f7f3ed70ece99f48370e2e1884840fb568d8d1a6e9d4c9ed7030fbd3b915"
             ),
             REPRODUCTION_RUN: (
-                "186f81332d5a4043bf4e6a525586229ecf943471dfd54456e56ceec95ede6493"
+                "10e129256c644928d7f8cbac005bd078634e07b0ef9da9ba718d1fcc26a272da"
             ),
         },
         "log_sha256": {
@@ -118,10 +118,10 @@ TARGETS = {
         "artifact_size": 326608,
         "record_sha256": {
             SELECTED_RUN: (
-                "8c1149863e0ff792411ccb59216b5007b40aae9f4c48b948669586a2e441a50d"
+                "1d4e4712215a1dadeb9aac72e6dce13da58f8b63e8fb341baeb56b1f45d55052"
             ),
             REPRODUCTION_RUN: (
-                "6bc641456834fdd3982da0015cf0354d9a5d4c694a23b7f1640b10153202c1d6"
+                "b3a1357254e89ff1882041b399e7a40e6430acd58a4b4f1e6e6c59d17e560136"
             ),
         },
         "log_sha256": {

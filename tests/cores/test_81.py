@@ -16,7 +16,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "81"
 OTHER_CORE_ID = "a5200"
-PIN_NAME = "81-fa7094910d04-a82f6eb4a7cc.json"
+PIN_NAME = "81-fa7094910d04-22dd2ebacdc6.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -26,24 +26,24 @@ SOURCE_LOCK_ID = "81-fa7094910d04"
 SELECTION_SHA256 = (
     "a82f6eb4a7ccb563adcdf46fb2ba622edfc4131921793cd91cb8a3e9d7a297c5"
 )
-SELECTED_RUN = "actions-sim-build-core-81-v1"
-REPRODUCTION_RUN = "build-core-81-local-v1"
+SELECTED_RUN = "actions-sim-build-core-81-w3"
+REPRODUCTION_RUN = "build-core-81-local-w3"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "e1ba2b87db03c9ce74fce4d463c3b665aada47529afcf5fb911eb0a3857328c8"
+    "02adc0e509a45c632a39fd51f69d742669f73b2c471c57d6382392139287d4e6"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "e6fd26d5caa3ee1fd10cd345ea0ab9f3b91b53551fc0a96b04846b0bb36fb627"
+    "c8b36f8bd02c7683828787b860587b89507b5dd77f3d68dd521e66e5915f8085"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "7feb7c36a36831d14216a8aab018fd7e89c08f9efaf90f8013eabd75ce074049"
+        "84b611cf763d9d61769c7108ca233b256c35091f534b77d02a6ccf063602cc93"
     ),
     REPRODUCTION_RUN: (
-        "32a81d531eec54901a369536b3d1730e516a760c6e4aa11a2e19ca0170aa6f88"
+        "2dce208343513220c4a2f9d29316e4eb5e457568613207b5636f0d04f776ea3e"
     ),
 }
 PACKAGE_SHA256 = (
-    "f89b283137921ca1fa9ff7f127f367d85fecc91198457ce940d70668bcb8e53c"
+    "3660bc25cc035a38ad736394e63e61251e0cdb0655b8db992ad7daf2af900745"
 )
 METADATA_SHA256 = (
     "06036186b108b32901290288cde80b817a22f5a0cd0454da0ce520ad7ab647ec"
@@ -75,18 +75,18 @@ TARGETS = {
         "artifact_size": 457552,
         "record_sha256": {
             SELECTED_RUN: (
-                "b7f29c508fcc08e85887d74d62a13e1821a11c8d90faabd6ddd472333d2a6f78"
+                "4e2de8c6f95cdc8d418484b56dceca40a91ca73b562e5761286bbe58f51f6aa2"
             ),
             REPRODUCTION_RUN: (
-                "9f869408cc367e3f2b1a79d48283b299285c1409384f647bab0ef02dc6e2800e"
+                "40bd27e3be34fd45be479dd452744542e595fefa7640ed347227abebe13b9fba"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "d5ddfa9377fa83222047c0fa778d9116a99ee3f11619ac70079cad65ee43ae4f"
+                "2ba635a953bfa6a2b436d2735218a5b961d0dc8327f2ad5a54599f388327d62b"
             ),
             REPRODUCTION_RUN: (
-                "5830ef98a4fa94d6dd996fb78b19221d2a3822af0a141526c027ba5dc59d8f35"
+                "1956f141da923d581b6fa5ac599d1d52aed48d16c08c3473a57142b92df0356d"
             ),
         },
         "elf": "ELF64/AArch64",
@@ -110,18 +110,18 @@ TARGETS = {
         "artifact_size": 405672,
         "record_sha256": {
             SELECTED_RUN: (
-                "22af7e6e6d5e52f00e1c77bac45be3a43c75fcf8a3755a866349f327e5af5fc6"
+                "c641e47a93ab4cc6ecabb59794c5d3c68142d2154ea607ff49b9215c9505903e"
             ),
             REPRODUCTION_RUN: (
-                "db0957b44c9f8fb3e124517931af2f34f18ebec5a3408a36864920df2def2f69"
+                "e3c7dfc6af10df311e8e182406b1bae1e4624df4d0f333d4ae3f76e08f4fac27"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "b601f8072829934cca9addd7be940e96d016de16e98c76cf2d771f6e6de7984b"
+                "2ca9cf9344858629298ebf22d935b60caaef8a1a1f72010361519fa4acfb7dbe"
             ),
             REPRODUCTION_RUN: (
-                "2cf09f463d07adea6b94c134d3547b68795918fbdb1e722bd659a58bffbdd452"
+                "59984b253e8fee0c79739f70b148082874f8c9570ca5907cbf2571654a28f4dd"
             ),
         },
         "elf": "ELF32/ARM hard-float",
@@ -139,7 +139,7 @@ TARGETS = {
 }
 CAVEAT_TOKENS = (
     "semantic at the log layer",
-    "actions-sim-build-core-81-v1",
+    "actions-sim-build-core-81-w3",
     "src/version.c",
     "39 reviewed warnings and 6 notes",
     "38 reviewed warnings and 11 notes",

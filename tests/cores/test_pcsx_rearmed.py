@@ -21,8 +21,8 @@ ARMHF_COMPILE_DEFINITIONS = [
     "HWCAP2_SHA1=0",
     "HWCAP2_SHA2=0",
 ]
-SELECTED_RUN = "actions-sim-build-core-pcsx_rearmed-v1"
-REPRODUCTION_RUN = "build-core-pcsx_rearmed-local-v1"
+SELECTED_RUN = "actions-sim-build-core-pcsx_rearmed-w3"
+REPRODUCTION_RUN = "build-core-pcsx_rearmed-local-w3"
 
 
 class PcsxRearmedManifestTests(unittest.TestCase):

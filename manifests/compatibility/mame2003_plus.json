@@ -4,14 +4,14 @@
   "core_id": "mame2003_plus",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/mame2003_plus-5373e38e1091-566e5d1cd54e.json",
+  "golden_source": "pins/core-sets/mame2003_plus-5373e38e1091-2fb271099d38.json",
   "source_commit": "5373e38e1091eb28f075513ecdc2575bafc8a5e3",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mame2003_plus-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "31381654945eddb39295c163b1d64a113cecb899c0fd514f2abc140e7d47e989",
-  "reproduction_run": ".local-e2e/runs/build-core-mame2003_plus-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "424d19335ecc21b4120fbc4076d787c6fa8687721594f249bb477803e01639d8",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mame2003_plus-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "1ffe463e26b08c4a249b69c527ce409bd5e9ddaf070def1760d4d62cc554f44d",
+  "reproduction_run": ".local-e2e/runs/build-core-mame2003_plus-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "abf5f24136c2abdf53993cde622d6557db81c80809cf84d92dac1046db5ba85e",
   "package_state": "reproducible",
-  "package_sha256": "bf93f1b543523298c788da7e5a6ee06e558f1d95f24a405f2aa7027cf4dc30b7",
+  "package_sha256": "04cc0066dbe0fe1b17c66cfb336012ca165af93ea473d6d10bc4b5301fa5fb3b",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mame2003_plus_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -49,5 +49,5 @@
       ]
     }
   },
-  "content_sha256": "e805569233866e2174af4353aeaa300e20a704cd3c215488cebb93f0ad122cb3"
+  "content_sha256": "e6ef3478f9c09a25a246ea8163ff1433625f42b1d69915bb890f940db51c3ffc"
 }

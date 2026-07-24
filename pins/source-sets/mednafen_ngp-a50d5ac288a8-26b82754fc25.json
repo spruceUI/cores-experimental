@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "mednafen_ngp-a50d5ac288a8-26b82754fc25",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json",
+    "pin_id": "mednafen_ngp-a50d5ac288a8-26b82754fc25",
+    "file_sha256": "a708aabed1e6a754316e00c9b1362025d319a3c74afd0955c799a6ef4580743c",
+    "content_sha256": "52d5048d86556875918af500764f708649411cea878c1434604677ef19430073"
+  },
+  "sources": {
+    "mednafen_ngp": {
+      "path": "pins/sources/mednafen_ngp/a50d5ac288a81f2104ddf43195a4efdd15c72227.json",
+      "source_lock_id": "mednafen_ngp-a50d5ac288a8",
+      "commit": "a50d5ac288a81f2104ddf43195a4efdd15c72227",
+      "file_sha256": "ac95f19816edf7f5c4e3f324a603081930de4798412e30cf81b0e6f7fb56c631",
+      "content_sha256": "2556b39a879e181d04ec8261da1bd62182b1a44045932c676f173bdde9f48eb5"
+    }
+  },
+  "content_sha256": "f076c3190529536ca506887d4216dbeedddb5acf829c8f82a59295452a1dfc69"
+}

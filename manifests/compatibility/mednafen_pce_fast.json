@@ -4,14 +4,14 @@
   "core_id": "mednafen_pce_fast",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json",
+  "golden_source": "pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json",
   "source_commit": "0bc6c86928343ca4202c5b6ef33fa4387c47fc12",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_pce_fast-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "5a2a9fcb30ec723b28cbe43bd50cf18d5e3a74a0bdfb986b994ec756a01549f1",
-  "reproduction_run": ".local-e2e/runs/build-core-mednafen_pce_fast-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "dbd31f75404ce3c93c0fab919bb2eb7abe43d04d04dfaa7f7063a566a0a77c8b",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_pce_fast-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "f0fcf0537483fcef59c3bde9370b45a0487b2ae4a793a1f550bdb478de30e3c0",
+  "reproduction_run": ".local-e2e/runs/build-core-mednafen_pce_fast-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "c8dbda06c2e29f8b4a9141475b82555870c2a22623d8236c737b833b978c6a33",
   "package_state": "reproducible",
-  "package_sha256": "497dec13368d324ab271d55f5de7bc0e8eac73619ab6ed875def269c22174a96",
+  "package_sha256": "eb13e9a60a8281eb363558b0676cc8da008757c989c1729ad74ce2247947fd97",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mednafen_pce_fast_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -61,5 +61,5 @@
       ]
     }
   },
-  "content_sha256": "956aa328ccfc226fd5c6ec9a19a68699535543b9328cf6c18e7a45424e1da59c"
+  "content_sha256": "7706a40c110caf623efef4935f2c4df1e88186ea0fba9eda9ca975f7a2622c07"
 }

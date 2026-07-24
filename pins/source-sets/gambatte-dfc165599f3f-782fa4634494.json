@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "gambatte-dfc165599f3f-782fa4634494",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/gambatte-dfc165599f3f-782fa4634494.json",
+    "pin_id": "gambatte-dfc165599f3f-782fa4634494",
+    "file_sha256": "e319fd3cde17484a69603cad72717ce1a002fa27a52926e1a0e069b525d34b76",
+    "content_sha256": "c444d353ccce7e5ba37582485eb1f06acc9fa8db6ac8f39863f55c198fa58e10"
+  },
+  "sources": {
+    "gambatte": {
+      "path": "pins/sources/gambatte/dfc165599f3f1068c40a0b7ad6fe5f161283d483.json",
+      "source_lock_id": "gambatte-dfc165599f3f",
+      "commit": "dfc165599f3f1068c40a0b7ad6fe5f161283d483",
+      "file_sha256": "042a617ed269741196eff3d2738f3dc72f1ba82443355075db3b6ac5466ea9dd",
+      "content_sha256": "219ef7bc2c58c1ed873c6e737bb61154aeffec15026686ceddc7f9477318fac0"
+    }
+  },
+  "content_sha256": "f4f978f11fefca831ebbcc84dc756acbdb9cf67166a9c763637d37bc53c99a8d"
+}

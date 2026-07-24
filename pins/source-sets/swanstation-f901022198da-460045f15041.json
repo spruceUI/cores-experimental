@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "swanstation-f901022198da-460045f15041",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/swanstation-f901022198da-460045f15041.json",
+    "pin_id": "swanstation-f901022198da-460045f15041",
+    "file_sha256": "613ae3c1a010642f1ef16ded7ab697a8e52f82d353c1bf023f963bb3deb9ebd3",
+    "content_sha256": "7d29363e229adc07c86128f3d9f079ecfd91bbe034521c4127fbb644d07dd6c8"
+  },
+  "sources": {
+    "swanstation": {
+      "path": "pins/sources/swanstation/f901022198dacf125d43331c6540492441ab415b.json",
+      "source_lock_id": "swanstation-f901022198da",
+      "commit": "f901022198dacf125d43331c6540492441ab415b",
+      "file_sha256": "a762334338100cce9d0c789c2c8ced3d755de7a62c94d092f50869c1f12edd64",
+      "content_sha256": "af535fc19b6141101098b7b3d38fc33377bcdc7f258a13865436a028b80489f2"
+    }
+  },
+  "content_sha256": "6249152b58ad9fd6767a0d57b4c19527b50348724f43e26da56146df353ce051"
+}

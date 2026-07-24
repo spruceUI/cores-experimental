@@ -12,7 +12,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "gambatte"
 OTHER_CORE_ID = "handy"
-PIN_NAME = "gambatte-dfc165599f3f-9a6aa3658c05.json"
+PIN_NAME = "gambatte-dfc165599f3f-782fa4634494.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -20,12 +20,12 @@ SOURCE_COMMIT = "dfc165599f3f1068c40a0b7ad6fe5f161283d483"
 SOURCE_TREE = "5ca06b386819d5a99f83531d38d88d1d04db426c"
 SOURCE_LOCK_ID = "gambatte-dfc165599f3f"
 SELECTION_SHA256 = (
-    "9a6aa3658c0534a28a0e791f3ac6b391de09b3cd9208d386dc356bdbb5941137"
+    "782fa463449460528abb656071c87ea362d45b9d886233d34b4e1274ff6b8b0f"
 )
-SELECTED_RUN = "actions-sim-build-core-gambatte-v1"
-REPRODUCTION_RUN = "build-core-gambatte-local-v1"
+SELECTED_RUN = "actions-sim-build-core-gambatte-w3"
+REPRODUCTION_RUN = "build-core-gambatte-local-w3"
 PACKAGE_SHA256 = (
-    "1e38889d973ff3285fdb64aff5cb6628202ea6a28431bb24320d90eef4fa29fc"
+    "fec71a92d98b55559eb78a03ddf5c7ed0146677ef4661272258ce7f61360d67c"
 )
 METADATA_SHA256 = (
     "084975942c06a658972890c12a8251fe8d0f6c7ffd2b268850458628bbbe68f4"

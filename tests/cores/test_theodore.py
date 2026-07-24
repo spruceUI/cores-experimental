@@ -14,8 +14,8 @@ CORE_ID = "theodore"
 SOURCE_URL = "https://github.com/Zlika/theodore.git"
 SOURCE_COMMIT = "121ae2513d3ee29f0aaf765a64dc086d57e7a4c7"
 SOURCE_TREE = "431edd6ada0b1dc0ff148fa57afdf0d9d6da1260"
-SELECTED_RUN = "actions-sim-build-core-theodore-v1"
-REPRODUCTION_RUN = "build-core-theodore-local-v1"
+SELECTED_RUN = "actions-sim-build-core-theodore-w3"
+REPRODUCTION_RUN = "build-core-theodore-local-w3"
 
 
 class GwManifestTests(unittest.TestCase):

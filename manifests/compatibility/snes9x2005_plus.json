@@ -4,14 +4,14 @@
   "core_id": "snes9x2005_plus",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/snes9x2005_plus-b60356971fc9-32f28e9ec741.json",
+  "golden_source": "pins/core-sets/snes9x2005_plus-b60356971fc9-77ca2d085240.json",
   "source_commit": "b60356971fc9caae02cd0853676dced886a08be7",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-snes9x2005_plus-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "72f21e63abee87817be77229343fffcf71f875d6bed805dce1cd87079575b1e0",
-  "reproduction_run": ".local-e2e/runs/build-core-snes9x2005_plus-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "0cc8ea9a0cc422450c90b89fb4c0169e398f0d4d114f39ff835324b85ba65dc3",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-snes9x2005_plus-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "320373dec53a744c0356c8c2312a43070d95f47a0d80a7c7f2eff2af29b51b3e",
+  "reproduction_run": ".local-e2e/runs/build-core-snes9x2005_plus-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "115576ce6dca5e63659fbee834549a03b2d7123c4fa302bfc2b156b1ffa4cf69",
   "package_state": "reproducible",
-  "package_sha256": "da6d86969fe506e0dd86929fd4f3b6960d18b2cda16091f37885b235d408a123",
+  "package_sha256": "14865c0a4995e7df32d89dfa8604af704a869f351d4cc2f750cabf44fa3a4737",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the snes9x2005_plus_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -59,5 +59,5 @@
       ]
     }
   },
-  "content_sha256": "2e5eba8599aeede91f97e33b611476d2967a09cb310d79d013088249472fb2b7"
+  "content_sha256": "ab5e465572e8eb6740e0c01b744d73ed59abbfd1c48d2498f21afc78348f9d18"
 }

@@ -18,8 +18,8 @@ CORE_ID = "fake08"
 SOURCE_URL = "https://github.com/jtothebell/fake-08.git"
 SOURCE_COMMIT = "814991a2571ad3970e386cef48f3b148aa1c27b9"
 SOURCE_TREE = "5c4f211679d422eb7ac5883730b4a9d583a27fef"
-SELECTED_RUN = "actions-sim-build-core-fake08-v1"
-REPRODUCTION_RUN = "build-core-fake08-local-v1"
+SELECTED_RUN = "actions-sim-build-core-fake08-w3"
+REPRODUCTION_RUN = "build-core-fake08-local-w3"
 
 
 class Fake08ManifestTests(unittest.TestCase):

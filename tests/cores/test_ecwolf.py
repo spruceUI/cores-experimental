@@ -14,8 +14,8 @@ CORE_ID = "ecwolf"
 SOURCE_URL = "https://github.com/libretro/ecwolf.git"
 SOURCE_COMMIT = "4731f0075d6c225921b40b341b23971e73dd9dfc"
 SOURCE_TREE = "4e651e299a236ecfbbb4e44427e0087790ff1c64"
-SELECTED_RUN = "actions-sim-build-core-ecwolf-v1"
-REPRODUCTION_RUN = "build-core-ecwolf-local-v1"
+SELECTED_RUN = "actions-sim-build-core-ecwolf-w3"
+REPRODUCTION_RUN = "build-core-ecwolf-local-w3"
 
 
 class EcwolfManifestTests(unittest.TestCase):

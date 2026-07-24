@@ -4,14 +4,14 @@
   "core_id": "uw8",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/uw8-92e0f7a7678d-1deed68a6a40.json",
+  "golden_source": "pins/core-sets/uw8-92e0f7a7678d-71daa2676bc9.json",
   "source_commit": "92e0f7a7678de9955002ecce8501eb1be5e46d35",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-uw8-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "e2f66f8edd536101146ef7cfeb42da3e60029673631faa8e043e2776c78197f2",
-  "reproduction_run": ".local-e2e/runs/build-core-uw8-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "530f059cdc8db287b08a5eb2dad557138ee2edfc5835c2e446baa39a3088d025",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-uw8-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "ad9b120b1087b47286bafc9f0dde36a3da80987256badbe8696ba449e1e49e85",
+  "reproduction_run": ".local-e2e/runs/build-core-uw8-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "9cdc00482a1173b6a200020f41097ad4033d6da9bb0dc49c93f180a220214b72",
   "package_state": "reproducible",
-  "package_sha256": "d699ce55b9b9b6db6a5e0d24e8a193775bce3418a35d7c24f77a759aa6ff130e",
+  "package_sha256": "425e1f634688b1247d36829f9a7f8e9b25e8027de8f3064fdc2ab19d479e11cd",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the uw8_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -49,5 +49,5 @@
       ]
     }
   },
-  "content_sha256": "155f874b2d3a448f0c59c2a7a4eb384326b10c698bc4af0fa2a6417eb532c32c"
+  "content_sha256": "e07be4103e1e57ac96460f533ed0061a50b6fb25476a9115465ba9777dd24d3e"
 }

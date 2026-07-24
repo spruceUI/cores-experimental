@@ -4,14 +4,14 @@
   "core_id": "fbalpha2012",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/fbalpha2012-95fa35582b1c-3fcf7af56690.json",
+  "golden_source": "pins/core-sets/fbalpha2012-95fa35582b1c-4441b57d77ef.json",
   "source_commit": "95fa35582b1ca7ce68de3313615794c8c9d8d7c0",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-fbalpha2012-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "ce8a15a093307e3cecbc37f4fc8e70f95446422175cde3aa7cc461a2868e91aa",
-  "reproduction_run": ".local-e2e/runs/build-core-fbalpha2012-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "832b19ea34ac84ee2813c690599a19d445531e6cc22b5d9a3ab1fa64990553f0",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-fbalpha2012-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "d1a5a27e5b22550ec3bb6882d7d31ca3715acd4e26cda1ba5bd7eba46b4fc06c",
+  "reproduction_run": ".local-e2e/runs/build-core-fbalpha2012-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "a2cb36ac95abc7a8f0a0a1876bfdb7747276079749a3c98623abe907f6605a29",
   "package_state": "reproducible",
-  "package_sha256": "afc2789142f4a5c1ff739cc23a295bd6727249ffcc60e6a459ca3f73404590ac",
+  "package_sha256": "f919890a1e36a79df6e0a3fe96ce956ecd85d5255e4b59d5f8aa070c333a4e14",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the fbalpha2012_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4.21 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -64,5 +64,5 @@
       ]
     }
   },
-  "content_sha256": "c623d6dd58fdc532ebf3a67914ba5bc36a4b0c16e9946a02e052dbc552f5910c"
+  "content_sha256": "af32295dd70b781f92d9f5a4871adf5e2f730950c5c9b9da47591a4d937095cf"
 }

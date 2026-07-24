@@ -59,7 +59,7 @@ class ComposeTests(unittest.TestCase):
     def test_references_authoritative_pin_without_duplicating_provenance(self):
         self.assertEqual(
             self.gearboy["pin"],
-            "pins/core-sets/gearboy-36d723ff4410-f6f1b63e8798.json",
+            "pins/core-sets/gearboy-36d723ff4410-34b7df6bcf6b.json",
         )
         # The record stays compact: it points to the pin rather than embedding a
         # pipeline bundle or transcript proof.

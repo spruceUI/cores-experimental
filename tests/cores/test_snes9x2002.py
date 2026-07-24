@@ -14,8 +14,8 @@ CORE_ID = "snes9x2002"
 SOURCE_URL = "https://github.com/libretro/snes9x2002.git"
 SOURCE_COMMIT = "5bd8bd6d449be8a2ef7909e1aeb2bd8c9c0da8cb"
 SOURCE_TREE = "ba0f22bc1e0eb80c21b6796326704cfe9af80465"
-SELECTED_RUN = "actions-sim-build-core-snes9x2002-v1"
-REPRODUCTION_RUN = "build-core-snes9x2002-local-v1"
+SELECTED_RUN = "actions-sim-build-core-snes9x2002-w3"
+REPRODUCTION_RUN = "build-core-snes9x2002-local-w3"
 
 
 class Snes9x2002ManifestTests(unittest.TestCase):

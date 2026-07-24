@@ -25,7 +25,7 @@ from .support import (
 
 CORE_ID = "mednafen_pce_fast"
 OTHER_CORE_ID = "mednafen_ngp"
-PIN_NAME = "mednafen_pce_fast-0bc6c8692834-8e747136926e.json"
+PIN_NAME = "mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -45,38 +45,38 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "f2d755989ad999ac2db8f3e1a026b80e0536a51adae35ef1bb4f1136e84d7192"
 )
 PIN_FILE_SHA256 = (
-    "33167e0c925c810b89db8eb7fd9a77f754acf8a47bbe26d78d21c134e7bcafc1"
+    "a4599f0880f6aeb917c207ebf7db8e0f2c1a4880b5043890937edb212b8150c2"
 )
 PIN_CONTENT_SHA256 = (
-    "a679bbf99ff521d5ed0d7d99fb7f66bd067e5a5bcbf3607eecff8b3b0a9606e9"
+    "1f140c0230b696a02b709ca5ddcf30f64f9501c51db71fc1d8c1f94a0a47ef45"
 )
 GOLDEN_FILE_SHA256 = (
-    "66881dde741192d97d973fd0a7521465c9f1e9a411ad5d07acd7bc5ced51f673"
+    "edac853f232d5077f55c6b3dbbaba401a4a194b048137cad97962aa7a99db5d5"
 )
 GOLDEN_CONTENT_SHA256 = (
-    "394eb252e7db5f17c1076bc3e69ab9d4ac72e3d6535fe671d1d05eea5e24f767"
+    "5227bf9dd351061ecead7d54947222f1487dd5f497ee41ebb3da9729883f44df"
 )
 SELECTION_SHA256 = (
-    "8e747136926ea0bc652a2dc2441633d8fa5888e5da59ba914a7637df326c9cba"
+    "cdd0e06030328829de6ac4f37841b0ff7bb5b9183a1a36c80fc9d6d341800af0"
 )
-SELECTED_RUN = "actions-sim-build-core-mednafen_pce_fast-v1"
-REPRODUCTION_RUN = "build-core-mednafen_pce_fast-local-v1"
+SELECTED_RUN = "actions-sim-build-core-mednafen_pce_fast-w3"
+REPRODUCTION_RUN = "build-core-mednafen_pce_fast-local-w3"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "5a2a9fcb30ec723b28cbe43bd50cf18d5e3a74a0bdfb986b994ec756a01549f1"
+    "f0fcf0537483fcef59c3bde9370b45a0487b2ae4a793a1f550bdb478de30e3c0"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "dbd31f75404ce3c93c0fab919bb2eb7abe43d04d04dfaa7f7063a566a0a77c8b"
+    "c8dbda06c2e29f8b4a9141475b82555870c2a22623d8236c737b833b978c6a33"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "bad6979e876b98696982fe1f7a50b719101d7ef5b2564782da5feb41c5ef9c85"
+        "3279148ecca09733a8e7250705eb1d34720e1abf41d55824354c3301905e4bb8"
     ),
     REPRODUCTION_RUN: (
-        "f414b2c1242e293cbcecb3cd5dea71da164b992c9321901e51cc321ea6247867"
+        "47f04b18efe0679e137cc799db03c51a5ad13d6e1328537b955d1e2c42a7a760"
     ),
 }
 PACKAGE_SHA256 = (
-    "497dec13368d324ab271d55f5de7bc0e8eac73619ab6ed875def269c22174a96"
+    "eb13e9a60a8281eb363558b0676cc8da008757c989c1729ad74ce2247947fd97"
 )
 PACKAGE_SIZE = 1131197
 METADATA_SHA256 = (
@@ -107,10 +107,10 @@ TARGETS = {
         "artifact_size": 4536184,
         "record_sha256": {
             SELECTED_RUN: (
-                "877e663940c1985db2169a5b2bc83cab8aa9a0bc61e8f54d4917ee54d77b1c15"
+                "69278665c1df94289e47a40cf14a6963d7ee8012b892f53d4ef2c9fd0870f6b4"
             ),
             REPRODUCTION_RUN: (
-                "5cc29006b32f57754dbc71678b6ee7f39805d319e3d2cb739ecb9af8b429353c"
+                "833074baab8a0086c1e656a7810bd993db6a3d4a84b58283783add3a123d13be"
             ),
         },
         "log_sha256": (
@@ -128,10 +128,10 @@ TARGETS = {
         "artifact_size": 2557204,
         "record_sha256": {
             SELECTED_RUN: (
-                "ece65e26dd18ec2632be99272af624663e93e996a72ebd5fbdd9a30e3ba7f7d1"
+                "cc8ebc571e376aa9d0071dc9d4f8bd0030603c5fa02290bd213834faaff001d7"
             ),
             REPRODUCTION_RUN: (
-                "32a43261425e232e1454bd85cd4df9a407c6e973f0fec68fb6a6622944bdd8a2"
+                "4949120a6d4ac65713053a61571afcb7c3b4d00cb0b7b608ae1f622b7681a951"
             ),
         },
         "log_sha256": (

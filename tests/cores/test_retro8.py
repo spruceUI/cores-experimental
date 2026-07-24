@@ -14,8 +14,8 @@ CORE_ID = "retro8"
 SOURCE_URL = "https://github.com/libretro/retro8.git"
 SOURCE_COMMIT = "ddc06a142398ee9755894b3f0bb17c8dc428151d"
 SOURCE_TREE = "b2d7603bffe84e98130bc62365d65d347d22521e"
-SELECTED_RUN = "actions-sim-build-core-retro8-v1"
-REPRODUCTION_RUN = "build-core-retro8-local-v1"
+SELECTED_RUN = "actions-sim-build-core-retro8-w3"
+REPRODUCTION_RUN = "build-core-retro8-local-w3"
 
 
 class Retro8ManifestTests(unittest.TestCase):

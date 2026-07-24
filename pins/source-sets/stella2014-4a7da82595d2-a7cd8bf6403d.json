@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "stella2014-4a7da82595d2-a7cd8bf6403d",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json",
+    "pin_id": "stella2014-4a7da82595d2-a7cd8bf6403d",
+    "file_sha256": "7d5fc97842a347edc5c3c523960ff74e5191fbf4996f100a635a3df36e7caa0a",
+    "content_sha256": "d66952a66b8b8ce6fcf3ef736db21b3e0ecbef613ef84fc77cb0c9a52cecbfad"
+  },
+  "sources": {
+    "stella2014": {
+      "path": "pins/sources/stella2014/4a7da82595d27b8df7af1ecb467a64b642a41bc9.json",
+      "source_lock_id": "stella2014-4a7da82595d2",
+      "commit": "4a7da82595d27b8df7af1ecb467a64b642a41bc9",
+      "file_sha256": "e37e97464d3631c2b52bec8fc3c1205e5b92027cd542ccc2a4fe42401cbd947b",
+      "content_sha256": "9a0677ec20bcc65d0d1085f5d792da59c724e9f9af4fd892115af7ab3e9d86e4"
+    }
+  },
+  "content_sha256": "e544731441be0b72785c070b8c84b9f0210ea2655baba4236bd3aaf86cae1990"
+}

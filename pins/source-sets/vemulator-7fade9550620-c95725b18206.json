@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "vemulator-7fade9550620-c95725b18206",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/vemulator-7fade9550620-c95725b18206.json",
+    "pin_id": "vemulator-7fade9550620-c95725b18206",
+    "file_sha256": "2f50af3246812dcfb4c3000ebb69c8dcb71cb2aaef68010652077f30cdc62e64",
+    "content_sha256": "f619a0ac59cc1558d53eda7b84435610cd8f4ed9ac270acaf5b3bb07ad8eea9d"
+  },
+  "sources": {
+    "vemulator": {
+      "path": "pins/sources/vemulator/7fade95506201aed83316cc3f2efe3d7cecf75a7.json",
+      "source_lock_id": "vemulator-7fade9550620",
+      "commit": "7fade95506201aed83316cc3f2efe3d7cecf75a7",
+      "file_sha256": "32f4725c7d318dc1c93c115448327227ecb01a1722c8b6b5044e16b835090427",
+      "content_sha256": "fe035f98956157700a60a897e4463937f7833b2a138ebf96f1e5b15e780aa472"
+    }
+  },
+  "content_sha256": "ed35286a4ad9801de0e4682dc5c2ab95b444ffdf571a912652641660a27a5bb8"
+}

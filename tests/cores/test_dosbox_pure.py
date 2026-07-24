@@ -23,8 +23,8 @@ CORE_ID = "dosbox_pure"
 SOURCE_URL = "https://github.com/libretro/dosbox-pure.git"
 SOURCE_COMMIT = "a4a0bab7f8931433588f2fcad9045c85b277373d"
 SOURCE_TREE = "0b64e0b00ba92300de9f73f213f3feaddf54a134"
-SELECTED_RUN = "actions-sim-build-core-dosbox_pure-v1"
-REPRODUCTION_RUN = "build-core-dosbox_pure-local-v1"
+SELECTED_RUN = "actions-sim-build-core-dosbox_pure-w3"
+REPRODUCTION_RUN = "build-core-dosbox_pure-local-w3"
 
 
 class DosboxPureManifestTests(unittest.TestCase):

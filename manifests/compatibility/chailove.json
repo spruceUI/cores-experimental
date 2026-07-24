@@ -4,14 +4,14 @@
   "core_id": "chailove",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/chailove-5fa2014d9a13-f10fcc3308fc.json",
+  "golden_source": "pins/core-sets/chailove-5fa2014d9a13-b5daece4f4dc.json",
   "source_commit": "5fa2014d9a1359836f165ab251831bce878ec2be",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-chailove-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "e831e27503947ce2f2c3be32d6f79394c80ef663327f7e9ba5145e617c8ea395",
-  "reproduction_run": ".local-e2e/runs/build-core-chailove-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "414614805b8e6a3bded26e6a07aae96df2400869e9a084fabb5420c11eac1c33",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-chailove-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "bc876bd619f39663d88f1d18a43fc7962fc094dcbc89ddedc332ef0b6d8b7760",
+  "reproduction_run": ".local-e2e/runs/build-core-chailove-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "fdd28b7778958b35f6181fd4f7511449c1dd4355cb6bd414feba6cd426e102fd",
   "package_state": "reproducible",
-  "package_sha256": "c748fb741de7dbe410e8ba31bd2395240c2c58063993b8899870609ee1f8071d",
+  "package_sha256": "68fad27e7ef2e5d9a6fd4d86704f2f010610144afe906cc19b8060c443bb7b81",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the chailove_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -85,5 +85,5 @@
       ]
     }
   },
-  "content_sha256": "4868d209054f3bf3acc46d308436d3e44856a9b5631da96fcaee8a4817169241"
+  "content_sha256": "772e17866d2fb4c7b45e62e787816578aff5d4aca25bdc9e5e83178cd39dca45"
 }

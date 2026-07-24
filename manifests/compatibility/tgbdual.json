@@ -4,14 +4,14 @@
   "core_id": "tgbdual",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/tgbdual-bf816b096f1d-8118d938b91c.json",
+  "golden_source": "pins/core-sets/tgbdual-bf816b096f1d-e1aa014fb7ae.json",
   "source_commit": "bf816b096f1dca55ea805337d7c9e78d6b98d839",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-tgbdual-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "ae41fd4eff01d8302a41ecae24e8439dd8b6da80d14fcc84e96b0cfecfc48bbf",
-  "reproduction_run": ".local-e2e/runs/build-core-tgbdual-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "052e0ef33ce6639e28e1ed9c6a062fadec8b773bb41fbfa501299494718d1fc9",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-tgbdual-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "619ea481fb3fde7e3507c59e28242e0a95fde2c5ed8164a4eb2e0299a4cc6dd2",
+  "reproduction_run": ".local-e2e/runs/build-core-tgbdual-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "ca23e450cf8ff2832cdfa60d4b042ac20d2ac754e23cd52278f0d5c07d19a33a",
   "package_state": "reproducible",
-  "package_sha256": "e6278d785507b6b02b0526f1189ce64b3ed1c860c823f27e14381ec4a2c71da4",
+  "package_sha256": "9e0ebe6e48850a5e97f753a229cac1c2476caf7675d2ad9a8315e35c87ab7bf2",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the tgbdual_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4.15 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -68,5 +68,5 @@
       ]
     }
   },
-  "content_sha256": "0bd850bac6128071ab36682701af7eff98bb9543620f6759b43d72d0848d227a"
+  "content_sha256": "8a74020a5a83b22e1d9f9e0e8393c22a9a72bd648ce6816b05b66b0ffb0fd232"
 }

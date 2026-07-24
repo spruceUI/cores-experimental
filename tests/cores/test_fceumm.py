@@ -12,7 +12,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "fceumm"
 OTHER_CORE_ID = "handy"
-PIN_NAME = "fceumm-718c5a2e1757-741c3fcc6002.json"
+PIN_NAME = "fceumm-718c5a2e1757-b9cb59f371db.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -20,12 +20,12 @@ SOURCE_COMMIT = "718c5a2e175735df92ba17a2945a8d1abbc48652"
 SOURCE_TREE = "9778fe04fc7b5fab1d71351784cb56be2949cf99"
 SOURCE_LOCK_ID = "fceumm-718c5a2e1757"
 SELECTION_SHA256 = (
-    "741c3fcc6002864ce903d5bd6de7c220321796fef335af3810d4dd120887dc0c"
+    "b9cb59f371dbcc57e8f85446efade95a01bfa5c8dce8641bf081c0537ef4ae49"
 )
-SELECTED_RUN = "actions-sim-build-core-fceumm-v1"
-REPRODUCTION_RUN = "build-core-fceumm-local-v1"
+SELECTED_RUN = "actions-sim-build-core-fceumm-w3"
+REPRODUCTION_RUN = "build-core-fceumm-local-w3"
 PACKAGE_SHA256 = (
-    "dc89cb45a3674a07e3d0967f6c46cb95bc660d2c338b64344f3bb5fbaea1686a"
+    "f3426947adbd37b86c10d13d8abe19ca7611119f8dc92fd5ecc7910da4a0f044"
 )
 RUNNERS = {
     SELECTED_RUN: {

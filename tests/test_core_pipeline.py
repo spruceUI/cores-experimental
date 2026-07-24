@@ -5065,7 +5065,7 @@ class ChannelPointerTests(unittest.TestCase):
             ROOT
             / "pins"
             / "core-sets"
-            / "handy-bc55d462f0b2-6923119e1743.json"
+            / "handy-bc55d462f0b2-c82a2178b4f0.json"
         )
         source_pin = pipeline.load_json(source_pin_path)
         with tempfile.TemporaryDirectory(dir=local_root) as directory:

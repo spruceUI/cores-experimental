@@ -13,7 +13,7 @@ from tests.core_contract_helpers import build_mixed_language_log_fixture
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SELECTED_RUN = "actions-sim-build-core-prosystem-v1"
+SELECTED_RUN = "actions-sim-build-core-prosystem-w3"
 
 
 class ProSystemLogContractTests(unittest.TestCase):

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "px68k-cc45b55983b4-2122053d35db",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/px68k-cc45b55983b4-2122053d35db.json",
+    "pin_id": "px68k-cc45b55983b4-2122053d35db",
+    "file_sha256": "c14b97847dbec4cf6de4815e04b086ec8f1c0dd3a1ecc78c5bb48295f3a4299f",
+    "content_sha256": "f6e4f84c37214a69b832edffea32ff08feae9340fba252415a2f42f897009332"
+  },
+  "sources": {
+    "px68k": {
+      "path": "pins/sources/px68k/cc45b55983b4d30c961a313a77df9bcf9461dc63.json",
+      "source_lock_id": "px68k-cc45b55983b4",
+      "commit": "cc45b55983b4d30c961a313a77df9bcf9461dc63",
+      "file_sha256": "0727eccc6160e7489365c09f56524069cd28cfa4fac5ada80f1cf470e691b67c",
+      "content_sha256": "77e047efecf1fc79a75cffe280bc0a25ac3be247f4aae95352e523f8210c7ce3"
+    }
+  },
+  "content_sha256": "ba44eabde246c9287d587768c4b5022a5f988a0371d7825307345f3a8ed89fcc"
+}

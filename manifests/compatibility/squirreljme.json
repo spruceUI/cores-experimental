@@ -4,14 +4,14 @@
   "core_id": "squirreljme",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/squirreljme-c8de2e47c299-377d07a585fd.json",
+  "golden_source": "pins/core-sets/squirreljme-c8de2e47c299-eb732e077bf3.json",
   "source_commit": "c8de2e47c2994f1c36215dd29d44fecf086f25ca",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-squirreljme-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "99f45cbfcf3ea2672ce7abbf1ec9fd3139b3d93d12b29957209b953e25188770",
-  "reproduction_run": ".local-e2e/runs/build-core-squirreljme-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "3fd572cd13b0bfe7a64bec594aef795dc0dc2d55cc2ed9a94bd4fd7343c816dd",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-squirreljme-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "52a1c07b193642dca62a0ea37cd041765f41f68f49ff3f392d74bd26cf9afd4b",
+  "reproduction_run": ".local-e2e/runs/build-core-squirreljme-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "e0d944dd64f8e4b5fa0a5b3f8040c59955da25e9f7d58dff454188a0b2e23537",
   "package_state": "reproducible",
-  "package_sha256": "a1825785439ddad8d7ba8e389d9cfcca8bbc1cad9ac83b7735365576aec201cc",
+  "package_sha256": "ae0d31403de1b45adf71645268b6c0e857186f6855d0d6baa99666134acf6c62",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the squirreljme_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -41,5 +41,5 @@
       ]
     }
   },
-  "content_sha256": "0000cbd1a4e812d16edf18d64643c3902916f892abd4e15f934ca038fc2e5c1a"
+  "content_sha256": "19db2c1309620b314a91f525427a29d5bcb63b11f8bb9d420086628b899ddfdf"
 }

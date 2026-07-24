@@ -20,8 +20,8 @@ ARMHF_COMPILE_DEFINITIONS = [
     "HWCAP2_SHA1=0",
     "HWCAP2_SHA2=0",
 ]
-SELECTED_RUN = "actions-sim-build-core-neocd-v1"
-REPRODUCTION_RUN = "build-core-neocd-local-v1"
+SELECTED_RUN = "actions-sim-build-core-neocd-w3"
+REPRODUCTION_RUN = "build-core-neocd-local-w3"
 
 
 class NeocdManifestTests(unittest.TestCase):

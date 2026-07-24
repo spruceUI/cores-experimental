@@ -4,14 +4,14 @@
   "core_id": "parallel_n64",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/parallel_n64-00c6c9df91d2-be061373ae12.json",
+  "golden_source": "pins/core-sets/parallel_n64-00c6c9df91d2-d7ceec7e0dc7.json",
   "source_commit": "00c6c9df91d2c2daaae615cefad7911be556fbfa",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-parallel_n64-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "cc7fc8c73c34adf243156cae74594b10c136fb197b057456d25055a22cd717a2",
-  "reproduction_run": ".local-e2e/runs/build-core-parallel_n64-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "436a61c94d3760c9c8a101bd624d059e69ecdc4558f8b0278897fe6e15460de9",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-parallel_n64-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "3d42940f478cfe01b44e4caaab9590692be938ad646e3a4a15036753eabdaa55",
+  "reproduction_run": ".local-e2e/runs/build-core-parallel_n64-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "f5b58c5d20d960457ec316eae466e6dffdbc1b0baa407faac277b0ef9dbca104",
   "package_state": "reproducible",
-  "package_sha256": "27d0d8a4a798e904d4ed920c3e4f43cf384a82b5234eb6d311fe06c01976075a",
+  "package_sha256": "9dc01f1eadc58b31289f7b03f31056972ed274d2f86a791cc38d1ab5582bf00c",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the parallel_n64_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -49,5 +49,5 @@
       ]
     }
   },
-  "content_sha256": "9156cb7a75cb5708bdb4bdb55f2eba77d52c5d214849b507446a1ff6a3338d68"
+  "content_sha256": "7b8f9f9f19cf7eeb63e2eaf79980ccd4caf8e16a35624c2e99ba2212135841be"
 }

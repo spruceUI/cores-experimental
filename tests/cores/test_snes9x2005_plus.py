@@ -16,7 +16,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 CORE_ID = "snes9x2005_plus"
 OTHER_CORE_ID = "snes9x2005"
 RESERVED_HISTORY_TOKEN = "tranche"
-PIN_NAME = "snes9x2005_plus-b60356971fc9-32f28e9ec741.json"
+PIN_NAME = "snes9x2005_plus-b60356971fc9-77ca2d085240.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -35,45 +35,45 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "300c8502d4367895195dfcf84cd30ceff75ab84eedfeedba39097187b016358a"
 )
 SOURCE_SET_FILE_SHA256 = (
-    "70025acd3224cf15f0bc47b8146aac0474974683878800805d7bee8241307a49"
+    "f183e4d1e9ed664ac91ac014627fe53b8c23d440846ca66888fb90b3ad58f90a"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "26da37f8aa5a5d1ab4d5bb009528d1858cf6d1277ce9cd335ff1ac354de59d7f"
+    "8ea47c62a87eb07b59b57acaa3a23600d5f1fd266debd3229d42544ece36d2c4"
 )
 PIN_FILE_SHA256 = (
-    "55e4327420c261cb0830d85b1b5a652eae0b115ce71aca31bd30765268057395"
+    "8757619eea8f2274951c1ec9a18fd43c0b900f826b01720a284a41bda4ea0c5b"
 )
 PIN_CONTENT_SHA256 = (
-    "a0a7151bcd1151b2a390be032f32336212ed5aa8e9545b8d3c64118ec096efff"
+    "fcb0f9a093a58837c548d640b30b0c7f649fd91f8857e7d2596f923ca7297629"
 )
 COMPATIBILITY_CONTENT_SHA256 = (
-    "2e5eba8599aeede91f97e33b611476d2967a09cb310d79d013088249472fb2b7"
+    "ab5e465572e8eb6740e0c01b744d73ed59abbfd1c48d2498f21afc78348f9d18"
 )
 SELECTION_SHA256 = (
-    "32f28e9ec7417ab1c83564adaa46a31aa2fa965398c41c324d0f0542e1799ae0"
+    "77ca2d08524038f7396ccba9f395bad7e2a75ab0435518afd91ca5f88e908cd6"
 )
-SELECTED_RUN = "actions-sim-build-core-snes9x2005_plus-v1"
-REPRODUCTION_RUN = "build-core-snes9x2005_plus-local-v1"
+SELECTED_RUN = "actions-sim-build-core-snes9x2005_plus-w3"
+REPRODUCTION_RUN = "build-core-snes9x2005_plus-local-w3"
 E2E_CONTENT_SHA256 = {
     SELECTED_RUN: (
-        "72f21e63abee87817be77229343fffcf71f875d6bed805dce1cd87079575b1e0"
+        "320373dec53a744c0356c8c2312a43070d95f47a0d80a7c7f2eff2af29b51b3e"
     ),
     REPRODUCTION_RUN: (
-        "0cc8ea9a0cc422450c90b89fb4c0169e398f0d4d114f39ff835324b85ba65dc3"
+        "115576ce6dca5e63659fbee834549a03b2d7123c4fa302bfc2b156b1ffa4cf69"
     ),
 }
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "3c4932d211b1861e72f022f091e1d4987216c8ba9de8707221eda055c2a4cd2e"
+        "df0c0fbc293e83367fc1bcfa0614818e13fe781f117e8053e17e3974cab5b91c"
     ),
     REPRODUCTION_RUN: (
-        "868edfbfec7b1be11f4545423d0eee73510811f14f1b87ccffdd9cee598317b5"
+        "59834ffb64921a9bbf269ec803a8024d742665608670c0d001696495e6e95f6f"
     ),
 }
 PACKAGE_SHA256 = (
-    "da6d86969fe506e0dd86929fd4f3b6960d18b2cda16091f37885b235d408a123"
+    "14865c0a4995e7df32d89dfa8604af704a869f351d4cc2f750cabf44fa3a4737"
 )
-PACKAGE_SIZE = 480524
+PACKAGE_SIZE = 480522
 METADATA_SHA256 = (
     "2e1f46c49714bcfb59926ebfe394d98004c20e7c0c38d1412dc4196e0eb34dd4"
 )
@@ -138,10 +138,10 @@ TARGETS = {
         "log_size": 25326,
         "record_sha256": {
             SELECTED_RUN: (
-                "0a63b0b7e8b1e7e53c882b069d01f6070308e444cd11f208c6aba60367d1b599"
+                "61fcf8736eb59c09ae125b0e9359bc3fa0c4db46e661f52e449874e8524ea008"
             ),
             REPRODUCTION_RUN: (
-                "073f20e802adb55cc85efccc50775f3b49a63d70e30ae9214aff3ad0766f9825"
+                "eb943ebd88ad1dea861d52827caaec2f8fb3be7dd39c79b1a4cfad4bb96596a0"
             ),
         },
         "elf": "ELF64/AArch64",
@@ -171,10 +171,10 @@ TARGETS = {
         "log_size": 24971,
         "record_sha256": {
             SELECTED_RUN: (
-                "fc828ea597c7be228a13fd05da217ad00c312ea20a9ceda49102fecfe82d1d67"
+                "67b5fe574b87763a5bdbd4eb37b67f7e518119aa7d993556ba1ea2192fc83211"
             ),
             REPRODUCTION_RUN: (
-                "ebd6296285f65520c6185824b33835a104784fe73a9da539374a0cff15970b71"
+                "87edb10d26798633b8e420dd6ea4c9f9cb30e05bda01cb8bd6b8f1ed626be445"
             ),
         },
         "elf": "ELF32/ARM hard-float",

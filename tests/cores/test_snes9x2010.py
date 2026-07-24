@@ -14,8 +14,8 @@ CORE_ID = "snes9x2010"
 SOURCE_URL = "https://github.com/libretro/snes9x2010.git"
 SOURCE_COMMIT = "33077919157b990578011d2cce462e58c9e5c985"
 SOURCE_TREE = "b1ce4512418a0629442c9dad0f1341600c6a6b43"
-SELECTED_RUN = "actions-sim-build-core-snes9x2010-v1"
-REPRODUCTION_RUN = "build-core-snes9x2010-local-v1"
+SELECTED_RUN = "actions-sim-build-core-snes9x2010-w3"
+REPRODUCTION_RUN = "build-core-snes9x2010-local-w3"
 
 
 class Snes9x2010ManifestTests(unittest.TestCase):

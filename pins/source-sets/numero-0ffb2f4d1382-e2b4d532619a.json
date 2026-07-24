@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "numero-0ffb2f4d1382-e2b4d532619a",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/numero-0ffb2f4d1382-e2b4d532619a.json",
+    "pin_id": "numero-0ffb2f4d1382-e2b4d532619a",
+    "file_sha256": "7b75bff3d745f25b66ee1db30aeb76d765537ab0a2f79fdc8f34211781af888e",
+    "content_sha256": "b662483b3c15673453acdbc71594474779e9032193fef4576bbebdf940acbc2d"
+  },
+  "sources": {
+    "numero": {
+      "path": "pins/sources/numero/0ffb2f4d1382d41675746cb37820d41d79d96309.json",
+      "source_lock_id": "numero-0ffb2f4d1382",
+      "commit": "0ffb2f4d1382d41675746cb37820d41d79d96309",
+      "file_sha256": "794efe043780d530ede893c183d4465ca14abdaa98f5728eef0e60910ced0286",
+      "content_sha256": "40d4ea0ded220ea477fa13e29f481da09dfdb8ccfe4064a75c760c1fed42ab6d"
+    }
+  },
+  "content_sha256": "fdbd0f9ea36174e9e96aee5757561c104e24a837783eb47679f80ae174951ef1"
+}

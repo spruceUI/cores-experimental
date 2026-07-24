@@ -4,14 +4,14 @@
   "core_id": "stella2014",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/stella2014-4a7da82595d2-1fb14ddbab91.json",
+  "golden_source": "pins/core-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json",
   "source_commit": "4a7da82595d27b8df7af1ecb467a64b642a41bc9",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-stella2014-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "249290698dd6879fa4a7eedd08a12b394332cabfbc8fa036ecb720f81da371db",
-  "reproduction_run": ".local-e2e/runs/build-core-stella2014-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "8373c5b8a4d7ca0df854d42918705188bbc13df245404212e33ed92bc0894c3f",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-stella2014-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "7b2265c29d91fc5ac9f631b6c0460a0cbf9e44034329ad9948d088ca2542e936",
+  "reproduction_run": ".local-e2e/runs/build-core-stella2014-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "e76302bfa2cd1442a4b1466dbc0b937557299d5f92b54ad4fb0509afb27eb8ac",
   "package_state": "reproducible",
-  "package_sha256": "883c091e516ede7491e0533e86217fbcaf4543a864424e3423578daf50c92c9e",
+  "package_sha256": "392783c5e29ced4dd59dc8dd937afaee472f4cbff397e1bec602eade422e250a",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the stella2014_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -73,5 +73,5 @@
       ]
     }
   },
-  "content_sha256": "c836e6f9fa0128b44c6b695549b43a93cffb53ea693f1cf3451d6852348dbb4e"
+  "content_sha256": "5a7ba4fa74240a7b7678264ee5b6277abc58d96b4c353070e6b47fde3c2801c2"
 }

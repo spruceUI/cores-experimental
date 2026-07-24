@@ -4,14 +4,14 @@
   "core_id": "mednafen_supafaust",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/mednafen_supafaust-2b93c0d7dff5-21be3575be39.json",
+  "golden_source": "pins/core-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json",
   "source_commit": "2b93c0d7dff5b8f6c4e60e049d66849923fa8bba",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_supafaust-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "3b8403eddd6836bbbe8758aa5011fc3198a09ccf93d1712d3c200614feae1b43",
-  "reproduction_run": ".local-e2e/runs/build-core-mednafen_supafaust-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "44fafcb38849b1f218a40a2bf50279ad1b82c918f4d54474a2774693c04d02b8",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_supafaust-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "089fd6ee1dc60982a73110e045d77791521c42357ac1d13d4076ade487829cf9",
+  "reproduction_run": ".local-e2e/runs/build-core-mednafen_supafaust-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "3f3641eaf18a15b057a141a235557ff1f44b6494ef4572626c67e20da81633ec",
   "package_state": "reproducible",
-  "package_sha256": "4a60c0ffd99a4b5562d9a2d17a72fbbac96879793d53b1304a068679710d88a2",
+  "package_sha256": "a499b7a721fc2e0e42b71898175b424dd2bdba4a6b304b226cc2872a1a8923c0",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mednafen_supafaust_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.29, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -84,5 +84,5 @@
       ]
     }
   },
-  "content_sha256": "a1ef30c5cb757128bd61536f58b0be6879f849b37cd29b6ee7d391ee284df7e1"
+  "content_sha256": "e4d8882f5bd03c26d7c3019ea655b64c55c6d3178bd8fa7f7718f61dfc569a47"
 }

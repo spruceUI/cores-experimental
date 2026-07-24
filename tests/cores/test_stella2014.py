@@ -20,7 +20,7 @@ from .support import (
 
 CORE_ID = "stella2014"
 OTHER_CORE_ID = "handy"
-PIN_NAME = "stella2014-4a7da82595d2-1fb14ddbab91.json"
+PIN_NAME = "stella2014-4a7da82595d2-a7cd8bf6403d.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -28,12 +28,12 @@ SOURCE_COMMIT = "4a7da82595d27b8df7af1ecb467a64b642a41bc9"
 SOURCE_TREE = "25eb55b1241824f7003eb3006847870672bbe4b2"
 SOURCE_LOCK_ID = "stella2014-4a7da82595d2"
 SELECTION_SHA256 = (
-    "1fb14ddbab91484db499c109b6fb90aad2a29d65ab6ca7f86ec1b13cf4c0e8e2"
+    "a7cd8bf6403d4d88fe1f04294428a42a5e0a9e772d09e50b8892b8024fad7133"
 )
-SELECTED_RUN = "actions-sim-build-core-stella2014-v1"
-REPRODUCTION_RUN = "build-core-stella2014-local-v1"
+SELECTED_RUN = "actions-sim-build-core-stella2014-w3"
+REPRODUCTION_RUN = "build-core-stella2014-local-w3"
 PACKAGE_SHA256 = (
-    "883c091e516ede7491e0533e86217fbcaf4543a864424e3423578daf50c92c9e"
+    "392783c5e29ced4dd59dc8dd937afaee472f4cbff397e1bec602eade422e250a"
 )
 TARGETS = {
     "arm64": {

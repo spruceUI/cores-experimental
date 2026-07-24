@@ -286,79 +286,79 @@ Also validate the tracked contracts affected by a source or artifact update:
 python3 scripts/core_pipeline.py catalog-check
 python3 scripts/core_pipeline.py audit-workflows
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/handy-bc55d462f0b2-6923119e1743.json
+  --source-set pins/source-sets/handy-bc55d462f0b2-c82a2178b4f0.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/stella2014-4a7da82595d2-1fb14ddbab91.json
+  --source-set pins/source-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/fceumm-718c5a2e1757-741c3fcc6002.json
+  --source-set pins/source-sets/fceumm-718c5a2e1757-b9cb59f371db.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/gambatte-dfc165599f3f-9a6aa3658c05.json
+  --source-set pins/source-sets/gambatte-dfc165599f3f-782fa4634494.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/tgbdual-bf816b096f1d-8118d938b91c.json
+  --source-set pins/source-sets/tgbdual-bf816b096f1d-e1aa014fb7ae.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/quicknes-26bb785c9ded-2f0351a7573f.json
+  --source-set pins/source-sets/quicknes-26bb785c9ded-0dfc478cbffd.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/nestopia-b0fd87dd07e3-7393d0fca106.json
+  --source-set pins/source-sets/nestopia-b0fd87dd07e3-9570ea287053.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/a5200-23c1ea482afb-f37877a31d37.json
+  --source-set pins/source-sets/a5200-23c1ea482afb-26663d9e7f87.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/prosystem-363b6dfbd3e2-cb86034fdd05.json
+  --source-set pins/source-sets/prosystem-363b6dfbd3e2-245dc2e3516d.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/snes9x-185488cd83aa-1007f6c98b6b.json
+  --source-set pins/source-sets/snes9x-185488cd83aa-b7aaac2ae7c1.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_supafaust-2b93c0d7dff5-21be3575be39.json
+  --source-set pins/source-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json
+  --source-set pins/source-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json
+  --source-set pins/source-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json
+  --source-set pins/source-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_supergrafx-3c6fcd3deded-6f92f2753900.json
+  --source-set pins/source-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16.json
+  --source-set pins/source-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_pcfx-650c30ea2203-5c0f9a256d9a.json
+  --source-set pins/source-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/pokemini-bb009b1379ad-2f63e84b7b68.json
+  --source-set pins/source-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/gearcoleco-112345747c04-046c086031cf.json
+  --source-set pins/source-sets/gearcoleco-112345747c04-02350ee96cf1.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/vice_x64-7946cfa0d377-290256f3bebd.json
+  --source-set pins/source-sets/vice_x64-7946cfa0d377-1085a07760d4.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/vice_xvic-7946cfa0d377-6f9943958478.json
+  --source-set pins/source-sets/vice_xvic-7946cfa0d377-f1e6abfe933c.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/fmsx-f013e213458e-194b406b9096.json
+  --source-set pins/source-sets/fmsx-f013e213458e-b015409bc42c.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/bluemsx-5f595c79906f-a1c1fd914a76.json
+  --source-set pins/source-sets/bluemsx-5f595c79906f-e600380ac6d7.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/snes9x2005-b60356971fc9-06b9f12c860c.json
+  --source-set pins/source-sets/snes9x2005-b60356971fc9-23fbb6c59d54.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/snes9x2005_plus-b60356971fc9-32f28e9ec741.json
+  --source-set pins/source-sets/snes9x2005_plus-b60356971fc9-77ca2d085240.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/cap32-4abfb8be233b-afbc043051e8.json
+  --source-set pins/source-sets/cap32-4abfb8be233b-4f89ee89dec9.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/crocods-87bbb3d9007a-7b4aa1fce1f1.json
+  --source-set pins/source-sets/crocods-87bbb3d9007a-5a44afda913e.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/genesis_plus_gx-fa4dca561e08-0e5a55ff8180.json
+  --source-set pins/source-sets/genesis_plus_gx-fa4dca561e08-b94a8729a601.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/genesis_plus_gx_wide-29d9d104338f-7907e7e03389.json
+  --source-set pins/source-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/o2em-e03d3be88f79-ede84c3862de.json
+  --source-set pins/source-sets/o2em-e03d3be88f79-a966ff1d0775.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/freechaf-76c7a84f1f7e-0fced3806666.json
+  --source-set pins/source-sets/freechaf-76c7a84f1f7e-3fc6b43191ef.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/vecx-8f671cc9d737-4686ef94bf56.json
+  --source-set pins/source-sets/vecx-8f671cc9d737-599c2197e36a.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/lowresnx-35adc1a215e9-837092a5ffca.json
+  --source-set pins/source-sets/lowresnx-35adc1a215e9-bcaea00ea240.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/race-c7810dd7f172-c3119de987bf.json
+  --source-set pins/source-sets/race-c7810dd7f172-c0ea16475d19.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/potator-227c5f6f3ce7-1617e2249087.json
+  --source-set pins/source-sets/potator-227c5f6f3ce7-66e2c96acf38.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/2048-c90437d3c391-86ed146bc647.json
+  --source-set pins/source-sets/2048-c90437d3c391-e1ff15dd7d6a.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/81-fa7094910d04-a82f6eb4a7cc.json
+  --source-set pins/source-sets/81-fa7094910d04-22dd2ebacdc6.json
 git diff --check
 ```
 
@@ -378,8 +378,8 @@ it does and for recovering a partial chain:
 ```bash
 python3 scripts/promote_core.py run \
   --core handy \
-  --selected-run actions-sim-build-core-handy-v1 \
-  --reproduction-run build-core-handy-local-v1 \
+  --selected-run actions-sim-build-core-handy-w3 \
+  --reproduction-run build-core-handy-local-w3 \
   [--refresh] [--caveat "..." ...]
 ```
 
@@ -441,13 +441,13 @@ Then promote both architecture records:
 ```bash
 python3 scripts/core_pipeline.py promote \
   --golden .local-e2e/nightlies/handy-candidate-02/golden.json \
-  --record .local-e2e/runs/actions-sim-build-core-handy-v1/handy/arm64/build-record.json \
-  --e2e-record .local-e2e/runs/actions-sim-build-core-handy-v1/e2e-record.json
+  --record .local-e2e/runs/actions-sim-build-core-handy-w3/handy/arm64/build-record.json \
+  --e2e-record .local-e2e/runs/actions-sim-build-core-handy-w3/e2e-record.json
 
 python3 scripts/core_pipeline.py promote \
   --golden .local-e2e/nightlies/handy-candidate-02/golden.json \
-  --record .local-e2e/runs/actions-sim-build-core-handy-v1/handy/armhf/build-record.json \
-  --e2e-record .local-e2e/runs/actions-sim-build-core-handy-v1/e2e-record.json
+  --record .local-e2e/runs/actions-sim-build-core-handy-w3/handy/armhf/build-record.json \
+  --e2e-record .local-e2e/runs/actions-sim-build-core-handy-w3/e2e-record.json
 ```
 
 `promote` refuses to overwrite an existing core/architecture golden or add a
@@ -473,17 +473,17 @@ projection command. For the current Handy evidence that is:
 python3 scripts/core_pipeline.py compose-core-golden \
   --core handy \
   --source-golden .local-e2e/nightlies/handy-candidate-02/golden.json \
-  --output .local-e2e/nightlies/handy-bc55d462f0b2-6923119e1743/golden.json
+  --output .local-e2e/nightlies/handy-bc55d462f0b2-c82a2178b4f0/golden.json
 
 python3 scripts/core_pipeline.py validate-golden \
-  --golden .local-e2e/nightlies/handy-bc55d462f0b2-6923119e1743/golden.json \
+  --golden .local-e2e/nightlies/handy-bc55d462f0b2-c82a2178b4f0/golden.json \
   --verify-store
 ```
 
 `compose-core-golden` is create-only and rejects a guessed or run-label output
 directory. Its source and output each have exactly one `build_goldens` key. Use
 the same derive/project sequence for Stella 2014, producing
-`.local-e2e/nightlies/stella2014-4a7da82595d2-1fb14ddbab91/golden.json` from its
+`.local-e2e/nightlies/stella2014-4a7da82595d2-a7cd8bf6403d/golden.json` from its
 promoted working candidate.
 
 Compose one parentless immutable pin for the promoted core. The canonical ID
@@ -493,13 +493,13 @@ distinct even when it rebuilds the same source commit.
 
 ```bash
 python3 scripts/core_pipeline.py compose-pin-set \
-  --pin-id handy-bc55d462f0b2-6923119e1743 \
+  --pin-id handy-bc55d462f0b2-c82a2178b4f0 \
   --core handy \
-  --source-golden .local-e2e/nightlies/handy-bc55d462f0b2-6923119e1743/golden.json \
-  --output pins/core-sets/handy-bc55d462f0b2-6923119e1743.json
+  --source-golden .local-e2e/nightlies/handy-bc55d462f0b2-c82a2178b4f0/golden.json \
+  --output pins/core-sets/handy-bc55d462f0b2-c82a2178b4f0.json
 
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/handy-bc55d462f0b2-6923119e1743.json \
+  --pin-set pins/core-sets/handy-bc55d462f0b2-c82a2178b4f0.json \
   --verify-store \
   --verify-sources
 ```
@@ -508,17 +508,17 @@ Use the same form for Stella 2014:
 
 ```bash
 python3 scripts/core_pipeline.py compose-pin-set \
-  --pin-id stella2014-4a7da82595d2-1fb14ddbab91 \
+  --pin-id stella2014-4a7da82595d2-a7cd8bf6403d \
   --core stella2014 \
-  --source-golden .local-e2e/nightlies/stella2014-4a7da82595d2-1fb14ddbab91/golden.json \
-  --output pins/core-sets/stella2014-4a7da82595d2-1fb14ddbab91.json
+  --source-golden .local-e2e/nightlies/stella2014-4a7da82595d2-a7cd8bf6403d/golden.json \
+  --output pins/core-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json
 ```
 
 The current Mednafen Supafaust individual pin is validated independently:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_supafaust-2b93c0d7dff5-21be3575be39.json \
+  --pin-set pins/core-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json \
   --verify-store \
   --verify-sources
 ```
@@ -527,7 +527,7 @@ Mednafen Virtual Boy uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json \
+  --pin-set pins/core-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json \
   --verify-store \
   --verify-sources
 ```
@@ -536,7 +536,7 @@ Mednafen Lynx uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json \
+  --pin-set pins/core-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json \
   --verify-store \
   --verify-sources
 ```
@@ -545,7 +545,7 @@ Mednafen PCE Fast uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json \
+  --pin-set pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json \
   --verify-store \
   --verify-sources
 ```
@@ -554,7 +554,7 @@ Mednafen SuperGrafx uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_supergrafx-3c6fcd3deded-6f92f2753900.json \
+  --pin-set pins/core-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json \
   --verify-store \
   --verify-sources
 ```
@@ -563,7 +563,7 @@ Mednafen WonderSwan uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16.json \
+  --pin-set pins/core-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json \
   --verify-store \
   --verify-sources
 ```
@@ -572,7 +572,7 @@ Mednafen PC-FX uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_pcfx-650c30ea2203-5c0f9a256d9a.json \
+  --pin-set pins/core-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json \
   --verify-store \
   --verify-sources
 ```
@@ -581,7 +581,7 @@ PokéMini uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/pokemini-bb009b1379ad-2f63e84b7b68.json \
+  --pin-set pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json \
   --verify-store \
   --verify-sources
 ```
@@ -590,7 +590,7 @@ Potator uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/potator-227c5f6f3ce7-1617e2249087.json \
+  --pin-set pins/core-sets/potator-227c5f6f3ce7-66e2c96acf38.json \
   --verify-store \
   --verify-sources
 ```
@@ -599,12 +599,12 @@ Gearboy and Gearsystem use the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/gearboy-36d723ff4410-f6f1b63e8798.json \
+  --pin-set pins/core-sets/gearboy-36d723ff4410-34b7df6bcf6b.json \
   --verify-store \
   --verify-sources
 
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/gearsystem-4f029e43f2d5-35212fbb9d9a.json \
+  --pin-set pins/core-sets/gearsystem-4f029e43f2d5-0f8b301c259a.json \
   --verify-store \
   --verify-sources
 ```
@@ -613,7 +613,7 @@ GearColeco uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/gearcoleco-112345747c04-046c086031cf.json \
+  --pin-set pins/core-sets/gearcoleco-112345747c04-02350ee96cf1.json \
   --verify-store \
   --verify-sources
 ```
@@ -622,7 +622,7 @@ VICE x64 uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/vice_x64-7946cfa0d377-290256f3bebd.json \
+  --pin-set pins/core-sets/vice_x64-7946cfa0d377-1085a07760d4.json \
   --verify-store \
   --verify-sources
 ```
@@ -631,7 +631,7 @@ VICE xvic uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/vice_xvic-7946cfa0d377-6f9943958478.json \
+  --pin-set pins/core-sets/vice_xvic-7946cfa0d377-f1e6abfe933c.json \
   --verify-store \
   --verify-sources
 ```
@@ -640,7 +640,7 @@ fMSX uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/fmsx-f013e213458e-194b406b9096.json \
+  --pin-set pins/core-sets/fmsx-f013e213458e-b015409bc42c.json \
   --verify-store \
   --verify-sources
 ```
@@ -649,7 +649,7 @@ blueMSX uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/bluemsx-5f595c79906f-a1c1fd914a76.json \
+  --pin-set pins/core-sets/bluemsx-5f595c79906f-e600380ac6d7.json \
   --verify-store \
   --verify-sources
 ```
@@ -658,7 +658,7 @@ Snes9x 2005 uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/snes9x2005-b60356971fc9-06b9f12c860c.json \
+  --pin-set pins/core-sets/snes9x2005-b60356971fc9-23fbb6c59d54.json \
   --verify-store \
   --verify-sources
 ```
@@ -667,7 +667,7 @@ Snes9x 2005 Plus uses its own one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/snes9x2005_plus-b60356971fc9-32f28e9ec741.json \
+  --pin-set pins/core-sets/snes9x2005_plus-b60356971fc9-77ca2d085240.json \
   --verify-store \
   --verify-sources
 ```
@@ -676,7 +676,7 @@ Cap32 uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/cap32-4abfb8be233b-afbc043051e8.json \
+  --pin-set pins/core-sets/cap32-4abfb8be233b-4f89ee89dec9.json \
   --verify-store \
   --verify-sources
 ```
@@ -685,7 +685,7 @@ CrocoDS uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/crocods-87bbb3d9007a-7b4aa1fce1f1.json \
+  --pin-set pins/core-sets/crocods-87bbb3d9007a-5a44afda913e.json \
   --verify-store \
   --verify-sources
 ```
@@ -694,7 +694,7 @@ Genesis Plus GX uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/genesis_plus_gx-fa4dca561e08-0e5a55ff8180.json \
+  --pin-set pins/core-sets/genesis_plus_gx-fa4dca561e08-b94a8729a601.json \
   --verify-store \
   --verify-sources
 ```
@@ -703,7 +703,7 @@ Genesis Plus GX Wide uses its own one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/genesis_plus_gx_wide-29d9d104338f-7907e7e03389.json \
+  --pin-set pins/core-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json \
   --verify-store \
   --verify-sources
 ```
@@ -712,7 +712,7 @@ O2EM uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/o2em-e03d3be88f79-ede84c3862de.json \
+  --pin-set pins/core-sets/o2em-e03d3be88f79-a966ff1d0775.json \
   --verify-store \
   --verify-sources
 ```
@@ -721,7 +721,7 @@ FreeChaF uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/freechaf-76c7a84f1f7e-0fced3806666.json \
+  --pin-set pins/core-sets/freechaf-76c7a84f1f7e-3fc6b43191ef.json \
   --verify-store \
   --verify-sources
 ```
@@ -730,7 +730,7 @@ VecX uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/vecx-8f671cc9d737-4686ef94bf56.json \
+  --pin-set pins/core-sets/vecx-8f671cc9d737-599c2197e36a.json \
   --verify-store \
   --verify-sources
 ```
@@ -739,22 +739,22 @@ LowRes NX uses the same one-core validation form:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/lowresnx-35adc1a215e9-837092a5ffca.json \
+  --pin-set pins/core-sets/lowresnx-35adc1a215e9-bcaea00ea240.json \
   --verify-store \
   --verify-sources
 
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/race-c7810dd7f172-c3119de987bf.json \
+  --pin-set pins/core-sets/race-c7810dd7f172-c0ea16475d19.json \
   --verify-store \
   --verify-sources
 
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/2048-c90437d3c391-86ed146bc647.json \
+  --pin-set pins/core-sets/2048-c90437d3c391-e1ff15dd7d6a.json \
   --verify-store \
   --verify-sources
 
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/81-fa7094910d04-a82f6eb4a7cc.json \
+  --pin-set pins/core-sets/81-fa7094910d04-22dd2ebacdc6.json \
   --verify-store \
   --verify-sources
 ```
@@ -779,121 +779,121 @@ records demonstrate the resulting paths:
 
 ```bash
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/handy-bc55d462f0b2-6923119e1743.json
+  --source-set pins/source-sets/handy-bc55d462f0b2-c82a2178b4f0.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/stella2014-4a7da82595d2-1fb14ddbab91.json
+  --source-set pins/source-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/fceumm-718c5a2e1757-741c3fcc6002.json
+  --source-set pins/source-sets/fceumm-718c5a2e1757-b9cb59f371db.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/gambatte-dfc165599f3f-9a6aa3658c05.json
+  --source-set pins/source-sets/gambatte-dfc165599f3f-782fa4634494.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/tgbdual-bf816b096f1d-8118d938b91c.json
+  --source-set pins/source-sets/tgbdual-bf816b096f1d-e1aa014fb7ae.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/quicknes-26bb785c9ded-2f0351a7573f.json
+  --source-set pins/source-sets/quicknes-26bb785c9ded-0dfc478cbffd.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/nestopia-b0fd87dd07e3-7393d0fca106.json
+  --source-set pins/source-sets/nestopia-b0fd87dd07e3-9570ea287053.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/a5200-23c1ea482afb-f37877a31d37.json
+  --source-set pins/source-sets/a5200-23c1ea482afb-26663d9e7f87.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/prosystem-363b6dfbd3e2-cb86034fdd05.json
+  --source-set pins/source-sets/prosystem-363b6dfbd3e2-245dc2e3516d.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/snes9x-185488cd83aa-1007f6c98b6b.json
+  --source-set pins/source-sets/snes9x-185488cd83aa-b7aaac2ae7c1.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_supafaust-2b93c0d7dff5-21be3575be39.json
+  --source-set pins/source-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json
+  --source-set pins/source-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json
+  --source-set pins/source-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json
+  --source-set pins/source-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_supergrafx-3c6fcd3deded-6f92f2753900.json
+  --source-set pins/source-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16.json
+  --source-set pins/source-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_pcfx-650c30ea2203-5c0f9a256d9a.json
+  --source-set pins/source-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/pokemini-bb009b1379ad-2f63e84b7b68.json
+  --source-set pins/source-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/gearcoleco-112345747c04-046c086031cf.json
+  --source-set pins/source-sets/gearcoleco-112345747c04-02350ee96cf1.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/vice_x64-7946cfa0d377-290256f3bebd.json
+  --source-set pins/source-sets/vice_x64-7946cfa0d377-1085a07760d4.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/vice_xvic-7946cfa0d377-6f9943958478.json
+  --source-set pins/source-sets/vice_xvic-7946cfa0d377-f1e6abfe933c.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/fmsx-f013e213458e-194b406b9096.json
+  --source-set pins/source-sets/fmsx-f013e213458e-b015409bc42c.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/bluemsx-5f595c79906f-a1c1fd914a76.json
+  --source-set pins/source-sets/bluemsx-5f595c79906f-e600380ac6d7.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/snes9x2005-b60356971fc9-06b9f12c860c.json
+  --source-set pins/source-sets/snes9x2005-b60356971fc9-23fbb6c59d54.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/snes9x2005_plus-b60356971fc9-32f28e9ec741.json
+  --source-set pins/source-sets/snes9x2005_plus-b60356971fc9-77ca2d085240.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/cap32-4abfb8be233b-afbc043051e8.json
+  --source-set pins/source-sets/cap32-4abfb8be233b-4f89ee89dec9.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/crocods-87bbb3d9007a-7b4aa1fce1f1.json
+  --source-set pins/source-sets/crocods-87bbb3d9007a-5a44afda913e.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/genesis_plus_gx-fa4dca561e08-0e5a55ff8180.json
+  --source-set pins/source-sets/genesis_plus_gx-fa4dca561e08-b94a8729a601.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/genesis_plus_gx_wide-29d9d104338f-7907e7e03389.json
+  --source-set pins/source-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/o2em-e03d3be88f79-ede84c3862de.json
+  --source-set pins/source-sets/o2em-e03d3be88f79-a966ff1d0775.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/freechaf-76c7a84f1f7e-0fced3806666.json
+  --source-set pins/source-sets/freechaf-76c7a84f1f7e-3fc6b43191ef.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/vecx-8f671cc9d737-4686ef94bf56.json
+  --source-set pins/source-sets/vecx-8f671cc9d737-599c2197e36a.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/lowresnx-35adc1a215e9-837092a5ffca.json
+  --source-set pins/source-sets/lowresnx-35adc1a215e9-bcaea00ea240.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/race-c7810dd7f172-c3119de987bf.json
+  --source-set pins/source-sets/race-c7810dd7f172-c0ea16475d19.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/potator-227c5f6f3ce7-1617e2249087.json
+  --source-set pins/source-sets/potator-227c5f6f3ce7-66e2c96acf38.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/gearboy-36d723ff4410-f6f1b63e8798.json
+  --source-set pins/source-sets/gearboy-36d723ff4410-34b7df6bcf6b.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/gearsystem-4f029e43f2d5-35212fbb9d9a.json
+  --source-set pins/source-sets/gearsystem-4f029e43f2d5-0f8b301c259a.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/2048-c90437d3c391-86ed146bc647.json
+  --source-set pins/source-sets/2048-c90437d3c391-e1ff15dd7d6a.json
 
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/81-fa7094910d04-a82f6eb4a7cc.json
+  --source-set pins/source-sets/81-fa7094910d04-22dd2ebacdc6.json
 ```
 
 That separate registry check—not `core_pipeline.py --verify-sources`—fails
@@ -903,282 +903,282 @@ Materialize and validate the exact pinned package bytes:
 
 ```bash
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/handy-bc55d462f0b2-6923119e1743.json \
-  --output .local-e2e/releases/handy-bc55d462f0b2-6923119e1743
+  --pin-set pins/core-sets/handy-bc55d462f0b2-c82a2178b4f0.json \
+  --output .local-e2e/releases/handy-bc55d462f0b2-c82a2178b4f0
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/handy-bc55d462f0b2-6923119e1743.json \
-  --release .local-e2e/releases/handy-bc55d462f0b2-6923119e1743 \
+  --pin-set pins/core-sets/handy-bc55d462f0b2-c82a2178b4f0.json \
+  --release .local-e2e/releases/handy-bc55d462f0b2-c82a2178b4f0 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/stella2014-4a7da82595d2-1fb14ddbab91.json \
-  --output .local-e2e/releases/stella2014-4a7da82595d2-1fb14ddbab91
+  --pin-set pins/core-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json \
+  --output .local-e2e/releases/stella2014-4a7da82595d2-a7cd8bf6403d
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/stella2014-4a7da82595d2-1fb14ddbab91.json \
-  --release .local-e2e/releases/stella2014-4a7da82595d2-1fb14ddbab91 \
+  --pin-set pins/core-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json \
+  --release .local-e2e/releases/stella2014-4a7da82595d2-a7cd8bf6403d \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/mednafen_supafaust-2b93c0d7dff5-21be3575be39.json \
-  --output .local-e2e/releases/mednafen_supafaust-2b93c0d7dff5-21be3575be39
+  --pin-set pins/core-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json \
+  --output .local-e2e/releases/mednafen_supafaust-2b93c0d7dff5-debb21b70273
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_supafaust-2b93c0d7dff5-21be3575be39.json \
-  --release .local-e2e/releases/mednafen_supafaust-2b93c0d7dff5-21be3575be39 \
+  --pin-set pins/core-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json \
+  --release .local-e2e/releases/mednafen_supafaust-2b93c0d7dff5-debb21b70273 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json \
-  --output .local-e2e/releases/mednafen_vb-38e7a0ec9ac7-20575c76c389
+  --pin-set pins/core-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json \
+  --output .local-e2e/releases/mednafen_vb-38e7a0ec9ac7-ed193088da99
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json \
-  --release .local-e2e/releases/mednafen_vb-38e7a0ec9ac7-20575c76c389 \
+  --pin-set pins/core-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json \
+  --release .local-e2e/releases/mednafen_vb-38e7a0ec9ac7-ed193088da99 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json \
-  --output .local-e2e/releases/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1
+  --pin-set pins/core-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json \
+  --output .local-e2e/releases/mednafen_lynx-fcdefcfb3c11-29e56373f32a
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json \
-  --release .local-e2e/releases/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1 \
+  --pin-set pins/core-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json \
+  --release .local-e2e/releases/mednafen_lynx-fcdefcfb3c11-29e56373f32a \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json \
-  --output .local-e2e/releases/mednafen_pce_fast-0bc6c8692834-8e747136926e
+  --pin-set pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json \
+  --output .local-e2e/releases/mednafen_pce_fast-0bc6c8692834-cdd0e0603032
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json \
-  --release .local-e2e/releases/mednafen_pce_fast-0bc6c8692834-8e747136926e \
+  --pin-set pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json \
+  --release .local-e2e/releases/mednafen_pce_fast-0bc6c8692834-cdd0e0603032 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/mednafen_supergrafx-3c6fcd3deded-6f92f2753900.json \
-  --output .local-e2e/releases/mednafen_supergrafx-3c6fcd3deded-6f92f2753900
+  --pin-set pins/core-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json \
+  --output .local-e2e/releases/mednafen_supergrafx-3c6fcd3deded-c84693b9711a
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_supergrafx-3c6fcd3deded-6f92f2753900.json \
-  --release .local-e2e/releases/mednafen_supergrafx-3c6fcd3deded-6f92f2753900 \
+  --pin-set pins/core-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json \
+  --release .local-e2e/releases/mednafen_supergrafx-3c6fcd3deded-c84693b9711a \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16.json \
-  --output .local-e2e/releases/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16
+  --pin-set pins/core-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json \
+  --output .local-e2e/releases/mednafen_wswan-da6d0d9acb8d-da715bbcb6da
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16.json \
-  --release .local-e2e/releases/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16 \
+  --pin-set pins/core-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json \
+  --release .local-e2e/releases/mednafen_wswan-da6d0d9acb8d-da715bbcb6da \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/mednafen_pcfx-650c30ea2203-5c0f9a256d9a.json \
-  --output .local-e2e/releases/mednafen_pcfx-650c30ea2203-5c0f9a256d9a
+  --pin-set pins/core-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json \
+  --output .local-e2e/releases/mednafen_pcfx-650c30ea2203-1c9309580e68
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_pcfx-650c30ea2203-5c0f9a256d9a.json \
-  --release .local-e2e/releases/mednafen_pcfx-650c30ea2203-5c0f9a256d9a \
+  --pin-set pins/core-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json \
+  --release .local-e2e/releases/mednafen_pcfx-650c30ea2203-1c9309580e68 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/pokemini-bb009b1379ad-2f63e84b7b68.json \
-  --output .local-e2e/releases/pokemini-bb009b1379ad-2f63e84b7b68
+  --pin-set pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json \
+  --output .local-e2e/releases/pokemini-bb009b1379ad-2ecf9f68eb0c
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/pokemini-bb009b1379ad-2f63e84b7b68.json \
-  --release .local-e2e/releases/pokemini-bb009b1379ad-2f63e84b7b68 \
+  --pin-set pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json \
+  --release .local-e2e/releases/pokemini-bb009b1379ad-2ecf9f68eb0c \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/gearcoleco-112345747c04-046c086031cf.json \
-  --output .local-e2e/releases/gearcoleco-112345747c04-046c086031cf
+  --pin-set pins/core-sets/gearcoleco-112345747c04-02350ee96cf1.json \
+  --output .local-e2e/releases/gearcoleco-112345747c04-02350ee96cf1
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/gearcoleco-112345747c04-046c086031cf.json \
-  --release .local-e2e/releases/gearcoleco-112345747c04-046c086031cf \
+  --pin-set pins/core-sets/gearcoleco-112345747c04-02350ee96cf1.json \
+  --release .local-e2e/releases/gearcoleco-112345747c04-02350ee96cf1 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/vice_x64-7946cfa0d377-290256f3bebd.json \
-  --output .local-e2e/releases/vice_x64-7946cfa0d377-290256f3bebd
+  --pin-set pins/core-sets/vice_x64-7946cfa0d377-1085a07760d4.json \
+  --output .local-e2e/releases/vice_x64-7946cfa0d377-1085a07760d4
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/vice_x64-7946cfa0d377-290256f3bebd.json \
-  --release .local-e2e/releases/vice_x64-7946cfa0d377-290256f3bebd \
+  --pin-set pins/core-sets/vice_x64-7946cfa0d377-1085a07760d4.json \
+  --release .local-e2e/releases/vice_x64-7946cfa0d377-1085a07760d4 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/vice_xvic-7946cfa0d377-6f9943958478.json \
-  --output .local-e2e/releases/vice_xvic-7946cfa0d377-6f9943958478
+  --pin-set pins/core-sets/vice_xvic-7946cfa0d377-f1e6abfe933c.json \
+  --output .local-e2e/releases/vice_xvic-7946cfa0d377-f1e6abfe933c
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/vice_xvic-7946cfa0d377-6f9943958478.json \
-  --release .local-e2e/releases/vice_xvic-7946cfa0d377-6f9943958478 \
+  --pin-set pins/core-sets/vice_xvic-7946cfa0d377-f1e6abfe933c.json \
+  --release .local-e2e/releases/vice_xvic-7946cfa0d377-f1e6abfe933c \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/fmsx-f013e213458e-194b406b9096.json \
-  --output .local-e2e/releases/fmsx-f013e213458e-194b406b9096
+  --pin-set pins/core-sets/fmsx-f013e213458e-b015409bc42c.json \
+  --output .local-e2e/releases/fmsx-f013e213458e-b015409bc42c
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/fmsx-f013e213458e-194b406b9096.json \
-  --release .local-e2e/releases/fmsx-f013e213458e-194b406b9096 \
+  --pin-set pins/core-sets/fmsx-f013e213458e-b015409bc42c.json \
+  --release .local-e2e/releases/fmsx-f013e213458e-b015409bc42c \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/bluemsx-5f595c79906f-a1c1fd914a76.json \
-  --output .local-e2e/releases/bluemsx-5f595c79906f-a1c1fd914a76
+  --pin-set pins/core-sets/bluemsx-5f595c79906f-e600380ac6d7.json \
+  --output .local-e2e/releases/bluemsx-5f595c79906f-e600380ac6d7
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/bluemsx-5f595c79906f-a1c1fd914a76.json \
-  --release .local-e2e/releases/bluemsx-5f595c79906f-a1c1fd914a76 \
+  --pin-set pins/core-sets/bluemsx-5f595c79906f-e600380ac6d7.json \
+  --release .local-e2e/releases/bluemsx-5f595c79906f-e600380ac6d7 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/snes9x2005-b60356971fc9-06b9f12c860c.json \
-  --output .local-e2e/releases/snes9x2005-b60356971fc9-06b9f12c860c
+  --pin-set pins/core-sets/snes9x2005-b60356971fc9-23fbb6c59d54.json \
+  --output .local-e2e/releases/snes9x2005-b60356971fc9-23fbb6c59d54
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/snes9x2005-b60356971fc9-06b9f12c860c.json \
-  --release .local-e2e/releases/snes9x2005-b60356971fc9-06b9f12c860c \
+  --pin-set pins/core-sets/snes9x2005-b60356971fc9-23fbb6c59d54.json \
+  --release .local-e2e/releases/snes9x2005-b60356971fc9-23fbb6c59d54 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/snes9x2005_plus-b60356971fc9-32f28e9ec741.json \
-  --output .local-e2e/releases/snes9x2005_plus-b60356971fc9-32f28e9ec741
+  --pin-set pins/core-sets/snes9x2005_plus-b60356971fc9-77ca2d085240.json \
+  --output .local-e2e/releases/snes9x2005_plus-b60356971fc9-77ca2d085240
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/snes9x2005_plus-b60356971fc9-32f28e9ec741.json \
-  --release .local-e2e/releases/snes9x2005_plus-b60356971fc9-32f28e9ec741 \
+  --pin-set pins/core-sets/snes9x2005_plus-b60356971fc9-77ca2d085240.json \
+  --release .local-e2e/releases/snes9x2005_plus-b60356971fc9-77ca2d085240 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/cap32-4abfb8be233b-afbc043051e8.json \
-  --output .local-e2e/releases/cap32-4abfb8be233b-afbc043051e8
+  --pin-set pins/core-sets/cap32-4abfb8be233b-4f89ee89dec9.json \
+  --output .local-e2e/releases/cap32-4abfb8be233b-4f89ee89dec9
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/cap32-4abfb8be233b-afbc043051e8.json \
-  --release .local-e2e/releases/cap32-4abfb8be233b-afbc043051e8 \
+  --pin-set pins/core-sets/cap32-4abfb8be233b-4f89ee89dec9.json \
+  --release .local-e2e/releases/cap32-4abfb8be233b-4f89ee89dec9 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/crocods-87bbb3d9007a-7b4aa1fce1f1.json \
-  --output .local-e2e/releases/crocods-87bbb3d9007a-7b4aa1fce1f1
+  --pin-set pins/core-sets/crocods-87bbb3d9007a-5a44afda913e.json \
+  --output .local-e2e/releases/crocods-87bbb3d9007a-5a44afda913e
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/crocods-87bbb3d9007a-7b4aa1fce1f1.json \
-  --release .local-e2e/releases/crocods-87bbb3d9007a-7b4aa1fce1f1 \
+  --pin-set pins/core-sets/crocods-87bbb3d9007a-5a44afda913e.json \
+  --release .local-e2e/releases/crocods-87bbb3d9007a-5a44afda913e \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/genesis_plus_gx-fa4dca561e08-0e5a55ff8180.json \
-  --output .local-e2e/releases/genesis_plus_gx-fa4dca561e08-0e5a55ff8180
+  --pin-set pins/core-sets/genesis_plus_gx-fa4dca561e08-b94a8729a601.json \
+  --output .local-e2e/releases/genesis_plus_gx-fa4dca561e08-b94a8729a601
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/genesis_plus_gx-fa4dca561e08-0e5a55ff8180.json \
-  --release .local-e2e/releases/genesis_plus_gx-fa4dca561e08-0e5a55ff8180 \
+  --pin-set pins/core-sets/genesis_plus_gx-fa4dca561e08-b94a8729a601.json \
+  --release .local-e2e/releases/genesis_plus_gx-fa4dca561e08-b94a8729a601 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/genesis_plus_gx_wide-29d9d104338f-7907e7e03389.json \
-  --output .local-e2e/releases/genesis_plus_gx_wide-29d9d104338f-7907e7e03389
+  --pin-set pins/core-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json \
+  --output .local-e2e/releases/genesis_plus_gx_wide-29d9d104338f-5035640f9981
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/genesis_plus_gx_wide-29d9d104338f-7907e7e03389.json \
-  --release .local-e2e/releases/genesis_plus_gx_wide-29d9d104338f-7907e7e03389 \
+  --pin-set pins/core-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json \
+  --release .local-e2e/releases/genesis_plus_gx_wide-29d9d104338f-5035640f9981 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/o2em-e03d3be88f79-ede84c3862de.json \
-  --output .local-e2e/releases/o2em-e03d3be88f79-ede84c3862de
+  --pin-set pins/core-sets/o2em-e03d3be88f79-a966ff1d0775.json \
+  --output .local-e2e/releases/o2em-e03d3be88f79-a966ff1d0775
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/o2em-e03d3be88f79-ede84c3862de.json \
-  --release .local-e2e/releases/o2em-e03d3be88f79-ede84c3862de \
+  --pin-set pins/core-sets/o2em-e03d3be88f79-a966ff1d0775.json \
+  --release .local-e2e/releases/o2em-e03d3be88f79-a966ff1d0775 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/freechaf-76c7a84f1f7e-0fced3806666.json \
-  --output .local-e2e/releases/freechaf-76c7a84f1f7e-0fced3806666
+  --pin-set pins/core-sets/freechaf-76c7a84f1f7e-3fc6b43191ef.json \
+  --output .local-e2e/releases/freechaf-76c7a84f1f7e-3fc6b43191ef
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/freechaf-76c7a84f1f7e-0fced3806666.json \
-  --release .local-e2e/releases/freechaf-76c7a84f1f7e-0fced3806666 \
+  --pin-set pins/core-sets/freechaf-76c7a84f1f7e-3fc6b43191ef.json \
+  --release .local-e2e/releases/freechaf-76c7a84f1f7e-3fc6b43191ef \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/vecx-8f671cc9d737-4686ef94bf56.json \
-  --output .local-e2e/releases/vecx-8f671cc9d737-4686ef94bf56
+  --pin-set pins/core-sets/vecx-8f671cc9d737-599c2197e36a.json \
+  --output .local-e2e/releases/vecx-8f671cc9d737-599c2197e36a
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/vecx-8f671cc9d737-4686ef94bf56.json \
-  --release .local-e2e/releases/vecx-8f671cc9d737-4686ef94bf56 \
+  --pin-set pins/core-sets/vecx-8f671cc9d737-599c2197e36a.json \
+  --release .local-e2e/releases/vecx-8f671cc9d737-599c2197e36a \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/lowresnx-35adc1a215e9-837092a5ffca.json \
-  --output .local-e2e/releases/lowresnx-35adc1a215e9-837092a5ffca
+  --pin-set pins/core-sets/lowresnx-35adc1a215e9-bcaea00ea240.json \
+  --output .local-e2e/releases/lowresnx-35adc1a215e9-bcaea00ea240
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/lowresnx-35adc1a215e9-837092a5ffca.json \
-  --release .local-e2e/releases/lowresnx-35adc1a215e9-837092a5ffca \
+  --pin-set pins/core-sets/lowresnx-35adc1a215e9-bcaea00ea240.json \
+  --release .local-e2e/releases/lowresnx-35adc1a215e9-bcaea00ea240 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/race-c7810dd7f172-c3119de987bf.json \
-  --output .local-e2e/releases/race-c7810dd7f172-c3119de987bf
+  --pin-set pins/core-sets/race-c7810dd7f172-c0ea16475d19.json \
+  --output .local-e2e/releases/race-c7810dd7f172-c0ea16475d19
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/race-c7810dd7f172-c3119de987bf.json \
-  --release .local-e2e/releases/race-c7810dd7f172-c3119de987bf \
+  --pin-set pins/core-sets/race-c7810dd7f172-c0ea16475d19.json \
+  --release .local-e2e/releases/race-c7810dd7f172-c0ea16475d19 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/potator-227c5f6f3ce7-1617e2249087.json \
-  --output .local-e2e/releases/potator-227c5f6f3ce7-1617e2249087
+  --pin-set pins/core-sets/potator-227c5f6f3ce7-66e2c96acf38.json \
+  --output .local-e2e/releases/potator-227c5f6f3ce7-66e2c96acf38
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/potator-227c5f6f3ce7-1617e2249087.json \
-  --release .local-e2e/releases/potator-227c5f6f3ce7-1617e2249087 \
+  --pin-set pins/core-sets/potator-227c5f6f3ce7-66e2c96acf38.json \
+  --release .local-e2e/releases/potator-227c5f6f3ce7-66e2c96acf38 \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/gearboy-36d723ff4410-f6f1b63e8798.json \
-  --output .local-e2e/releases/gearboy-36d723ff4410-f6f1b63e8798
+  --pin-set pins/core-sets/gearboy-36d723ff4410-34b7df6bcf6b.json \
+  --output .local-e2e/releases/gearboy-36d723ff4410-34b7df6bcf6b
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/gearboy-36d723ff4410-f6f1b63e8798.json \
-  --release .local-e2e/releases/gearboy-36d723ff4410-f6f1b63e8798 \
+  --pin-set pins/core-sets/gearboy-36d723ff4410-34b7df6bcf6b.json \
+  --release .local-e2e/releases/gearboy-36d723ff4410-34b7df6bcf6b \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/gearsystem-4f029e43f2d5-35212fbb9d9a.json \
-  --output .local-e2e/releases/gearsystem-4f029e43f2d5-35212fbb9d9a
+  --pin-set pins/core-sets/gearsystem-4f029e43f2d5-0f8b301c259a.json \
+  --output .local-e2e/releases/gearsystem-4f029e43f2d5-0f8b301c259a
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/gearsystem-4f029e43f2d5-35212fbb9d9a.json \
-  --release .local-e2e/releases/gearsystem-4f029e43f2d5-35212fbb9d9a \
+  --pin-set pins/core-sets/gearsystem-4f029e43f2d5-0f8b301c259a.json \
+  --release .local-e2e/releases/gearsystem-4f029e43f2d5-0f8b301c259a \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/2048-c90437d3c391-86ed146bc647.json \
-  --output .local-e2e/releases/2048-c90437d3c391-86ed146bc647
+  --pin-set pins/core-sets/2048-c90437d3c391-e1ff15dd7d6a.json \
+  --output .local-e2e/releases/2048-c90437d3c391-e1ff15dd7d6a
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/2048-c90437d3c391-86ed146bc647.json \
-  --release .local-e2e/releases/2048-c90437d3c391-86ed146bc647 \
+  --pin-set pins/core-sets/2048-c90437d3c391-e1ff15dd7d6a.json \
+  --release .local-e2e/releases/2048-c90437d3c391-e1ff15dd7d6a \
   --verify-store
 
 python3 scripts/core_pipeline.py promote-release \
-  --pin-set pins/core-sets/81-fa7094910d04-a82f6eb4a7cc.json \
-  --output .local-e2e/releases/81-fa7094910d04-a82f6eb4a7cc
+  --pin-set pins/core-sets/81-fa7094910d04-22dd2ebacdc6.json \
+  --output .local-e2e/releases/81-fa7094910d04-22dd2ebacdc6
 
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/81-fa7094910d04-a82f6eb4a7cc.json \
-  --release .local-e2e/releases/81-fa7094910d04-a82f6eb4a7cc \
+  --pin-set pins/core-sets/81-fa7094910d04-22dd2ebacdc6.json \
+  --release .local-e2e/releases/81-fa7094910d04-22dd2ebacdc6 \
   --verify-store
 ```
 
@@ -1207,445 +1207,445 @@ the pinned state:
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core handy \
-  --target pins/core-sets/handy-bc55d462f0b2-6923119e1743.json \
+  --target pins/core-sets/handy-bc55d462f0b2-c82a2178b4f0.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core stella2014 \
-  --target pins/core-sets/stella2014-4a7da82595d2-1fb14ddbab91.json \
+  --target pins/core-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core mednafen_supafaust \
-  --target pins/core-sets/mednafen_supafaust-2b93c0d7dff5-21be3575be39.json \
+  --target pins/core-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core mednafen_vb \
-  --target .local-e2e/nightlies/mednafen_vb-38e7a0ec9ac7-20575c76c389/golden.json \
+  --target .local-e2e/nightlies/mednafen_vb-38e7a0ec9ac7-ed193088da99/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core mednafen_vb \
-  --target pins/core-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json \
+  --target pins/core-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core mednafen_vb \
-  --target .local-e2e/releases/mednafen_vb-38e7a0ec9ac7-20575c76c389/release-manifest.json \
+  --target .local-e2e/releases/mednafen_vb-38e7a0ec9ac7-ed193088da99/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core mednafen_lynx \
-  --target .local-e2e/nightlies/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1/golden.json \
+  --target .local-e2e/nightlies/mednafen_lynx-fcdefcfb3c11-29e56373f32a/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core mednafen_lynx \
-  --target pins/core-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json \
+  --target pins/core-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core mednafen_lynx \
-  --target .local-e2e/releases/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1/release-manifest.json \
+  --target .local-e2e/releases/mednafen_lynx-fcdefcfb3c11-29e56373f32a/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core mednafen_pce_fast \
-  --target .local-e2e/nightlies/mednafen_pce_fast-0bc6c8692834-8e747136926e/golden.json \
+  --target .local-e2e/nightlies/mednafen_pce_fast-0bc6c8692834-cdd0e0603032/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core mednafen_pce_fast \
-  --target pins/core-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json \
+  --target pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core mednafen_pce_fast \
-  --target .local-e2e/releases/mednafen_pce_fast-0bc6c8692834-8e747136926e/release-manifest.json \
+  --target .local-e2e/releases/mednafen_pce_fast-0bc6c8692834-cdd0e0603032/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core mednafen_supergrafx \
-  --target .local-e2e/nightlies/mednafen_supergrafx-3c6fcd3deded-6f92f2753900/golden.json \
+  --target .local-e2e/nightlies/mednafen_supergrafx-3c6fcd3deded-c84693b9711a/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core mednafen_supergrafx \
-  --target pins/core-sets/mednafen_supergrafx-3c6fcd3deded-6f92f2753900.json \
+  --target pins/core-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core mednafen_supergrafx \
-  --target .local-e2e/releases/mednafen_supergrafx-3c6fcd3deded-6f92f2753900/release-manifest.json \
+  --target .local-e2e/releases/mednafen_supergrafx-3c6fcd3deded-c84693b9711a/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core mednafen_wswan \
-  --target pins/core-sets/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16.json \
+  --target pins/core-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core mednafen_pcfx \
-  --target pins/core-sets/mednafen_pcfx-650c30ea2203-5c0f9a256d9a.json \
+  --target pins/core-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core pokemini \
-  --target .local-e2e/nightlies/pokemini-bb009b1379ad-2f63e84b7b68/golden.json \
+  --target .local-e2e/nightlies/pokemini-bb009b1379ad-2ecf9f68eb0c/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core pokemini \
-  --target pins/core-sets/pokemini-bb009b1379ad-2f63e84b7b68.json \
+  --target pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core pokemini \
-  --target .local-e2e/releases/pokemini-bb009b1379ad-2f63e84b7b68/release-manifest.json \
+  --target .local-e2e/releases/pokemini-bb009b1379ad-2ecf9f68eb0c/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core gearcoleco \
-  --target .local-e2e/nightlies/gearcoleco-112345747c04-046c086031cf/golden.json \
+  --target .local-e2e/nightlies/gearcoleco-112345747c04-02350ee96cf1/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core gearcoleco \
-  --target pins/core-sets/gearcoleco-112345747c04-046c086031cf.json \
+  --target pins/core-sets/gearcoleco-112345747c04-02350ee96cf1.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core gearcoleco \
-  --target .local-e2e/releases/gearcoleco-112345747c04-046c086031cf/release-manifest.json \
+  --target .local-e2e/releases/gearcoleco-112345747c04-02350ee96cf1/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core vice_x64 \
-  --target .local-e2e/nightlies/vice_x64-7946cfa0d377-290256f3bebd/golden.json \
+  --target .local-e2e/nightlies/vice_x64-7946cfa0d377-1085a07760d4/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core vice_x64 \
-  --target pins/core-sets/vice_x64-7946cfa0d377-290256f3bebd.json \
+  --target pins/core-sets/vice_x64-7946cfa0d377-1085a07760d4.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core vice_x64 \
-  --target .local-e2e/releases/vice_x64-7946cfa0d377-290256f3bebd/release-manifest.json \
+  --target .local-e2e/releases/vice_x64-7946cfa0d377-1085a07760d4/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core vice_xvic \
-  --target .local-e2e/nightlies/vice_xvic-7946cfa0d377-6f9943958478/golden.json \
+  --target .local-e2e/nightlies/vice_xvic-7946cfa0d377-f1e6abfe933c/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core vice_xvic \
-  --target pins/core-sets/vice_xvic-7946cfa0d377-6f9943958478.json \
+  --target pins/core-sets/vice_xvic-7946cfa0d377-f1e6abfe933c.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core vice_xvic \
-  --target .local-e2e/releases/vice_xvic-7946cfa0d377-6f9943958478/release-manifest.json \
+  --target .local-e2e/releases/vice_xvic-7946cfa0d377-f1e6abfe933c/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core fmsx \
-  --target .local-e2e/nightlies/fmsx-f013e213458e-194b406b9096/golden.json \
+  --target .local-e2e/nightlies/fmsx-f013e213458e-b015409bc42c/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core fmsx \
-  --target pins/core-sets/fmsx-f013e213458e-194b406b9096.json \
+  --target pins/core-sets/fmsx-f013e213458e-b015409bc42c.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core fmsx \
-  --target .local-e2e/releases/fmsx-f013e213458e-194b406b9096/release-manifest.json \
+  --target .local-e2e/releases/fmsx-f013e213458e-b015409bc42c/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core bluemsx \
-  --target .local-e2e/nightlies/bluemsx-5f595c79906f-a1c1fd914a76/golden.json \
+  --target .local-e2e/nightlies/bluemsx-5f595c79906f-e600380ac6d7/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core bluemsx \
-  --target pins/core-sets/bluemsx-5f595c79906f-a1c1fd914a76.json \
+  --target pins/core-sets/bluemsx-5f595c79906f-e600380ac6d7.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core bluemsx \
-  --target .local-e2e/releases/bluemsx-5f595c79906f-a1c1fd914a76/release-manifest.json \
+  --target .local-e2e/releases/bluemsx-5f595c79906f-e600380ac6d7/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core snes9x2005 \
-  --target .local-e2e/nightlies/snes9x2005-b60356971fc9-06b9f12c860c/golden.json \
+  --target .local-e2e/nightlies/snes9x2005-b60356971fc9-23fbb6c59d54/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core snes9x2005 \
-  --target pins/core-sets/snes9x2005-b60356971fc9-06b9f12c860c.json \
+  --target pins/core-sets/snes9x2005-b60356971fc9-23fbb6c59d54.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core snes9x2005 \
-  --target .local-e2e/releases/snes9x2005-b60356971fc9-06b9f12c860c/release-manifest.json \
+  --target .local-e2e/releases/snes9x2005-b60356971fc9-23fbb6c59d54/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core snes9x2005_plus \
-  --target .local-e2e/nightlies/snes9x2005_plus-b60356971fc9-32f28e9ec741/golden.json \
+  --target .local-e2e/nightlies/snes9x2005_plus-b60356971fc9-77ca2d085240/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core snes9x2005_plus \
-  --target pins/core-sets/snes9x2005_plus-b60356971fc9-32f28e9ec741.json \
+  --target pins/core-sets/snes9x2005_plus-b60356971fc9-77ca2d085240.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core snes9x2005_plus \
-  --target .local-e2e/releases/snes9x2005_plus-b60356971fc9-32f28e9ec741/release-manifest.json \
+  --target .local-e2e/releases/snes9x2005_plus-b60356971fc9-77ca2d085240/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core crocods \
-  --target .local-e2e/nightlies/crocods-87bbb3d9007a-7b4aa1fce1f1/golden.json \
+  --target .local-e2e/nightlies/crocods-87bbb3d9007a-5a44afda913e/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core crocods \
-  --target pins/core-sets/crocods-87bbb3d9007a-7b4aa1fce1f1.json \
+  --target pins/core-sets/crocods-87bbb3d9007a-5a44afda913e.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core crocods \
-  --target .local-e2e/releases/crocods-87bbb3d9007a-7b4aa1fce1f1/release-manifest.json \
+  --target .local-e2e/releases/crocods-87bbb3d9007a-5a44afda913e/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core genesis_plus_gx \
-  --target .local-e2e/nightlies/genesis_plus_gx-fa4dca561e08-0e5a55ff8180/golden.json \
+  --target .local-e2e/nightlies/genesis_plus_gx-fa4dca561e08-b94a8729a601/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core genesis_plus_gx \
-  --target pins/core-sets/genesis_plus_gx-fa4dca561e08-0e5a55ff8180.json \
+  --target pins/core-sets/genesis_plus_gx-fa4dca561e08-b94a8729a601.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core genesis_plus_gx \
-  --target .local-e2e/releases/genesis_plus_gx-fa4dca561e08-0e5a55ff8180/release-manifest.json \
+  --target .local-e2e/releases/genesis_plus_gx-fa4dca561e08-b94a8729a601/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core genesis_plus_gx_wide \
-  --target .local-e2e/nightlies/genesis_plus_gx_wide-29d9d104338f-7907e7e03389/golden.json \
+  --target .local-e2e/nightlies/genesis_plus_gx_wide-29d9d104338f-5035640f9981/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core genesis_plus_gx_wide \
-  --target pins/core-sets/genesis_plus_gx_wide-29d9d104338f-7907e7e03389.json \
+  --target pins/core-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core genesis_plus_gx_wide \
-  --target .local-e2e/releases/genesis_plus_gx_wide-29d9d104338f-7907e7e03389/release-manifest.json \
+  --target .local-e2e/releases/genesis_plus_gx_wide-29d9d104338f-5035640f9981/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core o2em \
-  --target pins/core-sets/o2em-e03d3be88f79-ede84c3862de.json \
+  --target pins/core-sets/o2em-e03d3be88f79-a966ff1d0775.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core freechaf \
-  --target pins/core-sets/freechaf-76c7a84f1f7e-0fced3806666.json \
+  --target pins/core-sets/freechaf-76c7a84f1f7e-3fc6b43191ef.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core vecx \
-  --target pins/core-sets/vecx-8f671cc9d737-4686ef94bf56.json \
+  --target pins/core-sets/vecx-8f671cc9d737-599c2197e36a.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core lowresnx \
-  --target .local-e2e/nightlies/lowresnx-35adc1a215e9-837092a5ffca/golden.json \
+  --target .local-e2e/nightlies/lowresnx-35adc1a215e9-bcaea00ea240/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core lowresnx \
-  --target pins/core-sets/lowresnx-35adc1a215e9-837092a5ffca.json \
+  --target pins/core-sets/lowresnx-35adc1a215e9-bcaea00ea240.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core lowresnx \
-  --target .local-e2e/releases/lowresnx-35adc1a215e9-837092a5ffca/release-manifest.json \
+  --target .local-e2e/releases/lowresnx-35adc1a215e9-bcaea00ea240/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core race \
-  --target .local-e2e/nightlies/race-c7810dd7f172-c3119de987bf/golden.json \
+  --target .local-e2e/nightlies/race-c7810dd7f172-c0ea16475d19/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core race \
-  --target pins/core-sets/race-c7810dd7f172-c3119de987bf.json \
+  --target pins/core-sets/race-c7810dd7f172-c0ea16475d19.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core race \
-  --target .local-e2e/releases/race-c7810dd7f172-c3119de987bf/release-manifest.json \
+  --target .local-e2e/releases/race-c7810dd7f172-c0ea16475d19/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core potator \
-  --target .local-e2e/nightlies/potator-227c5f6f3ce7-1617e2249087/golden.json \
+  --target .local-e2e/nightlies/potator-227c5f6f3ce7-66e2c96acf38/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core potator \
-  --target pins/core-sets/potator-227c5f6f3ce7-1617e2249087.json \
+  --target pins/core-sets/potator-227c5f6f3ce7-66e2c96acf38.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core potator \
-  --target .local-e2e/releases/potator-227c5f6f3ce7-1617e2249087/release-manifest.json \
+  --target .local-e2e/releases/potator-227c5f6f3ce7-66e2c96acf38/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core gearboy \
-  --target .local-e2e/nightlies/gearboy-36d723ff4410-f6f1b63e8798/golden.json \
+  --target .local-e2e/nightlies/gearboy-36d723ff4410-34b7df6bcf6b/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core gearboy \
-  --target pins/core-sets/gearboy-36d723ff4410-f6f1b63e8798.json \
+  --target pins/core-sets/gearboy-36d723ff4410-34b7df6bcf6b.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core gearboy \
-  --target .local-e2e/releases/gearboy-36d723ff4410-f6f1b63e8798/release-manifest.json \
+  --target .local-e2e/releases/gearboy-36d723ff4410-34b7df6bcf6b/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core gearsystem \
-  --target .local-e2e/nightlies/gearsystem-4f029e43f2d5-35212fbb9d9a/golden.json \
+  --target .local-e2e/nightlies/gearsystem-4f029e43f2d5-0f8b301c259a/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core gearsystem \
-  --target pins/core-sets/gearsystem-4f029e43f2d5-35212fbb9d9a.json \
+  --target pins/core-sets/gearsystem-4f029e43f2d5-0f8b301c259a.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core gearsystem \
-  --target .local-e2e/releases/gearsystem-4f029e43f2d5-35212fbb9d9a/release-manifest.json \
+  --target .local-e2e/releases/gearsystem-4f029e43f2d5-0f8b301c259a/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core 2048 \
-  --target .local-e2e/nightlies/2048-c90437d3c391-86ed146bc647/golden.json \
+  --target .local-e2e/nightlies/2048-c90437d3c391-e1ff15dd7d6a/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core 2048 \
-  --target pins/core-sets/2048-c90437d3c391-86ed146bc647.json \
+  --target pins/core-sets/2048-c90437d3c391-e1ff15dd7d6a.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core 2048 \
-  --target .local-e2e/releases/2048-c90437d3c391-86ed146bc647/release-manifest.json \
+  --target .local-e2e/releases/2048-c90437d3c391-e1ff15dd7d6a/release-manifest.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel nightly \
   --core 81 \
-  --target .local-e2e/nightlies/81-fa7094910d04-a82f6eb4a7cc/golden.json \
+  --target .local-e2e/nightlies/81-fa7094910d04-22dd2ebacdc6/golden.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel pinned \
   --core 81 \
-  --target pins/core-sets/81-fa7094910d04-a82f6eb4a7cc.json \
+  --target pins/core-sets/81-fa7094910d04-22dd2ebacdc6.json \
   --expect-absent
 
 python3 scripts/core_pipeline.py update-channel \
   --channel release \
   --core 81 \
-  --target .local-e2e/releases/81-fa7094910d04-a82f6eb4a7cc/release-manifest.json \
+  --target .local-e2e/releases/81-fa7094910d04-22dd2ebacdc6/release-manifest.json \
   --expect-absent
 ```
 
@@ -1671,114 +1671,114 @@ Use the same namespace and compare-and-swap pattern for the other states:
 
 | Core | Channel | Canonical target example | Pointer |
 | --- | --- | --- | --- |
-| Handy | `nightly` | `.local-e2e/nightlies/handy-bc55d462f0b2-6923119e1743/golden.json` | `.local-e2e/channels/nightly.handy.json` |
-| Handy | `release` | `.local-e2e/releases/handy-bc55d462f0b2-6923119e1743/release-manifest.json` | `.local-e2e/channels/release.handy.json` |
-| Stella 2014 | `nightly` | `.local-e2e/nightlies/stella2014-4a7da82595d2-1fb14ddbab91/golden.json` | `.local-e2e/channels/nightly.stella2014.json` |
-| Stella 2014 | `release` | `.local-e2e/releases/stella2014-4a7da82595d2-1fb14ddbab91/release-manifest.json` | `.local-e2e/channels/release.stella2014.json` |
-| QuickNES | `nightly` | `.local-e2e/nightlies/quicknes-26bb785c9ded-2f0351a7573f/golden.json` | `.local-e2e/channels/nightly.quicknes.json` |
-| QuickNES | `release` | `.local-e2e/releases/quicknes-26bb785c9ded-2f0351a7573f/release-manifest.json` | `.local-e2e/channels/release.quicknes.json` |
-| Nestopia | `nightly` | `.local-e2e/nightlies/nestopia-b0fd87dd07e3-7393d0fca106/golden.json` | `.local-e2e/channels/nightly.nestopia.json` |
-| Nestopia | `pinned` | `pins/core-sets/nestopia-b0fd87dd07e3-7393d0fca106.json` | `.local-e2e/channels/pinned.nestopia.json` |
-| Nestopia | `release` | `.local-e2e/releases/nestopia-b0fd87dd07e3-7393d0fca106/release-manifest.json` | `.local-e2e/channels/release.nestopia.json` |
-| A5200 | `nightly` | `.local-e2e/nightlies/a5200-23c1ea482afb-f37877a31d37/golden.json` | `.local-e2e/channels/nightly.a5200.json` |
-| A5200 | `pinned` | `pins/core-sets/a5200-23c1ea482afb-f37877a31d37.json` | `.local-e2e/channels/pinned.a5200.json` |
-| A5200 | `release` | `.local-e2e/releases/a5200-23c1ea482afb-f37877a31d37/release-manifest.json` | `.local-e2e/channels/release.a5200.json` |
-| ProSystem | `nightly` | `.local-e2e/nightlies/prosystem-363b6dfbd3e2-cb86034fdd05/golden.json` | `.local-e2e/channels/nightly.prosystem.json` |
-| ProSystem | `pinned` | `pins/core-sets/prosystem-363b6dfbd3e2-cb86034fdd05.json` | `.local-e2e/channels/pinned.prosystem.json` |
-| ProSystem | `release` | `.local-e2e/releases/prosystem-363b6dfbd3e2-cb86034fdd05/release-manifest.json` | `.local-e2e/channels/release.prosystem.json` |
-| Snes9x | `nightly` | `.local-e2e/nightlies/snes9x-185488cd83aa-1007f6c98b6b/golden.json` | `.local-e2e/channels/nightly.snes9x.json` |
-| Snes9x | `pinned` | `pins/core-sets/snes9x-185488cd83aa-1007f6c98b6b.json` | `.local-e2e/channels/pinned.snes9x.json` |
-| Snes9x | `release` | `.local-e2e/releases/snes9x-185488cd83aa-1007f6c98b6b/release-manifest.json` | `.local-e2e/channels/release.snes9x.json` |
-| Mednafen Supafaust | `nightly` | `.local-e2e/nightlies/mednafen_supafaust-2b93c0d7dff5-21be3575be39/golden.json` | `.local-e2e/channels/nightly.mednafen_supafaust.json` |
-| Mednafen Supafaust | `pinned` | `pins/core-sets/mednafen_supafaust-2b93c0d7dff5-21be3575be39.json` | `.local-e2e/channels/pinned.mednafen_supafaust.json` |
-| Mednafen Supafaust | `release` | `.local-e2e/releases/mednafen_supafaust-2b93c0d7dff5-21be3575be39/release-manifest.json` | `.local-e2e/channels/release.mednafen_supafaust.json` |
-| Mednafen Virtual Boy | `nightly` | `.local-e2e/nightlies/mednafen_vb-38e7a0ec9ac7-20575c76c389/golden.json` | `.local-e2e/channels/nightly.mednafen_vb.json` |
-| Mednafen Virtual Boy | `pinned` | `pins/core-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json` | `.local-e2e/channels/pinned.mednafen_vb.json` |
-| Mednafen Virtual Boy | `release` | `.local-e2e/releases/mednafen_vb-38e7a0ec9ac7-20575c76c389/release-manifest.json` | `.local-e2e/channels/release.mednafen_vb.json` |
-| Mednafen Neo Geo Pocket | `nightly` | `.local-e2e/nightlies/mednafen_ngp-a50d5ac288a8-d2dabb68d075/golden.json` | `.local-e2e/channels/nightly.mednafen_ngp.json` |
-| Mednafen Neo Geo Pocket | `pinned` | `pins/core-sets/mednafen_ngp-a50d5ac288a8-d2dabb68d075.json` | `.local-e2e/channels/pinned.mednafen_ngp.json` |
-| Mednafen Neo Geo Pocket | `release` | `.local-e2e/releases/mednafen_ngp-a50d5ac288a8-d2dabb68d075/release-manifest.json` | `.local-e2e/channels/release.mednafen_ngp.json` |
-| Mednafen Lynx | `nightly` | `.local-e2e/nightlies/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1/golden.json` | `.local-e2e/channels/nightly.mednafen_lynx.json` |
-| Mednafen Lynx | `pinned` | `pins/core-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json` | `.local-e2e/channels/pinned.mednafen_lynx.json` |
-| Mednafen Lynx | `release` | `.local-e2e/releases/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1/release-manifest.json` | `.local-e2e/channels/release.mednafen_lynx.json` |
-| Mednafen PCE Fast | `nightly` | `.local-e2e/nightlies/mednafen_pce_fast-0bc6c8692834-8e747136926e/golden.json` | `.local-e2e/channels/nightly.mednafen_pce_fast.json` |
-| Mednafen PCE Fast | `pinned` | `pins/core-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json` | `.local-e2e/channels/pinned.mednafen_pce_fast.json` |
-| Mednafen PCE Fast | `release` | `.local-e2e/releases/mednafen_pce_fast-0bc6c8692834-8e747136926e/release-manifest.json` | `.local-e2e/channels/release.mednafen_pce_fast.json` |
-| Mednafen SuperGrafx | `nightly` | `.local-e2e/nightlies/mednafen_supergrafx-3c6fcd3deded-6f92f2753900/golden.json` | `.local-e2e/channels/nightly.mednafen_supergrafx.json` |
-| Mednafen SuperGrafx | `pinned` | `pins/core-sets/mednafen_supergrafx-3c6fcd3deded-6f92f2753900.json` | `.local-e2e/channels/pinned.mednafen_supergrafx.json` |
-| Mednafen SuperGrafx | `release` | `.local-e2e/releases/mednafen_supergrafx-3c6fcd3deded-6f92f2753900/release-manifest.json` | `.local-e2e/channels/release.mednafen_supergrafx.json` |
-| Mednafen WonderSwan | `nightly` | `.local-e2e/nightlies/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16/golden.json` | `.local-e2e/channels/nightly.mednafen_wswan.json` |
-| Mednafen WonderSwan | `pinned` | `pins/core-sets/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16.json` | `.local-e2e/channels/pinned.mednafen_wswan.json` |
-| Mednafen WonderSwan | `release` | `.local-e2e/releases/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16/release-manifest.json` | `.local-e2e/channels/release.mednafen_wswan.json` |
-| Mednafen PC-FX | `nightly` | `.local-e2e/nightlies/mednafen_pcfx-650c30ea2203-5c0f9a256d9a/golden.json` | `.local-e2e/channels/nightly.mednafen_pcfx.json` |
-| Mednafen PC-FX | `pinned` | `pins/core-sets/mednafen_pcfx-650c30ea2203-5c0f9a256d9a.json` | `.local-e2e/channels/pinned.mednafen_pcfx.json` |
-| Mednafen PC-FX | `release` | `.local-e2e/releases/mednafen_pcfx-650c30ea2203-5c0f9a256d9a/release-manifest.json` | `.local-e2e/channels/release.mednafen_pcfx.json` |
-| PokéMini | `nightly` | `.local-e2e/nightlies/pokemini-bb009b1379ad-2f63e84b7b68/golden.json` | `.local-e2e/channels/nightly.pokemini.json` |
-| PokéMini | `pinned` | `pins/core-sets/pokemini-bb009b1379ad-2f63e84b7b68.json` | `.local-e2e/channels/pinned.pokemini.json` |
-| PokéMini | `release` | `.local-e2e/releases/pokemini-bb009b1379ad-2f63e84b7b68/release-manifest.json` | `.local-e2e/channels/release.pokemini.json` |
-| GearColeco | `nightly` | `.local-e2e/nightlies/gearcoleco-112345747c04-046c086031cf/golden.json` | `.local-e2e/channels/nightly.gearcoleco.json` |
-| GearColeco | `pinned` | `pins/core-sets/gearcoleco-112345747c04-046c086031cf.json` | `.local-e2e/channels/pinned.gearcoleco.json` |
-| GearColeco | `release` | `.local-e2e/releases/gearcoleco-112345747c04-046c086031cf/release-manifest.json` | `.local-e2e/channels/release.gearcoleco.json` |
-| VICE x64 | `nightly` | `.local-e2e/nightlies/vice_x64-7946cfa0d377-290256f3bebd/golden.json` | `.local-e2e/channels/nightly.vice_x64.json` |
-| VICE x64 | `pinned` | `pins/core-sets/vice_x64-7946cfa0d377-290256f3bebd.json` | `.local-e2e/channels/pinned.vice_x64.json` |
-| VICE x64 | `release` | `.local-e2e/releases/vice_x64-7946cfa0d377-290256f3bebd/release-manifest.json` | `.local-e2e/channels/release.vice_x64.json` |
-| VICE xvic | `nightly` | `.local-e2e/nightlies/vice_xvic-7946cfa0d377-6f9943958478/golden.json` | `.local-e2e/channels/nightly.vice_xvic.json` |
-| VICE xvic | `pinned` | `pins/core-sets/vice_xvic-7946cfa0d377-6f9943958478.json` | `.local-e2e/channels/pinned.vice_xvic.json` |
-| VICE xvic | `release` | `.local-e2e/releases/vice_xvic-7946cfa0d377-6f9943958478/release-manifest.json` | `.local-e2e/channels/release.vice_xvic.json` |
-| fMSX | `nightly` | `.local-e2e/nightlies/fmsx-f013e213458e-194b406b9096/golden.json` | `.local-e2e/channels/nightly.fmsx.json` |
-| fMSX | `pinned` | `pins/core-sets/fmsx-f013e213458e-194b406b9096.json` | `.local-e2e/channels/pinned.fmsx.json` |
-| fMSX | `release` | `.local-e2e/releases/fmsx-f013e213458e-194b406b9096/release-manifest.json` | `.local-e2e/channels/release.fmsx.json` |
-| blueMSX | `nightly` | `.local-e2e/nightlies/bluemsx-5f595c79906f-a1c1fd914a76/golden.json` | `.local-e2e/channels/nightly.bluemsx.json` |
-| blueMSX | `pinned` | `pins/core-sets/bluemsx-5f595c79906f-a1c1fd914a76.json` | `.local-e2e/channels/pinned.bluemsx.json` |
-| blueMSX | `release` | `.local-e2e/releases/bluemsx-5f595c79906f-a1c1fd914a76/release-manifest.json` | `.local-e2e/channels/release.bluemsx.json` |
-| Snes9x 2005 | `nightly` | `.local-e2e/nightlies/snes9x2005-b60356971fc9-06b9f12c860c/golden.json` | `.local-e2e/channels/nightly.snes9x2005.json` |
-| Snes9x 2005 | `pinned` | `pins/core-sets/snes9x2005-b60356971fc9-06b9f12c860c.json` | `.local-e2e/channels/pinned.snes9x2005.json` |
-| Snes9x 2005 | `release` | `.local-e2e/releases/snes9x2005-b60356971fc9-06b9f12c860c/release-manifest.json` | `.local-e2e/channels/release.snes9x2005.json` |
-| Snes9x 2005 Plus | `nightly` | `.local-e2e/nightlies/snes9x2005_plus-b60356971fc9-32f28e9ec741/golden.json` | `.local-e2e/channels/nightly.snes9x2005_plus.json` |
-| Snes9x 2005 Plus | `pinned` | `pins/core-sets/snes9x2005_plus-b60356971fc9-32f28e9ec741.json` | `.local-e2e/channels/pinned.snes9x2005_plus.json` |
-| Snes9x 2005 Plus | `release` | `.local-e2e/releases/snes9x2005_plus-b60356971fc9-32f28e9ec741/release-manifest.json` | `.local-e2e/channels/release.snes9x2005_plus.json` |
-| Cap32 | `nightly` | `.local-e2e/nightlies/cap32-4abfb8be233b-afbc043051e8/golden.json` | `.local-e2e/channels/nightly.cap32.json` |
-| Cap32 | `pinned` | `pins/core-sets/cap32-4abfb8be233b-afbc043051e8.json` | `.local-e2e/channels/pinned.cap32.json` |
-| Cap32 | `release` | `.local-e2e/releases/cap32-4abfb8be233b-afbc043051e8/release-manifest.json` | `.local-e2e/channels/release.cap32.json` |
-| CrocoDS | `nightly` | `.local-e2e/nightlies/crocods-87bbb3d9007a-7b4aa1fce1f1/golden.json` | `.local-e2e/channels/nightly.crocods.json` |
-| CrocoDS | `pinned` | `pins/core-sets/crocods-87bbb3d9007a-7b4aa1fce1f1.json` | `.local-e2e/channels/pinned.crocods.json` |
-| CrocoDS | `release` | `.local-e2e/releases/crocods-87bbb3d9007a-7b4aa1fce1f1/release-manifest.json` | `.local-e2e/channels/release.crocods.json` |
-| Genesis Plus GX | `nightly` | `.local-e2e/nightlies/genesis_plus_gx-fa4dca561e08-0e5a55ff8180/golden.json` | `.local-e2e/channels/nightly.genesis_plus_gx.json` |
-| Genesis Plus GX | `pinned` | `pins/core-sets/genesis_plus_gx-fa4dca561e08-0e5a55ff8180.json` | `.local-e2e/channels/pinned.genesis_plus_gx.json` |
-| Genesis Plus GX | `release` | `.local-e2e/releases/genesis_plus_gx-fa4dca561e08-0e5a55ff8180/release-manifest.json` | `.local-e2e/channels/release.genesis_plus_gx.json` |
-| Genesis Plus GX Wide | `nightly` | `.local-e2e/nightlies/genesis_plus_gx_wide-29d9d104338f-7907e7e03389/golden.json` | `.local-e2e/channels/nightly.genesis_plus_gx_wide.json` |
-| Genesis Plus GX Wide | `pinned` | `pins/core-sets/genesis_plus_gx_wide-29d9d104338f-7907e7e03389.json` | `.local-e2e/channels/pinned.genesis_plus_gx_wide.json` |
-| Genesis Plus GX Wide | `release` | `.local-e2e/releases/genesis_plus_gx_wide-29d9d104338f-7907e7e03389/release-manifest.json` | `.local-e2e/channels/release.genesis_plus_gx_wide.json` |
-| O2EM | `nightly` | `.local-e2e/nightlies/o2em-e03d3be88f79-ede84c3862de/golden.json` | `.local-e2e/channels/nightly.o2em.json` |
-| O2EM | `pinned` | `pins/core-sets/o2em-e03d3be88f79-ede84c3862de.json` | `.local-e2e/channels/pinned.o2em.json` |
-| O2EM | `release` | `.local-e2e/releases/o2em-e03d3be88f79-ede84c3862de/release-manifest.json` | `.local-e2e/channels/release.o2em.json` |
-| FreeChaF | `nightly` | `.local-e2e/nightlies/freechaf-76c7a84f1f7e-0fced3806666/golden.json` | `.local-e2e/channels/nightly.freechaf.json` |
-| FreeChaF | `pinned` | `pins/core-sets/freechaf-76c7a84f1f7e-0fced3806666.json` | `.local-e2e/channels/pinned.freechaf.json` |
-| FreeChaF | `release` | `.local-e2e/releases/freechaf-76c7a84f1f7e-0fced3806666/release-manifest.json` | `.local-e2e/channels/release.freechaf.json` |
-| VecX | `nightly` | `.local-e2e/nightlies/vecx-8f671cc9d737-4686ef94bf56/golden.json` | `.local-e2e/channels/nightly.vecx.json` |
-| VecX | `pinned` | `pins/core-sets/vecx-8f671cc9d737-4686ef94bf56.json` | `.local-e2e/channels/pinned.vecx.json` |
-| VecX | `release` | `.local-e2e/releases/vecx-8f671cc9d737-4686ef94bf56/release-manifest.json` | `.local-e2e/channels/release.vecx.json` |
-| LowRes NX | `nightly` | `.local-e2e/nightlies/lowresnx-35adc1a215e9-837092a5ffca/golden.json` | `.local-e2e/channels/nightly.lowresnx.json` |
-| LowRes NX | `pinned` | `pins/core-sets/lowresnx-35adc1a215e9-837092a5ffca.json` | `.local-e2e/channels/pinned.lowresnx.json` |
-| LowRes NX | `release` | `.local-e2e/releases/lowresnx-35adc1a215e9-837092a5ffca/release-manifest.json` | `.local-e2e/channels/release.lowresnx.json` |
-| RACE | `nightly` | `.local-e2e/nightlies/race-c7810dd7f172-c3119de987bf/golden.json` | `.local-e2e/channels/nightly.race.json` |
-| RACE | `pinned` | `pins/core-sets/race-c7810dd7f172-c3119de987bf.json` | `.local-e2e/channels/pinned.race.json` |
-| RACE | `release` | `.local-e2e/releases/race-c7810dd7f172-c3119de987bf/release-manifest.json` | `.local-e2e/channels/release.race.json` |
-| Potator | `nightly` | `.local-e2e/nightlies/potator-227c5f6f3ce7-1617e2249087/golden.json` | `.local-e2e/channels/nightly.potator.json` |
-| Potator | `pinned` | `pins/core-sets/potator-227c5f6f3ce7-1617e2249087.json` | `.local-e2e/channels/pinned.potator.json` |
-| Potator | `release` | `.local-e2e/releases/potator-227c5f6f3ce7-1617e2249087/release-manifest.json` | `.local-e2e/channels/release.potator.json` |
-| Gearboy | `nightly` | `.local-e2e/nightlies/gearboy-36d723ff4410-f6f1b63e8798/golden.json` | `.local-e2e/channels/nightly.gearboy.json` |
-| Gearboy | `pinned` | `pins/core-sets/gearboy-36d723ff4410-f6f1b63e8798.json` | `.local-e2e/channels/pinned.gearboy.json` |
-| Gearboy | `release` | `.local-e2e/releases/gearboy-36d723ff4410-f6f1b63e8798/release-manifest.json` | `.local-e2e/channels/release.gearboy.json` |
-| Gearsystem | `nightly` | `.local-e2e/nightlies/gearsystem-4f029e43f2d5-35212fbb9d9a/golden.json` | `.local-e2e/channels/nightly.gearsystem.json` |
-| Gearsystem | `pinned` | `pins/core-sets/gearsystem-4f029e43f2d5-35212fbb9d9a.json` | `.local-e2e/channels/pinned.gearsystem.json` |
-| Gearsystem | `release` | `.local-e2e/releases/gearsystem-4f029e43f2d5-35212fbb9d9a/release-manifest.json` | `.local-e2e/channels/release.gearsystem.json` |
-| 2048 | `nightly` | `.local-e2e/nightlies/2048-c90437d3c391-86ed146bc647/golden.json` | `.local-e2e/channels/nightly.2048.json` |
-| 2048 | `pinned` | `pins/core-sets/2048-c90437d3c391-86ed146bc647.json` | `.local-e2e/channels/pinned.2048.json` |
-| 2048 | `release` | `.local-e2e/releases/2048-c90437d3c391-86ed146bc647/release-manifest.json` | `.local-e2e/channels/release.2048.json` |
-| EightyOne | `nightly` | `.local-e2e/nightlies/81-fa7094910d04-a82f6eb4a7cc/golden.json` | `.local-e2e/channels/nightly.81.json` |
-| EightyOne | `pinned` | `pins/core-sets/81-fa7094910d04-a82f6eb4a7cc.json` | `.local-e2e/channels/pinned.81.json` |
-| EightyOne | `release` | `.local-e2e/releases/81-fa7094910d04-a82f6eb4a7cc/release-manifest.json` | `.local-e2e/channels/release.81.json` |
+| Handy | `nightly` | `.local-e2e/nightlies/handy-bc55d462f0b2-c82a2178b4f0/golden.json` | `.local-e2e/channels/nightly.handy.json` |
+| Handy | `release` | `.local-e2e/releases/handy-bc55d462f0b2-c82a2178b4f0/release-manifest.json` | `.local-e2e/channels/release.handy.json` |
+| Stella 2014 | `nightly` | `.local-e2e/nightlies/stella2014-4a7da82595d2-a7cd8bf6403d/golden.json` | `.local-e2e/channels/nightly.stella2014.json` |
+| Stella 2014 | `release` | `.local-e2e/releases/stella2014-4a7da82595d2-a7cd8bf6403d/release-manifest.json` | `.local-e2e/channels/release.stella2014.json` |
+| QuickNES | `nightly` | `.local-e2e/nightlies/quicknes-26bb785c9ded-0dfc478cbffd/golden.json` | `.local-e2e/channels/nightly.quicknes.json` |
+| QuickNES | `release` | `.local-e2e/releases/quicknes-26bb785c9ded-0dfc478cbffd/release-manifest.json` | `.local-e2e/channels/release.quicknes.json` |
+| Nestopia | `nightly` | `.local-e2e/nightlies/nestopia-b0fd87dd07e3-9570ea287053/golden.json` | `.local-e2e/channels/nightly.nestopia.json` |
+| Nestopia | `pinned` | `pins/core-sets/nestopia-b0fd87dd07e3-9570ea287053.json` | `.local-e2e/channels/pinned.nestopia.json` |
+| Nestopia | `release` | `.local-e2e/releases/nestopia-b0fd87dd07e3-9570ea287053/release-manifest.json` | `.local-e2e/channels/release.nestopia.json` |
+| A5200 | `nightly` | `.local-e2e/nightlies/a5200-23c1ea482afb-26663d9e7f87/golden.json` | `.local-e2e/channels/nightly.a5200.json` |
+| A5200 | `pinned` | `pins/core-sets/a5200-23c1ea482afb-26663d9e7f87.json` | `.local-e2e/channels/pinned.a5200.json` |
+| A5200 | `release` | `.local-e2e/releases/a5200-23c1ea482afb-26663d9e7f87/release-manifest.json` | `.local-e2e/channels/release.a5200.json` |
+| ProSystem | `nightly` | `.local-e2e/nightlies/prosystem-363b6dfbd3e2-245dc2e3516d/golden.json` | `.local-e2e/channels/nightly.prosystem.json` |
+| ProSystem | `pinned` | `pins/core-sets/prosystem-363b6dfbd3e2-245dc2e3516d.json` | `.local-e2e/channels/pinned.prosystem.json` |
+| ProSystem | `release` | `.local-e2e/releases/prosystem-363b6dfbd3e2-245dc2e3516d/release-manifest.json` | `.local-e2e/channels/release.prosystem.json` |
+| Snes9x | `nightly` | `.local-e2e/nightlies/snes9x-185488cd83aa-b7aaac2ae7c1/golden.json` | `.local-e2e/channels/nightly.snes9x.json` |
+| Snes9x | `pinned` | `pins/core-sets/snes9x-185488cd83aa-b7aaac2ae7c1.json` | `.local-e2e/channels/pinned.snes9x.json` |
+| Snes9x | `release` | `.local-e2e/releases/snes9x-185488cd83aa-b7aaac2ae7c1/release-manifest.json` | `.local-e2e/channels/release.snes9x.json` |
+| Mednafen Supafaust | `nightly` | `.local-e2e/nightlies/mednafen_supafaust-2b93c0d7dff5-debb21b70273/golden.json` | `.local-e2e/channels/nightly.mednafen_supafaust.json` |
+| Mednafen Supafaust | `pinned` | `pins/core-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json` | `.local-e2e/channels/pinned.mednafen_supafaust.json` |
+| Mednafen Supafaust | `release` | `.local-e2e/releases/mednafen_supafaust-2b93c0d7dff5-debb21b70273/release-manifest.json` | `.local-e2e/channels/release.mednafen_supafaust.json` |
+| Mednafen Virtual Boy | `nightly` | `.local-e2e/nightlies/mednafen_vb-38e7a0ec9ac7-ed193088da99/golden.json` | `.local-e2e/channels/nightly.mednafen_vb.json` |
+| Mednafen Virtual Boy | `pinned` | `pins/core-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json` | `.local-e2e/channels/pinned.mednafen_vb.json` |
+| Mednafen Virtual Boy | `release` | `.local-e2e/releases/mednafen_vb-38e7a0ec9ac7-ed193088da99/release-manifest.json` | `.local-e2e/channels/release.mednafen_vb.json` |
+| Mednafen Neo Geo Pocket | `nightly` | `.local-e2e/nightlies/mednafen_ngp-a50d5ac288a8-26b82754fc25/golden.json` | `.local-e2e/channels/nightly.mednafen_ngp.json` |
+| Mednafen Neo Geo Pocket | `pinned` | `pins/core-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json` | `.local-e2e/channels/pinned.mednafen_ngp.json` |
+| Mednafen Neo Geo Pocket | `release` | `.local-e2e/releases/mednafen_ngp-a50d5ac288a8-26b82754fc25/release-manifest.json` | `.local-e2e/channels/release.mednafen_ngp.json` |
+| Mednafen Lynx | `nightly` | `.local-e2e/nightlies/mednafen_lynx-fcdefcfb3c11-29e56373f32a/golden.json` | `.local-e2e/channels/nightly.mednafen_lynx.json` |
+| Mednafen Lynx | `pinned` | `pins/core-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json` | `.local-e2e/channels/pinned.mednafen_lynx.json` |
+| Mednafen Lynx | `release` | `.local-e2e/releases/mednafen_lynx-fcdefcfb3c11-29e56373f32a/release-manifest.json` | `.local-e2e/channels/release.mednafen_lynx.json` |
+| Mednafen PCE Fast | `nightly` | `.local-e2e/nightlies/mednafen_pce_fast-0bc6c8692834-cdd0e0603032/golden.json` | `.local-e2e/channels/nightly.mednafen_pce_fast.json` |
+| Mednafen PCE Fast | `pinned` | `pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json` | `.local-e2e/channels/pinned.mednafen_pce_fast.json` |
+| Mednafen PCE Fast | `release` | `.local-e2e/releases/mednafen_pce_fast-0bc6c8692834-cdd0e0603032/release-manifest.json` | `.local-e2e/channels/release.mednafen_pce_fast.json` |
+| Mednafen SuperGrafx | `nightly` | `.local-e2e/nightlies/mednafen_supergrafx-3c6fcd3deded-c84693b9711a/golden.json` | `.local-e2e/channels/nightly.mednafen_supergrafx.json` |
+| Mednafen SuperGrafx | `pinned` | `pins/core-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json` | `.local-e2e/channels/pinned.mednafen_supergrafx.json` |
+| Mednafen SuperGrafx | `release` | `.local-e2e/releases/mednafen_supergrafx-3c6fcd3deded-c84693b9711a/release-manifest.json` | `.local-e2e/channels/release.mednafen_supergrafx.json` |
+| Mednafen WonderSwan | `nightly` | `.local-e2e/nightlies/mednafen_wswan-da6d0d9acb8d-da715bbcb6da/golden.json` | `.local-e2e/channels/nightly.mednafen_wswan.json` |
+| Mednafen WonderSwan | `pinned` | `pins/core-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json` | `.local-e2e/channels/pinned.mednafen_wswan.json` |
+| Mednafen WonderSwan | `release` | `.local-e2e/releases/mednafen_wswan-da6d0d9acb8d-da715bbcb6da/release-manifest.json` | `.local-e2e/channels/release.mednafen_wswan.json` |
+| Mednafen PC-FX | `nightly` | `.local-e2e/nightlies/mednafen_pcfx-650c30ea2203-1c9309580e68/golden.json` | `.local-e2e/channels/nightly.mednafen_pcfx.json` |
+| Mednafen PC-FX | `pinned` | `pins/core-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json` | `.local-e2e/channels/pinned.mednafen_pcfx.json` |
+| Mednafen PC-FX | `release` | `.local-e2e/releases/mednafen_pcfx-650c30ea2203-1c9309580e68/release-manifest.json` | `.local-e2e/channels/release.mednafen_pcfx.json` |
+| PokéMini | `nightly` | `.local-e2e/nightlies/pokemini-bb009b1379ad-2ecf9f68eb0c/golden.json` | `.local-e2e/channels/nightly.pokemini.json` |
+| PokéMini | `pinned` | `pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json` | `.local-e2e/channels/pinned.pokemini.json` |
+| PokéMini | `release` | `.local-e2e/releases/pokemini-bb009b1379ad-2ecf9f68eb0c/release-manifest.json` | `.local-e2e/channels/release.pokemini.json` |
+| GearColeco | `nightly` | `.local-e2e/nightlies/gearcoleco-112345747c04-02350ee96cf1/golden.json` | `.local-e2e/channels/nightly.gearcoleco.json` |
+| GearColeco | `pinned` | `pins/core-sets/gearcoleco-112345747c04-02350ee96cf1.json` | `.local-e2e/channels/pinned.gearcoleco.json` |
+| GearColeco | `release` | `.local-e2e/releases/gearcoleco-112345747c04-02350ee96cf1/release-manifest.json` | `.local-e2e/channels/release.gearcoleco.json` |
+| VICE x64 | `nightly` | `.local-e2e/nightlies/vice_x64-7946cfa0d377-1085a07760d4/golden.json` | `.local-e2e/channels/nightly.vice_x64.json` |
+| VICE x64 | `pinned` | `pins/core-sets/vice_x64-7946cfa0d377-1085a07760d4.json` | `.local-e2e/channels/pinned.vice_x64.json` |
+| VICE x64 | `release` | `.local-e2e/releases/vice_x64-7946cfa0d377-1085a07760d4/release-manifest.json` | `.local-e2e/channels/release.vice_x64.json` |
+| VICE xvic | `nightly` | `.local-e2e/nightlies/vice_xvic-7946cfa0d377-f1e6abfe933c/golden.json` | `.local-e2e/channels/nightly.vice_xvic.json` |
+| VICE xvic | `pinned` | `pins/core-sets/vice_xvic-7946cfa0d377-f1e6abfe933c.json` | `.local-e2e/channels/pinned.vice_xvic.json` |
+| VICE xvic | `release` | `.local-e2e/releases/vice_xvic-7946cfa0d377-f1e6abfe933c/release-manifest.json` | `.local-e2e/channels/release.vice_xvic.json` |
+| fMSX | `nightly` | `.local-e2e/nightlies/fmsx-f013e213458e-b015409bc42c/golden.json` | `.local-e2e/channels/nightly.fmsx.json` |
+| fMSX | `pinned` | `pins/core-sets/fmsx-f013e213458e-b015409bc42c.json` | `.local-e2e/channels/pinned.fmsx.json` |
+| fMSX | `release` | `.local-e2e/releases/fmsx-f013e213458e-b015409bc42c/release-manifest.json` | `.local-e2e/channels/release.fmsx.json` |
+| blueMSX | `nightly` | `.local-e2e/nightlies/bluemsx-5f595c79906f-e600380ac6d7/golden.json` | `.local-e2e/channels/nightly.bluemsx.json` |
+| blueMSX | `pinned` | `pins/core-sets/bluemsx-5f595c79906f-e600380ac6d7.json` | `.local-e2e/channels/pinned.bluemsx.json` |
+| blueMSX | `release` | `.local-e2e/releases/bluemsx-5f595c79906f-e600380ac6d7/release-manifest.json` | `.local-e2e/channels/release.bluemsx.json` |
+| Snes9x 2005 | `nightly` | `.local-e2e/nightlies/snes9x2005-b60356971fc9-23fbb6c59d54/golden.json` | `.local-e2e/channels/nightly.snes9x2005.json` |
+| Snes9x 2005 | `pinned` | `pins/core-sets/snes9x2005-b60356971fc9-23fbb6c59d54.json` | `.local-e2e/channels/pinned.snes9x2005.json` |
+| Snes9x 2005 | `release` | `.local-e2e/releases/snes9x2005-b60356971fc9-23fbb6c59d54/release-manifest.json` | `.local-e2e/channels/release.snes9x2005.json` |
+| Snes9x 2005 Plus | `nightly` | `.local-e2e/nightlies/snes9x2005_plus-b60356971fc9-77ca2d085240/golden.json` | `.local-e2e/channels/nightly.snes9x2005_plus.json` |
+| Snes9x 2005 Plus | `pinned` | `pins/core-sets/snes9x2005_plus-b60356971fc9-77ca2d085240.json` | `.local-e2e/channels/pinned.snes9x2005_plus.json` |
+| Snes9x 2005 Plus | `release` | `.local-e2e/releases/snes9x2005_plus-b60356971fc9-77ca2d085240/release-manifest.json` | `.local-e2e/channels/release.snes9x2005_plus.json` |
+| Cap32 | `nightly` | `.local-e2e/nightlies/cap32-4abfb8be233b-4f89ee89dec9/golden.json` | `.local-e2e/channels/nightly.cap32.json` |
+| Cap32 | `pinned` | `pins/core-sets/cap32-4abfb8be233b-4f89ee89dec9.json` | `.local-e2e/channels/pinned.cap32.json` |
+| Cap32 | `release` | `.local-e2e/releases/cap32-4abfb8be233b-4f89ee89dec9/release-manifest.json` | `.local-e2e/channels/release.cap32.json` |
+| CrocoDS | `nightly` | `.local-e2e/nightlies/crocods-87bbb3d9007a-5a44afda913e/golden.json` | `.local-e2e/channels/nightly.crocods.json` |
+| CrocoDS | `pinned` | `pins/core-sets/crocods-87bbb3d9007a-5a44afda913e.json` | `.local-e2e/channels/pinned.crocods.json` |
+| CrocoDS | `release` | `.local-e2e/releases/crocods-87bbb3d9007a-5a44afda913e/release-manifest.json` | `.local-e2e/channels/release.crocods.json` |
+| Genesis Plus GX | `nightly` | `.local-e2e/nightlies/genesis_plus_gx-fa4dca561e08-b94a8729a601/golden.json` | `.local-e2e/channels/nightly.genesis_plus_gx.json` |
+| Genesis Plus GX | `pinned` | `pins/core-sets/genesis_plus_gx-fa4dca561e08-b94a8729a601.json` | `.local-e2e/channels/pinned.genesis_plus_gx.json` |
+| Genesis Plus GX | `release` | `.local-e2e/releases/genesis_plus_gx-fa4dca561e08-b94a8729a601/release-manifest.json` | `.local-e2e/channels/release.genesis_plus_gx.json` |
+| Genesis Plus GX Wide | `nightly` | `.local-e2e/nightlies/genesis_plus_gx_wide-29d9d104338f-5035640f9981/golden.json` | `.local-e2e/channels/nightly.genesis_plus_gx_wide.json` |
+| Genesis Plus GX Wide | `pinned` | `pins/core-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json` | `.local-e2e/channels/pinned.genesis_plus_gx_wide.json` |
+| Genesis Plus GX Wide | `release` | `.local-e2e/releases/genesis_plus_gx_wide-29d9d104338f-5035640f9981/release-manifest.json` | `.local-e2e/channels/release.genesis_plus_gx_wide.json` |
+| O2EM | `nightly` | `.local-e2e/nightlies/o2em-e03d3be88f79-a966ff1d0775/golden.json` | `.local-e2e/channels/nightly.o2em.json` |
+| O2EM | `pinned` | `pins/core-sets/o2em-e03d3be88f79-a966ff1d0775.json` | `.local-e2e/channels/pinned.o2em.json` |
+| O2EM | `release` | `.local-e2e/releases/o2em-e03d3be88f79-a966ff1d0775/release-manifest.json` | `.local-e2e/channels/release.o2em.json` |
+| FreeChaF | `nightly` | `.local-e2e/nightlies/freechaf-76c7a84f1f7e-3fc6b43191ef/golden.json` | `.local-e2e/channels/nightly.freechaf.json` |
+| FreeChaF | `pinned` | `pins/core-sets/freechaf-76c7a84f1f7e-3fc6b43191ef.json` | `.local-e2e/channels/pinned.freechaf.json` |
+| FreeChaF | `release` | `.local-e2e/releases/freechaf-76c7a84f1f7e-3fc6b43191ef/release-manifest.json` | `.local-e2e/channels/release.freechaf.json` |
+| VecX | `nightly` | `.local-e2e/nightlies/vecx-8f671cc9d737-599c2197e36a/golden.json` | `.local-e2e/channels/nightly.vecx.json` |
+| VecX | `pinned` | `pins/core-sets/vecx-8f671cc9d737-599c2197e36a.json` | `.local-e2e/channels/pinned.vecx.json` |
+| VecX | `release` | `.local-e2e/releases/vecx-8f671cc9d737-599c2197e36a/release-manifest.json` | `.local-e2e/channels/release.vecx.json` |
+| LowRes NX | `nightly` | `.local-e2e/nightlies/lowresnx-35adc1a215e9-bcaea00ea240/golden.json` | `.local-e2e/channels/nightly.lowresnx.json` |
+| LowRes NX | `pinned` | `pins/core-sets/lowresnx-35adc1a215e9-bcaea00ea240.json` | `.local-e2e/channels/pinned.lowresnx.json` |
+| LowRes NX | `release` | `.local-e2e/releases/lowresnx-35adc1a215e9-bcaea00ea240/release-manifest.json` | `.local-e2e/channels/release.lowresnx.json` |
+| RACE | `nightly` | `.local-e2e/nightlies/race-c7810dd7f172-c0ea16475d19/golden.json` | `.local-e2e/channels/nightly.race.json` |
+| RACE | `pinned` | `pins/core-sets/race-c7810dd7f172-c0ea16475d19.json` | `.local-e2e/channels/pinned.race.json` |
+| RACE | `release` | `.local-e2e/releases/race-c7810dd7f172-c0ea16475d19/release-manifest.json` | `.local-e2e/channels/release.race.json` |
+| Potator | `nightly` | `.local-e2e/nightlies/potator-227c5f6f3ce7-66e2c96acf38/golden.json` | `.local-e2e/channels/nightly.potator.json` |
+| Potator | `pinned` | `pins/core-sets/potator-227c5f6f3ce7-66e2c96acf38.json` | `.local-e2e/channels/pinned.potator.json` |
+| Potator | `release` | `.local-e2e/releases/potator-227c5f6f3ce7-66e2c96acf38/release-manifest.json` | `.local-e2e/channels/release.potator.json` |
+| Gearboy | `nightly` | `.local-e2e/nightlies/gearboy-36d723ff4410-34b7df6bcf6b/golden.json` | `.local-e2e/channels/nightly.gearboy.json` |
+| Gearboy | `pinned` | `pins/core-sets/gearboy-36d723ff4410-34b7df6bcf6b.json` | `.local-e2e/channels/pinned.gearboy.json` |
+| Gearboy | `release` | `.local-e2e/releases/gearboy-36d723ff4410-34b7df6bcf6b/release-manifest.json` | `.local-e2e/channels/release.gearboy.json` |
+| Gearsystem | `nightly` | `.local-e2e/nightlies/gearsystem-4f029e43f2d5-0f8b301c259a/golden.json` | `.local-e2e/channels/nightly.gearsystem.json` |
+| Gearsystem | `pinned` | `pins/core-sets/gearsystem-4f029e43f2d5-0f8b301c259a.json` | `.local-e2e/channels/pinned.gearsystem.json` |
+| Gearsystem | `release` | `.local-e2e/releases/gearsystem-4f029e43f2d5-0f8b301c259a/release-manifest.json` | `.local-e2e/channels/release.gearsystem.json` |
+| 2048 | `nightly` | `.local-e2e/nightlies/2048-c90437d3c391-e1ff15dd7d6a/golden.json` | `.local-e2e/channels/nightly.2048.json` |
+| 2048 | `pinned` | `pins/core-sets/2048-c90437d3c391-e1ff15dd7d6a.json` | `.local-e2e/channels/pinned.2048.json` |
+| 2048 | `release` | `.local-e2e/releases/2048-c90437d3c391-e1ff15dd7d6a/release-manifest.json` | `.local-e2e/channels/release.2048.json` |
+| EightyOne | `nightly` | `.local-e2e/nightlies/81-fa7094910d04-22dd2ebacdc6/golden.json` | `.local-e2e/channels/nightly.81.json` |
+| EightyOne | `pinned` | `pins/core-sets/81-fa7094910d04-22dd2ebacdc6.json` | `.local-e2e/channels/pinned.81.json` |
+| EightyOne | `release` | `.local-e2e/releases/81-fa7094910d04-22dd2ebacdc6/release-manifest.json` | `.local-e2e/channels/release.81.json` |
 
 Always pass the same `--core` to `validate-channel` and `update-channel`.
 The active CLI has no aggregate channel form; the retired schema-v1 pointer
@@ -1903,9 +1903,9 @@ set per ABI, `GIT_VERSION="-2b93c0d"` on every compile, exact link
 objects/options, and complete ordered diagnostic streams while accepting valid
 parallel-stream interleaving. Its canonical selected and reproduction evidence
 are the individual-core run IDs
-`actions-sim-build-core-mednafen_supafaust-v2` and
-`build-core-mednafen_supafaust-local-v2`. The semantic pin/source-set ID
-`mednafen_supafaust-2b93c0d7dff5-21be3575be39`, compatibility manifest
+`actions-sim-build-core-mednafen_supafaust-w3` and
+`build-core-mednafen_supafaust-local-w3`. The semantic pin/source-set ID
+`mednafen_supafaust-2b93c0d7dff5-debb21b70273`, compatibility manifest
 `manifests/compatibility/mednafen_supafaust.json`, lifecycle test
 `tests/cores/test_mednafen_supafaust.py`, and exact-contract test
 `tests/test_contract_mednafen_supafaust.py` are likewise individual-core.
@@ -1919,16 +1919,16 @@ proves the complete ordered 13-object C++ link. ARM64 must contain no compiler,
 linker, or process-failure diagnostics. ARMHF admits only its two exact reviewed
 GCC psABI notes and rejects every warning, error, fatal diagnostic, or
 unexpected note. Its individual selected and reproduction runs are
-`actions-sim-build-core-mednafen_vb-v1` and
-`build-core-mednafen_vb-local-v1`; its semantic lifecycle ID is
-`mednafen_vb-38e7a0ec9ac7-20575c76c389`. Its independent owners are
-`pins/core-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json`,
-`pins/source-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json`,
+`actions-sim-build-core-mednafen_vb-w3` and
+`build-core-mednafen_vb-local-w3`; its semantic lifecycle ID is
+`mednafen_vb-38e7a0ec9ac7-ed193088da99`. Its independent owners are
+`pins/core-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json`,
+`pins/source-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json`,
 `manifests/compatibility/mednafen_vb.json`,
 `scripts/core_pipeline_lib/contracts/mednafen_vb.py`,
 `tests/cores/test_mednafen_vb.py`, and
 `tests/test_contract_mednafen_vb.py`. Its local release is
-`.local-e2e/releases/mednafen_vb-38e7a0ec9ac7-20575c76c389`; its nightly,
+`.local-e2e/releases/mednafen_vb-38e7a0ec9ac7-ed193088da99`; its nightly,
 pinned, and release pointers are
 `.local-e2e/channels/nightly.mednafen_vb.json`,
 `.local-e2e/channels/pinned.mednafen_vb.json`, and
@@ -1945,16 +1945,16 @@ missing-braces warnings; ARMHF additionally requires two reviewed GCC 7.1
 psABI notes. Parallel compilation may complete the warning and note blocks in
 either order, but neither block may be split, changed, or emitted after the
 link. Its individual selected and reproduction runs are
-`actions-sim-build-core-mednafen_ngp-v1` and
-`build-core-mednafen_ngp-local-v1`; its semantic lifecycle ID is
-`mednafen_ngp-a50d5ac288a8-d2dabb68d075`. Its independent owners are
-`pins/core-sets/mednafen_ngp-a50d5ac288a8-d2dabb68d075.json`,
-`pins/source-sets/mednafen_ngp-a50d5ac288a8-d2dabb68d075.json`,
+`actions-sim-build-core-mednafen_ngp-w3` and
+`build-core-mednafen_ngp-local-w3`; its semantic lifecycle ID is
+`mednafen_ngp-a50d5ac288a8-26b82754fc25`. Its independent owners are
+`pins/core-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json`,
+`pins/source-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json`,
 `manifests/compatibility/mednafen_ngp.json`,
 `scripts/core_pipeline_lib/contracts/mednafen_ngp.py`,
 `tests/cores/test_mednafen_ngp.py`, and
 `tests/test_contract_mednafen_ngp.py`. Its local release is
-`.local-e2e/releases/mednafen_ngp-a50d5ac288a8-d2dabb68d075`; its nightly,
+`.local-e2e/releases/mednafen_ngp-a50d5ac288a8-26b82754fc25`; its nightly,
 pinned, and release pointers are
 `.local-e2e/channels/nightly.mednafen_ngp.json`,
 `.local-e2e/channels/pinned.mednafen_ngp.json`, and
@@ -1970,16 +1970,16 @@ its exact format-truncation warning and associated note. ARMHF additionally
 requires two reviewed GCC 7.1 psABI notes; its two complete diagnostic blocks
 may appear in either order but may not split, mutate, or cross the link
 boundary. Its individual selected and reproduction runs are
-`actions-sim-build-core-mednafen_lynx-v1` and
-`build-core-mednafen_lynx-local-v1`; its semantic lifecycle ID is
-`mednafen_lynx-fcdefcfb3c11-c2247f1f6de1`. Its independent owners are
-`pins/core-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json`,
-`pins/source-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json`,
+`actions-sim-build-core-mednafen_lynx-w3` and
+`build-core-mednafen_lynx-local-w3`; its semantic lifecycle ID is
+`mednafen_lynx-fcdefcfb3c11-29e56373f32a`. Its independent owners are
+`pins/core-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json`,
+`pins/source-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json`,
 `manifests/compatibility/mednafen_lynx.json`,
 `scripts/core_pipeline_lib/contracts/mednafen_lynx.py`,
 `tests/cores/test_mednafen_lynx.py`, and
 `tests/test_contract_mednafen_lynx.py`. Its local release is
-`.local-e2e/releases/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1`; its nightly,
+`.local-e2e/releases/mednafen_lynx-fcdefcfb3c11-29e56373f32a`; its nightly,
 pinned, and release pointers are
 `.local-e2e/channels/nightly.mednafen_lynx.json`,
 `.local-e2e/channels/pinned.mednafen_lynx.json`, and
@@ -1994,16 +1994,16 @@ Mednafen PCE Fast demonstrates the no-version C-only compile variant. Its
 compiles and every injected or native version token, and proves exact source
 and success framing plus the complete ordered 92-object C++ link. Every
 warning, note, error, or fatal diagnostic is rejected. Its individual selected
-and reproduction runs are `actions-sim-build-core-mednafen_pce_fast-v1` and
-`build-core-mednafen_pce_fast-local-v1`; its semantic lifecycle ID is
-`mednafen_pce_fast-0bc6c8692834-8e747136926e`. Its independent owners are
-`pins/core-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json`,
-`pins/source-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json`,
+and reproduction runs are `actions-sim-build-core-mednafen_pce_fast-w3` and
+`build-core-mednafen_pce_fast-local-w3`; its semantic lifecycle ID is
+`mednafen_pce_fast-0bc6c8692834-cdd0e0603032`. Its independent owners are
+`pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json`,
+`pins/source-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json`,
 `manifests/compatibility/mednafen_pce_fast.json`,
 `scripts/core_pipeline_lib/contracts/mednafen_pce_fast.py`,
 `tests/cores/test_mednafen_pce_fast.py`, and
 `tests/test_contract_mednafen_pce_fast.py`. Its local release is
-`.local-e2e/releases/mednafen_pce_fast-0bc6c8692834-8e747136926e`; its nightly,
+`.local-e2e/releases/mednafen_pce_fast-0bc6c8692834-cdd0e0603032`; its nightly,
 pinned, and release pointers are
 `.local-e2e/channels/nightly.mednafen_pce_fast.json`,
 `.local-e2e/channels/pinned.mednafen_pce_fast.json`, and
@@ -2018,9 +2018,9 @@ Its `mednafen-wswan-mixed-language-v1` proof binds the native leading-space
 short hash to all 14 C and one C++ compile commands, proves the complete ordered
 15-object C++ link, and requires the exact two reviewed source warnings on both
 ABIs plus the reviewed GCC psABI notes only on ARMHF. Its individual selected
-and reproduction runs are `actions-sim-build-core-mednafen_wswan-v1` and
-`build-core-mednafen_wswan-local-v1`; its semantic lifecycle ID is
-`mednafen_wswan-da6d0d9acb8d-cc4a98ceff16`. The compatibility owner is
+and reproduction runs are `actions-sim-build-core-mednafen_wswan-w3` and
+`build-core-mednafen_wswan-local-w3`; its semantic lifecycle ID is
+`mednafen_wswan-da6d0d9acb8d-da715bbcb6da`. The compatibility owner is
 `manifests/compatibility/mednafen_wswan.json`, the lifecycle owner is
 `tests/cores/test_mednafen_wswan.py`, and exact build-log proof remains in
 `tests/test_contract_mednafen_wswan.py`.
@@ -2033,9 +2033,9 @@ proof requires all 60 C and 34 C++ compiles, binds native leading-space version
 C++ link. Selected and reproduction logs may differ in whole-file order under
 parallel compilation, but each per-stream ordering and the complete diagnostic
 multiset remain fail-closed. Its individual selected and reproduction runs are
-`actions-sim-build-core-mednafen_pcfx-v1` and
-`build-core-mednafen_pcfx-local-v1`; its semantic lifecycle ID is
-`mednafen_pcfx-650c30ea2203-5c0f9a256d9a`. The compatibility owner is
+`actions-sim-build-core-mednafen_pcfx-w3` and
+`build-core-mednafen_pcfx-local-w3`; its semantic lifecycle ID is
+`mednafen_pcfx-650c30ea2203-1c9309580e68`. The compatibility owner is
 `manifests/compatibility/mednafen_pcfx.json`, the lifecycle owner is
 `tests/cores/test_mednafen_pcfx.py`, and exact build-log proof remains in
 `tests/test_contract_mednafen_pcfx.py`.
@@ -2053,10 +2053,10 @@ diagnostics. Its `pokemini-c-only-v1` proof binds native leading-space version
 ` bb009b1` to all 43 C compiles, proves the complete ordered 43-object C link,
 and admits exactly five warnings and five associated notes per ABI. Its
 individual selected and reproduction runs are
-`actions-sim-build-core-pokemini-v1` and `build-core-pokemini-local-v1`; its
-semantic lifecycle ID is `pokemini-bb009b1379ad-2f63e84b7b68`. The canonical
-owners are `pins/core-sets/pokemini-bb009b1379ad-2f63e84b7b68.json`,
-`pins/source-sets/pokemini-bb009b1379ad-2f63e84b7b68.json`,
+`actions-sim-build-core-pokemini-w3` and `build-core-pokemini-local-w3`; its
+semantic lifecycle ID is `pokemini-bb009b1379ad-2ecf9f68eb0c`. The canonical
+owners are `pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json`,
+`pins/source-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json`,
 `manifests/compatibility/pokemini.json`, `tests/cores/test_pokemini.py`, and
 `tests/test_contract_pokemini.py`.
 
@@ -2075,25 +2075,25 @@ can precede unrelated compile-command echoes under parallel `make`. Its
 `1.6.6-11-g1123457` to the one C and all 19 C++ compiles, requires the Processor
 compile before its exact seven-warning block, and requires every compile and
 that block before the exact C++ link and build-complete marker. The selected
-`actions-sim-build-core-gearcoleco-v2` run is
+`actions-sim-build-core-gearcoleco-w3` run is
 `github-actions/simulated/local-docker` evidence with E2E content SHA-256
 `43c20dfc81e417c9c74cb935710c4a50d3e8766ae39b137738e3c7467ddc178b`;
-the independent `build-core-gearcoleco-local-v1` run is
+the independent `build-core-gearcoleco-local-w3` run is
 `local/native/local-docker` evidence with E2E content SHA-256
 `29653ff1ed53ec3a72e604f520d7c9ca0672c2e75370f77c490a0b56752c4a30`.
 They reproduce the package, metadata, both ABI artifacts, and both build logs
 byte for byte. Its semantic lifecycle ID is
-`gearcoleco-112345747c04-046c086031cf`, and its pin, source set, compatibility
+`gearcoleco-112345747c04-02350ee96cf1`, and its pin, source set, compatibility
 manifest, lifecycle test, and contract test are each owned by GearColeco alone.
 
 VICE x64 demonstrates the large mixed-language, zero-diagnostic variant. Its
 `vice-x64-mixed-language-v1` proof independently parses all 536 C and 28 C++
 compiles per ABI, binds native leading-space version ` 7946cfa0d3` to all 564
 commands, and proves the exact ordered C++ link and absence of diagnostics. The
-selected `actions-sim-build-core-vice_x64-v1` run is
+selected `actions-sim-build-core-vice_x64-w3` run is
 `github-actions/simulated/local-docker` evidence with E2E content SHA-256
 `34005d085b8b1df201cc4dec35dd9373a7b3ffc2e60ad96f748952c32c892378`;
-the independent `build-core-vice_x64-local-v1` run is
+the independent `build-core-vice_x64-local-w3` run is
 `local/native/local-docker` evidence with E2E content SHA-256
 `5c729210b41a25651e8202449616989db00c2591b17394d1b4f27927bd4b6e75`.
 They reproduce package
@@ -2115,7 +2115,7 @@ identical complete line multiset and each log independently passes the exact
 564-command proof.
 
 Its semantic lifecycle ID is
-`vice_x64-7946cfa0d377-290256f3bebd`; the pin, source set, compatibility
+`vice_x64-7946cfa0d377-1085a07760d4`; the pin, source set, compatibility
 manifest, lifecycle test, contract test, release, and channel aliases are owned
 by VICE x64 alone. Both fresh runs cloned the pinned source over the network and
 used no offline cache, so these records do not prove offline rebuilds. Metadata
@@ -2130,10 +2130,10 @@ VICE xvic is the independently owned VIC-20 variant of that large
 mixed-language proof. Its `vice-xvic-mixed-language-v1` contract parses exactly
 428 C and 10 C++ compiles per ABI, binds native leading-space version
 ` 7946cfa0d3` to all 438 commands, and proves the exact ordered C++ link and
-zero diagnostics. The selected `actions-sim-build-core-vice_xvic-v1` run is
+zero diagnostics. The selected `actions-sim-build-core-vice_xvic-w3` run is
 `github-actions/simulated/local-docker` evidence with E2E content SHA-256
 `7ceed43317329dab1fd6e0f455c00ba92c882ac37f847276e31f8023a1e9422c`;
-the independent `build-core-vice_xvic-local-v1` run is
+the independent `build-core-vice_xvic-local-w3` run is
 `local/native/local-docker` evidence with E2E content SHA-256
 `1ff6ea3c539445a94945f0350f49c5468e140cfd4f543d52aea7b889df65c972`.
 They reproduce package
@@ -2155,7 +2155,7 @@ pair has an identical complete line multiset and every log independently
 passes the exact 438-command proof.
 
 Its semantic lifecycle ID is
-`vice_xvic-7946cfa0d377-6f9943958478`; the pin, source set, compatibility
+`vice_xvic-7946cfa0d377-f1e6abfe933c`; the pin, source set, compatibility
 manifest, lifecycle test, contract test, release, and channel aliases are owned
 by VICE xvic alone. Both fresh runs cloned the pinned source over the network
 and used no offline cache, so these records do not prove offline rebuilds.
@@ -2174,10 +2174,10 @@ fMSX demonstrates the unsuppressed, zero-diagnostic C-only variant. Its
 `fmsx-c-only-v1` contract proves exactly 31 C compiles per ABI, binds native
 leading-space version ` f013e21` to every compile, and requires the exact
 ordered C link with no diagnostics or unmarked compiler, linker, or process
-failures. The selected `actions-sim-build-core-fmsx-v1` run is
+failures. The selected `actions-sim-build-core-fmsx-w3` run is
 `github-actions/simulated/local-docker` evidence with E2E content SHA-256
 `b28d61b162360e702e873b89e469a1f446bc9aeb752e930e82e64e16f688dc8d`;
-the independent `build-core-fmsx-local-v1` run is
+the independent `build-core-fmsx-local-w3` run is
 `local/native/local-docker` evidence with E2E content SHA-256
 `f57a53ef3c116eb22e954b0ed7383b74b9a7740737c477ccbe40c7bff059d12b`.
 They reproduce package
@@ -2193,7 +2193,7 @@ hashes are respectively
 `6c91821864091514e6576c409c67353afc0dd9d181075bcb608f76bbbb701878` and
 `cc359c1b9073b241c9f91fc650a72a677e68e54af64d7af2cbe4a980eb82dad6`.
 
-Its semantic lifecycle ID is `fmsx-f013e213458e-194b406b9096`; the pin,
+Its semantic lifecycle ID is `fmsx-f013e213458e-b015409bc42c`; the pin,
 source set, compatibility manifest, lifecycle test, contract test, release,
 and channel aliases are owned by fMSX alone. Both fresh runs cloned pristine
 commit `f013e213458e06d9df718e4bc4b09d46f88aa899` over the network and used no
@@ -2225,10 +2225,10 @@ proves the exact ABI-specific invocations and ordered C++ link. The logs emit
 no diagnostics and contain no unmarked compiler, linker, or process failures;
 because every compile suppresses warnings, this proves suppression consistency,
 not warning-free source code. The selected
-`actions-sim-build-core-bluemsx-v1` run is
+`actions-sim-build-core-bluemsx-w3` run is
 `github-actions/simulated/local-docker` evidence with E2E content SHA-256
 `5dc0241fddb63fbbdff33fd9c37cbe223c1a62bdaf8148428f56b75479deb7da`;
-the independent `build-core-bluemsx-local-v1` run is
+the independent `build-core-bluemsx-local-w3` run is
 `local/native/local-docker` evidence with E2E content SHA-256
 `c41eaadb2f88ff9ab2c633607d7386b022cd7637e97888fec6cb5f98912a5f78`.
 They reproduce package
@@ -2244,10 +2244,10 @@ respectively
 `51ec8ba37ef3a8732b089e751d79f11293ae6ac7b92728548618d2166a4faae6`
 and `1cca54101935e09492f630a6073c8a82199d40b11b6c4b1790124f46c473ef61`.
 
-Its semantic lifecycle ID is `bluemsx-5f595c79906f-a1c1fd914a76`; its
+Its semantic lifecycle ID is `bluemsx-5f595c79906f-e600380ac6d7`; its
 independent owners are
-`pins/core-sets/bluemsx-5f595c79906f-a1c1fd914a76.json`,
-`pins/source-sets/bluemsx-5f595c79906f-a1c1fd914a76.json`,
+`pins/core-sets/bluemsx-5f595c79906f-e600380ac6d7.json`,
+`pins/source-sets/bluemsx-5f595c79906f-e600380ac6d7.json`,
 `manifests/compatibility/bluemsx.json`, `tests/cores/test_bluemsx.py`, and
 `tests/test_contract_bluemsx.py`, plus its one-core release and channel aliases.
 Both fresh runs cloned pristine commit
@@ -2298,9 +2298,9 @@ Snes9x 2005 demonstrates the reviewed-diagnostic C-only variant. Its
 version ` b603569` on every compile, the upstream file-origin default
 `USE_BLARGG_APU=0`, the exact ABI-specific invocations and ordered C link, and
 exactly 12 reviewed array-bounds warnings with 12 related notes. The selected
-`actions-sim-build-core-snes9x2005-v1` run has E2E content SHA-256
+`actions-sim-build-core-snes9x2005-w3` run has E2E content SHA-256
 `44b8c777cf90ff212ee66a015e4e5893622b82bb24aac2935c233a0b428aa72b`;
-the independent `build-core-snes9x2005-local-v1` run has E2E content SHA-256
+the independent `build-core-snes9x2005-local-w3` run has E2E content SHA-256
 `450d55fc51f954cfcd3d5a3ff86b8f64c127027bf4c29ca0d2190fd957df88c0`.
 They reproduce package
 `900db7efba34050edac030de8f7d29b96c5b9b1c53b133239723e58df5505fab`,
@@ -2313,7 +2313,7 @@ ARMHF artifact
 and both ABI logs byte for byte.
 
 Its semantic lifecycle ID is
-`snes9x2005-b60356971fc9-06b9f12c860c`. The one-core pin, source set,
+`snes9x2005-b60356971fc9-23fbb6c59d54`. The one-core pin, source set,
 compatibility manifest, `tests/cores/test_snes9x2005.py`, contract test, local
 release, and three `.local-e2e/channels/<channel>.snes9x2005.json` aliases are
 owned by Snes9x 2005 alone. Both builds bind pristine commit
@@ -2341,9 +2341,9 @@ make variable `USE_BLARGG_APU=1`, the exact ABI-specific invocations and
 ordered C link, and the reviewed diagnostic streams. ARM64 has 16 warnings and
 12 notes, including four Blargg shift warnings; ARMHF has 12 warnings and 12
 notes. The selected
-`actions-sim-build-core-snes9x2005_plus-v1` run has E2E content SHA-256
+`actions-sim-build-core-snes9x2005_plus-w3` run has E2E content SHA-256
 `80d9e318f111217fb540e111021614eb7377dda95963f350ecf0fce9ec71a30b`;
-the independent `build-core-snes9x2005_plus-local-v1` run has E2E content
+the independent `build-core-snes9x2005_plus-local-w3` run has E2E content
 SHA-256
 `22c975abd21dddb2b2f91020ab5194b2d0a78bcd91040c3648ac739d95f0879d`.
 They reproduce package
@@ -2351,7 +2351,7 @@ They reproduce package
 metadata, both ABI artifacts, and both reviewed logs byte for byte.
 
 Its semantic lifecycle ID is
-`snes9x2005_plus-b60356971fc9-32f28e9ec741`. The one-core pin, source set,
+`snes9x2005_plus-b60356971fc9-77ca2d085240`. The one-core pin, source set,
 compatibility manifest, `tests/cores/test_snes9x2005_plus.py`, contract test,
 local release, and three
 `.local-e2e/channels/<channel>.snes9x2005_plus.json` aliases belong to Snes9x
@@ -2374,8 +2374,8 @@ Cap32's `cap32-c-only-v1` admission composes its GNU Make trace proof with an
 exact C-only contract: 44 source/object pairs, every ABI-specific compiler
 argv, native version ` 4abfb8b`, Makefile lines 485 and 511, normalized and
 raw link objects, the ordered C link, an exact success trailer, and zero
-warnings or notes. Selected `actions-sim-build-core-cap32-v2` and reproduction
-`build-core-cap32-local-v2` runs have E2E content SHA-256
+warnings or notes. Selected `actions-sim-build-core-cap32-w3` and reproduction
+`build-core-cap32-local-w3` runs have E2E content SHA-256
 `09ac1fe2f0c2527c00ebccf0696e844fc769447c66ed74fc65368ebd54f6a0ce`
 and `c7ac6cddfa06281ef710502b30fc85bbe750b63077a2a7c846f1cf8c69a86081`.
 They reproduce package
@@ -2383,7 +2383,7 @@ They reproduce package
 metadata, and both ABI artifacts byte for byte; parallel logs differ only in
 complete-line order and have identical line multisets per ABI.
 
-Its semantic lifecycle ID is `cap32-4abfb8be233b-afbc043051e8`. The matching
+Its semantic lifecycle ID is `cap32-4abfb8be233b-4f89ee89dec9`. The matching
 pin, source set, compatibility manifest, local release, three
 `.local-e2e/channels/<channel>.cap32.json` aliases, `tests/cores/test_cap32.py`,
 and `tests/test_contract_cap32.py` are independently owned. Resolver metadata
@@ -2401,8 +2401,8 @@ pairs per ABI, every ABI-specific compiler invocation, native version
 ` 87bbb3d`, the normalized and raw link-object identities, ordered C link,
 binary version marker, and success trailer. ARM64 preserves five exact
 diagnostic streams containing nine warnings and seven notes; ARMHF has no
-warnings or notes. Selected `actions-sim-build-core-crocods-v1` and
-reproduction `build-core-crocods-local-v1` runs have E2E content SHA-256
+warnings or notes. Selected `actions-sim-build-core-crocods-w3` and
+reproduction `build-core-crocods-local-w3` runs have E2E content SHA-256
 `ada4c105bcbef9ed6d76a80ee9b197a27f6873176487040a728e22aa0219889c`
 and `f69968b50aa2cd6b81625c1c73a4f61b3af8c60eaa35b53f380503b7cce0b9d7`.
 They reproduce package
@@ -2411,7 +2411,7 @@ metadata, and both ABI artifacts byte for byte. ARMHF logs are byte-identical;
 ARM64 logs differ only in accepted parallel complete-line order and have equal
 line multisets.
 
-Its semantic lifecycle ID is `crocods-87bbb3d9007a-7b4aa1fce1f1`. The matching
+Its semantic lifecycle ID is `crocods-87bbb3d9007a-5a44afda913e`. The matching
 pin, source set, compatibility manifest, local release, three
 `.local-e2e/channels/<channel>.crocods.json` aliases,
 `tests/cores/test_crocods.py`, and `tests/test_contract_crocods.py` are
@@ -2430,8 +2430,8 @@ Genesis Plus GX's `genesis-plus-gx-c-link-v1` admission proves exactly
 native version ` fa4dca5`, the complete ordered C link, binary version
 `v1.7.4 fa4dca5`, and the success trailer. ARM64 preserves exactly two
 reviewed warnings and one note; ARMHF has no warnings or notes. Selected
-`actions-sim-build-core-genesis_plus_gx-v1` and reproduction
-`build-core-genesis_plus_gx-local-v1` runs have E2E content SHA-256
+`actions-sim-build-core-genesis_plus_gx-w3` and reproduction
+`build-core-genesis_plus_gx-local-w3` runs have E2E content SHA-256
 `ecca27daaf224d55bf1ca0ced78d7fbd91afe8bfd6869016d3a3cf91ccb74574`
 and `e33c54915b30cff9a034630c983bd578c908d658ed3e649c71509473325b4d3f`.
 They reproduce package
@@ -2441,7 +2441,7 @@ ARM64 logs differ only in accepted parallel complete-line order and have equal
 line multisets.
 
 Its semantic lifecycle ID is
-`genesis_plus_gx-fa4dca561e08-0e5a55ff8180`. The matching pin, source set,
+`genesis_plus_gx-fa4dca561e08-b94a8729a601`. The matching pin, source set,
 compatibility manifest, local release, three
 `.local-e2e/channels/<channel>.genesis_plus_gx.json` aliases,
 `tests/cores/test_genesis_plus_gx.py`, and
@@ -2462,8 +2462,8 @@ exactly 106 C source/object pairs per ABI, every ABI-specific compiler
 invocation, native version ` 29d9d10`, the raw and ordered link identities,
 and terminal copy/success framing. ARM64 preserves exactly two reviewed
 warnings and one note; ARMHF has no diagnostics. Fresh selected
-`actions-sim-build-core-genesis_plus_gx_wide-v1` and reproduction
-`build-core-genesis_plus_gx_wide-local-v1` runs have E2E content SHA-256
+`actions-sim-build-core-genesis_plus_gx_wide-w3` and reproduction
+`build-core-genesis_plus_gx_wide-local-w3` runs have E2E content SHA-256
 `9fd6fd7cca4cec46d84834d3008164cfd59e687aad30a773a5d2f1ad5ff6419e`
 and `f95ab10542bb0a7c73c57a4cae92715dd58af3993cb1e2eb09f8293caeebb19d`.
 They reproduce package
@@ -2471,7 +2471,7 @@ They reproduce package
 metadata, both ABI artifacts, and both logs byte for byte.
 
 Its semantic lifecycle ID is
-`genesis_plus_gx_wide-29d9d104338f-7907e7e03389`. The matching pin, source
+`genesis_plus_gx_wide-29d9d104338f-5035640f9981`. The matching pin, source
 set, compatibility manifest, local release, three
 `.local-e2e/channels/<channel>.genesis_plus_gx_wide.json` aliases,
 `tests/cores/test_genesis_plus_gx_wide.py`, and
@@ -2489,17 +2489,17 @@ O2EM demonstrates the native-version variant. Its `o2em-c-only-v1` proof keeps
 the catalog free of a synthetic `git_version`, binds upstream's native
 leading-space short hash to all 42 C compiles, and proves the exact C link with
 no diagnostics or unmarked linker/process failures. Its individual selected
-and reproduction runs are `actions-sim-build-core-o2em-v1` and
-`build-core-o2em-local-v1`; its semantic lifecycle ID is
-`o2em-e03d3be88f79-ede84c3862de`.
+and reproduction runs are `actions-sim-build-core-o2em-w3` and
+`build-core-o2em-local-w3`; its semantic lifecycle ID is
+`o2em-e03d3be88f79-a966ff1d0775`.
 
 FreeChaF demonstrates the recursive-source native-version variant. Its
 `freechaf-c-only-v1` proof binds libretro-common at
 `01c6122931a10a7012973054e7067859d2116420`, the native leading-space short
 hash on all 25 C compiles, the exact C link, and its one reviewed warning. Its
 individual selected and reproduction runs are
-`actions-sim-build-core-freechaf-v1` and `build-core-freechaf-local-v1`; its
-semantic lifecycle ID is `freechaf-76c7a84f1f7e-0fced3806666`.
+`actions-sim-build-core-freechaf-w3` and `build-core-freechaf-local-w3`; its
+semantic lifecycle ID is `freechaf-76c7a84f1f7e-3fc6b43191ef`.
 
 VecX demonstrates the software-renderer native-version variant. Its
 `vecx-software-c-only-v1` proof requires `HAS_GPU=0`, binds the native
@@ -2507,16 +2507,16 @@ leading-space short hash to all four C compile commands, proves the complete
 ordered link command, binds the exact metadata replacement, and rejects
 GL-family inputs, GPU objects, diagnostics, and unmarked process failures. Its
 individual selected and reproduction runs are
-`actions-sim-build-core-vecx-v2` and `build-core-vecx-local-v1`; its semantic
-lifecycle ID is `vecx-8f671cc9d737-4686ef94bf56`.
+`actions-sim-build-core-vecx-w3` and `build-core-vecx-local-w3`; its semantic
+lifecycle ID is `vecx-8f671cc9d737-599c2197e36a`.
 
 LowRes NX demonstrates the larger native-version C-only variant. Its
 `lowresnx-c-only-v1` proof binds the upstream leading-space short hash to all
 43 C compile commands, the two reviewed source/object orderings, exact
 ABI-specific compiler invocations, the ordered link, metadata replacement,
 and fail-closed diagnostic set. Its selected and reproduction runs are
-`actions-sim-build-core-lowresnx-v1` and `build-core-lowresnx-local-v1`; its
-semantic lifecycle ID is `lowresnx-35adc1a215e9-837092a5ffca`. ARM64 reaches
+`actions-sim-build-core-lowresnx-w3` and `build-core-lowresnx-local-w3`; its
+semantic lifecycle ID is `lowresnx-35adc1a215e9-bcaea00ea240`. ARM64 reaches
 `GLIBC_2.29`; provider compatibility and target-runtime behavior remain
 unverified, so all device views remain ineligible.
 
@@ -2525,10 +2525,10 @@ RACE demonstrates the native-version C-only Neo Geo Pocket variant. Its
 `c7810dd7f172827bfa2004813bc000b13786636b`, the leading-space short hash on
 all 27 C compile commands, the exact ordered C link, success framing, and a
 zero-diagnostic envelope for both ABIs. The selected
-`actions-sim-build-core-race-v1` and independent
-`build-core-race-local-v1` runs reproduce package, resolver metadata, both ABI
+`actions-sim-build-core-race-w3` and independent
+`build-core-race-local-w3` runs reproduce package, resolver metadata, both ABI
 artifacts, and both logs byte for byte under semantic ID
-`race-c7810dd7f172-c3119de987bf`. `ngpBios.c` is compiled internal source, not
+`race-c7810dd7f172-c0ea16475d19`. `ngpBios.c` is compiled internal source, not
 a packaged or required external firmware blob. Publication remains disabled
 behind GPLv2 redistribution review. ARMHF requires `GLIBC_2.7`; reset, core
 options, unaligned-access behavior, content loading, frontend integration,
@@ -2541,10 +2541,10 @@ variant. Its `mednafen-supergrafx-mixed-language-v1` proof binds source commit
 29 C++ compiles only, all 60 C compiles, the complete ordered 89-object C++
 link, and every reviewed diagnostic block after its owning source compile.
 Occurrence-aware assignment covers repeated `zlib_codec_init` headers. Selected
-`actions-sim-build-core-mednafen_supergrafx-v1` and independent
-`build-core-mednafen_supergrafx-local-v1` runs reproduce package, resolver
+`actions-sim-build-core-mednafen_supergrafx-w3` and independent
+`build-core-mednafen_supergrafx-local-w3` runs reproduce package, resolver
 metadata, and both ABI artifacts byte for byte under semantic ID
-`mednafen_supergrafx-3c6fcd3deded-6f92f2753900`; parallel logs differ while
+`mednafen_supergrafx-3c6fcd3deded-c84693b9711a`; parallel logs differ while
 both satisfy the exact proof.
 
 The core-owned `contracts/mednafen_supergrafx.py`, matching one-core pin, source
@@ -2563,10 +2563,10 @@ Potator demonstrates the native-version C-only Watara Supervision variant. Its
 `227c5f6f3ce74d32e9002ce24c1420288559a860`, native version ` 227c5f6` on
 all eight C compiles, the complete ordered C link, and exactly four reviewed
 misleading-indentation CPU warning/note pairs. Selected
-`actions-sim-build-core-potator-v1` and independent
-`build-core-potator-local-v1` runs reproduce package, resolver metadata, both
+`actions-sim-build-core-potator-w3` and independent
+`build-core-potator-local-w3` runs reproduce package, resolver metadata, both
 ABI artifacts, and both logs byte for byte under semantic ID
-`potator-227c5f6f3ce7-1617e2249087`.
+`potator-227c5f6f3ce7-66e2c96acf38`.
 
 The core-owned `contracts/potator.py`, matching one-core pin, source set,
 compatibility manifest, local release, three
@@ -2586,8 +2586,8 @@ lifecycles for the two Gearemu cores. Their `gearboy-mixed-language-v1` and
 complete ordered C++ links, and zero diagnostics for both ABIs. Their selected
 simulated-Actions and independent native-local runs reproduce package,
 metadata, artifacts, and logs byte for byte under semantic IDs
-`gearboy-36d723ff4410-f6f1b63e8798` and
-`gearsystem-4f029e43f2d5-35212fbb9d9a`.
+`gearboy-36d723ff4410-34b7df6bcf6b` and
+`gearsystem-4f029e43f2d5-0f8b301c259a`.
 
 Each core owns its contract, one-core pin and source set, compatibility
 manifest, local release, three individual channel aliases, catalog test, and
@@ -2600,9 +2600,9 @@ runtime evidence exists; every device view therefore remains ineligible.
 `contracts/core_2048.py` owner and `core-2048-c-only-v1` proof bind the pinned
 source tree, upstream leading-space short hash on all 16 C commands, complete
 ordered C link, and zero-diagnostic envelope for both ABIs. Its selected and
-reproduction runs are `actions-sim-build-core-2048-v2` and
-`build-core-2048-local-v1`; its semantic lifecycle ID is
-`2048-c90437d3c391-86ed146bc647`. The source is eight commits newer than the
+reproduction runs are `actions-sim-build-core-2048-w3` and
+`build-core-2048-local-w3`; its semantic lifecycle ID is
+`2048-c90437d3c391-e1ff15dd7d6a`. The source is eight commits newer than the
 shipped baseline and its resolver metadata reports no libretro saves despite
 an exposed SaveRAM region, so runtime behavior and every device view remain
 ineligible pending target evidence.
@@ -2616,9 +2616,9 @@ per-source diagnostic streams for each ABI. Upstream Make must generate
 `5a07d38a3bcd84ee5fa9abbdbe0bd706288d8ec4ee8095485447e35dc28a2862`
 after the build and records the exact `build.generated_source` identity. Do not
 add `git_version`, set `GIT_VERSION`, or patch/generated-copy this file.
-The selected `actions-sim-build-core-81-v2` and independent
-`build-core-81-local-v1` runs reproduce package, metadata, and both ABI
-artifacts exactly under semantic ID `81-fa7094910d04-a82f6eb4a7cc`. Their raw
+The selected `actions-sim-build-core-81-w3` and independent
+`build-core-81-local-w3` runs reproduce package, metadata, and both ABI
+artifacts exactly under semantic ID `81-fa7094910d04-22dd2ebacdc6`. Their raw
 logs differ because parallel Make interleaves the same diagnostics differently;
 both pass the strict stream-order NFA, with 39 warnings/6 notes on ARM64 and 38
 warnings/11 notes on ARMHF. The failed v1 oracle remains unpromotable. The

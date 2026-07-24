@@ -14,8 +14,8 @@ CORE_ID = "quasi88"
 SOURCE_URL = "https://github.com/libretro/quasi88-libretro.git"
 SOURCE_COMMIT = "520e0a37ac0e9cf8b0536fe83fda3aacc9ba73bb"
 SOURCE_TREE = "2e2ab44397253236e3b87ee2534cb7483ca90ce9"
-SELECTED_RUN = "actions-sim-build-core-quasi88-v1"
-REPRODUCTION_RUN = "build-core-quasi88-local-v1"
+SELECTED_RUN = "actions-sim-build-core-quasi88-w3"
+REPRODUCTION_RUN = "build-core-quasi88-local-w3"
 
 
 class Quasi88ManifestTests(unittest.TestCase):

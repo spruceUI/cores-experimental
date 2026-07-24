@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "retro8-ddc06a142398-9b596b4d9ad6",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/retro8-ddc06a142398-9b596b4d9ad6.json",
+    "pin_id": "retro8-ddc06a142398-9b596b4d9ad6",
+    "file_sha256": "8320ae2baafd6e1e6861d2f6e48be1dea896e1defef6b98bd3a5296722631c59",
+    "content_sha256": "f7c19f6ea2d04daf354310650402ba67366e32589a34b7a4898b30f2176714a0"
+  },
+  "sources": {
+    "retro8": {
+      "path": "pins/sources/retro8/ddc06a142398ee9755894b3f0bb17c8dc428151d.json",
+      "source_lock_id": "retro8-ddc06a142398",
+      "commit": "ddc06a142398ee9755894b3f0bb17c8dc428151d",
+      "file_sha256": "9c133fd53caff37a10dda81450fba7acc9a79126dab40fef1d51af5758b5b8fd",
+      "content_sha256": "6c233f4137275d5af218182d000d70c8d12295f170a4bfbecf18869f393bc994"
+    }
+  },
+  "content_sha256": "7b6e112356b93b08f70fcb75c937189299bc722fcec2d0470459a0b251b3956d"
+}

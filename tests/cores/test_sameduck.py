@@ -16,8 +16,8 @@ CORE_ID = "sameduck"
 SOURCE_URL = "https://github.com/libretro/sameduck.git"
 SOURCE_COMMIT = "f0286ee9d6c44950d9a442463ffdb1ff014a5d5b"
 SOURCE_TREE = "c04c4f24a078b55386a1c62ae3619dde5b5087d9"
-SELECTED_RUN = "actions-sim-build-core-sameduck-v1"
-REPRODUCTION_RUN = "build-core-sameduck-local-v1"
+SELECTED_RUN = "actions-sim-build-core-sameduck-w3"
+REPRODUCTION_RUN = "build-core-sameduck-local-w3"
 
 
 class SameduckManifestTests(unittest.TestCase):

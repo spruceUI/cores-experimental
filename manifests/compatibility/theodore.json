@@ -4,14 +4,14 @@
   "core_id": "theodore",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/theodore-121ae2513d3e-13dc800adfce.json",
+  "golden_source": "pins/core-sets/theodore-121ae2513d3e-e274b5dfd8f0.json",
   "source_commit": "121ae2513d3ee29f0aaf765a64dc086d57e7a4c7",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-theodore-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "a11dd67a7199fe255bc5f54bb8be7373720aad4095a08081142f0b8bf7fb342d",
-  "reproduction_run": ".local-e2e/runs/build-core-theodore-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "a9c8101c87bc914c4b39d72047929b79670aa4bc95479c67b8c569b54fadcb76",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-theodore-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "cbb07e11f431d7c15e1bdec4d8d36a8cade5c1175a9c33302ace25bc3ce19395",
+  "reproduction_run": ".local-e2e/runs/build-core-theodore-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "be33a0b25de328f2b41239aa619442917119bd85cf46f632898cce4b7f117a26",
   "package_state": "reproducible",
-  "package_sha256": "e31a1aa3c37cd73fa7fc082864e881f878ddb96b6452c5a8e831e7d1ff24717e",
+  "package_sha256": "c4938686aca40dbf0ea8f1424be99870317796651148f06aa5b1f453179bb4be",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the theodore_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -48,5 +48,5 @@
       ]
     }
   },
-  "content_sha256": "d407ff1538c16f6d20e4065c8feac9eddb9a9a380daaf2b43cee5fa2a43f6a7a"
+  "content_sha256": "67eead3f6f14eddac853cda1b9771701d5a4eec521542a404d58c27e64fa9a63"
 }

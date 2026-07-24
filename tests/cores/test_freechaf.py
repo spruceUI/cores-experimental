@@ -25,7 +25,7 @@ from .support import (
 
 CORE_ID = "freechaf"
 OTHER_CORE_ID = "prosystem"
-PIN_NAME = "freechaf-76c7a84f1f7e-0fced3806666.json"
+PIN_NAME = "freechaf-76c7a84f1f7e-3fc6b43191ef.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -36,26 +36,26 @@ SOURCE_LOCK_ID = "freechaf-76c7a84f1f7e"
 SUBMODULE_PATH = "src/deps/libretro-common"
 SUBMODULE_COMMIT = "01c6122931a10a7012973054e7067859d2116420"
 SELECTION_SHA256 = (
-    "0fced3806666a849d101aad50c672bec195fec35a99af46ad06bba2b4e4aef00"
+    "3fc6b43191efe77d6baf65f532c62874df54a788a72df19533c30b8923b3f0f9"
 )
-SELECTED_RUN = "actions-sim-build-core-freechaf-v1"
-REPRODUCTION_RUN = "build-core-freechaf-local-v1"
+SELECTED_RUN = "actions-sim-build-core-freechaf-w3"
+REPRODUCTION_RUN = "build-core-freechaf-local-w3"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "ec49eb283586679eaf49a32981e3a98486ea32686651356149bce0c9ad3676ac"
+    "b4067eacbc0bc85f46578f6cea926eae63c6d92b2ff9c1fad48bb5d5b9b84e3b"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "9a01765a7a8080b42c7833600ae9025d0fea52bfd93cd4dea16423254db87320"
+    "640d52e89d931199271524727125b855d23052159e050b1fc0ca44da5f85a6c9"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "07ec9ecd123a896ae0c3f19516a188ae4983e486507b6304a57f1f491044d547"
+        "7dffde4d811f12ba1cdc4a79b3884bc476f61137dfa402b31c7e697c74500b28"
     ),
     REPRODUCTION_RUN: (
-        "9799bcca52e45f8178f387301044b12398cd0fdfaf4eaef7aaf674ef132fcb7d"
+        "15ca02119f94bfdcf29fed334d697530646e1a44d8aa87cb774327380c97c8b1"
     ),
 }
 PACKAGE_SHA256 = (
-    "7920fad29b045b305b2aad5fa454348e9f55126da40df4ce41a99b76d2a60049"
+    "30463cecf3d5d6ea107ffadd9ef3655b9edeff4c98da9c485518cdc0c3978b9a"
 )
 METADATA_SHA256 = (
     "f5f320f78744fa100512cb75e3dd13298b11b1e344c8f90b0cdaacb9c7469fec"
@@ -84,10 +84,10 @@ TARGETS = {
         "artifact_size": 112720,
         "record_sha256": {
             SELECTED_RUN: (
-                "8d847c27018ef43b2aa2a5b65ef4b85c4fd710e2769845fd69ffc2d07391ee7b"
+                "f58a3e435e06754eee352f405d0c3d809dd2166e39438bd4dace4ed91cb91bdb"
             ),
             REPRODUCTION_RUN: (
-                "2a4d2f49af93834f0895126ff65b53f31a805b9ee8c95c43e9a0937f1edd949b"
+                "713c69e01c5a50eae4f9de490b4d93e7367f78a81a075c2b0a8f8adddcfe4919"
             ),
         },
         "log_sha256": (
@@ -105,10 +105,10 @@ TARGETS = {
         "artifact_size": 97564,
         "record_sha256": {
             SELECTED_RUN: (
-                "92873a76ce8fb210ed73c30fb67b246f43d64386b1f3f594fcc74357ff8bae40"
+                "ce0083dc32c1322bd290dc19b61b4b7645dcf97f1cd74889b6fa86e2ae45f3a0"
             ),
             REPRODUCTION_RUN: (
-                "f8b2163839ade9e40f10b6448d3dc453258b446977418565c6809cff93a70bdc"
+                "2b6066ef5ac7f47c575d2d7961a07f14b0385f4d821f955f5ac169dd358c5ef9"
             ),
         },
         "log_sha256": (

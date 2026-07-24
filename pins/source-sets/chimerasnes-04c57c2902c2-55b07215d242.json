@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "chimerasnes-04c57c2902c2-55b07215d242",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/chimerasnes-04c57c2902c2-55b07215d242.json",
+    "pin_id": "chimerasnes-04c57c2902c2-55b07215d242",
+    "file_sha256": "1e1e1d87a62b0c6e1c1170757032f5c3923425141596afb91560d5ac1b782fd6",
+    "content_sha256": "5d9b2dd47cd317b3d9fcd0d1fd6aabbb558ae3f4d57765acce9a2131c7f58b12"
+  },
+  "sources": {
+    "chimerasnes": {
+      "path": "pins/sources/chimerasnes/04c57c2902c25f36ae5a5d9c57aff851a772c868.json",
+      "source_lock_id": "chimerasnes-04c57c2902c2",
+      "commit": "04c57c2902c25f36ae5a5d9c57aff851a772c868",
+      "file_sha256": "5549bb350455921a6877d8c0d098b408d942af1313d8145027d160df2906c850",
+      "content_sha256": "05d2db1b7c4ab04a70fe059ab9c0e449dc14954704c58b3067d68440643c2724"
+    }
+  },
+  "content_sha256": "e2ba8270460ad23f67d6513c1d725e001f99e6f32ae1c6432b7d9ae7e8a18f0e"
+}

@@ -4,14 +4,14 @@
   "core_id": "prosystem",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/prosystem-363b6dfbd3e2-cb86034fdd05.json",
+  "golden_source": "pins/core-sets/prosystem-363b6dfbd3e2-245dc2e3516d.json",
   "source_commit": "363b6dfbd3e240762e022c2b4897b4fe55722be3",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-prosystem-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "98bce4eb1ce782862ba66115603897f34da6d78932ae00df6a74ed44a2430859",
-  "reproduction_run": ".local-e2e/runs/build-core-prosystem-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "0ba7eb85c6bfa44391e38d1442148967bfea7167fc1b7fb51addfcce0bdbb2c9",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-prosystem-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "b2ef506e33f04ca3acc4746b9585cdb208082fb5ba0e1b728058fdd6d2c9f2e9",
+  "reproduction_run": ".local-e2e/runs/build-core-prosystem-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "d18d679e98b22943ef1f54dd4a0ffc4a4ba83b869f7dd7f76d9b19c28add4a9a",
   "package_state": "reproducible",
-  "package_sha256": "8b2c1fc8c713f01e44e59e3bf579afbecb1decf1afbecc0f5819a9aafd929d26",
+  "package_sha256": "38bac674e94bf907b99e2dbcc4024273d71c9a7a979a4c909bb6b2479578e748",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the prosystem_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -57,5 +57,5 @@
       ]
     }
   },
-  "content_sha256": "065fb2abf27061ad3d8899b5d7c2bc2aace02828ab8aee0ba448f6d279f5c42d"
+  "content_sha256": "4279a246cbdf967df045cbe274c03af05679588164aad1be407088d1ec2c5d72"
 }

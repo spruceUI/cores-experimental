@@ -16,7 +16,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "cap32"
 OTHER_CORE_ID = "crocods"
-PIN_NAME = "cap32-4abfb8be233b-afbc043051e8.json"
+PIN_NAME = "cap32-4abfb8be233b-4f89ee89dec9.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -34,48 +34,48 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "dd74cb116a010edd1c9366003e89d4c956f2c2324e6721c9a31afeb3388805db"
 )
 PIN_FILE_SHA256 = (
-    "d6d4516884a0f3e1d5654944e601bad8688e7467ef1fe758acfc50194d4981c1"
+    "fefc25c2c9aba38d6c32d8da03cba2fd35b78121c50392c38acdc8f712b2f850"
 )
 PIN_CONTENT_SHA256 = (
-    "232867bdbb6ad7b7d9ea5316d11421f5307a51b35b8e355ea2126bf2ee0d908b"
+    "08a646e6e15397846d58efc549b037c991f6078c8235a4855b3d34032d9f122e"
 )
 SOURCE_SET_FILE_SHA256 = (
-    "16926bd8b787a31d4221bccd1c5cd708e91132e7454ccba6f5a2af836d6418b7"
+    "89c3c20b9e138a22494ce4533119d2f61c89b6ca3ea66600ddfb42450f5a85cb"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "bb93108924bfb9754aca7f40dac6f8417e677529e705bf580c1c23048564946c"
+    "e150405887726b14bf8d0223e7493367ac0be7c7bf00b87175f4815b66333802"
 )
 COMPATIBILITY_FILE_SHA256 = (
-    "b5f5e46666088f483f6738da0ab65a0ad2e2ff893b7359168e8ed7a802f50ac0"
+    "f0b351044945834f8cd63a46ce3d79716c37f1248f4d2c6705e896b6db489947"
 )
 COMPATIBILITY_CONTENT_SHA256 = (
-    "701e50d56cbc44305404566da17d203c6f994ed37560cfa66f00fd84013b8855"
+    "314f18958d9ed45d4a69dc527c125ee1c718926ffa2f4b161d937b1ac465209a"
 )
 SELECTION_SHA256 = (
-    "afbc043051e809ce29dc4f871215a19d4305a9050b8afe94a91182408ae58727"
+    "4f89ee89dec9d8989820fba4a5bf21723a9c7d2db2154cf9ffe3be071165418b"
 )
-SELECTED_RUN = "actions-sim-build-core-cap32-v1"
-REPRODUCTION_RUN = "build-core-cap32-local-v1"
+SELECTED_RUN = "actions-sim-build-core-cap32-w3"
+REPRODUCTION_RUN = "build-core-cap32-local-w3"
 E2E_CONTENT_SHA256 = {
     SELECTED_RUN: (
-        "3fcbf9eabc505f5774204ee2af85578f0c9bee03f11e019df69bc14a1858f15c"
+        "62d33a55909deb7e65c0dc387952b8877f248ebb7bf262dc40e37cc555cf4a5b"
     ),
     REPRODUCTION_RUN: (
-        "5cc9c57888b1fe86d2d6d83a84aafebc62a07db45c16d0db0b65ebf30e2df556"
+        "343ca08a3179846c59bdcd68a7c1da993c1ffa10e3b33d2561a4bd8ad84382ce"
     ),
 }
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "6c7f085b74d88f76e152af870d6bb7b32cb26b367899367d4f2284cb9b7db5ef"
+        "bc0378e97bff4ea4a3537602253fb22f70ab6b48667b7d40eb34d34141c09a34"
     ),
     REPRODUCTION_RUN: (
-        "f887546597823e7f3ba9dffefdc35a3178d73f463314a7f95f0393f352430f69"
+        "b9d56a5e5300ad7eccaff5efb7198ec528af012df89fb13302c6ed0770989e1b"
     ),
 }
 PACKAGE_SHA256 = (
-    "202f2729cc163b855a6b8a61637e0f847070e0d71c3eb83b2513164d95bba29d"
+    "dde0c3a43530d4867fd04c6b68e95a65b7b677834afc6b0d60d5ab280f84814f"
 )
-PACKAGE_SIZE = 717267
+PACKAGE_SIZE = 717266
 METADATA_SHA256 = (
     "7ef5d3ad67d195a5dc87ed62d9edf6732169cbde6da045583cc81a1264aad6fb"
 )
@@ -111,10 +111,10 @@ TARGETS = {
         "artifact_size": 1603256,
         "record_sha256": {
             SELECTED_RUN: (
-                "b89e606b30b887d2e22479ec44c157885d5010a1ef29821deef37959891b607a"
+                "bce3cf6839952a9eea4105af9c932645615498b56b9e77b0ed67f33172d4e538"
             ),
             REPRODUCTION_RUN: (
-                "698a413c35ce00129e7616aec41688495bf20e4c12cec23a045e00c564336bce"
+                "d8d5d660a0dddf3e70809e0d41844a5953e6eb924c427a3e0bcf295822f84626"
             ),
         },
         "log_sha256": {
@@ -131,7 +131,7 @@ TARGETS = {
         "version_requirements": ["GLIBC_2.17", "GLIBC_2.29"],
         "execution_profile_id": "ra64-universal-v1",
         "image_id": (
-            "sha256:cc8a545183ab61910e87b86b9d498ebff596ec8a253e28272e96f3f7a7fd4488"
+            "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9"
         ),
         "archive_sha256": (
             "bb1c69cf19fcf3cbccaee06cc8b8a01bf7020fb1ac306d3d876530b6e9636012"
@@ -148,15 +148,15 @@ TARGETS = {
         "artifact_size": 1541028,
         "record_sha256": {
             SELECTED_RUN: (
-                "4e5abcdab92d2c42a2b04d73c51bdaa5b37f246583e585fcc07db4223059515e"
+                "9db852e23b04c7245fe0782e06d1b890a0c3dc5f45804ce16c4fae8ea7a06b78"
             ),
             REPRODUCTION_RUN: (
-                "166e6d4f7bb0b163f70b7ceb6db586f700ceea0a5fd0f057d80bfd00bdd539f1"
+                "da9db37b628eba8eeced73cbf880a4d9ef7a076d9d896b425e664b21c05fd1fd"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "4015d39b7d3febae693b95be087c8e9b22b7ee274b88805968cbc1887c9b3088"
+                "920ee6a825e904e8556e7895842c02729df898cc14f3f9e20981c0dc78e0c80c"
             ),
             REPRODUCTION_RUN: (
                 "4015d39b7d3febae693b95be087c8e9b22b7ee274b88805968cbc1887c9b3088"
@@ -168,7 +168,7 @@ TARGETS = {
         "version_requirements": ["GLIBC_2.4"],
         "execution_profile_id": "ra32-a30-v1",
         "image_id": (
-            "sha256:e09ffce413cf62c14a24fd8aa3beebbbfaccd5b0b5223ac529d132f4aabd92b9"
+            "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9"
         ),
         "archive_sha256": (
             "e2b103c7bf1fdc9bb3ce3cf7bcde9cf2f3fd473fb0d916e8b4d0b4d278fd1afe"

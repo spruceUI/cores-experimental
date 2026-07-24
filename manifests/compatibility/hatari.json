@@ -4,14 +4,14 @@
   "core_id": "hatari",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/hatari-c605d3aa342f-f3eb241445c8.json",
+  "golden_source": "pins/core-sets/hatari-c605d3aa342f-a6a46e6e311d.json",
   "source_commit": "c605d3aa342f2ad8f915f94bf03bae018e1be7b7",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-hatari-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "fc258c20b6c4acb4e8d75e16bdf89e823131cf9dd9db13fb0977e30d06911ccf",
-  "reproduction_run": ".local-e2e/runs/build-core-hatari-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "786bcc4f4803915d8ed006561f50a2516836cc5d7e7e46be827c72f31fe074f7",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-hatari-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "3d115762ffe2c5f4c28534e88fb3b06d014351caa846a473c626a29746add7e2",
+  "reproduction_run": ".local-e2e/runs/build-core-hatari-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "2846ac1d395d2314646818f39f81ed4e36fa58f00dd1922693cd3b8291e738b9",
   "package_state": "reproducible",
-  "package_sha256": "cd13e1bcd105e118f5621ab71f575a8735da2989f6adb06b8bc78ded5eb809e9",
+  "package_sha256": "bdcc2c863ccc5641cc70be9aebfc333427fbb141b7dab558ab02386bd93aa212",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the hatari_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -56,5 +56,5 @@
       ]
     }
   },
-  "content_sha256": "823063150f0d8784db31d849b478fb06a8ac6f3c93e3e19025fdb5bfe66aa225"
+  "content_sha256": "d99c07499ae526036e361b063262afc9975e3a8e1bbf747dd9a85fd597a311bb"
 }

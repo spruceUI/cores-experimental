@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "km_parallel_n64_xtreme_amped_turbo-be8d13e6fdde-88d094359a43",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/km_parallel_n64_xtreme_amped_turbo-be8d13e6fdde-88d094359a43.json",
+    "pin_id": "km_parallel_n64_xtreme_amped_turbo-be8d13e6fdde-88d094359a43",
+    "file_sha256": "663ca4edb455a62b2c1ef3083f6d3c6ccad0e0ab66bba49225b9d895fa9a7137",
+    "content_sha256": "ad74e4e0578abdfd165b528295efed60ed24b14795edda1c13c2b9da9f78c4e0"
+  },
+  "sources": {
+    "km_parallel_n64_xtreme_amped_turbo": {
+      "path": "pins/sources/km_parallel_n64_xtreme_amped_turbo/be8d13e6fddec4eaf705cb04e755e0cf3687d842.json",
+      "source_lock_id": "km_parallel_n64_xtreme_amped_turbo-be8d13e6fdde",
+      "commit": "be8d13e6fddec4eaf705cb04e755e0cf3687d842",
+      "file_sha256": "6c159c9f710755eba55efde38c5ff626123da6c6599ecb62e05527aadf4730a1",
+      "content_sha256": "88795f3bed2bd52153a9c26508bbb6ebbbaf58516dbbf3b5926c76b47e7597ae"
+    }
+  },
+  "content_sha256": "42d636608a74e3ba6eab403518a65512b9214cb567fc69d898e8ee571a636336"
+}

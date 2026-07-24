@@ -14,8 +14,8 @@ CORE_ID = "hatari"
 SOURCE_URL = "https://github.com/libretro/hatari.git"
 SOURCE_COMMIT = "c605d3aa342f2ad8f915f94bf03bae018e1be7b7"
 SOURCE_TREE = "e7d1a78a01d56b0a31baa2fdf32564e00b33c566"
-SELECTED_RUN = "actions-sim-build-core-hatari-v1"
-REPRODUCTION_RUN = "build-core-hatari-local-v1"
+SELECTED_RUN = "actions-sim-build-core-hatari-w3"
+REPRODUCTION_RUN = "build-core-hatari-local-w3"
 
 
 class HatariManifestTests(unittest.TestCase):

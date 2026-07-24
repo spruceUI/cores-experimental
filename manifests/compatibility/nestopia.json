@@ -4,14 +4,14 @@
   "core_id": "nestopia",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/nestopia-b0fd87dd07e3-7393d0fca106.json",
+  "golden_source": "pins/core-sets/nestopia-b0fd87dd07e3-9570ea287053.json",
   "source_commit": "b0fd87dd07e3c52903435d302b04e5e97796f127",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-nestopia-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "dc02ffdd3ed8471e416e834c29b4729324a7c52bd74b3edcab1a35b017e8f0ae",
-  "reproduction_run": ".local-e2e/runs/build-core-nestopia-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "85a2d0a453a127a3dbd82a7e2e60e7760b42fc5ea2405dad1b0548eae7232e47",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-nestopia-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "f1f2c49745a6da40e15f519b0df40ebd8261ec1a806b54cf7112cfe0cf52e0e2",
+  "reproduction_run": ".local-e2e/runs/build-core-nestopia-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "9b5e384a5ab58e355d4c36a4ecd8e6550e75485c8587e9f112f55ff946e30b8f",
   "package_state": "reproducible",
-  "package_sha256": "48939946c11f957f910e73a0bddbb99ca7bd29e40d886e8152868fec7acbaa11",
+  "package_sha256": "12092effa8ccb39524bf6495baa3a2a43a23fb19b70ce3f118da84ddaffb70ad",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the nestopia_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -75,5 +75,5 @@
       ]
     }
   },
-  "content_sha256": "a38f928353602c745ef09e607a5113bf8b1e4b831cb391138df0f302b65cd1d0"
+  "content_sha256": "72653275325c3db0376d01f83bb1b553f52f0e640fd08e06a760f9763c8e2d1a"
 }

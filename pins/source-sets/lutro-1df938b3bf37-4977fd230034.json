@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "lutro-1df938b3bf37-4977fd230034",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/lutro-1df938b3bf37-4977fd230034.json",
+    "pin_id": "lutro-1df938b3bf37-4977fd230034",
+    "file_sha256": "b4a1cd9ecd21dbcd1ed685b1748ab3acb6aab60aa609f2da99635757f492b89f",
+    "content_sha256": "6e981239aee8f98b05e362f05fc6e01a77fd25a73a7522e530e37065f90c5e25"
+  },
+  "sources": {
+    "lutro": {
+      "path": "pins/sources/lutro/1df938b3bf37b8d1eb6cdd07ec915c4f569a7551.json",
+      "source_lock_id": "lutro-1df938b3bf37",
+      "commit": "1df938b3bf37b8d1eb6cdd07ec915c4f569a7551",
+      "file_sha256": "15aa1778a8b280fa8e87d10638d6b7d6ff70ea7e7a31c2b55bacd7f91b9eaa92",
+      "content_sha256": "cc306158e2d9079ec43d1d2501a118ed6ca68f34b33d62cde2ea6179b7304aeb"
+    }
+  },
+  "content_sha256": "8a29c80f8960a2760c35a08ad5c49d55d5c40cd0b1895962d7b73d4f2ae9361b"
+}

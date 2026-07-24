@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "sameduck-f0286ee9d6c4-01fcc233a961",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/sameduck-f0286ee9d6c4-01fcc233a961.json",
+    "pin_id": "sameduck-f0286ee9d6c4-01fcc233a961",
+    "file_sha256": "1c698c33f71e303d49b354506c84d55ada664f7a9440b64701831ee24a127ef6",
+    "content_sha256": "f8137f9932bb746137a0f7ba0f24258e69f6d11619259e720e49809ea844d51b"
+  },
+  "sources": {
+    "sameduck": {
+      "path": "pins/sources/sameduck/f0286ee9d6c44950d9a442463ffdb1ff014a5d5b.json",
+      "source_lock_id": "sameduck-f0286ee9d6c4",
+      "commit": "f0286ee9d6c44950d9a442463ffdb1ff014a5d5b",
+      "file_sha256": "c447ee42507988db676bf99684d4beddd5673d53ef4cf3a5744c6809d1973ef8",
+      "content_sha256": "84f80c45021d0bdd5baf984a0ccbbe3613f57488046d9d3ca4241ed36c1c5e70"
+    }
+  },
+  "content_sha256": "821f87e4021ffaef993212c76fa6d5885d8da4c9e7cea4a5adf7a4d9e36b16d4"
+}

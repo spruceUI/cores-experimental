@@ -4,14 +4,14 @@
   "core_id": "yabasanshiro",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/yabasanshiro-f448097b69a6-b4e15e63cb19.json",
+  "golden_source": "pins/core-sets/yabasanshiro-f448097b69a6-a0644e7a1cb8.json",
   "source_commit": "f448097b69a6037246a08e9dc09eabaa420d7893",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-yabasanshiro-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "819f3893d5368ccdde57f6cc710a66806eae55055f897e30a0eac61963b87cd1",
-  "reproduction_run": ".local-e2e/runs/build-core-yabasanshiro-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "7979cb3f9fd57aabd6570eacbafd6b4ad377547a8f9d72e5f079303093739f31",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-yabasanshiro-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "667ddca8cfda3f09ba86a99d5ae8cb6793925b36a86282d24dc504285fd5b932",
+  "reproduction_run": ".local-e2e/runs/build-core-yabasanshiro-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "d38b1a581fd47d3332e4d04c7a63d26a17543e00569467061cff51f98bd51897",
   "package_state": "reproducible",
-  "package_sha256": "7ea020ff7c6ea241ad7518d6ecc38c9989a716bc85e165f2be88d0e815f31351",
+  "package_sha256": "d4a80f2ab3603d424160ed676eced5e740366bac72efaf673539a87d4122e6be",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the yabasanshiro_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -50,5 +50,5 @@
       ]
     }
   },
-  "content_sha256": "7de18e467d2bed935a242d1ce239f59b702cc71d69f743d2d3429bb463f43457"
+  "content_sha256": "26ee3604317ecc7ead9b4d39de6975fc242dc88a53e8e25641d13ceb5ceabfdc"
 }

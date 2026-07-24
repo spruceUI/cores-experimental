@@ -14,8 +14,8 @@ CORE_ID = "reminiscence"
 SOURCE_URL = "https://github.com/libretro/REminiscence.git"
 SOURCE_COMMIT = "b0eb4ff6479d3a0f9e327ba595533604713cdb27"
 SOURCE_TREE = "f5fef5de7e6213d6512b8a6036e21f93f237e985"
-SELECTED_RUN = "actions-sim-build-core-reminiscence-v1"
-REPRODUCTION_RUN = "build-core-reminiscence-local-v1"
+SELECTED_RUN = "actions-sim-build-core-reminiscence-w3"
+REPRODUCTION_RUN = "build-core-reminiscence-local-w3"
 
 
 class ReminiscenceManifestTests(unittest.TestCase):

@@ -12,7 +12,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "a5200"
 OTHER_CORE_ID = "prosystem"
-PIN_NAME = "a5200-23c1ea482afb-f37877a31d37.json"
+PIN_NAME = "a5200-23c1ea482afb-26663d9e7f87.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -20,12 +20,12 @@ SOURCE_COMMIT = "23c1ea482afb08656ec507e9ce98ed242a20bdfa"
 SOURCE_TREE = "bd8a0b3f925ab9dcd5acae4f705e4f0c00f787b5"
 SOURCE_LOCK_ID = "a5200-23c1ea482afb"
 SELECTION_SHA256 = (
-    "f37877a31d375484e387fe5f3a939356ae361affd5d25d91e81734d8822f42c8"
+    "26663d9e7f8753d0a88570680c6a4291f81ab66d7ef44dea0d743678da22a2ac"
 )
-SELECTED_RUN = "actions-sim-build-core-a5200-v1"
-REPRODUCTION_RUN = "build-core-a5200-local-v1"
+SELECTED_RUN = "actions-sim-build-core-a5200-w3"
+REPRODUCTION_RUN = "build-core-a5200-local-w3"
 PACKAGE_SHA256 = (
-    "3ebb37ba53ea55dbf0883c33d6517f45b8d63bf139ec36ca236754a7f0b8f34d"
+    "99cc1281cd639d30ccea6f9b6808edb43cef5ddf1ccf3aaebca102ff40590bad"
 )
 METADATA_SHA256 = (
     "e707b742d0c12e87483986742e316ea530b2592ce74aaa74f5617267a9abafab"
