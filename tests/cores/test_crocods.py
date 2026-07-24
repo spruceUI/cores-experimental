@@ -16,7 +16,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "crocods"
 OTHER_CORE_ID = "cap32"
-PIN_NAME = "crocods-87bbb3d9007a-987ab7429a42.json"
+PIN_NAME = "crocods-87bbb3d9007a-4efcab146fd0.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -34,56 +34,56 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "153fa581737cacd3879922bacdfbbd2114651af6d8b900daef8c571e267e5268"
 )
 PIN_FILE_SHA256 = (
-    "d1712d092ab545b5cbaa5432f4eefdd708f887f02c1a745422ecba151190c2ea"
+    "ae359254f94f1923b27cbecc548e46d24ada53d5daacf28657d0b0fd75ab7df1"
 )
 PIN_CONTENT_SHA256 = (
-    "3c815c61ab37ad61c2c690e81a31962af8266e4b777b50cad87e3552110b96e2"
+    "8c7729666915469c1a1a04915bda8ada9ba4dcb0d3e1427fd2ef8b52cacb3c69"
 )
 SOURCE_SET_FILE_SHA256 = (
-    "9d12acd1b06b93b2deec5efa02d38326ba3a42b6a7382cff3bac32f5a509548b"
+    "ee405990962a18416bdd4a3bd48cd2beb9f50991680df03195ec16460e7f2a0c"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "89f714452581c5f2be1b7b436bdb669e4d4c7c67b6de4ae3bb595d750a3b4e02"
+    "02c33130980a483311b49df2e2ec4387f569883c499ff3d259a998997b8645bc"
 )
 COMPATIBILITY_FILE_SHA256 = (
-    "3f27156bfc5e213bda18a6428c67f09e0e6245daf75cdb4a78e948d3d1b84b6a"
+    "d17f55b05029af9ccb3a2de7905199766027b0e9bb5be1d33bfee0b42d87826e"
 )
 COMPATIBILITY_CONTENT_SHA256 = (
-    "5cac7e789f5cc411b533c0d03875fac54f9174da7a12e3c917b9f1b58ffeb9fb"
+    "8590ad3e23ddabdc874059742b9a4ce5ab34824378fa69d8c2b5e281ea05a635"
 )
 SELECTION_SHA256 = (
-    "987ab7429a4298b79f84eaec644a54bbba1b6e982d67f6172536c3a8d667aaaf"
+    "4efcab146fd072332e60fb115e60c96a414d372b76cc6f8f6d7f33a9ac8f0666"
 )
-SELECTED_RUN = "actions-sim-build-core-crocods-w3c"
-REPRODUCTION_RUN = "build-core-crocods-local-w3c"
+SELECTED_RUN = "actions-sim-build-core-crocods-w4"
+REPRODUCTION_RUN = "build-core-crocods-local-w4"
 E2E_CONTENT_SHA256 = {
     SELECTED_RUN: (
-        "cdb74bb80a4259f283c8bcef219d2a2699bb07501089c6ba06092ad199bc2196"
+        "0f9921f7ea3ce01e9c5499883baa71e009293ab47d1b02d3b44467e5d26e3165"
     ),
     REPRODUCTION_RUN: (
-        "e12f286eaea8aea22efaacaa896214a16e2cee2525ee358bd746925e8dedf891"
+        "ba46d2abf84a74ffcc99059ae455d0d17701f3666ffb7c30bf682c196f4e0b46"
     ),
 }
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "b8481ef4fb34b8b26037ea60d516564c01bd8786d6e90afe4b525ddcd1cb5240"
+        "49190fe5741bfd8ba0a22d58fd9af94eb26b4e898d54e93ac3aee8927a8b29ed"
     ),
     REPRODUCTION_RUN: (
-        "72c9ee77c6d8898b242e79f6c0fe8cb2efb487a72cf8df5c435161116ab23f4e"
+        "dbc29c2d61ddb913467b26a0f6abd22f8a855d60738122510b46cc4cb2b9ad45"
     ),
 }
 PACKAGE_SHA256 = (
-    "9504d858daaee44be2f789dde40f53ab532ba7c2e3515a0468d19740e1423d35"
+    "059c14aa7cd4a5d39f7a9a09e8cf93bf24f0e73555ffa85a8ecdbccc365119f6"
 )
-PACKAGE_SIZE = 519486
+PACKAGE_SIZE = 516843
 METADATA_SHA256 = (
     "4bf12dc021fcb628de8d14542a9e5b0ee8aa69828a99adda85346fe54c879cf8"
 )
 METADATA_SIZE = 944
 PIPELINE_BUNDLE_SHA256 = (
-    "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73"
+    "c4547a6fbfb2c3bffb1bde4b2ebbc450eeb0213ba7628663c8131ceb31ca9769"
 )
-REPOSITORY_HEAD = "197d7cc1f9a4bb96cf9af4c7292e95a0826ee7af"
+REPOSITORY_HEAD = "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e"
 WORKFLOW_SHA256 = (
     "219b513f5a38220c1338dfa9b855c50da7ef8506bd8a0ab583bedf4849efe88d"
 )
@@ -106,23 +106,23 @@ RUNNERS = {
 TARGETS = {
     "arm64": {
         "artifact_sha256": (
-            "4bb772d20f1e352efd8d0f9f43788531ec9cf13df295aac04d0a14fe1bcc39e1"
+            "0efb6c6d0f6d80e4d132e54a74bcff704bacd3996d87c053810b57823df05d60"
         ),
-        "artifact_size": 632216,
+        "artifact_size": 632192,
         "record_sha256": {
             SELECTED_RUN: (
-                "a604572212b0718578aa33227837c7461b9e88058d3d4f1f75df704e75485cfb"
+                "0dff785755aaba64a6d770cc82262d88699a56770a42ddceb2906fcc5afd80b6"
             ),
             REPRODUCTION_RUN: (
-                "33edd8cd91b481d04706f03776cf68d8b9ded7fafc7f1eda2395f4e946f15d28"
+                "28a876050aed29dadb08a5590d625bc265fe4cf118690806b09b21f5698931cb"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "c36ba81c6bf83bf693031f2a34cab9d9436ca3c7536447c93521d7597c022cef"
+                "5abc58e3e147eb5e63c436bc315e03127a47ca82c59fa52f779ad9ebb753b138"
             ),
             REPRODUCTION_RUN: (
-                "e247c972432874c13d3f777d262621c600e300aba6bf0e3950284dd82cd8ab28"
+                "0cf4abfb8a06b6412223a88466c535ee45378feba1f1bf1121dda0829e064c39"
             ),
         },
         "log_size": 16595,
@@ -139,9 +139,9 @@ TARGETS = {
             "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64"
         ),
         "recipe_snapshot_sha256": (
-            "6e88d53efb75fe8362cb42a227b5ea23cae8a4e03fb15a035dc6b3461ddd7411"
+            "e3a8c4c10ed06e91e9c47c3c68daf754c8f17b06de52a975677e95ce6c09d9d4"
         ),
-        "recipe_snapshot_size": 2047120,
+        "recipe_snapshot_size": 2075560,
     },
     "armhf": {
         "artifact_sha256": (
@@ -150,10 +150,10 @@ TARGETS = {
         "artifact_size": 560764,
         "record_sha256": {
             SELECTED_RUN: (
-                "89c6ff1816da20462d6a5d903c54015cc897188160c2d525d8dc1dacedfee184"
+                "1f4d8812ce74afd0c4e0018ab6ac41f72c0c5559d88b63fd190bf09ea8758686"
             ),
             REPRODUCTION_RUN: (
-                "af1bd3702001961cb2eda90c8f25da29b82b01723a92acfa6a4e1a21b0b8e707"
+                "64fb422ed11946a509663c6f7b4310f71403a6ed02b6fda066294e9f14825335"
             ),
         },
         "log_sha256": {
@@ -178,9 +178,9 @@ TARGETS = {
             "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e"
         ),
         "recipe_snapshot_sha256": (
-            "c94e92ce2baca332d1283f43b80f13c4d1bdd8f176f051a5a8e6b4bf68f623c8"
+            "edfe2457b3b29be0f665624868ff521fb065c02c3e7e74736a570d60cc553510"
         ),
-        "recipe_snapshot_size": 2047128,
+        "recipe_snapshot_size": 2075568,
     },
 }
 SOURCE_RECORD_IDENTITY = {

@@ -24,7 +24,7 @@ from .support import (
 
 CORE_ID = "mednafen_supergrafx"
 OTHER_CORE_ID = "mednafen_pce_fast"
-PIN_NAME = "mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json"
+PIN_NAME = "mednafen_supergrafx-3c6fcd3deded-e237b4e2ae51.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -44,43 +44,43 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "4a724044ccf00caf150dc543eda18677a0da01b4727b0e67b1027c614d67290a"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "c25eb4c54798d8a72cc62454ced0ba46e9d039716a5fdb4d9967c56416d2c602"
+    "f3d9a54ee76ba91ef0f66ceafa9cccecc19640eae3af0fe06ae16926cc121996"
 )
 PIN_FILE_SHA256 = (
-    "4f5848a11fa193dd19ba82ea30fe480a8ea563e45123e23df4465fa0223199ea"
+    "fb0c2a7766ac2bcd194d4310e1f45d67313e877b1fe51c39840a980994a0c099"
 )
 PIN_CONTENT_SHA256 = (
-    "4e0cecbd85b38c82a7b91f36e51f794a544404757be0d4a155490d331f356c1d"
+    "dfe9487105b69cd554469672590df5173af7ebc3d2155f2a78e4dce5438b9e88"
 )
 GOLDEN_FILE_SHA256 = (
-    "d756171f80e25ebb357f677157cbd8a41d7cb3f92d012e51dbbfd5e4f2c20251"
+    "33dffa81ab2893143e9470ac069a72648a2398667ccf17b3457117c4e7abc469"
 )
 GOLDEN_CONTENT_SHA256 = (
-    "9f5af5746937341d5b02e92982eed2581f431f391c3bb2c00af5783654b06ca1"
+    "47fea001fba88afe9fab28d945cb627b77992ef06d4b092797963bdf9c8ab427"
 )
 SELECTION_SHA256 = (
-    "c84693b9711aac595fededd1711480875f6aa93de8a7341ea154fb4641c8f2c1"
+    "e237b4e2ae51e4a0132a903cd79597e1a93b81d5db6ac174d4b6c5457f9edb0c"
 )
-SELECTED_RUN = "actions-sim-build-core-mednafen_supergrafx-w3"
-REPRODUCTION_RUN = "build-core-mednafen_supergrafx-local-w3"
+SELECTED_RUN = "actions-sim-build-core-mednafen_supergrafx-w4"
+REPRODUCTION_RUN = "build-core-mednafen_supergrafx-local-w4"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "4cedf71949182f867d1a887c5cc7a81d871114a195f10d293b15c6477624c634"
+    "8d2deb42cd8edb32172471867a8b8cecaeeb5292ed2cdc9b45108c39dd4cca3e"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "8c5df5599c6c65e9b3077e4fab8196c1f5c89d0779b05e9d115e394f865a4eff"
+    "6c267aa50978a67dc377d2fea446ea803062b857e1126333d9dbbb0a8f978de6"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "71ec3422845b1a26fcbc2db6389f8605073845aa56d15c90f60890e650c8b8de"
+        "35726b273e95df3c0a96318899d641d26dce3b1f22696d39025807b0250723b8"
     ),
     REPRODUCTION_RUN: (
-        "fe65c8ddc3a70b833f498bfbb108a7e0257b72cddd3f0fcb35ab59f6e41739ba"
+        "1c02983b099463c4b3bfecfffde724e6953a712b222454b6c2cd25d1b589de3c"
     ),
 }
 PACKAGE_SHA256 = (
-    "92eb34b37cc32483fef7639fdd20e6a22a79127d2fe4017a3361172d85270e89"
+    "40d78902e9edbebbcad52f60f2a3005bdacf197f9618e954a80750e0b5512eda"
 )
-PACKAGE_SIZE = 1011219
+PACKAGE_SIZE = 1011207
 METADATA_SHA256 = (
     "ab7f73bbfe0f8c94413f1db6981ec51c82f772f8278cd4564c839124c2a3411c"
 )
@@ -104,23 +104,23 @@ RUNNERS = {
 TARGETS = {
     "arm64": {
         "artifact_sha256": (
-            "c4d55157ab1bf2fff095348e6f821ba4e5d5219f005fe7ec550556bb7804c164"
+            "0bfb6815d48454540ad5cf329f54b2f3a0883a1d57cf999297c2bafdf0880855"
         ),
         "artifact_size": 3763168,
         "record_sha256": {
             SELECTED_RUN: (
-                "e8e5239664127bfdf68dbd2f80b44cbd18e5296dbd70e4ac88a524608ef61343"
+                "c7bd6d448665477951fdb70c5ab072c6ac155e36ecef2c70cc482f4610d5026f"
             ),
             REPRODUCTION_RUN: (
-                "0c04425cf3d16a8623d8762420a58670968e3c6f9b3a59296a1ab524c0431eef"
+                "84410d40b4e4a495ee528b796ec01807a25ab54afcd4cb0e390a1e11fa9d1df7"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "65641d08b538db09996e84663d7887faaf3c2db5179a661c8b9965de6918c2ac"
+                "86a091e85ad42d13dd974e554f0393fca966289913485b015406caadddac62c3"
             ),
             REPRODUCTION_RUN: (
-                "d5ea7124cda6b7ca88eacfedd6e869419a34680c08c6f1f4eb08610606f5f9a0"
+                "42d74e17a7c2abe05075292afe44f8deec780b60aca8feee9f6506e7318527ae"
             ),
         },
         "elf": "ELF64/AArch64",
@@ -150,18 +150,18 @@ TARGETS = {
         "artifact_size": 2166576,
         "record_sha256": {
             SELECTED_RUN: (
-                "6628682ec62bc61676df7db9346532fed3e7ebd08a41d6bfbe2ff69caa769d00"
+                "bdb42235f07c8004893f135559fcd9e544fa925d6beef1b01bb9350c169bf0e4"
             ),
             REPRODUCTION_RUN: (
-                "f463e6d201bed5eb0fd7c90a61e60a83413321547abc6b73fee19652a5d2c621"
+                "dc04a0ed6a6497ea2507f60c20c950b5b4a287b6237d5f1c7236d745c0e8e2b7"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "a6f515593347e8d555eea973f4723ea97b85c5b9a98e801cab511c0ff3915c5e"
+                "16db28e819d61e714e9ba15a536c45eb70e8b30e102d8a84c12a6912e4f8dbd4"
             ),
             REPRODUCTION_RUN: (
-                "9bc1903a924e07cad833f7abb850172fa8aee3750367d1e9cdeb662341aba0a3"
+                "0b18834e4634c3eb75deec3f4ee6c384d85866dc368d3055b1d095e353dc90e3"
             ),
         },
         "elf": "ELF32/ARM hard-float",

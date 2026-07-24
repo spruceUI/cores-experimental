@@ -4,14 +4,14 @@
   "core_id": "dosbox_pure",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/dosbox_pure-a4a0bab7f893-caf26992f4b8.json",
+  "golden_source": "pins/core-sets/dosbox_pure-a4a0bab7f893-a5c7ffc595df.json",
   "source_commit": "a4a0bab7f8931433588f2fcad9045c85b277373d",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-dosbox_pure-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "0fa448f3a4953d718daf9e1f83318159af2fc146407d58714337e559581e91f8",
-  "reproduction_run": ".local-e2e/runs/build-core-dosbox_pure-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "0bfaa19b32331eeb28459408e20d15d80b703c5c4a04a6fbcf982d3a2bdc7ba6",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-dosbox_pure-w4/e2e-record.json",
+  "selected_e2e_content_sha256": "f6ba81275dced70b4a7176310196cc7dd3fcc3841b705e16e5b0952badbb9a62",
+  "reproduction_run": ".local-e2e/runs/build-core-dosbox_pure-local-w4/e2e-record.json",
+  "reproduction_e2e_content_sha256": "9cb937518d37ecd12de11f78ec22c596cbe0d601255d77b798762798f5adab5b",
   "package_state": "reproducible",
-  "package_sha256": "eb83fbf34ef10b3f00220b650737cdeba2d435c1694a48d55a8ed3319fd78231",
+  "package_sha256": "f122e93f7717daec446cd68727582c91316eb4311f8306c1988ea16680cf6902",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the dosbox_pure_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.29, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -22,7 +22,7 @@
       "state": "local_static_build_golden",
       "validation_scope": "static-build-only",
       "runtime_validation": "needs-target-runtime",
-      "artifact_sha256": "251c9d32576b9fecc6434958d842ec1d69eb0c2fe449931bfb97d88995960273",
+      "artifact_sha256": "6d4158dd7f99a68fffb86c1ce0c58adb77aee03d22b8e930e420635a2f53127c",
       "elf": "ELF64/AArch64",
       "needed": [
         "ld-linux-aarch64.so.1",
@@ -51,7 +51,7 @@
       "state": "local_static_build_golden",
       "validation_scope": "static-build-only",
       "runtime_validation": "needs-target-runtime",
-      "artifact_sha256": "bfa06c14ba0f5aa9403d7e14d619f7e3ddc97200c579303e611742548c5293c8",
+      "artifact_sha256": "ad3476a02996defbc896cd7b46871d97fd69b9c3347d2ee88aafa9de5c5cbf73",
       "elf": "ELF32/ARM hard-float",
       "needed": [
         "libc.so.6",
@@ -77,5 +77,5 @@
       ]
     }
   },
-  "content_sha256": "5660766748b7ccab6a8571b745fb737f1a9df0cd865ca99161902a79c7e7b05c"
+  "content_sha256": "7eb0b516d36872d4a39f88bf2512a69c94f11558276068e76540badd0941fcdb"
 }

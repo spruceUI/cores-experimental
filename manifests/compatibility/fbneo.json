@@ -4,14 +4,14 @@
   "core_id": "fbneo",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/fbneo-9d7716aa20cb-0d750419ae55.json",
+  "golden_source": "pins/core-sets/fbneo-9d7716aa20cb-272b7489e176.json",
   "source_commit": "9d7716aa20cbdf49024f42980c33c7cd366e784f",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-fbneo-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "8a22d05adf2454c2330bd0131ccf1037ce41e112fd8d5376b81e894212a912ec",
-  "reproduction_run": ".local-e2e/runs/build-core-fbneo-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "dc24e9a90a04230c56e1057e9c89700a556d8c1c0a33191c6100f7918c615917",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-fbneo-w4/e2e-record.json",
+  "selected_e2e_content_sha256": "f390a779b984360e3c1d35d7146d0face732259b8fba73f9846a330948a27c8e",
+  "reproduction_run": ".local-e2e/runs/build-core-fbneo-local-w4/e2e-record.json",
+  "reproduction_e2e_content_sha256": "0cfeaddd43ebae4000164a4702f229286dd4da01d40e5e23c742fd423fa6b437",
   "package_state": "reproducible",
-  "package_sha256": "e331a340ee80293dfd9534251c040e757e8f654faa2225e1a73f047ceeac1a02",
+  "package_sha256": "c15eb6e04c0ebf916d7e3c460df764af8694f487bb65039e7189ed8613b0c261",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the fbneo_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.29, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -22,7 +22,7 @@
       "state": "local_static_build_golden",
       "validation_scope": "static-build-only",
       "runtime_validation": "needs-target-runtime",
-      "artifact_sha256": "645f845f565a7c0b1b456683aa2cce6886c0fc4a64a97ec212b8a45837dd4dc2",
+      "artifact_sha256": "cd03e70d49ad56c4eafdd89ab53f3bb84be4d96822b65e25a4f9816fe428e9ab",
       "elf": "ELF64/AArch64",
       "needed": [
         "ld-linux-aarch64.so.1",
@@ -72,5 +72,5 @@
       ]
     }
   },
-  "content_sha256": "55bdb345eaad687ad3e32845e3f91f56963280a109bf6662ed0ec959abfc0181"
+  "content_sha256": "6e8a9b13c9c4a32cd2488f9c681ade87352c8e2cb77f86e1910ebeaa96bc1060"
 }
