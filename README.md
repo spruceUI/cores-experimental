@@ -1,6 +1,25 @@
 # Cores-spruce
 
+> This repository (`cores-experimental`) carries the complete Cores-spruce
+> pipeline, transplanted at its migration-complete checkpoint.
+
 Build bot for libretro cores targeting spruceOS handheld devices. Builds 32-bit (armhf) and 64-bit (arm64) cores using [libretro-super](https://github.com/libretro/libretro-super).
+
+## Repository map
+
+| Path | Role |
+|---|---|
+| `manifests/` | The reviewed build catalog (`core-builds.json`), its schemas, per-core compatibility documents, device runtime contracts, execution profiles |
+| `pins/` | Content-addressed provenance: per-core source locks, source-sets, core-sets, and the toolchain archive lock |
+| `scripts/` | The pipeline (`core_pipeline.py` + `core_pipeline_lib/`), promotion tooling, profile registry, toolchain-archive validator, device probe |
+| `patches/` | Reviewed per-core build overlays, sha-pinned pre- and post-image |
+| `metadata/` | Repo-pinned `.info` files for cores absent from libretro-super |
+| `toolchain-inputs/` | Pinned docker build context for the three toolchain images (see its README) |
+| `Dockerfile.*` | The three locked toolchain images (`.base` files are historical records) |
+| `.github/workflows/` | 98 read-only per-core dispatchers plus the release orchestration pair |
+| `tests/` | The suite; migration scoreboard literals live in `tests/expected_counts.py` |
+| `docs/` | Architecture, operations, and onboarding runbooks |
+| `policies/`, `runtime/` | Admission policy and runtime smoke assets |
 
 ## Supported devices
 
@@ -164,8 +183,8 @@ Evidence-backed per-device eligibility for every canonical core:
   fixtures and their regression readers) was retired on 2026-07-23 and is
   preserved only in git history. Never use a historical batch identifier
   ("tranche") for new work; the candidate-id guard rejects such names.
-- `pins/toolchains/local-cache-v1.json` locks the two portable cached-image
-  archives to their compressed bytes, complete OCI/Docker-save graphs, image
+- `pins/toolchains/local-cache-v1.json` locks the three portable cached-image
+  archives (arm64/armhf C cross plus the Rust image for the cargo driver) to their compressed bytes, complete OCI/Docker-save graphs, image
   IDs, cross-compiler environments, and current Dockerfile descriptions.
 
 Nothing in `scripts/core_pipeline.py` publishes to GitHub. Local output is
