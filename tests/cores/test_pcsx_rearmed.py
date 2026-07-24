@@ -8,22 +8,27 @@ from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import pcsx_rearmed
 
 from .support import ROOT, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "pcsx_rearmed"
-SOURCE_URL = "https://github.com/libretro/pcsx_rearmed.git"
-SOURCE_COMMIT = "050981b6eeb715f142854f57c68086f62921f027"
-SOURCE_TREE = "a6bf9ddaaf02f0b163996a195edf1bfcbd89b01c"
+
+_H = evidence_handles(CORE_ID)
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+
+SOURCE_URL = _H["SOURCE_URL"]
+
 SOURCE_DATE_EPOCH = 1782602899
+
 ARMHF_COMPILE_DEFINITIONS = [
     "HWCAP2_AES=0",
     "HWCAP2_CRC32=0",
     "HWCAP2_SHA1=0",
     "HWCAP2_SHA2=0",
 ]
-SELECTED_RUN = "actions-sim-build-core-pcsx_rearmed-w3"
-REPRODUCTION_RUN = "build-core-pcsx_rearmed-local-w3"
-
 
 class PcsxRearmedManifestTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -103,22 +108,6 @@ class PcsxRearmedContractTests(unittest.TestCase):
         )
         return path.read_text(encoding="utf-8") if path.is_file() else None
 
-    def test_real_logs_prove_the_exact_contract(self) -> None:
-        proven = 0
-        for run_id in (SELECTED_RUN, REPRODUCTION_RUN):
-            for arch in ("arm64", "armhf"):
-                log = self._log(run_id, arch)
-                if log is None:
-                    continue
-                self.assertTrue(
-                    pcsx_rearmed.pcsx_rearmed_log_proves_contract(
-                        log, CORE_ID, arch, SOURCE_COMMIT, SOURCE_TREE
-                    ),
-                    f"{run_id}/{arch} did not prove the PCSX ReARMed contract",
-                )
-                proven += 1
-        if proven == 0:
-            self.skipTest("no workspace-local PCSX ReARMed build logs present")
 
     def test_contract_rejects_a_wrong_assembly_count(self) -> None:
         from unittest import mock

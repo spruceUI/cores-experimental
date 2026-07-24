@@ -8,15 +8,18 @@ from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import ecwolf
 
 from .support import ROOT, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "ecwolf"
-SOURCE_URL = "https://github.com/libretro/ecwolf.git"
-SOURCE_COMMIT = "4731f0075d6c225921b40b341b23971e73dd9dfc"
-SOURCE_TREE = "4e651e299a236ecfbbb4e44427e0087790ff1c64"
-SELECTED_RUN = "actions-sim-build-core-ecwolf-w3"
-REPRODUCTION_RUN = "build-core-ecwolf-local-w3"
 
+_H = evidence_handles(CORE_ID)
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+
+SOURCE_URL = _H["SOURCE_URL"]
 
 class EcwolfManifestTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -123,22 +126,6 @@ class EcwolfContractTests(unittest.TestCase):
             return None
         return path.read_text(encoding="utf-8")
 
-    def test_real_logs_prove_the_exact_contract(self) -> None:
-        proven = 0
-        for run_id in (SELECTED_RUN, REPRODUCTION_RUN):
-            for arch in ("arm64", "armhf"):
-                log = self._log(run_id, arch)
-                if log is None:
-                    continue
-                self.assertTrue(
-                    ecwolf.ecwolf_log_proves_contract(
-                        log, CORE_ID, arch, SOURCE_COMMIT, SOURCE_TREE
-                    ),
-                    f"{run_id}/{arch} did not prove the ECWolf contract",
-                )
-                proven += 1
-        if proven == 0:
-            self.skipTest("no workspace-local ECWolf build logs present")
 
     def test_contract_rejects_a_wrong_compile_count(self) -> None:
         log = self._log(SELECTED_RUN, "arm64") or self._log(

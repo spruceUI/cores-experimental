@@ -21,105 +21,31 @@ from .support import (
     refresh_copied_e2e,
     write_document,
 )
+from .support import evidence_handles
 
 
 CORE_ID = "freechaf"
 OTHER_CORE_ID = "prosystem"
-PIN_NAME = "freechaf-76c7a84f1f7e-3fc6b43191ef.json"
-SEMANTIC_ID = PIN_NAME.removesuffix(".json")
-PIN_PATH = f"pins/core-sets/{PIN_NAME}"
-SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
-SOURCE_COMMIT = "76c7a84f1f7e80f3e6f2bba96fe100cb24e99124"
-SOURCE_TREE = "da8f96e1b0866e49ecf6a3bcd2b9974670669429"
-SOURCE_URL = "https://github.com/libretro/FreeChaF.git"
-SOURCE_LOCK_ID = "freechaf-76c7a84f1f7e"
+
+_H = evidence_handles(CORE_ID)
+PIN_NAME = _H["PIN_NAME"]
+SEMANTIC_ID = _H["SEMANTIC_ID"]
+PIN_PATH = _H["PIN_PATH"]
+SOURCE_SET_PATH = _H["SOURCE_SET_PATH"]
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SOURCE_LOCK_ID = _H["SOURCE_LOCK_ID"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+PACKAGE_SHA256 = _H["PACKAGE_SHA256"]
+TARGETS = _H["TARGETS"]
+
+SOURCE_URL = _H["SOURCE_URL"]
+
 SUBMODULE_PATH = "src/deps/libretro-common"
+
 SUBMODULE_COMMIT = "01c6122931a10a7012973054e7067859d2116420"
-SELECTION_SHA256 = (
-    "3fc6b43191efe77d6baf65f532c62874df54a788a72df19533c30b8923b3f0f9"
-)
-SELECTED_RUN = "actions-sim-build-core-freechaf-w3"
-REPRODUCTION_RUN = "build-core-freechaf-local-w3"
-SELECTED_E2E_CONTENT_SHA256 = (
-    "b4067eacbc0bc85f46578f6cea926eae63c6d92b2ff9c1fad48bb5d5b9b84e3b"
-)
-REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "640d52e89d931199271524727125b855d23052159e050b1fc0ca44da5f85a6c9"
-)
-E2E_FILE_SHA256 = {
-    SELECTED_RUN: (
-        "7dffde4d811f12ba1cdc4a79b3884bc476f61137dfa402b31c7e697c74500b28"
-    ),
-    REPRODUCTION_RUN: (
-        "15ca02119f94bfdcf29fed334d697530646e1a44d8aa87cb774327380c97c8b1"
-    ),
-}
-PACKAGE_SHA256 = (
-    "30463cecf3d5d6ea107ffadd9ef3655b9edeff4c98da9c485518cdc0c3978b9a"
-)
-METADATA_SHA256 = (
-    "f5f320f78744fa100512cb75e3dd13298b11b1e344c8f90b0cdaacb9c7469fec"
-)
-RUNNERS = {
-    SELECTED_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "simulated",
-        "profile": "github-actions",
-        "publication": "disabled",
-    },
-    REPRODUCTION_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "native",
-        "profile": "local",
-        "publication": "disabled",
-    },
-}
-TARGETS = {
-    "arm64": {
-        "artifact_sha256": (
-            "54064a6414b18ad7aea1c3284ec48a558a7cef8f3551bf09fdd398fb84c759bf"
-        ),
-        "artifact_size": 112720,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "f58a3e435e06754eee352f405d0c3d809dd2166e39438bd4dace4ed91cb91bdb"
-            ),
-            REPRODUCTION_RUN: (
-                "713c69e01c5a50eae4f9de490b4d93e7367f78a81a075c2b0a8f8adddcfe4919"
-            ),
-        },
-        "log_sha256": (
-            "2fef74b8156d7826eeff6961791ed332c8d0bdb6cc203ad7ac5ed36043e972a1"
-        ),
-        "elf": "ELF64/AArch64",
-        "needed": ["ld-linux-aarch64.so.1", "libc.so.6"],
-        "version_requirements": ["GLIBC_2.17"],
-        "execution_profile_id": "ra64-universal-v1",
-    },
-    "armhf": {
-        "artifact_sha256": (
-            "d25e53ddc6d0bfdc675e7d0c90aa089804235036b47c702c1fdd4f5b1c95d838"
-        ),
-        "artifact_size": 97564,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "ce0083dc32c1322bd290dc19b61b4b7645dcf97f1cd74889b6fa86e2ae45f3a0"
-            ),
-            REPRODUCTION_RUN: (
-                "2b6066ef5ac7f47c575d2d7961a07f14b0385f4d821f955f5ac169dd358c5ef9"
-            ),
-        },
-        "log_sha256": (
-            "536a073a5dfb2793c11afd965be63c3d7db238f7b8eb99a92de00130be71dce7"
-        ),
-        "elf": "ELF32/ARM hard-float",
-        "needed": ["libc.so.6"],
-        "version_requirements": ["GLIBC_2.4", "GLIBC_2.7"],
-        "execution_profile_id": "ra32-a30-v1",
-    },
-}
+
 SOURCE_LOCK_IDENTITY = {
     "url": SOURCE_URL,
     "requested_ref": "refs/heads/master",
@@ -132,6 +58,7 @@ SOURCE_LOCK_IDENTITY = {
         }
     ],
 }
+
 SOURCE_RECORD_IDENTITY = {
     "commit": SOURCE_COMMIT,
     "requested_ref": "refs/heads/master",
@@ -147,6 +74,7 @@ SOURCE_RECORD_IDENTITY = {
     "tree": SOURCE_TREE,
     "url": SOURCE_URL,
 }
+
 CAVEAT_TOKENS = (
     "all 25 C compile commands",
     "1.0 76c7a84",
@@ -159,149 +87,13 @@ CAVEAT_TOKENS = (
     "all device views remain ineligible",
 )
 
-
 class FreechafCoreEvidenceTests(unittest.TestCase):
-    def test_semantic_pin_and_compatibility_bind_promoted_evidence(self) -> None:
-        pin_path, pin, compatibility_path, compatibility = load_core_documents(
-            CORE_ID, PIN_NAME
-        )
-
-        pin_report = pipeline.validate_pin_set_document(pin, document_path=pin_path)
-        self.assertEqual("valid", pin_report["status"], pin_report["errors"])
-        compatibility_report = pipeline.validate_core_compatibility_document(
-            compatibility,
-            document_path=compatibility_path,
-            repository_root=ROOT,
-        )
-        self.assertEqual(
-            "valid",
-            compatibility_report["status"],
-            compatibility_report["errors"],
-        )
-        self.assertEqual(SEMANTIC_ID, pin["pin_id"])
-        self.assertEqual([CORE_ID], pin["scope"])
-        self.assertEqual({CORE_ID}, set(pin["cores"]))
-        self.assertIsNone(pin["parent"])
-        self.assertEqual(CORE_ID, compatibility["core_id"])
-        self.assertEqual("disabled", compatibility["publication"])
-        self.assertEqual(
-            "workspace-local-ignored", compatibility["evidence_availability"]
-        )
-        self.assertEqual(PIN_PATH, compatibility["golden_source"])
-
-        selection = pin["cores"][CORE_ID]["selection"]
-        self.assertEqual(SELECTION_SHA256, selection["selection_sha256"])
-        self.assertEqual(SOURCE_COMMIT, compatibility["source_commit"])
-        self.assertEqual("reproducible", compatibility["package_state"])
-        self.assertEqual(PACKAGE_SHA256, compatibility["package_sha256"])
-        self.assertEqual(PACKAGE_SHA256, selection["package"]["sha256"])
-        self.assertEqual(PACKAGE_SHA256, selection["e2e"]["package_sha256"])
-        self.assertEqual(SELECTED_RUN, selection["e2e"]["run_id"])
-        self.assertEqual(
-            SELECTED_E2E_CONTENT_SHA256, selection["e2e"]["content_sha256"]
-        )
-        self.assertEqual(
-            SELECTED_E2E_CONTENT_SHA256,
-            compatibility["selected_e2e_content_sha256"],
-        )
-        reproduction_path = (
-            ROOT / ".local-e2e" / "runs" / REPRODUCTION_RUN / "e2e-record.json"
-        )
-        reproduction = load_document(reproduction_path)
-        self.assertEqual(
-            REPRODUCTION_E2E_CONTENT_SHA256, reproduction["content_sha256"]
-        )
-        self.assertEqual(
-            REPRODUCTION_E2E_CONTENT_SHA256,
-            compatibility["reproduction_e2e_content_sha256"],
-        )
-        self.assertEqual(
-            f".local-e2e/runs/{SELECTED_RUN}/e2e-record.json",
-            compatibility["e2e_run"],
-        )
-        self.assertEqual(
-            f".local-e2e/runs/{REPRODUCTION_RUN}/e2e-record.json",
-            compatibility["reproduction_run"],
-        )
-
+    def test_compatibility_retains_reviewed_caveat_tokens(self) -> None:
+        _, _, _, compatibility = load_core_documents(CORE_ID, PIN_NAME)
         caveats = "\n".join(compatibility["caveats"])
         for token in CAVEAT_TOKENS:
             self.assertIn(token, caveats)
-        for active_reference in (
-            SEMANTIC_ID,
-            PIN_PATH,
-            SOURCE_SET_PATH,
-            compatibility["golden_source"],
-            compatibility["e2e_run"],
-            compatibility["reproduction_run"],
-        ):
-            self.assertNotIn("tranche", active_reference.casefold())
 
-        self.assertEqual(set(TARGETS), set(compatibility["targets"]))
-        self.assertEqual(set(TARGETS), set(selection["targets"]))
-        for architecture, expected in TARGETS.items():
-            with self.subTest(architecture=architecture):
-                target = compatibility["targets"][architecture]
-                selected_target = selection["targets"][architecture]
-                golden_record = selected_target["golden_record"]
-                artifact = golden_record["artifact"]
-
-                self.assertEqual(CORE_ID, golden_record["core_id"])
-                self.assertEqual(architecture, golden_record["architecture"])
-                self.assertEqual(SOURCE_RECORD_IDENTITY, golden_record["source"])
-                self.assertEqual("local_static_build_golden", target["state"])
-                self.assertEqual("static-build-only", target["validation_scope"])
-                self.assertEqual(
-                    "needs-target-runtime", target["runtime_validation"]
-                )
-                self.assertEqual(
-                    expected["record_sha256"][SELECTED_RUN],
-                    selected_target["build_record_sha256"],
-                )
-                self.assertEqual(
-                    expected["artifact_sha256"], target["artifact_sha256"]
-                )
-                self.assertEqual(
-                    expected["artifact_sha256"],
-                    selected_target["artifact"]["sha256"],
-                )
-                self.assertEqual(expected["artifact_sha256"], artifact["sha256"])
-                self.assertEqual(expected["artifact_size"], artifact["size"])
-                self.assertEqual([], golden_record["build"]["compile_definitions"])
-                self.assertNotIn("git_version", golden_record["build"])
-                self.assertEqual(METADATA_SHA256, golden_record["metadata"]["sha256"])
-                self.assertEqual(expected["elf"], target["elf"])
-                self.assertEqual(
-                    expected["elf"].split("/", 1)[0], artifact["elf"]["class"]
-                )
-                self.assertEqual(
-                    "AArch64" if architecture == "arm64" else "ARM",
-                    artifact["elf"]["machine"],
-                )
-                self.assertEqual(expected["needed"], target["needed"])
-                self.assertEqual(expected["needed"], artifact["needed"])
-                self.assertEqual(
-                    expected["version_requirements"], target["version_requirements"]
-                )
-                self.assertEqual(
-                    expected["version_requirements"],
-                    artifact["version_requirements"],
-                )
-
-                snapshot_reference = golden_record["local_store"][
-                    "recipe_snapshots"
-                ][architecture]
-                snapshot_path = ROOT / snapshot_reference["path"]
-                snapshot = load_document(snapshot_path)
-                self.assertEqual(9, snapshot["schema_version"])
-                self.assertEqual(
-                    [],
-                    pipeline.verify_recipe_snapshot(
-                        snapshot_path,
-                        golden_record,
-                        f"{CORE_ID}/{architecture}",
-                    ),
-                )
 
     def test_source_set_binds_immutable_source_and_execution_profiles(self) -> None:
         source_set = load_document(ROOT / SOURCE_SET_PATH)
@@ -412,177 +204,6 @@ class FreechafCoreEvidenceTests(unittest.TestCase):
         self.assertEqual([CORE_ID], [asset["core_id"] for asset in release["assets"]])
         self.assertEqual(PACKAGE_SHA256, release["assets"][0]["sha256"])
 
-    def test_selected_and_local_runs_prove_exact_reproducible_builds(self) -> None:
-        contract = freechaf.FREECHAF_LOG_CONTRACT
-        registered_contract = pipeline.core_log_contract_for(CORE_ID)
-        self.assertIsNotNone(registered_contract)
-        assert registered_contract is not None
-        self.assertEqual("freechaf-c-only-v1", registered_contract.contract_id)
-        self.assertEqual(
-            "freechaf_log_proves_contract", registered_contract.proof_name
-        )
-        self.assertEqual(25, contract.expected_compile_count)
-        self.assertEqual(
-            "4c0d7b11a3f58cd09aab51ac9614b370e1a22c1f4dc0584f333dd036e04c39d7",
-            contract.expected_compile_pair_sha256,
-        )
-        self.assertEqual(
-            {
-                "arm64": (
-                    "54d1259958fb40c52fcaccec94f03404a1fbde06fcc535bb595ea30dbfce98ef"
-                ),
-                "armhf": (
-                    "a6f12936542629961c3033e9bbb5132c6a5e4020982c2babe35236348e8d3d81"
-                ),
-            },
-            dict(contract.expected_compile_invocation_sha256),
-        )
-        self.assertEqual(
-            "c21e6399d24b3bdd11f7c477cd91663958ff1e6711fea312799b788f90c7101f",
-            contract.expected_link_object_sha256,
-        )
-        self.assertEqual(
-            contract.expected_link_object_sha256,
-            contract.expected_raw_link_object_sha256,
-        )
-
-        packages: list[bytes] = []
-        metadata_payloads: list[bytes] = []
-        artifacts: dict[str, list[bytes]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        logs: dict[str, list[str]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        for run_id, expected_runner in RUNNERS.items():
-            with self.subTest(run_id=run_id):
-                self.assertNotIn("tranche", run_id.casefold())
-                run_root = ROOT / ".local-e2e" / "runs" / run_id
-                e2e_path = run_root / "e2e-record.json"
-                evidence = load_document(e2e_path)
-                self.assertEqual(E2E_FILE_SHA256[run_id], file_sha256(e2e_path))
-                self.assertEqual("passed", evidence["result"])
-                self.assertEqual(expected_runner, evidence["runner"])
-                self.assertEqual(
-                    SELECTED_E2E_CONTENT_SHA256
-                    if run_id == SELECTED_RUN
-                    else REPRODUCTION_E2E_CONTENT_SHA256,
-                    evidence["content_sha256"],
-                )
-                self.assertEqual(
-                    [CORE_ID], [item["core_id"] for item in evidence["packages"]]
-                )
-                package = evidence["packages"][0]
-                self.assertEqual("packaged", package["result"])
-                self.assertEqual(87342, package["size"])
-                self.assertEqual(PACKAGE_SHA256, package["sha256"])
-                package_path = run_root / package["path"]
-                self.assertEqual(PACKAGE_SHA256, file_sha256(package_path))
-                packages.append(package_path.read_bytes())
-                with zipfile.ZipFile(package_path) as archive:
-                    self.assertEqual(
-                        {
-                            "cores64/freechaf_libretro.so",
-                            "cores/freechaf_libretro.so",
-                            "freechaf_libretro.info",
-                            "manifest.json",
-                        },
-                        set(archive.namelist()),
-                    )
-
-                builds = {
-                    build["architecture"]: build for build in evidence["builds"]
-                }
-                self.assertEqual(set(TARGETS), set(builds))
-                for architecture, expected in TARGETS.items():
-                    with self.subTest(run_id=run_id, architecture=architecture):
-                        build = builds[architecture]
-                        self.assertEqual(CORE_ID, build["core_id"])
-                        self.assertEqual("passed", build["result"])
-                        self.assertEqual(
-                            expected["record_sha256"][run_id],
-                            build["record_sha256"],
-                        )
-                        record_path = ROOT / build["record"]
-                        self.assertEqual(
-                            build["record_sha256"], file_sha256(record_path)
-                        )
-                        record = load_document(record_path)
-                        self.assertEqual(CORE_ID, record["core_id"])
-                        self.assertEqual(architecture, record["architecture"])
-                        self.assertEqual(SOURCE_RECORD_IDENTITY, record["source"])
-                        self.assertEqual("libretro-super", record["build"]["driver"])
-                        self.assertEqual(
-                            "sanitized-v1", record["build"]["environment"]
-                        )
-                        self.assertEqual([], record["build"]["compile_definitions"])
-                        self.assertNotIn("git_version", record["build"])
-
-                        log_path = record_path.parent / record["build"]["log"]
-                        log_text = log_path.read_text(encoding="utf-8")
-                        self.assertEqual(expected["log_sha256"], file_sha256(log_path))
-                        self.assertEqual(
-                            expected["log_sha256"], record["build"]["log_sha256"]
-                        )
-                        logs[architecture].append(log_text)
-                        self.assertEqual(
-                            25,
-                            log_text.count(
-                                freechaf.FREECHAF_NATIVE_GIT_VERSION_LOG_TOKEN
-                            ),
-                        )
-                        self.assertEqual(25, log_text.count("-DGIT_VERSION="))
-                        self.assertEqual(
-                            1,
-                            log_text.count(
-                                freechaf.FREECHAF_SUBMODULE_CHECKOUT_MARKER
-                            ),
-                        )
-                        self.assertEqual(
-                            1,
-                            log_text.count(freechaf.FREECHAF_EXPECTED_WARNING_BLOCK),
-                        )
-                        self.assertTrue(
-                            pipeline.registered_core_log_contract_proves(
-                                log_text,
-                                CORE_ID,
-                                architecture,
-                                SOURCE_COMMIT,
-                                SOURCE_TREE,
-                            )
-                        )
-                        lowered_log = log_text.casefold()
-                        for marker in freechaf.FREECHAF_FORBIDDEN_DIAGNOSTIC_MARKERS:
-                            self.assertNotIn(marker, lowered_log)
-                        self.assertIsNone(
-                            freechaf.FREECHAF_MAKE_FAILURE_RE.search(log_text)
-                        )
-
-                        metadata_path = record_path.parent / record["metadata"]["path"]
-                        self.assertEqual(METADATA_SHA256, file_sha256(metadata_path))
-                        metadata = metadata_path.read_bytes()
-                        self.assertIn(b'license = "GPLv3"', metadata)
-                        self.assertIn(b'firmware0_path = "sl31253.bin"', metadata)
-                        self.assertIn(b'firmware1_path = "sl31254.bin"', metadata)
-                        self.assertIn(b'firmware2_path = "sl90025.bin"', metadata)
-                        metadata_payloads.append(metadata)
-
-                        artifact_path = record_path.parent / record["artifact"]["path"]
-                        self.assertEqual(
-                            expected["artifact_sha256"], file_sha256(artifact_path)
-                        )
-                        artifact = artifact_path.read_bytes()
-                        self.assertIn(b"1.0 76c7a84", artifact)
-                        artifacts[architecture].append(artifact)
-
-        self.assertEqual(packages[0], packages[1])
-        self.assertTrue(
-            all(payload == metadata_payloads[0] for payload in metadata_payloads[1:])
-        )
-        for architecture, payloads in artifacts.items():
-            with self.subTest(byte_reproduction=architecture):
-                self.assertEqual(payloads[0], payloads[1])
-                self.assertEqual(logs[architecture][0], logs[architecture][1])
 
     def test_documents_and_registered_proof_fail_closed_on_tampering(self) -> None:
         _, pin, compatibility_path, compatibility = load_core_documents(

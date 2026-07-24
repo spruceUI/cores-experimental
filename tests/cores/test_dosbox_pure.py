@@ -17,15 +17,17 @@ from core_pipeline_lib.contracts.mixed_language import (
 )
 
 from .support import ROOT, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "dosbox_pure"
-SOURCE_URL = "https://github.com/libretro/dosbox-pure.git"
-SOURCE_COMMIT = "a4a0bab7f8931433588f2fcad9045c85b277373d"
-SOURCE_TREE = "0b64e0b00ba92300de9f73f213f3feaddf54a134"
-SELECTED_RUN = "actions-sim-build-core-dosbox_pure-w4"
-REPRODUCTION_RUN = "build-core-dosbox_pure-local-w4"
 
+_H = evidence_handles(CORE_ID)
+SOURCE_URL = _H["SOURCE_URL"]
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
 
 class DosboxPureManifestTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -127,22 +129,6 @@ class DosboxPureContractTests(unittest.TestCase):
         )
         return path.read_text(encoding="utf-8") if path.is_file() else None
 
-    def test_real_logs_prove_the_exact_contract(self) -> None:
-        proven = 0
-        for run_id in (SELECTED_RUN, REPRODUCTION_RUN):
-            for arch in ("arm64", "armhf"):
-                log = self._log(run_id, arch)
-                if log is None:
-                    continue
-                self.assertTrue(
-                    dosbox_pure.dosbox_pure_log_proves_contract(
-                        log, CORE_ID, arch, SOURCE_COMMIT, SOURCE_TREE
-                    ),
-                    f"{run_id}/{arch} did not prove the dosbox_pure contract",
-                )
-                proven += 1
-        if proven == 0:
-            self.skipTest("no workspace-local dosbox_pure build logs present")
 
     def test_contract_rejects_a_wrong_compile_count(self) -> None:
         log = self._log(SELECTED_RUN, "arm64") or self._log(

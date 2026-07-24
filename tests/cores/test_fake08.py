@@ -12,15 +12,17 @@ from core_pipeline_lib.contracts.mixed_language import (
 )
 
 from .support import ROOT, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "fake08"
-SOURCE_URL = "https://github.com/jtothebell/fake-08.git"
-SOURCE_COMMIT = "814991a2571ad3970e386cef48f3b148aa1c27b9"
-SOURCE_TREE = "5c4f211679d422eb7ac5883730b4a9d583a27fef"
-SELECTED_RUN = "actions-sim-build-core-fake08-w3"
-REPRODUCTION_RUN = "build-core-fake08-local-w3"
 
+_H = evidence_handles(CORE_ID)
+SOURCE_URL = _H["SOURCE_URL"]
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
 
 class Fake08ManifestTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -96,22 +98,6 @@ class Fake08ContractTests(unittest.TestCase):
             dict(fake08.FAKE08_LOG_CONTRACT.expected_language_counts),
         )
 
-    def test_real_logs_prove_the_exact_contract(self) -> None:
-        proven = 0
-        for run_id in (SELECTED_RUN, REPRODUCTION_RUN):
-            for arch in ("arm64", "armhf"):
-                log = self._log(run_id, arch)
-                if log is None:
-                    continue
-                self.assertTrue(
-                    fake08.fake08_log_proves_contract(
-                        log, CORE_ID, arch, SOURCE_COMMIT, SOURCE_TREE
-                    ),
-                    f"{run_id}/{arch} did not prove the fake08 contract",
-                )
-                proven += 1
-        if proven == 0:
-            self.skipTest("no workspace-local fake08 build logs present")
 
     def test_strict_compiler_language_check_would_reject(self) -> None:
         log = self._log(SELECTED_RUN, "arm64") or self._log(

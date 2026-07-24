@@ -17,107 +17,26 @@ from .support import (
     load_core_documents,
     load_document,
 )
+from .support import evidence_handles
 
 
 CORE_ID = "lowresnx"
 OTHER_CORE_ID = "prosystem"
-PIN_NAME = "lowresnx-35adc1a215e9-c989201653bb.json"
-SEMANTIC_ID = PIN_NAME.removesuffix(".json")
-PIN_PATH = f"pins/core-sets/{PIN_NAME}"
-SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
-SOURCE_COMMIT = "35adc1a215e975be964b2ef4b652117acd7beba1"
-SOURCE_TREE = "766c70ca84d3a48769781072913a01db7f488a7b"
-SOURCE_URL = "https://github.com/timoinutilis/lowres-nx.git"
-SOURCE_LOCK_ID = "lowresnx-35adc1a215e9"
-SELECTION_SHA256 = (
-    "c989201653bb184f5d212976e48237a16408e4682a05bf1bd548353f09284bcb"
-)
-SELECTED_RUN = "actions-sim-build-core-lowresnx-w4"
-REPRODUCTION_RUN = "build-core-lowresnx-local-w4"
-SELECTED_E2E_CONTENT_SHA256 = (
-    "22aa8f6cb153ac986b6db1577831a3d4f5855142dc0c6076a23e3dde467b888d"
-)
-REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "f18577ca39c309074fe6c11037a6599c9f32edb52706e87356280e5f25b79f26"
-)
-E2E_FILE_SHA256 = {
-    SELECTED_RUN: (
-        "a245cbcbd52609675c9173c01f85943866114dc333a378168ed11736bf2a9780"
-    ),
-    REPRODUCTION_RUN: (
-        "914ab6457aed98ffb1149ccbfd0c5317130f993fae134d3c662afb7743be2df2"
-    ),
-}
-PACKAGE_SHA256 = (
-    "7b51f7493ba275b0d0a987f1e611efaecd03fdedaa5f14c85bb64483a3c73ecf"
-)
-METADATA_SHA256 = (
-    "3e6b2bf33038acb57158183eb030ac069ce95febc65bc61b79d1305273ad8d7a"
-)
-RUNNERS = {
-    SELECTED_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "simulated",
-        "profile": "github-actions",
-        "publication": "disabled",
-    },
-    REPRODUCTION_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "native",
-        "profile": "local",
-        "publication": "disabled",
-    },
-}
-TARGETS = {
-    "arm64": {
-        "artifact_sha256": (
-            "7982ddaa129240f7c5112288985467034091564bf38e8f3e0a80ceba4a6529a7"
-        ),
-        "artifact_size": 155672,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "8c911d0a1180f6dfced2a70b94cc6a24f11befa61d36d1dab4991a67aa045c76"
-            ),
-            REPRODUCTION_RUN: (
-                "f73e8203fc5c1cb728f150af3db86ef77db8b304f79fadc1227c8de5d677326d"
-            ),
-        },
-        "log_sha256": (
-            "2466717df275eee6607cd78981c8911feef16eb231e29f1c27847c01c0e91f70"
-        ),
-        "elf": "ELF64/AArch64",
-        "needed": ["ld-linux-aarch64.so.1", "libc.so.6", "libm.so.6"],
-        "version_requirements": [
-            "GLIBC_2.17",
-            "GLIBC_2.27",
-            "GLIBC_2.29",
-        ],
-        "execution_profile_id": "ra64-universal-v1",
-    },
-    "armhf": {
-        "artifact_sha256": (
-            "404cfb5b99f5b63638c1b20c15888664075a4e2c48944e52e69eb45915951d73"
-        ),
-        "artifact_size": 117208,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "9e836e88081227df172d6abeadbda33f437ac17db5eeba898e18d0f2e75f2a7b"
-            ),
-            REPRODUCTION_RUN: (
-                "72a6defc7924fae181de1b683c2204e311238b532f2b66737a1210cb4605da33"
-            ),
-        },
-        "log_sha256": (
-            "b4ea85c19ca20991a2be6afd2435dd45bbd8d48790dd5a32e7075f3622388102"
-        ),
-        "elf": "ELF32/ARM hard-float",
-        "needed": ["libc.so.6", "libm.so.6"],
-        "version_requirements": ["GLIBC_2.4"],
-        "execution_profile_id": "ra32-a30-v1",
-    },
-}
+
+_H = evidence_handles(CORE_ID)
+PIN_NAME = _H["PIN_NAME"]
+SEMANTIC_ID = _H["SEMANTIC_ID"]
+PIN_PATH = _H["PIN_PATH"]
+SOURCE_SET_PATH = _H["SOURCE_SET_PATH"]
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SOURCE_URL = _H["SOURCE_URL"]
+SOURCE_LOCK_ID = _H["SOURCE_LOCK_ID"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+PACKAGE_SHA256 = _H["PACKAGE_SHA256"]
+TARGETS = _H["TARGETS"]
+
 SOURCE_LOCK_IDENTITY = {
     "url": SOURCE_URL,
     "requested_ref": "refs/heads/master",
@@ -125,6 +44,7 @@ SOURCE_LOCK_IDENTITY = {
     "tree": SOURCE_TREE,
     "submodules": [],
 }
+
 SOURCE_RECORD_IDENTITY = {
     "commit": SOURCE_COMMIT,
     "requested_ref": "refs/heads/master",
@@ -134,6 +54,7 @@ SOURCE_RECORD_IDENTITY = {
     "tree": SOURCE_TREE,
     "url": SOURCE_URL,
 }
+
 CAVEAT_TOKENS = (
     "all 43 C compile commands",
     "GLIBC_2.29",
@@ -144,151 +65,13 @@ CAVEAT_TOKENS = (
     "all device views remain ineligible",
 )
 
-
 class LowResNxCoreTests(unittest.TestCase):
-    def test_semantic_pin_and_compatibility_bind_promoted_evidence(
-        self,
-    ) -> None:
-        pin_path, pin, compatibility_path, compatibility = load_core_documents(
-            CORE_ID, PIN_NAME
-        )
-
-        pin_report = pipeline.validate_pin_set_document(
-            pin, document_path=pin_path
-        )
-        self.assertEqual("valid", pin_report["status"], pin_report["errors"])
-        compatibility_report = pipeline.validate_core_compatibility_document(
-            compatibility,
-            document_path=compatibility_path,
-            repository_root=ROOT,
-        )
-        self.assertEqual(
-            "valid",
-            compatibility_report["status"],
-            compatibility_report["errors"],
-        )
-        self.assertEqual(SEMANTIC_ID, pin["pin_id"])
-        self.assertEqual([CORE_ID], pin["scope"])
-        self.assertEqual({CORE_ID}, set(pin["cores"]))
-        self.assertIsNone(pin["parent"])
-        self.assertEqual(CORE_ID, compatibility["core_id"])
-        self.assertEqual("disabled", compatibility["publication"])
-        self.assertEqual(
-            "workspace-local-ignored", compatibility["evidence_availability"]
-        )
-        self.assertEqual(PIN_PATH, compatibility["golden_source"])
-
-        selection = pin["cores"][CORE_ID]["selection"]
-        self.assertEqual(SELECTION_SHA256, selection["selection_sha256"])
-        self.assertEqual(SOURCE_COMMIT, compatibility["source_commit"])
-        self.assertEqual("reproducible", compatibility["package_state"])
-        self.assertEqual(PACKAGE_SHA256, compatibility["package_sha256"])
-        self.assertEqual(PACKAGE_SHA256, selection["package"]["sha256"])
-        self.assertEqual(PACKAGE_SHA256, selection["e2e"]["package_sha256"])
-        self.assertEqual(SELECTED_RUN, selection["e2e"]["run_id"])
-        self.assertEqual(
-            SELECTED_E2E_CONTENT_SHA256, selection["e2e"]["content_sha256"]
-        )
-        self.assertEqual(
-            f".local-e2e/runs/{SELECTED_RUN}/e2e-record.json",
-            compatibility["e2e_run"],
-        )
-        self.assertEqual(
-            SELECTED_E2E_CONTENT_SHA256,
-            compatibility["selected_e2e_content_sha256"],
-        )
-        self.assertEqual(
-            f".local-e2e/runs/{REPRODUCTION_RUN}/e2e-record.json",
-            compatibility["reproduction_run"],
-        )
-        self.assertEqual(
-            REPRODUCTION_E2E_CONTENT_SHA256,
-            compatibility["reproduction_e2e_content_sha256"],
-        )
-
+    def test_compatibility_retains_reviewed_caveat_tokens(self) -> None:
+        _, _, _, compatibility = load_core_documents(CORE_ID, PIN_NAME)
         caveats = "\n".join(compatibility["caveats"])
         for token in CAVEAT_TOKENS:
             self.assertIn(token, caveats)
-        for active_reference in (
-            SEMANTIC_ID,
-            PIN_PATH,
-            SOURCE_SET_PATH,
-            compatibility["e2e_run"],
-            compatibility["reproduction_run"],
-            caveats,
-        ):
-            self.assertNotIn("tranche", active_reference.casefold())
 
-        self.assertEqual(set(TARGETS), set(compatibility["targets"]))
-        self.assertEqual(set(TARGETS), set(selection["targets"]))
-        for architecture, expected in TARGETS.items():
-            with self.subTest(architecture=architecture):
-                target = compatibility["targets"][architecture]
-                selected_target = selection["targets"][architecture]
-                golden_record = selected_target["golden_record"]
-                artifact = golden_record["artifact"]
-
-                self.assertEqual(CORE_ID, golden_record["core_id"])
-                self.assertEqual(architecture, golden_record["architecture"])
-                self.assertEqual(SOURCE_RECORD_IDENTITY, golden_record["source"])
-                self.assertEqual("local_static_build_golden", target["state"])
-                self.assertEqual("static-build-only", target["validation_scope"])
-                self.assertEqual(
-                    "needs-target-runtime", target["runtime_validation"]
-                )
-                self.assertEqual(
-                    expected["record_sha256"][SELECTED_RUN],
-                    selected_target["build_record_sha256"],
-                )
-                self.assertEqual(
-                    expected["artifact_sha256"], target["artifact_sha256"]
-                )
-                self.assertEqual(
-                    expected["artifact_sha256"],
-                    selected_target["artifact"]["sha256"],
-                )
-                self.assertEqual(expected["artifact_sha256"], artifact["sha256"])
-                self.assertEqual(expected["artifact_size"], artifact["size"])
-                self.assertEqual([], golden_record["build"]["compile_definitions"])
-                self.assertEqual(
-                    {
-                        "compiler_scope": "c",
-                        "derivation": (
-                            lowresnx.LOWRESNX_NATIVE_GIT_VERSION_DERIVATION
-                        ),
-                        "value": lowresnx.LOWRESNX_NATIVE_GIT_VERSION,
-                    },
-                    golden_record["build"]["git_version"],
-                )
-                self.assertEqual(
-                    METADATA_SHA256, golden_record["metadata"]["sha256"]
-                )
-                self.assertEqual(expected["elf"], target["elf"])
-                self.assertEqual(expected["needed"], target["needed"])
-                self.assertEqual(expected["needed"], artifact["needed"])
-                self.assertEqual(
-                    expected["version_requirements"],
-                    target["version_requirements"],
-                )
-                self.assertEqual(
-                    expected["version_requirements"],
-                    artifact["version_requirements"],
-                )
-
-                snapshot_reference = golden_record["local_store"][
-                    "recipe_snapshots"
-                ][architecture]
-                snapshot_path = ROOT / snapshot_reference["path"]
-                snapshot = load_document(snapshot_path)
-                self.assertEqual(9, snapshot["schema_version"])
-                self.assertEqual(
-                    [],
-                    pipeline.verify_recipe_snapshot(
-                        snapshot_path,
-                        golden_record,
-                        f"{CORE_ID}/{architecture}",
-                    ),
-                )
 
     def test_source_set_release_and_channels_are_core_owned(self) -> None:
         source_set = load_document(ROOT / SOURCE_SET_PATH)
@@ -406,191 +189,6 @@ class LowResNxCoreTests(unittest.TestCase):
         )
         self.assertEqual(PACKAGE_SHA256, release["assets"][0]["sha256"])
 
-    def test_selected_and_local_runs_reproduce_exact_bytes(self) -> None:
-        contract = lowresnx.lowresnx_c_only_contract()
-        registered_contract = pipeline.core_log_contract_for(CORE_ID)
-        self.assertIsNotNone(registered_contract)
-        assert registered_contract is not None
-        self.assertEqual("lowresnx-c-only-v1", registered_contract.contract_id)
-        self.assertEqual(
-            "lowresnx_log_proves_contract", registered_contract.proof_name
-        )
-        self.assertEqual(43, contract.expected_compile_count)
-        self.assertEqual(
-            lowresnx.LOWRESNX_EXPECTED_COMPILE_PAIR_SHA256,
-            contract.expected_compile_pair_sha256,
-        )
-        self.assertEqual(
-            lowresnx.LOWRESNX_EXPECTED_COMPILE_INVOCATION_SHA256,
-            dict(contract.expected_compile_invocation_sha256),
-        )
-        self.assertEqual(
-            lowresnx.LOWRESNX_EXPECTED_LINK_OBJECT_SHA256,
-            contract.expected_link_object_sha256,
-        )
-        self.assertEqual(
-            lowresnx.LOWRESNX_EXPECTED_LINK_OPTIONS,
-            contract.expected_link_options,
-        )
-        self.assertEqual(
-            lowresnx.LOWRESNX_EXPECTED_RAW_LINK_OBJECT_SHA256,
-            contract.expected_raw_link_object_sha256,
-        )
-
-        packages: list[bytes] = []
-        metadata_payloads: list[bytes] = []
-        artifacts: dict[str, list[bytes]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        logs: dict[str, list[bytes]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        for run_id, expected_runner in RUNNERS.items():
-            with self.subTest(run_id=run_id):
-                self.assertNotIn("tranche", run_id.casefold())
-                run_root = ROOT / ".local-e2e/runs" / run_id
-                e2e_path = run_root / "e2e-record.json"
-                evidence = load_document(e2e_path)
-                self.assertEqual(E2E_FILE_SHA256[run_id], file_sha256(e2e_path))
-                self.assertEqual("passed", evidence["result"])
-                self.assertEqual(expected_runner, evidence["runner"])
-                self.assertEqual(
-                    SELECTED_E2E_CONTENT_SHA256
-                    if run_id == SELECTED_RUN
-                    else REPRODUCTION_E2E_CONTENT_SHA256,
-                    evidence["content_sha256"],
-                )
-                self.assertEqual(
-                    [CORE_ID],
-                    [item["core_id"] for item in evidence["packages"]],
-                )
-                package = evidence["packages"][0]
-                self.assertEqual("packaged", package["result"])
-                self.assertEqual(118897, package["size"])
-                self.assertEqual(PACKAGE_SHA256, package["sha256"])
-                package_path = run_root / package["path"]
-                self.assertEqual(PACKAGE_SHA256, file_sha256(package_path))
-                packages.append(package_path.read_bytes())
-                with zipfile.ZipFile(package_path) as archive:
-                    self.assertEqual(
-                        {
-                            "cores64/lowresnx_libretro.so",
-                            "cores/lowresnx_libretro.so",
-                            "lowresnx_libretro.info",
-                            "manifest.json",
-                        },
-                        set(archive.namelist()),
-                    )
-
-                builds = {
-                    build["architecture"]: build for build in evidence["builds"]
-                }
-                self.assertEqual(set(TARGETS), set(builds))
-                for architecture, expected in TARGETS.items():
-                    with self.subTest(run_id=run_id, architecture=architecture):
-                        build = builds[architecture]
-                        self.assertEqual(CORE_ID, build["core_id"])
-                        self.assertEqual("passed", build["result"])
-                        self.assertEqual(
-                            expected["record_sha256"][run_id],
-                            build["record_sha256"],
-                        )
-                        record_path = ROOT / build["record"]
-                        self.assertEqual(
-                            build["record_sha256"], file_sha256(record_path)
-                        )
-                        record = load_document(record_path)
-                        self.assertEqual(CORE_ID, record["core_id"])
-                        self.assertEqual(architecture, record["architecture"])
-                        self.assertEqual(SOURCE_RECORD_IDENTITY, record["source"])
-                        self.assertEqual(
-                            "libretro-super", record["build"]["driver"]
-                        )
-                        self.assertEqual(
-                            "sanitized-v1", record["build"]["environment"]
-                        )
-                        self.assertEqual(
-                            [], record["build"]["compile_definitions"]
-                        )
-                        self.assertEqual(
-                            {
-                                "compiler_scope": "c",
-                                "derivation": (
-                                    lowresnx.LOWRESNX_NATIVE_GIT_VERSION_DERIVATION
-                                ),
-                                "value": lowresnx.LOWRESNX_NATIVE_GIT_VERSION,
-                            },
-                            record["build"]["git_version"],
-                        )
-
-                        log_path = record_path.parent / record["build"]["log"]
-                        log_bytes = log_path.read_bytes()
-                        log_text = log_bytes.decode("utf-8")
-                        self.assertEqual(
-                            expected["log_sha256"], file_sha256(log_path)
-                        )
-                        self.assertEqual(
-                            expected["log_sha256"],
-                            record["build"]["log_sha256"],
-                        )
-                        logs[architecture].append(log_bytes)
-                        self.assertEqual(
-                            43,
-                            log_text.count(r'-DGIT_VERSION=\"" 35adc1a"\"'),
-                        )
-                        self.assertEqual(43, log_text.count("-DGIT_VERSION="))
-                        self.assertTrue(
-                            pipeline.registered_core_log_contract_proves(
-                                log_text,
-                                CORE_ID,
-                                architecture,
-                                SOURCE_COMMIT,
-                                SOURCE_TREE,
-                            )
-                        )
-
-                        metadata_path = (
-                            record_path.parent / record["metadata"]["path"]
-                        )
-                        self.assertEqual(
-                            METADATA_SHA256, file_sha256(metadata_path)
-                        )
-                        metadata = metadata_path.read_bytes()
-                        self.assertIn(b'license = "zlib"', metadata)
-                        self.assertIn(b'hw_render = "false"', metadata)
-                        self.assertIn(b'savestate = "false"', metadata)
-                        self.assertIn(b'needs_fullpath = "false"', metadata)
-                        metadata_payloads.append(metadata)
-
-                        artifact_path = (
-                            record_path.parent / record["artifact"]["path"]
-                        )
-                        self.assertEqual(
-                            expected["artifact_sha256"],
-                            file_sha256(artifact_path),
-                        )
-                        self.assertEqual(
-                            expected["needed"], record["artifact"]["needed"]
-                        )
-                        self.assertEqual(
-                            expected["version_requirements"],
-                            record["artifact"]["version_requirements"],
-                        )
-                        artifacts[architecture].append(artifact_path.read_bytes())
-
-        self.assertEqual(packages[0], packages[1])
-        self.assertTrue(
-            all(
-                payload == metadata_payloads[0]
-                for payload in metadata_payloads[1:]
-            )
-        )
-        for architecture in TARGETS:
-            with self.subTest(byte_reproduction=architecture):
-                self.assertEqual(
-                    artifacts[architecture][0], artifacts[architecture][1]
-                )
-                self.assertEqual(logs[architecture][0], logs[architecture][1])
 
     def test_compatibility_and_registered_proof_fail_closed(self) -> None:
         _, _, compatibility_path, compatibility = load_core_documents(

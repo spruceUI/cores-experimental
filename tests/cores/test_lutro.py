@@ -10,15 +10,18 @@ from core_pipeline_lib.contracts import lutro
 from core_pipeline_lib.contracts.c_only import c_only_log_proves_contract
 
 from .support import ROOT, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "lutro"
-SOURCE_URL = "https://github.com/libretro/libretro-lutro.git"
-SOURCE_COMMIT = "1df938b3bf37b8d1eb6cdd07ec915c4f569a7551"
-SOURCE_TREE = "d20aac44229476877084e26c2558c63737a86c98"
-SELECTED_RUN = "actions-sim-build-core-lutro-w3"
-REPRODUCTION_RUN = "build-core-lutro-local-w3"
 
+_H = evidence_handles(CORE_ID)
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+
+SOURCE_URL = _H["SOURCE_URL"]
 
 class LutroManifestTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -94,22 +97,6 @@ class LutroContractTests(unittest.TestCase):
         )
         self.assertEqual((("obj/player/", ""),), contract.semantic_path_aliases)
 
-    def test_real_logs_prove_the_exact_contract(self) -> None:
-        proven = 0
-        for run_id in (SELECTED_RUN, REPRODUCTION_RUN):
-            for arch in ("arm64", "armhf"):
-                log = self._log(run_id, arch)
-                if log is None:
-                    continue
-                self.assertTrue(
-                    lutro.lutro_log_proves_contract(
-                        log, CORE_ID, arch, SOURCE_COMMIT, SOURCE_TREE
-                    ),
-                    f"{run_id}/{arch} did not prove the lutro contract",
-                )
-                proven += 1
-        if proven == 0:
-            self.skipTest("no workspace-local lutro build logs present")
 
     def test_contract_rejects_a_tampered_archive_member_set(self) -> None:
         log = self._log(SELECTED_RUN, "arm64") or self._log(

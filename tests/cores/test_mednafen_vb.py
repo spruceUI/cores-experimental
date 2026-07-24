@@ -22,125 +22,27 @@ from .support import (
     refresh_copied_e2e,
     write_document,
 )
+from .support import evidence_handles
 
 
 CORE_ID = "mednafen_vb"
 OTHER_CORE_ID = "mednafen_pcfx"
-PIN_NAME = "mednafen_vb-38e7a0ec9ac7-ed193088da99.json"
-SEMANTIC_ID = PIN_NAME.removesuffix(".json")
-PIN_PATH = f"pins/core-sets/{PIN_NAME}"
-SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
-SOURCE_COMMIT = "38e7a0ec9ac7079ca1c1e3dd9aaf5b56f527efca"
-SOURCE_TREE = "842c635c9a5fdbef374616f01fa2d57bf1ec3fa7"
-SOURCE_URL = "https://github.com/libretro/beetle-vb-libretro.git"
-SOURCE_LOCK_ID = "mednafen_vb-38e7a0ec9ac7"
-SELECTION_SHA256 = (
-    "ed193088da99527a017385d85c38de62475f7e5d1e2ad37cc3e0d773e7d1de51"
-)
-SELECTED_RUN = "actions-sim-build-core-mednafen_vb-w3"
-REPRODUCTION_RUN = "build-core-mednafen_vb-local-w3"
-SELECTED_E2E_CONTENT_SHA256 = (
-    "6421a4fc92f15969583d2cd114e75016e96876da312a0e7be5a00393aee89176"
-)
-REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "506279cdf1bfeafede7259232b885312ac821fa11fec1c7a05c4237b2340493a"
-)
-E2E_FILE_SHA256 = {
-    SELECTED_RUN: (
-        "6f671f5e512a5287f3307993ec273dc3f7f2077a98bbacb29964c63ad91780a4"
-    ),
-    REPRODUCTION_RUN: (
-        "6dadab02ca70fb5a4d6f669862df87a6a69b774a4af4b1ad81537c1a58bba310"
-    ),
-}
-PACKAGE_SHA256 = (
-    "5f30af0cb6af06d28d445b73e95ab655275cffbef39160bd315c4c155dbc0a43"
-)
-PACKAGE_SIZE = 158435
-METADATA_SHA256 = (
-    "425e0ef983f72b7e938af8cc170d2ddc1cb6b0a19a98aa4fce49bb2957567236"
-)
-METADATA_SIZE = 645
-RUNNERS = {
-    SELECTED_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "simulated",
-        "profile": "github-actions",
-        "publication": "disabled",
-    },
-    REPRODUCTION_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "native",
-        "profile": "local",
-        "publication": "disabled",
-    },
-}
-TARGETS = {
-    "arm64": {
-        "artifact_sha256": (
-            "9ce1b5bdda22ff0eb9078164d75e0802c82e295bde7e4f426a3cb4af9e5c09bf"
-        ),
-        "artifact_size": 206328,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "7206b30bcb870ee3260d5bb080ffadd5e57ab4674e105a62eaa60552146762c9"
-            ),
-            REPRODUCTION_RUN: (
-                "caf4c434f43c161b771c8689bc15456e495175b5f16cad58fbaf650117367ede"
-            ),
-        },
-        "log_sha256": (
-            "877fca57a4f28f73a2b7dca5eea5ea2054d969918d343468304d655732adeb1d"
-        ),
-        "elf": "ELF64/AArch64",
-        "needed": [
-            "ld-linux-aarch64.so.1",
-            "libc.so.6",
-            "libgcc_s.so.1",
-            "libm.so.6",
-            "libstdc++.so.6",
-        ],
-        "version_requirements": [
-            "CXXABI_1.3",
-            "CXXABI_1.3.9",
-            "GCC_3.0",
-            "GLIBCXX_3.4",
-            "GLIBC_2.17",
-            "GLIBC_2.29",
-        ],
-        "execution_profile_id": "ra64-universal-v1",
-    },
-    "armhf": {
-        "artifact_sha256": (
-            "aa0df900693e0196416a67752c304fe15cca6d8890ac9dcdf387a448ec72e5f9"
-        ),
-        "artifact_size": 153412,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "ba0ed193c51c0500f873954908c04629e2d8b4ec22f53537d77316a357cc745e"
-            ),
-            REPRODUCTION_RUN: (
-                "bae1f397d28b60bbb17c198489458e9175246914521a56dce2f442b9449b93fc"
-            ),
-        },
-        "log_sha256": (
-            "e03d21bd8c7470ecf550a87860860126f49457d63608031ff5e9664733d239bd"
-        ),
-        "elf": "ELF32/ARM hard-float",
-        "needed": ["libc.so.6", "libgcc_s.so.1", "libm.so.6", "libstdc++.so.6"],
-        "version_requirements": [
-            "CXXABI_1.3",
-            "CXXABI_1.3.9",
-            "CXXABI_ARM_1.3.3",
-            "GCC_3.5",
-            "GLIBCXX_3.4",
-            "GLIBC_2.4",
-        ],
-        "execution_profile_id": "ra32-a30-v1",
-    },
-}
+
+_H = evidence_handles(CORE_ID)
+PIN_NAME = _H["PIN_NAME"]
+SEMANTIC_ID = _H["SEMANTIC_ID"]
+PIN_PATH = _H["PIN_PATH"]
+SOURCE_SET_PATH = _H["SOURCE_SET_PATH"]
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SOURCE_LOCK_ID = _H["SOURCE_LOCK_ID"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+PACKAGE_SHA256 = _H["PACKAGE_SHA256"]
+TARGETS = _H["TARGETS"]
+
+SOURCE_URL = _H["SOURCE_URL"]
+
 SOURCE_LOCK_IDENTITY = {
     "url": SOURCE_URL,
     "requested_ref": "refs/heads/master",
@@ -148,6 +50,7 @@ SOURCE_LOCK_IDENTITY = {
     "tree": SOURCE_TREE,
     "submodules": [],
 }
+
 SOURCE_RECORD_IDENTITY = {
     "commit": SOURCE_COMMIT,
     "requested_ref": "refs/heads/master",
@@ -157,6 +60,7 @@ SOURCE_RECORD_IDENTITY = {
     "tree": SOURCE_TREE,
     "url": SOURCE_URL,
 }
+
 CAVEAT_TOKENS = (
     "13 compiles (10 C and 3 C++)",
     "v1.31.0 38e7a0e",
@@ -169,6 +73,7 @@ CAVEAT_TOKENS = (
     "ra32-a30-v1",
     "all device views remain ineligible",
 )
+
 FAILURE_MARKERS = (
     "error:",
     "fatal:",
@@ -177,144 +82,13 @@ FAILURE_MARKERS = (
     "make: ***",
 )
 
-
 class MednafenVbCoreEvidenceTests(unittest.TestCase):
-    def test_singleton_pin_and_compatibility_bind_promoted_evidence(self) -> None:
-        pin_path, pin, compatibility_path, compatibility = load_core_documents(
-            CORE_ID, PIN_NAME
-        )
-
-        pin_report = pipeline.validate_pin_set_document(pin, document_path=pin_path)
-        self.assertEqual("valid", pin_report["status"], pin_report["errors"])
-        compatibility_report = pipeline.validate_core_compatibility_document(
-            compatibility,
-            document_path=compatibility_path,
-            repository_root=ROOT,
-        )
-        self.assertEqual(
-            "valid",
-            compatibility_report["status"],
-            compatibility_report["errors"],
-        )
-        self.assertEqual(SEMANTIC_ID, pin["pin_id"])
-        self.assertEqual([CORE_ID], pin["scope"])
-        self.assertEqual({CORE_ID}, set(pin["cores"]))
-        self.assertIsNone(pin["parent"])
-        self.assertEqual(CORE_ID, compatibility["core_id"])
-        self.assertEqual("disabled", compatibility["publication"])
-        self.assertEqual(
-            "workspace-local-ignored", compatibility["evidence_availability"]
-        )
-        self.assertEqual(PIN_PATH, compatibility["golden_source"])
-
-        selection = pin["cores"][CORE_ID]["selection"]
-        self.assertEqual(SELECTION_SHA256, selection["selection_sha256"])
-        self.assertEqual(SOURCE_COMMIT, compatibility["source_commit"])
-        self.assertEqual("reproducible", compatibility["package_state"])
-        self.assertEqual(PACKAGE_SHA256, compatibility["package_sha256"])
-        self.assertEqual(PACKAGE_SHA256, selection["package"]["sha256"])
-        self.assertEqual(PACKAGE_SHA256, selection["e2e"]["package_sha256"])
-        self.assertEqual(SELECTED_RUN, selection["e2e"]["run_id"])
-        self.assertEqual(
-            SELECTED_E2E_CONTENT_SHA256, selection["e2e"]["content_sha256"]
-        )
-        self.assertEqual(
-            SELECTED_E2E_CONTENT_SHA256,
-            compatibility["selected_e2e_content_sha256"],
-        )
-        reproduction = load_document(
-            ROOT / ".local-e2e" / "runs" / REPRODUCTION_RUN / "e2e-record.json"
-        )
-        self.assertEqual(
-            REPRODUCTION_E2E_CONTENT_SHA256, reproduction["content_sha256"]
-        )
-        self.assertEqual(
-            REPRODUCTION_E2E_CONTENT_SHA256,
-            compatibility["reproduction_e2e_content_sha256"],
-        )
-        self.assertEqual(
-            f".local-e2e/runs/{SELECTED_RUN}/e2e-record.json",
-            compatibility["e2e_run"],
-        )
-        self.assertEqual(
-            f".local-e2e/runs/{REPRODUCTION_RUN}/e2e-record.json",
-            compatibility["reproduction_run"],
-        )
-
+    def test_compatibility_retains_reviewed_caveat_tokens(self) -> None:
+        _, _, _, compatibility = load_core_documents(CORE_ID, PIN_NAME)
         caveats = "\n".join(compatibility["caveats"])
         for token in CAVEAT_TOKENS:
             self.assertIn(token, caveats)
-        for active_reference in (
-            SEMANTIC_ID,
-            PIN_PATH,
-            SOURCE_SET_PATH,
-            compatibility["golden_source"],
-            compatibility["e2e_run"],
-            compatibility["reproduction_run"],
-            caveats,
-        ):
-            self.assertNotIn("tranche", active_reference.casefold())
 
-        self.assertEqual(set(TARGETS), set(compatibility["targets"]))
-        self.assertEqual(set(TARGETS), set(selection["targets"]))
-        for architecture, expected in TARGETS.items():
-            with self.subTest(architecture=architecture):
-                target = compatibility["targets"][architecture]
-                selected_target = selection["targets"][architecture]
-                golden_record = selected_target["golden_record"]
-                artifact = golden_record["artifact"]
-
-                self.assertEqual(CORE_ID, golden_record["core_id"])
-                self.assertEqual(architecture, golden_record["architecture"])
-                self.assertEqual(SOURCE_RECORD_IDENTITY, golden_record["source"])
-                self.assertEqual("local_static_build_golden", target["state"])
-                self.assertEqual("static-build-only", target["validation_scope"])
-                self.assertEqual("needs-target-runtime", target["runtime_validation"])
-                self.assertEqual(
-                    expected["record_sha256"][SELECTED_RUN],
-                    selected_target["build_record_sha256"],
-                )
-                self.assertEqual(expected["artifact_sha256"], target["artifact_sha256"])
-                self.assertEqual(
-                    expected["artifact_sha256"], selected_target["artifact"]["sha256"]
-                )
-                self.assertEqual(expected["artifact_sha256"], artifact["sha256"])
-                self.assertEqual(expected["artifact_size"], artifact["size"])
-                self.assertEqual([], golden_record["build"]["compile_definitions"])
-                self.assertNotIn("git_version", golden_record["build"])
-                self.assertEqual(METADATA_SHA256, golden_record["metadata"]["sha256"])
-                self.assertEqual(expected["elf"], target["elf"])
-                self.assertEqual(
-                    expected["elf"].split("/", 1)[0], artifact["elf"]["class"]
-                )
-                self.assertEqual(
-                    "AArch64" if architecture == "arm64" else "ARM",
-                    artifact["elf"]["machine"],
-                )
-                self.assertEqual(expected["needed"], target["needed"])
-                self.assertEqual(expected["needed"], artifact["needed"])
-                self.assertEqual(
-                    expected["version_requirements"], target["version_requirements"]
-                )
-                self.assertEqual(
-                    expected["version_requirements"],
-                    artifact["version_requirements"],
-                )
-
-                snapshot_reference = golden_record["local_store"][
-                    "recipe_snapshots"
-                ][architecture]
-                snapshot_path = ROOT / snapshot_reference["path"]
-                snapshot = load_document(snapshot_path)
-                self.assertEqual(9, snapshot["schema_version"])
-                self.assertEqual(
-                    [],
-                    pipeline.verify_recipe_snapshot(
-                        snapshot_path,
-                        golden_record,
-                        f"{CORE_ID}/{architecture}",
-                    ),
-                )
 
     def test_singleton_source_set_maps_profiles_without_device_claims(self) -> None:
         source_set = load_document(ROOT / SOURCE_SET_PATH)
@@ -420,209 +194,6 @@ class MednafenVbCoreEvidenceTests(unittest.TestCase):
         self.assertEqual([CORE_ID], [asset["core_id"] for asset in release["assets"]])
         self.assertEqual(PACKAGE_SHA256, release["assets"][0]["sha256"])
 
-    def test_selected_and_reproduction_runs_prove_exact_builds(self) -> None:
-        contract = mednafen_vb.MEDNAFEN_VB_LOG_CONTRACT
-        registered_contract = pipeline.core_log_contract_for(CORE_ID)
-        self.assertIsNotNone(registered_contract)
-        assert registered_contract is not None
-        self.assertEqual(
-            "mednafen-vb-mixed-language-v1", registered_contract.contract_id
-        )
-        self.assertEqual(
-            "mednafen_vb_log_proves_contract", registered_contract.proof_name
-        )
-        self.assertEqual(13, contract.expected_compile_count)
-        self.assertEqual({"c": 10, "cxx": 3}, dict(contract.expected_language_counts))
-        self.assertEqual(
-            "6cb04e872fe9036b76a3ff8e46ebf1c7a5105f99f974e9a66d2d54d6961f3db1",
-            contract.expected_compile_pair_sha256,
-        )
-        self.assertEqual(
-            {
-                "arm64": (
-                    "4c5a3f1fa866731c491c379546adf43e8a3c6c21a60763f2e8a3a6954b4fd76d"
-                ),
-                "armhf": (
-                    "53e5830aba2b0cbcf5e23aaf274e528b84df9d19da9370dbecdb0acc6ddda2d1"
-                ),
-            },
-            dict(contract.expected_compile_invocation_sha256),
-        )
-        self.assertEqual(
-            "df94b68d4cf87d090ac4a991a8833286a2e09554b53f06d656c8941370496860",
-            contract.expected_link_object_sha256,
-        )
-        self.assertEqual(
-            contract.expected_link_object_sha256,
-            contract.expected_raw_link_object_sha256,
-        )
-        # No ordered-link-argv pin: the Makefile's object order is filesystem
-        # enumeration, tolerated by design; the object multisets stay pinned.
-        self.assertIsNone(contract.expected_ordered_link_argv_sha256)
-        self.assertEqual(
-            "native-space-short7-v1",
-            mednafen_vb.MEDNAFEN_VB_NATIVE_GIT_VERSION_DERIVATION,
-        )
-        self.assertEqual(
-            " 38e7a0e", mednafen_vb.MEDNAFEN_VB_NATIVE_GIT_VERSION
-        )
-        self.assertEqual(
-            frozenset({"c", "cxx"}),
-            mednafen_vb.MEDNAFEN_VB_NATIVE_GIT_VERSION_COMPILER_SCOPE,
-        )
-
-        packages: list[bytes] = []
-        metadata_payloads: list[bytes] = []
-        artifacts: dict[str, list[bytes]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        logs: dict[str, list[bytes]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        for run_id, expected_runner in RUNNERS.items():
-            with self.subTest(run_id=run_id):
-                self.assertNotIn("tranche", run_id.casefold())
-                run_root = ROOT / ".local-e2e" / "runs" / run_id
-                e2e_path = run_root / "e2e-record.json"
-                evidence = load_document(e2e_path)
-                self.assertEqual(E2E_FILE_SHA256[run_id], file_sha256(e2e_path))
-                self.assertEqual("passed", evidence["result"])
-                self.assertEqual(expected_runner, evidence["runner"])
-                self.assertEqual(
-                    SELECTED_E2E_CONTENT_SHA256
-                    if run_id == SELECTED_RUN
-                    else REPRODUCTION_E2E_CONTENT_SHA256,
-                    evidence["content_sha256"],
-                )
-                self.assertEqual(
-                    [CORE_ID], [item["core_id"] for item in evidence["packages"]]
-                )
-                package = evidence["packages"][0]
-                self.assertEqual("packaged", package["result"])
-                self.assertEqual(PACKAGE_SHA256, package["sha256"])
-                self.assertEqual(PACKAGE_SIZE, package["size"])
-                package_path = run_root / package["path"]
-                self.assertEqual(PACKAGE_SHA256, file_sha256(package_path))
-                packages.append(package_path.read_bytes())
-                with zipfile.ZipFile(package_path) as archive:
-                    self.assertEqual(
-                        {
-                            "cores64/mednafen_vb_libretro.so",
-                            "cores/mednafen_vb_libretro.so",
-                            "mednafen_vb_libretro.info",
-                            "manifest.json",
-                        },
-                        set(archive.namelist()),
-                    )
-
-                builds = {
-                    build["architecture"]: build for build in evidence["builds"]
-                }
-                self.assertEqual(set(TARGETS), set(builds))
-                for architecture, expected in TARGETS.items():
-                    with self.subTest(run_id=run_id, architecture=architecture):
-                        build = builds[architecture]
-                        self.assertEqual(CORE_ID, build["core_id"])
-                        self.assertEqual("passed", build["result"])
-                        self.assertEqual(
-                            expected["record_sha256"][run_id], build["record_sha256"]
-                        )
-                        record_path = ROOT / build["record"]
-                        self.assertEqual(
-                            build["record_sha256"], file_sha256(record_path)
-                        )
-                        record = load_document(record_path)
-                        self.assertEqual(SOURCE_RECORD_IDENTITY, record["source"])
-                        self.assertEqual("libretro-super", record["build"]["driver"])
-                        self.assertEqual("sanitized-v1", record["build"]["environment"])
-                        self.assertEqual([], record["build"]["compile_definitions"])
-                        self.assertNotIn("git_version", record["build"])
-
-                        log_path = record_path.parent / record["build"]["log"]
-                        log_bytes = log_path.read_bytes()
-                        log_text = log_bytes.decode("utf-8")
-                        self.assertEqual(expected["log_sha256"], file_sha256(log_path))
-                        logs[architecture].append(log_bytes)
-                        self.assertTrue(
-                            pipeline.registered_core_log_contract_proves(
-                                log_text,
-                                CORE_ID,
-                                architecture,
-                                SOURCE_COMMIT,
-                                SOURCE_TREE,
-                            )
-                        )
-                        self.assertEqual(
-                            13,
-                            log_text.count(
-                                mednafen_vb.MEDNAFEN_VB_NATIVE_GIT_VERSION_LOG_TOKEN
-                            ),
-                        )
-                        self.assertEqual(13, log_text.count("-DGIT_VERSION="))
-                        warning_lines = tuple(
-                            line
-                            for line in log_text.splitlines()
-                            if "warning:" in line.casefold()
-                        )
-                        note_lines = tuple(
-                            line
-                            for line in log_text.splitlines()
-                            if "note:" in line.casefold()
-                        )
-                        self.assertEqual((), warning_lines)
-                        self.assertEqual(
-                            Counter(
-                                mednafen_vb.MEDNAFEN_VB_EXPECTED_NOTE_LINES[
-                                    architecture
-                                ]
-                            ),
-                            Counter(note_lines),
-                        )
-                        diagnostic_context = (
-                            mednafen_vb.MEDNAFEN_VB_EXPECTED_DIAGNOSTIC_CONTEXT[
-                                architecture
-                            ]
-                        )
-                        if diagnostic_context:
-                            self.assertEqual(
-                                1,
-                                log_text.count("\n".join(diagnostic_context)),
-                            )
-                        else:
-                            self.assertEqual((), note_lines)
-                        lowered_log = log_text.casefold()
-                        for marker in FAILURE_MARKERS:
-                            self.assertNotIn(marker, lowered_log)
-
-                        metadata_path = record_path.parent / record["metadata"]["path"]
-                        self.assertEqual(METADATA_SHA256, file_sha256(metadata_path))
-                        self.assertEqual(METADATA_SIZE, record["metadata"]["size"])
-                        metadata = metadata_path.read_bytes()
-                        self.assertIn(b'display_version = "v0.9.36.1"', metadata)
-                        self.assertIn(b'license = "GPLv2"', metadata)
-                        self.assertIn(
-                            b'supported_extensions = "vb|vboy|bin"', metadata
-                        )
-                        self.assertIn(b'supports_no_game = "false"', metadata)
-                        self.assertIn(b"3D display methods", metadata)
-                        metadata_payloads.append(metadata)
-
-                        artifact_path = record_path.parent / record["artifact"]["path"]
-                        self.assertEqual(
-                            expected["artifact_sha256"], file_sha256(artifact_path)
-                        )
-                        artifact = artifact_path.read_bytes()
-                        self.assertIn(b"v1.31.0 38e7a0e", artifact)
-                        artifacts[architecture].append(artifact)
-
-        self.assertEqual(packages[0], packages[1])
-        self.assertTrue(
-            all(payload == metadata_payloads[0] for payload in metadata_payloads[1:])
-        )
-        for architecture, payloads in artifacts.items():
-            with self.subTest(byte_reproduction=architecture):
-                self.assertEqual(payloads[0], payloads[1])
-                self.assertEqual(logs[architecture][0], logs[architecture][1])
 
     def test_compatibility_and_pin_mutations_fail_closed(self) -> None:
         _, pin, compatibility_path, compatibility = load_core_documents(

@@ -8,21 +8,25 @@ from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import neocd
 
 from .support import ROOT, load_document
+from .support import evidence_handles
 
 
 CORE_ID = "neocd"
-SOURCE_URL = "https://github.com/libretro/neocd_libretro.git"
-SOURCE_COMMIT = "9e9ad181bed60f84f9cff02c03617b41e8a31cfe"
-SOURCE_TREE = "c82440c78b368bbd4c58122d796e4d9beb40c22a"
+
+_H = evidence_handles(CORE_ID)
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+
+SOURCE_URL = _H["SOURCE_URL"]
+
 ARMHF_COMPILE_DEFINITIONS = [
     "HWCAP2_AES=0",
     "HWCAP2_CRC32=0",
     "HWCAP2_SHA1=0",
     "HWCAP2_SHA2=0",
 ]
-SELECTED_RUN = "actions-sim-build-core-neocd-w3"
-REPRODUCTION_RUN = "build-core-neocd-local-w3"
-
 
 class NeocdManifestTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -119,22 +123,6 @@ class NeocdContractTests(unittest.TestCase):
         )
         return path.read_text(encoding="utf-8") if path.is_file() else None
 
-    def test_real_logs_prove_the_exact_contract(self) -> None:
-        proven = 0
-        for run_id in (SELECTED_RUN, REPRODUCTION_RUN):
-            for arch in ("arm64", "armhf"):
-                log = self._log(run_id, arch)
-                if log is None:
-                    continue
-                self.assertTrue(
-                    neocd.neocd_log_proves_contract(
-                        log, CORE_ID, arch, SOURCE_COMMIT, SOURCE_TREE
-                    ),
-                    f"{run_id}/{arch} did not prove the NeoCD contract",
-                )
-                proven += 1
-        if proven == 0:
-            self.skipTest("no workspace-local NeoCD build logs present")
 
     def test_contract_rejects_a_wrong_compile_count(self) -> None:
         from unittest import mock

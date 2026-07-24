@@ -139,8 +139,13 @@ def evidence_handles(core_id: str) -> dict[str, Any]:
                 for key in ("elf", "needed", "version_requirements")
                 if key in compatibility["targets"][arch]
             },
+            "execution_profile_id": {
+                "arm64": "ra64-universal-v1",
+                "armhf": "ra32-a30-v1",
+            }[arch],
             "artifact_sha256": bound["artifact_sha256"],
             "artifact_size": bound["artifact_size"],
+            **_imported_artifact(core_id, index, arch),
             "image_id": bound["image_id"],
             "archive_sha256": bound["toolchain_archive_sha256"],
             "toolchain_archive_sha256": bound["toolchain_archive_sha256"],
@@ -229,4 +234,56 @@ def _recipe_handles(
     git_version = record["build"].get("git_version")
     if isinstance(git_version, dict):
         handles["GIT_VERSION"] = git_version.get("value")
+    handles["PIPELINE_BUNDLE_SHA256"] = handles[
+        "PIPELINE_BUNDLE_CONTENT_SHA256"
+    ]
+    handles["REPOSITORY_HEAD"] = recipe["repository_head"]
+    spec = load_document(ROOT / "manifests" / "core-builds.json")["cores"][
+        core_id
+    ]
+    handles["SOURCE_URL"] = spec["source"]["url"]
+    lock_path = (
+        f"pins/sources/{core_id}/{spec['source']['commit']}.json"
+    )
+    handles["SOURCE_LOCK_PATH"] = lock_path
+    handles["SOURCE_LOCK_FILE_SHA256"] = file_sha256(ROOT / lock_path)
+    handles["SOURCE_LOCK_CONTENT_SHA256"] = load_document(
+        ROOT / lock_path
+    )["content_sha256"]
+    source_set_path = ROOT / index["source_set_path"]
+    handles["SOURCE_SET_FILE_SHA256"] = file_sha256(source_set_path)
+    handles["SOURCE_SET_CONTENT_SHA256"] = load_document(source_set_path)[
+        "content_sha256"
+    ]
+    metadata_path = (
+        ROOT
+        / ".local-e2e/runs"
+        / selected["run_id"]
+        / core_id
+        / first_arch
+        / record["metadata"]["path"]
+    )
+    if metadata_path.exists():
+        handles["METADATA_SHA256"] = file_sha256(metadata_path)
     return handles
+
+
+def _imported_artifact(
+    core_id: str, index: dict[str, Any], arch: str
+) -> dict[str, Any]:
+    """Shipped-baseline artifact digest from the semantic nightly golden."""
+
+    golden_path = (
+        ROOT
+        / ".local-e2e/nightlies"
+        / index["semantic_id"]
+        / "golden.json"
+    )
+    if not golden_path.exists():
+        return {}
+    artifacts = load_document(golden_path)["cores"][core_id].get(
+        "artifacts", {}
+    )
+    if arch not in artifacts:
+        return {}
+    return {"imported_artifact_sha256": artifacts[arch]["sha256"]}

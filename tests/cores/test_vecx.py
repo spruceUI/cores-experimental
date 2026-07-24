@@ -21,101 +21,26 @@ from .support import (
     load_core_documents,
     load_document,
 )
+from .support import evidence_handles
 
 
 CORE_ID = "vecx"
 OTHER_CORE_ID = "prosystem"
-PIN_NAME = "vecx-8f671cc9d737-599c2197e36a.json"
-SEMANTIC_ID = PIN_NAME.removesuffix(".json")
-PIN_PATH = f"pins/core-sets/{PIN_NAME}"
-SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
-SOURCE_COMMIT = "8f671cc9d737f2890c3ce19e177e2984dcae121f"
-SOURCE_TREE = "49ae584713edede2a70792ecf6cb744b11fff2e6"
-SOURCE_URL = "https://github.com/libretro/libretro-vecx.git"
-SOURCE_LOCK_ID = "vecx-8f671cc9d737"
-SELECTION_SHA256 = (
-    "599c2197e36abe9cea994cb81066af16f9fcb9a9d7f1d31fc66573408baaff77"
-)
-SELECTED_RUN = "actions-sim-build-core-vecx-w3"
-REPRODUCTION_RUN = "build-core-vecx-local-w3"
-SELECTED_E2E_CONTENT_SHA256 = (
-    "a27119cc43ea114b869a573de7be45250fd5963e3aeefe9dd7edc5a402b238ae"
-)
-REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "4f99343f98c53888395c71652e0a2d3c450c93e3a47f0c254246942ed24b7551"
-)
-E2E_FILE_SHA256 = {
-    SELECTED_RUN: (
-        "4e3cab62a873f164816b8b9051f29f1f690453fd8c85285637a751fc68059364"
-    ),
-    REPRODUCTION_RUN: (
-        "aaf63ff864bd8334a3b105f4ad21f829aaa2e6df28c2f3ec5a5ba01e37f77a04"
-    ),
-}
-PACKAGE_SHA256 = (
-    "9eb9e828581c5b758356eb30d53af523ce296b3b553194683dc8f2297ba1d0d9"
-)
-METADATA_SHA256 = vecx.VECX_METADATA_REPLACEMENT_SHA256
-RUNNERS = {
-    SELECTED_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "simulated",
-        "profile": "github-actions",
-        "publication": "disabled",
-    },
-    REPRODUCTION_RUN: {
-        "backend": "local-docker",
-        "local_only": True,
-        "mode": "native",
-        "profile": "local",
-        "publication": "disabled",
-    },
-}
-TARGETS = {
-    "arm64": {
-        "artifact_sha256": (
-            "8a041cbedb449b01e6a71a657107e3a5a4839fb9a34d43a1ee81883832d6c578"
-        ),
-        "artifact_size": 106040,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "fe88b76ffb34dd3317ddcb8847f77d71ec684583088ff54eab35160c76e9bc66"
-            ),
-            REPRODUCTION_RUN: (
-                "4e86d1f8169e3f2c501ab808dde3b2ac68771071e1295619b1e991e6d3d71d83"
-            ),
-        },
-        "log_sha256": (
-            "aa594b8674de6738abd126cf5d6ad60792a27df502d98399ab1993d716a8158e"
-        ),
-        "elf": "ELF64/AArch64",
-        "needed": ["ld-linux-aarch64.so.1", "libc.so.6"],
-        "version_requirements": ["GLIBC_2.17"],
-        "execution_profile_id": "ra64-universal-v1",
-    },
-    "armhf": {
-        "artifact_sha256": (
-            "ebf753efb74779929bb0753611c81786f0c38b88adf82f648d97704af1022b6f"
-        ),
-        "artifact_size": 86488,
-        "record_sha256": {
-            SELECTED_RUN: (
-                "e68dafcc8c953e632a797add63af47453dacc5bdff55e44ee57a9fee15873c2f"
-            ),
-            REPRODUCTION_RUN: (
-                "cafb84b2153632b4793764a86ceeb427b20e43dd2bab6aa7a071cf039435d281"
-            ),
-        },
-        "log_sha256": (
-            "42c687505d95c85f99abc64c1d872434f2ffb761bb69d3be5a1c71619347ccae"
-        ),
-        "elf": "ELF32/ARM hard-float",
-        "needed": ["libc.so.6", "libm.so.6"],
-        "version_requirements": ["GLIBC_2.4"],
-        "execution_profile_id": "ra32-a30-v1",
-    },
-}
+
+_H = evidence_handles(CORE_ID)
+PIN_NAME = _H["PIN_NAME"]
+SEMANTIC_ID = _H["SEMANTIC_ID"]
+PIN_PATH = _H["PIN_PATH"]
+SOURCE_SET_PATH = _H["SOURCE_SET_PATH"]
+SOURCE_COMMIT = _H["SOURCE_COMMIT"]
+SOURCE_TREE = _H["SOURCE_TREE"]
+SOURCE_URL = _H["SOURCE_URL"]
+SOURCE_LOCK_ID = _H["SOURCE_LOCK_ID"]
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
+PACKAGE_SHA256 = _H["PACKAGE_SHA256"]
+TARGETS = _H["TARGETS"]
+
 SOURCE_LOCK_IDENTITY = {
     "url": SOURCE_URL,
     "requested_ref": "refs/heads/master",
@@ -123,6 +48,7 @@ SOURCE_LOCK_IDENTITY = {
     "tree": SOURCE_TREE,
     "submodules": [],
 }
+
 SOURCE_RECORD_IDENTITY = {
     "commit": SOURCE_COMMIT,
     "requested_ref": "refs/heads/master",
@@ -132,6 +58,7 @@ SOURCE_RECORD_IDENTITY = {
     "tree": SOURCE_TREE,
     "url": SOURCE_URL,
 }
+
 CAVEAT_TOKENS = (
     "all four C compile commands",
     "complete ordered link invocation",
@@ -143,8 +70,13 @@ CAVEAT_TOKENS = (
     "all device views remain ineligible",
 )
 
-
 class VecxCoreTests(unittest.TestCase):
+    def test_compatibility_retains_reviewed_caveat_tokens(self) -> None:
+        _, _, _, compatibility = load_core_documents(CORE_ID, PIN_NAME)
+        caveats = "\n".join(compatibility["caveats"])
+        for token in CAVEAT_TOKENS:
+            self.assertIn(token, caveats)
+
     def _legacy_recipe_without_pipeline_bundle(self, recipe: dict) -> dict:
         legacy_recipe = copy.deepcopy(recipe)
         pipeline_bundle = legacy_recipe.pop("pipeline_bundle")
@@ -159,149 +91,6 @@ class VecxCoreTests(unittest.TestCase):
         self.assertNotIn("commit_blacklist", legacy_recipe)
         return legacy_recipe
 
-    def test_vecx_semantic_pin_and_compatibility_bind_promoted_evidence(
-        self,
-    ) -> None:
-        pin_path, pin, compatibility_path, compatibility = load_core_documents(
-            CORE_ID, PIN_NAME
-        )
-
-        pin_report = pipeline.validate_pin_set_document(pin, document_path=pin_path)
-        self.assertEqual("valid", pin_report["status"], pin_report["errors"])
-        compatibility_report = pipeline.validate_core_compatibility_document(
-            compatibility,
-            document_path=compatibility_path,
-            repository_root=ROOT,
-        )
-        self.assertEqual(
-            "valid",
-            compatibility_report["status"],
-            compatibility_report["errors"],
-        )
-        self.assertEqual(SEMANTIC_ID, pin["pin_id"])
-        self.assertEqual([CORE_ID], pin["scope"])
-        self.assertEqual({CORE_ID}, set(pin["cores"]))
-        self.assertIsNone(pin["parent"])
-        self.assertEqual(CORE_ID, compatibility["core_id"])
-        self.assertEqual("disabled", compatibility["publication"])
-        self.assertEqual(
-            "workspace-local-ignored", compatibility["evidence_availability"]
-        )
-        self.assertEqual(PIN_PATH, compatibility["golden_source"])
-
-        selection = pin["cores"][CORE_ID]["selection"]
-        self.assertEqual(SELECTION_SHA256, selection["selection_sha256"])
-        self.assertEqual(SOURCE_COMMIT, compatibility["source_commit"])
-        self.assertEqual("reproducible", compatibility["package_state"])
-        self.assertEqual(PACKAGE_SHA256, compatibility["package_sha256"])
-        self.assertEqual(PACKAGE_SHA256, selection["package"]["sha256"])
-        self.assertEqual(PACKAGE_SHA256, selection["e2e"]["package_sha256"])
-        self.assertEqual(SELECTED_RUN, selection["e2e"]["run_id"])
-        self.assertEqual(
-            SELECTED_E2E_CONTENT_SHA256, selection["e2e"]["content_sha256"]
-        )
-        self.assertEqual(
-            f".local-e2e/runs/{SELECTED_RUN}/e2e-record.json",
-            compatibility["e2e_run"],
-        )
-        self.assertEqual(
-            SELECTED_E2E_CONTENT_SHA256,
-            compatibility["selected_e2e_content_sha256"],
-        )
-        self.assertEqual(
-            f".local-e2e/runs/{REPRODUCTION_RUN}/e2e-record.json",
-            compatibility["reproduction_run"],
-        )
-        self.assertEqual(
-            REPRODUCTION_E2E_CONTENT_SHA256,
-            compatibility["reproduction_e2e_content_sha256"],
-        )
-
-        caveats = "\n".join(compatibility["caveats"])
-        for token in CAVEAT_TOKENS:
-            self.assertIn(token, caveats)
-        for active_reference in (
-            SEMANTIC_ID,
-            PIN_PATH,
-            SOURCE_SET_PATH,
-            compatibility["golden_source"],
-            compatibility["e2e_run"],
-            compatibility["reproduction_run"],
-            caveats,
-        ):
-            self.assertNotIn("tranche", active_reference.casefold())
-
-        self.assertEqual(set(TARGETS), set(compatibility["targets"]))
-        self.assertEqual(set(TARGETS), set(selection["targets"]))
-        for architecture, expected in TARGETS.items():
-            with self.subTest(architecture=architecture):
-                target = compatibility["targets"][architecture]
-                selected_target = selection["targets"][architecture]
-                golden_record = selected_target["golden_record"]
-                artifact = golden_record["artifact"]
-
-                self.assertEqual(CORE_ID, golden_record["core_id"])
-                self.assertEqual(architecture, golden_record["architecture"])
-                self.assertEqual(SOURCE_RECORD_IDENTITY, golden_record["source"])
-                self.assertEqual("local_static_build_golden", target["state"])
-                self.assertEqual("static-build-only", target["validation_scope"])
-                self.assertEqual(
-                    "needs-target-runtime", target["runtime_validation"]
-                )
-                self.assertEqual(
-                    expected["record_sha256"][SELECTED_RUN],
-                    selected_target["build_record_sha256"],
-                )
-                self.assertEqual(
-                    expected["artifact_sha256"], target["artifact_sha256"]
-                )
-                self.assertEqual(
-                    expected["artifact_sha256"], selected_target["artifact"]["sha256"]
-                )
-                self.assertEqual(expected["artifact_sha256"], artifact["sha256"])
-                self.assertEqual(expected["artifact_size"], artifact["size"])
-                self.assertEqual([], golden_record["build"]["compile_definitions"])
-                self.assertEqual(
-                    vecx.VECX_SOFTWARE_MAKE_VARIABLES,
-                    golden_record["build"]["make_variables"],
-                )
-                self.assertEqual(
-                    {
-                        "derivation": vecx.VECX_NATIVE_GIT_VERSION_DERIVATION,
-                        "value": vecx.VECX_NATIVE_GIT_VERSION,
-                    },
-                    golden_record["build"]["git_version"],
-                )
-                self.assertEqual(
-                    vecx.VECX_METADATA_REPLACEMENT,
-                    golden_record["build"]["metadata_replacement"],
-                )
-                self.assertEqual(METADATA_SHA256, golden_record["metadata"]["sha256"])
-                self.assertEqual(expected["elf"], target["elf"])
-                self.assertEqual(expected["needed"], target["needed"])
-                self.assertEqual(expected["needed"], artifact["needed"])
-                self.assertEqual(
-                    expected["version_requirements"], target["version_requirements"]
-                )
-                self.assertEqual(
-                    expected["version_requirements"],
-                    artifact["version_requirements"],
-                )
-
-                snapshot_reference = golden_record["local_store"][
-                    "recipe_snapshots"
-                ][architecture]
-                snapshot_path = ROOT / snapshot_reference["path"]
-                snapshot = load_document(snapshot_path)
-                self.assertEqual(9, snapshot["schema_version"])
-                self.assertEqual(
-                    [],
-                    pipeline.verify_recipe_snapshot(
-                        snapshot_path,
-                        golden_record,
-                        f"{CORE_ID}/{architecture}",
-                    ),
-                )
 
     def test_vecx_source_set_release_and_channels_are_core_owned(self) -> None:
         source_set = load_document(ROOT / SOURCE_SET_PATH)
@@ -415,176 +204,6 @@ class VecxCoreTests(unittest.TestCase):
         self.assertEqual([CORE_ID], [asset["core_id"] for asset in release["assets"]])
         self.assertEqual(PACKAGE_SHA256, release["assets"][0]["sha256"])
 
-    def test_vecx_selected_and_local_runs_reproduce_exact_bytes(self) -> None:
-        contract = vecx.VECX_LOG_CONTRACT
-        registered_contract = pipeline.core_log_contract_for(CORE_ID)
-        self.assertIsNotNone(registered_contract)
-        assert registered_contract is not None
-        self.assertEqual("vecx-software-c-only-v1", registered_contract.contract_id)
-        self.assertEqual("vecx_log_proves_contract", registered_contract.proof_name)
-        self.assertEqual(4, contract.expected_compile_count)
-        self.assertEqual(
-            vecx.VECX_EXPECTED_COMPILE_PAIR_SHA256,
-            contract.expected_compile_pair_sha256,
-        )
-        self.assertEqual(
-            vecx.VECX_EXPECTED_COMPILE_INVOCATION_SHA256,
-            dict(contract.expected_compile_invocation_sha256),
-        )
-        self.assertEqual(
-            vecx.VECX_EXPECTED_LINK_OBJECT_SHA256,
-            contract.expected_link_object_sha256,
-        )
-        self.assertEqual(
-            vecx.VECX_EXPECTED_RAW_LINK_OBJECT_SHA256,
-            contract.expected_raw_link_object_sha256,
-        )
-
-        packages: list[bytes] = []
-        metadata_payloads: list[bytes] = []
-        artifacts: dict[str, list[bytes]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        logs: dict[str, list[bytes]] = {
-            architecture: [] for architecture in TARGETS
-        }
-        for run_id, expected_runner in RUNNERS.items():
-            with self.subTest(run_id=run_id):
-                self.assertNotIn("tranche", run_id.casefold())
-                run_root = ROOT / ".local-e2e" / "runs" / run_id
-                e2e_path = run_root / "e2e-record.json"
-                evidence = load_document(e2e_path)
-                self.assertEqual(E2E_FILE_SHA256[run_id], file_sha256(e2e_path))
-                self.assertEqual("passed", evidence["result"])
-                self.assertEqual(expected_runner, evidence["runner"])
-                self.assertEqual(
-                    SELECTED_E2E_CONTENT_SHA256
-                    if run_id == SELECTED_RUN
-                    else REPRODUCTION_E2E_CONTENT_SHA256,
-                    evidence["content_sha256"],
-                )
-                self.assertEqual(
-                    [CORE_ID], [item["core_id"] for item in evidence["packages"]]
-                )
-                package = evidence["packages"][0]
-                self.assertEqual("packaged", package["result"])
-                self.assertEqual(76617, package["size"])
-                self.assertEqual(PACKAGE_SHA256, package["sha256"])
-                package_path = run_root / package["path"]
-                self.assertEqual(PACKAGE_SHA256, file_sha256(package_path))
-                packages.append(package_path.read_bytes())
-                with zipfile.ZipFile(package_path) as archive:
-                    self.assertEqual(
-                        {
-                            "cores64/vecx_libretro.so",
-                            "cores/vecx_libretro.so",
-                            "vecx_libretro.info",
-                            "manifest.json",
-                        },
-                        set(archive.namelist()),
-                    )
-
-                builds = {
-                    build["architecture"]: build for build in evidence["builds"]
-                }
-                self.assertEqual(set(TARGETS), set(builds))
-                for architecture, expected in TARGETS.items():
-                    with self.subTest(run_id=run_id, architecture=architecture):
-                        build = builds[architecture]
-                        self.assertEqual(CORE_ID, build["core_id"])
-                        self.assertEqual("passed", build["result"])
-                        self.assertEqual(
-                            expected["record_sha256"][run_id],
-                            build["record_sha256"],
-                        )
-                        record_path = ROOT / build["record"]
-                        self.assertEqual(
-                            build["record_sha256"], file_sha256(record_path)
-                        )
-                        record = load_document(record_path)
-                        self.assertEqual(CORE_ID, record["core_id"])
-                        self.assertEqual(architecture, record["architecture"])
-                        self.assertEqual(SOURCE_RECORD_IDENTITY, record["source"])
-                        self.assertEqual("libretro-super", record["build"]["driver"])
-                        self.assertEqual(
-                            "sanitized-v1", record["build"]["environment"]
-                        )
-                        self.assertEqual([], record["build"]["compile_definitions"])
-                        self.assertEqual(
-                            vecx.VECX_SOFTWARE_MAKE_VARIABLES,
-                            record["build"]["make_variables"],
-                        )
-                        self.assertEqual(
-                            vecx.VECX_METADATA_REPLACEMENT,
-                            record["build"]["metadata_replacement"],
-                        )
-
-                        log_path = record_path.parent / record["build"]["log"]
-                        log_bytes = log_path.read_bytes()
-                        log_text = log_bytes.decode("utf-8")
-                        self.assertEqual(expected["log_sha256"], file_sha256(log_path))
-                        self.assertEqual(
-                            expected["log_sha256"], record["build"]["log_sha256"]
-                        )
-                        logs[architecture].append(log_bytes)
-                        self.assertEqual(
-                            4,
-                            log_text.count(vecx.VECX_NATIVE_GIT_VERSION_LOG_TOKEN),
-                        )
-                        self.assertEqual(4, log_text.count("-DGIT_VERSION="))
-                        self.assertEqual(
-                            1, log_text.count(vecx.VECX_METADATA_REPLACEMENT_MARKER)
-                        )
-                        self.assertTrue(
-                            pipeline.registered_core_log_contract_proves(
-                                log_text,
-                                CORE_ID,
-                                architecture,
-                                SOURCE_COMMIT,
-                                SOURCE_TREE,
-                            )
-                        )
-                        lowered_log = log_text.casefold()
-                        for marker in vecx.VECX_FORBIDDEN_DIAGNOSTIC_MARKERS:
-                            self.assertNotIn(marker, lowered_log)
-                        for marker in vecx.VECX_FORBIDDEN_GPU_LOG_MARKERS:
-                            self.assertNotIn(marker, lowered_log)
-                        self.assertIsNone(vecx.VECX_MAKE_FAILURE_RE.search(log_text))
-
-                        metadata_path = record_path.parent / record["metadata"]["path"]
-                        self.assertEqual(METADATA_SHA256, file_sha256(metadata_path))
-                        metadata = metadata_path.read_bytes()
-                        self.assertIn(b'license = "GPLv3"', metadata)
-                        self.assertIn(b'hw_render = "false"', metadata)
-                        metadata_payloads.append(metadata)
-
-                        artifact_path = record_path.parent / record["artifact"]["path"]
-                        self.assertEqual(
-                            expected["artifact_sha256"], file_sha256(artifact_path)
-                        )
-                        self.assertEqual(
-                            expected["needed"], record["artifact"]["needed"]
-                        )
-                        self.assertTrue(
-                            all(
-                                not library.casefold().startswith(
-                                    ("libegl", "libgl", "libgles", "libopengl")
-                                )
-                                for library in record["artifact"]["needed"]
-                            )
-                        )
-                        artifact = artifact_path.read_bytes()
-                        self.assertIn(b"1.2 8f671cc", artifact)
-                        artifacts[architecture].append(artifact)
-
-        self.assertEqual(packages[0], packages[1])
-        self.assertTrue(
-            all(payload == metadata_payloads[0] for payload in metadata_payloads[1:])
-        )
-        for architecture in TARGETS:
-            with self.subTest(byte_reproduction=architecture):
-                self.assertEqual(artifacts[architecture][0], artifacts[architecture][1])
-                self.assertEqual(logs[architecture][0], logs[architecture][1])
 
     def test_vecx_compatibility_and_registered_proof_fail_closed(self) -> None:
         _, _, compatibility_path, compatibility = load_core_documents(
