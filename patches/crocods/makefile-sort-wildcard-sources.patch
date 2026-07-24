@@ -1,0 +1,11 @@
+diff --git a/Makefile.common b/Makefile.common
+--- a/Makefile.common
++++ b/Makefile.common
+@@ -1,4 +1,4 @@
+ SOURCES_C := $(CORE_DIR)/libretro.c \
+-    $(wildcard $(CORE_DIR)/crocods-core/*.c) \
+-    $(wildcard $(CORE_DIR)/crocods-core/iniparser/*.c) \
+-    $(wildcard $(CORE_DIR)/deps/libz/*.c)
++    $(sort $(wildcard $(CORE_DIR)/crocods-core/*.c)) \
++    $(sort $(wildcard $(CORE_DIR)/crocods-core/iniparser/*.c)) \
++    $(sort $(wildcard $(CORE_DIR)/deps/libz/*.c))

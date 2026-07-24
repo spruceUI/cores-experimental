@@ -1700,6 +1700,10 @@ def native_git_version_spec_is_well_formed(
         if identity.get("make_variables") is not None
         else UZEM_NATIVE_GIT_VERSION_BUILD_KEYS
     )
+    if identity.get("overlays") is not None:
+        # An identity may declare exact reviewed overlays; the build must
+        # then carry exactly that mapping and nothing else changes shape.
+        expected_build_keys = frozenset(expected_build_keys) | {"overlays"}
     expected_git_version = {
         "derivation": NATIVE_GIT_VERSION_DERIVATION,
         "value": f" {identity['source_commit'][:7]}",
@@ -1728,6 +1732,10 @@ def native_git_version_spec_is_well_formed(
         and (
             identity.get("make_variables") is None
             or build.get("make_variables") == identity["make_variables"]
+        )
+        and (
+            identity.get("overlays") is None
+            or build.get("overlays") == identity["overlays"]
         )
         and metadata.get("source_path") == identity["metadata_source_path"]
         and metadata.get("artifact_name") == identity["metadata_artifact_name"]

@@ -1,0 +1,11 @@
+diff --git a/src/burner/libretro/Makefile.all b/src/burner/libretro/Makefile.all
+--- a/src/burner/libretro/Makefile.all
++++ b/src/burner/libretro/Makefile.all
+@@ -119,5 +119,5 @@
+ 
+ FBNEO_SRC_DIRS := $(FBNEO_CPU_DIRS) $(FBNEO_BURN_DIRS)
+ 
+-SOURCES_C   += $(filter-out $(BURN_BLACKLIST),$(foreach dir,$(FBNEO_SRC_DIRS),$(wildcard $(dir)/*.c)))
+-SOURCES_CXX += $(filter-out $(BURN_BLACKLIST),$(foreach dir,$(FBNEO_SRC_DIRS),$(wildcard $(dir)/*.cpp)))
++SOURCES_C   += $(filter-out $(BURN_BLACKLIST),$(foreach dir,$(FBNEO_SRC_DIRS),$(sort $(wildcard $(dir)/*.c))))
++SOURCES_CXX += $(filter-out $(BURN_BLACKLIST),$(foreach dir,$(FBNEO_SRC_DIRS),$(sort $(wildcard $(dir)/*.cpp))))

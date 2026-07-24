@@ -913,6 +913,7 @@
                   "driver",
                   "git_version",
                   "output_path",
+                  "overlays",
                   "source_date_epoch",
                   "source_dir",
                   "source_key"
@@ -949,6 +950,30 @@
                 },
                 "source_key": {
                   "const": "fbneo"
+                },
+                "overlays": {
+                  "const": {
+                    "arm64": [
+                      {
+                        "kind": "git-apply-v1",
+                        "patch_path": "patches/fbneo/makefile-sort-wildcard-sources.patch",
+                        "patch_sha256": "36359710caa6b337253ea7acf3cc0fe43083a3eb1977f62cc764fd888eceb54e",
+                        "source_path": "src/burner/libretro/Makefile.all",
+                        "preimage_sha256": "b7030bbeb7c69a46e846084a1a852c972d5360b8f319caca987dc1ec9dfefb73",
+                        "postimage_sha256": "d7e2bd630fffafb6def25a52295e2b582fe5bcf31b8e246dcadc53f2f437bc0b"
+                      }
+                    ],
+                    "armhf": [
+                      {
+                        "kind": "git-apply-v1",
+                        "patch_path": "patches/fbneo/makefile-sort-wildcard-sources.patch",
+                        "patch_sha256": "36359710caa6b337253ea7acf3cc0fe43083a3eb1977f62cc764fd888eceb54e",
+                        "source_path": "src/burner/libretro/Makefile.all",
+                        "preimage_sha256": "b7030bbeb7c69a46e846084a1a852c972d5360b8f319caca987dc1ec9dfefb73",
+                        "postimage_sha256": "d7e2bd630fffafb6def25a52295e2b582fe5bcf31b8e246dcadc53f2f437bc0b"
+                      }
+                    ]
+                  }
                 }
               }
             },
@@ -2614,6 +2639,7 @@
                   "driver",
                   "git_version",
                   "output_path",
+                  "overlays",
                   "source_dir",
                   "source_key"
                 ]
@@ -2660,6 +2686,30 @@
                 },
                 "source_key": {
                   "const": "lowresnx"
+                },
+                "overlays": {
+                  "const": {
+                    "arm64": [
+                      {
+                        "kind": "git-apply-v1",
+                        "patch_path": "patches/lowresnx/makefile-sort-wildcard-sources.patch",
+                        "patch_sha256": "462d4c896de62c6c94f783e02a117912d5d3c80c514cb7f9984d6046f31d7012",
+                        "source_path": "platform/LibRetro/Makefile.common",
+                        "preimage_sha256": "14dbfd87d5517ebb99f1cdb58a2c3900f3f5feb9f94f15a425a3f0451da7a38d",
+                        "postimage_sha256": "ac5b5ea3ff2610095a449247a84a5fd5c59409150ac0106ef131e9ae91449582"
+                      }
+                    ],
+                    "armhf": [
+                      {
+                        "kind": "git-apply-v1",
+                        "patch_path": "patches/lowresnx/makefile-sort-wildcard-sources.patch",
+                        "patch_sha256": "462d4c896de62c6c94f783e02a117912d5d3c80c514cb7f9984d6046f31d7012",
+                        "source_path": "platform/LibRetro/Makefile.common",
+                        "preimage_sha256": "14dbfd87d5517ebb99f1cdb58a2c3900f3f5feb9f94f15a425a3f0451da7a38d",
+                        "postimage_sha256": "ac5b5ea3ff2610095a449247a84a5fd5c59409150ac0106ef131e9ae91449582"
+                      }
+                    ]
+                  }
                 }
               }
             },
@@ -3483,6 +3533,7 @@
                   "driver",
                   "git_version",
                   "output_path",
+                  "overlays",
                   "source_dir",
                   "source_key"
                 ]
@@ -3529,6 +3580,30 @@
                 },
                 "source_key": {
                   "const": "crocods"
+                },
+                "overlays": {
+                  "const": {
+                    "arm64": [
+                      {
+                        "kind": "git-apply-v1",
+                        "patch_path": "patches/crocods/makefile-sort-wildcard-sources.patch",
+                        "patch_sha256": "21f21bfb4767720d9725a01407e6997f9d0b4cc7935a2ba89747260d68938d7e",
+                        "source_path": "Makefile.common",
+                        "preimage_sha256": "fe5461c9ae99f2e284ceb446123802f9c8e6e2a23dc55c2759879428db3ea8fd",
+                        "postimage_sha256": "5a5cbef2a305f117d1971f4a081f65c4ff426425e00a99012a5ad6ebb755bad1"
+                      }
+                    ],
+                    "armhf": [
+                      {
+                        "kind": "git-apply-v1",
+                        "patch_path": "patches/crocods/makefile-sort-wildcard-sources.patch",
+                        "patch_sha256": "21f21bfb4767720d9725a01407e6997f9d0b4cc7935a2ba89747260d68938d7e",
+                        "source_path": "Makefile.common",
+                        "preimage_sha256": "fe5461c9ae99f2e284ceb446123802f9c8e6e2a23dc55c2759879428db3ea8fd",
+                        "postimage_sha256": "5a5cbef2a305f117d1971f4a081f65c4ff426425e00a99012a5ad6ebb755bad1"
+                      }
+                    ]
+                  }
                 }
               }
             },
@@ -3634,6 +3709,7 @@
                   "driver",
                   "git_version",
                   "output_path",
+                  "overlays",
                   "source_dir",
                   "source_key"
                 ]
@@ -3680,6 +3756,30 @@
                 },
                 "source_key": {
                   "const": "genesis_plus_gx"
+                },
+                "overlays": {
+                  "const": {
+                    "arm64": [
+                      {
+                        "kind": "git-apply-v1",
+                        "patch_path": "patches/genesis_plus_gx/makefile-sort-wildcard-sources.patch",
+                        "patch_sha256": "f1a35fd09937bbae35e34e814d534f4c4d7f4e926a23dfcd430a35ec430fdd23",
+                        "source_path": "libretro/Makefile.common",
+                        "preimage_sha256": "3f1f5dc4ecf8d98471c25ef51dfba1f2f9ab6f5f30a4d9c17d15d7d4a2d5ece4",
+                        "postimage_sha256": "b9deb7b93719f8bfbda24d929d1166a228c2a5647c08e1c8cfb32b313f468753"
+                      }
+                    ],
+                    "armhf": [
+                      {
+                        "kind": "git-apply-v1",
+                        "patch_path": "patches/genesis_plus_gx/makefile-sort-wildcard-sources.patch",
+                        "patch_sha256": "f1a35fd09937bbae35e34e814d534f4c4d7f4e926a23dfcd430a35ec430fdd23",
+                        "source_path": "libretro/Makefile.common",
+                        "preimage_sha256": "3f1f5dc4ecf8d98471c25ef51dfba1f2f9ab6f5f30a4d9c17d15d7d4a2d5ece4",
+                        "postimage_sha256": "b9deb7b93719f8bfbda24d929d1166a228c2a5647c08e1c8cfb32b313f468753"
+                      }
+                    ]
+                  }
                 }
               }
             },
@@ -3785,6 +3885,7 @@
                   "driver",
                   "git_version",
                   "output_path",
+                  "overlays",
                   "source_dir",
                   "source_key"
                 ]
@@ -3831,6 +3932,30 @@
                 },
                 "source_key": {
                   "const": "genesis_plus_gx_wide"
+                },
+                "overlays": {
+                  "const": {
+                    "arm64": [
+                      {
+                        "kind": "git-apply-v1",
+                        "patch_path": "patches/genesis_plus_gx_wide/makefile-sort-wildcard-sources.patch",
+                        "patch_sha256": "c7e9bb397878b30d5012e9932005dbbe6ece146b859485737e1cf29cef00d87a",
+                        "source_path": "libretro/Makefile.common",
+                        "preimage_sha256": "6b6b82ec878235104364b2c011b95b689683630d8bc4ceefd4344900af079a50",
+                        "postimage_sha256": "0d1bc24fbb4085a5894977ac5a6e743658e786245320551f6be640899677af2c"
+                      }
+                    ],
+                    "armhf": [
+                      {
+                        "kind": "git-apply-v1",
+                        "patch_path": "patches/genesis_plus_gx_wide/makefile-sort-wildcard-sources.patch",
+                        "patch_sha256": "c7e9bb397878b30d5012e9932005dbbe6ece146b859485737e1cf29cef00d87a",
+                        "source_path": "libretro/Makefile.common",
+                        "preimage_sha256": "6b6b82ec878235104364b2c011b95b689683630d8bc4ceefd4344900af079a50",
+                        "postimage_sha256": "0d1bc24fbb4085a5894977ac5a6e743658e786245320551f6be640899677af2c"
+                      }
+                    ]
+                  }
                 }
               }
             },
@@ -5221,6 +5346,7 @@
                   "driver",
                   "git_version",
                   "output_path",
+                  "overlays",
                   "source_dir",
                   "source_key"
                 ]
@@ -5267,6 +5393,30 @@
                 },
                 "source_key": {
                   "const": "mednafen_supergrafx"
+                },
+                "overlays": {
+                  "const": {
+                    "arm64": [
+                      {
+                        "kind": "git-apply-v1",
+                        "patch_path": "patches/mednafen_supergrafx/makefile-sort-wildcard-sources.patch",
+                        "patch_sha256": "8df0614ce8fe5041da1f71770d3b4561d25ab7ee1f63e595a5746696e80d04fe",
+                        "source_path": "Makefile.common",
+                        "preimage_sha256": "2c5c33333abdd67f624d347c2d18b0d34f9a44d83a55750b4b4bdce72f223b8b",
+                        "postimage_sha256": "35d85aa7e7c59b49bc62dce0ea6dbc74bca7c89ea49cd6f843073cce883f72e9"
+                      }
+                    ],
+                    "armhf": [
+                      {
+                        "kind": "git-apply-v1",
+                        "patch_path": "patches/mednafen_supergrafx/makefile-sort-wildcard-sources.patch",
+                        "patch_sha256": "8df0614ce8fe5041da1f71770d3b4561d25ab7ee1f63e595a5746696e80d04fe",
+                        "source_path": "Makefile.common",
+                        "preimage_sha256": "2c5c33333abdd67f624d347c2d18b0d34f9a44d83a55750b4b4bdce72f223b8b",
+                        "postimage_sha256": "35d85aa7e7c59b49bc62dce0ea6dbc74bca7c89ea49cd6f843073cce883f72e9"
+                      }
+                    ]
+                  }
                 }
               }
             },

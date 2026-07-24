@@ -20,7 +20,40 @@ FCEUMM_NATIVE_GIT_VERSION_SPEC_IDENTITY = {
     "metadata_artifact_name": "fceumm_libretro.info",
     "targets": ["arm64", "armhf"],
     "compiler_scope": "c",
-    "native_makefile": "Makefile.libretro",
+    "native_makefile": "Makefile.libretro",    "overlays": {
+        "arm64": [
+            {
+                "kind": "git-apply-v1",
+                "patch_path": "patches/fceumm/makefile-sort-wildcard-sources.patch",
+                "patch_sha256": (
+                    "2403f63b6d1cf7d2bb1d4173bd8711f5d67e7846e1b0661d58d65c78997988e0"
+                ),
+                "source_path": "Makefile.common",
+                "preimage_sha256": (
+                    "2e3046c8c68438902c060eda9d5664dcc864ec05c702ff857a964dfe64286f7a"
+                ),
+                "postimage_sha256": (
+                    "0ab3271440bc6eece078f76b6438afbc76b73888945d904b3aecffbf5a9a71de"
+                ),
+            }
+        ],
+        "armhf": [
+            {
+                "kind": "git-apply-v1",
+                "patch_path": "patches/fceumm/makefile-sort-wildcard-sources.patch",
+                "patch_sha256": (
+                    "2403f63b6d1cf7d2bb1d4173bd8711f5d67e7846e1b0661d58d65c78997988e0"
+                ),
+                "source_path": "Makefile.common",
+                "preimage_sha256": (
+                    "2e3046c8c68438902c060eda9d5664dcc864ec05c702ff857a964dfe64286f7a"
+                ),
+                "postimage_sha256": (
+                    "0ab3271440bc6eece078f76b6438afbc76b73888945d904b3aecffbf5a9a71de"
+                ),
+            }
+        ],
+    },
 }
 
 FCEUMM_LOG_CONTRACT = COnlyLogContract(

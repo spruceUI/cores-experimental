@@ -67,6 +67,22 @@ MEDNAFEN_SUPERGRAFX_EXPECTED_LINK_OPTIONS = (
 )
 
 
+MEDNAFEN_SUPERGRAFX_SORT_OVERLAY = {
+    "kind": "git-apply-v1",
+    "patch_path": "patches/mednafen_supergrafx/makefile-sort-wildcard-sources.patch",
+    "patch_sha256": (
+        "8df0614ce8fe5041da1f71770d3b4561d25ab7ee1f63e595a5746696e80d04fe"
+    ),
+    "source_path": "Makefile.common",
+    "preimage_sha256": (
+        "2c5c33333abdd67f624d347c2d18b0d34f9a44d83a55750b4b4bdce72f223b8b"
+    ),
+    "postimage_sha256": (
+        "35d85aa7e7c59b49bc62dce0ea6dbc74bca7c89ea49cd6f843073cce883f72e9"
+    ),
+}
+
+
 def mednafen_supergrafx_spec_is_well_formed(spec: object) -> bool:
     """Require the complete immutable SuperGrafx catalog identity."""
 
@@ -88,6 +104,10 @@ def mednafen_supergrafx_spec_is_well_formed(spec: object) -> bool:
                 "source_dir": identity["source_dir"],
                 "output_path": identity["output_path"],
                 "artifact_name": identity["artifact_name"],
+                "overlays": {
+                    "arm64": [dict(MEDNAFEN_SUPERGRAFX_SORT_OVERLAY)],
+                    "armhf": [dict(MEDNAFEN_SUPERGRAFX_SORT_OVERLAY)],
+                },
                 "git_version": {
                     "derivation": (
                         MEDNAFEN_SUPERGRAFX_NATIVE_GIT_VERSION_DERIVATION

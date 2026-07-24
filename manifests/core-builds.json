@@ -1,184 +1,111 @@
 {
   "$schema": "./core-builds.schema.json",
-  "schema_version": 2,
-  "policy": {
-    "publication": "disabled",
-    "source_pins": "full-commit-sha-only",
-    "baseline_tier": "imported_baseline",
-    "build_golden_tier": "local_static_build_golden",
-    "promotion_requires": [
-      "exact_source_commit",
-      "coherent_submodule_commits",
-      "exact_toolchain_image_id",
-      "successful_build_exit",
-      "valid_target_elf",
-      "passed_complete_e2e_package",
-      "content_addressed_local_evidence",
-      "exact_toolchain_archive_lock",
-      "source_commit_not_actively_blacklisted"
-    ]
-  },
   "commit_blacklist": {
-    "path": "policies/core-commit-blacklist.json",
-    "schema_version": 1,
-    "policy_id": "core-commit-blacklist-v1",
+    "content_sha256": "ec576e761470ed7b47e15d404a783ce1f77f543395d769f78461dca4f177ba89",
     "file_sha256": "bed3c1af0001b8013e57e7557a8faca0d1dfa0b5f5e5395f7aecf6ea1fc2946c",
-    "content_sha256": "ec576e761470ed7b47e15d404a783ce1f77f543395d769f78461dca4f177ba89"
-  },
-  "toolchain_lock": {
-    "path": "pins/toolchains/local-cache-v1.json",
-    "schema_version": 1,
-    "lock_id": "local-cache-v1",
-    "file_sha256": "7606e9357490f451df4374d38aad73a0426e3bb956a732dcaaa6b32393ee8639",
-    "content_sha256": "253f7d84cc71fa859553fa05fab4c2356b842196104953b092501850c217a794"
-  },
-  "toolchain_lock_validator": {
-    "path": "scripts/toolchain_archive.py",
-    "sha256": "b2493119922f6a83b341be34d217f45b63ac4befc98cd76065c097d42e943f8c"
-  },
-  "toolchains": {
-    "arm64": {
-      "image": "cores-arm64:latest",
-      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
-      "dockerfile": "Dockerfile.arm64",
-      "dockerfile_sha256": "1ddcbe99070a7ca3f72a61ea949186249ff5d9092f7946a7196d506bca7a1514",
-      "dockerfile_linkage": "unverified-local-cache"
-    },
-    "armhf": {
-      "image": "cores-armhf:latest",
-      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
-      "dockerfile": "Dockerfile.armhf",
-      "dockerfile_sha256": "25ea28e7a00905fd94efe548fbec3abb762a2a949513762f7dfc86df254c44fb",
-      "dockerfile_linkage": "unverified-local-cache"
-    },
-    "rust": {
-      "image": "cores-rust:latest",
-      "image_id": "sha256:aa42a12ced6bd0d1c9dcb528f170c14fe80157f0650cab52f9a37e90ec2da5b6",
-      "dockerfile": "Dockerfile.rust",
-      "dockerfile_sha256": "1f07776357a22e92a08e1dfb05065a75ab6fb28d10f1969af8ac29fd5203c0bf",
-      "dockerfile_linkage": "unverified-local-cache"
-    }
-  },
-  "resolver": {
-    "libretro_super_commit": "60f5c62789af16379446544d64228afa1d6b28b7",
-    "core_rules_path": "rules.d/core-rules.sh",
-    "core_rules_sha256": "9dd1f19559af005600fc49b020fad6bb790cc9c7ad989ec8d438672a4de8f266",
-    "fetch_script_path": "libretro-fetch.sh",
-    "fetch_script_sha256": "f4076398ed19be8c189b01590385b598e69644bab9d9be299931c2273b500e00",
-    "build_script_path": "libretro-build.sh",
-    "build_script_sha256": "ebca198e4fd9552f26f9b05b4d748ab4ac8014d462b218dd6a03d7558cf50b86"
+    "path": "policies/core-commit-blacklist.json",
+    "policy_id": "core-commit-blacklist-v1",
+    "schema_version": 1
   },
   "cores": {
     "2048": {
-      "workflow": ".github/workflows/build-2048.yml",
-      "source": {
-        "url": "https://github.com/libretro/libretro-2048.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "c90437d3c3913999624deca3fb55ecfa632b72c4",
-        "tree": "5b8bcab69dc90185f10356b5780bf9d827684474"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "2048",
-        "source_dir": "libretro-2048",
-        "output_path": "dist/unix/2048_libretro.so",
         "artifact_name": "2048_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short7-v1",
-          "value": " c90437d",
-          "compiler_scope": "c"
-        }
+          "value": " c90437d"
+        },
+        "output_path": "dist/unix/2048_libretro.so",
+        "source_dir": "libretro-2048",
+        "source_key": "2048"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/2048_libretro.info",
-        "artifact_name": "2048_libretro.info"
+        "artifact_name": "2048_libretro.info",
+        "source_path": "/libretro-super/dist/info/2048_libretro.info"
+      },
+      "source": {
+        "commit": "c90437d3c3913999624deca3fb55ecfa632b72c4",
+        "requested_ref": "refs/heads/master",
+        "tree": "5b8bcab69dc90185f10356b5780bf9d827684474",
+        "url": "https://github.com/libretro/libretro-2048.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-2048.yml"
     },
     "81": {
-      "workflow": ".github/workflows/build-81.yml",
-      "source": {
-        "url": "https://github.com/libretro/81-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "fa7094910d040baa5fd8b11dbf6a1a618330ecd9",
-        "tree": "d73d124d16714e946ba9490627a4fc38c2aea37a"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "81",
-        "source_dir": "libretro-81",
-        "output_path": "dist/unix/81_libretro.so",
         "artifact_name": "81_libretro.so",
+        "driver": "libretro-super",
         "generated_source": {
           "kind": "post-build-sha256-v1",
           "path": "src/version.c",
           "sha256": "5a07d38a3bcd84ee5fa9abbdbe0bd706288d8ec4ee8095485447e35dc28a2862"
-        }
+        },
+        "output_path": "dist/unix/81_libretro.so",
+        "source_dir": "libretro-81",
+        "source_key": "81"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/81_libretro.info",
-        "artifact_name": "81_libretro.info"
+        "artifact_name": "81_libretro.info",
+        "source_path": "/libretro-super/dist/info/81_libretro.info"
+      },
+      "source": {
+        "commit": "fa7094910d040baa5fd8b11dbf6a1a618330ecd9",
+        "requested_ref": "refs/heads/master",
+        "tree": "d73d124d16714e946ba9490627a4fc38c2aea37a",
+        "url": "https://github.com/libretro/81-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-81.yml"
     },
     "a5200": {
-      "workflow": ".github/workflows/build-a5200.yml",
-      "source": {
-        "url": "https://github.com/libretro/a5200.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "23c1ea482afb08656ec507e9ce98ed242a20bdfa",
-        "tree": "bd8a0b3f925ab9dcd5acae4f705e4f0c00f787b5"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "a5200",
-        "source_dir": "libretro-a5200",
-        "output_path": "dist/unix/a5200_libretro.so",
         "artifact_name": "a5200_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
           "derivation": "hyphen-short7-v1",
           "value": "-23c1ea4"
-        }
+        },
+        "output_path": "dist/unix/a5200_libretro.so",
+        "source_dir": "libretro-a5200",
+        "source_key": "a5200"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/a5200_libretro.info",
-        "artifact_name": "a5200_libretro.info"
+        "artifact_name": "a5200_libretro.info",
+        "source_path": "/libretro-super/dist/info/a5200_libretro.info"
+      },
+      "source": {
+        "commit": "23c1ea482afb08656ec507e9ce98ed242a20bdfa",
+        "requested_ref": "refs/heads/master",
+        "tree": "bd8a0b3f925ab9dcd5acae4f705e4f0c00f787b5",
+        "url": "https://github.com/libretro/a5200.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-a5200.yml"
     },
     "ardens": {
-      "workflow": ".github/workflows/build-ardens.yml",
-      "source": {
-        "url": "https://github.com/tiberiusbrown/Ardens.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "661a7dd4febc8d00e790a4ecde44b936295adf97",
-        "tree": "7c0ada0a9ef3c02443e23b867909c57c2386f0dc"
-      },
       "build": {
-        "driver": "direct-cmake",
-        "source_dir": "ardens",
-        "output_path": "ardens_libretro.so",
         "artifact_name": "ardens_libretro.so",
-        "source_date_epoch": 1784658210,
         "cmake": {
-          "generator": "Unix Makefiles",
           "build_type": "Release",
-          "target": "ardens_libretro",
           "defines": {
-            "ARDENS_LLVM": "0",
             "ARDENS_DEBUGGER": "0",
-            "ARDENS_PLAYER": "0",
-            "ARDENS_LIBRETRO": "1"
+            "ARDENS_LIBRETRO": "1",
+            "ARDENS_LLVM": "0",
+            "ARDENS_PLAYER": "0"
           },
+          "generator": "Unix Makefiles",
           "systems": {
             "arm64": {
               "name": "Linux",
@@ -188,36 +115,36 @@
               "name": "Linux",
               "processor": "arm"
             }
-          }
-        }
+          },
+          "target": "ardens_libretro"
+        },
+        "driver": "direct-cmake",
+        "output_path": "ardens_libretro.so",
+        "source_date_epoch": 1784658210,
+        "source_dir": "ardens"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/ardens_libretro.info",
-        "artifact_name": "ardens_libretro.info"
+        "artifact_name": "ardens_libretro.info",
+        "source_path": "/libretro-super/dist/info/ardens_libretro.info"
+      },
+      "source": {
+        "commit": "661a7dd4febc8d00e790a4ecde44b936295adf97",
+        "requested_ref": "refs/heads/master",
+        "tree": "7c0ada0a9ef3c02443e23b867909c57c2386f0dc",
+        "url": "https://github.com/tiberiusbrown/Ardens.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-ardens.yml"
     },
     "arduous": {
-      "workflow": ".github/workflows/build-arduous.yml",
-      "source": {
-        "url": "https://github.com/libretro/arduous.git",
-        "requested_ref": "refs/heads/main",
-        "commit": "798e3950f1de7c69455bc988d55eafeebac5a1eb",
-        "tree": "a712c02b7db1b945f8fef81eddf5797b461812bd"
-      },
       "build": {
-        "driver": "direct-cmake",
-        "source_dir": "arduous",
-        "output_path": "arduous_libretro.so",
         "artifact_name": "arduous_libretro.so",
-        "source_date_epoch": 1776706246,
         "cmake": {
-          "generator": "Unix Makefiles",
           "build_type": "Release",
-          "target": "arduous_libretro",
+          "generator": "Unix Makefiles",
           "systems": {
             "arm64": {
               "name": "Linux",
@@ -227,48 +154,63 @@
               "name": "Linux",
               "processor": "arm"
             }
-          }
-        }
+          },
+          "target": "arduous_libretro"
+        },
+        "driver": "direct-cmake",
+        "output_path": "arduous_libretro.so",
+        "source_date_epoch": 1776706246,
+        "source_dir": "arduous"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/arduous_libretro.info",
-        "artifact_name": "arduous_libretro.info"
+        "artifact_name": "arduous_libretro.info",
+        "source_path": "/libretro-super/dist/info/arduous_libretro.info"
+      },
+      "source": {
+        "commit": "798e3950f1de7c69455bc988d55eafeebac5a1eb",
+        "requested_ref": "refs/heads/main",
+        "tree": "a712c02b7db1b945f8fef81eddf5797b461812bd",
+        "url": "https://github.com/libretro/arduous.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-arduous.yml"
     },
     "atari800": {
-      "workflow": ".github/workflows/build-atari800.yml",
-      "source": {
-        "url": "https://github.com/libretro/libretro-atari800.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "9d3bcf283502512052e21c6f1453fbdf7aa3122b",
-        "tree": "b42ab0f0a498f3aa076c62825a9082fb7e5889e8"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "atari800",
-        "source_dir": "libretro-atari800",
-        "output_path": "dist/unix/atari800_libretro.so",
         "artifact_name": "atari800_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short7-v1",
-          "value": " 9d3bcf2",
-          "compiler_scope": "c"
-        }
+          "value": " 9d3bcf2"
+        },
+        "output_path": "dist/unix/atari800_libretro.so",
+        "source_dir": "libretro-atari800",
+        "source_key": "atari800"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/atari800_libretro.info",
         "artifact_name": "atari800_libretro.info",
         "replacement": {
           "kind": "whole-file-v1",
           "path": "metadata/atari800/source-v1.info",
           "preimage_sha256": "1682c00740626f0bc709dbbcdae1777222773b93a1007bc02e4024df7b181653",
           "replacement_sha256": "4b56fa399760a8c48e6ac8b08ecc2ae2f7163bbfb34f3f08351bc7e092602e5e"
-        }
+        },
+        "source_path": "/libretro-super/dist/info/atari800_libretro.info"
       },
+      "source": {
+        "commit": "9d3bcf283502512052e21c6f1453fbdf7aa3122b",
+        "requested_ref": "refs/heads/master",
+        "tree": "b42ab0f0a498f3aa076c62825a9082fb7e5889e8",
+        "url": "https://github.com/libretro/libretro-atari800.git"
+      },
+      "targets": [
+        "arm64",
+        "armhf"
+      ],
       "validation": {
         "forbidden_needed_prefixes": [
           "libEGL",
@@ -280,116 +222,112 @@
           "libz"
         ]
       },
-      "targets": [
-        "arm64",
-        "armhf"
-      ]
+      "workflow": ".github/workflows/build-atari800.yml"
     },
     "bk": {
-      "workflow": ".github/workflows/build-bk.yml",
-      "source": {
-        "url": "https://github.com/libretro/bk-emulator.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "fe64da42ee463c1b2f4d0566e4d0f7a9667506f6",
-        "tree": "7936963f4fcfbd4961f49b2d9ae722a7ab31b85f"
-      },
       "build": {
+        "artifact_name": "bk_libretro.so",
         "driver": "libretro-super",
-        "source_key": "bk",
-        "source_dir": "libretro-bk",
         "output_path": "dist/unix/bk_libretro.so",
-        "artifact_name": "bk_libretro.so"
+        "source_dir": "libretro-bk",
+        "source_key": "bk"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/bk_libretro.info",
-        "artifact_name": "bk_libretro.info"
+        "artifact_name": "bk_libretro.info",
+        "source_path": "/libretro-super/dist/info/bk_libretro.info"
+      },
+      "source": {
+        "commit": "fe64da42ee463c1b2f4d0566e4d0f7a9667506f6",
+        "requested_ref": "refs/heads/master",
+        "tree": "7936963f4fcfbd4961f49b2d9ae722a7ab31b85f",
+        "url": "https://github.com/libretro/bk-emulator.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-bk.yml"
     },
     "bluemsx": {
-      "workflow": ".github/workflows/build-bluemsx.yml",
-      "source": {
-        "url": "https://github.com/libretro/blueMSX-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "5f595c79906ff3379641b5ee8f3796106214a0a4",
-        "tree": "1d6e218616f313f9147aa7ecf3f74584a9aaa23c"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "bluemsx",
-        "source_dir": "libretro-bluemsx",
-        "output_path": "dist/unix/bluemsx_libretro.so",
         "artifact_name": "bluemsx_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short7-v1",
-          "value": " 5f595c7",
-          "compiler_scope": "c"
-        }
+          "value": " 5f595c7"
+        },
+        "output_path": "dist/unix/bluemsx_libretro.so",
+        "source_dir": "libretro-bluemsx",
+        "source_key": "bluemsx"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/bluemsx_libretro.info",
-        "artifact_name": "bluemsx_libretro.info"
+        "artifact_name": "bluemsx_libretro.info",
+        "source_path": "/libretro-super/dist/info/bluemsx_libretro.info"
+      },
+      "source": {
+        "commit": "5f595c79906ff3379641b5ee8f3796106214a0a4",
+        "requested_ref": "refs/heads/master",
+        "tree": "1d6e218616f313f9147aa7ecf3f74584a9aaa23c",
+        "url": "https://github.com/libretro/blueMSX-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-bluemsx.yml"
     },
     "cap32": {
-      "workflow": ".github/workflows/build-cap32.yml",
-      "source": {
-        "url": "https://github.com/libretro/libretro-cap32.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "4abfb8be233bec630f369379fb6c1d92d31f1c7d",
-        "tree": "c9704612f7acd0459125bc28427212def1cce681"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "cap32",
-        "source_dir": "libretro-cap32",
-        "output_path": "dist/unix/cap32_libretro.so",
         "artifact_name": "cap32_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short7-v1",
-          "value": " 4abfb8b",
-          "compiler_scope": "c"
-        }
+          "value": " 4abfb8b"
+        },
+        "output_path": "dist/unix/cap32_libretro.so",
+        "source_dir": "libretro-cap32",
+        "source_key": "cap32"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/cap32_libretro.info",
-        "artifact_name": "cap32_libretro.info"
+        "artifact_name": "cap32_libretro.info",
+        "source_path": "/libretro-super/dist/info/cap32_libretro.info"
+      },
+      "source": {
+        "commit": "4abfb8be233bec630f369379fb6c1d92d31f1c7d",
+        "requested_ref": "refs/heads/master",
+        "tree": "c9704612f7acd0459125bc28427212def1cce681",
+        "url": "https://github.com/libretro/libretro-cap32.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-cap32.yml"
     },
     "chailove": {
-      "workflow": ".github/workflows/build-chailove.yml",
-      "source": {
-        "url": "https://github.com/libretro/ChaiLove.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "5fa2014d9a1359836f165ab251831bce878ec2be",
-        "tree": "6d11c7be6a39132d97e99bb81588d581613222ae"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "chailove",
-        "source_dir": "libretro-chailove",
-        "output_path": "dist/unix/chailove_libretro.so",
         "artifact_name": "chailove_libretro.so",
+        "driver": "libretro-super",
+        "output_path": "dist/unix/chailove_libretro.so",
         "overlays": {
           "arm64": [
             {
               "kind": "git-apply-v1",
               "patch_path": "patches/chailove/makefile-echo-compile.patch",
               "patch_sha256": "e391fdc171a3a937212a43c9aba862e508ac0993d66826d05f54bac9fd361745",
-              "source_path": "Makefile",
+              "postimage_sha256": "bcf6ca88fae9f569eb524793d7ca32eee414e5c6da7a164019cc59212a455deb",
               "preimage_sha256": "515528ffdbd85a03926be47b64cb7eae7775a2e7dc03460fb78b3e62270a64ff",
-              "postimage_sha256": "bcf6ca88fae9f569eb524793d7ca32eee414e5c6da7a164019cc59212a455deb"
+              "source_path": "Makefile"
+            },
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/chailove/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "b884ba1e7eaf87a2b6b4dbb86a0dd32634a96ac63e00267895dfb436bd9672a7",
+              "postimage_sha256": "41fb5860c3604d83d5ea9551bc34e7f689ec69a2e87f3c5f3d8b5d59ac0b77d0",
+              "preimage_sha256": "102b5bdd1cde3dbc351c9adf2a980c1366178188de84a3cdbdc38177408624e3",
+              "source_path": "Makefile.common"
             }
           ],
           "armhf": [
@@ -397,319 +335,369 @@
               "kind": "git-apply-v1",
               "patch_path": "patches/chailove/makefile-echo-compile.patch",
               "patch_sha256": "e391fdc171a3a937212a43c9aba862e508ac0993d66826d05f54bac9fd361745",
-              "source_path": "Makefile",
+              "postimage_sha256": "bcf6ca88fae9f569eb524793d7ca32eee414e5c6da7a164019cc59212a455deb",
               "preimage_sha256": "515528ffdbd85a03926be47b64cb7eae7775a2e7dc03460fb78b3e62270a64ff",
-              "postimage_sha256": "bcf6ca88fae9f569eb524793d7ca32eee414e5c6da7a164019cc59212a455deb"
-            }
-          ]
-        }
-      },
-      "metadata": {
-        "source_path": "/libretro-super/dist/info/chailove_libretro.info",
-        "artifact_name": "chailove_libretro.info"
-      },
-      "targets": [
-        "arm64",
-        "armhf"
-      ]
-    },
-    "chimerasnes": {
-      "workflow": ".github/workflows/build-chimerasnes.yml",
-      "source": {
-        "url": "https://github.com/jamsilva/chimerasnes.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "04c57c2902c25f36ae5a5d9c57aff851a772c868",
-        "tree": "243afd13215337662b2e3e69a802a2bccf38ecd8"
-      },
-      "build": {
-        "driver": "libretro-super",
-        "source_key": "chimerasnes",
-        "source_dir": "libretro-chimerasnes",
-        "output_path": "dist/unix/chimerasnes_libretro.so",
-        "artifact_name": "chimerasnes_libretro.so"
-      },
-      "metadata": {
-        "source_path": "/libretro-super/dist/info/chimerasnes_libretro.info",
-        "artifact_name": "chimerasnes_libretro.info"
-      },
-      "targets": [
-        "arm64",
-        "armhf"
-      ]
-    },
-    "crocods": {
-      "workflow": ".github/workflows/build-crocods.yml",
-      "source": {
-        "url": "https://github.com/libretro/libretro-crocods.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "87bbb3d9007ac537864278c6c3149ae3291873f8",
-        "tree": "5a76585f521954c8e8ebef9b489a4d6c7a8b73db"
-      },
-      "build": {
-        "driver": "libretro-super",
-        "source_key": "crocods",
-        "source_dir": "libretro-crocods",
-        "output_path": "dist/unix/crocods_libretro.so",
-        "artifact_name": "crocods_libretro.so",
-        "git_version": {
-          "derivation": "native-space-short7-v1",
-          "value": " 87bbb3d",
-          "compiler_scope": "c"
-        }
-      },
-      "metadata": {
-        "source_path": "/libretro-super/dist/info/crocods_libretro.info",
-        "artifact_name": "crocods_libretro.info"
-      },
-      "targets": [
-        "arm64",
-        "armhf"
-      ]
-    },
-    "daphne": {
-      "workflow": ".github/workflows/build-daphne.yml",
-      "source": {
-        "url": "https://github.com/libretro/daphne.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "6f1695dd1f376060666eec0a416ff56bb6c9cccc",
-        "tree": "99813647ee65593613181fcec730660f417035a3"
-      },
-      "build": {
-        "driver": "libretro-super",
-        "source_key": "daphne",
-        "source_dir": "libretro-daphne",
-        "output_path": "dist/unix/daphne_libretro.so",
-        "artifact_name": "daphne_libretro.so"
-      },
-      "metadata": {
-        "source_path": "/libretro-super/dist/info/daphne_libretro.info",
-        "artifact_name": "daphne_libretro.info"
-      },
-      "targets": [
-        "arm64",
-        "armhf"
-      ]
-    },
-    "dosbox_pure": {
-      "workflow": ".github/workflows/build-dosbox_pure.yml",
-      "source": {
-        "url": "https://github.com/libretro/dosbox-pure.git",
-        "requested_ref": "refs/heads/main",
-        "commit": "a4a0bab7f8931433588f2fcad9045c85b277373d",
-        "tree": "0b64e0b00ba92300de9f73f213f3feaddf54a134"
-      },
-      "build": {
-        "driver": "libretro-super",
-        "source_key": "dosbox_pure",
-        "source_dir": "libretro-dosbox_pure",
-        "output_path": "dist/unix/dosbox_pure_libretro.so",
-        "artifact_name": "dosbox_pure_libretro.so",
-        "overlays": {
-          "arm64": [
+              "source_path": "Makefile"
+            },
             {
               "kind": "git-apply-v1",
-              "patch_path": "patches/dosbox_pure/makefile-echo-compile.patch",
-              "patch_sha256": "558e13fd0eda732aba8deb3c810f6938bd2928730102a7c69034680ea9ac5427",
-              "source_path": "Makefile",
-              "preimage_sha256": "5173c065012911a306f9554212b0fb40fb5f51eda462b33b410ce9d15e31122b",
-              "postimage_sha256": "4df0254507737f44f3c2668f5c80387a57516108d1bd9d29327561f427b2d4fc"
-            }
-          ],
-          "armhf": [
-            {
-              "kind": "git-apply-v1",
-              "patch_path": "patches/dosbox_pure/makefile-echo-compile.patch",
-              "patch_sha256": "558e13fd0eda732aba8deb3c810f6938bd2928730102a7c69034680ea9ac5427",
-              "source_path": "Makefile",
-              "preimage_sha256": "5173c065012911a306f9554212b0fb40fb5f51eda462b33b410ce9d15e31122b",
-              "postimage_sha256": "4df0254507737f44f3c2668f5c80387a57516108d1bd9d29327561f427b2d4fc"
-            }
-          ]
-        }
-      },
-      "metadata": {
-        "source_path": "/libretro-super/dist/info/dosbox_pure_libretro.info",
-        "artifact_name": "dosbox_pure_libretro.info"
-      },
-      "targets": [
-        "arm64",
-        "armhf"
-      ]
-    },
-    "easyrpg": {
-      "workflow": ".github/workflows/build-easyrpg.yml",
-      "source": {
-        "url": "https://github.com/EasyRPG/Player.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "0582a5eb8a442824c8aad0495443824b3c8afb08",
-        "tree": "8a857274c4451a9f9ddf3e141ad8a543c7670389"
-      },
-      "build": {
-        "driver": "direct-cmake",
-        "source_dir": "easyrpg",
-        "output_path": "easyrpg_libretro.so",
-        "artifact_name": "easyrpg_libretro.so",
-        "source_date_epoch": 1784044064,
-        "overlays": {
-          "arm64": [
-            {
-              "kind": "git-apply-v1",
-              "patch_path": "patches/easyrpg/liblcf-pinned-clone.patch",
-              "patch_sha256": "215edf7c3cd9235b62efeef0504c87046b82af7fc85ab116a43a0f452214a84e",
-              "source_path": "CMakeLists.txt",
-              "preimage_sha256": "7f1c2014bb2387b31bb2b3fedc10c7051f5daaa6a9dfeca17095a1800982569d",
-              "postimage_sha256": "6c9f2cd2dcd2203b9aaa882e0f01c4cd3abc339b72c5b76bf17f116762d1e78b"
-            }
-          ],
-          "armhf": [
-            {
-              "kind": "git-apply-v1",
-              "patch_path": "patches/easyrpg/liblcf-pinned-clone.patch",
-              "patch_sha256": "215edf7c3cd9235b62efeef0504c87046b82af7fc85ab116a43a0f452214a84e",
-              "source_path": "CMakeLists.txt",
-              "preimage_sha256": "7f1c2014bb2387b31bb2b3fedc10c7051f5daaa6a9dfeca17095a1800982569d",
-              "postimage_sha256": "6c9f2cd2dcd2203b9aaa882e0f01c4cd3abc339b72c5b76bf17f116762d1e78b"
+              "patch_path": "patches/chailove/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "b884ba1e7eaf87a2b6b4dbb86a0dd32634a96ac63e00267895dfb436bd9672a7",
+              "postimage_sha256": "41fb5860c3604d83d5ea9551bc34e7f689ec69a2e87f3c5f3d8b5d59ac0b77d0",
+              "preimage_sha256": "102b5bdd1cde3dbc351c9adf2a980c1366178188de84a3cdbdc38177408624e3",
+              "source_path": "Makefile.common"
             }
           ]
         },
-        "cmake": {
-          "generator": "Unix Makefiles",
-          "build_type": "Release",
-          "target": "easyrpg_libretro",
-          "systems": {
-            "arm64": {
-              "name": "Linux",
-              "processor": "aarch64",
-              "defines": {
-                "CMAKE_PREFIX_PATH": "/usr/local/easyrpg-deps-arm64"
-              }
-            },
-            "armhf": {
-              "name": "Linux",
-              "processor": "arm",
-              "defines": {
-                "CMAKE_PREFIX_PATH": "/usr/local/easyrpg-deps-armhf"
-              }
+        "source_dir": "libretro-chailove",
+        "source_key": "chailove"
+      },
+      "metadata": {
+        "artifact_name": "chailove_libretro.info",
+        "source_path": "/libretro-super/dist/info/chailove_libretro.info"
+      },
+      "source": {
+        "commit": "5fa2014d9a1359836f165ab251831bce878ec2be",
+        "requested_ref": "refs/heads/master",
+        "tree": "6d11c7be6a39132d97e99bb81588d581613222ae",
+        "url": "https://github.com/libretro/ChaiLove.git"
+      },
+      "targets": [
+        "arm64",
+        "armhf"
+      ],
+      "workflow": ".github/workflows/build-chailove.yml"
+    },
+    "chimerasnes": {
+      "build": {
+        "artifact_name": "chimerasnes_libretro.so",
+        "driver": "libretro-super",
+        "output_path": "dist/unix/chimerasnes_libretro.so",
+        "source_dir": "libretro-chimerasnes",
+        "source_key": "chimerasnes"
+      },
+      "metadata": {
+        "artifact_name": "chimerasnes_libretro.info",
+        "source_path": "/libretro-super/dist/info/chimerasnes_libretro.info"
+      },
+      "source": {
+        "commit": "04c57c2902c25f36ae5a5d9c57aff851a772c868",
+        "requested_ref": "refs/heads/master",
+        "tree": "243afd13215337662b2e3e69a802a2bccf38ecd8",
+        "url": "https://github.com/jamsilva/chimerasnes.git"
+      },
+      "targets": [
+        "arm64",
+        "armhf"
+      ],
+      "workflow": ".github/workflows/build-chimerasnes.yml"
+    },
+    "crocods": {
+      "build": {
+        "artifact_name": "crocods_libretro.so",
+        "driver": "libretro-super",
+        "git_version": {
+          "compiler_scope": "c",
+          "derivation": "native-space-short7-v1",
+          "value": " 87bbb3d"
+        },
+        "output_path": "dist/unix/crocods_libretro.so",
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/crocods/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "21f21bfb4767720d9725a01407e6997f9d0b4cc7935a2ba89747260d68938d7e",
+              "postimage_sha256": "5a5cbef2a305f117d1971f4a081f65c4ff426425e00a99012a5ad6ebb755bad1",
+              "preimage_sha256": "fe5461c9ae99f2e284ceb446123802f9c8e6e2a23dc55c2759879428db3ea8fd",
+              "source_path": "Makefile.common"
             }
-          },
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/crocods/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "21f21bfb4767720d9725a01407e6997f9d0b4cc7935a2ba89747260d68938d7e",
+              "postimage_sha256": "5a5cbef2a305f117d1971f4a081f65c4ff426425e00a99012a5ad6ebb755bad1",
+              "preimage_sha256": "fe5461c9ae99f2e284ceb446123802f9c8e6e2a23dc55c2759879428db3ea8fd",
+              "source_path": "Makefile.common"
+            }
+          ]
+        },
+        "source_dir": "libretro-crocods",
+        "source_key": "crocods"
+      },
+      "metadata": {
+        "artifact_name": "crocods_libretro.info",
+        "source_path": "/libretro-super/dist/info/crocods_libretro.info"
+      },
+      "source": {
+        "commit": "87bbb3d9007ac537864278c6c3149ae3291873f8",
+        "requested_ref": "refs/heads/master",
+        "tree": "5a76585f521954c8e8ebef9b489a4d6c7a8b73db",
+        "url": "https://github.com/libretro/libretro-crocods.git"
+      },
+      "targets": [
+        "arm64",
+        "armhf"
+      ],
+      "workflow": ".github/workflows/build-crocods.yml"
+    },
+    "daphne": {
+      "build": {
+        "artifact_name": "daphne_libretro.so",
+        "driver": "libretro-super",
+        "output_path": "dist/unix/daphne_libretro.so",
+        "source_dir": "libretro-daphne",
+        "source_key": "daphne"
+      },
+      "metadata": {
+        "artifact_name": "daphne_libretro.info",
+        "source_path": "/libretro-super/dist/info/daphne_libretro.info"
+      },
+      "source": {
+        "commit": "6f1695dd1f376060666eec0a416ff56bb6c9cccc",
+        "requested_ref": "refs/heads/master",
+        "tree": "99813647ee65593613181fcec730660f417035a3",
+        "url": "https://github.com/libretro/daphne.git"
+      },
+      "targets": [
+        "arm64",
+        "armhf"
+      ],
+      "workflow": ".github/workflows/build-daphne.yml"
+    },
+    "dosbox_pure": {
+      "build": {
+        "artifact_name": "dosbox_pure_libretro.so",
+        "driver": "libretro-super",
+        "output_path": "dist/unix/dosbox_pure_libretro.so",
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/dosbox_pure/makefile-echo-and-sort.patch",
+              "patch_sha256": "e153114cd471eaab74c25387632caf67c17c1a1a7f3182f8d9989961bdc3e0ca",
+              "postimage_sha256": "66f8b298fd0920b109ac1f669207ece2cbb91d7399a7013f1df8d61d5e959472",
+              "preimage_sha256": "5173c065012911a306f9554212b0fb40fb5f51eda462b33b410ce9d15e31122b",
+              "source_path": "Makefile"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/dosbox_pure/makefile-echo-and-sort.patch",
+              "patch_sha256": "e153114cd471eaab74c25387632caf67c17c1a1a7f3182f8d9989961bdc3e0ca",
+              "postimage_sha256": "66f8b298fd0920b109ac1f669207ece2cbb91d7399a7013f1df8d61d5e959472",
+              "preimage_sha256": "5173c065012911a306f9554212b0fb40fb5f51eda462b33b410ce9d15e31122b",
+              "source_path": "Makefile"
+            }
+          ]
+        },
+        "source_dir": "libretro-dosbox_pure",
+        "source_key": "dosbox_pure"
+      },
+      "metadata": {
+        "artifact_name": "dosbox_pure_libretro.info",
+        "source_path": "/libretro-super/dist/info/dosbox_pure_libretro.info"
+      },
+      "source": {
+        "commit": "a4a0bab7f8931433588f2fcad9045c85b277373d",
+        "requested_ref": "refs/heads/main",
+        "tree": "0b64e0b00ba92300de9f73f213f3feaddf54a134",
+        "url": "https://github.com/libretro/dosbox-pure.git"
+      },
+      "targets": [
+        "arm64",
+        "armhf"
+      ],
+      "workflow": ".github/workflows/build-dosbox_pure.yml"
+    },
+    "easyrpg": {
+      "build": {
+        "artifact_name": "easyrpg_libretro.so",
+        "cmake": {
+          "build_type": "Release",
           "defines": {
-            "PLAYER_TARGET_PLATFORM": "libretro",
+            "LIBLCF_WITH_ICU": "ON",
+            "LIBLCF_WITH_XML": "ON",
             "PLAYER_BUILD_LIBLCF": "ON",
             "PLAYER_ENABLE_TESTS": "OFF",
+            "PLAYER_TARGET_PLATFORM": "libretro",
+            "PLAYER_WITH_FLUIDLITE": "OFF",
+            "PLAYER_WITH_FLUIDSYNTH": "OFF",
             "PLAYER_WITH_FREETYPE": "OFF",
             "PLAYER_WITH_LHASA": "OFF",
-            "PLAYER_WITH_MPG123": "ON",
             "PLAYER_WITH_LIBSNDFILE": "ON",
+            "PLAYER_WITH_MPG123": "ON",
             "PLAYER_WITH_OGGVORBIS": "ON",
             "PLAYER_WITH_OPUS": "OFF",
-            "PLAYER_WITH_WILDMIDI": "OFF",
-            "PLAYER_WITH_FLUIDSYNTH": "OFF",
-            "PLAYER_WITH_FLUIDLITE": "OFF",
-            "PLAYER_WITH_XMP": "OFF",
-            "PLAYER_WITH_SPEEXDSP": "OFF",
             "PLAYER_WITH_SAMPLERATE": "OFF",
-            "LIBLCF_WITH_ICU": "ON",
-            "LIBLCF_WITH_XML": "ON"
-          }
-        }
+            "PLAYER_WITH_SPEEXDSP": "OFF",
+            "PLAYER_WITH_WILDMIDI": "OFF",
+            "PLAYER_WITH_XMP": "OFF"
+          },
+          "generator": "Unix Makefiles",
+          "systems": {
+            "arm64": {
+              "defines": {
+                "CMAKE_PREFIX_PATH": "/usr/local/easyrpg-deps-arm64"
+              },
+              "name": "Linux",
+              "processor": "aarch64"
+            },
+            "armhf": {
+              "defines": {
+                "CMAKE_PREFIX_PATH": "/usr/local/easyrpg-deps-armhf"
+              },
+              "name": "Linux",
+              "processor": "arm"
+            }
+          },
+          "target": "easyrpg_libretro"
+        },
+        "driver": "direct-cmake",
+        "output_path": "easyrpg_libretro.so",
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/easyrpg/liblcf-pinned-clone.patch",
+              "patch_sha256": "215edf7c3cd9235b62efeef0504c87046b82af7fc85ab116a43a0f452214a84e",
+              "postimage_sha256": "6c9f2cd2dcd2203b9aaa882e0f01c4cd3abc339b72c5b76bf17f116762d1e78b",
+              "preimage_sha256": "7f1c2014bb2387b31bb2b3fedc10c7051f5daaa6a9dfeca17095a1800982569d",
+              "source_path": "CMakeLists.txt"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/easyrpg/liblcf-pinned-clone.patch",
+              "patch_sha256": "215edf7c3cd9235b62efeef0504c87046b82af7fc85ab116a43a0f452214a84e",
+              "postimage_sha256": "6c9f2cd2dcd2203b9aaa882e0f01c4cd3abc339b72c5b76bf17f116762d1e78b",
+              "preimage_sha256": "7f1c2014bb2387b31bb2b3fedc10c7051f5daaa6a9dfeca17095a1800982569d",
+              "source_path": "CMakeLists.txt"
+            }
+          ]
+        },
+        "source_date_epoch": 1784044064,
+        "source_dir": "easyrpg"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/easyrpg_libretro.info",
-        "artifact_name": "easyrpg_libretro.info"
+        "artifact_name": "easyrpg_libretro.info",
+        "source_path": "/libretro-super/dist/info/easyrpg_libretro.info"
+      },
+      "source": {
+        "commit": "0582a5eb8a442824c8aad0495443824b3c8afb08",
+        "requested_ref": "refs/heads/master",
+        "tree": "8a857274c4451a9f9ddf3e141ad8a543c7670389",
+        "url": "https://github.com/EasyRPG/Player.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-easyrpg.yml"
     },
     "ecwolf": {
-      "workflow": ".github/workflows/build-ecwolf.yml",
-      "source": {
-        "url": "https://github.com/libretro/ecwolf.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "4731f0075d6c225921b40b341b23971e73dd9dfc",
-        "tree": "4e651e299a236ecfbbb4e44427e0087790ff1c64"
-      },
       "build": {
+        "artifact_name": "ecwolf_libretro.so",
         "driver": "libretro-super",
-        "source_key": "ecwolf",
-        "source_dir": "libretro-ecwolf",
         "output_path": "dist/unix/ecwolf_libretro.so",
-        "artifact_name": "ecwolf_libretro.so"
+        "source_dir": "libretro-ecwolf",
+        "source_key": "ecwolf"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/ecwolf_libretro.info",
-        "artifact_name": "ecwolf_libretro.info"
+        "artifact_name": "ecwolf_libretro.info",
+        "source_path": "/libretro-super/dist/info/ecwolf_libretro.info"
+      },
+      "source": {
+        "commit": "4731f0075d6c225921b40b341b23971e73dd9dfc",
+        "requested_ref": "refs/heads/master",
+        "tree": "4e651e299a236ecfbbb4e44427e0087790ff1c64",
+        "url": "https://github.com/libretro/ecwolf.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-ecwolf.yml"
     },
     "fake08": {
-      "workflow": ".github/workflows/build-fake08.yml",
-      "source": {
-        "url": "https://github.com/jtothebell/fake-08.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "814991a2571ad3970e386cef48f3b148aa1c27b9",
-        "tree": "5c4f211679d422eb7ac5883730b4a9d583a27fef"
-      },
       "build": {
-        "driver": "direct-make",
-        "source_dir": "fake-08",
-        "output_path": "platform/libretro/fake08_libretro.so",
         "artifact_name": "fake08_libretro.so",
-        "make_subdir": "platform/libretro",
+        "driver": "direct-make",
         "make_args": [
           "V=1"
-        ]
+        ],
+        "make_subdir": "platform/libretro",
+        "output_path": "platform/libretro/fake08_libretro.so",
+        "source_dir": "fake-08"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/fake08_libretro.info",
-        "artifact_name": "fake08_libretro.info"
+        "artifact_name": "fake08_libretro.info",
+        "source_path": "/libretro-super/dist/info/fake08_libretro.info"
+      },
+      "source": {
+        "commit": "814991a2571ad3970e386cef48f3b148aa1c27b9",
+        "requested_ref": "refs/heads/master",
+        "tree": "5c4f211679d422eb7ac5883730b4a9d583a27fef",
+        "url": "https://github.com/jtothebell/fake-08.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-fake08.yml"
     },
     "fbalpha2012": {
-      "workflow": ".github/workflows/build-fbalpha2012.yml",
-      "source": {
-        "url": "https://github.com/libretro/fbalpha2012.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "95fa35582b1ca7ce68de3313615794c8c9d8d7c0",
-        "tree": "5547237bb6746764ca692e765cbe737339f65364"
-      },
       "build": {
+        "artifact_name": "fbalpha2012_libretro.so",
         "driver": "libretro-super",
-        "source_key": "fbalpha2012",
-        "source_dir": "libretro-fbalpha2012",
         "output_path": "dist/unix/fbalpha2012_libretro.so",
-        "artifact_name": "fbalpha2012_libretro.so"
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/fbalpha2012/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "9dbe1009ffb89b8eb502aab8bd42b7220622c8c56633c60f1a63473ef036de8c",
+              "postimage_sha256": "cd53fdeae5bd23b26f348c4cd0d2b64f5d3b2e8695a976950ae620e41310e349",
+              "preimage_sha256": "166aa6cedbbd84c7daa378a9e4f6e135183590644bb9e0014f5063718dfc7e45",
+              "source_path": "svn-current/trunk/makefile.libretro"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/fbalpha2012/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "9dbe1009ffb89b8eb502aab8bd42b7220622c8c56633c60f1a63473ef036de8c",
+              "postimage_sha256": "cd53fdeae5bd23b26f348c4cd0d2b64f5d3b2e8695a976950ae620e41310e349",
+              "preimage_sha256": "166aa6cedbbd84c7daa378a9e4f6e135183590644bb9e0014f5063718dfc7e45",
+              "source_path": "svn-current/trunk/makefile.libretro"
+            }
+          ]
+        },
+        "source_dir": "libretro-fbalpha2012",
+        "source_key": "fbalpha2012"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/fbalpha2012_libretro.info",
-        "artifact_name": "fbalpha2012_libretro.info"
+        "artifact_name": "fbalpha2012_libretro.info",
+        "source_path": "/libretro-super/dist/info/fbalpha2012_libretro.info"
+      },
+      "source": {
+        "commit": "95fa35582b1ca7ce68de3313615794c8c9d8d7c0",
+        "requested_ref": "refs/heads/master",
+        "tree": "5547237bb6746764ca692e765cbe737339f65364",
+        "url": "https://github.com/libretro/fbalpha2012.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-fbalpha2012.yml"
     },
     "fbneo": {
-      "workflow": ".github/workflows/build-fbneo.yml",
-      "source": {
-        "url": "https://github.com/libretro/FBNeo.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "9d7716aa20cbdf49024f42980c33c7cd366e784f",
-        "tree": "e533af34d2db18f11cefadbb93e509579580d0b7"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "fbneo",
-        "source_dir": "libretro-fbneo",
-        "output_path": "dist/unix/fbneo_libretro.so",
         "artifact_name": "fbneo_libretro.so",
         "compile_definitions": {
           "armhf": [
@@ -719,18 +707,54 @@
             "HWCAP2_SHA2=8"
           ]
         },
-        "source_date_epoch": 1777823586,
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "cxx",
           "derivation": "fbneo-native-short9-date-v1",
-          "value": "9d7716aa2",
           "git_date": "260503",
-          "compiler_scope": "cxx"
-        }
+          "value": "9d7716aa2"
+        },
+        "output_path": "dist/unix/fbneo_libretro.so",
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/fbneo/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "36359710caa6b337253ea7acf3cc0fe43083a3eb1977f62cc764fd888eceb54e",
+              "postimage_sha256": "d7e2bd630fffafb6def25a52295e2b582fe5bcf31b8e246dcadc53f2f437bc0b",
+              "preimage_sha256": "b7030bbeb7c69a46e846084a1a852c972d5360b8f319caca987dc1ec9dfefb73",
+              "source_path": "src/burner/libretro/Makefile.all"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/fbneo/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "36359710caa6b337253ea7acf3cc0fe43083a3eb1977f62cc764fd888eceb54e",
+              "postimage_sha256": "d7e2bd630fffafb6def25a52295e2b582fe5bcf31b8e246dcadc53f2f437bc0b",
+              "preimage_sha256": "b7030bbeb7c69a46e846084a1a852c972d5360b8f319caca987dc1ec9dfefb73",
+              "source_path": "src/burner/libretro/Makefile.all"
+            }
+          ]
+        },
+        "source_date_epoch": 1777823586,
+        "source_dir": "libretro-fbneo",
+        "source_key": "fbneo"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/fbneo_libretro.info",
-        "artifact_name": "fbneo_libretro.info"
+        "artifact_name": "fbneo_libretro.info",
+        "source_path": "/libretro-super/dist/info/fbneo_libretro.info"
       },
+      "source": {
+        "commit": "9d7716aa20cbdf49024f42980c33c7cd366e784f",
+        "requested_ref": "refs/heads/master",
+        "tree": "e533af34d2db18f11cefadbb93e509579580d0b7",
+        "url": "https://github.com/libretro/FBNeo.git"
+      },
+      "targets": [
+        "arm64",
+        "armhf"
+      ],
       "validation": {
         "forbidden_needed_prefixes": [
           "libEGL",
@@ -741,55 +765,63 @@
           "libz"
         ]
       },
-      "targets": [
-        "arm64",
-        "armhf"
-      ]
+      "workflow": ".github/workflows/build-fbneo.yml"
     },
     "fceumm": {
-      "workflow": ".github/workflows/build-fceumm.yml",
-      "source": {
-        "url": "https://github.com/libretro/libretro-fceumm.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "718c5a2e175735df92ba17a2945a8d1abbc48652",
-        "tree": "9778fe04fc7b5fab1d71351784cb56be2949cf99"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "fceumm",
-        "source_dir": "libretro-fceumm",
-        "output_path": "dist/unix/fceumm_libretro.so",
         "artifact_name": "fceumm_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short7-v1",
-          "value": " 718c5a2",
-          "compiler_scope": "c"
-        }
+          "value": " 718c5a2"
+        },
+        "output_path": "dist/unix/fceumm_libretro.so",
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/fceumm/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "2403f63b6d1cf7d2bb1d4173bd8711f5d67e7846e1b0661d58d65c78997988e0",
+              "postimage_sha256": "0ab3271440bc6eece078f76b6438afbc76b73888945d904b3aecffbf5a9a71de",
+              "preimage_sha256": "2e3046c8c68438902c060eda9d5664dcc864ec05c702ff857a964dfe64286f7a",
+              "source_path": "Makefile.common"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/fceumm/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "2403f63b6d1cf7d2bb1d4173bd8711f5d67e7846e1b0661d58d65c78997988e0",
+              "postimage_sha256": "0ab3271440bc6eece078f76b6438afbc76b73888945d904b3aecffbf5a9a71de",
+              "preimage_sha256": "2e3046c8c68438902c060eda9d5664dcc864ec05c702ff857a964dfe64286f7a",
+              "source_path": "Makefile.common"
+            }
+          ]
+        },
+        "source_dir": "libretro-fceumm",
+        "source_key": "fceumm"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/fceumm_libretro.info",
-        "artifact_name": "fceumm_libretro.info"
+        "artifact_name": "fceumm_libretro.info",
+        "source_path": "/libretro-super/dist/info/fceumm_libretro.info"
+      },
+      "source": {
+        "commit": "718c5a2e175735df92ba17a2945a8d1abbc48652",
+        "requested_ref": "refs/heads/master",
+        "tree": "9778fe04fc7b5fab1d71351784cb56be2949cf99",
+        "url": "https://github.com/libretro/libretro-fceumm.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-fceumm.yml"
     },
     "ffmpeg": {
-      "workflow": ".github/workflows/build-ffmpeg.yml",
-      "source": {
-        "url": "https://github.com/libretro/FFmpeg.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "4920879d2f09a78cdf855403c349457cee1c31da",
-        "tree": "72377e12026a2f034d12a2ac3fcea35aa29200eb"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "ffmpeg",
-        "source_dir": "libretro-ffmpeg",
-        "output_path": "dist/unix/ffmpeg_libretro.so",
         "artifact_name": "ffmpeg_libretro.so",
-        "source_date_epoch": 1598579820,
+        "driver": "libretro-super",
         "make_variables": {
           "ARCH_AARCH64": 0,
           "ARCH_ARM": 0,
@@ -798,12 +830,26 @@
           "HAVE_SSA": 0,
           "LIBRETRO_EMBED_FFMPEG": 1,
           "OPENGL": 0
-        }
+        },
+        "output_path": "dist/unix/ffmpeg_libretro.so",
+        "source_date_epoch": 1598579820,
+        "source_dir": "libretro-ffmpeg",
+        "source_key": "ffmpeg"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/ffmpeg_libretro.info",
-        "artifact_name": "ffmpeg_libretro.info"
+        "artifact_name": "ffmpeg_libretro.info",
+        "source_path": "/libretro-super/dist/info/ffmpeg_libretro.info"
       },
+      "source": {
+        "commit": "4920879d2f09a78cdf855403c349457cee1c31da",
+        "requested_ref": "refs/heads/master",
+        "tree": "72377e12026a2f034d12a2ac3fcea35aa29200eb",
+        "url": "https://github.com/libretro/FFmpeg.git"
+      },
+      "targets": [
+        "arm64",
+        "armhf"
+      ],
       "validation": {
         "forbidden_needed_prefixes": [
           "libEGL",
@@ -827,722 +873,788 @@
           "libvulkan"
         ]
       },
-      "targets": [
-        "arm64",
-        "armhf"
-      ]
+      "workflow": ".github/workflows/build-ffmpeg.yml"
     },
     "flycast": {
-      "workflow": ".github/workflows/build-flycast.yml",
-      "source": {
-        "url": "https://github.com/flyinghead/flycast.git",
-        "requested_ref": "refs/tags/v2.6",
-        "commit": "392a429e8b040b3e5bf6696cb4f984274fc44123",
-        "tree": "712e00d5a9c99abc949bcce2bf02800492de869d"
-      },
       "build": {
-        "driver": "direct-cmake",
-        "source_dir": "flycast",
-        "output_path": "flycast_libretro.so",
         "artifact_name": "flycast_libretro.so",
-        "source_date_epoch": 1767792512,
+        "cmake": {
+          "build_type": "Release",
+          "defines": {
+            "CMAKE_POSITION_INDEPENDENT_CODE": "TRUE",
+            "LIBRETRO": "ON",
+            "USE_HOST_LIBZIP": "OFF",
+            "USE_OPENMP": "OFF",
+            "USE_VULKAN": "OFF"
+          },
+          "generator": "Unix Makefiles",
+          "systems": {
+            "arm64": {
+              "defines": {
+                "USE_GLES": "ON"
+              },
+              "name": "Linux",
+              "processor": "aarch64"
+            },
+            "armhf": {
+              "defines": {
+                "USE_GLES2": "ON"
+              },
+              "name": "Linux",
+              "processor": "arm"
+            }
+          },
+          "target": "flycast_libretro"
+        },
+        "driver": "direct-cmake",
+        "output_path": "flycast_libretro.so",
         "overlays": {
           "armhf": [
             {
               "kind": "git-apply-v1",
               "patch_path": "patches/flycast/lzma-hwcap2-guards.patch",
               "patch_sha256": "dd464c88ba8f7ac9313eede8b725476afe62f73110d308b48869de90c0674509",
-              "source_path": "core/deps/libchdr/deps/lzma-24.05/src/CpuArch.c",
-              "submodule_path": "core/deps/libchdr",
+              "postimage_sha256": "bf6dde50153da329d7a0338e23ec72185c3239b01421fdf97cec7bb1004f3796",
               "preimage_sha256": "e971c2a098029d673f5d2e296c3ac63251c224c54c5988b8cd85405299330dd5",
-              "postimage_sha256": "bf6dde50153da329d7a0338e23ec72185c3239b01421fdf97cec7bb1004f3796"
+              "source_path": "core/deps/libchdr/deps/lzma-24.05/src/CpuArch.c",
+              "submodule_path": "core/deps/libchdr"
             }
           ]
         },
-        "cmake": {
-          "generator": "Unix Makefiles",
-          "build_type": "Release",
-          "target": "flycast_libretro",
-          "systems": {
-            "arm64": {
-              "name": "Linux",
-              "processor": "aarch64",
-              "defines": {
-                "USE_GLES": "ON"
-              }
-            },
-            "armhf": {
-              "name": "Linux",
-              "processor": "arm",
-              "defines": {
-                "USE_GLES2": "ON"
-              }
-            }
-          },
-          "defines": {
-            "LIBRETRO": "ON",
-            "CMAKE_POSITION_INDEPENDENT_CODE": "TRUE",
-            "USE_VULKAN": "OFF",
-            "USE_HOST_LIBZIP": "OFF",
-            "USE_OPENMP": "OFF"
-          }
-        }
+        "source_date_epoch": 1767792512,
+        "source_dir": "flycast"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/flycast_libretro.info",
-        "artifact_name": "flycast_libretro.info"
+        "artifact_name": "flycast_libretro.info",
+        "source_path": "/libretro-super/dist/info/flycast_libretro.info"
+      },
+      "source": {
+        "commit": "392a429e8b040b3e5bf6696cb4f984274fc44123",
+        "requested_ref": "refs/tags/v2.6",
+        "tree": "712e00d5a9c99abc949bcce2bf02800492de869d",
+        "url": "https://github.com/flyinghead/flycast.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-flycast.yml"
     },
     "fmsx": {
-      "workflow": ".github/workflows/build-fmsx.yml",
-      "source": {
-        "url": "https://github.com/libretro/fmsx-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "f013e213458e06d9df718e4bc4b09d46f88aa899",
-        "tree": "ae1b15cee162c073452cc9826b1e208d2250d2bf"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "fmsx",
-        "source_dir": "libretro-fmsx",
-        "output_path": "dist/unix/fmsx_libretro.so",
         "artifact_name": "fmsx_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
           "derivation": "native-space-short7-v1",
           "value": " f013e21"
-        }
+        },
+        "output_path": "dist/unix/fmsx_libretro.so",
+        "source_dir": "libretro-fmsx",
+        "source_key": "fmsx"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/fmsx_libretro.info",
-        "artifact_name": "fmsx_libretro.info"
+        "artifact_name": "fmsx_libretro.info",
+        "source_path": "/libretro-super/dist/info/fmsx_libretro.info"
+      },
+      "source": {
+        "commit": "f013e213458e06d9df718e4bc4b09d46f88aa899",
+        "requested_ref": "refs/heads/master",
+        "tree": "ae1b15cee162c073452cc9826b1e208d2250d2bf",
+        "url": "https://github.com/libretro/fmsx-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-fmsx.yml"
     },
     "freechaf": {
-      "workflow": ".github/workflows/build-freechaf.yml",
-      "source": {
-        "url": "https://github.com/libretro/FreeChaF.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "76c7a84f1f7e80f3e6f2bba96fe100cb24e99124",
-        "tree": "da8f96e1b0866e49ecf6a3bcd2b9974670669429"
-      },
       "build": {
+        "artifact_name": "freechaf_libretro.so",
         "driver": "libretro-super",
-        "source_key": "freechaf",
-        "source_dir": "libretro-freechaf",
         "output_path": "dist/unix/freechaf_libretro.so",
-        "artifact_name": "freechaf_libretro.so"
+        "source_dir": "libretro-freechaf",
+        "source_key": "freechaf"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/freechaf_libretro.info",
-        "artifact_name": "freechaf_libretro.info"
+        "artifact_name": "freechaf_libretro.info",
+        "source_path": "/libretro-super/dist/info/freechaf_libretro.info"
+      },
+      "source": {
+        "commit": "76c7a84f1f7e80f3e6f2bba96fe100cb24e99124",
+        "requested_ref": "refs/heads/master",
+        "tree": "da8f96e1b0866e49ecf6a3bcd2b9974670669429",
+        "url": "https://github.com/libretro/FreeChaF.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-freechaf.yml"
     },
     "freeintv": {
-      "workflow": ".github/workflows/build-freeintv.yml",
-      "source": {
-        "url": "https://github.com/libretro/FreeIntv.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "428915baf2bfc032fc03e645f4f8f9c6c3144979",
-        "tree": "ca7bcc22845ae696dd0fa011bd7c2486db7990e4"
-      },
       "build": {
+        "artifact_name": "freeintv_libretro.so",
         "driver": "libretro-super",
-        "source_key": "freeintv",
-        "source_dir": "libretro-freeintv",
         "output_path": "dist/unix/freeintv_libretro.so",
-        "artifact_name": "freeintv_libretro.so"
+        "source_dir": "libretro-freeintv",
+        "source_key": "freeintv"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/freeintv_libretro.info",
-        "artifact_name": "freeintv_libretro.info"
+        "artifact_name": "freeintv_libretro.info",
+        "source_path": "/libretro-super/dist/info/freeintv_libretro.info"
+      },
+      "source": {
+        "commit": "428915baf2bfc032fc03e645f4f8f9c6c3144979",
+        "requested_ref": "refs/heads/master",
+        "tree": "ca7bcc22845ae696dd0fa011bd7c2486db7990e4",
+        "url": "https://github.com/libretro/FreeIntv.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-freeintv.yml"
     },
     "frodo": {
-      "workflow": ".github/workflows/build-frodo.yml",
-      "source": {
-        "url": "https://github.com/libretro/frodo-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "29dd1864b89d903ed93f1d86d85636ef9e194359",
-        "tree": "55052ca464a04805b21b6bae7ec9c00741644ded"
-      },
       "build": {
+        "artifact_name": "frodo_libretro.so",
         "driver": "libretro-super",
-        "source_key": "frodo",
-        "source_dir": "libretro-frodo",
         "output_path": "dist/unix/frodo_libretro.so",
-        "artifact_name": "frodo_libretro.so"
+        "source_dir": "libretro-frodo",
+        "source_key": "frodo"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/frodo_libretro.info",
-        "artifact_name": "frodo_libretro.info"
+        "artifact_name": "frodo_libretro.info",
+        "source_path": "/libretro-super/dist/info/frodo_libretro.info"
+      },
+      "source": {
+        "commit": "29dd1864b89d903ed93f1d86d85636ef9e194359",
+        "requested_ref": "refs/heads/master",
+        "tree": "55052ca464a04805b21b6bae7ec9c00741644ded",
+        "url": "https://github.com/libretro/frodo-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-frodo.yml"
     },
     "fuse": {
-      "workflow": ".github/workflows/build-fuse.yml",
-      "source": {
-        "url": "https://github.com/libretro/fuse-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "bce196fb774835fe65b3e5b821887a4ccf657167",
-        "tree": "416338297e3923163ea2ce6f5e0347502368207c"
-      },
       "build": {
+        "artifact_name": "fuse_libretro.so",
         "driver": "libretro-super",
-        "source_key": "fuse",
-        "source_dir": "libretro-fuse",
         "output_path": "dist/unix/fuse_libretro.so",
-        "artifact_name": "fuse_libretro.so"
+        "source_dir": "libretro-fuse",
+        "source_key": "fuse"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/fuse_libretro.info",
-        "artifact_name": "fuse_libretro.info"
+        "artifact_name": "fuse_libretro.info",
+        "source_path": "/libretro-super/dist/info/fuse_libretro.info"
+      },
+      "source": {
+        "commit": "bce196fb774835fe65b3e5b821887a4ccf657167",
+        "requested_ref": "refs/heads/master",
+        "tree": "416338297e3923163ea2ce6f5e0347502368207c",
+        "url": "https://github.com/libretro/fuse-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-fuse.yml"
     },
     "gambatte": {
-      "workflow": ".github/workflows/build-gambatte.yml",
-      "source": {
-        "url": "https://github.com/libretro/gambatte-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "dfc165599f3f1068c40a0b7ad6fe5f161283d483",
-        "tree": "5ca06b386819d5a99f83531d38d88d1d04db426c"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "gambatte",
-        "source_dir": "libretro-gambatte",
-        "output_path": "dist/unix/gambatte_libretro.so",
         "artifact_name": "gambatte_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "cxx",
           "derivation": "native-space-short7-v1",
-          "value": " dfc1655",
-          "compiler_scope": "cxx"
-        }
+          "value": " dfc1655"
+        },
+        "output_path": "dist/unix/gambatte_libretro.so",
+        "source_dir": "libretro-gambatte",
+        "source_key": "gambatte"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/gambatte_libretro.info",
-        "artifact_name": "gambatte_libretro.info"
+        "artifact_name": "gambatte_libretro.info",
+        "source_path": "/libretro-super/dist/info/gambatte_libretro.info"
+      },
+      "source": {
+        "commit": "dfc165599f3f1068c40a0b7ad6fe5f161283d483",
+        "requested_ref": "refs/heads/master",
+        "tree": "5ca06b386819d5a99f83531d38d88d1d04db426c",
+        "url": "https://github.com/libretro/gambatte-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-gambatte.yml"
     },
     "gearboy": {
-      "workflow": ".github/workflows/build-gearboy.yml",
-      "source": {
-        "url": "https://github.com/drhelius/Gearboy.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "36d723ff44109e6d9eefba34e1c9a089c2d50e18",
-        "tree": "d01d828b1e5e7330bcf908b19b1afae8c9f8897b"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "gearboy",
-        "source_dir": "libretro-gearboy",
-        "output_path": "dist/unix/gearboy_libretro.so",
         "artifact_name": "gearboy_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
           "derivation": "native-git-describe-v1",
           "value": "3.8.9-8-g36d723f"
-        }
+        },
+        "output_path": "dist/unix/gearboy_libretro.so",
+        "source_dir": "libretro-gearboy",
+        "source_key": "gearboy"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/gearboy_libretro.info",
-        "artifact_name": "gearboy_libretro.info"
+        "artifact_name": "gearboy_libretro.info",
+        "source_path": "/libretro-super/dist/info/gearboy_libretro.info"
+      },
+      "source": {
+        "commit": "36d723ff44109e6d9eefba34e1c9a089c2d50e18",
+        "requested_ref": "refs/heads/master",
+        "tree": "d01d828b1e5e7330bcf908b19b1afae8c9f8897b",
+        "url": "https://github.com/drhelius/Gearboy.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-gearboy.yml"
     },
     "gearcoleco": {
-      "workflow": ".github/workflows/build-gearcoleco.yml",
-      "source": {
-        "url": "https://github.com/drhelius/Gearcoleco.git",
-        "requested_ref": "refs/heads/main",
-        "commit": "112345747c04eb7752d1939258881aa10319e32e",
-        "tree": "0afbed445cf4689daa878816f961ea4bcb4832a3"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "gearcoleco",
-        "source_dir": "libretro-gearcoleco",
-        "output_path": "dist/unix/gearcoleco_libretro.so",
         "artifact_name": "gearcoleco_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
           "derivation": "native-git-describe-v1",
           "value": "1.6.6-11-g1123457"
-        }
+        },
+        "output_path": "dist/unix/gearcoleco_libretro.so",
+        "source_dir": "libretro-gearcoleco",
+        "source_key": "gearcoleco"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/gearcoleco_libretro.info",
-        "artifact_name": "gearcoleco_libretro.info"
+        "artifact_name": "gearcoleco_libretro.info",
+        "source_path": "/libretro-super/dist/info/gearcoleco_libretro.info"
+      },
+      "source": {
+        "commit": "112345747c04eb7752d1939258881aa10319e32e",
+        "requested_ref": "refs/heads/main",
+        "tree": "0afbed445cf4689daa878816f961ea4bcb4832a3",
+        "url": "https://github.com/drhelius/Gearcoleco.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-gearcoleco.yml"
     },
     "gearsystem": {
-      "workflow": ".github/workflows/build-gearsystem.yml",
-      "source": {
-        "url": "https://github.com/drhelius/Gearsystem.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "4f029e43f2d5207c5da78792503b0fff89b7b2c5",
-        "tree": "8adfb454298c169327d705bebf94e699e5dbf480"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "gearsystem",
-        "source_dir": "libretro-gearsystem",
-        "output_path": "dist/unix/gearsystem_libretro.so",
         "artifact_name": "gearsystem_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
           "derivation": "native-git-describe-v1",
           "value": "3.9.12-5-g4f029e4"
-        }
+        },
+        "output_path": "dist/unix/gearsystem_libretro.so",
+        "source_dir": "libretro-gearsystem",
+        "source_key": "gearsystem"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/gearsystem_libretro.info",
-        "artifact_name": "gearsystem_libretro.info"
+        "artifact_name": "gearsystem_libretro.info",
+        "source_path": "/libretro-super/dist/info/gearsystem_libretro.info"
+      },
+      "source": {
+        "commit": "4f029e43f2d5207c5da78792503b0fff89b7b2c5",
+        "requested_ref": "refs/heads/master",
+        "tree": "8adfb454298c169327d705bebf94e699e5dbf480",
+        "url": "https://github.com/drhelius/Gearsystem.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-gearsystem.yml"
     },
     "genesis_plus_gx": {
-      "workflow": ".github/workflows/build-genesis_plus_gx.yml",
-      "source": {
-        "url": "https://github.com/libretro/Genesis-Plus-GX.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "fa4dca561e08d5be9077419f7b255e1da213ed21",
-        "tree": "7f4b0916e938e15e046e1c35acd0173aab1aaac3"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "genesis_plus_gx",
-        "source_dir": "libretro-genesis_plus_gx",
-        "output_path": "dist/unix/genesis_plus_gx_libretro.so",
         "artifact_name": "genesis_plus_gx_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short7-v1",
-          "value": " fa4dca5",
-          "compiler_scope": "c"
-        }
+          "value": " fa4dca5"
+        },
+        "output_path": "dist/unix/genesis_plus_gx_libretro.so",
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/genesis_plus_gx/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "f1a35fd09937bbae35e34e814d534f4c4d7f4e926a23dfcd430a35ec430fdd23",
+              "postimage_sha256": "b9deb7b93719f8bfbda24d929d1166a228c2a5647c08e1c8cfb32b313f468753",
+              "preimage_sha256": "3f1f5dc4ecf8d98471c25ef51dfba1f2f9ab6f5f30a4d9c17d15d7d4a2d5ece4",
+              "source_path": "libretro/Makefile.common"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/genesis_plus_gx/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "f1a35fd09937bbae35e34e814d534f4c4d7f4e926a23dfcd430a35ec430fdd23",
+              "postimage_sha256": "b9deb7b93719f8bfbda24d929d1166a228c2a5647c08e1c8cfb32b313f468753",
+              "preimage_sha256": "3f1f5dc4ecf8d98471c25ef51dfba1f2f9ab6f5f30a4d9c17d15d7d4a2d5ece4",
+              "source_path": "libretro/Makefile.common"
+            }
+          ]
+        },
+        "source_dir": "libretro-genesis_plus_gx",
+        "source_key": "genesis_plus_gx"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/genesis_plus_gx_libretro.info",
-        "artifact_name": "genesis_plus_gx_libretro.info"
+        "artifact_name": "genesis_plus_gx_libretro.info",
+        "source_path": "/libretro-super/dist/info/genesis_plus_gx_libretro.info"
+      },
+      "source": {
+        "commit": "fa4dca561e08d5be9077419f7b255e1da213ed21",
+        "requested_ref": "refs/heads/master",
+        "tree": "7f4b0916e938e15e046e1c35acd0173aab1aaac3",
+        "url": "https://github.com/libretro/Genesis-Plus-GX.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-genesis_plus_gx.yml"
     },
     "genesis_plus_gx_wide": {
-      "workflow": ".github/workflows/build-genesis_plus_gx_wide.yml",
-      "source": {
-        "url": "https://github.com/libretro/Genesis-Plus-GX-Wide.git",
-        "requested_ref": "refs/heads/main",
-        "commit": "29d9d104338f46bc2e65438fb207bcf54f701e92",
-        "tree": "27e05ed457d9c10e51b6c69067e1c05599df08fb"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "genesis_plus_gx_wide",
-        "source_dir": "libretro-genesis_plus_gx_wide",
-        "output_path": "dist/unix/genesis_plus_gx_wide_libretro.so",
         "artifact_name": "genesis_plus_gx_wide_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short7-v1",
-          "value": " 29d9d10",
-          "compiler_scope": "c"
-        }
+          "value": " 29d9d10"
+        },
+        "output_path": "dist/unix/genesis_plus_gx_wide_libretro.so",
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/genesis_plus_gx_wide/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "c7e9bb397878b30d5012e9932005dbbe6ece146b859485737e1cf29cef00d87a",
+              "postimage_sha256": "0d1bc24fbb4085a5894977ac5a6e743658e786245320551f6be640899677af2c",
+              "preimage_sha256": "6b6b82ec878235104364b2c011b95b689683630d8bc4ceefd4344900af079a50",
+              "source_path": "libretro/Makefile.common"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/genesis_plus_gx_wide/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "c7e9bb397878b30d5012e9932005dbbe6ece146b859485737e1cf29cef00d87a",
+              "postimage_sha256": "0d1bc24fbb4085a5894977ac5a6e743658e786245320551f6be640899677af2c",
+              "preimage_sha256": "6b6b82ec878235104364b2c011b95b689683630d8bc4ceefd4344900af079a50",
+              "source_path": "libretro/Makefile.common"
+            }
+          ]
+        },
+        "source_dir": "libretro-genesis_plus_gx_wide",
+        "source_key": "genesis_plus_gx_wide"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/genesis_plus_gx_wide_libretro.info",
-        "artifact_name": "genesis_plus_gx_wide_libretro.info"
+        "artifact_name": "genesis_plus_gx_wide_libretro.info",
+        "source_path": "/libretro-super/dist/info/genesis_plus_gx_wide_libretro.info"
+      },
+      "source": {
+        "commit": "29d9d104338f46bc2e65438fb207bcf54f701e92",
+        "requested_ref": "refs/heads/main",
+        "tree": "27e05ed457d9c10e51b6c69067e1c05599df08fb",
+        "url": "https://github.com/libretro/Genesis-Plus-GX-Wide.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-genesis_plus_gx_wide.yml"
     },
     "gme": {
-      "workflow": ".github/workflows/build-gme.yml",
-      "source": {
-        "url": "https://github.com/libretro/libretro-gme.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "818629a9fbb9f99bd9c585395318834ae5c6434e",
-        "tree": "dd10fdad6ccd383a7fa163ac76ad3d952e9842a5"
-      },
       "build": {
+        "artifact_name": "gme_libretro.so",
         "driver": "libretro-super",
-        "source_key": "gme",
-        "source_dir": "libretro-gme",
         "output_path": "dist/unix/gme_libretro.so",
-        "artifact_name": "gme_libretro.so"
+        "source_dir": "libretro-gme",
+        "source_key": "gme"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/gme_libretro.info",
-        "artifact_name": "gme_libretro.info"
+        "artifact_name": "gme_libretro.info",
+        "source_path": "/libretro-super/dist/info/gme_libretro.info"
+      },
+      "source": {
+        "commit": "818629a9fbb9f99bd9c585395318834ae5c6434e",
+        "requested_ref": "refs/heads/master",
+        "tree": "dd10fdad6ccd383a7fa163ac76ad3d952e9842a5",
+        "url": "https://github.com/libretro/libretro-gme.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-gme.yml"
     },
     "gpsp": {
-      "workflow": ".github/workflows/build-gpsp.yml",
-      "source": {
-        "url": "https://github.com/libretro/gpsp.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "69e86ebe89f14c3f5f75b809c12c0a953b3d6ce4",
-        "tree": "de26635ae1419714d0efe3c85b75faf494be950c"
-      },
       "build": {
-        "driver": "direct-make",
-        "source_dir": "gpsp",
-        "output_path": "gpsp_libretro.so",
         "artifact_name": "gpsp_libretro.so",
+        "driver": "direct-make",
+        "output_path": "gpsp_libretro.so",
         "platforms": {
           "arm64": "arm64",
           "armhf": "armv7hardfloat"
-        }
+        },
+        "source_dir": "gpsp"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/gpsp_libretro.info",
-        "artifact_name": "gpsp_libretro.info"
+        "artifact_name": "gpsp_libretro.info",
+        "source_path": "/libretro-super/dist/info/gpsp_libretro.info"
+      },
+      "source": {
+        "commit": "69e86ebe89f14c3f5f75b809c12c0a953b3d6ce4",
+        "requested_ref": "refs/heads/master",
+        "tree": "de26635ae1419714d0efe3c85b75faf494be950c",
+        "url": "https://github.com/libretro/gpsp.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-gpsp.yml"
     },
     "gw": {
-      "workflow": ".github/workflows/build-gw.yml",
-      "source": {
-        "url": "https://github.com/libretro/gw-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "91d599b951e7bfe7e040347f58667cba20074adc",
-        "tree": "3e047c44fe4828599aaf72708a5cea25730bc824"
-      },
       "build": {
+        "artifact_name": "gw_libretro.so",
         "driver": "libretro-super",
-        "source_key": "gw",
-        "source_dir": "libretro-gw",
         "output_path": "dist/unix/gw_libretro.so",
-        "artifact_name": "gw_libretro.so"
+        "source_dir": "libretro-gw",
+        "source_key": "gw"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/gw_libretro.info",
-        "artifact_name": "gw_libretro.info"
+        "artifact_name": "gw_libretro.info",
+        "source_path": "/libretro-super/dist/info/gw_libretro.info"
+      },
+      "source": {
+        "commit": "91d599b951e7bfe7e040347f58667cba20074adc",
+        "requested_ref": "refs/heads/master",
+        "tree": "3e047c44fe4828599aaf72708a5cea25730bc824",
+        "url": "https://github.com/libretro/gw-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-gw.yml"
     },
     "handy": {
-      "workflow": ".github/workflows/build-handy.yml",
-      "source": {
-        "url": "https://github.com/libretro/libretro-handy.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "bc55d462f0b2d6b073ea93dc552ebd73cec60fd1",
-        "tree": "e8cbeec52b120a52c208037a281072656a899ea9"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "handy",
-        "source_dir": "libretro-handy",
-        "output_path": "dist/unix/handy_libretro.so",
         "artifact_name": "handy_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "cxx",
           "derivation": "native-space-short7-v1",
-          "value": " bc55d46",
-          "compiler_scope": "cxx"
-        }
+          "value": " bc55d46"
+        },
+        "output_path": "dist/unix/handy_libretro.so",
+        "source_dir": "libretro-handy",
+        "source_key": "handy"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/handy_libretro.info",
-        "artifact_name": "handy_libretro.info"
+        "artifact_name": "handy_libretro.info",
+        "source_path": "/libretro-super/dist/info/handy_libretro.info"
+      },
+      "source": {
+        "commit": "bc55d462f0b2d6b073ea93dc552ebd73cec60fd1",
+        "requested_ref": "refs/heads/master",
+        "tree": "e8cbeec52b120a52c208037a281072656a899ea9",
+        "url": "https://github.com/libretro/libretro-handy.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-handy.yml"
     },
     "hatari": {
-      "workflow": ".github/workflows/build-hatari.yml",
-      "source": {
-        "url": "https://github.com/libretro/hatari.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "c605d3aa342f2ad8f915f94bf03bae018e1be7b7",
-        "tree": "e7d1a78a01d56b0a31baa2fdf32564e00b33c566"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "hatari",
-        "source_dir": "libretro-hatari",
-        "output_path": "dist/unix/hatari_libretro.so",
         "artifact_name": "hatari_libretro.so",
-        "source_date_epoch": 1781097623
+        "driver": "libretro-super",
+        "output_path": "dist/unix/hatari_libretro.so",
+        "source_date_epoch": 1781097623,
+        "source_dir": "libretro-hatari",
+        "source_key": "hatari"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/hatari_libretro.info",
-        "artifact_name": "hatari_libretro.info"
+        "artifact_name": "hatari_libretro.info",
+        "source_path": "/libretro-super/dist/info/hatari_libretro.info"
+      },
+      "source": {
+        "commit": "c605d3aa342f2ad8f915f94bf03bae018e1be7b7",
+        "requested_ref": "refs/heads/master",
+        "tree": "e7d1a78a01d56b0a31baa2fdf32564e00b33c566",
+        "url": "https://github.com/libretro/hatari.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-hatari.yml"
     },
     "km_duckswanstation_xtreme_amped": {
-      "workflow": ".github/workflows/build-km_duckswanstation_xtreme_amped.yml",
-      "source": {
-        "url": "https://github.com/KMFDManic/swanstation.git",
-        "requested_ref": "refs/heads/main",
-        "commit": "be16ead371a6403c92cf196d80bee75356027670",
-        "tree": "a3be791dbe49f25f3f451fd3d877e87c91808667"
-      },
       "build": {
-        "driver": "direct-cmake",
-        "source_dir": "km_duckswanstation_xtreme_amped",
-        "output_path": "swanstation_libretro.so",
         "artifact_name": "km_duckswanstation_xtreme_amped_libretro.so",
-        "source_date_epoch": 1687912698,
         "cmake": {
-          "generator": "Unix Makefiles",
           "build_type": "Release",
-          "target": "swanstation_libretro",
+          "generator": "Unix Makefiles",
           "systems": {
             "armhf": {
               "name": "Linux",
               "processor": "arm"
             }
-          }
-        }
+          },
+          "target": "swanstation_libretro"
+        },
+        "driver": "direct-cmake",
+        "output_path": "swanstation_libretro.so",
+        "source_date_epoch": 1687912698,
+        "source_dir": "km_duckswanstation_xtreme_amped"
       },
       "metadata": {
+        "artifact_name": "km_duckswanstation_xtreme_amped_libretro.info",
         "repo_path": "metadata/km_duckswanstation_xtreme_amped_libretro.info",
-        "sha256": "0448632fa8bcbe2d682cd28e584fca1152f9c4dd555565bec23954175e1580cc",
-        "artifact_name": "km_duckswanstation_xtreme_amped_libretro.info"
+        "sha256": "0448632fa8bcbe2d682cd28e584fca1152f9c4dd555565bec23954175e1580cc"
+      },
+      "source": {
+        "commit": "be16ead371a6403c92cf196d80bee75356027670",
+        "requested_ref": "refs/heads/main",
+        "tree": "a3be791dbe49f25f3f451fd3d877e87c91808667",
+        "url": "https://github.com/KMFDManic/swanstation.git"
       },
       "targets": [
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-km_duckswanstation_xtreme_amped.yml"
     },
     "km_parallel_n64_xtreme_amped_turbo": {
-      "workflow": ".github/workflows/build-km_parallel_n64_xtreme_amped_turbo.yml",
-      "source": {
-        "url": "https://github.com/KMFDManic/parallel-n64.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "be8d13e6fddec4eaf705cb04e755e0cf3687d842",
-        "tree": "2cec86f7b29182ab8c22481ccaf143f37b97cf0f"
-      },
       "build": {
-        "driver": "direct-make",
-        "source_dir": "km_parallel_n64_xtreme_amped_turbo",
-        "output_path": "parallel_n64_libretro.so",
         "artifact_name": "km_parallel_n64_xtreme_amped_turbo_libretro.so",
+        "driver": "direct-make",
+        "make_args": [
+          "WITH_DYNAREC=arm",
+          "FORCE_GLES=1",
+          "NOSSE=1"
+        ],
+        "output_path": "parallel_n64_libretro.so",
         "overlays": {
           "armhf": [
             {
               "kind": "git-apply-v1",
               "patch_path": "patches/km_parallel_n64_xtreme_amped_turbo/makefile-fcommon.patch",
               "patch_sha256": "ea0338b8f6f6116178d8ebdaee56307afeebd9d2d6a8b974ec8a53f934db3082",
-              "source_path": "Makefile",
+              "postimage_sha256": "d4f4bdf492b2442eddceaad5b7e4af94b626540981cad8eb2cd97a15c976ae6f",
               "preimage_sha256": "a3c03dc51f2d886da4b7011c386a916ce6a71585b5cb56fe35dffed8235aee7a",
-              "postimage_sha256": "d4f4bdf492b2442eddceaad5b7e4af94b626540981cad8eb2cd97a15c976ae6f"
+              "source_path": "Makefile"
             },
             {
               "kind": "git-apply-v1",
               "patch_path": "patches/km_parallel_n64_xtreme_amped_turbo/glide64-rdp-gspvertex-def.patch",
               "patch_sha256": "cf2fbfa956a40cb839981e67bdb2d9dc53758519222481481426b4bd30b20a70",
-              "source_path": "glide2gl/src/Glide64/glide64_rdp.c",
+              "postimage_sha256": "3ce90f40aed7296e0280853323bc5d8ab372cbe53a51638c28116ccd6b6f1923",
               "preimage_sha256": "fdcc5df7cb95f3a918f47e1c1c1d3517fbcd4bb530832b20443d77d79c5d094c",
-              "postimage_sha256": "3ce90f40aed7296e0280853323bc5d8ab372cbe53a51638c28116ccd6b6f1923"
+              "source_path": "glide2gl/src/Glide64/glide64_rdp.c"
             },
             {
               "kind": "git-apply-v1",
               "patch_path": "patches/km_parallel_n64_xtreme_amped_turbo/rdp-gspvertex-extern.patch",
               "patch_sha256": "227dfb416a27ece7f8fe2328f126a58b0c83b2fd1fcd7916d873de616e3d2856",
-              "source_path": "glide2gl/src/Glide64/rdp.h",
+              "postimage_sha256": "0717c1b921ffddc27dcb2914ff7834bdb09c30ea249d8540deeadc5992ec88ed",
               "preimage_sha256": "49f6f95e8313457dc888c043f6e2a671fbc35ad8d55844db6c21274917e7ef6a",
-              "postimage_sha256": "0717c1b921ffddc27dcb2914ff7834bdb09c30ea249d8540deeadc5992ec88ed"
+              "source_path": "glide2gl/src/Glide64/rdp.h"
             },
             {
               "kind": "git-apply-v1",
               "patch_path": "patches/km_parallel_n64_xtreme_amped_turbo/glsm-gldouble-typedef.patch",
               "patch_sha256": "b8de55727daf4f9c953e0bbdb5157ab5073eebb28108d88ea8580bbd9ed46266",
-              "source_path": "libretro-common/include/glsm/glsm.h",
+              "postimage_sha256": "1ceefefa05f37af1fc1ab98a459f2256b10f1efbfa43dcbd7e5dfd23c034268b",
               "preimage_sha256": "05655a321adc93f01cedb81dbcd66f3127743200a577a655a35efdaad23ea495",
-              "postimage_sha256": "1ceefefa05f37af1fc1ab98a459f2256b10f1efbfa43dcbd7e5dfd23c034268b"
+              "source_path": "libretro-common/include/glsm/glsm.h"
             },
             {
               "kind": "git-apply-v1",
               "patch_path": "patches/km_parallel_n64_xtreme_amped_turbo/parallel-al-stdexcept.patch",
               "patch_sha256": "08ebd16dc47d7160d9760a9fb9f9edf27a383f295940c3ffff4955b866044f56",
-              "source_path": "mupen64plus-video-angrylion-thr/parallel_al.cpp",
+              "postimage_sha256": "06d25734bae596a9b1baf0e062b3399e283f2bf7ec65769b536a06337dfe5a2c",
               "preimage_sha256": "bf3362000a9a1a12e7c798e129216bad89b8981bb838c8b9e6ea7bc2aab19145",
-              "postimage_sha256": "06d25734bae596a9b1baf0e062b3399e283f2bf7ec65769b536a06337dfe5a2c"
+              "source_path": "mupen64plus-video-angrylion-thr/parallel_al.cpp"
             }
           ]
         },
         "platforms": {
           "armhf": "unix"
         },
-        "make_args": [
-          "WITH_DYNAREC=arm",
-          "FORCE_GLES=1",
-          "NOSSE=1"
-        ]
+        "source_dir": "km_parallel_n64_xtreme_amped_turbo"
       },
       "metadata": {
+        "artifact_name": "km_parallel_n64_xtreme_amped_turbo_libretro.info",
         "repo_path": "metadata/km_parallel_n64_xtreme_amped_turbo_libretro.info",
-        "sha256": "de131279f27a150ede90f514b1a4fdc1d2b3b9b07272f871d633e81c182d36c2",
-        "artifact_name": "km_parallel_n64_xtreme_amped_turbo_libretro.info"
+        "sha256": "de131279f27a150ede90f514b1a4fdc1d2b3b9b07272f871d633e81c182d36c2"
+      },
+      "source": {
+        "commit": "be8d13e6fddec4eaf705cb04e755e0cf3687d842",
+        "requested_ref": "refs/heads/master",
+        "tree": "2cec86f7b29182ab8c22481ccaf143f37b97cf0f",
+        "url": "https://github.com/KMFDManic/parallel-n64.git"
       },
       "targets": [
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-km_parallel_n64_xtreme_amped_turbo.yml"
     },
     "libgametank": {
-      "workflow": ".github/workflows/build-libgametank.yml",
-      "source": {
-        "url": "https://github.com/dwbrite/gametank-sdk.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "f3f5a3b3e67e96a115cc87ddfd3e5921ac59b197",
-        "tree": "9236ce3da5a432a626be55277ba55d32715e97f2"
-      },
       "build": {
-        "driver": "direct-cargo",
-        "source_dir": "libgametank",
-        "output_path": "libgametank_libretro.so",
         "artifact_name": "libgametank_libretro.so",
-        "source_date_epoch": 1784593754,
         "cargo": {
-          "subdir": "tools/gte/libretro",
-          "profile": "release",
           "lock_sha256": "b8c66e6924352eb35603df6a921ef43ecd91fa6b79ab8b44def74098069ce360",
+          "profile": "release",
+          "subdir": "tools/gte/libretro",
           "targets": {
             "arm64": "aarch64-unknown-linux-gnu.2.23",
             "armhf": "armv7-unknown-linux-gnueabihf.2.23"
           }
-        }
+        },
+        "driver": "direct-cargo",
+        "output_path": "libgametank_libretro.so",
+        "source_date_epoch": 1784593754,
+        "source_dir": "libgametank"
       },
       "metadata": {
+        "artifact_name": "libgametank_libretro.info",
         "repo_path": "metadata/libgametank_libretro.info",
-        "sha256": "f9354a9cafb77090f12a86de622db9b2a5a7bc798ae124fe111828c7cce59c82",
-        "artifact_name": "libgametank_libretro.info"
+        "sha256": "f9354a9cafb77090f12a86de622db9b2a5a7bc798ae124fe111828c7cce59c82"
+      },
+      "source": {
+        "commit": "f3f5a3b3e67e96a115cc87ddfd3e5921ac59b197",
+        "requested_ref": "refs/heads/master",
+        "tree": "9236ce3da5a432a626be55277ba55d32715e97f2",
+        "url": "https://github.com/dwbrite/gametank-sdk.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-libgametank.yml"
     },
     "lowresnx": {
-      "workflow": ".github/workflows/build-lowresnx.yml",
-      "source": {
-        "url": "https://github.com/timoinutilis/lowres-nx.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "35adc1a215e975be964b2ef4b652117acd7beba1",
-        "tree": "766c70ca84d3a48769781072913a01db7f488a7b"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "lowresnx",
-        "source_dir": "libretro-lowresnx",
-        "output_path": "dist/unix/lowresnx_libretro.so",
         "artifact_name": "lowresnx_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short7-v1",
-          "value": " 35adc1a",
-          "compiler_scope": "c"
-        }
+          "value": " 35adc1a"
+        },
+        "output_path": "dist/unix/lowresnx_libretro.so",
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/lowresnx/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "462d4c896de62c6c94f783e02a117912d5d3c80c514cb7f9984d6046f31d7012",
+              "postimage_sha256": "ac5b5ea3ff2610095a449247a84a5fd5c59409150ac0106ef131e9ae91449582",
+              "preimage_sha256": "14dbfd87d5517ebb99f1cdb58a2c3900f3f5feb9f94f15a425a3f0451da7a38d",
+              "source_path": "platform/LibRetro/Makefile.common"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/lowresnx/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "462d4c896de62c6c94f783e02a117912d5d3c80c514cb7f9984d6046f31d7012",
+              "postimage_sha256": "ac5b5ea3ff2610095a449247a84a5fd5c59409150ac0106ef131e9ae91449582",
+              "preimage_sha256": "14dbfd87d5517ebb99f1cdb58a2c3900f3f5feb9f94f15a425a3f0451da7a38d",
+              "source_path": "platform/LibRetro/Makefile.common"
+            }
+          ]
+        },
+        "source_dir": "libretro-lowresnx",
+        "source_key": "lowresnx"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/lowresnx_libretro.info",
-        "artifact_name": "lowresnx_libretro.info"
+        "artifact_name": "lowresnx_libretro.info",
+        "source_path": "/libretro-super/dist/info/lowresnx_libretro.info"
+      },
+      "source": {
+        "commit": "35adc1a215e975be964b2ef4b652117acd7beba1",
+        "requested_ref": "refs/heads/master",
+        "tree": "766c70ca84d3a48769781072913a01db7f488a7b",
+        "url": "https://github.com/timoinutilis/lowres-nx.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-lowresnx.yml"
     },
     "lutro": {
-      "workflow": ".github/workflows/build-lutro.yml",
-      "source": {
-        "url": "https://github.com/libretro/libretro-lutro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "1df938b3bf37b8d1eb6cdd07ec915c4f569a7551",
-        "tree": "d20aac44229476877084e26c2558c63737a86c98"
-      },
       "build": {
+        "artifact_name": "lutro_libretro.so",
         "driver": "libretro-super",
-        "source_key": "lutro",
-        "source_dir": "libretro-lutro",
         "output_path": "dist/unix/lutro_libretro.so",
-        "artifact_name": "lutro_libretro.so"
+        "source_dir": "libretro-lutro",
+        "source_key": "lutro"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/lutro_libretro.info",
-        "artifact_name": "lutro_libretro.info"
+        "artifact_name": "lutro_libretro.info",
+        "source_path": "/libretro-super/dist/info/lutro_libretro.info"
+      },
+      "source": {
+        "commit": "1df938b3bf37b8d1eb6cdd07ec915c4f569a7551",
+        "requested_ref": "refs/heads/master",
+        "tree": "d20aac44229476877084e26c2558c63737a86c98",
+        "url": "https://github.com/libretro/libretro-lutro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-lutro.yml"
     },
     "mame2003_plus": {
-      "workflow": ".github/workflows/build-mame2003_plus.yml",
-      "source": {
-        "url": "https://github.com/libretro/mame2003-plus-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "5373e38e1091eb28f075513ecdc2575bafc8a5e3",
-        "tree": "990e22f33a33cbfe733e22b3b5fef6cda76056fb"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "mame2003_plus",
-        "source_dir": "libretro-mame2003_plus",
-        "output_path": "dist/unix/mame2003_plus_libretro.so",
         "artifact_name": "mame2003_plus_libretro.so",
-        "source_date_epoch": 1777763287,
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short8-v1",
-          "value": " 5373e38e",
-          "compiler_scope": "c"
-        }
+          "value": " 5373e38e"
+        },
+        "output_path": "dist/unix/mame2003_plus_libretro.so",
+        "source_date_epoch": 1777763287,
+        "source_dir": "libretro-mame2003_plus",
+        "source_key": "mame2003_plus"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/mame2003_plus_libretro.info",
-        "artifact_name": "mame2003_plus_libretro.info"
+        "artifact_name": "mame2003_plus_libretro.info",
+        "source_path": "/libretro-super/dist/info/mame2003_plus_libretro.info"
       },
+      "source": {
+        "commit": "5373e38e1091eb28f075513ecdc2575bafc8a5e3",
+        "requested_ref": "refs/heads/master",
+        "tree": "990e22f33a33cbfe733e22b3b5fef6cda76056fb",
+        "url": "https://github.com/libretro/mame2003-plus-libretro.git"
+      },
+      "targets": [
+        "arm64",
+        "armhf"
+      ],
       "validation": {
         "forbidden_needed_prefixes": [
           "libEGL",
@@ -1554,319 +1666,327 @@
           "libz"
         ]
       },
-      "targets": [
-        "arm64",
-        "armhf"
-      ]
+      "workflow": ".github/workflows/build-mame2003_plus.yml"
     },
     "mednafen_lynx": {
-      "workflow": ".github/workflows/build-mednafen_lynx.yml",
-      "source": {
-        "url": "https://github.com/libretro/beetle-lynx-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "fcdefcfb3c11d6d2e71be076a5d3df2e88ab73ed",
-        "tree": "3e815d4d338aa1a201e009b36cf34e5a53ad4c9e"
-      },
       "build": {
+        "artifact_name": "mednafen_lynx_libretro.so",
         "driver": "libretro-super",
-        "source_key": "mednafen_lynx",
-        "source_dir": "libretro-mednafen_lynx",
         "output_path": "dist/unix/mednafen_lynx_libretro.so",
-        "artifact_name": "mednafen_lynx_libretro.so"
+        "source_dir": "libretro-mednafen_lynx",
+        "source_key": "mednafen_lynx"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/mednafen_lynx_libretro.info",
-        "artifact_name": "mednafen_lynx_libretro.info"
+        "artifact_name": "mednafen_lynx_libretro.info",
+        "source_path": "/libretro-super/dist/info/mednafen_lynx_libretro.info"
+      },
+      "source": {
+        "commit": "fcdefcfb3c11d6d2e71be076a5d3df2e88ab73ed",
+        "requested_ref": "refs/heads/master",
+        "tree": "3e815d4d338aa1a201e009b36cf34e5a53ad4c9e",
+        "url": "https://github.com/libretro/beetle-lynx-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-mednafen_lynx.yml"
     },
     "mednafen_ngp": {
-      "workflow": ".github/workflows/build-mednafen_ngp.yml",
-      "source": {
-        "url": "https://github.com/libretro/beetle-ngp-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "a50d5ac288a81f2104ddf43195a4efdd15c72227",
-        "tree": "2614efc4a43347f75a16e4b87c536806f7de2ba1"
-      },
       "build": {
+        "artifact_name": "mednafen_ngp_libretro.so",
         "driver": "libretro-super",
-        "source_key": "mednafen_ngp",
-        "source_dir": "libretro-mednafen_ngp",
         "output_path": "dist/unix/mednafen_ngp_libretro.so",
-        "artifact_name": "mednafen_ngp_libretro.so"
+        "source_dir": "libretro-mednafen_ngp",
+        "source_key": "mednafen_ngp"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/mednafen_ngp_libretro.info",
-        "artifact_name": "mednafen_ngp_libretro.info"
+        "artifact_name": "mednafen_ngp_libretro.info",
+        "source_path": "/libretro-super/dist/info/mednafen_ngp_libretro.info"
+      },
+      "source": {
+        "commit": "a50d5ac288a81f2104ddf43195a4efdd15c72227",
+        "requested_ref": "refs/heads/master",
+        "tree": "2614efc4a43347f75a16e4b87c536806f7de2ba1",
+        "url": "https://github.com/libretro/beetle-ngp-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-mednafen_ngp.yml"
     },
     "mednafen_pce_fast": {
-      "workflow": ".github/workflows/build-mednafen_pce_fast.yml",
-      "source": {
-        "url": "https://github.com/libretro/beetle-pce-fast-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "0bc6c86928343ca4202c5b6ef33fa4387c47fc12",
-        "tree": "80bd8d86bb10d9ab374d6de4ca3e129498c3c3e0"
-      },
       "build": {
+        "artifact_name": "mednafen_pce_fast_libretro.so",
         "driver": "libretro-super",
-        "source_key": "mednafen_pce_fast",
-        "source_dir": "libretro-mednafen_pce_fast",
         "output_path": "dist/unix/mednafen_pce_fast_libretro.so",
-        "artifact_name": "mednafen_pce_fast_libretro.so"
+        "source_dir": "libretro-mednafen_pce_fast",
+        "source_key": "mednafen_pce_fast"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/mednafen_pce_fast_libretro.info",
-        "artifact_name": "mednafen_pce_fast_libretro.info"
+        "artifact_name": "mednafen_pce_fast_libretro.info",
+        "source_path": "/libretro-super/dist/info/mednafen_pce_fast_libretro.info"
+      },
+      "source": {
+        "commit": "0bc6c86928343ca4202c5b6ef33fa4387c47fc12",
+        "requested_ref": "refs/heads/master",
+        "tree": "80bd8d86bb10d9ab374d6de4ca3e129498c3c3e0",
+        "url": "https://github.com/libretro/beetle-pce-fast-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-mednafen_pce_fast.yml"
     },
     "mednafen_pcfx": {
-      "workflow": ".github/workflows/build-mednafen_pcfx.yml",
-      "source": {
-        "url": "https://github.com/libretro/beetle-pcfx-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "650c30ea2203636a1716675854d11c608ed6eacc",
-        "tree": "de7ad272c9210e5dd7772a53a1480dbab47d49cc"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "mednafen_pcfx",
-        "source_dir": "libretro-mednafen_pcfx",
-        "output_path": "dist/unix/mednafen_pcfx_libretro.so",
         "artifact_name": "mednafen_pcfx_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "cxx",
           "derivation": "native-space-short7-v1",
-          "value": " 650c30e",
-          "compiler_scope": "cxx"
+          "value": " 650c30e"
         },
         "make_variables": {
           "IS_X86": 0
-        }
+        },
+        "output_path": "dist/unix/mednafen_pcfx_libretro.so",
+        "source_dir": "libretro-mednafen_pcfx",
+        "source_key": "mednafen_pcfx"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/mednafen_pcfx_libretro.info",
-        "artifact_name": "mednafen_pcfx_libretro.info"
+        "artifact_name": "mednafen_pcfx_libretro.info",
+        "source_path": "/libretro-super/dist/info/mednafen_pcfx_libretro.info"
+      },
+      "source": {
+        "commit": "650c30ea2203636a1716675854d11c608ed6eacc",
+        "requested_ref": "refs/heads/master",
+        "tree": "de7ad272c9210e5dd7772a53a1480dbab47d49cc",
+        "url": "https://github.com/libretro/beetle-pcfx-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-mednafen_pcfx.yml"
     },
     "mednafen_supafaust": {
-      "workflow": ".github/workflows/build-mednafen_supafaust.yml",
-      "source": {
-        "url": "https://github.com/libretro/supafaust.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "2b93c0d7dff5b8f6c4e60e049d66849923fa8bba",
-        "tree": "68dcc9b53118d9933f716c7219989822a89d10d7"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "mednafen_supafaust",
-        "source_dir": "libretro-mednafen_supafaust",
-        "output_path": "dist/unix/mednafen_supafaust_libretro.so",
         "artifact_name": "mednafen_supafaust_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "cxx",
           "derivation": "hyphen-short7-v1",
-          "value": "-2b93c0d",
-          "compiler_scope": "cxx"
-        }
+          "value": "-2b93c0d"
+        },
+        "output_path": "dist/unix/mednafen_supafaust_libretro.so",
+        "source_dir": "libretro-mednafen_supafaust",
+        "source_key": "mednafen_supafaust"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/mednafen_supafaust_libretro.info",
-        "artifact_name": "mednafen_supafaust_libretro.info"
+        "artifact_name": "mednafen_supafaust_libretro.info",
+        "source_path": "/libretro-super/dist/info/mednafen_supafaust_libretro.info"
+      },
+      "source": {
+        "commit": "2b93c0d7dff5b8f6c4e60e049d66849923fa8bba",
+        "requested_ref": "refs/heads/master",
+        "tree": "68dcc9b53118d9933f716c7219989822a89d10d7",
+        "url": "https://github.com/libretro/supafaust.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-mednafen_supafaust.yml"
     },
     "mednafen_supergrafx": {
-      "workflow": ".github/workflows/build-mednafen_supergrafx.yml",
-      "source": {
-        "url": "https://github.com/libretro/beetle-supergrafx-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "3c6fcd3deded54ebecd69408f108407ac03d11b5",
-        "tree": "076a59d1084ebf3a6ab80f4b5a144fa865c46c9b"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "mednafen_supergrafx",
-        "source_dir": "libretro-mednafen_supergrafx",
-        "output_path": "dist/unix/mednafen_supergrafx_libretro.so",
         "artifact_name": "mednafen_supergrafx_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "cxx",
           "derivation": "native-space-short7-v1",
-          "value": " 3c6fcd3",
-          "compiler_scope": "cxx"
-        }
+          "value": " 3c6fcd3"
+        },
+        "output_path": "dist/unix/mednafen_supergrafx_libretro.so",
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/mednafen_supergrafx/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "8df0614ce8fe5041da1f71770d3b4561d25ab7ee1f63e595a5746696e80d04fe",
+              "postimage_sha256": "35d85aa7e7c59b49bc62dce0ea6dbc74bca7c89ea49cd6f843073cce883f72e9",
+              "preimage_sha256": "2c5c33333abdd67f624d347c2d18b0d34f9a44d83a55750b4b4bdce72f223b8b",
+              "source_path": "Makefile.common"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/mednafen_supergrafx/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "8df0614ce8fe5041da1f71770d3b4561d25ab7ee1f63e595a5746696e80d04fe",
+              "postimage_sha256": "35d85aa7e7c59b49bc62dce0ea6dbc74bca7c89ea49cd6f843073cce883f72e9",
+              "preimage_sha256": "2c5c33333abdd67f624d347c2d18b0d34f9a44d83a55750b4b4bdce72f223b8b",
+              "source_path": "Makefile.common"
+            }
+          ]
+        },
+        "source_dir": "libretro-mednafen_supergrafx",
+        "source_key": "mednafen_supergrafx"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/mednafen_supergrafx_libretro.info",
-        "artifact_name": "mednafen_supergrafx_libretro.info"
+        "artifact_name": "mednafen_supergrafx_libretro.info",
+        "source_path": "/libretro-super/dist/info/mednafen_supergrafx_libretro.info"
+      },
+      "source": {
+        "commit": "3c6fcd3deded54ebecd69408f108407ac03d11b5",
+        "requested_ref": "refs/heads/master",
+        "tree": "076a59d1084ebf3a6ab80f4b5a144fa865c46c9b",
+        "url": "https://github.com/libretro/beetle-supergrafx-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-mednafen_supergrafx.yml"
     },
     "mednafen_vb": {
-      "workflow": ".github/workflows/build-mednafen_vb.yml",
-      "source": {
-        "url": "https://github.com/libretro/beetle-vb-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "38e7a0ec9ac7079ca1c1e3dd9aaf5b56f527efca",
-        "tree": "842c635c9a5fdbef374616f01fa2d57bf1ec3fa7"
-      },
       "build": {
+        "artifact_name": "mednafen_vb_libretro.so",
         "driver": "libretro-super",
-        "source_key": "mednafen_vb",
-        "source_dir": "libretro-mednafen_vb",
         "output_path": "dist/unix/mednafen_vb_libretro.so",
-        "artifact_name": "mednafen_vb_libretro.so"
+        "source_dir": "libretro-mednafen_vb",
+        "source_key": "mednafen_vb"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/mednafen_vb_libretro.info",
-        "artifact_name": "mednafen_vb_libretro.info"
+        "artifact_name": "mednafen_vb_libretro.info",
+        "source_path": "/libretro-super/dist/info/mednafen_vb_libretro.info"
+      },
+      "source": {
+        "commit": "38e7a0ec9ac7079ca1c1e3dd9aaf5b56f527efca",
+        "requested_ref": "refs/heads/master",
+        "tree": "842c635c9a5fdbef374616f01fa2d57bf1ec3fa7",
+        "url": "https://github.com/libretro/beetle-vb-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-mednafen_vb.yml"
     },
     "mednafen_wswan": {
-      "workflow": ".github/workflows/build-mednafen_wswan.yml",
-      "source": {
-        "url": "https://github.com/libretro/beetle-wswan-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "da6d0d9acb8d4e9bd6725ab44225a275325d8352",
-        "tree": "1387c79a0f2e8aad511a26fc4b1e272b152c691d"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "mednafen_wswan",
-        "source_dir": "libretro-mednafen_wswan",
-        "output_path": "dist/unix/mednafen_wswan_libretro.so",
         "artifact_name": "mednafen_wswan_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
           "derivation": "native-space-short7-v1",
           "value": " da6d0d9"
-        }
+        },
+        "output_path": "dist/unix/mednafen_wswan_libretro.so",
+        "source_dir": "libretro-mednafen_wswan",
+        "source_key": "mednafen_wswan"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/mednafen_wswan_libretro.info",
-        "artifact_name": "mednafen_wswan_libretro.info"
+        "artifact_name": "mednafen_wswan_libretro.info",
+        "source_path": "/libretro-super/dist/info/mednafen_wswan_libretro.info"
+      },
+      "source": {
+        "commit": "da6d0d9acb8d4e9bd6725ab44225a275325d8352",
+        "requested_ref": "refs/heads/master",
+        "tree": "1387c79a0f2e8aad511a26fc4b1e272b152c691d",
+        "url": "https://github.com/libretro/beetle-wswan-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-mednafen_wswan.yml"
     },
     "mgba": {
-      "workflow": ".github/workflows/build-mgba.yml",
-      "source": {
-        "url": "https://github.com/libretro/mgba.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "6dce57eef127dc4cc292644f38196e0e7c58590c",
-        "tree": "72edb48f24f569f2b00c850cac61f6db0c80bf4e"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "mgba",
-        "source_dir": "libretro-mgba",
-        "output_path": "dist/unix/mgba_libretro.so",
         "artifact_name": "mgba_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short9-v1",
-          "value": " 6dce57eef",
-          "compiler_scope": "c"
-        }
+          "value": " 6dce57eef"
+        },
+        "output_path": "dist/unix/mgba_libretro.so",
+        "source_dir": "libretro-mgba",
+        "source_key": "mgba"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/mgba_libretro.info",
-        "artifact_name": "mgba_libretro.info"
+        "artifact_name": "mgba_libretro.info",
+        "source_path": "/libretro-super/dist/info/mgba_libretro.info"
+      },
+      "source": {
+        "commit": "6dce57eef127dc4cc292644f38196e0e7c58590c",
+        "requested_ref": "refs/heads/master",
+        "tree": "72edb48f24f569f2b00c850cac61f6db0c80bf4e",
+        "url": "https://github.com/libretro/mgba.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-mgba.yml"
     },
     "mu": {
-      "workflow": ".github/workflows/build-mu.yml",
-      "source": {
-        "url": "https://github.com/libretro/Mu.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "de05588fcb1adca6738dc4cf6a2e6e6c447bf2f2",
-        "tree": "e99eae2df1b0564c808663d6a398d597fb5f42b9"
-      },
       "build": {
+        "artifact_name": "mu_libretro.so",
         "driver": "libretro-super",
-        "source_key": "mu",
-        "source_dir": "libretro-mu",
         "output_path": "dist/unix/mu_libretro.so",
-        "artifact_name": "mu_libretro.so"
+        "source_dir": "libretro-mu",
+        "source_key": "mu"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/mu_libretro.info",
-        "artifact_name": "mu_libretro.info"
+        "artifact_name": "mu_libretro.info",
+        "source_path": "/libretro-super/dist/info/mu_libretro.info"
+      },
+      "source": {
+        "commit": "de05588fcb1adca6738dc4cf6a2e6e6c447bf2f2",
+        "requested_ref": "refs/heads/master",
+        "tree": "e99eae2df1b0564c808663d6a398d597fb5f42b9",
+        "url": "https://github.com/libretro/Mu.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-mu.yml"
     },
     "mupen64plus_next": {
-      "workflow": ".github/workflows/build-mupen64plus_next.yml",
-      "source": {
-        "url": "https://github.com/libretro/mupen64plus-libretro-nx.git",
-        "requested_ref": "refs/heads/develop",
-        "commit": "98c1b0d877542b01314b3b04272282ba223b65b3",
-        "tree": "e82f86deaeb37d3df9ad2673b53738af96848325"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "mupen64plus_next",
-        "source_dir": "libretro-mupen64plus_next",
-        "output_path": "dist/unix/mupen64plus_next_libretro.so",
         "artifact_name": "mupen64plus_next_libretro.so",
-        "submodules": false,
+        "driver": "libretro-super",
         "make_variables": {
           "FORCE_GLES": 1,
           "WITH_DYNAREC": "aarch64"
-        }
+        },
+        "output_path": "dist/unix/mupen64plus_next_libretro.so",
+        "source_dir": "libretro-mupen64plus_next",
+        "source_key": "mupen64plus_next",
+        "submodules": false
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/mupen64plus_next_libretro.info",
-        "artifact_name": "mupen64plus_next_libretro.info"
+        "artifact_name": "mupen64plus_next_libretro.info",
+        "source_path": "/libretro-super/dist/info/mupen64plus_next_libretro.info"
+      },
+      "source": {
+        "commit": "98c1b0d877542b01314b3b04272282ba223b65b3",
+        "requested_ref": "refs/heads/develop",
+        "tree": "e82f86deaeb37d3df9ad2673b53738af96848325",
+        "url": "https://github.com/libretro/mupen64plus-libretro-nx.git"
       },
       "targets": [
         "arm64"
-      ]
+      ],
+      "workflow": ".github/workflows/build-mupen64plus_next.yml"
     },
     "neocd": {
-      "workflow": ".github/workflows/build-neocd.yml",
-      "source": {
-        "url": "https://github.com/libretro/neocd_libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "9e9ad181bed60f84f9cff02c03617b41e8a31cfe",
-        "tree": "c82440c78b368bbd4c58122d796e4d9beb40c22a"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "neocd",
-        "source_dir": "libretro-neocd",
-        "output_path": "dist/unix/neocd_libretro.so",
         "artifact_name": "neocd_libretro.so",
         "compile_definitions": {
           "armhf": [
@@ -1875,186 +1995,207 @@
             "HWCAP2_SHA1=0",
             "HWCAP2_SHA2=0"
           ]
-        }
+        },
+        "driver": "libretro-super",
+        "output_path": "dist/unix/neocd_libretro.so",
+        "source_dir": "libretro-neocd",
+        "source_key": "neocd"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/neocd_libretro.info",
-        "artifact_name": "neocd_libretro.info"
+        "artifact_name": "neocd_libretro.info",
+        "source_path": "/libretro-super/dist/info/neocd_libretro.info"
+      },
+      "source": {
+        "commit": "9e9ad181bed60f84f9cff02c03617b41e8a31cfe",
+        "requested_ref": "refs/heads/master",
+        "tree": "c82440c78b368bbd4c58122d796e4d9beb40c22a",
+        "url": "https://github.com/libretro/neocd_libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-neocd.yml"
     },
     "nestopia": {
-      "workflow": ".github/workflows/build-nestopia.yml",
-      "source": {
-        "url": "https://github.com/libretro/nestopia.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "b0fd87dd07e3c52903435d302b04e5e97796f127",
-        "tree": "43152d8aa00233ac56e27bdbce5cd3e77918bc60"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "nestopia",
-        "source_dir": "libretro-nestopia",
-        "output_path": "dist/unix/nestopia_libretro.so",
         "artifact_name": "nestopia_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "cxx",
           "derivation": "hyphen-short7-v1",
-          "value": "-b0fd87d",
-          "compiler_scope": "cxx"
-        }
+          "value": "-b0fd87d"
+        },
+        "output_path": "dist/unix/nestopia_libretro.so",
+        "source_dir": "libretro-nestopia",
+        "source_key": "nestopia"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/nestopia_libretro.info",
-        "artifact_name": "nestopia_libretro.info"
+        "artifact_name": "nestopia_libretro.info",
+        "source_path": "/libretro-super/dist/info/nestopia_libretro.info"
+      },
+      "source": {
+        "commit": "b0fd87dd07e3c52903435d302b04e5e97796f127",
+        "requested_ref": "refs/heads/master",
+        "tree": "43152d8aa00233ac56e27bdbce5cd3e77918bc60",
+        "url": "https://github.com/libretro/nestopia.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-nestopia.yml"
     },
     "np2kai": {
-      "workflow": ".github/workflows/build-np2kai.yml",
-      "source": {
-        "url": "https://github.com/libretro/NP2kai.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "54ec39f50d197cc02909cd4fd2a8591bb38651b0",
-        "tree": "dfb9119f775cdba8a5b0eed464ddfe04dffd7c1a"
-      },
       "build": {
+        "artifact_name": "np2kai_libretro.so",
         "driver": "libretro-super",
-        "source_key": "np2kai",
-        "source_dir": "libretro-np2kai",
         "output_path": "dist/unix/np2kai_libretro.so",
-        "artifact_name": "np2kai_libretro.so"
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/np2kai/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "99d1e50a65ba55af1e39d82d2ebf7147131b433f0e0ecaf455c28ff7a6f741c2",
+              "postimage_sha256": "b89f3bdfa604c0414e294c6e0382dd995e04a01504aeb9f97f8277c9186f2b70",
+              "preimage_sha256": "6f14de3134684c44e2661fb45933facd5779f831395dcef9654cdd7b39b5fb1c",
+              "source_path": "sdl/Makefile.common"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/np2kai/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "99d1e50a65ba55af1e39d82d2ebf7147131b433f0e0ecaf455c28ff7a6f741c2",
+              "postimage_sha256": "b89f3bdfa604c0414e294c6e0382dd995e04a01504aeb9f97f8277c9186f2b70",
+              "preimage_sha256": "6f14de3134684c44e2661fb45933facd5779f831395dcef9654cdd7b39b5fb1c",
+              "source_path": "sdl/Makefile.common"
+            }
+          ]
+        },
+        "source_dir": "libretro-np2kai",
+        "source_key": "np2kai"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/np2kai_libretro.info",
-        "artifact_name": "np2kai_libretro.info"
+        "artifact_name": "np2kai_libretro.info",
+        "source_path": "/libretro-super/dist/info/np2kai_libretro.info"
+      },
+      "source": {
+        "commit": "54ec39f50d197cc02909cd4fd2a8591bb38651b0",
+        "requested_ref": "refs/heads/master",
+        "tree": "dfb9119f775cdba8a5b0eed464ddfe04dffd7c1a",
+        "url": "https://github.com/libretro/NP2kai.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-np2kai.yml"
     },
     "numero": {
-      "workflow": ".github/workflows/build-numero.yml",
-      "source": {
-        "url": "https://github.com/nbarkhina/numero.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "0ffb2f4d1382d41675746cb37820d41d79d96309",
-        "tree": "970f0e7be440eff0f5612d27aafa5cdf10764307"
-      },
       "build": {
+        "artifact_name": "numero_libretro.so",
         "driver": "libretro-super",
-        "source_key": "numero",
-        "source_dir": "libretro-numero",
         "output_path": "dist/unix/numero_libretro.so",
-        "artifact_name": "numero_libretro.so"
+        "source_dir": "libretro-numero",
+        "source_key": "numero"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/numero_libretro.info",
-        "artifact_name": "numero_libretro.info"
+        "artifact_name": "numero_libretro.info",
+        "source_path": "/libretro-super/dist/info/numero_libretro.info"
+      },
+      "source": {
+        "commit": "0ffb2f4d1382d41675746cb37820d41d79d96309",
+        "requested_ref": "refs/heads/master",
+        "tree": "970f0e7be440eff0f5612d27aafa5cdf10764307",
+        "url": "https://github.com/nbarkhina/numero.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-numero.yml"
     },
     "o2em": {
-      "workflow": ".github/workflows/build-o2em.yml",
-      "source": {
-        "url": "https://github.com/libretro/libretro-o2em.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "e03d3be88f79fe940b933e53f1515d97313f6c59",
-        "tree": "fef887dc747594a47e9bed9ac7367d2912b579d1"
-      },
       "build": {
+        "artifact_name": "o2em_libretro.so",
         "driver": "libretro-super",
-        "source_key": "o2em",
-        "source_dir": "libretro-o2em",
         "output_path": "dist/unix/o2em_libretro.so",
-        "artifact_name": "o2em_libretro.so"
+        "source_dir": "libretro-o2em",
+        "source_key": "o2em"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/o2em_libretro.info",
-        "artifact_name": "o2em_libretro.info"
+        "artifact_name": "o2em_libretro.info",
+        "source_path": "/libretro-super/dist/info/o2em_libretro.info"
+      },
+      "source": {
+        "commit": "e03d3be88f79fe940b933e53f1515d97313f6c59",
+        "requested_ref": "refs/heads/master",
+        "tree": "fef887dc747594a47e9bed9ac7367d2912b579d1",
+        "url": "https://github.com/libretro/libretro-o2em.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-o2em.yml"
     },
     "opera": {
-      "workflow": ".github/workflows/build-opera.yml",
-      "source": {
-        "url": "https://github.com/libretro/opera-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "5a4eb964e687ad029f3df51cf535a6e63b414181",
-        "tree": "33540262f3a4cd88ffe537c303d947178a7da95d"
-      },
       "build": {
+        "artifact_name": "opera_libretro.so",
         "driver": "libretro-super",
-        "source_key": "opera",
-        "source_dir": "libretro-opera",
         "output_path": "dist/unix/opera_libretro.so",
-        "artifact_name": "opera_libretro.so"
+        "source_dir": "libretro-opera",
+        "source_key": "opera"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/opera_libretro.info",
-        "artifact_name": "opera_libretro.info"
+        "artifact_name": "opera_libretro.info",
+        "source_path": "/libretro-super/dist/info/opera_libretro.info"
+      },
+      "source": {
+        "commit": "5a4eb964e687ad029f3df51cf535a6e63b414181",
+        "requested_ref": "refs/heads/master",
+        "tree": "33540262f3a4cd88ffe537c303d947178a7da95d",
+        "url": "https://github.com/libretro/opera-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-opera.yml"
     },
     "parallel_n64": {
-      "workflow": ".github/workflows/build-parallel_n64.yml",
-      "source": {
-        "url": "https://github.com/libretro/parallel-n64.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "00c6c9df91d2c2daaae615cefad7911be556fbfa",
-        "tree": "d762ea5fe18afe5f245080082148005f1c7ce811"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "parallel_n64",
-        "source_dir": "libretro-parallel_n64",
-        "output_path": "dist/unix/parallel_n64_libretro.so",
         "artifact_name": "parallel_n64_libretro.so",
-        "source_date_epoch": 1784512327,
+        "driver": "libretro-super",
         "make_variables": {
           "GLES": 1,
           "NOSSE": 1,
           "WITH_DYNAREC": "aarch64"
-        }
+        },
+        "output_path": "dist/unix/parallel_n64_libretro.so",
+        "source_date_epoch": 1784512327,
+        "source_dir": "libretro-parallel_n64",
+        "source_key": "parallel_n64"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/parallel_n64_libretro.info",
-        "artifact_name": "parallel_n64_libretro.info"
+        "artifact_name": "parallel_n64_libretro.info",
+        "source_path": "/libretro-super/dist/info/parallel_n64_libretro.info"
+      },
+      "source": {
+        "commit": "00c6c9df91d2c2daaae615cefad7911be556fbfa",
+        "requested_ref": "refs/heads/master",
+        "tree": "d762ea5fe18afe5f245080082148005f1c7ce811",
+        "url": "https://github.com/libretro/parallel-n64.git"
       },
       "targets": [
         "arm64"
-      ]
+      ],
+      "workflow": ".github/workflows/build-parallel_n64.yml"
     },
     "pcsx_rearmed": {
-      "workflow": ".github/workflows/build-pcsx_rearmed.yml",
-      "source": {
-        "url": "https://github.com/libretro/pcsx_rearmed.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "050981b6eeb715f142854f57c68086f62921f027",
-        "tree": "a6bf9ddaaf02f0b163996a195edf1bfcbd89b01c"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "pcsx_rearmed",
-        "source_dir": "libretro-pcsx_rearmed",
-        "output_path": "dist/unix/pcsx_rearmed_libretro.so",
         "artifact_name": "pcsx_rearmed_libretro.so",
-        "source_date_epoch": 1782602899,
         "compile_definitions": {
           "armhf": [
             "HWCAP2_AES=0",
@@ -2062,32 +2203,32 @@
             "HWCAP2_SHA1=0",
             "HWCAP2_SHA2=0"
           ]
-        }
+        },
+        "driver": "libretro-super",
+        "output_path": "dist/unix/pcsx_rearmed_libretro.so",
+        "source_date_epoch": 1782602899,
+        "source_dir": "libretro-pcsx_rearmed",
+        "source_key": "pcsx_rearmed"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/pcsx_rearmed_libretro.info",
-        "artifact_name": "pcsx_rearmed_libretro.info"
+        "artifact_name": "pcsx_rearmed_libretro.info",
+        "source_path": "/libretro-super/dist/info/pcsx_rearmed_libretro.info"
+      },
+      "source": {
+        "commit": "050981b6eeb715f142854f57c68086f62921f027",
+        "requested_ref": "refs/heads/master",
+        "tree": "a6bf9ddaaf02f0b163996a195edf1bfcbd89b01c",
+        "url": "https://github.com/libretro/pcsx_rearmed.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-pcsx_rearmed.yml"
     },
     "picodrive": {
-      "workflow": ".github/workflows/build-picodrive.yml",
-      "source": {
-        "url": "https://github.com/libretro/picodrive.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "f0d4a0118a9733a1f10bce5a4ac772c474f9300d",
-        "tree": "a9e95a725edb219535032f18d03677361d5657bc"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "picodrive",
-        "source_dir": "libretro-picodrive",
-        "output_path": "libretro-picodrive/picodrive_libretro.so",
         "artifact_name": "picodrive_libretro.so",
-        "source_date_epoch": 1775134253,
         "compile_definitions": {
           "armhf": [
             "HWCAP2_AES=1",
@@ -2096,37 +2237,52 @@
             "HWCAP2_SHA2=8"
           ]
         },
-        "recipe_profile": {
-          "kind": "picodrive-v1",
-          "git_revision": "-f0d4a011",
-          "armhf_host_tools": {
-            "CYCLONE_CC": "gcc",
-            "CYCLONE_CXX": "g++"
-          }
-        },
+        "driver": "libretro-super",
+        "output_path": "libretro-picodrive/picodrive_libretro.so",
         "overlays": {
           "armhf": [
             {
               "kind": "git-apply-v1",
               "patch_path": "patches/picodrive/tools-makefile-single-line-offsets.patch",
               "patch_sha256": "2c442768b54d5ffd52ab06530e67dc582c4f9b0dac8f2d1d9ccea9739444053c",
-              "source_path": "tools/Makefile",
+              "postimage_sha256": "2d36ea4092510e7547274ac4361897c9992ccb7db2362c622c6d9e1d76426843",
               "preimage_sha256": "9c738f02c4afb1b13d95421f74092d9af77b8c8f0f8ae55dfa0e9b7b4f6df44d",
-              "postimage_sha256": "2d36ea4092510e7547274ac4361897c9992ccb7db2362c622c6d9e1d76426843"
+              "source_path": "tools/Makefile"
             }
           ]
-        }
+        },
+        "recipe_profile": {
+          "armhf_host_tools": {
+            "CYCLONE_CC": "gcc",
+            "CYCLONE_CXX": "g++"
+          },
+          "git_revision": "-f0d4a011",
+          "kind": "picodrive-v1"
+        },
+        "source_date_epoch": 1775134253,
+        "source_dir": "libretro-picodrive",
+        "source_key": "picodrive"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/picodrive_libretro.info",
         "artifact_name": "picodrive_libretro.info",
         "replacement": {
           "kind": "whole-file-v1",
           "path": "metadata/picodrive/source-v1.info",
           "preimage_sha256": "35cef57b4b61d95a86e1ceee3a7c325d9d16bbdc136b4b3a556e808864de06c5",
           "replacement_sha256": "ee4443f075c57c90b4d7a99c3a7c7e54ee141b21899dc88a3c8c52152556e181"
-        }
+        },
+        "source_path": "/libretro-super/dist/info/picodrive_libretro.info"
       },
+      "source": {
+        "commit": "f0d4a0118a9733a1f10bce5a4ac772c474f9300d",
+        "requested_ref": "refs/heads/master",
+        "tree": "a9e95a725edb219535032f18d03677361d5657bc",
+        "url": "https://github.com/libretro/picodrive.git"
+      },
+      "targets": [
+        "arm64",
+        "armhf"
+      ],
       "validation": {
         "forbidden_needed_prefixes": [
           "libEGL",
@@ -2138,532 +2294,492 @@
           "libz"
         ]
       },
-      "targets": [
-        "arm64",
-        "armhf"
-      ]
+      "workflow": ".github/workflows/build-picodrive.yml"
     },
     "pokemini": {
-      "workflow": ".github/workflows/build-pokemini.yml",
-      "source": {
-        "url": "https://github.com/libretro/PokeMini.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "bb009b1379ad15f1514f20ca7cbf710b4af42b3e",
-        "tree": "f3a98fcf910c07bd9e0f5ee8466bed7865536c33"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "pokemini",
-        "source_dir": "libretro-pokemini",
-        "output_path": "dist/unix/pokemini_libretro.so",
         "artifact_name": "pokemini_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
           "derivation": "native-space-short7-v1",
           "value": " bb009b1"
-        }
+        },
+        "output_path": "dist/unix/pokemini_libretro.so",
+        "source_dir": "libretro-pokemini",
+        "source_key": "pokemini"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/pokemini_libretro.info",
-        "artifact_name": "pokemini_libretro.info"
+        "artifact_name": "pokemini_libretro.info",
+        "source_path": "/libretro-super/dist/info/pokemini_libretro.info"
+      },
+      "source": {
+        "commit": "bb009b1379ad15f1514f20ca7cbf710b4af42b3e",
+        "requested_ref": "refs/heads/master",
+        "tree": "f3a98fcf910c07bd9e0f5ee8466bed7865536c33",
+        "url": "https://github.com/libretro/PokeMini.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-pokemini.yml"
     },
     "potator": {
-      "workflow": ".github/workflows/build-potator.yml",
-      "source": {
-        "url": "https://github.com/libretro/potator.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "227c5f6f3ce74d32e9002ce24c1420288559a860",
-        "tree": "9111933525a4508075937f251829132cf2081ba9"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "potator",
-        "source_dir": "libretro-potator",
-        "output_path": "dist/unix/potator_libretro.so",
         "artifact_name": "potator_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short7-v1",
-          "value": " 227c5f6",
-          "compiler_scope": "c"
-        }
+          "value": " 227c5f6"
+        },
+        "output_path": "dist/unix/potator_libretro.so",
+        "source_dir": "libretro-potator",
+        "source_key": "potator"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/potator_libretro.info",
-        "artifact_name": "potator_libretro.info"
+        "artifact_name": "potator_libretro.info",
+        "source_path": "/libretro-super/dist/info/potator_libretro.info"
+      },
+      "source": {
+        "commit": "227c5f6f3ce74d32e9002ce24c1420288559a860",
+        "requested_ref": "refs/heads/master",
+        "tree": "9111933525a4508075937f251829132cf2081ba9",
+        "url": "https://github.com/libretro/potator.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-potator.yml"
     },
     "prboom": {
-      "workflow": ".github/workflows/build-prboom.yml",
-      "source": {
-        "url": "https://github.com/libretro/libretro-prboom.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "94adc0554cafbe6628e86408ced27fd8f92bd57d",
-        "tree": "e94b8e9691eb9d712fdc588109b7919ed27b252b"
-      },
       "build": {
+        "artifact_name": "prboom_libretro.so",
         "driver": "libretro-super",
-        "source_key": "prboom",
-        "source_dir": "libretro-prboom",
         "output_path": "dist/unix/prboom_libretro.so",
-        "artifact_name": "prboom_libretro.so"
+        "source_dir": "libretro-prboom",
+        "source_key": "prboom"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/prboom_libretro.info",
-        "artifact_name": "prboom_libretro.info"
+        "artifact_name": "prboom_libretro.info",
+        "source_path": "/libretro-super/dist/info/prboom_libretro.info"
+      },
+      "source": {
+        "commit": "94adc0554cafbe6628e86408ced27fd8f92bd57d",
+        "requested_ref": "refs/heads/master",
+        "tree": "e94b8e9691eb9d712fdc588109b7919ed27b252b",
+        "url": "https://github.com/libretro/libretro-prboom.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-prboom.yml"
     },
     "prosystem": {
-      "workflow": ".github/workflows/build-prosystem.yml",
-      "source": {
-        "url": "https://github.com/libretro/prosystem-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "363b6dfbd3e240762e022c2b4897b4fe55722be3",
-        "tree": "197be1b53019d95ed06658c2a801d0812ef76cf2"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "prosystem",
-        "source_dir": "libretro-prosystem",
-        "output_path": "dist/unix/prosystem_libretro.so",
         "artifact_name": "prosystem_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
           "derivation": "hyphen-short7-v1",
           "value": "-363b6df"
-        }
+        },
+        "output_path": "dist/unix/prosystem_libretro.so",
+        "source_dir": "libretro-prosystem",
+        "source_key": "prosystem"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/prosystem_libretro.info",
-        "artifact_name": "prosystem_libretro.info"
+        "artifact_name": "prosystem_libretro.info",
+        "source_path": "/libretro-super/dist/info/prosystem_libretro.info"
+      },
+      "source": {
+        "commit": "363b6dfbd3e240762e022c2b4897b4fe55722be3",
+        "requested_ref": "refs/heads/master",
+        "tree": "197be1b53019d95ed06658c2a801d0812ef76cf2",
+        "url": "https://github.com/libretro/prosystem-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-prosystem.yml"
     },
     "puae2021": {
-      "workflow": ".github/workflows/build-puae2021.yml",
-      "source": {
-        "url": "https://github.com/libretro/libretro-uae.git",
-        "requested_ref": "refs/heads/2.6.1",
-        "commit": "0fece7d9514e2224530cd252489c8928d49eebca",
-        "tree": "90e86c39361baebcbc7c2a9a302aa88e30034d6a"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "puae2021",
-        "source_dir": "libretro-puae2021",
-        "output_path": "dist/unix/puae2021_libretro.so",
         "artifact_name": "puae2021_libretro.so",
-        "source_date_epoch": 1784565128
+        "driver": "libretro-super",
+        "output_path": "dist/unix/puae2021_libretro.so",
+        "source_date_epoch": 1784565128,
+        "source_dir": "libretro-puae2021",
+        "source_key": "puae2021"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/puae2021_libretro.info",
-        "artifact_name": "puae2021_libretro.info"
+        "artifact_name": "puae2021_libretro.info",
+        "source_path": "/libretro-super/dist/info/puae2021_libretro.info"
+      },
+      "source": {
+        "commit": "0fece7d9514e2224530cd252489c8928d49eebca",
+        "requested_ref": "refs/heads/2.6.1",
+        "tree": "90e86c39361baebcbc7c2a9a302aa88e30034d6a",
+        "url": "https://github.com/libretro/libretro-uae.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-puae2021.yml"
     },
     "puzzlescript": {
-      "workflow": ".github/workflows/build-puzzlescript.yml",
-      "source": {
-        "url": "https://github.com/nwhitehead/pzretro.git",
-        "requested_ref": "refs/heads/main",
-        "commit": "6d859b47092f585a7ec05804c1d51a1676a06531",
-        "tree": "5e215b3f00ceba47f14b81c0b67d6a3d879a08af"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "puzzlescript",
-        "source_dir": "libretro-puzzlescript",
-        "output_path": "dist/unix/puzzlescript_libretro.so",
         "artifact_name": "puzzlescript_libretro.so",
-        "recursive_submodules": false
+        "driver": "libretro-super",
+        "output_path": "dist/unix/puzzlescript_libretro.so",
+        "recursive_submodules": false,
+        "source_dir": "libretro-puzzlescript",
+        "source_key": "puzzlescript"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/puzzlescript_libretro.info",
-        "artifact_name": "puzzlescript_libretro.info"
+        "artifact_name": "puzzlescript_libretro.info",
+        "source_path": "/libretro-super/dist/info/puzzlescript_libretro.info"
+      },
+      "source": {
+        "commit": "6d859b47092f585a7ec05804c1d51a1676a06531",
+        "requested_ref": "refs/heads/main",
+        "tree": "5e215b3f00ceba47f14b81c0b67d6a3d879a08af",
+        "url": "https://github.com/nwhitehead/pzretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-puzzlescript.yml"
     },
     "px68k": {
-      "workflow": ".github/workflows/build-px68k.yml",
-      "source": {
-        "url": "https://github.com/libretro/px68k-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "cc45b55983b4d30c961a313a77df9bcf9461dc63",
-        "tree": "eeb7afbc7ec5480788a29fa335f7be5802b0580f"
-      },
       "build": {
+        "artifact_name": "px68k_libretro.so",
         "driver": "libretro-super",
-        "source_key": "px68k",
-        "source_dir": "libretro-px68k",
         "output_path": "dist/unix/px68k_libretro.so",
-        "artifact_name": "px68k_libretro.so"
+        "source_dir": "libretro-px68k",
+        "source_key": "px68k"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/px68k_libretro.info",
-        "artifact_name": "px68k_libretro.info"
+        "artifact_name": "px68k_libretro.info",
+        "source_path": "/libretro-super/dist/info/px68k_libretro.info"
+      },
+      "source": {
+        "commit": "cc45b55983b4d30c961a313a77df9bcf9461dc63",
+        "requested_ref": "refs/heads/master",
+        "tree": "eeb7afbc7ec5480788a29fa335f7be5802b0580f",
+        "url": "https://github.com/libretro/px68k-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-px68k.yml"
     },
     "quasi88": {
-      "workflow": ".github/workflows/build-quasi88.yml",
-      "source": {
-        "url": "https://github.com/libretro/quasi88-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "520e0a37ac0e9cf8b0536fe83fda3aacc9ba73bb",
-        "tree": "2e2ab44397253236e3b87ee2534cb7483ca90ce9"
-      },
       "build": {
+        "artifact_name": "quasi88_libretro.so",
         "driver": "libretro-super",
-        "source_key": "quasi88",
-        "source_dir": "libretro-quasi88",
         "output_path": "dist/unix/quasi88_libretro.so",
-        "artifact_name": "quasi88_libretro.so"
+        "source_dir": "libretro-quasi88",
+        "source_key": "quasi88"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/quasi88_libretro.info",
-        "artifact_name": "quasi88_libretro.info"
+        "artifact_name": "quasi88_libretro.info",
+        "source_path": "/libretro-super/dist/info/quasi88_libretro.info"
+      },
+      "source": {
+        "commit": "520e0a37ac0e9cf8b0536fe83fda3aacc9ba73bb",
+        "requested_ref": "refs/heads/master",
+        "tree": "2e2ab44397253236e3b87ee2534cb7483ca90ce9",
+        "url": "https://github.com/libretro/quasi88-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-quasi88.yml"
     },
     "quicknes": {
-      "workflow": ".github/workflows/build-quicknes.yml",
-      "source": {
-        "url": "https://github.com/libretro/QuickNES_Core.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "26bb785c9deddb66a17717b21bb4e328f03ade32",
-        "tree": "52de71e4e1acc5a4a039b07f7ed67d425df97a89"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "quicknes",
-        "source_dir": "libretro-quicknes",
-        "output_path": "dist/unix/quicknes_libretro.so",
         "artifact_name": "quicknes_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "cxx",
           "derivation": "hyphen-short7-v1",
-          "value": "-26bb785",
-          "compiler_scope": "cxx"
-        }
+          "value": "-26bb785"
+        },
+        "output_path": "dist/unix/quicknes_libretro.so",
+        "source_dir": "libretro-quicknes",
+        "source_key": "quicknes"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/quicknes_libretro.info",
-        "artifact_name": "quicknes_libretro.info"
+        "artifact_name": "quicknes_libretro.info",
+        "source_path": "/libretro-super/dist/info/quicknes_libretro.info"
+      },
+      "source": {
+        "commit": "26bb785c9deddb66a17717b21bb4e328f03ade32",
+        "requested_ref": "refs/heads/master",
+        "tree": "52de71e4e1acc5a4a039b07f7ed67d425df97a89",
+        "url": "https://github.com/libretro/QuickNES_Core.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-quicknes.yml"
     },
     "race": {
-      "workflow": ".github/workflows/build-race.yml",
-      "source": {
-        "url": "https://github.com/libretro/RACE.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "c7810dd7f172827bfa2004813bc000b13786636b",
-        "tree": "344c09b682f79f2135479bdd0a76d193edfdf167"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "race",
-        "source_dir": "libretro-race",
-        "output_path": "dist/unix/race_libretro.so",
         "artifact_name": "race_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short7-v1",
-          "value": " c7810dd",
-          "compiler_scope": "c"
-        }
+          "value": " c7810dd"
+        },
+        "output_path": "dist/unix/race_libretro.so",
+        "source_dir": "libretro-race",
+        "source_key": "race"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/race_libretro.info",
-        "artifact_name": "race_libretro.info"
+        "artifact_name": "race_libretro.info",
+        "source_path": "/libretro-super/dist/info/race_libretro.info"
+      },
+      "source": {
+        "commit": "c7810dd7f172827bfa2004813bc000b13786636b",
+        "requested_ref": "refs/heads/master",
+        "tree": "344c09b682f79f2135479bdd0a76d193edfdf167",
+        "url": "https://github.com/libretro/RACE.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-race.yml"
     },
     "reminiscence": {
-      "workflow": ".github/workflows/build-reminiscence.yml",
-      "source": {
-        "url": "https://github.com/libretro/REminiscence.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "b0eb4ff6479d3a0f9e327ba595533604713cdb27",
-        "tree": "f5fef5de7e6213d6512b8a6036e21f93f237e985"
-      },
       "build": {
+        "artifact_name": "reminiscence_libretro.so",
         "driver": "libretro-super",
-        "source_key": "reminiscence",
-        "source_dir": "libretro-reminiscence",
         "output_path": "dist/unix/reminiscence_libretro.so",
-        "artifact_name": "reminiscence_libretro.so"
+        "source_dir": "libretro-reminiscence",
+        "source_key": "reminiscence"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/reminiscence_libretro.info",
-        "artifact_name": "reminiscence_libretro.info"
+        "artifact_name": "reminiscence_libretro.info",
+        "source_path": "/libretro-super/dist/info/reminiscence_libretro.info"
+      },
+      "source": {
+        "commit": "b0eb4ff6479d3a0f9e327ba595533604713cdb27",
+        "requested_ref": "refs/heads/master",
+        "tree": "f5fef5de7e6213d6512b8a6036e21f93f237e985",
+        "url": "https://github.com/libretro/REminiscence.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-reminiscence.yml"
     },
     "retro8": {
-      "workflow": ".github/workflows/build-retro8.yml",
-      "source": {
-        "url": "https://github.com/libretro/retro8.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "ddc06a142398ee9755894b3f0bb17c8dc428151d",
-        "tree": "b2d7603bffe84e98130bc62365d65d347d22521e"
-      },
       "build": {
+        "artifact_name": "retro8_libretro.so",
         "driver": "libretro-super",
-        "source_key": "retro8",
-        "source_dir": "libretro-retro8",
         "output_path": "dist/unix/retro8_libretro.so",
-        "artifact_name": "retro8_libretro.so"
+        "source_dir": "libretro-retro8",
+        "source_key": "retro8"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/retro8_libretro.info",
-        "artifact_name": "retro8_libretro.info"
+        "artifact_name": "retro8_libretro.info",
+        "source_path": "/libretro-super/dist/info/retro8_libretro.info"
+      },
+      "source": {
+        "commit": "ddc06a142398ee9755894b3f0bb17c8dc428151d",
+        "requested_ref": "refs/heads/master",
+        "tree": "b2d7603bffe84e98130bc62365d65d347d22521e",
+        "url": "https://github.com/libretro/retro8.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-retro8.yml"
     },
     "sameduck": {
-      "workflow": ".github/workflows/build-sameduck.yml",
-      "source": {
-        "url": "https://github.com/libretro/sameduck.git",
-        "requested_ref": "refs/heads/SameDuck-libretro",
-        "commit": "f0286ee9d6c44950d9a442463ffdb1ff014a5d5b",
-        "tree": "c04c4f24a078b55386a1c62ae3619dde5b5087d9"
-      },
       "build": {
+        "artifact_name": "sameduck_libretro.so",
         "driver": "libretro-super",
-        "source_key": "sameduck",
-        "source_dir": "libretro-sameduck",
         "output_path": "dist/unix/sameduck_libretro.so",
-        "artifact_name": "sameduck_libretro.so"
+        "source_dir": "libretro-sameduck",
+        "source_key": "sameduck"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/sameduck_libretro.info",
-        "artifact_name": "sameduck_libretro.info"
+        "artifact_name": "sameduck_libretro.info",
+        "source_path": "/libretro-super/dist/info/sameduck_libretro.info"
+      },
+      "source": {
+        "commit": "f0286ee9d6c44950d9a442463ffdb1ff014a5d5b",
+        "requested_ref": "refs/heads/SameDuck-libretro",
+        "tree": "c04c4f24a078b55386a1c62ae3619dde5b5087d9",
+        "url": "https://github.com/libretro/sameduck.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-sameduck.yml"
     },
     "snes9x": {
-      "workflow": ".github/workflows/build-snes9x.yml",
-      "source": {
-        "url": "https://github.com/libretro/snes9x.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "185488cd83aaf274752a742c94d45561cbecb7af",
-        "tree": "da7c15404a93174aa0972d8ec053471e6cef064d"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "snes9x",
-        "source_dir": "libretro-snes9x",
-        "output_path": "dist/unix/snes9x_libretro.so",
         "artifact_name": "snes9x_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "cxx",
           "derivation": "hyphen-short7-v1",
-          "value": "-185488c",
-          "compiler_scope": "cxx"
-        }
+          "value": "-185488c"
+        },
+        "output_path": "dist/unix/snes9x_libretro.so",
+        "source_dir": "libretro-snes9x",
+        "source_key": "snes9x"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/snes9x_libretro.info",
-        "artifact_name": "snes9x_libretro.info"
+        "artifact_name": "snes9x_libretro.info",
+        "source_path": "/libretro-super/dist/info/snes9x_libretro.info"
+      },
+      "source": {
+        "commit": "185488cd83aaf274752a742c94d45561cbecb7af",
+        "requested_ref": "refs/heads/master",
+        "tree": "da7c15404a93174aa0972d8ec053471e6cef064d",
+        "url": "https://github.com/libretro/snes9x.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-snes9x.yml"
     },
     "snes9x2002": {
-      "workflow": ".github/workflows/build-snes9x2002.yml",
-      "source": {
-        "url": "https://github.com/libretro/snes9x2002.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "5bd8bd6d449be8a2ef7909e1aeb2bd8c9c0da8cb",
-        "tree": "ba0f22bc1e0eb80c21b6796326704cfe9af80465"
-      },
       "build": {
+        "artifact_name": "snes9x2002_libretro.so",
         "driver": "libretro-super",
-        "source_key": "snes9x2002",
-        "source_dir": "libretro-snes9x2002",
         "output_path": "dist/unix/snes9x2002_libretro.so",
-        "artifact_name": "snes9x2002_libretro.so"
+        "source_dir": "libretro-snes9x2002",
+        "source_key": "snes9x2002"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/snes9x2002_libretro.info",
-        "artifact_name": "snes9x2002_libretro.info"
+        "artifact_name": "snes9x2002_libretro.info",
+        "source_path": "/libretro-super/dist/info/snes9x2002_libretro.info"
+      },
+      "source": {
+        "commit": "5bd8bd6d449be8a2ef7909e1aeb2bd8c9c0da8cb",
+        "requested_ref": "refs/heads/master",
+        "tree": "ba0f22bc1e0eb80c21b6796326704cfe9af80465",
+        "url": "https://github.com/libretro/snes9x2002.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-snes9x2002.yml"
     },
     "snes9x2005": {
-      "workflow": ".github/workflows/build-snes9x2005.yml",
-      "source": {
-        "url": "https://github.com/libretro/snes9x2005.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "b60356971fc9caae02cd0853676dced886a08be7",
-        "tree": "5a13440308796f67a77f7e8fc16bbeee61ab301d"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "snes9x2005",
-        "source_dir": "libretro-snes9x2005",
-        "output_path": "dist/unix/snes9x2005_libretro.so",
         "artifact_name": "snes9x2005_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short7-v1",
-          "value": " b603569",
-          "compiler_scope": "c"
-        }
+          "value": " b603569"
+        },
+        "output_path": "dist/unix/snes9x2005_libretro.so",
+        "source_dir": "libretro-snes9x2005",
+        "source_key": "snes9x2005"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/snes9x2005_libretro.info",
-        "artifact_name": "snes9x2005_libretro.info"
+        "artifact_name": "snes9x2005_libretro.info",
+        "source_path": "/libretro-super/dist/info/snes9x2005_libretro.info"
+      },
+      "source": {
+        "commit": "b60356971fc9caae02cd0853676dced886a08be7",
+        "requested_ref": "refs/heads/master",
+        "tree": "5a13440308796f67a77f7e8fc16bbeee61ab301d",
+        "url": "https://github.com/libretro/snes9x2005.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-snes9x2005.yml"
     },
     "snes9x2005_plus": {
-      "workflow": ".github/workflows/build-snes9x2005_plus.yml",
-      "source": {
-        "url": "https://github.com/libretro/snes9x2005.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "b60356971fc9caae02cd0853676dced886a08be7",
-        "tree": "5a13440308796f67a77f7e8fc16bbeee61ab301d"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "snes9x2005_plus",
-        "source_dir": "libretro-snes9x2005_plus",
-        "output_path": "dist/unix/snes9x2005_plus_libretro.so",
         "artifact_name": "snes9x2005_plus_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "c",
           "derivation": "native-space-short7-v1",
-          "value": " b603569",
-          "compiler_scope": "c"
+          "value": " b603569"
         },
         "make_variables": {
           "USE_BLARGG_APU": 1
-        }
+        },
+        "output_path": "dist/unix/snes9x2005_plus_libretro.so",
+        "source_dir": "libretro-snes9x2005_plus",
+        "source_key": "snes9x2005_plus"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/snes9x2005_plus_libretro.info",
-        "artifact_name": "snes9x2005_plus_libretro.info"
+        "artifact_name": "snes9x2005_plus_libretro.info",
+        "source_path": "/libretro-super/dist/info/snes9x2005_plus_libretro.info"
+      },
+      "source": {
+        "commit": "b60356971fc9caae02cd0853676dced886a08be7",
+        "requested_ref": "refs/heads/master",
+        "tree": "5a13440308796f67a77f7e8fc16bbeee61ab301d",
+        "url": "https://github.com/libretro/snes9x2005.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-snes9x2005_plus.yml"
     },
     "snes9x2010": {
-      "workflow": ".github/workflows/build-snes9x2010.yml",
-      "source": {
-        "url": "https://github.com/libretro/snes9x2010.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "33077919157b990578011d2cce462e58c9e5c985",
-        "tree": "b1ce4512418a0629442c9dad0f1341600c6a6b43"
-      },
       "build": {
+        "artifact_name": "snes9x2010_libretro.so",
         "driver": "libretro-super",
-        "source_key": "snes9x2010",
-        "source_dir": "libretro-snes9x2010",
         "output_path": "dist/unix/snes9x2010_libretro.so",
-        "artifact_name": "snes9x2010_libretro.so"
+        "source_dir": "libretro-snes9x2010",
+        "source_key": "snes9x2010"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/snes9x2010_libretro.info",
-        "artifact_name": "snes9x2010_libretro.info"
+        "artifact_name": "snes9x2010_libretro.info",
+        "source_path": "/libretro-super/dist/info/snes9x2010_libretro.info"
+      },
+      "source": {
+        "commit": "33077919157b990578011d2cce462e58c9e5c985",
+        "requested_ref": "refs/heads/master",
+        "tree": "b1ce4512418a0629442c9dad0f1341600c6a6b43",
+        "url": "https://github.com/libretro/snes9x2010.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-snes9x2010.yml"
     },
     "squirreljme": {
-      "workflow": ".github/workflows/build-squirreljme.yml",
-      "source": {
-        "url": "https://github.com/SquirrelJME/SquirrelJME.git",
-        "requested_ref": "refs/heads/trunk",
-        "commit": "c8de2e47c2994f1c36215dd29d44fecf086f25ca",
-        "tree": "6ea2d4410275f5c022594050177e2c18e11f0458"
-      },
       "build": {
-        "driver": "direct-cmake",
-        "source_dir": "squirreljme",
-        "output_path": "bin/squirreljme_libretro.so",
         "artifact_name": "squirreljme_libretro.so",
-        "source_date_epoch": 1784151532,
-        "overlays": {
-          "armhf": [
-            {
-              "kind": "git-apply-v1",
-              "patch_path": "patches/squirreljme/system-map-arm32-or.patch",
-              "patch_sha256": "3a12c29f58415b18d2d186d5e9cb2cea20038a9d51b582505aeb3b87a1747ab4",
-              "source_path": "nanocoat/cmake/system-map.cmake",
-              "preimage_sha256": "0bfd24c1f4ba5310f2390d001196e5ebc4aefe9357983e53a3ffd12c3de95d16",
-              "postimage_sha256": "ad8f9dc01c811e3f542dd81b759983d8004907b801036e49c9b04dd20b481b95"
-            },
-            {
-              "kind": "git-apply-v1",
-              "patch_path": "patches/squirreljme/decode-host-cc.patch",
-              "patch_sha256": "e2283091d13bf4250a2c8dc3e99c38c990b59b5f00205dbebc6ce83032e3f5d2",
-              "source_path": "nanocoat/cmake/utils/decode/Makefile",
-              "preimage_sha256": "9ce5d7b495f987a587b8bff337b7acb47d5889e2bcf7e4696977ada17ed2afd1",
-              "postimage_sha256": "ec8d8907a0b197b736c24d409d962c5d9ff7f090c7d573d296d6550a47bfb1b3"
-            },
-            {
-              "kind": "git-apply-v1",
-              "patch_path": "patches/squirreljme/sourceize-host-cc.patch",
-              "patch_sha256": "46e9b47b5e5666b9dca8eda5ea8728d0cf9e18e0e439d152e5978f310b502698",
-              "source_path": "nanocoat/cmake/utils/sourceize/Makefile",
-              "preimage_sha256": "c8cd0ea559fc6e2bbcbd8aef7e3e073c366387811dec04faca86a7be8afbb9cd",
-              "postimage_sha256": "fd2369d14042ab70ceff9407f9f1146d40091d7c755ff9ee2f0ba78159ba1886"
-            }
-          ]
-        },
         "cmake": {
-          "generator": "Unix Makefiles",
           "build_type": "Release",
-          "target": "squirreljme_libretro",
+          "defines": {
+            "SQUIRRELJME_ENABLE_FRONTEND_LIBRETRO": "ON"
+          },
+          "generator": "Unix Makefiles",
           "source_subdir": "nanocoat",
           "systems": {
             "armhf": {
@@ -2671,89 +2787,128 @@
               "processor": "arm"
             }
           },
-          "defines": {
-            "SQUIRRELJME_ENABLE_FRONTEND_LIBRETRO": "ON"
-          }
-        }
+          "target": "squirreljme_libretro"
+        },
+        "driver": "direct-cmake",
+        "output_path": "bin/squirreljme_libretro.so",
+        "overlays": {
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/squirreljme/system-map-arm32-or.patch",
+              "patch_sha256": "3a12c29f58415b18d2d186d5e9cb2cea20038a9d51b582505aeb3b87a1747ab4",
+              "postimage_sha256": "ad8f9dc01c811e3f542dd81b759983d8004907b801036e49c9b04dd20b481b95",
+              "preimage_sha256": "0bfd24c1f4ba5310f2390d001196e5ebc4aefe9357983e53a3ffd12c3de95d16",
+              "source_path": "nanocoat/cmake/system-map.cmake"
+            },
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/squirreljme/decode-host-cc.patch",
+              "patch_sha256": "e2283091d13bf4250a2c8dc3e99c38c990b59b5f00205dbebc6ce83032e3f5d2",
+              "postimage_sha256": "ec8d8907a0b197b736c24d409d962c5d9ff7f090c7d573d296d6550a47bfb1b3",
+              "preimage_sha256": "9ce5d7b495f987a587b8bff337b7acb47d5889e2bcf7e4696977ada17ed2afd1",
+              "source_path": "nanocoat/cmake/utils/decode/Makefile"
+            },
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/squirreljme/sourceize-host-cc.patch",
+              "patch_sha256": "46e9b47b5e5666b9dca8eda5ea8728d0cf9e18e0e439d152e5978f310b502698",
+              "postimage_sha256": "fd2369d14042ab70ceff9407f9f1146d40091d7c755ff9ee2f0ba78159ba1886",
+              "preimage_sha256": "c8cd0ea559fc6e2bbcbd8aef7e3e073c366387811dec04faca86a7be8afbb9cd",
+              "source_path": "nanocoat/cmake/utils/sourceize/Makefile"
+            }
+          ]
+        },
+        "source_date_epoch": 1784151532,
+        "source_dir": "squirreljme"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/squirreljme_libretro.info",
-        "artifact_name": "squirreljme_libretro.info"
+        "artifact_name": "squirreljme_libretro.info",
+        "source_path": "/libretro-super/dist/info/squirreljme_libretro.info"
+      },
+      "source": {
+        "commit": "c8de2e47c2994f1c36215dd29d44fecf086f25ca",
+        "requested_ref": "refs/heads/trunk",
+        "tree": "6ea2d4410275f5c022594050177e2c18e11f0458",
+        "url": "https://github.com/SquirrelJME/SquirrelJME.git"
       },
       "targets": [
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-squirreljme.yml"
     },
     "stella2014": {
-      "workflow": ".github/workflows/build-stella2014.yml",
-      "source": {
-        "url": "https://github.com/libretro/stella2014-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "4a7da82595d27b8df7af1ecb467a64b642a41bc9",
-        "tree": "25eb55b1241824f7003eb3006847870672bbe4b2"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "stella2014",
-        "source_dir": "libretro-stella2014",
-        "output_path": "dist/unix/stella2014_libretro.so",
         "artifact_name": "stella2014_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
           "derivation": "native-space-short7-v1",
           "value": " 4a7da82"
-        }
+        },
+        "output_path": "dist/unix/stella2014_libretro.so",
+        "source_dir": "libretro-stella2014",
+        "source_key": "stella2014"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/stella2014_libretro.info",
-        "artifact_name": "stella2014_libretro.info"
+        "artifact_name": "stella2014_libretro.info",
+        "source_path": "/libretro-super/dist/info/stella2014_libretro.info"
+      },
+      "source": {
+        "commit": "4a7da82595d27b8df7af1ecb467a64b642a41bc9",
+        "requested_ref": "refs/heads/master",
+        "tree": "25eb55b1241824f7003eb3006847870672bbe4b2",
+        "url": "https://github.com/libretro/stella2014-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-stella2014.yml"
     },
     "swanstation": {
-      "workflow": ".github/workflows/build-swanstation.yml",
-      "source": {
-        "url": "https://github.com/libretro/swanstation.git",
-        "requested_ref": "refs/heads/main",
-        "commit": "f901022198dacf125d43331c6540492441ab415b",
-        "tree": "c902d31b76bd3919758851e87b0adf1607601c82"
-      },
       "build": {
-        "driver": "direct-cmake",
-        "source_dir": "swanstation",
-        "output_path": "swanstation_libretro.so",
         "artifact_name": "swanstation_libretro.so",
-        "source_date_epoch": 1782767217,
         "cmake": {
-          "generator": "Unix Makefiles",
           "build_type": "Release",
-          "target": "swanstation_libretro",
+          "generator": "Unix Makefiles",
           "systems": {
             "arm64": {
               "name": "Linux",
               "processor": "aarch64"
             }
-          }
+          },
+          "target": "swanstation_libretro"
         },
+        "driver": "direct-cmake",
+        "output_path": "swanstation_libretro.so",
         "overlays": {
           "arm64": [
             {
               "kind": "git-apply-v1",
               "patch_path": "patches/swanstation/openbios-cmake-3.16.patch",
               "patch_sha256": "4cfef36e9516b30853c9f23b1886821ffe21a25769abddd4246310a19e85f423",
-              "source_path": "dep/openbios/CMakeLists.txt",
+              "postimage_sha256": "8c84dfdb832ce0c1440d9db3ed2e8d95df4359f6032727389cc4d760a50756b3",
               "preimage_sha256": "df18f952f03c19525a82ac485cc19abcf360f25d452336b993983a80ae63b870",
-              "postimage_sha256": "8c84dfdb832ce0c1440d9db3ed2e8d95df4359f6032727389cc4d760a50756b3"
+              "source_path": "dep/openbios/CMakeLists.txt"
             }
           ]
-        }
+        },
+        "source_date_epoch": 1782767217,
+        "source_dir": "swanstation"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/swanstation_libretro.info",
-        "artifact_name": "swanstation_libretro.info"
+        "artifact_name": "swanstation_libretro.info",
+        "source_path": "/libretro-super/dist/info/swanstation_libretro.info"
       },
+      "source": {
+        "commit": "f901022198dacf125d43331c6540492441ab415b",
+        "requested_ref": "refs/heads/main",
+        "tree": "c902d31b76bd3919758851e87b0adf1607601c82",
+        "url": "https://github.com/libretro/swanstation.git"
+      },
+      "targets": [
+        "arm64"
+      ],
       "validation": {
         "forbidden_needed_prefixes": [
           "libEGL",
@@ -2768,81 +2923,75 @@
           "libxkb"
         ]
       },
-      "targets": [
-        "arm64"
-      ]
+      "workflow": ".github/workflows/build-swanstation.yml"
     },
     "tgbdual": {
-      "workflow": ".github/workflows/build-tgbdual.yml",
-      "source": {
-        "url": "https://github.com/libretro/tgbdual-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "bf816b096f1dca55ea805337d7c9e78d6b98d839",
-        "tree": "96122db14e9117e875c7ecaec7e77519e8be5636"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "tgbdual",
-        "source_dir": "libretro-tgbdual",
-        "output_path": "dist/unix/tgbdual_libretro.so",
         "artifact_name": "tgbdual_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
+          "compiler_scope": "cxx",
           "derivation": "native-space-short7-v1",
-          "value": " bf816b0",
-          "compiler_scope": "cxx"
-        }
+          "value": " bf816b0"
+        },
+        "output_path": "dist/unix/tgbdual_libretro.so",
+        "source_dir": "libretro-tgbdual",
+        "source_key": "tgbdual"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/tgbdual_libretro.info",
-        "artifact_name": "tgbdual_libretro.info"
+        "artifact_name": "tgbdual_libretro.info",
+        "source_path": "/libretro-super/dist/info/tgbdual_libretro.info"
+      },
+      "source": {
+        "commit": "bf816b096f1dca55ea805337d7c9e78d6b98d839",
+        "requested_ref": "refs/heads/master",
+        "tree": "96122db14e9117e875c7ecaec7e77519e8be5636",
+        "url": "https://github.com/libretro/tgbdual-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-tgbdual.yml"
     },
     "theodore": {
-      "workflow": ".github/workflows/build-theodore.yml",
-      "source": {
-        "url": "https://github.com/Zlika/theodore.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "121ae2513d3ee29f0aaf765a64dc086d57e7a4c7",
-        "tree": "431edd6ada0b1dc0ff148fa57afdf0d9d6da1260"
-      },
       "build": {
+        "artifact_name": "theodore_libretro.so",
         "driver": "libretro-super",
-        "source_key": "theodore",
-        "source_dir": "libretro-theodore",
         "output_path": "dist/unix/theodore_libretro.so",
-        "artifact_name": "theodore_libretro.so"
+        "source_dir": "libretro-theodore",
+        "source_key": "theodore"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/theodore_libretro.info",
-        "artifact_name": "theodore_libretro.info"
+        "artifact_name": "theodore_libretro.info",
+        "source_path": "/libretro-super/dist/info/theodore_libretro.info"
+      },
+      "source": {
+        "commit": "121ae2513d3ee29f0aaf765a64dc086d57e7a4c7",
+        "requested_ref": "refs/heads/master",
+        "tree": "431edd6ada0b1dc0ff148fa57afdf0d9d6da1260",
+        "url": "https://github.com/Zlika/theodore.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-theodore.yml"
     },
     "tic80": {
-      "workflow": ".github/workflows/build-tic80.yml",
-      "source": {
-        "url": "https://github.com/libretro/TIC-80.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "e7f48a30ea3e205810366aad910a2985edcd1f58",
-        "tree": "c3bd599ff7cdbfc72096e2263daf454bc0de8494"
-      },
       "build": {
-        "driver": "direct-cmake",
-        "source_dir": "tic80",
-        "output_path": "bin/tic80_libretro.so",
         "artifact_name": "tic80_libretro.so",
-        "source_date_epoch": 1777441655,
         "cmake": {
-          "generator": "Unix Makefiles",
           "build_type": "Release",
-          "target": "tic80_libretro",
+          "defines": {
+            "BUILD_DEMO_CARTS": "OFF",
+            "BUILD_LIBRETRO": "ON",
+            "BUILD_PLAYER": "OFF",
+            "BUILD_SDL": "OFF",
+            "BUILD_SOKOL": "OFF",
+            "BUILD_WITH_MRUBY": "OFF"
+          },
+          "generator": "Unix Makefiles",
           "source_subdir": "core",
           "systems": {
             "arm64": {
@@ -2854,157 +3003,164 @@
               "processor": "arm"
             }
           },
-          "defines": {
-            "BUILD_PLAYER": "OFF",
-            "BUILD_SOKOL": "OFF",
-            "BUILD_SDL": "OFF",
-            "BUILD_DEMO_CARTS": "OFF",
-            "BUILD_LIBRETRO": "ON",
-            "BUILD_WITH_MRUBY": "OFF"
-          }
-        }
+          "target": "tic80_libretro"
+        },
+        "driver": "direct-cmake",
+        "output_path": "bin/tic80_libretro.so",
+        "source_date_epoch": 1777441655,
+        "source_dir": "tic80"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/tic80_libretro.info",
-        "artifact_name": "tic80_libretro.info"
+        "artifact_name": "tic80_libretro.info",
+        "source_path": "/libretro-super/dist/info/tic80_libretro.info"
+      },
+      "source": {
+        "commit": "e7f48a30ea3e205810366aad910a2985edcd1f58",
+        "requested_ref": "refs/heads/master",
+        "tree": "c3bd599ff7cdbfc72096e2263daf454bc0de8494",
+        "url": "https://github.com/libretro/TIC-80.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-tic80.yml"
     },
     "tyrquake": {
-      "workflow": ".github/workflows/build-tyrquake.yml",
-      "source": {
-        "url": "https://github.com/libretro/tyrquake.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "e57bb11597e8a00380f30f2627d219da960cf69a",
-        "tree": "796dfc170786fcb21a5fd5f5cc9a44f5dd9e1853"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "tyrquake",
-        "source_dir": "libretro-tyrquake",
-        "output_path": "dist/unix/tyrquake_libretro.so",
         "artifact_name": "tyrquake_libretro.so",
-        "source_date_epoch": 1784135314
+        "driver": "libretro-super",
+        "output_path": "dist/unix/tyrquake_libretro.so",
+        "source_date_epoch": 1784135314,
+        "source_dir": "libretro-tyrquake",
+        "source_key": "tyrquake"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/tyrquake_libretro.info",
-        "artifact_name": "tyrquake_libretro.info"
+        "artifact_name": "tyrquake_libretro.info",
+        "source_path": "/libretro-super/dist/info/tyrquake_libretro.info"
+      },
+      "source": {
+        "commit": "e57bb11597e8a00380f30f2627d219da960cf69a",
+        "requested_ref": "refs/heads/master",
+        "tree": "796dfc170786fcb21a5fd5f5cc9a44f5dd9e1853",
+        "url": "https://github.com/libretro/tyrquake.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-tyrquake.yml"
     },
     "uae4arm": {
-      "workflow": ".github/workflows/build-uae4arm.yml",
-      "source": {
-        "url": "https://github.com/libretro/uae4arm-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "dafd48fad7510ebc2f90ebdee8331bbdcf65fd49",
-        "tree": "7d99605e9faecc7c154c30861ebee2a36b9fde18"
-      },
       "build": {
+        "artifact_name": "uae4arm_libretro.so",
         "driver": "libretro-super",
-        "source_key": "uae4arm",
-        "source_dir": "libretro-uae4arm",
         "output_path": "dist/unix/uae4arm_libretro.so",
-        "artifact_name": "uae4arm_libretro.so"
+        "source_dir": "libretro-uae4arm",
+        "source_key": "uae4arm"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/uae4arm_libretro.info",
-        "artifact_name": "uae4arm_libretro.info"
+        "artifact_name": "uae4arm_libretro.info",
+        "source_path": "/libretro-super/dist/info/uae4arm_libretro.info"
+      },
+      "source": {
+        "commit": "dafd48fad7510ebc2f90ebdee8331bbdcf65fd49",
+        "requested_ref": "refs/heads/master",
+        "tree": "7d99605e9faecc7c154c30861ebee2a36b9fde18",
+        "url": "https://github.com/libretro/uae4arm-libretro.git"
       },
       "targets": [
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-uae4arm.yml"
     },
     "uw8": {
-      "workflow": ".github/workflows/build-uw8.yml",
-      "source": {
-        "url": "https://github.com/libretro/uw8-libretro.git",
-        "requested_ref": "refs/heads/main",
-        "commit": "92e0f7a7678de9955002ecce8501eb1be5e46d35",
-        "tree": "b0abb1ab7a2905e1f67df521a800014f7ca89fac"
-      },
       "build": {
+        "artifact_name": "uw8_libretro.so",
         "driver": "libretro-super",
-        "source_key": "uw8",
-        "source_dir": "libretro-uw8",
         "output_path": "dist/unix/uw8_libretro.so",
-        "artifact_name": "uw8_libretro.so"
+        "source_dir": "libretro-uw8",
+        "source_key": "uw8"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/uw8_libretro.info",
-        "artifact_name": "uw8_libretro.info"
+        "artifact_name": "uw8_libretro.info",
+        "source_path": "/libretro-super/dist/info/uw8_libretro.info"
+      },
+      "source": {
+        "commit": "92e0f7a7678de9955002ecce8501eb1be5e46d35",
+        "requested_ref": "refs/heads/main",
+        "tree": "b0abb1ab7a2905e1f67df521a800014f7ca89fac",
+        "url": "https://github.com/libretro/uw8-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-uw8.yml"
     },
     "uzem": {
-      "workflow": ".github/workflows/build-uzem.yml",
-      "source": {
-        "url": "https://github.com/libretro/libretro-uzem.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "d4fe82c38bf3fc789b955bcfcc81dc2e3a2ea89f",
-        "tree": "949f7cb3c2f61295335ea59e35e7d9f031693ac1"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "uzem",
-        "source_dir": "libretro-uzem",
-        "output_path": "dist/unix/uzem_libretro.so",
         "artifact_name": "uzem_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
           "derivation": "native-space-short7-v1",
           "value": " d4fe82c"
-        }
+        },
+        "output_path": "dist/unix/uzem_libretro.so",
+        "source_dir": "libretro-uzem",
+        "source_key": "uzem"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/uzem_libretro.info",
-        "artifact_name": "uzem_libretro.info"
+        "artifact_name": "uzem_libretro.info",
+        "source_path": "/libretro-super/dist/info/uzem_libretro.info"
+      },
+      "source": {
+        "commit": "d4fe82c38bf3fc789b955bcfcc81dc2e3a2ea89f",
+        "requested_ref": "refs/heads/master",
+        "tree": "949f7cb3c2f61295335ea59e35e7d9f031693ac1",
+        "url": "https://github.com/libretro/libretro-uzem.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-uzem.yml"
     },
     "vecx": {
-      "workflow": ".github/workflows/build-vecx.yml",
-      "source": {
-        "url": "https://github.com/libretro/libretro-vecx.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "8f671cc9d737f2890c3ce19e177e2984dcae121f",
-        "tree": "49ae584713edede2a70792ecf6cb744b11fff2e6"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "vecx",
-        "source_dir": "libretro-vecx",
-        "output_path": "dist/unix/vecx_libretro.so",
         "artifact_name": "vecx_libretro.so",
+        "driver": "libretro-super",
         "git_version": {
           "derivation": "native-space-short7-v1",
           "value": " 8f671cc"
         },
         "make_variables": {
           "HAS_GPU": 0
-        }
+        },
+        "output_path": "dist/unix/vecx_libretro.so",
+        "source_dir": "libretro-vecx",
+        "source_key": "vecx"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/vecx_libretro.info",
         "artifact_name": "vecx_libretro.info",
         "replacement": {
           "kind": "whole-file-v1",
           "path": "metadata/vecx/software-v1.info",
           "preimage_sha256": "9eec259b2b84256aca32cdcd37b084732b17d2fce829dac01bab9a84ea01b4e3",
           "replacement_sha256": "2f22e8069a304878b52aeb5d7f789812bf271c61e5c41e0cb0fbd6acb5d28c1a"
-        }
+        },
+        "source_path": "/libretro-super/dist/info/vecx_libretro.info"
       },
+      "source": {
+        "commit": "8f671cc9d737f2890c3ce19e177e2984dcae121f",
+        "requested_ref": "refs/heads/master",
+        "tree": "49ae584713edede2a70792ecf6cb744b11fff2e6",
+        "url": "https://github.com/libretro/libretro-vecx.git"
+      },
+      "targets": [
+        "arm64",
+        "armhf"
+      ],
       "validation": {
         "forbidden_needed_prefixes": [
           "libEGL",
@@ -3013,142 +3169,200 @@
           "libOpenGL"
         ]
       },
-      "targets": [
-        "arm64",
-        "armhf"
-      ]
+      "workflow": ".github/workflows/build-vecx.yml"
     },
     "vemulator": {
-      "workflow": ".github/workflows/build-vemulator.yml",
-      "source": {
-        "url": "https://github.com/libretro/vemulator-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "7fade95506201aed83316cc3f2efe3d7cecf75a7",
-        "tree": "09e8c0ec31c874ea555288c53c975e289e865c0a"
-      },
       "build": {
+        "artifact_name": "vemulator_libretro.so",
         "driver": "libretro-super",
-        "source_key": "vemulator",
-        "source_dir": "libretro-vemulator",
         "output_path": "dist/unix/vemulator_libretro.so",
-        "artifact_name": "vemulator_libretro.so"
+        "source_dir": "libretro-vemulator",
+        "source_key": "vemulator"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/vemulator_libretro.info",
-        "artifact_name": "vemulator_libretro.info"
+        "artifact_name": "vemulator_libretro.info",
+        "source_path": "/libretro-super/dist/info/vemulator_libretro.info"
+      },
+      "source": {
+        "commit": "7fade95506201aed83316cc3f2efe3d7cecf75a7",
+        "requested_ref": "refs/heads/master",
+        "tree": "09e8c0ec31c874ea555288c53c975e289e865c0a",
+        "url": "https://github.com/libretro/vemulator-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-vemulator.yml"
     },
     "vice_x64": {
-      "workflow": ".github/workflows/build-vice_x64.yml",
-      "source": {
-        "url": "https://github.com/libretro/vice-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
-        "tree": "db2760ffc97b9c20ef8777fcb7689082be66bc45"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "vice_x64",
-        "source_dir": "libretro-vice",
-        "output_path": "dist/unix/vice_x64_libretro.so",
         "artifact_name": "vice_x64_libretro.so",
-        "source_date_epoch": 1780486798,
+        "driver": "libretro-super",
         "git_version": {
           "derivation": "native-space-short10-v1",
           "value": " 7946cfa0d3"
-        }
+        },
+        "output_path": "dist/unix/vice_x64_libretro.so",
+        "source_date_epoch": 1780486798,
+        "source_dir": "libretro-vice",
+        "source_key": "vice_x64"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/vice_x64_libretro.info",
-        "artifact_name": "vice_x64_libretro.info"
+        "artifact_name": "vice_x64_libretro.info",
+        "source_path": "/libretro-super/dist/info/vice_x64_libretro.info"
+      },
+      "source": {
+        "commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
+        "requested_ref": "refs/heads/master",
+        "tree": "db2760ffc97b9c20ef8777fcb7689082be66bc45",
+        "url": "https://github.com/libretro/vice-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-vice_x64.yml"
     },
     "vice_xvic": {
-      "workflow": ".github/workflows/build-vice_xvic.yml",
-      "source": {
-        "url": "https://github.com/libretro/vice-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
-        "tree": "db2760ffc97b9c20ef8777fcb7689082be66bc45"
-      },
       "build": {
-        "driver": "libretro-super",
-        "source_key": "vice_xvic",
-        "source_dir": "libretro-vice",
-        "output_path": "dist/unix/vice_xvic_libretro.so",
         "artifact_name": "vice_xvic_libretro.so",
-        "source_date_epoch": 1780486798,
+        "driver": "libretro-super",
         "git_version": {
           "derivation": "native-space-short10-v1",
           "value": " 7946cfa0d3"
-        }
+        },
+        "output_path": "dist/unix/vice_xvic_libretro.so",
+        "source_date_epoch": 1780486798,
+        "source_dir": "libretro-vice",
+        "source_key": "vice_xvic"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/vice_xvic_libretro.info",
-        "artifact_name": "vice_xvic_libretro.info"
+        "artifact_name": "vice_xvic_libretro.info",
+        "source_path": "/libretro-super/dist/info/vice_xvic_libretro.info"
+      },
+      "source": {
+        "commit": "7946cfa0d3775e958616d4d107de867a4616ae6c",
+        "requested_ref": "refs/heads/master",
+        "tree": "db2760ffc97b9c20ef8777fcb7689082be66bc45",
+        "url": "https://github.com/libretro/vice-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-vice_xvic.yml"
     },
     "x1": {
-      "workflow": ".github/workflows/build-x1.yml",
-      "source": {
-        "url": "https://github.com/libretro/xmil-libretro.git",
-        "requested_ref": "refs/heads/master",
-        "commit": "3e7960a433c3bca820f8b8f5511a2b92bd666829",
-        "tree": "dc2993fae86d48789557a4f10295243ea40f3d75"
-      },
       "build": {
+        "artifact_name": "x1_libretro.so",
         "driver": "libretro-super",
-        "source_key": "x1",
-        "source_dir": "libretro-x1",
         "output_path": "dist/unix/x1_libretro.so",
-        "artifact_name": "x1_libretro.so"
+        "source_dir": "libretro-x1",
+        "source_key": "x1"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/x1_libretro.info",
-        "artifact_name": "x1_libretro.info"
+        "artifact_name": "x1_libretro.info",
+        "source_path": "/libretro-super/dist/info/x1_libretro.info"
+      },
+      "source": {
+        "commit": "3e7960a433c3bca820f8b8f5511a2b92bd666829",
+        "requested_ref": "refs/heads/master",
+        "tree": "dc2993fae86d48789557a4f10295243ea40f3d75",
+        "url": "https://github.com/libretro/xmil-libretro.git"
       },
       "targets": [
         "arm64",
         "armhf"
-      ]
+      ],
+      "workflow": ".github/workflows/build-x1.yml"
     },
     "yabasanshiro": {
-      "workflow": ".github/workflows/build-yabasanshiro.yml",
-      "source": {
-        "url": "https://github.com/libretro/yabause.git",
-        "requested_ref": "refs/heads/yabasanshiro",
-        "commit": "f448097b69a6037246a08e9dc09eabaa420d7893",
-        "tree": "44271b2e50ba9d9149cefc0285b09dcf6a4b099b"
-      },
       "build": {
-        "driver": "direct-make",
-        "source_dir": "yabasanshiro",
-        "output_path": "yabause/src/libretro/yabasanshiro_libretro.so",
         "artifact_name": "yabasanshiro_libretro.so",
+        "driver": "direct-make",
         "make_subdir": "yabause/src/libretro",
+        "output_path": "yabause/src/libretro/yabasanshiro_libretro.so",
         "platforms": {
           "arm64": "arm64_cortex_a53_gles3"
-        }
+        },
+        "source_dir": "yabasanshiro"
       },
       "metadata": {
-        "source_path": "/libretro-super/dist/info/yabasanshiro_libretro.info",
-        "artifact_name": "yabasanshiro_libretro.info"
+        "artifact_name": "yabasanshiro_libretro.info",
+        "source_path": "/libretro-super/dist/info/yabasanshiro_libretro.info"
+      },
+      "source": {
+        "commit": "f448097b69a6037246a08e9dc09eabaa420d7893",
+        "requested_ref": "refs/heads/yabasanshiro",
+        "tree": "44271b2e50ba9d9149cefc0285b09dcf6a4b099b",
+        "url": "https://github.com/libretro/yabause.git"
       },
       "targets": [
         "arm64"
-      ]
+      ],
+      "workflow": ".github/workflows/build-yabasanshiro.yml"
+    }
+  },
+  "policy": {
+    "baseline_tier": "imported_baseline",
+    "build_golden_tier": "local_static_build_golden",
+    "promotion_requires": [
+      "exact_source_commit",
+      "coherent_submodule_commits",
+      "exact_toolchain_image_id",
+      "successful_build_exit",
+      "valid_target_elf",
+      "passed_complete_e2e_package",
+      "content_addressed_local_evidence",
+      "exact_toolchain_archive_lock",
+      "source_commit_not_actively_blacklisted"
+    ],
+    "publication": "disabled",
+    "source_pins": "full-commit-sha-only"
+  },
+  "resolver": {
+    "build_script_path": "libretro-build.sh",
+    "build_script_sha256": "ebca198e4fd9552f26f9b05b4d748ab4ac8014d462b218dd6a03d7558cf50b86",
+    "core_rules_path": "rules.d/core-rules.sh",
+    "core_rules_sha256": "9dd1f19559af005600fc49b020fad6bb790cc9c7ad989ec8d438672a4de8f266",
+    "fetch_script_path": "libretro-fetch.sh",
+    "fetch_script_sha256": "f4076398ed19be8c189b01590385b598e69644bab9d9be299931c2273b500e00",
+    "libretro_super_commit": "60f5c62789af16379446544d64228afa1d6b28b7"
+  },
+  "schema_version": 2,
+  "toolchain_lock": {
+    "content_sha256": "253f7d84cc71fa859553fa05fab4c2356b842196104953b092501850c217a794",
+    "file_sha256": "7606e9357490f451df4374d38aad73a0426e3bb956a732dcaaa6b32393ee8639",
+    "lock_id": "local-cache-v1",
+    "path": "pins/toolchains/local-cache-v1.json",
+    "schema_version": 1
+  },
+  "toolchain_lock_validator": {
+    "path": "scripts/toolchain_archive.py",
+    "sha256": "b2493119922f6a83b341be34d217f45b63ac4befc98cd76065c097d42e943f8c"
+  },
+  "toolchains": {
+    "arm64": {
+      "dockerfile": "Dockerfile.arm64",
+      "dockerfile_linkage": "unverified-local-cache",
+      "dockerfile_sha256": "1ddcbe99070a7ca3f72a61ea949186249ff5d9092f7946a7196d506bca7a1514",
+      "image": "cores-arm64:latest",
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9"
+    },
+    "armhf": {
+      "dockerfile": "Dockerfile.armhf",
+      "dockerfile_linkage": "unverified-local-cache",
+      "dockerfile_sha256": "25ea28e7a00905fd94efe548fbec3abb762a2a949513762f7dfc86df254c44fb",
+      "image": "cores-armhf:latest",
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9"
+    },
+    "rust": {
+      "dockerfile": "Dockerfile.rust",
+      "dockerfile_linkage": "unverified-local-cache",
+      "dockerfile_sha256": "1f07776357a22e92a08e1dfb05065a75ab6fb28d10f1969af8ac29fd5203c0bf",
+      "image": "cores-rust:latest",
+      "image_id": "sha256:aa42a12ced6bd0d1c9dcb528f170c14fe80157f0650cab52f9a37e90ec2da5b6"
     }
   }
 }
