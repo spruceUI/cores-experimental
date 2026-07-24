@@ -2435,6 +2435,28 @@
         "artifact_name": "puzzlescript_libretro.so",
         "driver": "libretro-super",
         "output_path": "dist/unix/puzzlescript_libretro.so",
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/puzzlescript/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "e54095d495afa808e85a7b9fba1d40b4f13ef6752427574f147559590dc6eec3",
+              "postimage_sha256": "9d352d25d505960c88b9ce5b9ed5b8dcfb9cc84d4fe930dab291da9971cc67a3",
+              "preimage_sha256": "e595621d8fe6baa97ae357ef6dd2f70a18d2c2cca6b747b8c2d5a89c434f531c",
+              "source_path": "Makefile.common"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/puzzlescript/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "e54095d495afa808e85a7b9fba1d40b4f13ef6752427574f147559590dc6eec3",
+              "postimage_sha256": "9d352d25d505960c88b9ce5b9ed5b8dcfb9cc84d4fe930dab291da9971cc67a3",
+              "preimage_sha256": "e595621d8fe6baa97ae357ef6dd2f70a18d2c2cca6b747b8c2d5a89c434f531c",
+              "source_path": "Makefile.common"
+            }
+          ]
+        },
         "recursive_submodules": false,
         "source_dir": "libretro-puzzlescript",
         "source_key": "puzzlescript"
@@ -2590,6 +2612,28 @@
         "artifact_name": "retro8_libretro.so",
         "driver": "libretro-super",
         "output_path": "dist/unix/retro8_libretro.so",
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/retro8/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "4169d33ee8eea2a421ed93422db75d449fd6225b8143dcd42ccfabb6b48914d5",
+              "postimage_sha256": "55a526e701f3be41d2ac435253968433fa4eaac291dc2463b6056e2f6b635fd3",
+              "preimage_sha256": "7c5bde4d58473199fae85583db9709758df13290dcdfff9a9f58edfd62ec082e",
+              "source_path": "Makefile.common"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/retro8/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "4169d33ee8eea2a421ed93422db75d449fd6225b8143dcd42ccfabb6b48914d5",
+              "postimage_sha256": "55a526e701f3be41d2ac435253968433fa4eaac291dc2463b6056e2f6b635fd3",
+              "preimage_sha256": "7c5bde4d58473199fae85583db9709758df13290dcdfff9a9f58edfd62ec082e",
+              "source_path": "Makefile.common"
+            }
+          ]
+        },
         "source_dir": "libretro-retro8",
         "source_key": "retro8"
       },
@@ -3258,6 +3302,28 @@
         "artifact_name": "x1_libretro.so",
         "driver": "libretro-super",
         "output_path": "dist/unix/x1_libretro.so",
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/x1/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "fa34cfb048a1d33aa09f7c68aacea2a81b88ae56aa67e080050fbcdaee455bcb",
+              "postimage_sha256": "a942669a2d3d6d73524d1a77bcd6ac1f40be4d774a72db92c7203c0e71948cdc",
+              "preimage_sha256": "77b35d9d6e9694b2f0d2e8333bc413090d42a2269a9f04517585b0123d0dd5fc",
+              "source_path": "libretro/Makefile.common"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/x1/makefile-sort-wildcard-sources.patch",
+              "patch_sha256": "fa34cfb048a1d33aa09f7c68aacea2a81b88ae56aa67e080050fbcdaee455bcb",
+              "postimage_sha256": "a942669a2d3d6d73524d1a77bcd6ac1f40be4d774a72db92c7203c0e71948cdc",
+              "preimage_sha256": "77b35d9d6e9694b2f0d2e8333bc413090d42a2269a9f04517585b0123d0dd5fc",
+              "source_path": "libretro/Makefile.common"
+            }
+          ]
+        },
         "source_dir": "libretro-x1",
         "source_key": "x1"
       },
