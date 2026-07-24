@@ -37,10 +37,10 @@ CROCODS_EXPECTED_LINK_OBJECT_SHA256 = (
 CROCODS_EXPECTED_RAW_LINK_OBJECT_SHA256 = (
     "45a5d42f201875a4a970ff9ad12610e0fce3c0f9c7df7bd635eee7aa40d1bbc1"
 )
-CROCODS_EXPECTED_LINK_INVOCATION_SHA256 = {
-    "arm64": "2d6a66efb6c684a17ad46c06f8289ffa20da3cc1576415837e3204fff0ea4d94",
-    "armhf": "876a2f547960e06b07e4b0f937420eb876e104bbe14fc6e310439b0e8f6ee0ad",
-}
+# No link-invocation pin: the Makefile's object list is filesystem enumeration
+# order, which differs per host (GitHub runners produced the identical
+# object multiset in a different order). The link stays pinned by the
+# order-tolerant object multisets and the ordered option set.
 CROCODS_EXPECTED_LINK_OPTIONS = (
     "-fPIC",
     "-shared",
@@ -386,9 +386,6 @@ CROCODS_EXACT_LOG_CONTRACT = COnlyLogContract(
     source_tree=CROCODS_NATIVE_GIT_VERSION_SPEC_IDENTITY["source_tree"],
     expected_raw_link_object_sha256=(
         CROCODS_EXPECTED_RAW_LINK_OBJECT_SHA256
-    ),
-    expected_link_invocation_sha256=(
-        CROCODS_EXPECTED_LINK_INVOCATION_SHA256
     ),
 )
 

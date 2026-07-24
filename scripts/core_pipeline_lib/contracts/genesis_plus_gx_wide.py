@@ -28,10 +28,10 @@ GENESIS_PLUS_GX_WIDE_LINK_OBJECT_SHA256 = (
 GENESIS_PLUS_GX_WIDE_RAW_LINK_OBJECT_SHA256 = (
     "ba4396294516013831bd08a87deb9437b1ad4949730820ce397a94e9d75fad0f"
 )
-GENESIS_PLUS_GX_WIDE_LINK_INVOCATION_SHA256 = {
-    "arm64": "e510f0e940003d7582a74495689b800610fab1a083545be1f0359b22995ed0bc",
-    "armhf": "dbee2ead17bebf265ed2e3b010713e3f00fa4edb643bcc7ab57ef850ed66645d",
-}
+# No link-invocation pin: the Makefile's object list is filesystem enumeration
+# order, which differs per host (GitHub runners produced the identical
+# object multiset in a different order). The link stays pinned by the
+# order-tolerant object multisets and the ordered option set.
 GENESIS_PLUS_GX_WIDE_BUILD_ARTIFACT_NAME = (
     "genesis_plus_gx_wide_libretro.so"
 )
@@ -227,9 +227,6 @@ GENESIS_PLUS_GX_WIDE_LOG_CONTRACT = COnlyLogContract(
     ),
     expected_raw_link_object_sha256=(
         GENESIS_PLUS_GX_WIDE_RAW_LINK_OBJECT_SHA256
-    ),
-    expected_link_invocation_sha256=(
-        GENESIS_PLUS_GX_WIDE_LINK_INVOCATION_SHA256
     ),
 )
 
