@@ -1,0 +1,19 @@
+diff --git a/Makefile b/Makefile
+--- a/Makefile
++++ b/Makefile
+@@ -245,7 +245,7 @@
+ all: $(OUTNAME)
+ 
+ $(info Building $(OUTNAME) with $(BUILD) configuration (obj files stored in build/$(BUILDDIR)) ...)
+-SOURCES := $(wildcard $(SOURCES))
++SOURCES := $(sort $(wildcard $(SOURCES)))
+ $(if $(findstring ~,$(SOURCES)),$(error SOURCES contains a filename with a ~ character in it - Unable to continue))
+ $(if $(wildcard build),,$(shell mkdir "build"))
+ $(if $(wildcard build/$(BUILDDIR)),,$(shell mkdir "build/$(BUILDDIR)"))
+@@ -271,5 +271,5 @@
+ 
+ define COMPILE
+ 	$(info Compiling $2 ...)
+-	@$(CXX) $(CFLAGS) -MMD -MP -o $1 -c $2
++	$(CXX) $(CFLAGS) -MMD -MP -o $1 -c $2
+ endef

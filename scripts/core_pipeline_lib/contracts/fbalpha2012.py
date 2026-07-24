@@ -48,6 +48,22 @@ SPEC_GUARD_MESSAGE = (
 )
 
 
+FBALPHA2012_SORT_OVERLAY = {
+    "kind": "git-apply-v1",
+    "patch_path": "patches/fbalpha2012/makefile-sort-wildcard-sources.patch",
+    "patch_sha256": (
+        "9dbe1009ffb89b8eb502aab8bd42b7220622c8c56633c60f1a63473ef036de8c"
+    ),
+    "source_path": "svn-current/trunk/makefile.libretro",
+    "preimage_sha256": (
+        "166aa6cedbbd84c7daa378a9e4f6e135183590644bb9e0014f5063718dfc7e45"
+    ),
+    "postimage_sha256": (
+        "cd53fdeae5bd23b26f348c4cd0d2b64f5d3b2e8695a976950ae620e41310e349"
+    ),
+}
+
+
 def fbalpha2012_spec_is_well_formed(spec: object) -> bool:
     """Require FB Alpha 2012's exact immutable catalog identity."""
 
@@ -69,6 +85,10 @@ def fbalpha2012_spec_is_well_formed(spec: object) -> bool:
                 "source_dir": identity["source_dir"],
                 "output_path": identity["output_path"],
                 "artifact_name": identity["artifact_name"],
+                "overlays": {
+                    "arm64": [dict(FBALPHA2012_SORT_OVERLAY)],
+                    "armhf": [dict(FBALPHA2012_SORT_OVERLAY)],
+                },
             },
             "metadata": {
                 "source_path": identity["metadata_source_path"],

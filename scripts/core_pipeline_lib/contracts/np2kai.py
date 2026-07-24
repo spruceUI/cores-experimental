@@ -48,6 +48,22 @@ SPEC_GUARD_MESSAGE = (
 )
 
 
+NP2KAI_SORT_OVERLAY = {
+    "kind": "git-apply-v1",
+    "patch_path": "patches/np2kai/makefile-sort-wildcard-sources.patch",
+    "patch_sha256": (
+        "99d1e50a65ba55af1e39d82d2ebf7147131b433f0e0ecaf455c28ff7a6f741c2"
+    ),
+    "source_path": "sdl/Makefile.common",
+    "preimage_sha256": (
+        "6f14de3134684c44e2661fb45933facd5779f831395dcef9654cdd7b39b5fb1c"
+    ),
+    "postimage_sha256": (
+        "b89f3bdfa604c0414e294c6e0382dd995e04a01504aeb9f97f8277c9186f2b70"
+    ),
+}
+
+
 def np2kai_spec_is_well_formed(spec: object) -> bool:
     """Require NP2kai's exact immutable catalog identity."""
 
@@ -69,6 +85,10 @@ def np2kai_spec_is_well_formed(spec: object) -> bool:
                 "source_dir": identity["source_dir"],
                 "output_path": identity["output_path"],
                 "artifact_name": identity["artifact_name"],
+                "overlays": {
+                    "arm64": [dict(NP2KAI_SORT_OVERLAY)],
+                    "armhf": [dict(NP2KAI_SORT_OVERLAY)],
+                },
             },
             "metadata": {
                 "source_path": identity["metadata_source_path"],

@@ -1,0 +1,21 @@
+diff --git a/libretro/Makefile.common b/libretro/Makefile.common
+--- a/libretro/Makefile.common
++++ b/libretro/Makefile.common
+@@ -44,7 +44,7 @@
+                 $(LIBRETRO_DEPS_DIR)/libchdr/src/libchdr_huffman.c
+ endif
+ 
+-SOURCES_C += $(foreach dir,$(GENPLUS_SRC_DIR),$(wildcard $(dir)/*.c))
++SOURCES_C += $(foreach dir,$(GENPLUS_SRC_DIR),$(sort $(wildcard $(dir)/*.c)))
+ 
+ ifneq ($(STATIC_LINKING), 1)
+ SOURCES_C += \
+@@ -84,7 +84,7 @@
+ 
+ endif
+ 
+-SOURCES_C += $(foreach dir,$(TREMOR_SRC_DIR),$(wildcard $(dir)/*.c))
++SOURCES_C += $(foreach dir,$(TREMOR_SRC_DIR),$(sort $(wildcard $(dir)/*.c)))
+ 
+ SOURCES_C += $(LIBRETRO_DIR)/libretro.c
+ 

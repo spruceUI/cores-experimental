@@ -214,7 +214,40 @@ GENESIS_PLUS_GX_WIDE_NATIVE_GIT_VERSION_SPEC_IDENTITY = {
     "metadata_artifact_name": "genesis_plus_gx_wide_libretro.info",
     "targets": ["arm64", "armhf"],
     "compiler_scope": "c",
-    "native_makefile": "Makefile.libretro",
+    "native_makefile": "Makefile.libretro",    "overlays": {
+        "arm64": [
+            {
+                "kind": "git-apply-v1",
+                "patch_path": "patches/genesis_plus_gx_wide/makefile-sort-wildcard-sources.patch",
+                "patch_sha256": (
+                    "c7e9bb397878b30d5012e9932005dbbe6ece146b859485737e1cf29cef00d87a"
+                ),
+                "source_path": "libretro/Makefile.common",
+                "preimage_sha256": (
+                    "6b6b82ec878235104364b2c011b95b689683630d8bc4ceefd4344900af079a50"
+                ),
+                "postimage_sha256": (
+                    "0d1bc24fbb4085a5894977ac5a6e743658e786245320551f6be640899677af2c"
+                ),
+            }
+        ],
+        "armhf": [
+            {
+                "kind": "git-apply-v1",
+                "patch_path": "patches/genesis_plus_gx_wide/makefile-sort-wildcard-sources.patch",
+                "patch_sha256": (
+                    "c7e9bb397878b30d5012e9932005dbbe6ece146b859485737e1cf29cef00d87a"
+                ),
+                "source_path": "libretro/Makefile.common",
+                "preimage_sha256": (
+                    "6b6b82ec878235104364b2c011b95b689683630d8bc4ceefd4344900af079a50"
+                ),
+                "postimage_sha256": (
+                    "0d1bc24fbb4085a5894977ac5a6e743658e786245320551f6be640899677af2c"
+                ),
+            }
+        ],
+    },
 }
 
 GENESIS_PLUS_GX_WIDE_LOG_CONTRACT = COnlyLogContract(

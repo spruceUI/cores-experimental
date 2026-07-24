@@ -130,6 +130,10 @@ def _exact_spec() -> dict:
             "source_dir": identity["source_dir"],
             "output_path": identity["output_path"],
             "artifact_name": identity["artifact_name"],
+        "overlays": {
+            "arm64": [dict(FBNEO_SORT_OVERLAY)],
+            "armhf": [dict(FBNEO_SORT_OVERLAY)],
+        },
             "compile_definitions": {
                 "armhf": FBNEO_ARMHF_COMPILE_DEFINITIONS,
             },
@@ -154,6 +158,22 @@ SPEC_GUARD_MESSAGE = (
     "version/date, command-scoped Make recipe, source, "
     "epoch, metadata, target, and dependency contract"
 )
+
+
+FBNEO_SORT_OVERLAY = {
+    "kind": "git-apply-v1",
+    "patch_path": "patches/fbneo/makefile-sort-wildcard-sources.patch",
+    "patch_sha256": (
+        "36359710caa6b337253ea7acf3cc0fe43083a3eb1977f62cc764fd888eceb54e"
+    ),
+    "source_path": "src/burner/libretro/Makefile.all",
+    "preimage_sha256": (
+        "b7030bbeb7c69a46e846084a1a852c972d5360b8f319caca987dc1ec9dfefb73"
+    ),
+    "postimage_sha256": (
+        "d7e2bd630fffafb6def25a52295e2b582fe5bcf31b8e246dcadc53f2f437bc0b"
+    ),
+}
 
 
 def fbneo_spec_is_well_formed(spec: object) -> bool:

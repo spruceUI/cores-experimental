@@ -362,7 +362,40 @@ CROCODS_NATIVE_GIT_VERSION_SPEC_IDENTITY = {
     "metadata_artifact_name": "crocods_libretro.info",
     "targets": ["arm64", "armhf"],
     "compiler_scope": "c",
-    "native_makefile": "Makefile",
+    "native_makefile": "Makefile",    "overlays": {
+        "arm64": [
+            {
+                "kind": "git-apply-v1",
+                "patch_path": "patches/crocods/makefile-sort-wildcard-sources.patch",
+                "patch_sha256": (
+                    "21f21bfb4767720d9725a01407e6997f9d0b4cc7935a2ba89747260d68938d7e"
+                ),
+                "source_path": "Makefile.common",
+                "preimage_sha256": (
+                    "fe5461c9ae99f2e284ceb446123802f9c8e6e2a23dc55c2759879428db3ea8fd"
+                ),
+                "postimage_sha256": (
+                    "5a5cbef2a305f117d1971f4a081f65c4ff426425e00a99012a5ad6ebb755bad1"
+                ),
+            }
+        ],
+        "armhf": [
+            {
+                "kind": "git-apply-v1",
+                "patch_path": "patches/crocods/makefile-sort-wildcard-sources.patch",
+                "patch_sha256": (
+                    "21f21bfb4767720d9725a01407e6997f9d0b4cc7935a2ba89747260d68938d7e"
+                ),
+                "source_path": "Makefile.common",
+                "preimage_sha256": (
+                    "fe5461c9ae99f2e284ceb446123802f9c8e6e2a23dc55c2759879428db3ea8fd"
+                ),
+                "postimage_sha256": (
+                    "5a5cbef2a305f117d1971f4a081f65c4ff426425e00a99012a5ad6ebb755bad1"
+                ),
+            }
+        ],
+    },
 }
 CROCODS_LOG_CONTRACT = CpcLogContract(
     core_id=CROCODS_CORE_ID,

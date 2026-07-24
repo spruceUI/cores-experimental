@@ -1,0 +1,12 @@
+diff --git a/Makefile.common b/Makefile.common
+--- a/Makefile.common
++++ b/Makefile.common
+@@ -26,7 +26,7 @@
+ 	$(CORE_DIR)/boards \
+ 	$(CORE_DIR)/input
+ 
+-SOURCES_C := $(foreach dir,$(FCEU_SRC_DIRS),$(wildcard $(dir)/*.c))
++SOURCES_C := $(foreach dir,$(FCEU_SRC_DIRS),$(sort $(wildcard $(dir)/*.c)))
+ 
+ ifeq ($(HAVE_NTSC),1)
+ 	COREDEFINES += \

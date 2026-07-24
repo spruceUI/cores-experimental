@@ -1,0 +1,31 @@
+diff --git a/Makefile.common b/Makefile.common
+--- a/Makefile.common
++++ b/Makefile.common
+@@ -1,5 +1,5 @@
+ # ChaiLove
+-SOURCES_CXX := $(wildcard \
++SOURCES_CXX := $(sort $(wildcard \
+ 	$(CORE_DIR)/src/*.cpp \
+ 	$(CORE_DIR)/src/love/*.cpp \
+ 	$(CORE_DIR)/src/love/Types/Audio/*.cpp \
+@@ -7,7 +7,7 @@
+ 	$(CORE_DIR)/src/love/Types/FileSystem/*.cpp \
+ 	$(CORE_DIR)/src/love/Types/Graphics/*.cpp \
+ 	$(CORE_DIR)/src/love/Types/Input/*.cpp \
+-)
++))
+ SOURCES_S =
+ FLAGS += -Wfatal-errors
+ 
+@@ -107,9 +107,9 @@
+ 	-DPHYSFS_PLATFORM_LIBRETRO \
+ 	-DPHYSFS_PLATFORM_LIBRETRO_NO_THREADS=1
+ 
+-SOURCES_C += $(wildcard \
++SOURCES_C += $(sort $(wildcard \
+ 	$(PHYSFS_DIR)/src/*.c \
+-)
++))
+ ifeq ($(platform), osx)
+ #	LDFLAGS += -mmacosx-version-min=10.2
+ 	LDFLAGS += -framework IOKit -framework Foundation

@@ -68,6 +68,22 @@ SPEC_GUARD_MESSAGE = (
 )
 
 
+CHAILOVE_SORT_OVERLAY = {
+    "kind": "git-apply-v1",
+    "patch_path": "patches/chailove/makefile-sort-wildcard-sources.patch",
+    "patch_sha256": (
+        "b884ba1e7eaf87a2b6b4dbb86a0dd32634a96ac63e00267895dfb436bd9672a7"
+    ),
+    "source_path": "Makefile.common",
+    "preimage_sha256": (
+        "102b5bdd1cde3dbc351c9adf2a980c1366178188de84a3cdbdc38177408624e3"
+    ),
+    "postimage_sha256": (
+        "41fb5860c3604d83d5ea9551bc34e7f689ec69a2e87f3c5f3d8b5d59ac0b77d0"
+    ),
+}
+
+
 def chailove_spec_is_well_formed(spec: object) -> bool:
     """Require ChaiLove's exact immutable catalog identity."""
 
@@ -90,8 +106,8 @@ def chailove_spec_is_well_formed(spec: object) -> bool:
                 "output_path": identity["output_path"],
                 "artifact_name": identity["artifact_name"],
                 "overlays": {
-                    "arm64": [dict(CHAILOVE_OVERLAY)],
-                    "armhf": [dict(CHAILOVE_OVERLAY)],
+                    "arm64": [dict(CHAILOVE_OVERLAY), dict(CHAILOVE_SORT_OVERLAY)],
+                    "armhf": [dict(CHAILOVE_OVERLAY), dict(CHAILOVE_SORT_OVERLAY)],
                 },
             },
             "metadata": {

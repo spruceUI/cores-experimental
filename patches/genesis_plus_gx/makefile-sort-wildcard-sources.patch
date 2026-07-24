@@ -1,0 +1,21 @@
+diff --git a/libretro/Makefile.common b/libretro/Makefile.common
+--- a/libretro/Makefile.common
++++ b/libretro/Makefile.common
+@@ -57,7 +57,7 @@
+                 $(LIBRETRO_DEPS_DIR)/zstd/lib/decompress/zstd_decompress_block.c
+ endif
+ 
+-SOURCES_C += $(foreach dir,$(GENPLUS_SRC_DIR),$(wildcard $(dir)/*.c))
++SOURCES_C += $(foreach dir,$(GENPLUS_SRC_DIR),$(sort $(wildcard $(dir)/*.c)))
+ 
+ ifneq ($(STATIC_LINKING), 1)
+ SOURCES_C += \
+@@ -99,7 +99,7 @@
+ endif
+ 
+ ifeq ($(SHARED_LIBVORBIS),)
+-   SOURCES_C += $(foreach dir,$(TREMOR_SRC_DIR),$(wildcard $(dir)/*.c))
++   SOURCES_C += $(foreach dir,$(TREMOR_SRC_DIR),$(sort $(wildcard $(dir)/*.c)))
+ endif
+ 
+ SOURCES_C += $(LIBRETRO_DIR)/libretro.c

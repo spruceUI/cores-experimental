@@ -1,0 +1,15 @@
+diff --git a/platform/LibRetro/Makefile.common b/platform/LibRetro/Makefile.common
+--- a/platform/LibRetro/Makefile.common
++++ b/platform/LibRetro/Makefile.common
+@@ -22,8 +22,8 @@
+ endif
+ 
+ # Add C sourcecode files to this
+-SOURCES_C     :=  $(wildcard ../../core/*.c)\
+-                  $(wildcard ../../core/*/*.c)\
+-                  $(wildcard ../../libretro/*.c)
++SOURCES_C     :=  $(sort $(wildcard ../../core/*.c))\
++                  $(sort $(wildcard ../../core/*/*.c))\
++                  $(sort $(wildcard ../../libretro/*.c))
+ 
+ # Add C++ sourcecode files to this

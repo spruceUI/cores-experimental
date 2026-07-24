@@ -62,6 +62,22 @@ LOWRESNX_NATIVE_GIT_VERSION_SPEC_IDENTITY = {
 }
 
 
+LOWRESNX_SORT_OVERLAY = {
+    "kind": "git-apply-v1",
+    "patch_path": "patches/lowresnx/makefile-sort-wildcard-sources.patch",
+    "patch_sha256": (
+        "462d4c896de62c6c94f783e02a117912d5d3c80c514cb7f9984d6046f31d7012"
+    ),
+    "source_path": "platform/LibRetro/Makefile.common",
+    "preimage_sha256": (
+        "14dbfd87d5517ebb99f1cdb58a2c3900f3f5feb9f94f15a425a3f0451da7a38d"
+    ),
+    "postimage_sha256": (
+        "ac5b5ea3ff2610095a449247a84a5fd5c59409150ac0106ef131e9ae91449582"
+    ),
+}
+
+
 def lowresnx_spec_is_well_formed(spec: object) -> bool:
     """Require LowRes NX's complete immutable catalog identity."""
 
@@ -83,6 +99,10 @@ def lowresnx_spec_is_well_formed(spec: object) -> bool:
                 "source_dir": identity["source_dir"],
                 "output_path": identity["output_path"],
                 "artifact_name": identity["artifact_name"],
+                "overlays": {
+                    "arm64": [dict(LOWRESNX_SORT_OVERLAY)],
+                    "armhf": [dict(LOWRESNX_SORT_OVERLAY)],
+                },
                 "git_version": {
                     "derivation": LOWRESNX_NATIVE_GIT_VERSION_DERIVATION,
                     "value": LOWRESNX_NATIVE_GIT_VERSION,

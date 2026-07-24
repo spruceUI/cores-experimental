@@ -77,6 +77,22 @@ SPEC_GUARD_MESSAGE = (
 )
 
 
+DOSBOX_PURE_SORT_OVERLAY = {
+    "kind": "git-apply-v1",
+    "patch_path": "patches/dosbox_pure/makefile-echo-and-sort.patch",
+    "patch_sha256": (
+        "e153114cd471eaab74c25387632caf67c17c1a1a7f3182f8d9989961bdc3e0ca"
+    ),
+    "source_path": "Makefile",
+    "preimage_sha256": (
+        "5173c065012911a306f9554212b0fb40fb5f51eda462b33b410ce9d15e31122b"
+    ),
+    "postimage_sha256": (
+        "66f8b298fd0920b109ac1f669207ece2cbb91d7399a7013f1df8d61d5e959472"
+    ),
+}
+
+
 def dosbox_pure_spec_is_well_formed(spec: object) -> bool:
     """Require DOSBox Pure's exact immutable catalog identity."""
 
@@ -99,8 +115,8 @@ def dosbox_pure_spec_is_well_formed(spec: object) -> bool:
                 "output_path": identity["output_path"],
                 "artifact_name": identity["artifact_name"],
                 "overlays": {
-                    "arm64": [dict(DOSBOX_PURE_OVERLAY)],
-                    "armhf": [dict(DOSBOX_PURE_OVERLAY)],
+                    "arm64": [dict(DOSBOX_PURE_SORT_OVERLAY)],
+                    "armhf": [dict(DOSBOX_PURE_SORT_OVERLAY)],
                 },
             },
             "metadata": {
