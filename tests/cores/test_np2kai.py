@@ -18,8 +18,8 @@ CORE_ID = "np2kai"
 SOURCE_URL = "https://github.com/libretro/NP2kai.git"
 SOURCE_COMMIT = "54ec39f50d197cc02909cd4fd2a8591bb38651b0"
 SOURCE_TREE = "dfb9119f775cdba8a5b0eed464ddfe04dffd7c1a"
-SELECTED_RUN = "actions-sim-build-core-np2kai-w4"
-REPRODUCTION_RUN = "build-core-np2kai-local-w4"
+SELECTED_RUN = "actions-sim-build-core-np2kai-w4b"
+REPRODUCTION_RUN = "build-core-np2kai-local-w4b"
 
 
 class Np2kaiManifestTests(unittest.TestCase):

@@ -1,18 +1,18 @@
 {
   "$schema": "../../manifests/core-set.schema.json",
-  "content_sha256": "17a68501c560ea31fb9672590768a40c3b3c015477ddde3ea2fc29dff72a2445",
+  "content_sha256": "31caa60e392a87fcbb6490f4430d7da9ff40a5dda58873ad38cbccc372f3f057",
   "cores": {
     "np2kai": {
       "decision": "select_source",
       "selection": {
         "e2e": {
           "build_records": {
-            "arm64": "6de3a913646b97ea5604256e35d0573b51517aabcff2dda08d5b9571a6358d36",
-            "armhf": "56a98259d7589df7b1b5c306235927c54d3f73be89b484d4af4c39b63f80e848"
+            "arm64": "09a8bd78c30180cbee234eaa38aa9f990e30083bde7214832cd7ae5aa8036f1b",
+            "armhf": "9e88b3d696437bac64fcd3a86dc00fd023d57167f8143b0be2ecc5f2d953bb30"
           },
-          "content_sha256": "5d08aba41a2351a4a9d46ea1fb3d28ca7efc8952bd88e2b215f3ee166d786f76",
-          "package_sha256": "b9ec8187b55fdea67d42e6d0cb03e9a17f4e7d08804a62847fdcbfc979600146",
-          "run_id": "actions-sim-build-core-np2kai-w4"
+          "content_sha256": "464a9d3fdca6bc12d06840e52e1a97c33cc3d123d4ab8770576d356eba3285d4",
+          "package_sha256": "37e9302f56479a2b236bd189250f84475ed25d0b440e715b9318cbd4d1fa5a44",
+          "run_id": "actions-sim-build-core-np2kai-w4b"
         },
         "metadata": {
           "path": ".local-e2e/store/metadata/sha256/b6/b68e1c4aa673840f6bb8f6c29838430d2c5af15b7fb7315deb5a36a5945b490e",
@@ -21,19 +21,19 @@
         },
         "package": {
           "name": "np2kai_libretro.zip",
-          "path": ".local-e2e/store/packages/sha256/b9/b9ec8187b55fdea67d42e6d0cb03e9a17f4e7d08804a62847fdcbfc979600146",
-          "sha256": "b9ec8187b55fdea67d42e6d0cb03e9a17f4e7d08804a62847fdcbfc979600146",
-          "size": 1782076
+          "path": ".local-e2e/store/packages/sha256/37/37e9302f56479a2b236bd189250f84475ed25d0b440e715b9318cbd4d1fa5a44",
+          "sha256": "37e9302f56479a2b236bd189250f84475ed25d0b440e715b9318cbd4d1fa5a44",
+          "size": 1781539
         },
-        "selection_sha256": "b470beaeac834ac9bab49a7317e8dab8332e3061cb765362ce1407a54f73e402",
+        "selection_sha256": "8ecac54f85b0f4289373e5a5479ccdee22faed91ad92a3eedb346265e7720b5a",
         "targets": {
           "arm64": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/d5/d52a007fe5ecd7ce5a019b6a1a157aa1ff6e4c0bfdf04f00c8eb3a4a7273135a",
-              "sha256": "d52a007fe5ecd7ce5a019b6a1a157aa1ff6e4c0bfdf04f00c8eb3a4a7273135a",
-              "size": 2748312
+              "path": ".local-e2e/store/artifacts/sha256/7a/7a4e6f2b08a83b4cd9a3bfe17b072100038e7f8fc24274b9f9e3555fefdaf3f6",
+              "sha256": "7a4e6f2b08a83b4cd9a3bfe17b072100038e7f8fc24274b9f9e3555fefdaf3f6",
+              "size": 2740000
             },
-            "build_record_sha256": "6de3a913646b97ea5604256e35d0573b51517aabcff2dda08d5b9571a6358d36",
+            "build_record_sha256": "09a8bd78c30180cbee234eaa38aa9f990e30083bde7214832cd7ae5aa8036f1b",
             "golden_record": {
               "architecture": "arm64",
               "artifact": {
@@ -109,8 +109,8 @@
                   "libstdc++.so.6"
                 ],
                 "path": "np2kai_libretro.so",
-                "sha256": "d52a007fe5ecd7ce5a019b6a1a157aa1ff6e4c0bfdf04f00c8eb3a4a7273135a",
-                "size": 2748312,
+                "sha256": "7a4e6f2b08a83b4cd9a3bfe17b072100038e7f8fc24274b9f9e3555fefdaf3f6",
+                "size": 2740000,
                 "status": "valid",
                 "version_requirements": [
                   "CXXABI_1.3",
@@ -126,68 +126,68 @@
                 "driver": "libretro-super",
                 "environment": "sanitized-v1",
                 "log": "build.log",
-                "log_sha256": "c3ea7ab9d58ed4117fc053f6aeec92608a5b81ebe269976aad1831c72210f561"
+                "log_sha256": "b87e28f697331b59050f6dec7d2f4a26226671e544c25a69f32b6f70009a77ab"
               },
               "core_id": "np2kai",
               "e2e": {
                 "build_records": {
-                  "arm64": "6de3a913646b97ea5604256e35d0573b51517aabcff2dda08d5b9571a6358d36",
-                  "armhf": "56a98259d7589df7b1b5c306235927c54d3f73be89b484d4af4c39b63f80e848"
+                  "arm64": "09a8bd78c30180cbee234eaa38aa9f990e30083bde7214832cd7ae5aa8036f1b",
+                  "armhf": "9e88b3d696437bac64fcd3a86dc00fd023d57167f8143b0be2ecc5f2d953bb30"
                 },
-                "content_sha256": "5d08aba41a2351a4a9d46ea1fb3d28ca7efc8952bd88e2b215f3ee166d786f76",
-                "package": ".local-e2e/runs/actions-sim-build-core-np2kai-w4/np2kai_libretro.zip",
-                "package_sha256": "b9ec8187b55fdea67d42e6d0cb03e9a17f4e7d08804a62847fdcbfc979600146",
-                "record": ".local-e2e/runs/actions-sim-build-core-np2kai-w4/e2e-record.json",
-                "record_sha256": "c72e99e6218bb0709ec99f9fcb9c08d15ee507fbe048acecf7f7ecd73a0c8707",
-                "run_id": "actions-sim-build-core-np2kai-w4"
+                "content_sha256": "464a9d3fdca6bc12d06840e52e1a97c33cc3d123d4ab8770576d356eba3285d4",
+                "package": ".local-e2e/runs/actions-sim-build-core-np2kai-w4b/np2kai_libretro.zip",
+                "package_sha256": "37e9302f56479a2b236bd189250f84475ed25d0b440e715b9318cbd4d1fa5a44",
+                "record": ".local-e2e/runs/actions-sim-build-core-np2kai-w4b/e2e-record.json",
+                "record_sha256": "b7694a254cb3c7d5c50530c1116f9abdb339e0c4ed3193f1825d7559806c6144",
+                "run_id": "actions-sim-build-core-np2kai-w4b"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-np2kai-w4/np2kai/arm64/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-np2kai-w4b/np2kai/arm64/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/d5/d52a007fe5ecd7ce5a019b6a1a157aa1ff6e4c0bfdf04f00c8eb3a4a7273135a",
-                  "sha256": "d52a007fe5ecd7ce5a019b6a1a157aa1ff6e4c0bfdf04f00c8eb3a4a7273135a"
+                  "path": ".local-e2e/store/artifacts/sha256/7a/7a4e6f2b08a83b4cd9a3bfe17b072100038e7f8fc24274b9f9e3555fefdaf3f6",
+                  "sha256": "7a4e6f2b08a83b4cd9a3bfe17b072100038e7f8fc24274b9f9e3555fefdaf3f6"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/c3/c3ea7ab9d58ed4117fc053f6aeec92608a5b81ebe269976aad1831c72210f561",
-                    "sha256": "c3ea7ab9d58ed4117fc053f6aeec92608a5b81ebe269976aad1831c72210f561"
+                    "path": ".local-e2e/store/logs/sha256/b8/b87e28f697331b59050f6dec7d2f4a26226671e544c25a69f32b6f70009a77ab",
+                    "sha256": "b87e28f697331b59050f6dec7d2f4a26226671e544c25a69f32b6f70009a77ab"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/de/de64cdf06eb53444a5d33ff77269a22a186e974b39abc103cab747cccf157b2d",
-                    "sha256": "de64cdf06eb53444a5d33ff77269a22a186e974b39abc103cab747cccf157b2d"
+                    "path": ".local-e2e/store/logs/sha256/df/dfd33c5bd192bb7d7f533a81af18be39e3bf24a7a2657dc60e0271a23a71bd5d",
+                    "sha256": "dfd33c5bd192bb7d7f533a81af18be39e3bf24a7a2657dc60e0271a23a71bd5d"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/6d/6de3a913646b97ea5604256e35d0573b51517aabcff2dda08d5b9571a6358d36",
-                    "sha256": "6de3a913646b97ea5604256e35d0573b51517aabcff2dda08d5b9571a6358d36"
+                    "path": ".local-e2e/store/build-records/sha256/09/09a8bd78c30180cbee234eaa38aa9f990e30083bde7214832cd7ae5aa8036f1b",
+                    "sha256": "09a8bd78c30180cbee234eaa38aa9f990e30083bde7214832cd7ae5aa8036f1b"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/56/56a98259d7589df7b1b5c306235927c54d3f73be89b484d4af4c39b63f80e848",
-                    "sha256": "56a98259d7589df7b1b5c306235927c54d3f73be89b484d4af4c39b63f80e848"
+                    "path": ".local-e2e/store/build-records/sha256/9e/9e88b3d696437bac64fcd3a86dc00fd023d57167f8143b0be2ecc5f2d953bb30",
+                    "sha256": "9e88b3d696437bac64fcd3a86dc00fd023d57167f8143b0be2ecc5f2d953bb30"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/c7/c72e99e6218bb0709ec99f9fcb9c08d15ee507fbe048acecf7f7ecd73a0c8707",
-                  "sha256": "c72e99e6218bb0709ec99f9fcb9c08d15ee507fbe048acecf7f7ecd73a0c8707"
+                  "path": ".local-e2e/store/e2e/sha256/b7/b7694a254cb3c7d5c50530c1116f9abdb339e0c4ed3193f1825d7559806c6144",
+                  "sha256": "b7694a254cb3c7d5c50530c1116f9abdb339e0c4ed3193f1825d7559806c6144"
                 },
                 "metadata": {
                   "path": ".local-e2e/store/metadata/sha256/b6/b68e1c4aa673840f6bb8f6c29838430d2c5af15b7fb7315deb5a36a5945b490e",
                   "sha256": "b68e1c4aa673840f6bb8f6c29838430d2c5af15b7fb7315deb5a36a5945b490e"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/b9/b9ec8187b55fdea67d42e6d0cb03e9a17f4e7d08804a62847fdcbfc979600146",
-                  "sha256": "b9ec8187b55fdea67d42e6d0cb03e9a17f4e7d08804a62847fdcbfc979600146"
+                  "path": ".local-e2e/store/packages/sha256/37/37e9302f56479a2b236bd189250f84475ed25d0b440e715b9318cbd4d1fa5a44",
+                  "sha256": "37e9302f56479a2b236bd189250f84475ed25d0b440e715b9318cbd4d1fa5a44"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/c1/c1dc718249f489b0d1bf76ed9c5768f252ba8ec6b4d788e059000627b1a8eac3",
-                    "sha256": "c1dc718249f489b0d1bf76ed9c5768f252ba8ec6b4d788e059000627b1a8eac3"
+                    "path": ".local-e2e/store/recipes/sha256/7a/7a6eec853cbb65ef08f6f24994ad9e9f453520c662e74e890d076f2062c195ae",
+                    "sha256": "7a6eec853cbb65ef08f6f24994ad9e9f453520c662e74e890d076f2062c195ae"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/45/459a0e73981b69793492b8a154494b19cd49f233d45bdf95fd22c4a547a13816",
-                    "sha256": "459a0e73981b69793492b8a154494b19cd49f233d45bdf95fd22c4a547a13816"
+                    "path": ".local-e2e/store/recipes/sha256/9e/9e3df781d09489106eb7ef261e3ad864a783e242e75ec6129a1f28328b2eeb39",
+                    "sha256": "9e3df781d09489106eb7ef261e3ad864a783e242e75ec6129a1f28328b2eeb39"
                   }
                 }
               },
@@ -197,13 +197,13 @@
                 "size": 2575,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T18:17:58+00:00",
+              "promoted_at": "2026-07-24T20:33:38+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
               "recipe": {
                 "catalog_path": "manifests/core-builds.json",
-                "catalog_sha256": "c480a54366dce97d17710be4553bd8fed50f1c86575de9c714513ccb916e3b32",
+                "catalog_sha256": "854fc087305cd0fef594545e0d75a30f72b39c256d5bc20299a13d7d9c793ec1",
                 "commit_blacklist": {
                   "content_sha256": "ec576e761470ed7b47e15d404a783ce1f77f543395d769f78461dca4f177ba89",
                   "file_sha256": "bed3c1af0001b8013e57e7557a8faca0d1dfa0b5f5e5395f7aecf6ea1fc2946c",
@@ -212,11 +212,11 @@
                   "schema_version": 1
                 },
                 "core_id": "np2kai",
-                "core_spec_sha256": "c4ee31d45bed579b123f54fb6692cb511c0f5d7940574354c19601049831353c",
+                "core_spec_sha256": "52f786580daab18cc922bbe782e07ac2315e43366c46abf7af4cd30b9262f906",
                 "pipeline_bundle": {
-                  "content_sha256": "c4547a6fbfb2c3bffb1bde4b2ebbc450eeb0213ba7628663c8131ceb31ca9769",
+                  "content_sha256": "6796c2d76608df3b284e8fcf61fdc08413cd5b1784fc8ccc25fda8d80290c18f",
                   "files": {
-                    "scripts/core_pipeline.py": "a72901a6e5636078f8f1e37332426a2892e1f1662ee5269d647c13a8d9012eab",
+                    "scripts/core_pipeline.py": "226d4bc1a1892b3423464c0f7ec46f81ac07ec5cd3bc03a7aa648e4c3246f84d",
                     "scripts/core_pipeline_lib/__init__.py": "d835fc145578c70e9d0d7c9c810ad42e3640eb9a1ddf608c4b1edcef48d27d57",
                     "scripts/core_pipeline_lib/cli/__init__.py": "5aef9bc4facbcf04f5d6d3063abdfef790fa0334729e2f751be772ce6e1b2467",
                     "scripts/core_pipeline_lib/cli/model.py": "d06b4da9bef25686f6e45ea5a25edc880bab6eafde71dfb0eea80b55350cefb8",
@@ -282,7 +282,7 @@
                     "scripts/core_pipeline_lib/contracts/mupen64plus_next.py": "01b8eafe7699e0d3190da15e2892eb64925f8c05854528bd75ad62c44e7e42bd",
                     "scripts/core_pipeline_lib/contracts/neocd.py": "a9c206d8a952909077e76678630f90adeb8a48c845871e29e74fde4955084e10",
                     "scripts/core_pipeline_lib/contracts/nestopia.py": "39d39aea9fead84ad62fb7a2cc2aa0d71693b5ab2fc63d99e7a6d41f3b0da5c9",
-                    "scripts/core_pipeline_lib/contracts/np2kai.py": "256d798d5143338aa74daa21fc1133a1c2a0ee89e5f162de767402d6579e07a3",
+                    "scripts/core_pipeline_lib/contracts/np2kai.py": "5db530d17cc306927503a5e26b3f3019e5e38dffc3b37be83be22f8eb7eb5282",
                     "scripts/core_pipeline_lib/contracts/numero.py": "c2e3d46ced852370d5f30dcbd00314d48222666064e9f39680ade8bf4cd9592f",
                     "scripts/core_pipeline_lib/contracts/o2em.py": "eb843f45727200544fdcbdc5aece0725395b56d15383a3dbef40a75bab715449",
                     "scripts/core_pipeline_lib/contracts/opera.py": "8bc6ae434c468fbc1646779307bf1ecb73615b4ac4096536dd359f6c819d9f45",
@@ -354,9 +354,9 @@
                   },
                   "schema_version": 1
                 },
-                "pipeline_sha256": "a72901a6e5636078f8f1e37332426a2892e1f1662ee5269d647c13a8d9012eab",
+                "pipeline_sha256": "226d4bc1a1892b3423464c0f7ec46f81ac07ec5cd3bc03a7aa648e4c3246f84d",
                 "repository_dirty": false,
-                "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e",
+                "repository_head": "c17c7b2557d9f28e1dfc5dbb7c083ed564859d47",
                 "workflow": ".github/workflows/build-np2kai.yml",
                 "workflow_sha256": "723bf264e34435e75f23dfa151e1d207d3ed12c11588cdc2fb97de392e51ae73"
               },
@@ -461,7 +461,7 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "d2fb53f14ca38b57b1d9343551add493bfd8c84a1d520ded6d08044ce9937891"
+            "provenance_identity_sha256": "4c309f6588d7e1cf44ab8c55e1fc65f6ad7651f46016f6c4d1d7f1cadcf490d6"
           },
           "armhf": {
             "artifact": {
@@ -469,7 +469,7 @@
               "sha256": "16b5fe031d4c1a86790812089f0615d078645913dbaf4740fb7d2f99611e73ad",
               "size": 2287960
             },
-            "build_record_sha256": "56a98259d7589df7b1b5c306235927c54d3f73be89b484d4af4c39b63f80e848",
+            "build_record_sha256": "9e88b3d696437bac64fcd3a86dc00fd023d57167f8143b0be2ecc5f2d953bb30",
             "golden_record": {
               "architecture": "armhf",
               "artifact": {
@@ -564,22 +564,22 @@
                 "driver": "libretro-super",
                 "environment": "sanitized-v1",
                 "log": "build.log",
-                "log_sha256": "de64cdf06eb53444a5d33ff77269a22a186e974b39abc103cab747cccf157b2d"
+                "log_sha256": "dfd33c5bd192bb7d7f533a81af18be39e3bf24a7a2657dc60e0271a23a71bd5d"
               },
               "core_id": "np2kai",
               "e2e": {
                 "build_records": {
-                  "arm64": "6de3a913646b97ea5604256e35d0573b51517aabcff2dda08d5b9571a6358d36",
-                  "armhf": "56a98259d7589df7b1b5c306235927c54d3f73be89b484d4af4c39b63f80e848"
+                  "arm64": "09a8bd78c30180cbee234eaa38aa9f990e30083bde7214832cd7ae5aa8036f1b",
+                  "armhf": "9e88b3d696437bac64fcd3a86dc00fd023d57167f8143b0be2ecc5f2d953bb30"
                 },
-                "content_sha256": "5d08aba41a2351a4a9d46ea1fb3d28ca7efc8952bd88e2b215f3ee166d786f76",
-                "package": ".local-e2e/runs/actions-sim-build-core-np2kai-w4/np2kai_libretro.zip",
-                "package_sha256": "b9ec8187b55fdea67d42e6d0cb03e9a17f4e7d08804a62847fdcbfc979600146",
-                "record": ".local-e2e/runs/actions-sim-build-core-np2kai-w4/e2e-record.json",
-                "record_sha256": "c72e99e6218bb0709ec99f9fcb9c08d15ee507fbe048acecf7f7ecd73a0c8707",
-                "run_id": "actions-sim-build-core-np2kai-w4"
+                "content_sha256": "464a9d3fdca6bc12d06840e52e1a97c33cc3d123d4ab8770576d356eba3285d4",
+                "package": ".local-e2e/runs/actions-sim-build-core-np2kai-w4b/np2kai_libretro.zip",
+                "package_sha256": "37e9302f56479a2b236bd189250f84475ed25d0b440e715b9318cbd4d1fa5a44",
+                "record": ".local-e2e/runs/actions-sim-build-core-np2kai-w4b/e2e-record.json",
+                "record_sha256": "b7694a254cb3c7d5c50530c1116f9abdb339e0c4ed3193f1825d7559806c6144",
+                "run_id": "actions-sim-build-core-np2kai-w4b"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-np2kai-w4/np2kai/armhf/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-np2kai-w4b/np2kai/armhf/build-record.json",
               "local_store": {
                 "artifact": {
                   "path": ".local-e2e/store/artifacts/sha256/16/16b5fe031d4c1a86790812089f0615d078645913dbaf4740fb7d2f99611e73ad",
@@ -588,44 +588,44 @@
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/c3/c3ea7ab9d58ed4117fc053f6aeec92608a5b81ebe269976aad1831c72210f561",
-                    "sha256": "c3ea7ab9d58ed4117fc053f6aeec92608a5b81ebe269976aad1831c72210f561"
+                    "path": ".local-e2e/store/logs/sha256/b8/b87e28f697331b59050f6dec7d2f4a26226671e544c25a69f32b6f70009a77ab",
+                    "sha256": "b87e28f697331b59050f6dec7d2f4a26226671e544c25a69f32b6f70009a77ab"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/de/de64cdf06eb53444a5d33ff77269a22a186e974b39abc103cab747cccf157b2d",
-                    "sha256": "de64cdf06eb53444a5d33ff77269a22a186e974b39abc103cab747cccf157b2d"
+                    "path": ".local-e2e/store/logs/sha256/df/dfd33c5bd192bb7d7f533a81af18be39e3bf24a7a2657dc60e0271a23a71bd5d",
+                    "sha256": "dfd33c5bd192bb7d7f533a81af18be39e3bf24a7a2657dc60e0271a23a71bd5d"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/6d/6de3a913646b97ea5604256e35d0573b51517aabcff2dda08d5b9571a6358d36",
-                    "sha256": "6de3a913646b97ea5604256e35d0573b51517aabcff2dda08d5b9571a6358d36"
+                    "path": ".local-e2e/store/build-records/sha256/09/09a8bd78c30180cbee234eaa38aa9f990e30083bde7214832cd7ae5aa8036f1b",
+                    "sha256": "09a8bd78c30180cbee234eaa38aa9f990e30083bde7214832cd7ae5aa8036f1b"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/56/56a98259d7589df7b1b5c306235927c54d3f73be89b484d4af4c39b63f80e848",
-                    "sha256": "56a98259d7589df7b1b5c306235927c54d3f73be89b484d4af4c39b63f80e848"
+                    "path": ".local-e2e/store/build-records/sha256/9e/9e88b3d696437bac64fcd3a86dc00fd023d57167f8143b0be2ecc5f2d953bb30",
+                    "sha256": "9e88b3d696437bac64fcd3a86dc00fd023d57167f8143b0be2ecc5f2d953bb30"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/c7/c72e99e6218bb0709ec99f9fcb9c08d15ee507fbe048acecf7f7ecd73a0c8707",
-                  "sha256": "c72e99e6218bb0709ec99f9fcb9c08d15ee507fbe048acecf7f7ecd73a0c8707"
+                  "path": ".local-e2e/store/e2e/sha256/b7/b7694a254cb3c7d5c50530c1116f9abdb339e0c4ed3193f1825d7559806c6144",
+                  "sha256": "b7694a254cb3c7d5c50530c1116f9abdb339e0c4ed3193f1825d7559806c6144"
                 },
                 "metadata": {
                   "path": ".local-e2e/store/metadata/sha256/b6/b68e1c4aa673840f6bb8f6c29838430d2c5af15b7fb7315deb5a36a5945b490e",
                   "sha256": "b68e1c4aa673840f6bb8f6c29838430d2c5af15b7fb7315deb5a36a5945b490e"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/b9/b9ec8187b55fdea67d42e6d0cb03e9a17f4e7d08804a62847fdcbfc979600146",
-                  "sha256": "b9ec8187b55fdea67d42e6d0cb03e9a17f4e7d08804a62847fdcbfc979600146"
+                  "path": ".local-e2e/store/packages/sha256/37/37e9302f56479a2b236bd189250f84475ed25d0b440e715b9318cbd4d1fa5a44",
+                  "sha256": "37e9302f56479a2b236bd189250f84475ed25d0b440e715b9318cbd4d1fa5a44"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/c1/c1dc718249f489b0d1bf76ed9c5768f252ba8ec6b4d788e059000627b1a8eac3",
-                    "sha256": "c1dc718249f489b0d1bf76ed9c5768f252ba8ec6b4d788e059000627b1a8eac3"
+                    "path": ".local-e2e/store/recipes/sha256/7a/7a6eec853cbb65ef08f6f24994ad9e9f453520c662e74e890d076f2062c195ae",
+                    "sha256": "7a6eec853cbb65ef08f6f24994ad9e9f453520c662e74e890d076f2062c195ae"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/45/459a0e73981b69793492b8a154494b19cd49f233d45bdf95fd22c4a547a13816",
-                    "sha256": "459a0e73981b69793492b8a154494b19cd49f233d45bdf95fd22c4a547a13816"
+                    "path": ".local-e2e/store/recipes/sha256/9e/9e3df781d09489106eb7ef261e3ad864a783e242e75ec6129a1f28328b2eeb39",
+                    "sha256": "9e3df781d09489106eb7ef261e3ad864a783e242e75ec6129a1f28328b2eeb39"
                   }
                 }
               },
@@ -635,13 +635,13 @@
                 "size": 2575,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T18:18:00+00:00",
+              "promoted_at": "2026-07-24T20:33:40+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
               "recipe": {
                 "catalog_path": "manifests/core-builds.json",
-                "catalog_sha256": "c480a54366dce97d17710be4553bd8fed50f1c86575de9c714513ccb916e3b32",
+                "catalog_sha256": "854fc087305cd0fef594545e0d75a30f72b39c256d5bc20299a13d7d9c793ec1",
                 "commit_blacklist": {
                   "content_sha256": "ec576e761470ed7b47e15d404a783ce1f77f543395d769f78461dca4f177ba89",
                   "file_sha256": "bed3c1af0001b8013e57e7557a8faca0d1dfa0b5f5e5395f7aecf6ea1fc2946c",
@@ -650,11 +650,11 @@
                   "schema_version": 1
                 },
                 "core_id": "np2kai",
-                "core_spec_sha256": "c4ee31d45bed579b123f54fb6692cb511c0f5d7940574354c19601049831353c",
+                "core_spec_sha256": "52f786580daab18cc922bbe782e07ac2315e43366c46abf7af4cd30b9262f906",
                 "pipeline_bundle": {
-                  "content_sha256": "c4547a6fbfb2c3bffb1bde4b2ebbc450eeb0213ba7628663c8131ceb31ca9769",
+                  "content_sha256": "6796c2d76608df3b284e8fcf61fdc08413cd5b1784fc8ccc25fda8d80290c18f",
                   "files": {
-                    "scripts/core_pipeline.py": "a72901a6e5636078f8f1e37332426a2892e1f1662ee5269d647c13a8d9012eab",
+                    "scripts/core_pipeline.py": "226d4bc1a1892b3423464c0f7ec46f81ac07ec5cd3bc03a7aa648e4c3246f84d",
                     "scripts/core_pipeline_lib/__init__.py": "d835fc145578c70e9d0d7c9c810ad42e3640eb9a1ddf608c4b1edcef48d27d57",
                     "scripts/core_pipeline_lib/cli/__init__.py": "5aef9bc4facbcf04f5d6d3063abdfef790fa0334729e2f751be772ce6e1b2467",
                     "scripts/core_pipeline_lib/cli/model.py": "d06b4da9bef25686f6e45ea5a25edc880bab6eafde71dfb0eea80b55350cefb8",
@@ -720,7 +720,7 @@
                     "scripts/core_pipeline_lib/contracts/mupen64plus_next.py": "01b8eafe7699e0d3190da15e2892eb64925f8c05854528bd75ad62c44e7e42bd",
                     "scripts/core_pipeline_lib/contracts/neocd.py": "a9c206d8a952909077e76678630f90adeb8a48c845871e29e74fde4955084e10",
                     "scripts/core_pipeline_lib/contracts/nestopia.py": "39d39aea9fead84ad62fb7a2cc2aa0d71693b5ab2fc63d99e7a6d41f3b0da5c9",
-                    "scripts/core_pipeline_lib/contracts/np2kai.py": "256d798d5143338aa74daa21fc1133a1c2a0ee89e5f162de767402d6579e07a3",
+                    "scripts/core_pipeline_lib/contracts/np2kai.py": "5db530d17cc306927503a5e26b3f3019e5e38dffc3b37be83be22f8eb7eb5282",
                     "scripts/core_pipeline_lib/contracts/numero.py": "c2e3d46ced852370d5f30dcbd00314d48222666064e9f39680ade8bf4cd9592f",
                     "scripts/core_pipeline_lib/contracts/o2em.py": "eb843f45727200544fdcbdc5aece0725395b56d15383a3dbef40a75bab715449",
                     "scripts/core_pipeline_lib/contracts/opera.py": "8bc6ae434c468fbc1646779307bf1ecb73615b4ac4096536dd359f6c819d9f45",
@@ -792,9 +792,9 @@
                   },
                   "schema_version": 1
                 },
-                "pipeline_sha256": "a72901a6e5636078f8f1e37332426a2892e1f1662ee5269d647c13a8d9012eab",
+                "pipeline_sha256": "226d4bc1a1892b3423464c0f7ec46f81ac07ec5cd3bc03a7aa648e4c3246f84d",
                 "repository_dirty": false,
-                "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e",
+                "repository_head": "c17c7b2557d9f28e1dfc5dbb7c083ed564859d47",
                 "workflow": ".github/workflows/build-np2kai.yml",
                 "workflow_sha256": "723bf264e34435e75f23dfa151e1d207d3ed12c11588cdc2fb97de392e51ae73"
               },
@@ -899,7 +899,7 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "b213b6f799a67c7c58e0546bc41bb5c6c44399df1ece345cdd12f689a2b13380"
+            "provenance_identity_sha256": "c031c6b11dc055da138b8b4eac3f3769ff88d6c54fd0620bcdb3c7641460e668"
           }
         },
         "tier": "build_golden",
@@ -908,10 +908,10 @@
       "source_index": 0
     }
   },
-  "created_at": "2026-07-24T18:18:00+00:00",
+  "created_at": "2026-07-24T20:33:40+00:00",
   "local_only": true,
   "parent": null,
-  "pin_id": "np2kai-54ec39f50d19-b470beaeac83",
+  "pin_id": "np2kai-54ec39f50d19-8ecac54f85b0",
   "publication": "disabled",
   "schema_version": 1,
   "scope": [
@@ -926,10 +926,10 @@
   },
   "sources": [
     {
-      "content_sha256": "fc32b095f0388f529c0a65fe2502da7a06003eb92e7ed25d370a13f18b1f0452",
-      "file_sha256": "8b04756b040859b58e4e56d4a05e06fef3d0854a268bdec2eea864ae81034392",
-      "path": ".local-e2e/nightlies/np2kai-54ec39f50d19-b470beaeac83/golden.json",
-      "pin_id": "np2kai-54ec39f50d19-b470beaeac83"
+      "content_sha256": "6f1d25210eea3ce9be99836d4dc4203c9cdcd46213f68b6743d12f83a6f43602",
+      "file_sha256": "a3752d00dea983fb8c1cab483599614556ed6c8d132f136728eefdeb19206f3e",
+      "path": ".local-e2e/nightlies/np2kai-54ec39f50d19-8ecac54f85b0/golden.json",
+      "pin_id": "np2kai-54ec39f50d19-8ecac54f85b0"
     }
   ],
   "summary": {

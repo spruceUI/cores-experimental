@@ -1,70 +1,70 @@
 {
   "$schema": "../../manifests/evidence-index.schema.json",
   "compatibility": {
-    "content_sha256": "3fc79170dd8e678f1c789ced59d8c3e86644875cda58e41d9cc2d4a3f6909957",
-    "file_sha256": "5d6c74d70a01eddfcfa25e35e72f47486492bd487216953280bd85a1e8b0bab7"
+    "content_sha256": "709d68526fd190808382359a9a642857552464e26461f775e669f778595f4148",
+    "file_sha256": "d0936b5662844274b38f21dc06663a5f55cca2dd4d4eed925dd2912634a7a252"
   },
   "core_id": "ffmpeg",
   "local_only_evidence": true,
   "package": {
-    "sha256": "59f5dc35bbdc347f36ff011a55bf5400fc7e5f4c1dfe07528fdda161e53b9be7",
-    "size": 14312652
+    "sha256": "8fa94b5bb18dc124f7939baef81bb70fab2c3df89e34c6ce4ceee0958efa8e78",
+    "size": 14243660
   },
-  "pin_path": "pins/core-sets/ffmpeg-4920879d2f09-453076e3b8bf.json",
+  "pin_path": "pins/core-sets/ffmpeg-4920879d2f09-68de82fc764a.json",
   "publication": "disabled",
   "runs": {
     "reproduction": {
       "builds": {
         "arm64": {
-          "log_sha256": "7e1f5a8fd7dea1cb57c537ecd2213e1a772489c7cef1331e2b9dfc01940504c1",
+          "log_sha256": "10c3d7610543a181672a7d51985063322cd971b5638590b5266907beadd2df35",
           "log_size": 45704366,
-          "record_sha256": "3f1c7a4cf12e9041523e2c0460717694e53283a07ddf858e39cab625081afa6b",
-          "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "record_sha256": "4dcbae5166a3aaeb416d106f5d96b04dda2a9fa0e4f2d82b71be7d958fc9bf73",
+          "repository_dirty": false,
+          "repository_head": "c17c7b2557d9f28e1dfc5dbb7c083ed564859d47"
         },
         "armhf": {
-          "log_sha256": "16fae4b555cbf42f4dd836046f1dfb1f4803c0a916c333f13f26f08f075196f7",
+          "log_sha256": "dcf9b17456f677cebf616336e38beee89ad7343c33eda7ddace6803200232ac0",
           "log_size": 46054665,
-          "record_sha256": "e6ae5ecd17204d997016c4b7c579c4fc86f44617f41dd8055e22dd1d35313192",
-          "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "record_sha256": "e5d55f5108b94639bb98c082f7d005ae0905081428e9afa50544edb462f6eb04",
+          "repository_dirty": false,
+          "repository_head": "c17c7b2557d9f28e1dfc5dbb7c083ed564859d47"
         }
       },
-      "e2e_content_sha256": "a6002aed7c1f2cabb8a231f657e3806fb7a4da45ad7179d631998261950ebf62",
-      "e2e_file_sha256": "5d08bfccd5b2f7b7e4fa8757a86a744bb604ed45e0c5883770c7a81c56b3d17f",
-      "run_id": "build-core-ffmpeg-local-w3"
+      "e2e_content_sha256": "5e9392860021b09c80354f56f1fdf331a45a49dfa54359c3488492f4f1635175",
+      "e2e_file_sha256": "be9a49b61b396dc477cc6daf3e87a0208a23d5f089a227bde26c9b9cb9e6c41a",
+      "run_id": "build-core-ffmpeg-local-w4b"
     },
     "selected": {
       "builds": {
         "arm64": {
-          "log_sha256": "1fdef3e9f7511bf3b0c7c120d6937be244e21b81d5dd30b56c5987899ac58199",
+          "log_sha256": "1ca8f1445e844562f0357468353e88f57e4610bf2206cc9e5038c880e2dfcee7",
           "log_size": 45704366,
-          "record_sha256": "c61b68a8bd04afb40fd60c65ad10dfb10530d229ceff466d25e4b887d99b91c7",
-          "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "record_sha256": "e9b2f5505f2b25cda95e2101590213b3f4f3ec1eb516c3990043b410014f9fc8",
+          "repository_dirty": false,
+          "repository_head": "c17c7b2557d9f28e1dfc5dbb7c083ed564859d47"
         },
         "armhf": {
-          "log_sha256": "5566730a838a2471d26a536e5100f17c7671c26f2595779ce4a600595f1ab05c",
+          "log_sha256": "a22c7cfb4cc563aca2651fe9568687d0303771b63bf36628f619091ffee07421",
           "log_size": 46054665,
-          "record_sha256": "4dd9b243a9efddf133571d2b362cb624f8aea668606201292e1d6fcd137f64bb",
-          "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "record_sha256": "10b138719b40677b141e7737811c9fed93b95f37b53b22e3c411e8c2d05ad2ee",
+          "repository_dirty": false,
+          "repository_head": "c17c7b2557d9f28e1dfc5dbb7c083ed564859d47"
         }
       },
-      "e2e_content_sha256": "49c4aea71591421cfc12943abc650b4109ea5c21673688b7a2f19765348bd151",
-      "e2e_file_sha256": "b7749b62bf67178500d81bbe31f0761313fde52ab311758f8b315a3f09e97e3d",
-      "run_id": "actions-sim-build-core-ffmpeg-w3"
+      "e2e_content_sha256": "0efe422e16208f77f27cb0bb0df7d2de6cf78ca08ef09b6695976995337f508f",
+      "e2e_file_sha256": "34b3a47f7fa838f7f10f649dd1f0e21f671f454d164fa33a8604a2e00f750b49",
+      "run_id": "actions-sim-build-core-ffmpeg-w4b"
     }
   },
   "schema_version": 1,
-  "selection_sha256": "453076e3b8bf9b36fb1d8ce37f7c0836c7ab49e0e3fdcbd85cea5323132ab997",
-  "semantic_id": "ffmpeg-4920879d2f09-453076e3b8bf",
+  "selection_sha256": "68de82fc764a56f999a2abc436a724ab0a317f6c6f4b27eb8f942d00c4d2c6f3",
+  "semantic_id": "ffmpeg-4920879d2f09-68de82fc764a",
   "source_commit": "4920879d2f09a78cdf855403c349457cee1c31da",
-  "source_set_path": "pins/source-sets/ffmpeg-4920879d2f09-453076e3b8bf.json",
+  "source_set_path": "pins/source-sets/ffmpeg-4920879d2f09-68de82fc764a.json",
   "targets": {
     "arm64": {
-      "artifact_sha256": "7ec466b5c3ab1aa9f20c268a5f0ea27fe723c5af62b98eaa629bccfb87bb415e",
-      "artifact_size": 15950288,
+      "artifact_sha256": "c52d230391f77c372962a0e5ab0d170972b3c2dc7e59da697dca6041dd0de001",
+      "artifact_size": 15950192,
       "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
       "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
       "toolchain_archive_size": 502531978
