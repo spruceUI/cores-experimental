@@ -1,10 +1,15 @@
-# Fail-open workflow migration — runbook
+# Fail-open workflow migration — runbook (COMPLETE)
 
-Status as of 2026-07-23: **canonical 92, unmigrated 6** (audit:
-`masked_build_failure_paths: 12`, `info_only_risk_workflows: 4`,
-`unmigrated_workflow_count: 6`), with the whole catalog re-promoted onto the
-v2 toolchain images (commits `9d95cda` + `dd82cc4`, full suite green). The
-remaining six, with their blocking condition:
+**The migration finished on 2026-07-24: 98 of 98 shipped-core workflows
+are canonical** (audit: `unmigrated_workflow_count: 0`,
+`masked_build_failure_paths: 0`, `info_only_risk_workflows: 0`), the
+full-roster release plan constructs, and the first GitHub Actions runs
+reproduce the pinned builds. This document is preserved as the working
+runbook and blocker log of that migration — its per-cohort status lines
+below are DATED records of the state when each was written, not current
+state. For onboarding future cores use
+[`adding-a-new-core.md`](adding-a-new-core.md); for current status see
+[`pipeline-overview.md`](pipeline-overview.md).
 
 - **flycast** — GL/3D, the only genuinely GPU-required core (no software
   rasterizer); direct-cmake onboarding next, device eligibility gated on a

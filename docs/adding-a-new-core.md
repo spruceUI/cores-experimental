@@ -5,6 +5,9 @@ fail-closed, hash-locked catalog: from an uncataloged (fail-open) workflow to a
 canonical core whose exact compile/link argv is proven by sha256, promoted with
 a reproducible build golden, and gated by the full test suite.
 
+All 98 shipped-core workflows are onboarded (2026-07-24); this runbook is
+the recipe for FUTURE cores and for re-pinning existing ones.
+
 It complements two narrower docs:
 
 - [`core-pipeline-architecture.md`](core-pipeline-architecture.md) — *"Add an
@@ -130,6 +133,20 @@ state"* — expected; the compatibility manifest is written by the promote chain
   contract module. Set `driver: "direct-cmake"`, `source_dir == core_id`,
   `output_path == artifact_name`, add a `cmake` block (`generator`, `build_type`,
   `target`, `systems.<arch>`) and `source_date_epoch`. Skip steps 5–7.
+- **direct-make** (e.g. `gpsp`, `fake08`, `yabasanshiro`, the KM forks): for
+  cores libretro-super cannot drive (its build script hardcodes
+  `platform="unix"` on the make command line). `driver: "direct-make"` with
+  optional `platforms` (per-arch `platform=` value), `make_subdir` (`-C` dir),
+  and `make_args` (reviewed `KEY=VALUE` list). Contract module as usual.
+- **direct-cargo** (`libgametank`): Rust cores build with
+  `cargo zigbuild --locked` inside the lock's Rust image. `driver:
+  "direct-cargo"` with a `cargo` block (`subdir`, `profile: "release"`,
+  `lock_sha256` = the upstream committed Cargo.lock digest, `targets` =
+  pinned per-arch triples with optional glibc-floor suffix). The proof is
+  Cargo.lock-shaped (see `contracts/cargo.py`): lock digest + exact
+  zigbuild invocation + the compiled-crate multiset, extracted from a
+  fresh per-arch log with `cargo_compiling_lines` +
+  `multiset_lines_sha256`.
 
 ## 3. Swap the workflow
 
@@ -163,6 +180,7 @@ Classify from `.local-e2e/runs/<core>-explore-v1/<core>/<arch>/build.log`:
 | `.S`/`.s` assembly compiles present | `c_asm` | gpsp, pcsx_rearmed |
 | `[NN%] Building CXX object …` (silent CMake) | `direct_cmake` (catalog-only) | arduous |
 | `ar rc* lib*.a …` then link references the `.a` | `c_only` **archive mode** | lutro |
+| `Compiling <crate> vX.Y.Z` lines from cargo | `cargo` (Cargo.lock-shaped) | libgametank |
 
 Beware false positives: `CXX = …-g++` lines in the Makefile preamble are
 variable declarations, not compiles — count only lines with ` -c ` compiling a

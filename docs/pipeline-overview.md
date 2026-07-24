@@ -139,12 +139,12 @@ artifacts remain recorded as rejected evidence.
 
 For the concise operator workflow—including runner profiles, unit tests,
 source-commit lifecycle status, promotion, and commit blacklisting—see
-[`docs/core-pipeline-operations.md`](docs/core-pipeline-operations.md).
+[`docs/core-pipeline-operations.md`](core-pipeline-operations.md).
 Every entry-script command, valid flag combination, runner environment, and
 external input is covered by the
-[`docs/core-pipeline-cli-reference.md`](docs/core-pipeline-cli-reference.md).
+[`docs/core-pipeline-cli-reference.md`](core-pipeline-cli-reference.md).
 The package boundaries and extension rules are documented in
-[`docs/core-pipeline-architecture.md`](docs/core-pipeline-architecture.md).
+[`docs/core-pipeline-architecture.md`](core-pipeline-architecture.md).
 
 Project the built cores into per-device candidate sets — the cores that build
 for a device's architecture and clear its captured libstdc++ provider ceiling —
@@ -513,9 +513,9 @@ cannot retroactively prove that the image was built from the current Dockerfile.
 
 New migrations use one immutable pin, source set, compatibility record, test
 module, and channel namespace per core. The complete operator procedure is in
-[`docs/core-pipeline-operations.md`](docs/core-pipeline-operations.md), and all
+[`docs/core-pipeline-operations.md`](core-pipeline-operations.md), and all
 flag combinations and required external data are in
-[`docs/core-pipeline-cli-reference.md`](docs/core-pipeline-cli-reference.md).
+[`docs/core-pipeline-cli-reference.md`](core-pipeline-cli-reference.md).
 
 Validate the current Handy lifecycle independently:
 
@@ -1020,7 +1020,7 @@ or runtime compatibility, so build goldens are explicitly marked
 ## Usage
 
 Use the per-core commands above or the complete
-[`docs/core-pipeline-operations.md`](docs/core-pipeline-operations.md) runbook.
+[`docs/core-pipeline-operations.md`](core-pipeline-operations.md) runbook.
 The local full-release path is plan, per-core result fan-out, and exact fan-in
 sealing:
 

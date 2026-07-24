@@ -12,6 +12,18 @@ manifests when you explicitly choose a tracked output path, but builds, evidence
 the content-addressed store, channel pointers, and local releases stay below
 `.local-e2e/` unless a command says otherwise.
 
+**Quick map** — this guide is long; jump straight to what you need:
+[Prerequisites](#prerequisites) · [Build locally](#build-locally) ·
+[Simulate the Actions profile](#simulate-the-github-actions-runner-profile-locally) ·
+[Tests and validation](#run-tests-and-validation) ·
+[Promote a candidate](#promote-a-passing-candidate-locally) ·
+[Channels](#update-local-artifact-channels) ·
+[Source lifecycle](#source-commit-lifecycle) ·
+[Commit blacklist](#blacklist-a-source-commit) ·
+[Final checklist](#final-operator-checklist).
+The single most common flow (onboard + promote one core) is condensed in
+[`adding-a-new-core.md`](adding-a-new-core.md).
+
 ## Terminology
 
 The repository currently has two related lifecycles. Do not confuse them:
@@ -39,8 +51,9 @@ only in git history.
 ## Prerequisites
 
 - Python 3, Git, and Docker must be available.
-- Docker must be able to inspect and run `cores-arm64:latest` and
-  `cores-armhf:latest` with the exact image IDs declared in
+- Docker must be able to inspect and run `cores-arm64:latest`,
+  `cores-armhf:latest`, and `cores-rust:latest` (the direct-cargo
+  driver's image) with the exact image IDs declared in
   `manifests/core-builds.json`.
 - The portable toolchain archives must match `pins/toolchains/local-cache-v1.json`
   when archive-store validation is requested.
