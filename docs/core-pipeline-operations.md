@@ -740,6 +740,19 @@ the same matrix with `fromJSON` and calls one parameterized reusable worker,
 rather than calling one unique reusable workflow per core. A local coordinator
 should iterate the same output.
 
+A fleet run that fails on an **out-of-repo transient** (runner death, a
+GitHub 500 serving a toolchain asset) does not need a full rebuild:
+`gh run rerun <run-id> --failed` re-executes only the failed workers and
+the seal. The plan job is not re-run — its immutable plan artifact and
+candidate identity persist across attempts, worker result artifacts are
+attempt-suffixed so they cannot collide, the seal merges results across
+all attempts, and no fan-in check binds the attempt number. Every
+re-run is pinned to the original commit, so this is only ever a
+completion of the same plan; an in-repo fix still forces a new commit,
+a new plan, and a full roster by construction. (Validated on run
+30124953754: 97 attempt-1 results plus one attempt-2 rebuild sealed the
+first release candidate.)
+
 `--scope full-workflow-roster` admits every discovered workflow into the
 census and constructs since the migration completed (98/98 canonical);
 it is the scope the GitHub Actions release-candidate roster runs. Do not
