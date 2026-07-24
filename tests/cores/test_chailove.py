@@ -17,8 +17,8 @@ CORE_ID = "chailove"
 SOURCE_URL = "https://github.com/libretro/ChaiLove.git"
 SOURCE_COMMIT = "5fa2014d9a1359836f165ab251831bce878ec2be"
 SOURCE_TREE = "6d11c7be6a39132d97e99bb81588d581613222ae"
-SELECTED_RUN = "actions-sim-build-core-chailove-w3"
-REPRODUCTION_RUN = "build-core-chailove-local-w3"
+SELECTED_RUN = "actions-sim-build-core-chailove-w4"
+REPRODUCTION_RUN = "build-core-chailove-local-w4"
 
 
 class ChailoveManifestTests(unittest.TestCase):
@@ -47,11 +47,15 @@ class ChailoveManifestTests(unittest.TestCase):
         mutated = {**self.spec, "targets": ["arm64"]}
         self.assertFalse(chailove.chailove_spec_is_well_formed(mutated))
 
-    def test_echo_overlay_is_pinned_for_both_architectures(self) -> None:
+    def test_overlays_are_pinned_for_both_architectures(self) -> None:
         overlays = self.spec["build"]["overlays"]
         self.assertEqual({"arm64", "armhf"}, set(overlays))
         for arch, patches in overlays.items():
-            self.assertEqual([chailove.CHAILOVE_OVERLAY], patches, arch)
+            self.assertEqual(
+                [chailove.CHAILOVE_OVERLAY, chailove.CHAILOVE_SORT_OVERLAY],
+                patches,
+                arch,
+            )
 
     def test_overlay_patch_file_matches_its_pinned_digest(self) -> None:
         overlay = chailove.CHAILOVE_OVERLAY

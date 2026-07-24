@@ -12,7 +12,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "fceumm"
 OTHER_CORE_ID = "handy"
-PIN_NAME = "fceumm-718c5a2e1757-b9cb59f371db.json"
+PIN_NAME = "fceumm-718c5a2e1757-0e380692dee1.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -20,12 +20,12 @@ SOURCE_COMMIT = "718c5a2e175735df92ba17a2945a8d1abbc48652"
 SOURCE_TREE = "9778fe04fc7b5fab1d71351784cb56be2949cf99"
 SOURCE_LOCK_ID = "fceumm-718c5a2e1757"
 SELECTION_SHA256 = (
-    "b9cb59f371dbcc57e8f85446efade95a01bfa5c8dce8641bf081c0537ef4ae49"
+    "0e380692dee18f900a2429c18c32c551b782eae76bc26c0d589a8747f871e0b3"
 )
-SELECTED_RUN = "actions-sim-build-core-fceumm-w3"
-REPRODUCTION_RUN = "build-core-fceumm-local-w3"
+SELECTED_RUN = "actions-sim-build-core-fceumm-w4"
+REPRODUCTION_RUN = "build-core-fceumm-local-w4"
 PACKAGE_SHA256 = (
-    "f3426947adbd37b86c10d13d8abe19ca7611119f8dc92fd5ecc7910da4a0f044"
+    "db1a8f2f774b2b4f848753b744754646a39daa38f00e8377b766691c00b0eeef"
 )
 RUNNERS = {
     SELECTED_RUN: {
@@ -50,7 +50,7 @@ COMPILERS = {
 TARGETS = {
     "arm64": {
         "artifact_sha256": (
-            "7e232399d10d5b84aceb4f78839cb916cc72319253e01045a5c3780c7f048b7a"
+            "bd7e209da7da099aa103f9db7fe23729bbf83f43d391955c29ca7c3b5c597cee"
         ),
         "elf": "ELF64/AArch64",
         "needed": ["ld-linux-aarch64.so.1", "libc.so.6", "libm.so.6"],

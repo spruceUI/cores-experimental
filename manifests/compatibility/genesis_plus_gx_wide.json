@@ -4,14 +4,14 @@
   "core_id": "genesis_plus_gx_wide",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/genesis_plus_gx_wide-29d9d104338f-6184c4659fe1.json",
+  "golden_source": "pins/core-sets/genesis_plus_gx_wide-29d9d104338f-1cbb401cc835.json",
   "source_commit": "29d9d104338f46bc2e65438fb207bcf54f701e92",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx_wide-w3c/e2e-record.json",
-  "selected_e2e_content_sha256": "4d578c0bc71f475fc10fd9749d5f784f7376a3aba5f30bfdbe7b20e5b0cd8ae4",
-  "reproduction_run": ".local-e2e/runs/build-core-genesis_plus_gx_wide-local-w3c/e2e-record.json",
-  "reproduction_e2e_content_sha256": "8c68eea6dd90219ae98cab6072b5ccb28298963c9f1411b5dbf97e8a70b63340",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-genesis_plus_gx_wide-w4/e2e-record.json",
+  "selected_e2e_content_sha256": "11d8ded5c8605e3a5989c3851959c6a1d0c6e1abfa8156f46230b6fc4ca845e3",
+  "reproduction_run": ".local-e2e/runs/build-core-genesis_plus_gx_wide-local-w4/e2e-record.json",
+  "reproduction_e2e_content_sha256": "5dfdb4a84c4665451444cf3e19e8fba140fb19092254e997b5e3e442a39df5f5",
   "package_state": "reproducible",
-  "package_sha256": "192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc",
+  "package_sha256": "199d4884aada4f88db08be9ddc11e01441c09cb6e5ca6efd97eb3a83e6884c85",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the genesis_plus_gx_wide_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -32,7 +32,7 @@
       "state": "local_static_build_golden",
       "validation_scope": "static-build-only",
       "runtime_validation": "needs-target-runtime",
-      "artifact_sha256": "d9a21808b8ec081d0f44134feca26d73d1648e157d249173ef7948e1f17a6e58",
+      "artifact_sha256": "d6472a282b3f602c0294ed752caec527411b4278c98e6d17c6f2f48b7ed23e4c",
       "elf": "ELF64/AArch64",
       "needed": [
         "ld-linux-aarch64.so.1",
@@ -58,5 +58,5 @@
       ]
     }
   },
-  "content_sha256": "d7092e306609699a3a1f6fecc3044d432ecac24437cfb62c603248ad491ee8e1"
+  "content_sha256": "4c864f1cb19f5aa684443942c43b807ea1c37ca874a714a0f69806774081d2eb"
 }

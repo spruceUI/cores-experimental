@@ -1,77 +1,77 @@
 {
   "$schema": "../../manifests/evidence-index.schema.json",
   "compatibility": {
-    "content_sha256": "5660766748b7ccab6a8571b745fb737f1a9df0cd865ca99161902a79c7e7b05c",
-    "file_sha256": "2071d8f2761e95faae39a67ce50e2422fa536e220c9139fb44f4bc4b2c0c2566"
+    "content_sha256": "7eb0b516d36872d4a39f88bf2512a69c94f11558276068e76540badd0941fcdb",
+    "file_sha256": "de0a7f9fc6f86214a6ede35fa9054d4566545d233ebffa9d63618130f87f9446"
   },
   "core_id": "dosbox_pure",
   "local_only_evidence": true,
   "package": {
-    "sha256": "eb83fbf34ef10b3f00220b650737cdeba2d435c1694a48d55a8ed3319fd78231",
-    "size": 2616586
+    "sha256": "f122e93f7717daec446cd68727582c91316eb4311f8306c1988ea16680cf6902",
+    "size": 2612340
   },
-  "pin_path": "pins/core-sets/dosbox_pure-a4a0bab7f893-caf26992f4b8.json",
+  "pin_path": "pins/core-sets/dosbox_pure-a4a0bab7f893-a5c7ffc595df.json",
   "publication": "disabled",
   "runs": {
     "reproduction": {
       "builds": {
         "arm64": {
-          "log_sha256": "b2525e4e22329bc37587ca36f88951de1e3e9ca1b5067535fce31a242aebf554",
+          "log_sha256": "a333c24709fa239e0a34cdabd2f925e3f5ec330bc5af96d71ced87520c0d92d7",
           "log_size": 48286,
-          "record_sha256": "91d621bf10d8e38c9e97b20eab90b45fc4ccf9a7af60a08e412e0d46d104d93a",
-          "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "record_sha256": "2ef21c8ca9a457bad20fa26073fed45c39cffd8c30992c53d79223f3bf52b08d",
+          "repository_dirty": false,
+          "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e"
         },
         "armhf": {
-          "log_sha256": "f96728d49286dab63016605808bf321d7b39345c74cc34ff846e87d7f27ef29d",
+          "log_sha256": "cbef9e41398101a1d79abedb2d9271a8d2011d00246a2fb79cdf07c7b8e56884",
           "log_size": 49026,
-          "record_sha256": "aba71afa9b63fdda5e7d1b1e4b50defac142b7d3064cd3f580a75605ce343be6",
-          "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "record_sha256": "36ddc6ae4b97881c561ecf09c06cd9eb40c74c2c811513e15de87fb7990d2e8d",
+          "repository_dirty": false,
+          "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e"
         }
       },
-      "e2e_content_sha256": "0bfaa19b32331eeb28459408e20d15d80b703c5c4a04a6fbcf982d3a2bdc7ba6",
-      "e2e_file_sha256": "aae1dadf02443cae48ce596307bdb6b53c85d341bdd8d9529df218e8ed51b264",
-      "run_id": "build-core-dosbox_pure-local-w3"
+      "e2e_content_sha256": "9cb937518d37ecd12de11f78ec22c596cbe0d601255d77b798762798f5adab5b",
+      "e2e_file_sha256": "f6532bed1c9cae5891ca940546acf1773c2bc5f6569b3be8dcbf8a72699abde7",
+      "run_id": "build-core-dosbox_pure-local-w4"
     },
     "selected": {
       "builds": {
         "arm64": {
-          "log_sha256": "b2525e4e22329bc37587ca36f88951de1e3e9ca1b5067535fce31a242aebf554",
+          "log_sha256": "a333c24709fa239e0a34cdabd2f925e3f5ec330bc5af96d71ced87520c0d92d7",
           "log_size": 48286,
-          "record_sha256": "7da857dbfbec0af2bd187e9c481c5e5d377ecb47baf1ce0e6ab18db33659c1a2",
-          "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "record_sha256": "23f5698757fd96c8db87167512ef1c5140447e6666d1c23215620f361958e0e9",
+          "repository_dirty": false,
+          "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e"
         },
         "armhf": {
-          "log_sha256": "f96728d49286dab63016605808bf321d7b39345c74cc34ff846e87d7f27ef29d",
+          "log_sha256": "cbef9e41398101a1d79abedb2d9271a8d2011d00246a2fb79cdf07c7b8e56884",
           "log_size": 49026,
-          "record_sha256": "388960dc8796dc3d762bd8871d685cec5758aeb1da34f4bcc2ae83c256039108",
-          "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "record_sha256": "0e4505af00e8659f746245167cf581b6e824ebf2b35ddde2eef28b1c65c4451a",
+          "repository_dirty": false,
+          "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e"
         }
       },
-      "e2e_content_sha256": "0fa448f3a4953d718daf9e1f83318159af2fc146407d58714337e559581e91f8",
-      "e2e_file_sha256": "74b2eac90e35b8e8e77e0d0b9e61150d514fb5437d50e51494f4f25e2f5026c6",
-      "run_id": "actions-sim-build-core-dosbox_pure-w3"
+      "e2e_content_sha256": "f6ba81275dced70b4a7176310196cc7dd3fcc3841b705e16e5b0952badbb9a62",
+      "e2e_file_sha256": "4cecb3696bb7a34bde7168c5d92a271fc221bb7ba02016c73843b21a4169a80d",
+      "run_id": "actions-sim-build-core-dosbox_pure-w4"
     }
   },
   "schema_version": 1,
-  "selection_sha256": "caf26992f4b859a16027caadd2bbc3531714cbc43da3f3537f0d9f568cce61f7",
-  "semantic_id": "dosbox_pure-a4a0bab7f893-caf26992f4b8",
+  "selection_sha256": "a5c7ffc595df3b45962d1f59870b58009532a71eced65ec3eb75ffe84381fac3",
+  "semantic_id": "dosbox_pure-a4a0bab7f893-a5c7ffc595df",
   "source_commit": "a4a0bab7f8931433588f2fcad9045c85b277373d",
-  "source_set_path": "pins/source-sets/dosbox_pure-a4a0bab7f893-caf26992f4b8.json",
+  "source_set_path": "pins/source-sets/dosbox_pure-a4a0bab7f893-a5c7ffc595df.json",
   "targets": {
     "arm64": {
-      "artifact_sha256": "251c9d32576b9fecc6434958d842ec1d69eb0c2fe449931bfb97d88995960273",
-      "artifact_size": 2875240,
+      "artifact_sha256": "6d4158dd7f99a68fffb86c1ce0c58adb77aee03d22b8e930e420635a2f53127c",
+      "artifact_size": 2883408,
       "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
       "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
       "toolchain_archive_size": 502531978
     },
     "armhf": {
-      "artifact_sha256": "bfa06c14ba0f5aa9403d7e14d619f7e3ddc97200c579303e611742548c5293c8",
-      "artifact_size": 2495196,
+      "artifact_sha256": "ad3476a02996defbc896cd7b46871d97fd69b9c3347d2ee88aafa9de5c5cbf73",
+      "artifact_size": 2495192,
       "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
       "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
       "toolchain_archive_size": 835303648

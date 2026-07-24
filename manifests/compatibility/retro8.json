@@ -4,14 +4,14 @@
   "core_id": "retro8",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/retro8-ddc06a142398-9b596b4d9ad6.json",
+  "golden_source": "pins/core-sets/retro8-ddc06a142398-ce001b11134e.json",
   "source_commit": "ddc06a142398ee9755894b3f0bb17c8dc428151d",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-retro8-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "e685e216449b25a2a660fe2bdd6ce945164d73382549d2f6b23938806ac11cdf",
-  "reproduction_run": ".local-e2e/runs/build-core-retro8-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "9cbea5d2924b3aad1f840fd3ef93907a6cf963523d2df623a054021c8dae80bb",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-retro8-w4/e2e-record.json",
+  "selected_e2e_content_sha256": "b6f051478a2889cec1c7b03e8f556405288bd9d7ea2c4e13477dba3a415030a8",
+  "reproduction_run": ".local-e2e/runs/build-core-retro8-local-w4/e2e-record.json",
+  "reproduction_e2e_content_sha256": "a9478767b5adb4bbfba7a70fafe8575f7f0dee500fb4c3b7bb36c8e568a0ccd0",
   "package_state": "reproducible",
-  "package_sha256": "b21fccdd2d3e98488fdcc1d8d0a6d95c2d9d5dfed10b748571055a84683cf7b8",
+  "package_sha256": "6ef308fbbc732380b2fbf051aa0f31a72574eac199a3c3ac59a0127ca320ca64",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the retro8_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -22,7 +22,7 @@
       "state": "local_static_build_golden",
       "validation_scope": "static-build-only",
       "runtime_validation": "needs-target-runtime",
-      "artifact_sha256": "a4e2ea731360b9bd6e9482dd8165a75a2f83aead5d7a64d39adb30526b951e4e",
+      "artifact_sha256": "f6433e8c6db593d2f0d272816a42907ac90e9fdb6859218443caf32e0e7bda3b",
       "elf": "ELF64/AArch64",
       "needed": [
         "ld-linux-aarch64.so.1",
@@ -75,5 +75,5 @@
       ]
     }
   },
-  "content_sha256": "9a31dd656a3681a501c34a679024c7443c05ceb69ef5d69f72b7299914eb64aa"
+  "content_sha256": "bfb9fe120c084360e467be47160fe9f6ca688c59ac184d5ae50ceedda8522d8f"
 }

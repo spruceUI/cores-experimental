@@ -1,14 +1,14 @@
 {
   "$schema": "../../manifests/core-source-set.schema.json",
   "schema_version": 1,
-  "source_set_id": "chailove-5fa2014d9a13-b5daece4f4dc",
+  "source_set_id": "chailove-5fa2014d9a13-a865ec5a740d",
   "local_only": true,
   "publication": "disabled",
   "evidence_pin": {
-    "path": "pins/core-sets/chailove-5fa2014d9a13-b5daece4f4dc.json",
-    "pin_id": "chailove-5fa2014d9a13-b5daece4f4dc",
-    "file_sha256": "b29d15437554894e36fe22ec2878eb3e6969978d83383f2e77a482b31040836e",
-    "content_sha256": "c64cf708cdccad0204de7f2309548e3afe2b8c4de69fde77a2c70326df9f470b"
+    "path": "pins/core-sets/chailove-5fa2014d9a13-a865ec5a740d.json",
+    "pin_id": "chailove-5fa2014d9a13-a865ec5a740d",
+    "file_sha256": "ceddce2e977a470249e0a5df839783283f7bc23852961236153e00941d7b46dd",
+    "content_sha256": "5457634d0ac66eff2cb271b778f4aa97c34933d02c8870089de6d64b503b4ff0"
   },
   "sources": {
     "chailove": {
@@ -19,5 +19,5 @@
       "content_sha256": "5af5d8c1d39f64f79458748b7a3bc76c2f71d6d95385cf0a40f77e13316cb05e"
     }
   },
-  "content_sha256": "69b9c01311568e55a388ad257e1180669132eb9ff1ae83daef5381c7ab6a9b5b"
+  "content_sha256": "26ddec25278cb4d30f62d8fe82cfeecffd90e12945ad4025cf474ea1ceca5e2d"
 }

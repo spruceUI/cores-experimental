@@ -5,6 +5,7 @@ from __future__ import annotations
 import unittest
 
 from scripts import core_pipeline as pipeline
+from core_pipeline_lib.contracts import fbneo
 
 from .support import ROOT, load_document
 
@@ -64,6 +65,10 @@ class FbneoManifestTests(unittest.TestCase):
                 },
                 "source_date_epoch": SOURCE_DATE_EPOCH,
                 "git_version": NATIVE_VERSION,
+                "overlays": {
+                    "arm64": [dict(fbneo.FBNEO_SORT_OVERLAY)],
+                    "armhf": [dict(fbneo.FBNEO_SORT_OVERLAY)],
+                },
             },
             self.spec["build"],
         )
@@ -161,7 +166,7 @@ class FbneoManifestTests(unittest.TestCase):
             set(build_schema["required"]),
         )
         self.assertEqual(
-            set(build_schema["required"]),
+            set(build_schema["required"]) | {"overlays"},
             set(build_schema["propertyNames"]["enum"]),
         )
         self.assertEqual(

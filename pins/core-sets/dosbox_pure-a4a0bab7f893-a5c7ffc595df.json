@@ -1,39 +1,39 @@
 {
   "$schema": "../../manifests/core-set.schema.json",
-  "content_sha256": "3203ba864aebb7c50c885d8e6c833e9dc2dd179c671194ddcfab3b14e94344c0",
+  "content_sha256": "1c58437b908b69504a6d4b7c6fbabc6281369b45ffd894db8aaa300519a25f92",
   "cores": {
-    "fbalpha2012": {
+    "dosbox_pure": {
       "decision": "select_source",
       "selection": {
         "e2e": {
           "build_records": {
-            "arm64": "eb2705623c242e6d2d16b8a49bd633465b78c9a09e05822d360536e7a17da659",
-            "armhf": "327fefa3cde2aeac9fbb5961b9b40fc1af67ad50230336a407a33ee119f7680f"
+            "arm64": "23f5698757fd96c8db87167512ef1c5140447e6666d1c23215620f361958e0e9",
+            "armhf": "0e4505af00e8659f746245167cf581b6e824ebf2b35ddde2eef28b1c65c4451a"
           },
-          "content_sha256": "d1a5a27e5b22550ec3bb6882d7d31ca3715acd4e26cda1ba5bd7eba46b4fc06c",
-          "package_sha256": "f919890a1e36a79df6e0a3fe96ce956ecd85d5255e4b59d5f8aa070c333a4e14",
-          "run_id": "actions-sim-build-core-fbalpha2012-w3"
+          "content_sha256": "f6ba81275dced70b4a7176310196cc7dd3fcc3841b705e16e5b0952badbb9a62",
+          "package_sha256": "f122e93f7717daec446cd68727582c91316eb4311f8306c1988ea16680cf6902",
+          "run_id": "actions-sim-build-core-dosbox_pure-w4"
         },
         "metadata": {
-          "path": ".local-e2e/store/metadata/sha256/d0/d0c1347fe924f6d9aca988d16fe798de9db04c34c69f13804710735bc74b0647",
-          "sha256": "d0c1347fe924f6d9aca988d16fe798de9db04c34c69f13804710735bc74b0647",
-          "size": 809
+          "path": ".local-e2e/store/metadata/sha256/e5/e59629d975653c3c2a9ec64a112c524efe5aa16b7cf4093c2085222262fb88dd",
+          "sha256": "e59629d975653c3c2a9ec64a112c524efe5aa16b7cf4093c2085222262fb88dd",
+          "size": 1236
         },
         "package": {
-          "name": "fbalpha2012_libretro.zip",
-          "path": ".local-e2e/store/packages/sha256/f9/f919890a1e36a79df6e0a3fe96ce956ecd85d5255e4b59d5f8aa070c333a4e14",
-          "sha256": "f919890a1e36a79df6e0a3fe96ce956ecd85d5255e4b59d5f8aa070c333a4e14",
-          "size": 9668173
+          "name": "dosbox_pure_libretro.zip",
+          "path": ".local-e2e/store/packages/sha256/f1/f122e93f7717daec446cd68727582c91316eb4311f8306c1988ea16680cf6902",
+          "sha256": "f122e93f7717daec446cd68727582c91316eb4311f8306c1988ea16680cf6902",
+          "size": 2612340
         },
-        "selection_sha256": "4441b57d77efb73dac36c00166eb3f7ccd4f46932e9b1fd50057353a66c00937",
+        "selection_sha256": "a5c7ffc595df3b45962d1f59870b58009532a71eced65ec3eb75ffe84381fac3",
         "targets": {
           "arm64": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/d2/d22d25a98d9bb7850df92117273e3c65703acf7f123cf0161fa0c6746af2c4c7",
-              "sha256": "d22d25a98d9bb7850df92117273e3c65703acf7f123cf0161fa0c6746af2c4c7",
-              "size": 24619320
+              "path": ".local-e2e/store/artifacts/sha256/6d/6d4158dd7f99a68fffb86c1ce0c58adb77aee03d22b8e930e420635a2f53127c",
+              "sha256": "6d4158dd7f99a68fffb86c1ce0c58adb77aee03d22b8e930e420635a2f53127c",
+              "size": 2883408
             },
-            "build_record_sha256": "eb2705623c242e6d2d16b8a49bd633465b78c9a09e05822d360536e7a17da659",
+            "build_record_sha256": "23f5698757fd96c8db87167512ef1c5140447e6666d1c23215620f361958e0e9",
             "golden_record": {
               "architecture": "arm64",
               "artifact": {
@@ -77,17 +77,23 @@
                   "libc.so.6",
                   "libgcc_s.so.1",
                   "libm.so.6",
+                  "libpthread.so.0",
                   "libstdc++.so.6"
                 ],
-                "path": "fbalpha2012_libretro.so",
-                "sha256": "d22d25a98d9bb7850df92117273e3c65703acf7f123cf0161fa0c6746af2c4c7",
-                "size": 24619320,
+                "path": "dosbox_pure_libretro.so",
+                "sha256": "6d4158dd7f99a68fffb86c1ce0c58adb77aee03d22b8e930e420635a2f53127c",
+                "size": 2883408,
                 "status": "valid",
                 "version_requirements": [
                   "CXXABI_1.3",
+                  "CXXABI_1.3.8",
                   "GCC_3.0",
                   "GLIBCXX_3.4",
+                  "GLIBCXX_3.4.11",
+                  "GLIBCXX_3.4.15",
+                  "GLIBCXX_3.4.20",
                   "GLIBCXX_3.4.21",
+                  "GLIBCXX_3.4.9",
                   "GLIBC_2.17",
                   "GLIBC_2.27",
                   "GLIBC_2.29"
@@ -98,84 +104,84 @@
                 "driver": "libretro-super",
                 "environment": "sanitized-v1",
                 "log": "build.log",
-                "log_sha256": "089e48e8edadff5e3ba4c0f522b77cd2ac6f56586597d595813fe3d7115fdec7"
+                "log_sha256": "a333c24709fa239e0a34cdabd2f925e3f5ec330bc5af96d71ced87520c0d92d7"
               },
-              "core_id": "fbalpha2012",
+              "core_id": "dosbox_pure",
               "e2e": {
                 "build_records": {
-                  "arm64": "eb2705623c242e6d2d16b8a49bd633465b78c9a09e05822d360536e7a17da659",
-                  "armhf": "327fefa3cde2aeac9fbb5961b9b40fc1af67ad50230336a407a33ee119f7680f"
+                  "arm64": "23f5698757fd96c8db87167512ef1c5140447e6666d1c23215620f361958e0e9",
+                  "armhf": "0e4505af00e8659f746245167cf581b6e824ebf2b35ddde2eef28b1c65c4451a"
                 },
-                "content_sha256": "d1a5a27e5b22550ec3bb6882d7d31ca3715acd4e26cda1ba5bd7eba46b4fc06c",
-                "package": ".local-e2e/runs/actions-sim-build-core-fbalpha2012-w3/fbalpha2012_libretro.zip",
-                "package_sha256": "f919890a1e36a79df6e0a3fe96ce956ecd85d5255e4b59d5f8aa070c333a4e14",
-                "record": ".local-e2e/runs/actions-sim-build-core-fbalpha2012-w3/e2e-record.json",
-                "record_sha256": "d819a719c0cb02e4fab19ec3d8cd573da5c87c945f0cc0913d9282c4f6ba6615",
-                "run_id": "actions-sim-build-core-fbalpha2012-w3"
+                "content_sha256": "f6ba81275dced70b4a7176310196cc7dd3fcc3841b705e16e5b0952badbb9a62",
+                "package": ".local-e2e/runs/actions-sim-build-core-dosbox_pure-w4/dosbox_pure_libretro.zip",
+                "package_sha256": "f122e93f7717daec446cd68727582c91316eb4311f8306c1988ea16680cf6902",
+                "record": ".local-e2e/runs/actions-sim-build-core-dosbox_pure-w4/e2e-record.json",
+                "record_sha256": "4cecb3696bb7a34bde7168c5d92a271fc221bb7ba02016c73843b21a4169a80d",
+                "run_id": "actions-sim-build-core-dosbox_pure-w4"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-fbalpha2012-w3/fbalpha2012/arm64/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-dosbox_pure-w4/dosbox_pure/arm64/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/d2/d22d25a98d9bb7850df92117273e3c65703acf7f123cf0161fa0c6746af2c4c7",
-                  "sha256": "d22d25a98d9bb7850df92117273e3c65703acf7f123cf0161fa0c6746af2c4c7"
+                  "path": ".local-e2e/store/artifacts/sha256/6d/6d4158dd7f99a68fffb86c1ce0c58adb77aee03d22b8e930e420635a2f53127c",
+                  "sha256": "6d4158dd7f99a68fffb86c1ce0c58adb77aee03d22b8e930e420635a2f53127c"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/08/089e48e8edadff5e3ba4c0f522b77cd2ac6f56586597d595813fe3d7115fdec7",
-                    "sha256": "089e48e8edadff5e3ba4c0f522b77cd2ac6f56586597d595813fe3d7115fdec7"
+                    "path": ".local-e2e/store/logs/sha256/a3/a333c24709fa239e0a34cdabd2f925e3f5ec330bc5af96d71ced87520c0d92d7",
+                    "sha256": "a333c24709fa239e0a34cdabd2f925e3f5ec330bc5af96d71ced87520c0d92d7"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/34/3470f08d21bf3447cc059957542a7105b933d94f81080a68a574a1feac28a96f",
-                    "sha256": "3470f08d21bf3447cc059957542a7105b933d94f81080a68a574a1feac28a96f"
+                    "path": ".local-e2e/store/logs/sha256/cb/cbef9e41398101a1d79abedb2d9271a8d2011d00246a2fb79cdf07c7b8e56884",
+                    "sha256": "cbef9e41398101a1d79abedb2d9271a8d2011d00246a2fb79cdf07c7b8e56884"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/eb/eb2705623c242e6d2d16b8a49bd633465b78c9a09e05822d360536e7a17da659",
-                    "sha256": "eb2705623c242e6d2d16b8a49bd633465b78c9a09e05822d360536e7a17da659"
+                    "path": ".local-e2e/store/build-records/sha256/23/23f5698757fd96c8db87167512ef1c5140447e6666d1c23215620f361958e0e9",
+                    "sha256": "23f5698757fd96c8db87167512ef1c5140447e6666d1c23215620f361958e0e9"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/32/327fefa3cde2aeac9fbb5961b9b40fc1af67ad50230336a407a33ee119f7680f",
-                    "sha256": "327fefa3cde2aeac9fbb5961b9b40fc1af67ad50230336a407a33ee119f7680f"
+                    "path": ".local-e2e/store/build-records/sha256/0e/0e4505af00e8659f746245167cf581b6e824ebf2b35ddde2eef28b1c65c4451a",
+                    "sha256": "0e4505af00e8659f746245167cf581b6e824ebf2b35ddde2eef28b1c65c4451a"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/d8/d819a719c0cb02e4fab19ec3d8cd573da5c87c945f0cc0913d9282c4f6ba6615",
-                  "sha256": "d819a719c0cb02e4fab19ec3d8cd573da5c87c945f0cc0913d9282c4f6ba6615"
+                  "path": ".local-e2e/store/e2e/sha256/4c/4cecb3696bb7a34bde7168c5d92a271fc221bb7ba02016c73843b21a4169a80d",
+                  "sha256": "4cecb3696bb7a34bde7168c5d92a271fc221bb7ba02016c73843b21a4169a80d"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/d0/d0c1347fe924f6d9aca988d16fe798de9db04c34c69f13804710735bc74b0647",
-                  "sha256": "d0c1347fe924f6d9aca988d16fe798de9db04c34c69f13804710735bc74b0647"
+                  "path": ".local-e2e/store/metadata/sha256/e5/e59629d975653c3c2a9ec64a112c524efe5aa16b7cf4093c2085222262fb88dd",
+                  "sha256": "e59629d975653c3c2a9ec64a112c524efe5aa16b7cf4093c2085222262fb88dd"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/f9/f919890a1e36a79df6e0a3fe96ce956ecd85d5255e4b59d5f8aa070c333a4e14",
-                  "sha256": "f919890a1e36a79df6e0a3fe96ce956ecd85d5255e4b59d5f8aa070c333a4e14"
+                  "path": ".local-e2e/store/packages/sha256/f1/f122e93f7717daec446cd68727582c91316eb4311f8306c1988ea16680cf6902",
+                  "sha256": "f122e93f7717daec446cd68727582c91316eb4311f8306c1988ea16680cf6902"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/cd/cd716a113c9b727355200283a0a13d23059047c331eb02a5aed02f322efa132e",
-                    "sha256": "cd716a113c9b727355200283a0a13d23059047c331eb02a5aed02f322efa132e"
+                    "path": ".local-e2e/store/recipes/sha256/32/32fcaf5c618e8bdb17ccd6c6634f530d63f5a77c40347186487c1941966b7311",
+                    "sha256": "32fcaf5c618e8bdb17ccd6c6634f530d63f5a77c40347186487c1941966b7311"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/e7/e7f09644d9a9ed119c25249264c883894eb429b362f31a969cb7b4090dceda18",
-                    "sha256": "e7f09644d9a9ed119c25249264c883894eb429b362f31a969cb7b4090dceda18"
+                    "path": ".local-e2e/store/recipes/sha256/03/03993f22d35059a402380d2ff89750b87dc15f1fec35fffc0964ef5050aec3a6",
+                    "sha256": "03993f22d35059a402380d2ff89750b87dc15f1fec35fffc0964ef5050aec3a6"
                   }
                 }
               },
               "metadata": {
-                "path": "fbalpha2012_libretro.info",
-                "sha256": "d0c1347fe924f6d9aca988d16fe798de9db04c34c69f13804710735bc74b0647",
-                "size": 809,
+                "path": "dosbox_pure_libretro.info",
+                "sha256": "e59629d975653c3c2a9ec64a112c524efe5aa16b7cf4093c2085222262fb88dd",
+                "size": 1236,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T10:17:49+00:00",
+              "promoted_at": "2026-07-24T18:15:27+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
               "recipe": {
                 "catalog_path": "manifests/core-builds.json",
-                "catalog_sha256": "4b374c814b03b543769e485f850b8edf579add8896f2b52c974bddd3b3341415",
+                "catalog_sha256": "c480a54366dce97d17710be4553bd8fed50f1c86575de9c714513ccb916e3b32",
                 "commit_blacklist": {
                   "content_sha256": "ec576e761470ed7b47e15d404a783ce1f77f543395d769f78461dca4f177ba89",
                   "file_sha256": "bed3c1af0001b8013e57e7557a8faca0d1dfa0b5f5e5395f7aecf6ea1fc2946c",
@@ -183,12 +189,12 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "fbalpha2012",
-                "core_spec_sha256": "5ce1b54e72ae362c2f61ba4fbb3f5721e61d33758d8db73e95d0af6a7a46deb7",
+                "core_id": "dosbox_pure",
+                "core_spec_sha256": "5c2e416def84105eeea036d43cedcea1688c66e796f970a6b325b034d5c5bae0",
                 "pipeline_bundle": {
-                  "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
+                  "content_sha256": "c4547a6fbfb2c3bffb1bde4b2ebbc450eeb0213ba7628663c8131ceb31ca9769",
                   "files": {
-                    "scripts/core_pipeline.py": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
+                    "scripts/core_pipeline.py": "a72901a6e5636078f8f1e37332426a2892e1f1662ee5269d647c13a8d9012eab",
                     "scripts/core_pipeline_lib/__init__.py": "d835fc145578c70e9d0d7c9c810ad42e3640eb9a1ddf608c4b1edcef48d27d57",
                     "scripts/core_pipeline_lib/cli/__init__.py": "5aef9bc4facbcf04f5d6d3063abdfef790fa0334729e2f751be772ce6e1b2467",
                     "scripts/core_pipeline_lib/cli/model.py": "d06b4da9bef25686f6e45ea5a25edc880bab6eafde71dfb0eea80b55350cefb8",
@@ -203,21 +209,21 @@
                     "scripts/core_pipeline_lib/contracts/c_only.py": "ff219d3ff99e55d594fea8b3373755e07f07489bdc8c905aabdc654f75ade7b0",
                     "scripts/core_pipeline_lib/contracts/cap32.py": "8b0d02a4b23dbd320b95537d85f01b6337ab81cc3c78390d156c65538062d841",
                     "scripts/core_pipeline_lib/contracts/cargo.py": "5a4406d7d8f909210679a05153417239d3190c5caf1f6c09119af3de52e1eecf",
-                    "scripts/core_pipeline_lib/contracts/chailove.py": "fce4dffb2f22b2982689916f5d25314fbaf79dbd2d940f67c356c13bee9d46a9",
+                    "scripts/core_pipeline_lib/contracts/chailove.py": "c9fcd83083daf29b2fe30c86dff87392aae076fdc44a598f4523cfb11f81d924",
                     "scripts/core_pipeline_lib/contracts/chimerasnes.py": "f5122d157593285acae7e33c884db14d42bfd251341efadc6fc77bf48105637b",
                     "scripts/core_pipeline_lib/contracts/command_line.py": "bc27a6e5931ba185a2ce944d6f35d4f11541f3c169fbd813e3cbbcec048e5c35",
                     "scripts/core_pipeline_lib/contracts/compiler.py": "ee36b27043d2b4531babf1b39166ebb8c3cad7f978a01e27c2ada295531fd12c",
                     "scripts/core_pipeline_lib/contracts/core_2048.py": "cdb540de8d9cdbe0625803b6b512db883ba571d2fa4b250d29eaa7edce6fa151",
                     "scripts/core_pipeline_lib/contracts/core_81.py": "0e96faf8305d4cc80b08b948e4d7d8ce6cfe01f890c59f2c08d143611ebd2350",
                     "scripts/core_pipeline_lib/contracts/cpc_common.py": "1cee61f598bca8cf90c6dc9e6d985660a0d83386d37d435e287e7b32eae34c4f",
-                    "scripts/core_pipeline_lib/contracts/crocods.py": "abb85676f506f9437efd0e75525859ea315469edb413c5a486230bb2fb2cf535",
+                    "scripts/core_pipeline_lib/contracts/crocods.py": "451ae2ac4a7a10b6c43da05fc03d023aa90024bb5264adea1534352b55fe768d",
                     "scripts/core_pipeline_lib/contracts/daphne.py": "7ae8c4b89aed768c197abc75d36732f57636b7adc7ff1befdaa23471f2f10ca6",
-                    "scripts/core_pipeline_lib/contracts/dosbox_pure.py": "f57e996de3f6b702a94eaa9490086f114b994b8f61a01f36c114998e20a0d28c",
+                    "scripts/core_pipeline_lib/contracts/dosbox_pure.py": "42888a30b8eca93dea4dbcfa3d0177b9412f8f0556c31d7c115031ec87254956",
                     "scripts/core_pipeline_lib/contracts/ecwolf.py": "ac3b4256b3015917ca6f6ffdfe74b68c3f6a54dde408eef7570dd73bebfff4aa",
                     "scripts/core_pipeline_lib/contracts/fake08.py": "32532b910d17d142ad6ac345429eb6067a1367398aa69c4a58287fbedc1103ba",
-                    "scripts/core_pipeline_lib/contracts/fbalpha2012.py": "c1a9e2274b8ef68af461005e62f5766b3bee314f1a632ed00a2213ee86a69850",
-                    "scripts/core_pipeline_lib/contracts/fbneo.py": "e61fb8eb1f4c4ad96e9ad529387f0987b78ef281b8a86207ac3099d6002eb342",
-                    "scripts/core_pipeline_lib/contracts/fceumm.py": "791226842b6d16af51c16eef664b408e60469e8953ad1ee2e731567ecafb172f",
+                    "scripts/core_pipeline_lib/contracts/fbalpha2012.py": "eff98b1accccbf27fc8348a4daebb9e65ce6a0227c8638d11c4672368c0d03c1",
+                    "scripts/core_pipeline_lib/contracts/fbneo.py": "bac96ac5e27c19f3bfdcc39dc77cdbbc2beab996b2af3e0f40bb009a8c564464",
+                    "scripts/core_pipeline_lib/contracts/fceumm.py": "8b6ea07d2f46fb99cd29aa8e67f513c7fd914a36be493d364796f702f7c10942",
                     "scripts/core_pipeline_lib/contracts/fmsx.py": "31ebea1b34cf6162bea5a17fffb51e0473bc13943e9b60efe00891dd338531b4",
                     "scripts/core_pipeline_lib/contracts/freechaf.py": "7ab83989510213404dc9cb6cb66dc8a7c348b01fd5e55b874af4e5fb783df6bf",
                     "scripts/core_pipeline_lib/contracts/freeintv.py": "07284a6445ef7aaa6b4d039f5d6805aa2b950365fa3b19696a223b10dfa26ff8",
@@ -227,8 +233,8 @@
                     "scripts/core_pipeline_lib/contracts/gearboy.py": "8f708e75670cd571346a59991c2228b46005f396830af416088032cf0968e68e",
                     "scripts/core_pipeline_lib/contracts/gearcoleco.py": "114ffa0bdf0d80e2d3b281ebdf37a7dd78a009dcb9ba20055f5669ac15e6885e",
                     "scripts/core_pipeline_lib/contracts/gearsystem.py": "9f018be5c7af10c3aed059b3acce54a88f5cbd3f64ade84f2c1fbfd458a3cf76",
-                    "scripts/core_pipeline_lib/contracts/genesis_plus_gx.py": "1df055328650c1a2cf54ed32c1bfb22ccb8c2ec8881bf58ba061b40a9b651b18",
-                    "scripts/core_pipeline_lib/contracts/genesis_plus_gx_wide.py": "d0ff9b72634bd98541e629ae366da259507640be5300c1e2af448a25cb36b890",
+                    "scripts/core_pipeline_lib/contracts/genesis_plus_gx.py": "6a0105cd30088bb77c10f86076907c214a4af905530c6b355625104ad096f695",
+                    "scripts/core_pipeline_lib/contracts/genesis_plus_gx_wide.py": "7d2dce7befc5fe00ab8901b6b1ef5e98d674b9337c452af6b6f1541d2afb1200",
                     "scripts/core_pipeline_lib/contracts/gme.py": "0108e023d70c3e9410b0686074ac9740072b20f68c631e842fd6e7f0132b5573",
                     "scripts/core_pipeline_lib/contracts/gpsp.py": "382b3f7122ce4611e71a07a08d956e0590dc3cfd28a5e0f9f11a9b1046dacf61",
                     "scripts/core_pipeline_lib/contracts/gw.py": "0fcc997197e569ed80de6a2a8821d230b5888e43bee5abd86e82fbc65f8476d4",
@@ -237,7 +243,7 @@
                     "scripts/core_pipeline_lib/contracts/km_parallel_n64_xtreme_amped_turbo.py": "8a4788ab0df927e892095356cd0905744bf40e0223e1582e44fe359d76a6196d",
                     "scripts/core_pipeline_lib/contracts/libgametank.py": "3af79241324ea312a73ac38bd73ae4bde69311f0ce91033c9264cc7b7dd79d39",
                     "scripts/core_pipeline_lib/contracts/log_checks.py": "05bc759ea57ffcb56a7d7647a53863cd49a66483e03aa73e5f4f73a10fa9987d",
-                    "scripts/core_pipeline_lib/contracts/lowresnx.py": "1bc98f7e967ce6319db7c8bc83bedd9d2f947759a3c257c4a14f085b2b27c57f",
+                    "scripts/core_pipeline_lib/contracts/lowresnx.py": "2b022c28cedba25ab421ae6ffc7ac211a11baaf7a177042b552b40ede57fe960",
                     "scripts/core_pipeline_lib/contracts/lutro.py": "d80f33007c651d1b88d2c07fa336b36531df024d17368b0719b1ee10c18daa78",
                     "scripts/core_pipeline_lib/contracts/mame2003_plus.py": "def1a73a0f138a217a7acbee75c6c476d841f02228eb6e9058cfba9dd84b2ae2",
                     "scripts/core_pipeline_lib/contracts/mednafen_lynx.py": "5046e915d0c3e9d76665c69360aafe184ef4c5b841cb5c1a036b16c459089b27",
@@ -245,7 +251,7 @@
                     "scripts/core_pipeline_lib/contracts/mednafen_pce_fast.py": "e36f2fe35d9d8d656579d9fc8f88da92ea96b6079b50aa1d2c6b9f5e36e6b742",
                     "scripts/core_pipeline_lib/contracts/mednafen_pcfx.py": "a13d716371d693170017ace448e5c222d2ca251c435a62b2b0bad658b385c09e",
                     "scripts/core_pipeline_lib/contracts/mednafen_supafaust.py": "3abb577b73c2a7827355152a64479212fc5fb19a0d9e657358fdfae472fcd282",
-                    "scripts/core_pipeline_lib/contracts/mednafen_supergrafx.py": "72f07333645a5c9699dfab7a779affa3440eff05d1bcf1c94fc9ec0e64735074",
+                    "scripts/core_pipeline_lib/contracts/mednafen_supergrafx.py": "51a8196417f1e9ef0c05e492efda3e11ce4100612b9d5e193cf37469497c4903",
                     "scripts/core_pipeline_lib/contracts/mednafen_vb.py": "0f66ec64aed83320b8dbb514d71d34caaa7682e5293006e67fba535927b32624",
                     "scripts/core_pipeline_lib/contracts/mednafen_wswan.py": "446776b8b4708721dbf9db5609d1e2b8cb6fd2bc801f63d4b97fa68d1b11185a",
                     "scripts/core_pipeline_lib/contracts/mgba.py": "7d1392cb428a237ae83fdaf3761432b0a2f826474e889e795eadbd720c807228",
@@ -254,7 +260,7 @@
                     "scripts/core_pipeline_lib/contracts/mupen64plus_next.py": "01b8eafe7699e0d3190da15e2892eb64925f8c05854528bd75ad62c44e7e42bd",
                     "scripts/core_pipeline_lib/contracts/neocd.py": "a9c206d8a952909077e76678630f90adeb8a48c845871e29e74fde4955084e10",
                     "scripts/core_pipeline_lib/contracts/nestopia.py": "39d39aea9fead84ad62fb7a2cc2aa0d71693b5ab2fc63d99e7a6d41f3b0da5c9",
-                    "scripts/core_pipeline_lib/contracts/np2kai.py": "460f59eda772d907e17a8e20835a86735b4ea9446a5dc93a0eb7ea7fbad6f8e5",
+                    "scripts/core_pipeline_lib/contracts/np2kai.py": "256d798d5143338aa74daa21fc1133a1c2a0ee89e5f162de767402d6579e07a3",
                     "scripts/core_pipeline_lib/contracts/numero.py": "c2e3d46ced852370d5f30dcbd00314d48222666064e9f39680ade8bf4cd9592f",
                     "scripts/core_pipeline_lib/contracts/o2em.py": "eb843f45727200544fdcbdc5aece0725395b56d15383a3dbef40a75bab715449",
                     "scripts/core_pipeline_lib/contracts/opera.py": "8bc6ae434c468fbc1646779307bf1ecb73615b4ac4096536dd359f6c819d9f45",
@@ -266,14 +272,14 @@
                     "scripts/core_pipeline_lib/contracts/prboom.py": "326801de027401c2dc9846b87f6825051f3c2d988bbeda556eff4e4379a43b3d",
                     "scripts/core_pipeline_lib/contracts/prosystem.py": "32595affbcfe3a34bb5952fdff54f83584ba691b504608e0f42c1e2e608531ed",
                     "scripts/core_pipeline_lib/contracts/puae2021.py": "3b09b8fdef9d804c8b2d2a76ab00d5af9f937041d37319ca4893209bda4dbb1d",
-                    "scripts/core_pipeline_lib/contracts/puzzlescript.py": "c847d735fccb8c56009db4348f688b2327262566dfc168913bf12692f6d40977",
+                    "scripts/core_pipeline_lib/contracts/puzzlescript.py": "45c4821d0db94839402f79482b0156318f0d4c6047199363fbe27dc08052c568",
                     "scripts/core_pipeline_lib/contracts/px68k.py": "245e368dbc3a815892095c82ce919b4c7ced81edb8db9b9301fd6584ddaf7faf",
                     "scripts/core_pipeline_lib/contracts/quasi88.py": "ac5b33d74c2c6ec5def2091f461a9d08557d59c9360b892b139da5b0fe7c0eb2",
                     "scripts/core_pipeline_lib/contracts/quicknes.py": "e3a1a83557269948fcfaa18d0703fea83970130a22d781f0eaf76eefa1432419",
                     "scripts/core_pipeline_lib/contracts/race.py": "de0b9fd1cc917762a5dd613ff6ed7d00d4380cbfa16cc245389c98baa4b9f43f",
                     "scripts/core_pipeline_lib/contracts/registry.py": "f20d87f0379059351c7a2fee3daf2bb33186efa79c617dad1363c143fafddca5",
                     "scripts/core_pipeline_lib/contracts/reminiscence.py": "56ee2bb04d8cfad0228ff89ec237ddbfe66c14f401748a27890ab8b0fd01d17f",
-                    "scripts/core_pipeline_lib/contracts/retro8.py": "fc0d1a9b35609ae8e2ae5e1de98cd32f9935399055b6db0e643029a3da410a9d",
+                    "scripts/core_pipeline_lib/contracts/retro8.py": "d494581016a9bdeeaaf32756703690160e8321f5c7b217d76487f809721f880e",
                     "scripts/core_pipeline_lib/contracts/sameduck.py": "46c577b8986b219946b43b828c8285ed5b3cdc844b4131ab5e6a9e3a75e3fdab",
                     "scripts/core_pipeline_lib/contracts/snes9x.py": "34f0b1343578aac273250689c6bd9b99801a85d852dfb0e5a04bb7af984f5aa2",
                     "scripts/core_pipeline_lib/contracts/snes9x2002.py": "ed192605ba0384f0031d3c71169dd0a4b13921ba45d49ade0421faf6e7a38e13",
@@ -292,7 +298,7 @@
                     "scripts/core_pipeline_lib/contracts/vemulator.py": "25c9781c82d09b3e5384fbed596d6deebfa4422f93a9faa3bd56f6c1dd64fa6e",
                     "scripts/core_pipeline_lib/contracts/vice_x64.py": "c872124c9bdff1716a4b4b56e8abe5bcd068abe0cbc903a9ad1a3bc0435de071",
                     "scripts/core_pipeline_lib/contracts/vice_xvic.py": "45d5fc921c9e0293f9fc168eb21ba20d7752f9f811df35899639f78badc376bd",
-                    "scripts/core_pipeline_lib/contracts/x1.py": "7c75b791bfc750e2f9bc8be69ed58fc9e77714f1770eb676bb81e4e6defb1d4c",
+                    "scripts/core_pipeline_lib/contracts/x1.py": "8f48681aa0e820cb66db20aa574488c507f80f4e4130934d32cb1655db60e89f",
                     "scripts/core_pipeline_lib/contracts/yabasanshiro.py": "7728e8444807a462860d06b687cf2428a2fdb321c3845307d2819de23c9bc287",
                     "scripts/core_pipeline_lib/errors.py": "ce0e75ac063fa48b66947a758d0595aec4193d9cae38030b5d0219f0cc08f926",
                     "scripts/core_pipeline_lib/foundation.py": "abcd7809ab84b3e4f4797d3ef0d27cf7fd0f77ec6bda67b4f76f1e9cd7936a26",
@@ -326,20 +332,20 @@
                   },
                   "schema_version": 1
                 },
-                "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-fbalpha2012.yml",
-                "workflow_sha256": "93f8bdb495ec624f5e2c5df2b04d8df1c5d286fc32047b8e4ea8426defe75859"
+                "pipeline_sha256": "a72901a6e5636078f8f1e37332426a2892e1f1662ee5269d647c13a8d9012eab",
+                "repository_dirty": false,
+                "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e",
+                "workflow": ".github/workflows/build-dosbox_pure.yml",
+                "workflow_sha256": "d13cd7a6ca456739fdb7d69e08ac81d3cb12f5748e9c937b4ff5b4d6b0e5075b"
               },
               "source": {
-                "commit": "95fa35582b1ca7ce68de3313615794c8c9d8d7c0",
-                "requested_ref": "refs/heads/master",
-                "resolved_commit": "95fa35582b1ca7ce68de3313615794c8c9d8d7c0",
-                "resolved_url": "https://github.com/libretro/fbalpha2012.git",
+                "commit": "a4a0bab7f8931433588f2fcad9045c85b277373d",
+                "requested_ref": "refs/heads/main",
+                "resolved_commit": "a4a0bab7f8931433588f2fcad9045c85b277373d",
+                "resolved_url": "https://github.com/libretro/dosbox-pure.git",
                 "submodules": [],
-                "tree": "5547237bb6746764ca692e765cbe737339f65364",
-                "url": "https://github.com/libretro/fbalpha2012.git"
+                "tree": "0b64e0b00ba92300de9f73f213f3feaddf54a134",
+                "url": "https://github.com/libretro/dosbox-pure.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -382,15 +388,15 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "96293bc194c0541321c9ec24bfb235312bb6b977d9a3d3afe12b250a5ebddfa9"
+            "provenance_identity_sha256": "56fcbc548eb705e3fa69707924ecc6d7d5188bf5a8049854787b7172d39943f7"
           },
           "armhf": {
             "artifact": {
-              "path": ".local-e2e/store/artifacts/sha256/23/23cfef844fb691c1c002d7ceabf48e52496b8a94883b4675968bf3c1cfbd0dc0",
-              "sha256": "23cfef844fb691c1c002d7ceabf48e52496b8a94883b4675968bf3c1cfbd0dc0",
-              "size": 19980132
+              "path": ".local-e2e/store/artifacts/sha256/ad/ad3476a02996defbc896cd7b46871d97fd69b9c3347d2ee88aafa9de5c5cbf73",
+              "sha256": "ad3476a02996defbc896cd7b46871d97fd69b9c3347d2ee88aafa9de5c5cbf73",
+              "size": 2495192
             },
-            "build_record_sha256": "327fefa3cde2aeac9fbb5961b9b40fc1af67ad50230336a407a33ee119f7680f",
+            "build_record_sha256": "0e4505af00e8659f746245167cf581b6e824ebf2b35ddde2eef28b1c65c4451a",
             "golden_record": {
               "architecture": "armhf",
               "artifact": {
@@ -433,19 +439,26 @@
                   "libc.so.6",
                   "libgcc_s.so.1",
                   "libm.so.6",
+                  "libpthread.so.0",
                   "libstdc++.so.6"
                 ],
-                "path": "fbalpha2012_libretro.so",
-                "sha256": "23cfef844fb691c1c002d7ceabf48e52496b8a94883b4675968bf3c1cfbd0dc0",
-                "size": 19980132,
+                "path": "dosbox_pure_libretro.so",
+                "sha256": "ad3476a02996defbc896cd7b46871d97fd69b9c3347d2ee88aafa9de5c5cbf73",
+                "size": 2495192,
                 "status": "valid",
                 "version_requirements": [
                   "CXXABI_1.3",
-                  "CXXABI_1.3.9",
+                  "CXXABI_1.3.8",
                   "CXXABI_ARM_1.3.3",
                   "GCC_3.5",
                   "GLIBCXX_3.4",
+                  "GLIBCXX_3.4.11",
+                  "GLIBCXX_3.4.15",
+                  "GLIBCXX_3.4.20",
                   "GLIBCXX_3.4.21",
+                  "GLIBCXX_3.4.29",
+                  "GLIBCXX_3.4.9",
+                  "GLIBC_2.17",
                   "GLIBC_2.4"
                 ]
               },
@@ -454,84 +467,84 @@
                 "driver": "libretro-super",
                 "environment": "sanitized-v1",
                 "log": "build.log",
-                "log_sha256": "3470f08d21bf3447cc059957542a7105b933d94f81080a68a574a1feac28a96f"
+                "log_sha256": "cbef9e41398101a1d79abedb2d9271a8d2011d00246a2fb79cdf07c7b8e56884"
               },
-              "core_id": "fbalpha2012",
+              "core_id": "dosbox_pure",
               "e2e": {
                 "build_records": {
-                  "arm64": "eb2705623c242e6d2d16b8a49bd633465b78c9a09e05822d360536e7a17da659",
-                  "armhf": "327fefa3cde2aeac9fbb5961b9b40fc1af67ad50230336a407a33ee119f7680f"
+                  "arm64": "23f5698757fd96c8db87167512ef1c5140447e6666d1c23215620f361958e0e9",
+                  "armhf": "0e4505af00e8659f746245167cf581b6e824ebf2b35ddde2eef28b1c65c4451a"
                 },
-                "content_sha256": "d1a5a27e5b22550ec3bb6882d7d31ca3715acd4e26cda1ba5bd7eba46b4fc06c",
-                "package": ".local-e2e/runs/actions-sim-build-core-fbalpha2012-w3/fbalpha2012_libretro.zip",
-                "package_sha256": "f919890a1e36a79df6e0a3fe96ce956ecd85d5255e4b59d5f8aa070c333a4e14",
-                "record": ".local-e2e/runs/actions-sim-build-core-fbalpha2012-w3/e2e-record.json",
-                "record_sha256": "d819a719c0cb02e4fab19ec3d8cd573da5c87c945f0cc0913d9282c4f6ba6615",
-                "run_id": "actions-sim-build-core-fbalpha2012-w3"
+                "content_sha256": "f6ba81275dced70b4a7176310196cc7dd3fcc3841b705e16e5b0952badbb9a62",
+                "package": ".local-e2e/runs/actions-sim-build-core-dosbox_pure-w4/dosbox_pure_libretro.zip",
+                "package_sha256": "f122e93f7717daec446cd68727582c91316eb4311f8306c1988ea16680cf6902",
+                "record": ".local-e2e/runs/actions-sim-build-core-dosbox_pure-w4/e2e-record.json",
+                "record_sha256": "4cecb3696bb7a34bde7168c5d92a271fc221bb7ba02016c73843b21a4169a80d",
+                "run_id": "actions-sim-build-core-dosbox_pure-w4"
               },
-              "local_record": ".local-e2e/runs/actions-sim-build-core-fbalpha2012-w3/fbalpha2012/armhf/build-record.json",
+              "local_record": ".local-e2e/runs/actions-sim-build-core-dosbox_pure-w4/dosbox_pure/armhf/build-record.json",
               "local_store": {
                 "artifact": {
-                  "path": ".local-e2e/store/artifacts/sha256/23/23cfef844fb691c1c002d7ceabf48e52496b8a94883b4675968bf3c1cfbd0dc0",
-                  "sha256": "23cfef844fb691c1c002d7ceabf48e52496b8a94883b4675968bf3c1cfbd0dc0"
+                  "path": ".local-e2e/store/artifacts/sha256/ad/ad3476a02996defbc896cd7b46871d97fd69b9c3347d2ee88aafa9de5c5cbf73",
+                  "sha256": "ad3476a02996defbc896cd7b46871d97fd69b9c3347d2ee88aafa9de5c5cbf73"
                 },
                 "availability": "local-only",
                 "build_logs": {
                   "arm64": {
-                    "path": ".local-e2e/store/logs/sha256/08/089e48e8edadff5e3ba4c0f522b77cd2ac6f56586597d595813fe3d7115fdec7",
-                    "sha256": "089e48e8edadff5e3ba4c0f522b77cd2ac6f56586597d595813fe3d7115fdec7"
+                    "path": ".local-e2e/store/logs/sha256/a3/a333c24709fa239e0a34cdabd2f925e3f5ec330bc5af96d71ced87520c0d92d7",
+                    "sha256": "a333c24709fa239e0a34cdabd2f925e3f5ec330bc5af96d71ced87520c0d92d7"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/logs/sha256/34/3470f08d21bf3447cc059957542a7105b933d94f81080a68a574a1feac28a96f",
-                    "sha256": "3470f08d21bf3447cc059957542a7105b933d94f81080a68a574a1feac28a96f"
+                    "path": ".local-e2e/store/logs/sha256/cb/cbef9e41398101a1d79abedb2d9271a8d2011d00246a2fb79cdf07c7b8e56884",
+                    "sha256": "cbef9e41398101a1d79abedb2d9271a8d2011d00246a2fb79cdf07c7b8e56884"
                   }
                 },
                 "build_records": {
                   "arm64": {
-                    "path": ".local-e2e/store/build-records/sha256/eb/eb2705623c242e6d2d16b8a49bd633465b78c9a09e05822d360536e7a17da659",
-                    "sha256": "eb2705623c242e6d2d16b8a49bd633465b78c9a09e05822d360536e7a17da659"
+                    "path": ".local-e2e/store/build-records/sha256/23/23f5698757fd96c8db87167512ef1c5140447e6666d1c23215620f361958e0e9",
+                    "sha256": "23f5698757fd96c8db87167512ef1c5140447e6666d1c23215620f361958e0e9"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/build-records/sha256/32/327fefa3cde2aeac9fbb5961b9b40fc1af67ad50230336a407a33ee119f7680f",
-                    "sha256": "327fefa3cde2aeac9fbb5961b9b40fc1af67ad50230336a407a33ee119f7680f"
+                    "path": ".local-e2e/store/build-records/sha256/0e/0e4505af00e8659f746245167cf581b6e824ebf2b35ddde2eef28b1c65c4451a",
+                    "sha256": "0e4505af00e8659f746245167cf581b6e824ebf2b35ddde2eef28b1c65c4451a"
                   }
                 },
                 "e2e_record": {
-                  "path": ".local-e2e/store/e2e/sha256/d8/d819a719c0cb02e4fab19ec3d8cd573da5c87c945f0cc0913d9282c4f6ba6615",
-                  "sha256": "d819a719c0cb02e4fab19ec3d8cd573da5c87c945f0cc0913d9282c4f6ba6615"
+                  "path": ".local-e2e/store/e2e/sha256/4c/4cecb3696bb7a34bde7168c5d92a271fc221bb7ba02016c73843b21a4169a80d",
+                  "sha256": "4cecb3696bb7a34bde7168c5d92a271fc221bb7ba02016c73843b21a4169a80d"
                 },
                 "metadata": {
-                  "path": ".local-e2e/store/metadata/sha256/d0/d0c1347fe924f6d9aca988d16fe798de9db04c34c69f13804710735bc74b0647",
-                  "sha256": "d0c1347fe924f6d9aca988d16fe798de9db04c34c69f13804710735bc74b0647"
+                  "path": ".local-e2e/store/metadata/sha256/e5/e59629d975653c3c2a9ec64a112c524efe5aa16b7cf4093c2085222262fb88dd",
+                  "sha256": "e59629d975653c3c2a9ec64a112c524efe5aa16b7cf4093c2085222262fb88dd"
                 },
                 "package": {
-                  "path": ".local-e2e/store/packages/sha256/f9/f919890a1e36a79df6e0a3fe96ce956ecd85d5255e4b59d5f8aa070c333a4e14",
-                  "sha256": "f919890a1e36a79df6e0a3fe96ce956ecd85d5255e4b59d5f8aa070c333a4e14"
+                  "path": ".local-e2e/store/packages/sha256/f1/f122e93f7717daec446cd68727582c91316eb4311f8306c1988ea16680cf6902",
+                  "sha256": "f122e93f7717daec446cd68727582c91316eb4311f8306c1988ea16680cf6902"
                 },
                 "recipe_snapshots": {
                   "arm64": {
-                    "path": ".local-e2e/store/recipes/sha256/cd/cd716a113c9b727355200283a0a13d23059047c331eb02a5aed02f322efa132e",
-                    "sha256": "cd716a113c9b727355200283a0a13d23059047c331eb02a5aed02f322efa132e"
+                    "path": ".local-e2e/store/recipes/sha256/32/32fcaf5c618e8bdb17ccd6c6634f530d63f5a77c40347186487c1941966b7311",
+                    "sha256": "32fcaf5c618e8bdb17ccd6c6634f530d63f5a77c40347186487c1941966b7311"
                   },
                   "armhf": {
-                    "path": ".local-e2e/store/recipes/sha256/e7/e7f09644d9a9ed119c25249264c883894eb429b362f31a969cb7b4090dceda18",
-                    "sha256": "e7f09644d9a9ed119c25249264c883894eb429b362f31a969cb7b4090dceda18"
+                    "path": ".local-e2e/store/recipes/sha256/03/03993f22d35059a402380d2ff89750b87dc15f1fec35fffc0964ef5050aec3a6",
+                    "sha256": "03993f22d35059a402380d2ff89750b87dc15f1fec35fffc0964ef5050aec3a6"
                   }
                 }
               },
               "metadata": {
-                "path": "fbalpha2012_libretro.info",
-                "sha256": "d0c1347fe924f6d9aca988d16fe798de9db04c34c69f13804710735bc74b0647",
-                "size": 809,
+                "path": "dosbox_pure_libretro.info",
+                "sha256": "e59629d975653c3c2a9ec64a112c524efe5aa16b7cf4093c2085222262fb88dd",
+                "size": 1236,
                 "status": "valid"
               },
-              "promoted_at": "2026-07-24T10:17:50+00:00",
+              "promoted_at": "2026-07-24T18:15:27+00:00",
               "promotion_reason": "initial-local-golden",
               "promotion_state": "build_golden",
               "provenance_version": 2,
               "recipe": {
                 "catalog_path": "manifests/core-builds.json",
-                "catalog_sha256": "4b374c814b03b543769e485f850b8edf579add8896f2b52c974bddd3b3341415",
+                "catalog_sha256": "c480a54366dce97d17710be4553bd8fed50f1c86575de9c714513ccb916e3b32",
                 "commit_blacklist": {
                   "content_sha256": "ec576e761470ed7b47e15d404a783ce1f77f543395d769f78461dca4f177ba89",
                   "file_sha256": "bed3c1af0001b8013e57e7557a8faca0d1dfa0b5f5e5395f7aecf6ea1fc2946c",
@@ -539,12 +552,12 @@
                   "policy_id": "core-commit-blacklist-v1",
                   "schema_version": 1
                 },
-                "core_id": "fbalpha2012",
-                "core_spec_sha256": "5ce1b54e72ae362c2f61ba4fbb3f5721e61d33758d8db73e95d0af6a7a46deb7",
+                "core_id": "dosbox_pure",
+                "core_spec_sha256": "5c2e416def84105eeea036d43cedcea1688c66e796f970a6b325b034d5c5bae0",
                 "pipeline_bundle": {
-                  "content_sha256": "964db21eb766f5fae148f4e6c7df3ab15ac7ca5e7e281d8f3daaee56da35df73",
+                  "content_sha256": "c4547a6fbfb2c3bffb1bde4b2ebbc450eeb0213ba7628663c8131ceb31ca9769",
                   "files": {
-                    "scripts/core_pipeline.py": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
+                    "scripts/core_pipeline.py": "a72901a6e5636078f8f1e37332426a2892e1f1662ee5269d647c13a8d9012eab",
                     "scripts/core_pipeline_lib/__init__.py": "d835fc145578c70e9d0d7c9c810ad42e3640eb9a1ddf608c4b1edcef48d27d57",
                     "scripts/core_pipeline_lib/cli/__init__.py": "5aef9bc4facbcf04f5d6d3063abdfef790fa0334729e2f751be772ce6e1b2467",
                     "scripts/core_pipeline_lib/cli/model.py": "d06b4da9bef25686f6e45ea5a25edc880bab6eafde71dfb0eea80b55350cefb8",
@@ -559,21 +572,21 @@
                     "scripts/core_pipeline_lib/contracts/c_only.py": "ff219d3ff99e55d594fea8b3373755e07f07489bdc8c905aabdc654f75ade7b0",
                     "scripts/core_pipeline_lib/contracts/cap32.py": "8b0d02a4b23dbd320b95537d85f01b6337ab81cc3c78390d156c65538062d841",
                     "scripts/core_pipeline_lib/contracts/cargo.py": "5a4406d7d8f909210679a05153417239d3190c5caf1f6c09119af3de52e1eecf",
-                    "scripts/core_pipeline_lib/contracts/chailove.py": "fce4dffb2f22b2982689916f5d25314fbaf79dbd2d940f67c356c13bee9d46a9",
+                    "scripts/core_pipeline_lib/contracts/chailove.py": "c9fcd83083daf29b2fe30c86dff87392aae076fdc44a598f4523cfb11f81d924",
                     "scripts/core_pipeline_lib/contracts/chimerasnes.py": "f5122d157593285acae7e33c884db14d42bfd251341efadc6fc77bf48105637b",
                     "scripts/core_pipeline_lib/contracts/command_line.py": "bc27a6e5931ba185a2ce944d6f35d4f11541f3c169fbd813e3cbbcec048e5c35",
                     "scripts/core_pipeline_lib/contracts/compiler.py": "ee36b27043d2b4531babf1b39166ebb8c3cad7f978a01e27c2ada295531fd12c",
                     "scripts/core_pipeline_lib/contracts/core_2048.py": "cdb540de8d9cdbe0625803b6b512db883ba571d2fa4b250d29eaa7edce6fa151",
                     "scripts/core_pipeline_lib/contracts/core_81.py": "0e96faf8305d4cc80b08b948e4d7d8ce6cfe01f890c59f2c08d143611ebd2350",
                     "scripts/core_pipeline_lib/contracts/cpc_common.py": "1cee61f598bca8cf90c6dc9e6d985660a0d83386d37d435e287e7b32eae34c4f",
-                    "scripts/core_pipeline_lib/contracts/crocods.py": "abb85676f506f9437efd0e75525859ea315469edb413c5a486230bb2fb2cf535",
+                    "scripts/core_pipeline_lib/contracts/crocods.py": "451ae2ac4a7a10b6c43da05fc03d023aa90024bb5264adea1534352b55fe768d",
                     "scripts/core_pipeline_lib/contracts/daphne.py": "7ae8c4b89aed768c197abc75d36732f57636b7adc7ff1befdaa23471f2f10ca6",
-                    "scripts/core_pipeline_lib/contracts/dosbox_pure.py": "f57e996de3f6b702a94eaa9490086f114b994b8f61a01f36c114998e20a0d28c",
+                    "scripts/core_pipeline_lib/contracts/dosbox_pure.py": "42888a30b8eca93dea4dbcfa3d0177b9412f8f0556c31d7c115031ec87254956",
                     "scripts/core_pipeline_lib/contracts/ecwolf.py": "ac3b4256b3015917ca6f6ffdfe74b68c3f6a54dde408eef7570dd73bebfff4aa",
                     "scripts/core_pipeline_lib/contracts/fake08.py": "32532b910d17d142ad6ac345429eb6067a1367398aa69c4a58287fbedc1103ba",
-                    "scripts/core_pipeline_lib/contracts/fbalpha2012.py": "c1a9e2274b8ef68af461005e62f5766b3bee314f1a632ed00a2213ee86a69850",
-                    "scripts/core_pipeline_lib/contracts/fbneo.py": "e61fb8eb1f4c4ad96e9ad529387f0987b78ef281b8a86207ac3099d6002eb342",
-                    "scripts/core_pipeline_lib/contracts/fceumm.py": "791226842b6d16af51c16eef664b408e60469e8953ad1ee2e731567ecafb172f",
+                    "scripts/core_pipeline_lib/contracts/fbalpha2012.py": "eff98b1accccbf27fc8348a4daebb9e65ce6a0227c8638d11c4672368c0d03c1",
+                    "scripts/core_pipeline_lib/contracts/fbneo.py": "bac96ac5e27c19f3bfdcc39dc77cdbbc2beab996b2af3e0f40bb009a8c564464",
+                    "scripts/core_pipeline_lib/contracts/fceumm.py": "8b6ea07d2f46fb99cd29aa8e67f513c7fd914a36be493d364796f702f7c10942",
                     "scripts/core_pipeline_lib/contracts/fmsx.py": "31ebea1b34cf6162bea5a17fffb51e0473bc13943e9b60efe00891dd338531b4",
                     "scripts/core_pipeline_lib/contracts/freechaf.py": "7ab83989510213404dc9cb6cb66dc8a7c348b01fd5e55b874af4e5fb783df6bf",
                     "scripts/core_pipeline_lib/contracts/freeintv.py": "07284a6445ef7aaa6b4d039f5d6805aa2b950365fa3b19696a223b10dfa26ff8",
@@ -583,8 +596,8 @@
                     "scripts/core_pipeline_lib/contracts/gearboy.py": "8f708e75670cd571346a59991c2228b46005f396830af416088032cf0968e68e",
                     "scripts/core_pipeline_lib/contracts/gearcoleco.py": "114ffa0bdf0d80e2d3b281ebdf37a7dd78a009dcb9ba20055f5669ac15e6885e",
                     "scripts/core_pipeline_lib/contracts/gearsystem.py": "9f018be5c7af10c3aed059b3acce54a88f5cbd3f64ade84f2c1fbfd458a3cf76",
-                    "scripts/core_pipeline_lib/contracts/genesis_plus_gx.py": "1df055328650c1a2cf54ed32c1bfb22ccb8c2ec8881bf58ba061b40a9b651b18",
-                    "scripts/core_pipeline_lib/contracts/genesis_plus_gx_wide.py": "d0ff9b72634bd98541e629ae366da259507640be5300c1e2af448a25cb36b890",
+                    "scripts/core_pipeline_lib/contracts/genesis_plus_gx.py": "6a0105cd30088bb77c10f86076907c214a4af905530c6b355625104ad096f695",
+                    "scripts/core_pipeline_lib/contracts/genesis_plus_gx_wide.py": "7d2dce7befc5fe00ab8901b6b1ef5e98d674b9337c452af6b6f1541d2afb1200",
                     "scripts/core_pipeline_lib/contracts/gme.py": "0108e023d70c3e9410b0686074ac9740072b20f68c631e842fd6e7f0132b5573",
                     "scripts/core_pipeline_lib/contracts/gpsp.py": "382b3f7122ce4611e71a07a08d956e0590dc3cfd28a5e0f9f11a9b1046dacf61",
                     "scripts/core_pipeline_lib/contracts/gw.py": "0fcc997197e569ed80de6a2a8821d230b5888e43bee5abd86e82fbc65f8476d4",
@@ -593,7 +606,7 @@
                     "scripts/core_pipeline_lib/contracts/km_parallel_n64_xtreme_amped_turbo.py": "8a4788ab0df927e892095356cd0905744bf40e0223e1582e44fe359d76a6196d",
                     "scripts/core_pipeline_lib/contracts/libgametank.py": "3af79241324ea312a73ac38bd73ae4bde69311f0ce91033c9264cc7b7dd79d39",
                     "scripts/core_pipeline_lib/contracts/log_checks.py": "05bc759ea57ffcb56a7d7647a53863cd49a66483e03aa73e5f4f73a10fa9987d",
-                    "scripts/core_pipeline_lib/contracts/lowresnx.py": "1bc98f7e967ce6319db7c8bc83bedd9d2f947759a3c257c4a14f085b2b27c57f",
+                    "scripts/core_pipeline_lib/contracts/lowresnx.py": "2b022c28cedba25ab421ae6ffc7ac211a11baaf7a177042b552b40ede57fe960",
                     "scripts/core_pipeline_lib/contracts/lutro.py": "d80f33007c651d1b88d2c07fa336b36531df024d17368b0719b1ee10c18daa78",
                     "scripts/core_pipeline_lib/contracts/mame2003_plus.py": "def1a73a0f138a217a7acbee75c6c476d841f02228eb6e9058cfba9dd84b2ae2",
                     "scripts/core_pipeline_lib/contracts/mednafen_lynx.py": "5046e915d0c3e9d76665c69360aafe184ef4c5b841cb5c1a036b16c459089b27",
@@ -601,7 +614,7 @@
                     "scripts/core_pipeline_lib/contracts/mednafen_pce_fast.py": "e36f2fe35d9d8d656579d9fc8f88da92ea96b6079b50aa1d2c6b9f5e36e6b742",
                     "scripts/core_pipeline_lib/contracts/mednafen_pcfx.py": "a13d716371d693170017ace448e5c222d2ca251c435a62b2b0bad658b385c09e",
                     "scripts/core_pipeline_lib/contracts/mednafen_supafaust.py": "3abb577b73c2a7827355152a64479212fc5fb19a0d9e657358fdfae472fcd282",
-                    "scripts/core_pipeline_lib/contracts/mednafen_supergrafx.py": "72f07333645a5c9699dfab7a779affa3440eff05d1bcf1c94fc9ec0e64735074",
+                    "scripts/core_pipeline_lib/contracts/mednafen_supergrafx.py": "51a8196417f1e9ef0c05e492efda3e11ce4100612b9d5e193cf37469497c4903",
                     "scripts/core_pipeline_lib/contracts/mednafen_vb.py": "0f66ec64aed83320b8dbb514d71d34caaa7682e5293006e67fba535927b32624",
                     "scripts/core_pipeline_lib/contracts/mednafen_wswan.py": "446776b8b4708721dbf9db5609d1e2b8cb6fd2bc801f63d4b97fa68d1b11185a",
                     "scripts/core_pipeline_lib/contracts/mgba.py": "7d1392cb428a237ae83fdaf3761432b0a2f826474e889e795eadbd720c807228",
@@ -610,7 +623,7 @@
                     "scripts/core_pipeline_lib/contracts/mupen64plus_next.py": "01b8eafe7699e0d3190da15e2892eb64925f8c05854528bd75ad62c44e7e42bd",
                     "scripts/core_pipeline_lib/contracts/neocd.py": "a9c206d8a952909077e76678630f90adeb8a48c845871e29e74fde4955084e10",
                     "scripts/core_pipeline_lib/contracts/nestopia.py": "39d39aea9fead84ad62fb7a2cc2aa0d71693b5ab2fc63d99e7a6d41f3b0da5c9",
-                    "scripts/core_pipeline_lib/contracts/np2kai.py": "460f59eda772d907e17a8e20835a86735b4ea9446a5dc93a0eb7ea7fbad6f8e5",
+                    "scripts/core_pipeline_lib/contracts/np2kai.py": "256d798d5143338aa74daa21fc1133a1c2a0ee89e5f162de767402d6579e07a3",
                     "scripts/core_pipeline_lib/contracts/numero.py": "c2e3d46ced852370d5f30dcbd00314d48222666064e9f39680ade8bf4cd9592f",
                     "scripts/core_pipeline_lib/contracts/o2em.py": "eb843f45727200544fdcbdc5aece0725395b56d15383a3dbef40a75bab715449",
                     "scripts/core_pipeline_lib/contracts/opera.py": "8bc6ae434c468fbc1646779307bf1ecb73615b4ac4096536dd359f6c819d9f45",
@@ -622,14 +635,14 @@
                     "scripts/core_pipeline_lib/contracts/prboom.py": "326801de027401c2dc9846b87f6825051f3c2d988bbeda556eff4e4379a43b3d",
                     "scripts/core_pipeline_lib/contracts/prosystem.py": "32595affbcfe3a34bb5952fdff54f83584ba691b504608e0f42c1e2e608531ed",
                     "scripts/core_pipeline_lib/contracts/puae2021.py": "3b09b8fdef9d804c8b2d2a76ab00d5af9f937041d37319ca4893209bda4dbb1d",
-                    "scripts/core_pipeline_lib/contracts/puzzlescript.py": "c847d735fccb8c56009db4348f688b2327262566dfc168913bf12692f6d40977",
+                    "scripts/core_pipeline_lib/contracts/puzzlescript.py": "45c4821d0db94839402f79482b0156318f0d4c6047199363fbe27dc08052c568",
                     "scripts/core_pipeline_lib/contracts/px68k.py": "245e368dbc3a815892095c82ce919b4c7ced81edb8db9b9301fd6584ddaf7faf",
                     "scripts/core_pipeline_lib/contracts/quasi88.py": "ac5b33d74c2c6ec5def2091f461a9d08557d59c9360b892b139da5b0fe7c0eb2",
                     "scripts/core_pipeline_lib/contracts/quicknes.py": "e3a1a83557269948fcfaa18d0703fea83970130a22d781f0eaf76eefa1432419",
                     "scripts/core_pipeline_lib/contracts/race.py": "de0b9fd1cc917762a5dd613ff6ed7d00d4380cbfa16cc245389c98baa4b9f43f",
                     "scripts/core_pipeline_lib/contracts/registry.py": "f20d87f0379059351c7a2fee3daf2bb33186efa79c617dad1363c143fafddca5",
                     "scripts/core_pipeline_lib/contracts/reminiscence.py": "56ee2bb04d8cfad0228ff89ec237ddbfe66c14f401748a27890ab8b0fd01d17f",
-                    "scripts/core_pipeline_lib/contracts/retro8.py": "fc0d1a9b35609ae8e2ae5e1de98cd32f9935399055b6db0e643029a3da410a9d",
+                    "scripts/core_pipeline_lib/contracts/retro8.py": "d494581016a9bdeeaaf32756703690160e8321f5c7b217d76487f809721f880e",
                     "scripts/core_pipeline_lib/contracts/sameduck.py": "46c577b8986b219946b43b828c8285ed5b3cdc844b4131ab5e6a9e3a75e3fdab",
                     "scripts/core_pipeline_lib/contracts/snes9x.py": "34f0b1343578aac273250689c6bd9b99801a85d852dfb0e5a04bb7af984f5aa2",
                     "scripts/core_pipeline_lib/contracts/snes9x2002.py": "ed192605ba0384f0031d3c71169dd0a4b13921ba45d49ade0421faf6e7a38e13",
@@ -648,7 +661,7 @@
                     "scripts/core_pipeline_lib/contracts/vemulator.py": "25c9781c82d09b3e5384fbed596d6deebfa4422f93a9faa3bd56f6c1dd64fa6e",
                     "scripts/core_pipeline_lib/contracts/vice_x64.py": "c872124c9bdff1716a4b4b56e8abe5bcd068abe0cbc903a9ad1a3bc0435de071",
                     "scripts/core_pipeline_lib/contracts/vice_xvic.py": "45d5fc921c9e0293f9fc168eb21ba20d7752f9f811df35899639f78badc376bd",
-                    "scripts/core_pipeline_lib/contracts/x1.py": "7c75b791bfc750e2f9bc8be69ed58fc9e77714f1770eb676bb81e4e6defb1d4c",
+                    "scripts/core_pipeline_lib/contracts/x1.py": "8f48681aa0e820cb66db20aa574488c507f80f4e4130934d32cb1655db60e89f",
                     "scripts/core_pipeline_lib/contracts/yabasanshiro.py": "7728e8444807a462860d06b687cf2428a2fdb321c3845307d2819de23c9bc287",
                     "scripts/core_pipeline_lib/errors.py": "ce0e75ac063fa48b66947a758d0595aec4193d9cae38030b5d0219f0cc08f926",
                     "scripts/core_pipeline_lib/foundation.py": "abcd7809ab84b3e4f4797d3ef0d27cf7fd0f77ec6bda67b4f76f1e9cd7936a26",
@@ -682,20 +695,20 @@
                   },
                   "schema_version": 1
                 },
-                "pipeline_sha256": "a4ef27e27bf7bfc3312ef6aeb69033d3107ac0eb6a204f36dacbc46b7ec809d6",
-                "repository_dirty": true,
-                "repository_head": "522d210011c2908529a02a4c1a26263c17413306",
-                "workflow": ".github/workflows/build-fbalpha2012.yml",
-                "workflow_sha256": "93f8bdb495ec624f5e2c5df2b04d8df1c5d286fc32047b8e4ea8426defe75859"
+                "pipeline_sha256": "a72901a6e5636078f8f1e37332426a2892e1f1662ee5269d647c13a8d9012eab",
+                "repository_dirty": false,
+                "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e",
+                "workflow": ".github/workflows/build-dosbox_pure.yml",
+                "workflow_sha256": "d13cd7a6ca456739fdb7d69e08ac81d3cb12f5748e9c937b4ff5b4d6b0e5075b"
               },
               "source": {
-                "commit": "95fa35582b1ca7ce68de3313615794c8c9d8d7c0",
-                "requested_ref": "refs/heads/master",
-                "resolved_commit": "95fa35582b1ca7ce68de3313615794c8c9d8d7c0",
-                "resolved_url": "https://github.com/libretro/fbalpha2012.git",
+                "commit": "a4a0bab7f8931433588f2fcad9045c85b277373d",
+                "requested_ref": "refs/heads/main",
+                "resolved_commit": "a4a0bab7f8931433588f2fcad9045c85b277373d",
+                "resolved_url": "https://github.com/libretro/dosbox-pure.git",
                 "submodules": [],
-                "tree": "5547237bb6746764ca692e765cbe737339f65364",
-                "url": "https://github.com/libretro/fbalpha2012.git"
+                "tree": "0b64e0b00ba92300de9f73f213f3feaddf54a134",
+                "url": "https://github.com/libretro/dosbox-pure.git"
               },
               "toolchain": {
                 "archive_provenance": {
@@ -738,7 +751,7 @@
               },
               "validation_scope": "static-build-only"
             },
-            "provenance_identity_sha256": "6e8ae11c7bbf8e04ff073203e1dc7339f5361b931fae7ae59a8c5ea97793be13"
+            "provenance_identity_sha256": "e9110662eb5741194551f531ee3e212eb62edaaf65d9e07bc777acd496c6565d"
           }
         },
         "tier": "build_golden",
@@ -747,14 +760,14 @@
       "source_index": 0
     }
   },
-  "created_at": "2026-07-24T10:17:50+00:00",
+  "created_at": "2026-07-24T18:15:27+00:00",
   "local_only": true,
   "parent": null,
-  "pin_id": "fbalpha2012-95fa35582b1c-4441b57d77ef",
+  "pin_id": "dosbox_pure-a4a0bab7f893-a5c7ffc595df",
   "publication": "disabled",
   "schema_version": 1,
   "scope": [
-    "fbalpha2012"
+    "dosbox_pure"
   ],
   "selection_policy": {
     "failed_candidate": "retain-parent",
@@ -765,10 +778,10 @@
   },
   "sources": [
     {
-      "content_sha256": "b5f4e6fd251e77e6eb40b5d2434b8ce9015becb8654a7f679e1a46617c6d40c6",
-      "file_sha256": "f17b88d3e187de2620b6654e7362a6734495eafa30d7dc611f1fbe41cd4c91e2",
-      "path": ".local-e2e/nightlies/fbalpha2012-95fa35582b1c-4441b57d77ef/golden.json",
-      "pin_id": "fbalpha2012-95fa35582b1c-4441b57d77ef"
+      "content_sha256": "7cc675ee165a20deaf534a8414f8e6ee5d7a1322c7c11b29e74d8396558c0dcd",
+      "file_sha256": "457a5e73ebe29734c5917c0ab1367f8b4d2e5946339fc6089e0b61efa1a6c28f",
+      "path": ".local-e2e/nightlies/dosbox_pure-a4a0bab7f893-a5c7ffc595df/golden.json",
+      "pin_id": "dosbox_pure-a4a0bab7f893-a5c7ffc595df"
     }
   ],
   "summary": {

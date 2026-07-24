@@ -4,14 +4,14 @@
   "core_id": "mednafen_supergrafx",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json",
+  "golden_source": "pins/core-sets/mednafen_supergrafx-3c6fcd3deded-e237b4e2ae51.json",
   "source_commit": "3c6fcd3deded54ebecd69408f108407ac03d11b5",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_supergrafx-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "4cedf71949182f867d1a887c5cc7a81d871114a195f10d293b15c6477624c634",
-  "reproduction_run": ".local-e2e/runs/build-core-mednafen_supergrafx-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "8c5df5599c6c65e9b3077e4fab8196c1f5c89d0779b05e9d115e394f865a4eff",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mednafen_supergrafx-w4/e2e-record.json",
+  "selected_e2e_content_sha256": "8d2deb42cd8edb32172471867a8b8cecaeeb5292ed2cdc9b45108c39dd4cca3e",
+  "reproduction_run": ".local-e2e/runs/build-core-mednafen_supergrafx-local-w4/e2e-record.json",
+  "reproduction_e2e_content_sha256": "6c267aa50978a67dc377d2fea446ea803062b857e1126333d9dbbb0a8f978de6",
   "package_state": "reproducible",
-  "package_sha256": "92eb34b37cc32483fef7639fdd20e6a22a79127d2fe4017a3361172d85270e89",
+  "package_sha256": "40d78902e9edbebbcad52f60f2a3005bdacf197f9618e954a80750e0b5512eda",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mednafen_supergrafx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4.21 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -29,7 +29,7 @@
       "state": "local_static_build_golden",
       "validation_scope": "static-build-only",
       "runtime_validation": "needs-target-runtime",
-      "artifact_sha256": "c4d55157ab1bf2fff095348e6f821ba4e5d5219f005fe7ec550556bb7804c164",
+      "artifact_sha256": "0bfb6815d48454540ad5cf329f54b2f3a0883a1d57cf999297c2bafdf0880855",
       "elf": "ELF64/AArch64",
       "needed": [
         "ld-linux-aarch64.so.1",
@@ -75,5 +75,5 @@
       ]
     }
   },
-  "content_sha256": "72d4be07cbee2a9bbb4a7a74fc38d03dc7055e56b2a4b7bb89c247388b31d742"
+  "content_sha256": "24b7ec48d8c55769ed81a821f296c383e3ea00b0ede9c9787d90b49b545febc8"
 }

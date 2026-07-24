@@ -4,14 +4,14 @@
   "core_id": "lowresnx",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/lowresnx-35adc1a215e9-bcaea00ea240.json",
+  "golden_source": "pins/core-sets/lowresnx-35adc1a215e9-c989201653bb.json",
   "source_commit": "35adc1a215e975be964b2ef4b652117acd7beba1",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-lowresnx-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "b416de0fceb94aa968cfa04552b623e3f180b082e88026e39da0cdd74e15b713",
-  "reproduction_run": ".local-e2e/runs/build-core-lowresnx-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "a91179ddc86eaa2f1d8564e132e070c3029e3bf95d69c3498eb65e199c0d29bb",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-lowresnx-w4/e2e-record.json",
+  "selected_e2e_content_sha256": "22aa8f6cb153ac986b6db1577831a3d4f5855142dc0c6076a23e3dde467b888d",
+  "reproduction_run": ".local-e2e/runs/build-core-lowresnx-local-w4/e2e-record.json",
+  "reproduction_e2e_content_sha256": "f18577ca39c309074fe6c11037a6599c9f32edb52706e87356280e5f25b79f26",
   "package_state": "reproducible",
-  "package_sha256": "e1db09b30c49fcb68f5fc1989fbbc7329d0666df39a36c3f85b937b2c19c91d3",
+  "package_sha256": "7b51f7493ba275b0d0a987f1e611efaecd03fdedaa5f14c85bb64483a3c73ecf",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the lowresnx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -28,7 +28,7 @@
       "state": "local_static_build_golden",
       "validation_scope": "static-build-only",
       "runtime_validation": "needs-target-runtime",
-      "artifact_sha256": "5e2bac4ee644665a6dbadefed0f050fb24edf51edce0f1c8219dceae836eb416",
+      "artifact_sha256": "7982ddaa129240f7c5112288985467034091564bf38e8f3e0a80ceba4a6529a7",
       "elf": "ELF64/AArch64",
       "needed": [
         "ld-linux-aarch64.so.1",
@@ -56,5 +56,5 @@
       ]
     }
   },
-  "content_sha256": "223527ce4ff43ba3f60e37219173649a2af9bb05a031e1ae011b046af1d1c240"
+  "content_sha256": "ed2d0550c5269e63ab05964a91f07fdb7f99f513d3bc18e6ed085a7e6001f955"
 }

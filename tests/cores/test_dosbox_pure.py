@@ -23,8 +23,8 @@ CORE_ID = "dosbox_pure"
 SOURCE_URL = "https://github.com/libretro/dosbox-pure.git"
 SOURCE_COMMIT = "a4a0bab7f8931433588f2fcad9045c85b277373d"
 SOURCE_TREE = "0b64e0b00ba92300de9f73f213f3feaddf54a134"
-SELECTED_RUN = "actions-sim-build-core-dosbox_pure-w3"
-REPRODUCTION_RUN = "build-core-dosbox_pure-local-w3"
+SELECTED_RUN = "actions-sim-build-core-dosbox_pure-w4"
+REPRODUCTION_RUN = "build-core-dosbox_pure-local-w4"
 
 
 class DosboxPureManifestTests(unittest.TestCase):
@@ -54,14 +54,16 @@ class DosboxPureManifestTests(unittest.TestCase):
         mutated = {**self.spec, "targets": ["arm64"]}
         self.assertFalse(dosbox_pure.dosbox_pure_spec_is_well_formed(mutated))
 
-    def test_echo_overlay_is_pinned_for_both_architectures(self) -> None:
+    def test_combined_overlay_is_pinned_for_both_architectures(self) -> None:
         overlays = self.spec["build"]["overlays"]
         self.assertEqual({"arm64", "armhf"}, set(overlays))
         for arch, patches in overlays.items():
-            self.assertEqual([dosbox_pure.DOSBOX_PURE_OVERLAY], patches, arch)
+            self.assertEqual(
+                [dosbox_pure.DOSBOX_PURE_SORT_OVERLAY], patches, arch
+            )
 
     def test_overlay_patch_file_matches_its_pinned_digest(self) -> None:
-        overlay = dosbox_pure.DOSBOX_PURE_OVERLAY
+        overlay = dosbox_pure.DOSBOX_PURE_SORT_OVERLAY
         patch = (ROOT / overlay["patch_path"]).read_bytes()
         self.assertEqual(
             overlay["patch_sha256"], hashlib.sha256(patch).hexdigest()

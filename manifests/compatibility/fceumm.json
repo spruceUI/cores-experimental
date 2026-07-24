@@ -4,14 +4,14 @@
   "core_id": "fceumm",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/fceumm-718c5a2e1757-b9cb59f371db.json",
+  "golden_source": "pins/core-sets/fceumm-718c5a2e1757-0e380692dee1.json",
   "source_commit": "718c5a2e175735df92ba17a2945a8d1abbc48652",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-fceumm-w3/e2e-record.json",
-  "selected_e2e_content_sha256": "e287768156e12a1463eb1860773f0b018e5036f7c70107dbe9477abdabc454c3",
-  "reproduction_run": ".local-e2e/runs/build-core-fceumm-local-w3/e2e-record.json",
-  "reproduction_e2e_content_sha256": "de8d02c866c0af0f58e1cdbf8f54db90a47cc781c6a9e238abce1f734d7e76bf",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-fceumm-w4/e2e-record.json",
+  "selected_e2e_content_sha256": "e07575854c812ec9e55c04505de11ebbec70c68addce30d14a19f4809e337b7d",
+  "reproduction_run": ".local-e2e/runs/build-core-fceumm-local-w4/e2e-record.json",
+  "reproduction_e2e_content_sha256": "0181c7848e634b8d826df82d83770649ff453c6ee9316701b8e12c21b1c88c97",
   "package_state": "reproducible",
-  "package_sha256": "f3426947adbd37b86c10d13d8abe19ca7611119f8dc92fd5ecc7910da4a0f044",
+  "package_sha256": "db1a8f2f774b2b4f848753b744754646a39daa38f00e8377b766691c00b0eeef",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the fceumm_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -29,7 +29,7 @@
       "state": "local_static_build_golden",
       "validation_scope": "static-build-only",
       "runtime_validation": "needs-target-runtime",
-      "artifact_sha256": "7e232399d10d5b84aceb4f78839cb916cc72319253e01045a5c3780c7f048b7a",
+      "artifact_sha256": "bd7e209da7da099aa103f9db7fe23729bbf83f43d391955c29ca7c3b5c597cee",
       "elf": "ELF64/AArch64",
       "needed": [
         "ld-linux-aarch64.so.1",
@@ -57,5 +57,5 @@
       ]
     }
   },
-  "content_sha256": "6eff68b643b56990135782dc99708bc614a121b662d92c96c093604546339c05"
+  "content_sha256": "92359003b9251d7bf9e8bfa2ca2ae9aec9fd4bb531c8f9737b596144f226bb3c"
 }

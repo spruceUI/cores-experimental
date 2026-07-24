@@ -14,8 +14,8 @@ CORE_ID = "fbalpha2012"
 SOURCE_URL = "https://github.com/libretro/fbalpha2012.git"
 SOURCE_COMMIT = "95fa35582b1ca7ce68de3313615794c8c9d8d7c0"
 SOURCE_TREE = "5547237bb6746764ca692e765cbe737339f65364"
-SELECTED_RUN = "actions-sim-build-core-fbalpha2012-w3"
-REPRODUCTION_RUN = "build-core-fbalpha2012-local-w3"
+SELECTED_RUN = "actions-sim-build-core-fbalpha2012-w4"
+REPRODUCTION_RUN = "build-core-fbalpha2012-local-w4"
 
 
 class Fbalpha2012ManifestTests(unittest.TestCase):

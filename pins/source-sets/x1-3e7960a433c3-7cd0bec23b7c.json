@@ -1,14 +1,14 @@
 {
   "$schema": "../../manifests/core-source-set.schema.json",
   "schema_version": 1,
-  "source_set_id": "x1-3e7960a433c3-18c33020f71e",
+  "source_set_id": "x1-3e7960a433c3-7cd0bec23b7c",
   "local_only": true,
   "publication": "disabled",
   "evidence_pin": {
-    "path": "pins/core-sets/x1-3e7960a433c3-18c33020f71e.json",
-    "pin_id": "x1-3e7960a433c3-18c33020f71e",
-    "file_sha256": "66f5deb46ad6e1b53656fe2b391be3b3142685323cdd3f010d6b7a6e3c1c3122",
-    "content_sha256": "1009f8c83d7259914d8da882c1ec87fc0e054661a936f46f1d2fe62116709084"
+    "path": "pins/core-sets/x1-3e7960a433c3-7cd0bec23b7c.json",
+    "pin_id": "x1-3e7960a433c3-7cd0bec23b7c",
+    "file_sha256": "93e6073745d9f3884bb048600c47918938ce639a9c7e3b58b93f52a747165d8e",
+    "content_sha256": "8dfa896964d71d9aa774c258d976675fbd077bdba65ea310bec9fb01a7c3bc76"
   },
   "sources": {
     "x1": {
@@ -19,5 +19,5 @@
       "content_sha256": "12eddfa12cd053b81fed77d2112f41df19599e6ad6cf65f157f3ceaf36c2b695"
     }
   },
-  "content_sha256": "833ac76209a0e5ff880218ce248e414a11326e1b93f8b7c919dbd37175a48b6c"
+  "content_sha256": "cf3fd270a2a9b86d374bc58c7cb03cbb45092b94e3b6a3d6e2138be1bdae762d"
 }

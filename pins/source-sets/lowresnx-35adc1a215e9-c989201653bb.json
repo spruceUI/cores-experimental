@@ -1,14 +1,14 @@
 {
   "$schema": "../../manifests/core-source-set.schema.json",
   "schema_version": 1,
-  "source_set_id": "lowresnx-35adc1a215e9-bcaea00ea240",
+  "source_set_id": "lowresnx-35adc1a215e9-c989201653bb",
   "local_only": true,
   "publication": "disabled",
   "evidence_pin": {
-    "path": "pins/core-sets/lowresnx-35adc1a215e9-bcaea00ea240.json",
-    "pin_id": "lowresnx-35adc1a215e9-bcaea00ea240",
-    "file_sha256": "0e959db4fd1a6b38b45dd8072d7921e12e9e84a477e864e751ce8b16e65b7fd9",
-    "content_sha256": "c37cb533e76154c90f978162ab6ed4629b995e27ea29a28a671c8ad81b9f1885"
+    "path": "pins/core-sets/lowresnx-35adc1a215e9-c989201653bb.json",
+    "pin_id": "lowresnx-35adc1a215e9-c989201653bb",
+    "file_sha256": "d83c4a68bfaab6fec18ecbf7ccf64d9c2eac3306c9ab8218748d29473a2f94ee",
+    "content_sha256": "51c709c6010581b1ac72da560c45d1ea63304f8fbedb6f58fc788d613b5a4c86"
   },
   "sources": {
     "lowresnx": {
@@ -19,5 +19,5 @@
       "content_sha256": "9af4c42d7e184aae60553d405e114715d533b4f9eb84a8a9678b498842d01ae4"
     }
   },
-  "content_sha256": "de3618af267673373444f63e94b219b0b5a4197cf36963d51da090a3cd6cb260"
+  "content_sha256": "894547d158bd4b611f4010c27b65ea4053c8c8a4b778afe53b8fe8feff81a562"
 }

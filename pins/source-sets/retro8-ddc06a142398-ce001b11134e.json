@@ -1,14 +1,14 @@
 {
   "$schema": "../../manifests/core-source-set.schema.json",
   "schema_version": 1,
-  "source_set_id": "retro8-ddc06a142398-9b596b4d9ad6",
+  "source_set_id": "retro8-ddc06a142398-ce001b11134e",
   "local_only": true,
   "publication": "disabled",
   "evidence_pin": {
-    "path": "pins/core-sets/retro8-ddc06a142398-9b596b4d9ad6.json",
-    "pin_id": "retro8-ddc06a142398-9b596b4d9ad6",
-    "file_sha256": "8320ae2baafd6e1e6861d2f6e48be1dea896e1defef6b98bd3a5296722631c59",
-    "content_sha256": "f7c19f6ea2d04daf354310650402ba67366e32589a34b7a4898b30f2176714a0"
+    "path": "pins/core-sets/retro8-ddc06a142398-ce001b11134e.json",
+    "pin_id": "retro8-ddc06a142398-ce001b11134e",
+    "file_sha256": "e928997dda9110680f160477c7cbd5ad594fb7ade30f99c3acaba82deb8b2978",
+    "content_sha256": "6c467d4e0c1e56f4ac164c41a68e68016d6750939b9464cf502d66beb6c664ca"
   },
   "sources": {
     "retro8": {
@@ -19,5 +19,5 @@
       "content_sha256": "6c233f4137275d5af218182d000d70c8d12295f170a4bfbecf18869f393bc994"
     }
   },
-  "content_sha256": "7b6e112356b93b08f70fcb75c937189299bc722fcec2d0470459a0b251b3956d"
+  "content_sha256": "762d353c4ae7c654549e6f3b9475c43fc6de16f46ad29a51ea7e7361f42d5386"
 }

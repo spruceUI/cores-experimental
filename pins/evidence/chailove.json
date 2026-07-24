@@ -1,76 +1,76 @@
 {
   "$schema": "../../manifests/evidence-index.schema.json",
   "compatibility": {
-    "content_sha256": "772e17866d2fb4c7b45e62e787816578aff5d4aca25bdc9e5e83178cd39dca45",
-    "file_sha256": "cc6f6c28c5476d4a53b119a26def3b11285da2ef24746646959ec2aa001f89e5"
+    "content_sha256": "2d6470880d6b734318c53e2d2bab7737fcaffc2bb8ffcde2d94a13ce6889246b",
+    "file_sha256": "be21b3711e8d63857ce7d7dd638a31dfa6598658814c1ac57a7124e4a7c8b0ec"
   },
   "core_id": "chailove",
   "local_only_evidence": true,
   "package": {
-    "sha256": "68fad27e7ef2e5d9a6fd4d86704f2f010610144afe906cc19b8060c443bb7b81",
-    "size": 2603157
+    "sha256": "efd729c720c7a8e1eb775a60e8e35ffd7c29fc2707fb7ef27befababdbefd6ce",
+    "size": 2601672
   },
-  "pin_path": "pins/core-sets/chailove-5fa2014d9a13-b5daece4f4dc.json",
+  "pin_path": "pins/core-sets/chailove-5fa2014d9a13-a865ec5a740d.json",
   "publication": "disabled",
   "runs": {
     "reproduction": {
       "builds": {
         "arm64": {
-          "log_sha256": "5af7f180fe803c9e63798e4b4fbf750995b1711332aef9167b3ab2df748a3a27",
+          "log_sha256": "a81f786b2b3767bb8aab791628264bdba73cafb68f7a1cee16c224f5cf94d7b8",
           "log_size": 123640,
-          "record_sha256": "0ea0157424a9a376f3bc27bfac0ace1ed48c69dec6ba2c13ebd5ef284e36aef4",
-          "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "record_sha256": "2a61c17fcf5f726ae55613d5e7bfb686f9e547333767cbdc54d662eefefaa098",
+          "repository_dirty": false,
+          "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e"
         },
         "armhf": {
-          "log_sha256": "096c4a0a309e8ac0446f7171e1981aa123dd65ddb086ad9385b31ccde8393a7f",
+          "log_sha256": "4bb020c56a15baa0b318687de02cf1b30e1576c03a03ddbe551127b79d03b2fc",
           "log_size": 124727,
-          "record_sha256": "a5e762c9da51b4c8dcbb0b9476a87553398c4f3346376020a6705d12c7aa2f55",
-          "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "record_sha256": "f39df56e1dee051550bff32509a9c86ef5f10e8095e70aba7d73c843f798709f",
+          "repository_dirty": false,
+          "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e"
         }
       },
-      "e2e_content_sha256": "fdd28b7778958b35f6181fd4f7511449c1dd4355cb6bd414feba6cd426e102fd",
-      "e2e_file_sha256": "0801e47f7b9326ac5d88472cb3d81629b0c13df4ab854bff2e2623987341b15c",
-      "run_id": "build-core-chailove-local-w3"
+      "e2e_content_sha256": "6e75154a648b2b6af54b1937877258c5abe5634b3651ba75bee5c3602b479bc5",
+      "e2e_file_sha256": "95589f83a91d6855eff141bbbf6ba520300b2d5fa4192fa68a6cb32e5d946ca1",
+      "run_id": "build-core-chailove-local-w4"
     },
     "selected": {
       "builds": {
         "arm64": {
-          "log_sha256": "d5b15a1db80f760d0341ac155d66891c09f51c02c48e95b1feef660d2849a09a",
+          "log_sha256": "db078770d01c23b4f5e6f4bfdeb3c950f9c73c22f9aa47117b81911aae615b29",
           "log_size": 123640,
-          "record_sha256": "b2bf0acdc0ec95b1017f1fa9f2ac162b094a773f6492e09c8470aa6e199dc866",
-          "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "record_sha256": "49a907aa9c7b1c5c27f1c35a348d24b118fc0550f838481ffc73d57079e38572",
+          "repository_dirty": false,
+          "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e"
         },
         "armhf": {
-          "log_sha256": "db3b50984d0e7e4a6afebdc65cb646c62baa5f581bcf75126218bac7d1542877",
+          "log_sha256": "d69b8ab23ddf763dc058841f16954b7ffff800a79c3db09a7c6c5a9802ea4fb7",
           "log_size": 124727,
-          "record_sha256": "382ef36f4c3e61c038f7dddd22ca962816c2d617363f81c79f1a18fa0a898614",
-          "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "record_sha256": "562339ad528cda1a6ebaac7f55c2153b4e9831adb88ccf9931365f4bf30bbba9",
+          "repository_dirty": false,
+          "repository_head": "7e4fb5b312475d4e82e5ce598c5f57d37e6d1c2e"
         }
       },
-      "e2e_content_sha256": "bc876bd619f39663d88f1d18a43fc7962fc094dcbc89ddedc332ef0b6d8b7760",
-      "e2e_file_sha256": "17dedd7feeffd732aee0ed357e41313679c8f19d741390448c8aa1e01e63faae",
-      "run_id": "actions-sim-build-core-chailove-w3"
+      "e2e_content_sha256": "9f8ba641099903780b05569a142ffd05515d5abe56fef4dba82695d97ac2819e",
+      "e2e_file_sha256": "b8d8afd2647943e18ecc711da482cbeb7663ed7b0f590ae053fff97da7d5808d",
+      "run_id": "actions-sim-build-core-chailove-w4"
     }
   },
   "schema_version": 1,
-  "selection_sha256": "b5daece4f4dcca3a50bc3c4296017e8adae434cd10c9eb3c35dbb39605aa3cab",
-  "semantic_id": "chailove-5fa2014d9a13-b5daece4f4dc",
+  "selection_sha256": "a865ec5a740d7b2e413e9ae963ef5a3eaf0ad0f7e8d9c97a0b700d5100cfd8eb",
+  "semantic_id": "chailove-5fa2014d9a13-a865ec5a740d",
   "source_commit": "5fa2014d9a1359836f165ab251831bce878ec2be",
-  "source_set_path": "pins/source-sets/chailove-5fa2014d9a13-b5daece4f4dc.json",
+  "source_set_path": "pins/source-sets/chailove-5fa2014d9a13-a865ec5a740d.json",
   "targets": {
     "arm64": {
-      "artifact_sha256": "1c19c13241ca57abbc554637c6459994060980e0092fe7e978e7e0f458805d2c",
-      "artifact_size": 6274312,
+      "artifact_sha256": "f8230b4c0328ea420628adc060d28844688c80cecab97906e1d43119bc0b1b3a",
+      "artifact_size": 6257544,
       "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
       "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
       "toolchain_archive_size": 502531978
     },
     "armhf": {
-      "artifact_sha256": "0ce222a2e00a3a7f902ee1fc4c69914e4555f765c012d74cf69e42ee2fc452f3",
+      "artifact_sha256": "b34a02032d53546a1a486c7105e1adda6a9ebac84f6a2461d77048184f58dbd9",
       "artifact_size": 5489164,
       "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
       "toolchain_archive_sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
