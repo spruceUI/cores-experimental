@@ -1,9 +1,16 @@
 # Pipeline overview and reference
 
-Moved from the repository README, which now keeps only the purpose
-summary and the device x core compatibility matrix. This document is the
-narrative reference for how the pipeline is laid out and operated; the
-focused runbooks in this directory go deeper on each area.
+Moved from the repository README, which keeps only the purpose summary
+and the device x core compatibility matrix. This document reads top-down
+from light to heavy: where things stand, then the concepts, then the
+full operational reference. The focused runbooks in this directory go
+deeper on each area.
+
+**Contents:**
+[Repository map](#repository-map) ·
+[Current status](#current-status) ·
+[Concepts](#concepts) ·
+[Operational reference](#operational-reference)
 
 ## Repository map
 
@@ -21,7 +28,13 @@ focused runbooks in this directory go deeper on each area.
 | `docs/` | Architecture, operations, and onboarding runbooks |
 | `policies/`, `runtime/` | Admission policy and runtime smoke assets |
 
-## Migration status
+## Current status
+
+Everything in this section is measured state, regenerable from the
+repository: the migration scoreboard, the ABI floor/ceiling join, and
+the uncataloged tail.
+
+### Migration status
 
 - **All 98 shipped-core workflows are migrated** to the shared,
   source-pinned, publication-disabled fail-closed pipeline: every cataloged
@@ -31,47 +44,26 @@ focused runbooks in this directory go deeper on each area.
   `manifests/compatibility/<core>.json` document binding the evidence. The
   pending bucket is empty; the audit reports 98/98 catalog cores on the
   shared dispatcher with zero masked failure paths.
-- The toolchain lock holds **three images** (the v4 C cross pair plus the
-  standalone Rust image for the cargo driver): the v2
-  base (CMake 3.31.6, qemu-user, per-ABI inih, arm64
-  pixman/fmt/expat/icu apt set) plus libpng dev in both sysroots and one
-  isolated static dependency prefix per ABI
-  (`/usr/local/easyrpg-deps-<abi>`: pinned pixman, expat, fmt, ogg,
-  vorbis, mpg123, sndfile, and ICU 78.3 static with EasyRPG's trimmed
-  converter data). Every image input is a repo-tracked, sha-pinned
-  tarball; the dep block stays one COPY + one RUN per image because the
-  lock captures small tar members under a bounded aggregate. The 96
-  pre-v4 pin-sets still record their v2 image ids — a deferred-hygiene
-  re-promote wave, byte-identical by layer inheritance (v2-cutover
-  precedent `cdff35a`/`9d95cda`).
+- The toolchain lock holds **three images**: the v4 C cross pair
+  (CMake 3.31.6, qemu-user, per-ABI inih, libpng dev, and one isolated
+  static dependency prefix per ABI at `/usr/local/easyrpg-deps-<abi>`)
+  plus the standalone Rust image for the `direct-cargo` driver
+  (pinned Rust 1.90 / zig 0.13). Every image input is a repo-tracked,
+  sha-pinned tarball, and `pins/toolchains/local-cache-v1.json` locks
+  all three portable archives to their compressed bytes, image IDs, and
+  Dockerfile descriptions. **Every pin-set records the current image
+  ids** (the catalog was re-promoted onto this lock 2026-07-24).
 - The canonical evidence index is `manifests/compatibility/*.json`: each
   document's `golden_source` names the core's current pin under
-  `pins/core-sets/`, with its source set under `pins/source-sets/`. New
-  migrations use individual core files and semantic IDs for pins, source
-  sets, compatibility documents, tests, run IDs, and channel aliases; active
-  work never uses a historical grouping.
-- **Zero fail-open workflows remain.** The final two migrated 2026-07-24:
-  `easyrpg` (full static dependency closure; its rebuilt artifacts need
-  only the loader base set plus the capture-proven
-  `libpng16.so.16`/`libz.so.1`, eligible on every probed device where the
-  previously shipped arm64 build loaded on none) and `libgametank` (the
-  first `direct-cargo` core: upstream's committed Cargo.lock is the
-  checksummed dependency pin, builds run `--locked` inside the third
-  locked image — a standalone pinned Rust 1.90/zig 0.13 toolchain — and
-  the log proof pins the lock digest, the exact zigbuild invocation, and
-  the 69-crate compiled multiset).
-- The aggregate-era chronology (tranches, `golden-start` composer, frozen
-  fixtures and their regression readers) was retired on 2026-07-23 and is
-  preserved only in git history. Never use a historical batch identifier
-  ("tranche") for new work; the candidate-id guard rejects such names.
-- `pins/toolchains/local-cache-v1.json` locks the three portable cached-image
-  archives (arm64/armhf C cross plus the Rust image for the cargo driver) to their compressed bytes, complete OCI/Docker-save graphs, image
-  IDs, cross-compiler environments, and current Dockerfile descriptions.
+  `pins/core-sets/`, with its source set under `pins/source-sets/`. All
+  active lifecycles use individual core files and semantic IDs; grouped
+  identifiers are retired history, and the candidate-id guard rejects
+  historical batch names ("tranche").
 
 Nothing in `scripts/core_pipeline.py` publishes to GitHub. Local output is
 written beneath `.local-e2e/`, which is ignored by Git.
 
-## ABI floors and ceilings (glibc / libstdc++)
+### ABI floors and ceilings (glibc / libstdc++)
 
 **With the Mini family's bundled libstdc++ updated to the A30 provider
 (libstdc++ 6.0.32, GLIBCXX 3.4.32 — spruceOS Development `ee825739d`),
@@ -118,7 +110,22 @@ Two consequences worth keeping in view:
   — proven by the loader-truth join behind each matrix `Y`, which
   verifies the full needed-set resolution, glibc included.
 
-## Golden tiers
+### Uncataloged shipped binaries (custom-build tail)
+
+These cores are shipped by spruceOS but can't be built from libretro-super and need custom build processes:
+
+- [ ] **mkxp-z** — hyphen in name breaks libretro-super's bash variable parsing
+- [ ] **mupen64plus** — removed from libretro-super (replaced by mupen64plus_next)
+- [ ] **km_flycast_xtreme** — KMFDManic/morpheuscast_xtreme fork uses bare `as` for ARM64 assembly, not cross-compile friendly
+- [ ] **km_ludicrousn64_2k22_xtreme_amped** — KMFDManic fork has broken aarch64 dynarec source and missing includes
+
+## Concepts
+
+The ideas the evidence model is built on: golden tiers (what a record
+is allowed to claim), and where evidence physically lives plus what the
+validation gate does and does not cover.
+
+### Golden tiers
 
 - `imported_baseline` pins the SHA256 and validated ELF metadata of the binaries
   currently shipped by the sibling SpruceOS checkout. Active imports create a
@@ -135,7 +142,48 @@ Two consequences worth keeping in view:
 An imported baseline is never silently promoted. Failed and foreign-architecture
 artifacts remain recorded as rejected evidence.
 
-## Local build/package simulation
+### Evidence locality and validation scope
+
+The aggregate-era chronology (tranches, grouped pins, their fixtures and
+readers) was retired on 2026-07-23 and lives only in git history (last
+present at `dd82cc4`). Each top-level `manifests/compatibility/*.json`
+file with its one-core pin, source set, and focused test is the current
+record; anything under `manifests/compatibility/pending/` is a
+transition record making no compatibility claim.
+
+The store and run directories are intentionally ignored and local-only:
+paths in per-core records identify workspace-local evidence, not files
+available from a fresh clone. Preserve them with the workspace — a fresh
+clone can read pin metadata but cannot recover the source-built bytes.
+The cached image archive bytes and IDs are portable and immutable
+through the toolchain lock, while the Dockerfiles remain explicitly
+unverified descriptions of those caches.
+
+The JSON schemas, including the toolchain-lock, core-set, and local-release
+schemas, are editor and documentation aids. The normative executable checks are
+`catalog-check`, `validate-golden`, `validate-pin-set`, `validate-release`,
+`toolchain_archive.py validate-lock`, `toolchain_archive.py verify-downloads`,
+artifact validation, E2E package
+validation, and the unit suite; schema conformance is not claimed as a runtime
+gate.
+
+There is currently no target RetroArch/QEMU runner or redistributable ROM fixture
+in this repository. The present build/package E2E gate therefore covers the
+shared command's containerized compilation, packaging, ABI, recorded dependency
+metadata, and libretro API surface. It does not validate GitHub Actions runtime
+semantics, target dependency availability, version floors, loadability, gameplay,
+or runtime compatibility, so build goldens are explicitly marked
+`static-build-only`.
+
+## Operational reference
+
+The heavy matter: full walkthroughs of the build/package path, the
+toolchain archive lock, and per-core pinned/release validation. The
+condensed operator flow lives in
+[core-pipeline-operations.md](core-pipeline-operations.md); onboarding a
+new core is [adding-a-new-core.md](adding-a-new-core.md).
+
+### Local build/package simulation
 
 For the concise operator workflow—including runner profiles, unit tests,
 source-commit lifecycle status, promotion, and commit blacklisting—see
@@ -226,29 +274,29 @@ python3 scripts/profile_registry.py report \
 python3 scripts/profile_registry.py report \
   --source-set pins/source-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json
+  --source-set pins/source-sets/mednafen_pcfx-650c30ea2203-d3672dc81b75.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json
+  --source-set pins/source-sets/pokemini-bb009b1379ad-3abb4885cf09.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/gearcoleco-112345747c04-02350ee96cf1.json
+  --source-set pins/source-sets/gearcoleco-112345747c04-cc2d4bc38005.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/vice_x64-7946cfa0d377-1085a07760d4.json
+  --source-set pins/source-sets/vice_x64-7946cfa0d377-4b611c28b848.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/vice_xvic-7946cfa0d377-f1e6abfe933c.json
+  --source-set pins/source-sets/vice_xvic-7946cfa0d377-e23a9971f265.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/fmsx-f013e213458e-b015409bc42c.json
+  --source-set pins/source-sets/fmsx-f013e213458e-e649daf16694.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/bluemsx-5f595c79906f-e600380ac6d7.json
+  --source-set pins/source-sets/bluemsx-5f595c79906f-5d1ea1b42de8.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/snes9x2005-b60356971fc9-23fbb6c59d54.json
+  --source-set pins/source-sets/snes9x2005-b60356971fc9-89b3519fa99d.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/snes9x2005_plus-b60356971fc9-77ca2d085240.json
+  --source-set pins/source-sets/snes9x2005_plus-b60356971fc9-1d19ddd8a238.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/cap32-4abfb8be233b-4f89ee89dec9.json
+  --source-set pins/source-sets/cap32-4abfb8be233b-82ddcfcacee0.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/crocods-87bbb3d9007a-5a44afda913e.json
+  --source-set pins/source-sets/crocods-87bbb3d9007a-987ab7429a42.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json
+  --source-set pins/source-sets/genesis_plus_gx_wide-29d9d104338f-6184c4659fe1.json
 python3 scripts/profile_registry.py report \
   --source-set pins/source-sets/o2em-e03d3be88f79-a966ff1d0775.json
 python3 scripts/profile_registry.py report \
@@ -268,7 +316,7 @@ python3 scripts/profile_registry.py report \
 python3 scripts/profile_registry.py report \
   --source-set pins/source-sets/2048-c90437d3c391-e1ff15dd7d6a.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/81-fa7094910d04-22dd2ebacdc6.json
+  --source-set pins/source-sets/81-fa7094910d04-8504f7df5dd8.json
 python3 -m unittest discover -s tests -v
 ```
 
@@ -323,108 +371,14 @@ with no conflicting token. The full 40-character source commit remains
 authoritative; the derived value is deterministic source/runtime identity for
 the ABI builds, not a substitute pin.
 
-Mednafen Supafaust is a core-owned exact-contract example: its registered proof
-requires 44 C++ compile commands per ABI with `GIT_VERSION="-2b93c0d"`, the
-exact compile/output and link-object identities, the reviewed link options, and
-the complete ordered diagnostic streams even when parallel jobs interleave
-those streams.
-
-Mednafen Virtual Boy is a native-version mixed-language example. Its core-owned
-proof binds the exact native leading-space version ` 38e7a0e` to all 10 C and
-three C++ compile commands and proves the complete ordered 13-object C++ link.
-ARM64 must remain diagnostic-clean; ARMHF admits only its two exact reviewed GCC
-psABI notes.
-
-Mednafen Lynx is the C++-scoped native-version mixed-language example. Its
-core-owned proof binds native leading-space version ` fcdefcf` only to the 16
-C++ compiles, requires all 13 C compiles and the complete ordered 29-object C++
-link, and requires the exact per-ABI truncation warning and associated note.
-ARMHF additionally admits only its two exact reviewed GCC 7.1 psABI notes; the
-two complete diagnostic blocks may appear in either order but remain
-fail-closed internally.
-
-Mednafen PCE Fast is the no-version C-only compile example. Its core-owned proof
-requires exactly 92 C compiles, no C++ compiles or injected/native version
-token, the complete ordered 92-object C++ link, exact source and success
-framing, and zero warnings, notes, errors, or fatal diagnostics.
-
-Mednafen SuperGrafx is the C++-scoped native-version mixed-language example.
-Its core-owned `mednafen-supergrafx-mixed-language-v1` proof binds native
-leading-space version ` 3c6fcd3` only to 29 C++ compiles, requires all 60 C
-compiles and the complete ordered 89-object C++ link, and binds every reviewed
-diagnostic occurrence to its owning source compile while admitting valid
-parallel-stream interleaving.
-
-Mednafen WonderSwan is the native-version mixed-language example. Its
-core-owned proof binds upstream's leading-space short hash to all 14 C and one
-C++ compile commands, the complete ordered 15-object C++ link, and the exact
-architecture-specific warning and GCC psABI note streams.
-
-Mednafen PC-FX is the host-specialization portability example. Its recipe
-requires the typed `IS_X86=0` Make input so host-x86 detection cannot add
-ARM-incompatible x86/SSE paths. Its core-owned proof binds the native
-leading-space short hash only to the 34 C++ compiles, requires all 60 C
-compiles and the complete ordered 94-object C++ link, and accepts only the
-reviewed per-stream diagnostic ordering when parallel output interleaves.
-
-PokéMini is the native-version C-only example with reviewed diagnostics. Its
-core-owned proof binds the leading-space short hash to all 43 C compiles, the
-complete ordered 43-object C link, and exactly five warnings plus five notes per
-ABI. The `.eep` path `sprintf` warning remains an unresolved potential overflow
-risk rather than being normalized away.
-
-O2EM is the native-version C-only example. Its catalog intentionally has no
-synthetic `git_version`; the core-owned proof instead binds upstream's native
-leading-space short hash on all 42 C compiles, the exact 42-object C link, and
-zero compiler, linker, or process-failure diagnostics.
-
-FreeChaF is the native-version C-only example with a recursive source. Its
-core-owned proof binds the exact libretro-common gitlink, upstream's native
-leading-space short hash on all 25 C compiles, the exact 25-object C link, and
-the single reviewed unused-variable warning while rejecting any other
-compiler, linker, or process-failure diagnostic.
-
-VecX is the software-renderer native-version example. Its core-owned
-`vecx-software-c-only-v1` proof requires `HAS_GPU=0`, binds the native
-leading-space short hash on all four C compile commands, and proves the
-complete ordered link command. It also binds the exact whole-file metadata
-replacement and rejects GL-family inputs, GPU objects, compiler diagnostics,
-and process failures.
-
-LowRes NX is the larger native-version C-only example. Its core-owned
-`lowresnx-c-only-v1` proof binds upstream's leading-space short hash to all 43
-C compile commands, every ABI-specific compiler invocation, both reviewed
-source/object orderings, and the complete ordered link command while rejecting
-unreviewed diagnostics and path aliases outside the exact semantic scope.
-
-RACE is the native-version C-only Neo Geo Pocket example. Its core-owned
-`race-c-only-v1` proof binds the leading-space short hash to all 27 C compile
-commands and the complete ordered C link with a zero-diagnostic envelope for
-both ABIs. `ngpBios.c` is compiled internal source, not a packaged or required
-external firmware blob. GPLv2 review remains a publication gate, ARMHF requires
-`GLIBC_2.7`, and reset, options, unaligned-access behavior, frontend/runtime
-integration, and every device claim remain unverified.
-
-Potator is the native-version C-only Watara Supervision example. Its core-owned
-`potator-c-only-v1` proof binds native leading-space version ` 227c5f6` to all
-eight C compiles, proves the complete ordered C link, and preserves exactly the
-four reviewed misleading-indentation CPU warning/note pairs while rejecting
-unreviewed diagnostics and process failures.
-
-Gearboy and Gearsystem are native-describe mixed-language examples. Their
-core-owned proofs bind exact upstream descriptions `3.8.9-8-g36d723f` and
-`3.9.12-5-g4f029e4` to all 40 and 46 compiles respectively, prove the complete
-ordered C++ links, and require zero diagnostics. Each proof also binds the
-complete source, toolchain, clean, compile, link, copy, and success sequence so
-setup-region mutation, wrapper compilers, response files, and shell indirection
-fail closed.
-
-2048 is the numeric-ID native-version C-only example. Its core-owned
-`core-2048-c-only-v1` proof binds the pinned source tree and upstream
-leading-space short hash to all 16 C compile commands and the complete ordered
-C link for both ABIs. The selected simulated-Actions run and independent local
-run reproduce the package, metadata, logs, and both ABI artifacts exactly; its
-canonical lifecycle remains static-build-only pending target-runtime evidence.
+Per-core contracts follow a small set of archetypes — exact-transcript
+proofs, native-version C-only and mixed-language proofs (with or without
+reviewed diagnostic streams), host-specialization portability recipes,
+and recursive-source or numeric-ID variants. Each core's
+`scripts/core_pipeline_lib/contracts/<core>.py` module and
+`tests/test_contract_<core>.py` are the authoritative reference for its
+shape; per-core example narratives are not duplicated here (older ones
+live in this file's git history).
 
 The `direct-cmake` driver uses fixed `/tmp/core-source` and `/tmp/core-build`
 paths, typed target-system and cross-tool arguments, and a post-configure cache
@@ -465,7 +419,7 @@ per-compile variant proof used by Snes9x 2005 Plus.
 Deep pin validation also rechecks legacy v2 snapshots against their embedded
 catalog source/build contract and immutable compiler log.
 
-## Local toolchain archive lock
+### Local toolchain archive lock
 
 The cached images are preserved as gzip-compressed hybrid OCI/Docker-save
 archives. Importing them is create-only and local: it fully validates each
@@ -475,13 +429,15 @@ tracked metadata lock without invoking Docker:
 ```bash
 python3 scripts/toolchain_archive.py import-lock \
   --arm64 /tmp/cores-arm64.tar.gz \
-  --armhf /tmp/cores-armhf.tar.gz
+  --armhf /tmp/cores-armhf.tar.gz \
+  --rust /tmp/cores-rust.tar.gz
 python3 scripts/toolchain_archive.py validate-lock
 python3 scripts/toolchain_archive.py validate-lock --verify-store
 python3 scripts/toolchain_archive.py verify-downloads \
   --lock pins/toolchains/local-cache-v1.json \
   --arm64 /tmp/cores-arm64.tar.gz \
-  --armhf /tmp/cores-armhf.tar.gz
+  --armhf /tmp/cores-armhf.tar.gz \
+  --rust /tmp/cores-rust.tar.gz
 ```
 
 Metadata-only validation does not require the ignored local store.
@@ -493,23 +449,23 @@ rootfs diff IDs, the `linux/amd64` container platform, `/libretro-super`
 working directory, and target `HOST_CC`.
 
 The exact compressed identities are
-`4dbf81aa...d9038d` (259,229,571 bytes, ARM64) and
-`8a5cfa01...95919` (652,844,275 bytes, ARMHF). Their CAS paths are
+`8a3bdd7f…` (502,531,978 bytes, ARM64), `f297cbf9…` (835,303,648 bytes,
+ARMHF), and `38ad84b2…` (999,801,265 bytes, Rust); the lock file is
+authoritative. CAS paths are
 `.local-e2e/store/toolchain-archives/sha256/<first-two>/<sha256>`. Import uses a
 chunked temporary file plus a create-only hard link; an existing regular file
 must reproduce its name digest and size, while symlinks and collisions fail
-closed. The read-only `verify-downloads` gate checks both downloaded filenames,
-sizes, and SHA256 identities before either image can be loaded. Every migrated
-workflow listed above runs that gate between download and `docker load`. The
-catalog and new v2 build records bind the exact lock file/content identity and
-selected architecture archive, plus the exact checksum-verifier implementation;
-existing v1 goldens and pin bytes remain unchanged.
+closed. The read-only `verify-downloads` gate checks the downloaded filenames,
+sizes, and SHA256 identities before any image can be loaded, and every
+per-core workflow runs that gate between download and `docker load`. The
+catalog and build records bind the exact lock file/content identity and
+selected architecture archive, plus the exact checksum-verifier implementation.
 
 The lock explicitly retains `unverified-local-cache` Dockerfile linkage: the
 archive proves the cached image bytes and runtime build environment, but it
 cannot retroactively prove that the image was built from the current Dockerfile.
 
-## Individual-core pinned and release validation
+### Individual-core pinned and release validation
 
 New migrations use one immutable pin, source set, compatibility record, test
 module, and channel namespace per core. The complete operator procedure is in
@@ -532,492 +488,20 @@ python3 scripts/core_pipeline.py validate-release \
 python3 scripts/core_pipeline.py validate-channel --channel pinned --core handy
 ```
 
-Stella 2014 has the same isolated lifecycle:
-
-```bash
-python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json \
-  --verify-store --verify-sources
-python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json
-python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json \
-  --release .local-e2e/releases/stella2014-4a7da82595d2-a7cd8bf6403d \
-  --verify-store
-python3 scripts/core_pipeline.py validate-channel \
-  --channel pinned --core stella2014
-```
-
-Mednafen Supafaust uses the same individual-core lifecycle under semantic ID
-`mednafen_supafaust-2b93c0d7dff5-debb21b70273`:
-
-```bash
-python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json \
-  --verify-store --verify-sources
-python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json
-python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json \
-  --release .local-e2e/releases/mednafen_supafaust-2b93c0d7dff5-debb21b70273 \
-  --verify-store
-python3 scripts/core_pipeline.py validate-channel \
-  --channel pinned --core mednafen_supafaust
-```
-
-Its build contract, pin, source set, compatibility manifest, lifecycle test,
-and selected/reproduction run IDs are all individual-core:
-`scripts/core_pipeline_lib/contracts/mednafen_supafaust.py`,
-`manifests/compatibility/mednafen_supafaust.json`,
-`tests/cores/test_mednafen_supafaust.py`,
-`actions-sim-build-core-mednafen_supafaust-w3`, and
-`build-core-mednafen_supafaust-local-w3`. Exact build-log proof coverage stays
-in `tests/test_contract_mednafen_supafaust.py`.
-
-Mednafen Virtual Boy uses semantic ID
-`mednafen_vb-38e7a0ec9ac7-ed193088da99`:
-
-```bash
-python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json \
-  --verify-store --verify-sources
-python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json
-python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json \
-  --release .local-e2e/releases/mednafen_vb-38e7a0ec9ac7-ed193088da99 \
-  --verify-store
-python3 scripts/core_pipeline.py validate-channel \
-  --channel pinned --core mednafen_vb
-```
-
-Its canonical owners are
-`scripts/core_pipeline_lib/contracts/mednafen_vb.py`,
-`pins/core-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json`,
-`pins/source-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json`,
-`manifests/compatibility/mednafen_vb.json`,
-`tests/cores/test_mednafen_vb.py`, and
-`tests/test_contract_mednafen_vb.py`. Selected and reproduction evidence use
-`actions-sim-build-core-mednafen_vb-w3` and
-`build-core-mednafen_vb-local-w3`. The local release is
-`.local-e2e/releases/mednafen_vb-38e7a0ec9ac7-ed193088da99`; its three aliases
-are `.local-e2e/channels/nightly.mednafen_vb.json`,
-`.local-e2e/channels/pinned.mednafen_vb.json`, and
-`.local-e2e/channels/release.mednafen_vb.json`. Publication remains disabled,
-and all device views remain ineligible pending target-runtime validation.
-
-Mednafen Neo Geo Pocket uses semantic ID
-`mednafen_ngp-a50d5ac288a8-26b82754fc25`:
-
-```bash
-python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json \
-  --verify-store --verify-sources
-python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json
-python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json \
-  --release .local-e2e/releases/mednafen_ngp-a50d5ac288a8-26b82754fc25 \
-  --verify-store
-python3 scripts/core_pipeline.py validate-channel \
-  --channel pinned --core mednafen_ngp
-```
-
-Its canonical owners are
-`scripts/core_pipeline_lib/contracts/mednafen_ngp.py`,
-`pins/core-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json`,
-`pins/source-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json`,
-`manifests/compatibility/mednafen_ngp.json`,
-`tests/cores/test_mednafen_ngp.py`, and
-`tests/test_contract_mednafen_ngp.py`. Selected and reproduction evidence use
-`actions-sim-build-core-mednafen_ngp-w3` and
-`build-core-mednafen_ngp-local-w3`. The local release is
-`.local-e2e/releases/mednafen_ngp-a50d5ac288a8-26b82754fc25`; its three aliases
-are `.local-e2e/channels/nightly.mednafen_ngp.json`,
-`.local-e2e/channels/pinned.mednafen_ngp.json`, and
-`.local-e2e/channels/release.mednafen_ngp.json`. Publication remains disabled,
-and all device views remain ineligible pending target-runtime validation.
-
-Mednafen Lynx uses semantic ID
-`mednafen_lynx-fcdefcfb3c11-29e56373f32a`:
-
-```bash
-python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json \
-  --verify-store --verify-sources
-python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json
-python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json \
-  --release .local-e2e/releases/mednafen_lynx-fcdefcfb3c11-29e56373f32a \
-  --verify-store
-python3 scripts/core_pipeline.py validate-channel \
-  --channel pinned --core mednafen_lynx
-```
-
-Its canonical owners are
-`scripts/core_pipeline_lib/contracts/mednafen_lynx.py`,
-`pins/core-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json`,
-`pins/source-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json`,
-`manifests/compatibility/mednafen_lynx.json`,
-`tests/cores/test_mednafen_lynx.py`, and
-`tests/test_contract_mednafen_lynx.py`. Selected and reproduction evidence use
-`actions-sim-build-core-mednafen_lynx-w3` and
-`build-core-mednafen_lynx-local-w3`. The local release is
-`.local-e2e/releases/mednafen_lynx-fcdefcfb3c11-29e56373f32a`; its three aliases
-are `.local-e2e/channels/nightly.mednafen_lynx.json`,
-`.local-e2e/channels/pinned.mednafen_lynx.json`, and
-`.local-e2e/channels/release.mednafen_lynx.json`. Publication remains disabled.
-The required, unbundled `lynxboot.img` firmware, content, controls, rotation,
-A/V, saves, states, compatibility, frontend integration, and performance remain
-legal, policy, and target-runtime gates, so no device view is eligible.
-
-Mednafen PCE Fast uses semantic ID
-`mednafen_pce_fast-0bc6c8692834-cdd0e0603032`:
-
-```bash
-python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json \
-  --verify-store --verify-sources
-python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json
-python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json \
-  --release .local-e2e/releases/mednafen_pce_fast-0bc6c8692834-cdd0e0603032 \
-  --verify-store
-python3 scripts/core_pipeline.py validate-channel \
-  --channel pinned --core mednafen_pce_fast
-```
-
-Its canonical owners are
-`scripts/core_pipeline_lib/contracts/mednafen_pce_fast.py`,
-`pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json`,
-`pins/source-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json`,
-`manifests/compatibility/mednafen_pce_fast.json`,
-`tests/cores/test_mednafen_pce_fast.py`, and
-`tests/test_contract_mednafen_pce_fast.py`. Selected and reproduction evidence
-use `actions-sim-build-core-mednafen_pce_fast-w3` and
-`build-core-mednafen_pce_fast-local-w3`. The local release is
-`.local-e2e/releases/mednafen_pce_fast-0bc6c8692834-cdd0e0603032`; its three
-aliases are `.local-e2e/channels/nightly.mednafen_pce_fast.json`,
-`.local-e2e/channels/pinned.mednafen_pce_fast.json`, and
-`.local-e2e/channels/release.mednafen_pce_fast.json`. Publication remains
-disabled. HuCard and BIOS-backed PCE-CD loading, the unbundled system-card BIOS,
-controls, A/V, saves, states, compatibility boundaries, frontend integration,
-and performance remain target-runtime gates, so no device view is eligible.
-
-Mednafen WonderSwan uses semantic ID
-`mednafen_wswan-da6d0d9acb8d-da715bbcb6da`:
-
-```bash
-python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json \
-  --verify-store --verify-sources
-python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json
-python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json \
-  --release .local-e2e/releases/mednafen_wswan-da6d0d9acb8d-da715bbcb6da \
-  --verify-store
-python3 scripts/core_pipeline.py validate-channel \
-  --channel pinned --core mednafen_wswan
-```
-
-Its canonical owners are
-`scripts/core_pipeline_lib/contracts/mednafen_wswan.py`,
-`manifests/compatibility/mednafen_wswan.json`,
-`tests/cores/test_mednafen_wswan.py`, and
-`tests/test_contract_mednafen_wswan.py`. Selected and reproduction evidence use
-`actions-sim-build-core-mednafen_wswan-w3` and
-`build-core-mednafen_wswan-local-w3`; local aliases are
-`.local-e2e/channels/<channel>.mednafen_wswan.json`.
-
-Mednafen PC-FX uses semantic ID
-`mednafen_pcfx-650c30ea2203-1c9309580e68`:
-
-```bash
-python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json \
-  --verify-store --verify-sources
-python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json
-python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json \
-  --release .local-e2e/releases/mednafen_pcfx-650c30ea2203-1c9309580e68 \
-  --verify-store
-python3 scripts/core_pipeline.py validate-channel \
-  --channel pinned --core mednafen_pcfx
-```
-
-Its canonical owners are
-`scripts/core_pipeline_lib/contracts/mednafen_pcfx.py`,
-`manifests/compatibility/mednafen_pcfx.json`,
-`tests/cores/test_mednafen_pcfx.py`, and
-`tests/test_contract_mednafen_pcfx.py`. Selected and reproduction evidence use
-`actions-sim-build-core-mednafen_pcfx-w3` and
-`build-core-mednafen_pcfx-local-w3`; local aliases are
-`.local-e2e/channels/<channel>.mednafen_pcfx.json`. This is static build
-evidence only: every device view remains ineligible pending target runtime and
-provider validation. Operators must also supply the unbundled `pcfx.rom` BIOS
-and review the metadata display version `v0.9.33.3` versus compiled version
-`v0.9.36.5 650c30e` before any publication decision.
-
-PokéMini uses semantic ID `pokemini-bb009b1379ad-2ecf9f68eb0c`:
-
-```bash
-python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json \
-  --verify-store --verify-sources
-python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json
-python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json \
-  --release .local-e2e/releases/pokemini-bb009b1379ad-2ecf9f68eb0c \
-  --verify-store
-python3 scripts/core_pipeline.py validate-channel \
-  --channel pinned --core pokemini
-```
-
-Its canonical owners are `scripts/core_pipeline_lib/contracts/pokemini.py`,
-`pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json`,
-`pins/source-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json`,
-`manifests/compatibility/pokemini.json`, `tests/cores/test_pokemini.py`, and
-`tests/test_contract_pokemini.py`. Selected and reproduction evidence use
-`actions-sim-build-core-pokemini-w3` and `build-core-pokemini-local-w3`; local
-aliases are `.local-e2e/channels/<channel>.pokemini.json`. This is local static
-build evidence gathered through network source clones, not an offline or target
-runtime result. The optional, unbundled `bios.min` and the unresolved `.eep`
-path overflow warning remain runtime-review gates; every device view is
-ineligible pending provider inspection and target validation.
-
-Cap32 uses semantic ID `cap32-4abfb8be233b-4f89ee89dec9`. Its canonical
-owners are `scripts/core_pipeline_lib/contracts/cap32.py`, the matching
-one-core pin and source set, `manifests/compatibility/cap32.json`,
-`tests/cores/test_cap32.py`, and `tests/test_contract_cap32.py`. Selected
-`actions-sim-build-core-cap32-w3` and reproduction
-`build-core-cap32-local-w3` builds reproduce the package, metadata, and both
-ABI artifacts byte for byte; parallel log order varies while the complete
-line multisets and exact 44-command proof remain equal. Metadata/runtime
-version drift, non-commercial compiled-source terms, network-only checkout,
-cached-image provenance, and all target runtime behavior remain explicit
-gates. The three `.local-e2e/channels/<channel>.cap32.json` aliases are local
-only, and every device view remains ineligible.
-
-CrocoDS uses semantic ID `crocods-87bbb3d9007a-5a44afda913e`. Its canonical
-owners are `scripts/core_pipeline_lib/contracts/crocods.py`, the matching
-one-core pin and source set, `manifests/compatibility/crocods.json`,
-`tests/cores/test_crocods.py`, and `tests/test_contract_crocods.py`. Selected
-`actions-sim-build-core-crocods-w3` and reproduction
-`build-core-crocods-local-w3` builds reproduce the package, metadata, and both
-ABI artifacts byte for byte. ARMHF logs are byte-identical; parallel ARM64
-logs have equal complete-line multisets and independently pass the exact
-50-command C proof with nine reviewed warnings and seven notes. Metadata and
-compiled-license differences, embedded CPC data without local provenance,
-network-only checkout, cached-image provenance, provider availability, and
-all target-runtime behavior remain explicit human or device gates. The three
-`.local-e2e/channels/<channel>.crocods.json` aliases are local only, and every
-device view remains ineligible.
-
-Genesis Plus GX uses semantic ID
-`genesis_plus_gx-fa4dca561e08-b94a8729a601`. Its canonical owners are
-`scripts/core_pipeline_lib/contracts/genesis_plus_gx.py`, the matching
-one-core pin and source set, `manifests/compatibility/genesis_plus_gx.json`,
-`tests/cores/test_genesis_plus_gx.py`, and
-`tests/test_contract_genesis_plus_gx.py`. Selected
-`actions-sim-build-core-genesis_plus_gx-w3` and reproduction
-`build-core-genesis_plus_gx-local-w3` builds reproduce the package, metadata,
-and both ABI artifacts byte for byte. ARMHF logs are byte-identical; parallel
-ARM64 logs have equal complete-line multisets and independently pass the exact
-117-command C proof with two reviewed warnings and one note. Network-only
-checkout, cached-image provenance, imported-binary version drift, core-option
-and BRAM migration, content and runtime behavior, cross-variant state
-compatibility, and non-commercial corresponding-source obligations remain
-explicit gates. The three
-`.local-e2e/channels/<channel>.genesis_plus_gx.json` aliases are local only,
-and every device view remains ineligible.
-
-The Base and Wide proofs exact-match their ordered fetch/build preludes but
-canonicalize only the matching positive `-jN` token on the reviewed clean and
-build commands. Container-visible CPU capacity is scheduler input, not core
-recipe identity; the two job counts must still match, and every surrounding
-command byte and phase boundary remains exact.
-
-Genesis Plus GX Wide independently owns semantic lifecycle
-`genesis_plus_gx_wide-29d9d104338f-5035640f9981`, its one-core pin and source
-set, `manifests/compatibility/genesis_plus_gx_wide.json`,
-`tests/cores/test_genesis_plus_gx_wide.py`, and
-`tests/test_contract_genesis_plus_gx_wide.py`. Fresh selected
-`actions-sim-build-core-genesis_plus_gx_wide-w3` and reproduction
-`build-core-genesis_plus_gx_wide-local-w3` runs reproduce package
-`df36ba0750a558a846dc82012d8fe4c33dbd1e97c60d2e88d4ee42ed5efb6eec`,
-metadata, both ABI artifacts, and both logs byte for byte while independently
-passing its exact 106-command C proof. The three
-`.local-e2e/channels/<channel>.genesis_plus_gx_wide.json` aliases are local
-only. Provider and target-runtime behavior, Wide option and state migration,
-Base/Wide compatibility, non-commercial corresponding-source obligations,
-and every device view remain fail-closed gates. The tracked historical Wide
-logs remain immutable test oracles and were not used for promotion.
-
-O2EM's corresponding semantic lifecycle is
-`o2em-e03d3be88f79-a966ff1d0775`. Its canonical owners are
-`scripts/core_pipeline_lib/contracts/o2em.py`,
-`manifests/compatibility/o2em.json`, `tests/cores/test_o2em.py`, and
-`tests/test_contract_o2em.py`; selected and reproduction evidence use
-`actions-sim-build-core-o2em-w3` and `build-core-o2em-local-w3`. The local
-nightly, pinned, and release aliases are `.local-e2e/channels/<channel>.o2em.json`.
-
-FreeChaF's corresponding semantic lifecycle is
-`freechaf-76c7a84f1f7e-3fc6b43191ef`. Its canonical owners are
-`scripts/core_pipeline_lib/contracts/freechaf.py`,
-`manifests/compatibility/freechaf.json`, `tests/cores/test_freechaf.py`, and
-`tests/test_contract_freechaf.py`; selected and reproduction evidence use
-`actions-sim-build-core-freechaf-w3` and `build-core-freechaf-local-w3`. The
-local aliases are `.local-e2e/channels/<channel>.freechaf.json`.
-
-VecX's corresponding semantic lifecycle is
-`vecx-8f671cc9d737-599c2197e36a`. Its canonical owners are
-`scripts/core_pipeline_lib/contracts/vecx.py`,
-`manifests/compatibility/vecx.json`, `tests/cores/test_vecx.py`, and
-`tests/test_contract_vecx.py`; selected and reproduction evidence use
-`actions-sim-build-core-vecx-w3` and `build-core-vecx-local-w3`. The local
-aliases are `.local-e2e/channels/<channel>.vecx.json`.
-
-LowRes NX's corresponding semantic lifecycle is
-`lowresnx-35adc1a215e9-bcaea00ea240`. Its canonical owners are
-`scripts/core_pipeline_lib/contracts/lowresnx.py`,
-`manifests/compatibility/lowresnx.json`, `tests/cores/test_lowresnx.py`, and
-`tests/test_contract_lowresnx.py`; selected and reproduction evidence use
-`actions-sim-build-core-lowresnx-w3` and `build-core-lowresnx-local-w3`. The
-local aliases are `.local-e2e/channels/<channel>.lowresnx.json`. The records
-remain static-build-only: ARM64 reaches `GLIBC_2.29`, provider compatibility
-is unverified, and every device view remains ineligible pending target-runtime
-evidence.
-
-RACE's corresponding semantic lifecycle is
-`race-c7810dd7f172-c0ea16475d19`. Its canonical owners are
-`scripts/core_pipeline_lib/contracts/race.py`,
-`manifests/compatibility/race.json`, `tests/cores/test_race.py`, and
-`tests/test_contract_race.py`; selected and reproduction evidence use
-`actions-sim-build-core-race-w3` and `build-core-race-local-w3`. The local
-aliases are `.local-e2e/channels/<channel>.race.json`. Package, metadata,
-artifacts, and logs reproduce byte for byte, but publication remains disabled:
-GPLv2 redistribution review and all provider, runtime, and device validation
-remain human gates, including ARMHF's `GLIBC_2.7` floor.
-
-Mednafen SuperGrafx's semantic lifecycle is
-`mednafen_supergrafx-3c6fcd3deded-c84693b9711a`. Its canonical owners are
-`scripts/core_pipeline_lib/contracts/mednafen_supergrafx.py`,
-`pins/core-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json`,
-`pins/source-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json`,
-`manifests/compatibility/mednafen_supergrafx.json`,
-`tests/cores/test_mednafen_supergrafx.py`, and
-`tests/test_contract_mednafen_supergrafx.py`. Selected
-`actions-sim-build-core-mednafen_supergrafx-w3` and independent
-`build-core-mednafen_supergrafx-local-w3` runs reproduce the package, metadata,
-and both ABI artifacts byte for byte; parallel logs differ while both satisfy
-the exact occurrence-aware proof. The local release is
-`.local-e2e/releases/mednafen_supergrafx-3c6fcd3deded-c84693b9711a`; its three
-`.local-e2e/channels/<channel>.mednafen_supergrafx.json` aliases remain
-publication-disabled. GPLv2 review, the optional PCE-CD BIOS candidates (none
-packaged), display version `1.23.0` versus binary version `1.29.0`, ARMHF's
-preserved free-nonheap warning risk, and SGX/CD/CHD, provider, runtime, and
-device validation remain open, so every device view is ineligible.
-
-Potator's semantic lifecycle is `potator-227c5f6f3ce7-66e2c96acf38`. Its
-canonical owners are `scripts/core_pipeline_lib/contracts/potator.py`,
-`pins/core-sets/potator-227c5f6f3ce7-66e2c96acf38.json`,
-`pins/source-sets/potator-227c5f6f3ce7-66e2c96acf38.json`,
-`manifests/compatibility/potator.json`,
-`tests/cores/test_potator.py`, and `tests/test_contract_potator.py`. Selected
-`actions-sim-build-core-potator-w3` and independent
-`build-core-potator-local-w3` runs reproduce the package, metadata, both ABI
-artifacts, and both logs byte for byte. Resolver metadata declares
-`Public Domain`, no firmware is packaged or required, and all four reviewed
-misleading-indentation CPU warning/note pairs remain visible. The local release
-is `.local-e2e/releases/potator-227c5f6f3ce7-66e2c96acf38`; its three
-`.local-e2e/channels/<channel>.potator.json` aliases are publication-disabled;
-runtime and device validation remain open, so every device view is ineligible.
-
-Gearboy's semantic lifecycle is `gearboy-36d723ff4410-34b7df6bcf6b`, and
-Gearsystem's is `gearsystem-4f029e43f2d5-0f8b301c259a`. Their canonical owners
-are the matching files under `scripts/core_pipeline_lib/contracts/`,
-`pins/core-sets/`, `pins/source-sets/`, `manifests/compatibility/`,
-`tests/cores/`, and `tests/test_contract_*.py`. Selected
-`actions-sim-build-core-gearboy-w3` and
-`actions-sim-build-core-gearsystem-w3` runs reproduce their independent
-`build-core-*-local-v1` package, metadata, both ABI artifacts, and both logs
-byte for byte. Their local releases and three per-core channel aliases remain
-publication-disabled. GPLv3 review, optional firmware handling, stale metadata
-display versions, provider compatibility, target-runtime behavior, and every
-device claim remain open; ARMHF's `GLIBCXX_3.4.32` requirement leaves the Mini
-profile ineligible.
-
-2048's corresponding semantic lifecycle is
-`2048-c90437d3c391-e1ff15dd7d6a`. Its canonical owners are
-`scripts/core_pipeline_lib/contracts/core_2048.py`,
-`manifests/compatibility/2048.json`, `tests/cores/test_2048.py`, and
-`tests/test_contract_2048.py`; selected and reproduction evidence use
-`actions-sim-build-core-2048-w3` and `build-core-2048-local-w3`. The local
-aliases are `.local-e2e/channels/<channel>.2048.json`. Both artifacts are
-portable build-identity records only; the source is eight commits newer than
-the shipped baseline, its SaveRAM metadata disagrees with the exposed memory
-API, and every device view remains ineligible pending target-runtime evidence.
-
-EightyOne's semantic lifecycle is `81-fa7094910d04-22dd2ebacdc6`. Its selected
-`actions-sim-build-core-81-w3` and independent
-`build-core-81-local-w3` runs reproduce the package, metadata, and both ABI
-artifacts byte for byte. Parallel warning/note ordering makes the raw logs
-byte-different, but both independently satisfy the exact per-owner diagnostic
-NFA. Its 16-C/12-C++ contract preserves upstream's native `src/version.c`
-generation and never injects `GIT_VERSION`. The canonical record remains
-static-build-only: ABI drift, the copied metadata's unescaped inner quotes,
-compiled ROM licensing, provider compatibility, and all target-runtime/device
-claims remain explicit gates.
+Every canonical core has the same isolated lifecycle under its own
+semantic ID (`<core>-<source12>-<selection12>`): substitute it into the
+four commands above. The per-core bindings — semantic ID, selected and
+reproduction run IDs, package/artifact digests, proof shape, and the
+remaining static-build-only caveats — are recorded in each core's
+`manifests/compatibility/<core>.json` and enforced by
+`tests/cores/test_<core>.py`; per-core walkthrough narratives are not
+duplicated here (older ones live in this file's git history).
 
 Use `tests/cores/test_<core>.py` for core-owned contract tests. Device buildsets
 may reference the same portable core record; they do not create another pin
 unless captured ABI or build-flavor evidence requires different artifacts.
 
-## Legacy aggregate history (read-only)
-
-The former aggregate composition, release, channel, hash, and migration
-chronology — including the tranche fixtures and their regression readers —
-was retired from the working tree on 2026-07-23 and is preserved in git
-history (last present at commit `dd82cc4`). It was immutable audit context,
-not active operator guidance.
-
-Each top-level `manifests/compatibility/*.json` file and its matching
-one-core pin, source set, and focused test is a current individual-core
-record. Temporary transition records live only below
-`manifests/compatibility/pending/` and make no compatibility claim. All
-current validation remains local-only; nothing is published.
-
-The store and run directories are intentionally ignored and local-only. Exact
-paths in the legacy compatibility matrix and canonical per-core records
-therefore identify workspace-local evidence, not files available from a fresh
-clone. Preserve them with the workspace: a fresh clone can read the pin
-metadata but cannot
-recover these source-built bytes. The cached image archive bytes and IDs are now
-portable and immutable through the toolchain lock, while the current Dockerfiles
-remain explicitly unverified descriptions of those older caches.
-
-The JSON schemas, including the toolchain-lock, core-set, and local-release
-schemas, are editor and documentation aids. The normative executable checks are
-`catalog-check`, `validate-golden`, `validate-pin-set`, `validate-release`,
-`toolchain_archive.py validate-lock`, `toolchain_archive.py verify-downloads`,
-artifact validation, E2E package
-validation, and the unit suite; schema conformance is not claimed as a runtime
-gate.
-
-There is currently no target RetroArch/QEMU runner or redistributable ROM fixture
-in this repository. The present build/package E2E gate therefore covers the
-shared command's containerized compilation, packaging, ABI, recorded dependency
-metadata, and libretro API surface. It does not validate GitHub Actions runtime
-semantics, target dependency availability, version floors, loadability, gameplay,
-or runtime compatibility, so build goldens are explicitly marked
-`static-build-only`.
-
-## Usage
+### Release path in brief
 
 Use the per-core commands above or the complete
 [`docs/core-pipeline-operations.md`](core-pipeline-operations.md) runbook.
@@ -1061,11 +545,3 @@ architecture-keyed and static-build-only. A second execution profile for the
 same architecture needs a later execution-profile-keyed schema revision and
 cannot be represented by duplicating an architecture target.
 
-## TODO: cores not yet buildable
-
-These cores are shipped by spruceOS but can't be built from libretro-super and need custom build processes:
-
-- [ ] **mkxp-z** — hyphen in name breaks libretro-super's bash variable parsing
-- [ ] **mupen64plus** — removed from libretro-super (replaced by mupen64plus_next)
-- [ ] **km_flycast_xtreme** — KMFDManic/morpheuscast_xtreme fork uses bare `as` for ARM64 assembly, not cross-compile friendly
-- [ ] **km_ludicrousn64_2k22_xtreme_amped** — KMFDManic fork has broken aarch64 dynarec source and missing includes

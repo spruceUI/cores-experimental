@@ -14,7 +14,7 @@ the GitHub API.
 
 ## Entry point and help
 
-Run commands from the `Cores-spruce` repository root:
+Run commands from the repository root:
 
 ```bash
 python3 scripts/core_pipeline.py --help
