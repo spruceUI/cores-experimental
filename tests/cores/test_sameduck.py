@@ -9,15 +9,16 @@ from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import sameduck
 from core_pipeline_lib.contracts.c_only import c_only_log_proves_contract
 
-from .support import ROOT, load_document
+from .support import evidence_handles, ROOT, load_document
 
 
 CORE_ID = "sameduck"
+_H = evidence_handles(CORE_ID)
 SOURCE_URL = "https://github.com/libretro/sameduck.git"
 SOURCE_COMMIT = "f0286ee9d6c44950d9a442463ffdb1ff014a5d5b"
 SOURCE_TREE = "c04c4f24a078b55386a1c62ae3619dde5b5087d9"
-SELECTED_RUN = "actions-sim-build-core-sameduck-w3"
-REPRODUCTION_RUN = "build-core-sameduck-local-w3"
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
 
 
 class SameduckManifestTests(unittest.TestCase):

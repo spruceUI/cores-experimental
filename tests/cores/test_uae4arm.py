@@ -7,14 +7,15 @@ import unittest
 from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import uae4arm
 
-from .support import ROOT, load_document
+from .support import evidence_handles, ROOT, load_document
 
 
 CORE_ID = "uae4arm"
+_H = evidence_handles(CORE_ID)
 SOURCE_COMMIT = "dafd48fad7510ebc2f90ebdee8331bbdcf65fd49"
 SOURCE_TREE = "7d99605e9faecc7c154c30861ebee2a36b9fde18"
-SELECTED_RUN = "actions-sim-build-core-uae4arm-w3"
-REPRODUCTION_RUN = "build-core-uae4arm-local-w3"
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
 
 
 class Uae4armManifestTests(unittest.TestCase):

@@ -10,15 +10,16 @@ from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import parallel_n64
 from core_pipeline_lib.contracts.c_asm import c_asm_log_proves_contract
 
-from .support import ROOT, load_document
+from .support import evidence_handles, ROOT, load_document
 
 
 CORE_ID = "parallel_n64"
+_H = evidence_handles(CORE_ID)
 SOURCE_URL = "https://github.com/libretro/parallel-n64.git"
 SOURCE_COMMIT = "00c6c9df91d2c2daaae615cefad7911be556fbfa"
 SOURCE_TREE = "d762ea5fe18afe5f245080082148005f1c7ce811"
-SELECTED_RUN = "actions-sim-build-core-parallel_n64-w3"
-REPRODUCTION_RUN = "build-core-parallel_n64-local-w3"
+SELECTED_RUN = _H["SELECTED_RUN"]
+REPRODUCTION_RUN = _H["REPRODUCTION_RUN"]
 
 
 class ParallelN64ManifestTests(unittest.TestCase):
