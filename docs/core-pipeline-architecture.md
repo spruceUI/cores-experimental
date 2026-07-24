@@ -4,6 +4,16 @@
 New implementation code belongs in `scripts/core_pipeline_lib/`; do not add a
 new core, runner, or policy by growing another branch in the launcher.
 
+**In one paragraph:** the launcher stays frozen; packages under
+`core_pipeline_lib/` own contracts (per-core identity + build-log
+proofs on shared engines: `c_only`, `mixed_language`, `c_asm`,
+`cargo`, plus catalog-driven direct-cmake/direct-cargo), records,
+policies, release orchestration, and errors. Contract modules
+self-register by introspection (a registry row plus module-level
+naming conventions — no launcher edits). The sections below give the
+package boundaries, the recipe for adding a core contract or runner
+profile, release orchestration internals, and record ownership.
+
 The package uses the useful part of SpruceOS PyUI's Python organization:
 domain-first directories, one implementation module per core or platform, small
 typed state objects, and a narrow selector at the entry boundary. Build tooling

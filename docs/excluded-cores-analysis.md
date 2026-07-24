@@ -1,5 +1,13 @@
 # Excluded-cores analysis (read-only), part 1: the Mini over-ceiling class
 
+> **Resolved (2026-07-24):** the Mini over-ceiling class this analysis
+> examines is empty — the family's bundled libstdc++ provider is now the
+> A30 build (GLIBCXX 3.4.32, spruceOS `ee825739d`), and no pinned core is
+> over any probed device's ceiling (see the ABI floors and ceilings
+> section of [`pipeline-overview.md`](pipeline-overview.md)). The
+> analysis below is the evidence record that ruled out version-pinning
+> alternatives and motivated the provider swap.
+
 Question (a): would an earlier core version compile under the older GLIBCXX
 ceiling? **Answer for all 22 cores: NO — the requirement is toolchain-emitted,
 not source-driven.** Symbol-level evidence from the promoted armhf artifacts:

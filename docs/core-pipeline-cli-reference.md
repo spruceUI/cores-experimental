@@ -1,7 +1,10 @@
 # Core pipeline command-line reference
 
 This is the exhaustive command-line reference for
-`scripts/core_pipeline.py`. It covers parser-visible options, runtime
+`scripts/core_pipeline.py` (see also `scripts/toolchain_archive.py
+--help` for the archive lock CLI — `import-lock` takes
+`--arm64/--armhf/--rust`, `verify-downloads` requires the two C archives
+and takes `--rust` optionally). It covers parser-visible options, runtime
 constraints, and the local or external data each invocation consumes. For the
 recommended promotion sequence, see the
 [core pipeline operator guide](core-pipeline-operations.md).

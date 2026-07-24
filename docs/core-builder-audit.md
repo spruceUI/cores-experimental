@@ -1,5 +1,10 @@
 # Core builder audit — consolidation, over-engineering, improvement
 
+> **Dated record:** measured 2026-07-22 at 92 canonical cores. The
+> recommendations it produced (one-command promotion, registry-driven
+> contract discovery, the single-file scoreboard, the digest-chain sync
+> tool) all landed; kept for the measurements and reasoning.
+
 *2026-07-22. Measured against the tree at `0b6f6dd` (92 canonical cores) and
 against the lived cost of onboarding six cores in one session. Every number
 below was measured, not estimated.*
