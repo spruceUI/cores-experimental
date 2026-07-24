@@ -4,14 +4,14 @@
   "core_id": "puae2021",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/puae2021-0fece7d9514e-eef63f246442.json",
+  "golden_source": "pins/core-sets/puae2021-0fece7d9514e-9d6d7f44f8ed.json",
   "source_commit": "0fece7d9514e2224530cd252489c8928d49eebca",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-puae2021-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "73adbc307d2303332d636cbdf3e9d4a9d74db8fc1164f24080c6681a175f9136",
-  "reproduction_run": ".local-e2e/runs/build-core-puae2021-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "0664d5442e686e72f25448d581b8ca794cc03c13661aa6c55704ca6eb7f86716",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-puae2021-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "2ff50ccb9f59f093e78e3d9115c34ecb39d852471f1afdba92b6175fab12e52d",
+  "reproduction_run": ".local-e2e/runs/build-core-puae2021-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "eb30f409cbe5e9cdcba68fc5e72c5e5758959d998c3bc06a6837e24c80c839f1",
   "package_state": "reproducible",
-  "package_sha256": "0a49666a30ac71c4e466170acec5935a83308b3d6d3e9a6d78197405efb1fe81",
+  "package_sha256": "a0133257b98e333f291dbacaa6ef64ec44c646b1cf5dda4e172e4219569ab1e4",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the puae2021_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -49,5 +49,5 @@
       ]
     }
   },
-  "content_sha256": "33603da1a4943dadb8fb48ea0da6dbca6dfa2e0d4182182a563655f57dbbf26b"
+  "content_sha256": "cc2395cc07274e1fd9bf51502fcc396f8d867ff0f0da6c2c06ca6d8df5582f43"
 }

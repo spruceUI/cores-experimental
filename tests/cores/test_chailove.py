@@ -17,8 +17,8 @@ CORE_ID = "chailove"
 SOURCE_URL = "https://github.com/libretro/ChaiLove.git"
 SOURCE_COMMIT = "5fa2014d9a1359836f165ab251831bce878ec2be"
 SOURCE_TREE = "6d11c7be6a39132d97e99bb81588d581613222ae"
-SELECTED_RUN = "actions-sim-build-core-chailove-v1"
-REPRODUCTION_RUN = "build-core-chailove-local-v1"
+SELECTED_RUN = "actions-sim-build-core-chailove-w3"
+REPRODUCTION_RUN = "build-core-chailove-local-w3"
 
 
 class ChailoveManifestTests(unittest.TestCase):

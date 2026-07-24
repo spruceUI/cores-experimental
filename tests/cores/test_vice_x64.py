@@ -26,7 +26,7 @@ from .support import (
 
 CORE_ID = "vice_x64"
 OTHER_CORE_ID = "gearcoleco"
-PIN_NAME = "vice_x64-7946cfa0d377-290256f3bebd.json"
+PIN_NAME = "vice_x64-7946cfa0d377-1085a07760d4.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -41,26 +41,26 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "d5d918cb679dfa3ea51a8efca2798cb6051d8fcf139d8519955a476a42d4841e"
 )
 SELECTION_SHA256 = (
-    "290256f3bebd4e263a27ee3406b2bbb7e956ced9c1fc09fff7b21895d5e45a52"
+    "1085a07760d4f425962a8f218d0c644bd505296acae17a8a86e5fb7150150219"
 )
-SELECTED_RUN = "actions-sim-build-core-vice_x64-v1"
-REPRODUCTION_RUN = "build-core-vice_x64-local-v1"
+SELECTED_RUN = "actions-sim-build-core-vice_x64-w3"
+REPRODUCTION_RUN = "build-core-vice_x64-local-w3"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "791d8b9b80a2610eb1f42335cfc81fe9c2aea432462fb342ebc1575910ff70aa"
+    "c57bb46de4cfe6e41dc92ad319e6aa71c9603e55aa6f2fe4d6411f00e507c19c"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "2e655e6e34ee6bfe7eb1106ae30e86a30af45ca447e7fe4b2c0fce38b6cf8d41"
+    "31302d5bf1ee7eb9e9c9a04acad4d26b2a4e1ef17a90c89277ae55ed6f08dd5a"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "8b003714124dac2d79724dd8f4c302bb711ee28b261d3f211459fc0abb30371c"
+        "5c2084f40af1848d71a523ee2f1af760162431f99d65511c3340e9e68bf814f9"
     ),
     REPRODUCTION_RUN: (
-        "9e4a2ca8da698551b55cbd9c7ae457eca45d438704b8d0ef8e1dfe706e08889e"
+        "c0dd1f8920348ad5adff3a0c4f962cc0361a2ede6efa7c78c8222b41b2cde1db"
     ),
 }
 PACKAGE_SHA256 = (
-    "b4d2474387eadda83cb71853be2a01b1486df0b54262dd2f4a647faf8df01f61"
+    "d414b84404b0fb940232df2955710e3a5b8b4dd5b7aff64968a58bb77d4cd076"
 )
 PACKAGE_SIZE = 2522811
 METADATA_SHA256 = (
@@ -92,10 +92,10 @@ TARGETS = {
         "artifact_size": 3580888,
         "record_sha256": {
             SELECTED_RUN: (
-                "d180eb0bf452bbc5313276f4a736a4051981bc29345ca1c9e6ce3fd1ed35b66c"
+                "c87e49c43a669602b10f1c102d8a353998ae2eba2a2805f25a5ca2ebcfe9a194"
             ),
             REPRODUCTION_RUN: (
-                "6926916a7d4b08134b690793a6fcd6c829c931951bcbcffe76014dc66fbca787"
+                "506d1ad753ffdc3f894d5c20b9f5ecf9551ec17f37674168c0abadcd5906ddda"
             ),
         },
         "log_sha256": {
@@ -140,10 +140,10 @@ TARGETS = {
         "artifact_size": 2914924,
         "record_sha256": {
             SELECTED_RUN: (
-                "e6c0450a3e76289694fa53b8a10703b80c3559a8b1ce323338bf70cd92e098ae"
+                "bd4cee2484aca8c0888385ab0dcdbcfce2ffc06af927530f5b0cfd6a8f6945eb"
             ),
             REPRODUCTION_RUN: (
-                "b29d46e22f22d97535189ecc73604245c9d6689647016a010bc776d4a4069beb"
+                "0ffec2870f85f2f1c4ce53b48c00e2405f3a61a2ce82f91a8c028b816f2f9563"
             ),
         },
         "log_sha256": {

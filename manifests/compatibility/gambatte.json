@@ -4,14 +4,14 @@
   "core_id": "gambatte",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/gambatte-dfc165599f3f-9a6aa3658c05.json",
+  "golden_source": "pins/core-sets/gambatte-dfc165599f3f-782fa4634494.json",
   "source_commit": "dfc165599f3f1068c40a0b7ad6fe5f161283d483",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-gambatte-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "8c12489acbb1c2c288c27720283de90efc95349547decbcafd70e76f899be67d",
-  "reproduction_run": ".local-e2e/runs/build-core-gambatte-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "0f4f35cd74ad3ebe41948f565ce4669e1731590495c74900451e238d70d1416c",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-gambatte-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "ce0e2ee97b869b27d3c138179a16e8c67400d573ecaf261b77cfe9dc0731ec78",
+  "reproduction_run": ".local-e2e/runs/build-core-gambatte-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "222924aae677d39441ac7920e0548d7d95985683ae44ff42b0696901c6a40c86",
   "package_state": "reproducible",
-  "package_sha256": "1e38889d973ff3285fdb64aff5cb6628202ea6a28431bb24320d90eef4fa29fc",
+  "package_sha256": "fec71a92d98b55559eb78a03ddf5c7ed0146677ef4661272258ce7f61360d67c",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the gambatte_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.29, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -71,5 +71,5 @@
       ]
     }
   },
-  "content_sha256": "81f358ea43c83408a1f3862690e5b3b93e603418f54c5b0bfab294ee80889559"
+  "content_sha256": "f948cf61477a68a569a9ef7102ff97bd4a403a01f8f32737c12bcd5ad941ebff"
 }

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "puae2021-0fece7d9514e-9d6d7f44f8ed",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/puae2021-0fece7d9514e-9d6d7f44f8ed.json",
+    "pin_id": "puae2021-0fece7d9514e-9d6d7f44f8ed",
+    "file_sha256": "f0dd6872549252af28642d4d31bd747e239b35b9209c62a97e5c7b2b8133de0d",
+    "content_sha256": "3c2e071917b6ef3eb9e544d5ff359abc1ee29be79f2643865e16b03f4a3fa49b"
+  },
+  "sources": {
+    "puae2021": {
+      "path": "pins/sources/puae2021/0fece7d9514e2224530cd252489c8928d49eebca.json",
+      "source_lock_id": "puae2021-0fece7d9514e",
+      "commit": "0fece7d9514e2224530cd252489c8928d49eebca",
+      "file_sha256": "8f6f33d90315ed7516d9f638c5d35293a9102ecb1b10f386b6b498e5fa58fc3f",
+      "content_sha256": "d38b266a4bc84357a4bb913afed09d3db88b3f5a32c1c0f8cf3a605a3deecc11"
+    }
+  },
+  "content_sha256": "89d10e7d3d1ea2108c15b872feb79b2f94dfe7b31632de9775d712616f786d36"
+}

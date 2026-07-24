@@ -14,8 +14,8 @@ CORE_ID = "x1"
 SOURCE_URL = "https://github.com/libretro/xmil-libretro.git"
 SOURCE_COMMIT = "3e7960a433c3bca820f8b8f5511a2b92bd666829"
 SOURCE_TREE = "dc2993fae86d48789557a4f10295243ea40f3d75"
-SELECTED_RUN = "actions-sim-build-core-x1-v1"
-REPRODUCTION_RUN = "build-core-x1-local-v1"
+SELECTED_RUN = "actions-sim-build-core-x1-w3"
+REPRODUCTION_RUN = "build-core-x1-local-w3"
 
 
 class X1ManifestTests(unittest.TestCase):

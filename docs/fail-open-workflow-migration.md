@@ -584,7 +584,7 @@ candidate-id guard still rejects "tranche" names so retired identifiers are
 never reused. The chronology is preserved in git history (last present at
 `dd82cc4`).
 
-## chailove (RESOLVED, canonical `chailove-5fa2014d9a13-f10fcc3308fc`)
+## chailove (RESOLVED, canonical `chailove-5fa2014d9a13-b5daece4f4dc`)
 
 `libretro/ChaiLove` bundles ChaiScript, PhysicsFS, libz and libretro-common:
 **71 C + 30 C++ + 1 assembly** (`sinc_resampler_neon.S`) TUs, linked by the C++
@@ -617,7 +617,7 @@ would silently diverge from the rule's URL.
 armhf needs `GLIBCXX_3.4.32`, so chailove joins `MINI_OVER_CEILING`
 (Miyoo Mini ineligible; A30 and up fine).
 
-## dosbox_pure (RESOLVED, canonical `dosbox_pure-a4a0bab7f893-9faece3e3c8a`)
+## dosbox_pure (RESOLVED, canonical `dosbox_pure-a4a0bab7f893-caf26992f4b8`)
 
 112 C++ translation units, no C at all (`expected_language_counts` is just
 `{"cxx": 112}`), linked by the C++ driver — the `mixed_language` standard. It
@@ -660,7 +660,7 @@ metacharacter, and it was blocked in *two* independent shared guards:
 
 armhf needs `GLIBCXX_3.4.29`, so dosbox_pure joins `MINI_OVER_CEILING`.
 
-## parallel_n64 (RESOLVED, canonical `parallel_n64-00c6c9df91d2-be061373ae12`)
+## parallel_n64 (RESOLVED, canonical `parallel_n64-00c6c9df91d2-d7ceec7e0dc7`)
 
 The first core in the catalog whose artifact **directly links a graphics
 library**. Everything onboarded before it reaches GL through the frontend
@@ -705,7 +705,7 @@ contract. `tests/cores/test_parallel_n64.py` asserts that directly.
 Device eligibility for it is a **new question**, though: it is the first core
 that needs a GLES2 *provider* on the device, not just a matching libc.
 
-## mupen64plus_next (RESOLVED, canonical `mupen64plus_next-98c1b0d87754-c2f40f19482c`)
+## mupen64plus_next (RESOLVED, canonical `mupen64plus_next-98c1b0d87754-2893243fe402`)
 
 The second GL-linking core, and the first onboarded *after* the fleet capture —
 so device eligibility was known before the build rather than after.
@@ -769,7 +769,7 @@ Two things are already known about flycast for when it is unblocked:
 use the `libretro-super` driver. They need the direct-clone driver that (d)
 describes, which is separate machinery from anything landed so far.
 
-## km_duckswanstation_xtreme_amped (RESOLVED, canonical `km_duckswanstation_xtreme_amped-be16ead371a6-3cd0293f7e46`)
+## km_duckswanstation_xtreme_amped (RESOLVED, canonical `km_duckswanstation_xtreme_amped-be16ead371a6-1d7c94544534`)
 
 The predicted "direct-clone driver" dissolved on inspection: the KM fork is a
 plain CMake tree that keeps upstream's `swanstation_libretro` target, so the

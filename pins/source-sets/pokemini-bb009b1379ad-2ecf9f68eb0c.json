@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "pokemini-bb009b1379ad-2ecf9f68eb0c",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json",
+    "pin_id": "pokemini-bb009b1379ad-2ecf9f68eb0c",
+    "file_sha256": "c03c3284fe655447995b32205421290d1066b4019e67608c696f98595621101f",
+    "content_sha256": "834e4e82ec4797b978b3de9d05131948568a454173454de345fe624fddb2ef4e"
+  },
+  "sources": {
+    "pokemini": {
+      "path": "pins/sources/pokemini/bb009b1379ad15f1514f20ca7cbf710b4af42b3e.json",
+      "source_lock_id": "pokemini-bb009b1379ad",
+      "commit": "bb009b1379ad15f1514f20ca7cbf710b4af42b3e",
+      "file_sha256": "dfd9529d7ca237d7d402b319fa8b76fe2e27bd7b1b676d039b9be5e3c71cf421",
+      "content_sha256": "6c1d7924a0475a4dfa1c51344fa9f5f2dc4b86fa17fba6aea706c97f0f760651"
+    }
+  },
+  "content_sha256": "cd7dec0ecb64205f6e46c52167b256d36fd7ab5bf216c2129e4fe4f02c6e4cbe"
+}

@@ -4,14 +4,14 @@
   "core_id": "mgba",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/mgba-6dce57eef127-aaea3509d4a4.json",
+  "golden_source": "pins/core-sets/mgba-6dce57eef127-79c69ce0e1d1.json",
   "source_commit": "6dce57eef127dc4cc292644f38196e0e7c58590c",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mgba-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "6cd2aed48d5b708433cd70c3d94a76185b8ce67b58ac8ef074864af3a56a5749",
-  "reproduction_run": ".local-e2e/runs/build-core-mgba-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "cb83e4eb69a7ae8c759333359284e877c0a4be5cdc5d9434cd7b95bb3c600d85",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mgba-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "1fd2458bc2eda64e4777fb16fae4c8efa9b2b3064b3519b60c6d895214cb6c80",
+  "reproduction_run": ".local-e2e/runs/build-core-mgba-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "be186bba78cd77368d8c9ae49fc63c7c17512ec51927e779a261708a5ccaac93",
   "package_state": "reproducible",
-  "package_sha256": "ae16db697f422419317f91b9dd448d507993010b14191d62a6e8dba99ea0b19d",
+  "package_sha256": "56ef2be04c2d0a28a3682b4b8c0d405f2132b51167145cdba07af309b3de2030",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mgba_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -50,5 +50,5 @@
       ]
     }
   },
-  "content_sha256": "5f21fb9a88bb86437888d26199dfb6b3e9e5b4757f5d9af7912a3f37d098b4fd"
+  "content_sha256": "dbb1446fe295d98a1f5bfc7a8d06b60e36636d9fb887f2e1ed26df3b408ede6f"
 }

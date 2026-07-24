@@ -25,7 +25,7 @@ from .support import (
 
 CORE_ID = "vecx"
 OTHER_CORE_ID = "prosystem"
-PIN_NAME = "vecx-8f671cc9d737-4686ef94bf56.json"
+PIN_NAME = "vecx-8f671cc9d737-599c2197e36a.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -34,26 +34,26 @@ SOURCE_TREE = "49ae584713edede2a70792ecf6cb744b11fff2e6"
 SOURCE_URL = "https://github.com/libretro/libretro-vecx.git"
 SOURCE_LOCK_ID = "vecx-8f671cc9d737"
 SELECTION_SHA256 = (
-    "4686ef94bf5663774c2134793211747442264d9f8022d489b78ec7756435a1cf"
+    "599c2197e36abe9cea994cb81066af16f9fcb9a9d7f1d31fc66573408baaff77"
 )
-SELECTED_RUN = "actions-sim-build-core-vecx-v1"
-REPRODUCTION_RUN = "build-core-vecx-local-v1"
+SELECTED_RUN = "actions-sim-build-core-vecx-w3"
+REPRODUCTION_RUN = "build-core-vecx-local-w3"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "b188e468224d938e050391c7fe3bef89a49ac7f27e503e6517da79a1b2cae021"
+    "a27119cc43ea114b869a573de7be45250fd5963e3aeefe9dd7edc5a402b238ae"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "848f9c2404fb57283c4cad9f2c71eebd9649d4b8764cb2be746dc5dc64dcfbfa"
+    "4f99343f98c53888395c71652e0a2d3c450c93e3a47f0c254246942ed24b7551"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "bc377ca2efe5e0bacf77b890d7c5cd036bcec58c33b03df0f783d2cca13f84b0"
+        "4e3cab62a873f164816b8b9051f29f1f690453fd8c85285637a751fc68059364"
     ),
     REPRODUCTION_RUN: (
-        "f355947a6cf5bf4c7bb9c01101e14f919362a471953563e28e1d85442766144a"
+        "aaf63ff864bd8334a3b105f4ad21f829aaa2e6df28c2f3ec5a5ba01e37f77a04"
     ),
 }
 PACKAGE_SHA256 = (
-    "316c893f984b88c0684fa41358fe802613b8bec77fde17183b30e6d9b38631e4"
+    "9eb9e828581c5b758356eb30d53af523ce296b3b553194683dc8f2297ba1d0d9"
 )
 METADATA_SHA256 = vecx.VECX_METADATA_REPLACEMENT_SHA256
 RUNNERS = {
@@ -80,10 +80,10 @@ TARGETS = {
         "artifact_size": 106040,
         "record_sha256": {
             SELECTED_RUN: (
-                "3cd2d702e951f31b06cf27be176ceff14d0e39ceb9d2dfee5eaf92a84a1e84d2"
+                "fe88b76ffb34dd3317ddcb8847f77d71ec684583088ff54eab35160c76e9bc66"
             ),
             REPRODUCTION_RUN: (
-                "dd2c595cb043f46c7860b09795ead4115bb60ee7963f8433bdc4969a1c86cc77"
+                "4e86d1f8169e3f2c501ab808dde3b2ac68771071e1295619b1e991e6d3d71d83"
             ),
         },
         "log_sha256": (
@@ -101,10 +101,10 @@ TARGETS = {
         "artifact_size": 86488,
         "record_sha256": {
             SELECTED_RUN: (
-                "1dcfe59a60e0a27abdb868ba1c7399b73264b98c1e36a648a717a7fbf84a26c8"
+                "e68dafcc8c953e632a797add63af47453dacc5bdff55e44ee57a9fee15873c2f"
             ),
             REPRODUCTION_RUN: (
-                "abcb16e064e021b5092f20222a715e3e0c06be04870cc2ee8efb204a7e426f50"
+                "cafb84b2153632b4793764a86ceeb427b20e43dd2bab6aa7a071cf039435d281"
             ),
         },
         "log_sha256": (

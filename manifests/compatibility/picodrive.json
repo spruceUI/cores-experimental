@@ -4,14 +4,14 @@
   "core_id": "picodrive",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/picodrive-f0d4a0118a97-516abfb14acd.json",
+  "golden_source": "pins/core-sets/picodrive-f0d4a0118a97-87be52efda9b.json",
   "source_commit": "f0d4a0118a9733a1f10bce5a4ac772c474f9300d",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-picodrive-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "d2e4101cb6e5141deac1f65d29e94ac326af3312d6b8456af0867687da60942d",
-  "reproduction_run": ".local-e2e/runs/build-core-picodrive-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "09b0548fc73d1de941c599ee981862d92951b072f9933a58bcfc85825a2f9fa4",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-picodrive-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "6bc428c267d300c02a1cc5bf691da1ac697f3f037671e710b24acc76a41733a3",
+  "reproduction_run": ".local-e2e/runs/build-core-picodrive-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "083a8055815bfdd3f9994869821034a50f7b45a836d7da58ab22aba6f4cecf8f",
   "package_state": "reproducible",
-  "package_sha256": "6354447cf9fda32cdd09f58c464c5ef48c907a008930a3f716c5153d1f71d940",
+  "package_sha256": "a55428ee10877c4bdcbd937839b7057f6af3f525bdcf6b6550b3cbbae8e2348f",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the picodrive_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -51,5 +51,5 @@
       ]
     }
   },
-  "content_sha256": "bb4d9b7df7a0a1587dab807bf03d5bf9db10b7a37efa4825c872ff606bfb4c05"
+  "content_sha256": "245dc8b8a249aa3332ed7b74199f0850c1074c79a0ed99357d3cbe0786616324"
 }

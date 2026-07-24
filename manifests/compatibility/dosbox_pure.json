@@ -4,14 +4,14 @@
   "core_id": "dosbox_pure",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/dosbox_pure-a4a0bab7f893-9faece3e3c8a.json",
+  "golden_source": "pins/core-sets/dosbox_pure-a4a0bab7f893-caf26992f4b8.json",
   "source_commit": "a4a0bab7f8931433588f2fcad9045c85b277373d",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-dosbox_pure-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "f4655406a3f6c2972858ba030212d34a864ebe458e4c448c256128fc682e702f",
-  "reproduction_run": ".local-e2e/runs/build-core-dosbox_pure-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "413b166655dc477115a5538e3787af2797968b68e4fab3952fc2073f6ba7c7ef",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-dosbox_pure-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "0fa448f3a4953d718daf9e1f83318159af2fc146407d58714337e559581e91f8",
+  "reproduction_run": ".local-e2e/runs/build-core-dosbox_pure-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "0bfaa19b32331eeb28459408e20d15d80b703c5c4a04a6fbcf982d3a2bdc7ba6",
   "package_state": "reproducible",
-  "package_sha256": "f3da97bc7ee346fc291ff2396189b64f87340da2e16b68bc293834f65f15d246",
+  "package_sha256": "eb83fbf34ef10b3f00220b650737cdeba2d435c1694a48d55a8ed3319fd78231",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the dosbox_pure_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.29, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -77,5 +77,5 @@
       ]
     }
   },
-  "content_sha256": "170332c1886f88a62f8a56b8c391067bfead939aba5fa0a4414d44a72a6e5cc6"
+  "content_sha256": "5660766748b7ccab6a8571b745fb737f1a9df0cd865ca99161902a79c7e7b05c"
 }

@@ -4,14 +4,14 @@
   "core_id": "81",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/81-fa7094910d04-a82f6eb4a7cc.json",
+  "golden_source": "pins/core-sets/81-fa7094910d04-22dd2ebacdc6.json",
   "source_commit": "fa7094910d040baa5fd8b11dbf6a1a618330ecd9",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-81-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "e1ba2b87db03c9ce74fce4d463c3b665aada47529afcf5fb911eb0a3857328c8",
-  "reproduction_run": ".local-e2e/runs/build-core-81-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "e6fd26d5caa3ee1fd10cd345ea0ab9f3b91b53551fc0a96b04846b0bb36fb627",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-81-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "02adc0e509a45c632a39fd51f69d742669f73b2c471c57d6382392139287d4e6",
+  "reproduction_run": ".local-e2e/runs/build-core-81-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "c8b36f8bd02c7683828787b860587b89507b5dd77f3d68dd521e66e5915f8085",
   "package_state": "reproducible",
-  "package_sha256": "f89b283137921ca1fa9ff7f127f367d85fecc91198457ce940d70668bcb8e53c",
+  "package_sha256": "3660bc25cc035a38ad736394e63e61251e0cdb0655b8db992ad7daf2af900745",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the 81_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4.21 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -64,5 +64,5 @@
       ]
     }
   },
-  "content_sha256": "2646eeb269cb0e9cafac7ad8e95345740c05626e1e537b72613bef3ea301af1d"
+  "content_sha256": "c28a957a60d8d5faeb6cc2f42ca3363f9717520b9d84ddc1fc924c4b306cf711"
 }

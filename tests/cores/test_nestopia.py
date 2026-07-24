@@ -12,7 +12,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "nestopia"
 OTHER_CORE_ID = "quicknes"
-PIN_NAME = "nestopia-b0fd87dd07e3-7393d0fca106.json"
+PIN_NAME = "nestopia-b0fd87dd07e3-9570ea287053.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -20,12 +20,12 @@ SOURCE_COMMIT = "b0fd87dd07e3c52903435d302b04e5e97796f127"
 SOURCE_TREE = "43152d8aa00233ac56e27bdbce5cd3e77918bc60"
 SOURCE_LOCK_ID = "nestopia-b0fd87dd07e3"
 SELECTION_SHA256 = (
-    "7393d0fca106924f2f3f9978799ac6ec92c478f13777560d24d51e9158363c93"
+    "9570ea2870537f196c8ff61732bdebc242b7f7fe09cc09607ea7f6da609851ea"
 )
-SELECTED_RUN = "actions-sim-build-core-nestopia-v1"
-REPRODUCTION_RUN = "build-core-nestopia-local-v1"
+SELECTED_RUN = "actions-sim-build-core-nestopia-w3"
+REPRODUCTION_RUN = "build-core-nestopia-local-w3"
 PACKAGE_SHA256 = (
-    "48939946c11f957f910e73a0bddbb99ca7bd29e40d886e8152868fec7acbaa11"
+    "12092effa8ccb39524bf6495baa3a2a43a23fb19b70ce3f118da84ddaffb70ad"
 )
 METADATA_SHA256 = (
     "b384c5632f326ef1ef5e624da05255fde6e9f6f6a75b7dc79984fd791c0a211d"

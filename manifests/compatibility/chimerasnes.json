@@ -4,14 +4,14 @@
   "core_id": "chimerasnes",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/chimerasnes-04c57c2902c2-9d5862282560.json",
+  "golden_source": "pins/core-sets/chimerasnes-04c57c2902c2-55b07215d242.json",
   "source_commit": "04c57c2902c25f36ae5a5d9c57aff851a772c868",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-chimerasnes-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "efe9a71a5d7821b70298c4d281ffd4741d70327b5685acf186f170fe1035d223",
-  "reproduction_run": ".local-e2e/runs/build-core-chimerasnes-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "c8b0aa2e634060996b9181a6ab931d97a770d05e33bb52a0097da269aafb4878",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-chimerasnes-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "a2c6afcd17634422f7620cebd1bcf7177538712379456ce40f1f551f6295623d",
+  "reproduction_run": ".local-e2e/runs/build-core-chimerasnes-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "162d264af2611116b370ff4a61d1e64cb8dbefc307abe382fac2a9588a73c17d",
   "package_state": "reproducible",
-  "package_sha256": "64a56b69bd697e498a37385ef838310786ee33cdb0c656bf661d8b81e72be461",
+  "package_sha256": "fa4ecce8c998b989d8af25ee32132be6be5c5ea68fd8e462198119b4ce248707",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the chimerasnes_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -47,5 +47,5 @@
       ]
     }
   },
-  "content_sha256": "6cdaf664b8a7fbd3cb7d854737649269e6609010c8281e55afd56c0f6357c85b"
+  "content_sha256": "71b36da5e0df3dfbe3e8ce5746c137a19859e4a27095863f2a6e4326fd4eaf16"
 }

@@ -12,7 +12,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "quicknes"
 OTHER_CORE_ID = "tgbdual"
-PIN_NAME = "quicknes-26bb785c9ded-2f0351a7573f.json"
+PIN_NAME = "quicknes-26bb785c9ded-0dfc478cbffd.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -20,12 +20,12 @@ SOURCE_COMMIT = "26bb785c9deddb66a17717b21bb4e328f03ade32"
 SOURCE_TREE = "52de71e4e1acc5a4a039b07f7ed67d425df97a89"
 SOURCE_LOCK_ID = "quicknes-26bb785c9ded"
 SELECTION_SHA256 = (
-    "2f0351a7573fc6875e3d024e8e3bbb6316139cccca52239ac34e224ba2b63a73"
+    "0dfc478cbffd4ec6710075dc04c5f9d93554590617b083aed6d4ffa676e1af02"
 )
-SELECTED_RUN = "actions-sim-build-core-quicknes-v1"
-REPRODUCTION_RUN = "build-core-quicknes-local-v1"
+SELECTED_RUN = "actions-sim-build-core-quicknes-w3"
+REPRODUCTION_RUN = "build-core-quicknes-local-w3"
 PACKAGE_SHA256 = (
-    "5dc6d93890c65f47a4f740584dd077bee79a734087e8df889cb44215607a6181"
+    "69bde7589304fe15e28acc2f40575f1c83a7e64827908374f09c875271179070"
 )
 METADATA_SHA256 = (
     "0bfb8cb8ad1eea544fdd1c55c8ef8310eb90e33aaf723ad12524a499288f4484"

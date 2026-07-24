@@ -18,8 +18,8 @@ CORE_ID = "puzzlescript"
 SOURCE_URL = "https://github.com/nwhitehead/pzretro.git"
 SOURCE_COMMIT = "6d859b47092f585a7ec05804c1d51a1676a06531"
 SOURCE_TREE = "5e215b3f00ceba47f14b81c0b67d6a3d879a08af"
-SELECTED_RUN = "actions-sim-build-core-puzzlescript-v1"
-REPRODUCTION_RUN = "build-core-puzzlescript-local-v1"
+SELECTED_RUN = "actions-sim-build-core-puzzlescript-w3"
+REPRODUCTION_RUN = "build-core-puzzlescript-local-w3"
 
 
 class PuzzlescriptManifestTests(unittest.TestCase):

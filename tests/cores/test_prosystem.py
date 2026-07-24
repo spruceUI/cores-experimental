@@ -13,7 +13,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "prosystem"
 OTHER_CORE_ID = "a5200"
-PIN_NAME = "prosystem-363b6dfbd3e2-cb86034fdd05.json"
+PIN_NAME = "prosystem-363b6dfbd3e2-245dc2e3516d.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -21,12 +21,12 @@ SOURCE_COMMIT = "363b6dfbd3e240762e022c2b4897b4fe55722be3"
 SOURCE_TREE = "197be1b53019d95ed06658c2a801d0812ef76cf2"
 SOURCE_LOCK_ID = "prosystem-363b6dfbd3e2"
 SELECTION_SHA256 = (
-    "cb86034fdd05ce9c3c495c461993cab2cfb320457807e277e14b9e338f17f2e6"
+    "245dc2e3516dc235b8b638b9dd217e4203f34d14725f87c32eb2319ac49533d5"
 )
-SELECTED_RUN = "actions-sim-build-core-prosystem-v1"
-REPRODUCTION_RUN = "build-core-prosystem-local-v1"
+SELECTED_RUN = "actions-sim-build-core-prosystem-w3"
+REPRODUCTION_RUN = "build-core-prosystem-local-w3"
 PACKAGE_SHA256 = (
-    "8b2c1fc8c713f01e44e59e3bf579afbecb1decf1afbecc0f5819a9aafd929d26"
+    "38bac674e94bf907b99e2dbcc4024273d71c9a7a979a4c909bb6b2479578e748"
 )
 METADATA_SHA256 = (
     "22e9bc148612082f41147b4de167bb7ade705ec5f4642b8b70c0eb9ad1971681"
@@ -57,7 +57,7 @@ TARGETS = {
                 "eeea0f96cf3eba0299b14ce8d9964692f448f07161af8db5c5fb111442dd7e3c"
             ),
             REPRODUCTION_RUN: (
-                "eeea0f96cf3eba0299b14ce8d9964692f448f07161af8db5c5fb111442dd7e3c"
+                "41bbc4d5170f0339c350a470691ebc0b6b9bdb5038f5d3dcaeef7f636c052893"
             ),
         },
         "elf": "ELF64/AArch64",
@@ -70,7 +70,7 @@ TARGETS = {
         ),
         "log_sha256": {
             SELECTED_RUN: (
-                "6fe9906c0ed3db350f740e22b623f32e6817e82ab5bcdd79d7d4b64a3d9c464a"
+                "53631c67d860ae917f87132507d4037a310b098c7cabb5a320f907c06ffcfc13"
             ),
             REPRODUCTION_RUN: (
                 "00c2b04001c30ae2e512dab95db2aca6e36400ee0b3d308ff90d75a1bb9f4e0a"

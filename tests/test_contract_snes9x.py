@@ -14,7 +14,7 @@ from tests.core_contract_helpers import build_mixed_language_log_fixture
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SELECTED_RUN = "actions-sim-build-core-snes9x-v1"
+SELECTED_RUN = "actions-sim-build-core-snes9x-w3"
 
 
 class Snes9xLogContractTests(unittest.TestCase):

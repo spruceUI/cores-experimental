@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "fmsx-f013e213458e-b015409bc42c",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/fmsx-f013e213458e-b015409bc42c.json",
+    "pin_id": "fmsx-f013e213458e-b015409bc42c",
+    "file_sha256": "606b506040bdcec79720c4fef72eb22d01adb741ee778f89819be4ed6edfa781",
+    "content_sha256": "28f887944c9b2defca5dfe8715ec2e4bc6e092c8133573134df44f9c6c4b72d9"
+  },
+  "sources": {
+    "fmsx": {
+      "path": "pins/sources/fmsx/f013e213458e06d9df718e4bc4b09d46f88aa899.json",
+      "source_lock_id": "fmsx-f013e213458e",
+      "commit": "f013e213458e06d9df718e4bc4b09d46f88aa899",
+      "file_sha256": "ee232b50f06dd43b327207d2a0bc32241e5fcc117da8e9c74296bcfdbdc73373",
+      "content_sha256": "0c8e8fbad60f1abc86e3e28d40939912db5dfe8947cc1ccb8fb3ec48407b8221"
+    }
+  },
+  "content_sha256": "bb81c330b804e12a1c6db3d2aa42ab7c2058b13142aa8a2df0270a34fb4dceea"
+}

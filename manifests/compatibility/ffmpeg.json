@@ -4,14 +4,14 @@
   "core_id": "ffmpeg",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/ffmpeg-4920879d2f09-0df9befeb38b.json",
+  "golden_source": "pins/core-sets/ffmpeg-4920879d2f09-453076e3b8bf.json",
   "source_commit": "4920879d2f09a78cdf855403c349457cee1c31da",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-ffmpeg-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "195359511f1a4aeb9308ecff96d85bcedff79dec34d931ee1763ea9e92661903",
-  "reproduction_run": ".local-e2e/runs/build-core-ffmpeg-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "295799dca62913d1a515f4a92cc28e6c6bf7bbb244e5ab95c5f4789d7f7bfa86",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-ffmpeg-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "49c4aea71591421cfc12943abc650b4109ea5c21673688b7a2f19765348bd151",
+  "reproduction_run": ".local-e2e/runs/build-core-ffmpeg-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "a6002aed7c1f2cabb8a231f657e3806fb7a4da45ad7179d631998261950ebf62",
   "package_state": "reproducible",
-  "package_sha256": "de8a532538983e6ff8a722dc17c0f7ef693ed1115d6ee60dc01e6e7f87afaf6c",
+  "package_sha256": "59f5dc35bbdc347f36ff011a55bf5400fc7e5f4c1dfe07528fdda161e53b9be7",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the ffmpeg_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -57,5 +57,5 @@
       ]
     }
   },
-  "content_sha256": "7f7da06b90d1baab51d5bfe773552fe3a4a6e99720ee90cf016342aadf1f3742"
+  "content_sha256": "3fc79170dd8e678f1c789ced59d8c3e86644875cda58e41d9cc2d4a3f6909957"
 }

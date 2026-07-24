@@ -4,14 +4,14 @@
   "core_id": "mupen64plus_next",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/mupen64plus_next-98c1b0d87754-c2f40f19482c.json",
+  "golden_source": "pins/core-sets/mupen64plus_next-98c1b0d87754-2893243fe402.json",
   "source_commit": "98c1b0d877542b01314b3b04272282ba223b65b3",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mupen64plus_next-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "f0a3b033cd6af3e00ced12488e1007e7d0532c9f2c4caeb82dc252460658ae9b",
-  "reproduction_run": ".local-e2e/runs/build-core-mupen64plus_next-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "f8eef03e6b2b3e9f60b417dabc97df30d8303ba83b659145ec99b8be2301fbf7",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-mupen64plus_next-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "4909cb31ec41e81f5dbb62bc3612a0e158fc0448ac111e3e9f1b809adc35ebdb",
+  "reproduction_run": ".local-e2e/runs/build-core-mupen64plus_next-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "f44507d5896d5ff11129c1fc04c5136993affaa970081a7f66b7d0ab414194b1",
   "package_state": "reproducible",
-  "package_sha256": "706f3a8c00a05217cf0154395ef31fe443e98e686aa516540e8e7c928324c3c5",
+  "package_sha256": "ac2efa746d8c73bc9d363ece8dab9505769a997859f4e90db36aeee5075b090e",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the mupen64plus_next_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -54,5 +54,5 @@
       ]
     }
   },
-  "content_sha256": "0eefc2123d5f90fe8e139156dc175a3789b2a19f28b70066fb7c43181d50da0b"
+  "content_sha256": "84271c20327f3b4e52938045fc8e9e4d82de3c5df25bbee623bc9bfed50aa0b4"
 }

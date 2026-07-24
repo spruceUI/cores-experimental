@@ -14,8 +14,8 @@ CORE_ID = "prboom"
 SOURCE_URL = "https://github.com/libretro/libretro-prboom.git"
 SOURCE_COMMIT = "94adc0554cafbe6628e86408ced27fd8f92bd57d"
 SOURCE_TREE = "e94b8e9691eb9d712fdc588109b7919ed27b252b"
-SELECTED_RUN = "actions-sim-build-core-prboom-v1"
-REPRODUCTION_RUN = "build-core-prboom-local-v1"
+SELECTED_RUN = "actions-sim-build-core-prboom-w3"
+REPRODUCTION_RUN = "build-core-prboom-local-w3"
 
 
 class PrboomManifestTests(unittest.TestCase):

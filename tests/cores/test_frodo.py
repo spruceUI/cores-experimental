@@ -14,8 +14,8 @@ CORE_ID = "frodo"
 SOURCE_URL = "https://github.com/libretro/frodo-libretro.git"
 SOURCE_COMMIT = "29dd1864b89d903ed93f1d86d85636ef9e194359"
 SOURCE_TREE = "55052ca464a04805b21b6bae7ec9c00741644ded"
-SELECTED_RUN = "actions-sim-build-core-frodo-v1"
-REPRODUCTION_RUN = "build-core-frodo-local-v1"
+SELECTED_RUN = "actions-sim-build-core-frodo-w3"
+REPRODUCTION_RUN = "build-core-frodo-local-w3"
 
 
 class FrodoManifestTests(unittest.TestCase):

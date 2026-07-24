@@ -4,14 +4,14 @@
   "core_id": "px68k",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/px68k-cc45b55983b4-ca10d194866e.json",
+  "golden_source": "pins/core-sets/px68k-cc45b55983b4-2122053d35db.json",
   "source_commit": "cc45b55983b4d30c961a313a77df9bcf9461dc63",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-px68k-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "d4628eba07f43151cc7a46c3e0b92db6e7b348ef1a5ff55a696fa43951cd72b3",
-  "reproduction_run": ".local-e2e/runs/build-core-px68k-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "15dc714fa29432692f12e3a4dc5f6f783ea57f8f90f5bc44f239508664183b3f",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-px68k-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "b70c91987c7587e3e31474ce6424b61969e04fee72e50a969c7fd392a725a0f4",
+  "reproduction_run": ".local-e2e/runs/build-core-px68k-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "44b15679aa5a292efa66a24a8d0df271636b2817b5123c2642fa1cdde1bfcc62",
   "package_state": "reproducible",
-  "package_sha256": "aaa87563d15ef8a5000a3825bd13d647f4d5953e44425a7e33097fda9b300f4f",
+  "package_sha256": "55a04abb823331722a108ce19c730eb63aac04a09f075057018d08be9c6250b6",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the px68k_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -65,5 +65,5 @@
       ]
     }
   },
-  "content_sha256": "98390f7b02b8bbd50084e18de60dec520d881e85324a8c6a7e7cf929198ff7a6"
+  "content_sha256": "7d19b76a59da0349d04340e2cdb08f716911f30af0336821f616508874270e98"
 }

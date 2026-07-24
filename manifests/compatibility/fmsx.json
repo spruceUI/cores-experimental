@@ -4,14 +4,14 @@
   "core_id": "fmsx",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/fmsx-f013e213458e-194b406b9096.json",
+  "golden_source": "pins/core-sets/fmsx-f013e213458e-b015409bc42c.json",
   "source_commit": "f013e213458e06d9df718e4bc4b09d46f88aa899",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-fmsx-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "e9a0773586a6efff02515d45741c736464c7ca369aa820335699153837424308",
-  "reproduction_run": ".local-e2e/runs/build-core-fmsx-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "ea379d6ff7e336743520eadaa6c80564351fcd485005ea350330133effa5e512",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-fmsx-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "6c32ca2b7cb946e4c5b8d34d7e994c32678ba359414b51004ade65e88cdcd744",
+  "reproduction_run": ".local-e2e/runs/build-core-fmsx-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "8b2a13e55a3121719e365fb19bc1845b945e5046b1133249aae35615fa6f8db5",
   "package_state": "reproducible",
-  "package_sha256": "1dd80d7b836972f32f079222615e9dd0252c5321d21074fb9214c26d3687ed0b",
+  "package_sha256": "a7fef9470eecde513073ded334746fea43bdd6f6b1235c00a5226ae448df1b51",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the fmsx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -58,5 +58,5 @@
       ]
     }
   },
-  "content_sha256": "feea401b4b999dd6d6f4f180c5a8c0808c28df4c63be5dedf83011f1165921ea"
+  "content_sha256": "8f48b515d51a2b30b0d5cb981a3efd6250c9710079b5a791dcccf2d2818f684f"
 }

@@ -24,20 +24,20 @@ from .support import (
 
 CORE_ID = "handy"
 OTHER_CORE_ID = "stella2014"
-PIN_NAME = "handy-bc55d462f0b2-6923119e1743.json"
+PIN_NAME = "handy-bc55d462f0b2-c82a2178b4f0.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
 SOURCE_COMMIT = "bc55d462f0b2d6b073ea93dc552ebd73cec60fd1"
 SOURCE_LOCK_ID = "handy-bc55d462f0b2"
 SELECTION_SHA256 = (
-    "6923119e17436e8ed2eb7145c25fb6fe194f16e29aa158741dc318b5bb517005"
+    "c82a2178b4f03ee30877d895a71bb77b338af69b77cce8d299c2592e5a9e0796"
 )
 # These fresh run IDs use the individual-core lifecycle namespace.
-SELECTED_RUN = "actions-sim-build-core-handy-v1"
-REPRODUCTION_RUN = "build-core-handy-local-v1"
+SELECTED_RUN = "actions-sim-build-core-handy-w3"
+REPRODUCTION_RUN = "build-core-handy-local-w3"
 PACKAGE_SHA256 = (
-    "46af99c040b2f149f0ae0804ce20d5d0c9d1faff19eaa6c78b79c06d6364ec7a"
+    "09adcfe588d3bd9503ed7d058081623186d16044b1024b0d6995d8d8a25a645e"
 )
 TARGETS = {
     "arm64": {

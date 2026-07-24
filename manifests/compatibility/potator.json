@@ -4,14 +4,14 @@
   "core_id": "potator",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/potator-227c5f6f3ce7-1617e2249087.json",
+  "golden_source": "pins/core-sets/potator-227c5f6f3ce7-66e2c96acf38.json",
   "source_commit": "227c5f6f3ce74d32e9002ce24c1420288559a860",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-potator-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "1b455b3fab42fb7506c426a95e4ec883d86700fb81ab370eeb58432532af8b96",
-  "reproduction_run": ".local-e2e/runs/build-core-potator-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "abcf3871f1356ddfe3a4adf09fd342045dcadcff8610963918e1607750a00044",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-potator-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "6bb81226e712383a7df4e117a665412a68b56ebd9d91684e1bf89b11f7c208ea",
+  "reproduction_run": ".local-e2e/runs/build-core-potator-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "feaceb99f3b7a3a5da89c37cb1f10a9077e78727a0ba922b50a98ec9d5b26d13",
   "package_state": "reproducible",
-  "package_sha256": "31d5e38ea09a64ec3f28519a80d1079f009e977099282d30cdba51ec875209b5",
+  "package_sha256": "601a7088532366868584baebb23b28b6ecaf60a60947badb4408bb813527911c",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the potator_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -52,5 +52,5 @@
       ]
     }
   },
-  "content_sha256": "decd5c23f998476e87d7f06940030212b6b0d0ccd91e4b0d41cc59876efc64f9"
+  "content_sha256": "689ba57c496f73a3ff9175a583939bed3a735e130138e73e7199050b76b9a6f6"
 }

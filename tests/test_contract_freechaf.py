@@ -19,7 +19,7 @@ ORACLE_FIXTURE = pipeline.load_json(
     / "tests/fixtures/per-core-oracles/freechaf.json"
 )
 POSITIVE_ORACLES = tuple(ORACLE_FIXTURE["positive_runs"])
-SELECTED_RUN = "actions-sim-build-core-freechaf-v1"
+SELECTED_RUN = "actions-sim-build-core-freechaf-w3"
 
 
 def oracle_log_path(run_id: str, architecture: str) -> Path:

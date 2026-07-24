@@ -14,8 +14,8 @@ CORE_ID = "numero"
 SOURCE_URL = "https://github.com/nbarkhina/numero.git"
 SOURCE_COMMIT = "0ffb2f4d1382d41675746cb37820d41d79d96309"
 SOURCE_TREE = "970f0e7be440eff0f5612d27aafa5cdf10764307"
-SELECTED_RUN = "actions-sim-build-core-numero-v1"
-REPRODUCTION_RUN = "build-core-numero-local-v1"
+SELECTED_RUN = "actions-sim-build-core-numero-w3"
+REPRODUCTION_RUN = "build-core-numero-local-w3"
 
 
 class NumeroManifestTests(unittest.TestCase):

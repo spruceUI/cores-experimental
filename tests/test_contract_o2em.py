@@ -22,7 +22,7 @@ POSITIVE_ORACLE_RUNS = tuple(
     run["run_id"] for run in ORACLE_FIXTURE["positive_runs"]
 )
 INJECTED_VERSION_CONTROL_RUN = ORACLE_FIXTURE["rejected_comparison"]["run_id"]
-SELECTED_RUN = "actions-sim-build-core-o2em-v1"
+SELECTED_RUN = "actions-sim-build-core-o2em-w3"
 
 
 def build_o2em_native_log_fixture(

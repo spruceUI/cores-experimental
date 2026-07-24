@@ -4,14 +4,14 @@
   "core_id": "tyrquake",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/tyrquake-e57bb11597e8-8d9f548a9a38.json",
+  "golden_source": "pins/core-sets/tyrquake-e57bb11597e8-897f55c877b3.json",
   "source_commit": "e57bb11597e8a00380f30f2627d219da960cf69a",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-tyrquake-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "cc2fb952e83aa06448bb6763b08f99b709be66bbfb15f7ca84a68583a0bd0e00",
-  "reproduction_run": ".local-e2e/runs/build-core-tyrquake-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "8947a8cefae2c118666389872b99137df8c394d7f9d497bb7b5a1bf0de0a5e09",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-tyrquake-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "aefbdf98e5988e01cc515dd15e2de65e59217c37329fc8c74effa3df9d981c7a",
+  "reproduction_run": ".local-e2e/runs/build-core-tyrquake-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "eb26f7ffbab4139bba1c9618e43fc958f6119f7cf250e04089fdfbd8cc716c0b",
   "package_state": "reproducible",
-  "package_sha256": "a9285889fa061494db1d24d0ba13c87e94c102ebb10d1615c58bf2cb16d2deec",
+  "package_sha256": "b3c2608f0ca031adfadc2a4d7ac77ae69fcec536b1f78ca40493f369a1906918",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the tyrquake_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -52,5 +52,5 @@
       ]
     }
   },
-  "content_sha256": "f603a44f30d2487142f35105d00d8c832d7d9f6264cdeeeef0f49238629efbc7"
+  "content_sha256": "58b7ace31b1c3ebef51703dac8734163218d57d3f146cd9be5f9e34f02569398"
 }

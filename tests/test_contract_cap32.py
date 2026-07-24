@@ -19,8 +19,8 @@ CXX_COMPILERS = {
     "armhf": "arm-a30-linux-gnueabihf-g++",
 }
 CURRENT_REAL_LOG_RUNS = (
-    "actions-sim-build-core-cap32-v2",
-    "build-core-cap32-local-v2",
+    "actions-sim-build-core-cap32-w3",
+    "build-core-cap32-local-w3",
 )
 CAP32_OBJECTS = (
     "libretro/libretro-core.o",

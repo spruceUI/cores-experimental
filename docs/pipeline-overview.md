@@ -194,81 +194,81 @@ Validate the active catalog, workflow inventory, and individual records:
 python3 scripts/core_pipeline.py catalog-check
 python3 scripts/core_pipeline.py audit-workflows
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/handy-bc55d462f0b2-6923119e1743.json
+  --source-set pins/source-sets/handy-bc55d462f0b2-c82a2178b4f0.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/stella2014-4a7da82595d2-1fb14ddbab91.json
+  --source-set pins/source-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/fceumm-718c5a2e1757-741c3fcc6002.json
+  --source-set pins/source-sets/fceumm-718c5a2e1757-b9cb59f371db.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/gambatte-dfc165599f3f-9a6aa3658c05.json
+  --source-set pins/source-sets/gambatte-dfc165599f3f-782fa4634494.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/tgbdual-bf816b096f1d-8118d938b91c.json
+  --source-set pins/source-sets/tgbdual-bf816b096f1d-e1aa014fb7ae.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/quicknes-26bb785c9ded-2f0351a7573f.json
+  --source-set pins/source-sets/quicknes-26bb785c9ded-0dfc478cbffd.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/nestopia-b0fd87dd07e3-7393d0fca106.json
+  --source-set pins/source-sets/nestopia-b0fd87dd07e3-9570ea287053.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/a5200-23c1ea482afb-f37877a31d37.json
+  --source-set pins/source-sets/a5200-23c1ea482afb-26663d9e7f87.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/prosystem-363b6dfbd3e2-cb86034fdd05.json
+  --source-set pins/source-sets/prosystem-363b6dfbd3e2-245dc2e3516d.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/snes9x-185488cd83aa-1007f6c98b6b.json
+  --source-set pins/source-sets/snes9x-185488cd83aa-b7aaac2ae7c1.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_supafaust-2b93c0d7dff5-21be3575be39.json
+  --source-set pins/source-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json
+  --source-set pins/source-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json
+  --source-set pins/source-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json
+  --source-set pins/source-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_supergrafx-3c6fcd3deded-6f92f2753900.json
+  --source-set pins/source-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16.json
+  --source-set pins/source-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_pcfx-650c30ea2203-5c0f9a256d9a.json
+  --source-set pins/source-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/pokemini-bb009b1379ad-2f63e84b7b68.json
+  --source-set pins/source-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/gearcoleco-112345747c04-046c086031cf.json
+  --source-set pins/source-sets/gearcoleco-112345747c04-02350ee96cf1.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/vice_x64-7946cfa0d377-290256f3bebd.json
+  --source-set pins/source-sets/vice_x64-7946cfa0d377-1085a07760d4.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/vice_xvic-7946cfa0d377-6f9943958478.json
+  --source-set pins/source-sets/vice_xvic-7946cfa0d377-f1e6abfe933c.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/fmsx-f013e213458e-194b406b9096.json
+  --source-set pins/source-sets/fmsx-f013e213458e-b015409bc42c.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/bluemsx-5f595c79906f-a1c1fd914a76.json
+  --source-set pins/source-sets/bluemsx-5f595c79906f-e600380ac6d7.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/snes9x2005-b60356971fc9-06b9f12c860c.json
+  --source-set pins/source-sets/snes9x2005-b60356971fc9-23fbb6c59d54.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/snes9x2005_plus-b60356971fc9-32f28e9ec741.json
+  --source-set pins/source-sets/snes9x2005_plus-b60356971fc9-77ca2d085240.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/cap32-4abfb8be233b-afbc043051e8.json
+  --source-set pins/source-sets/cap32-4abfb8be233b-4f89ee89dec9.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/crocods-87bbb3d9007a-7b4aa1fce1f1.json
+  --source-set pins/source-sets/crocods-87bbb3d9007a-5a44afda913e.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/genesis_plus_gx_wide-29d9d104338f-7907e7e03389.json
+  --source-set pins/source-sets/genesis_plus_gx_wide-29d9d104338f-5035640f9981.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/o2em-e03d3be88f79-ede84c3862de.json
+  --source-set pins/source-sets/o2em-e03d3be88f79-a966ff1d0775.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/freechaf-76c7a84f1f7e-0fced3806666.json
+  --source-set pins/source-sets/freechaf-76c7a84f1f7e-3fc6b43191ef.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/vecx-8f671cc9d737-4686ef94bf56.json
+  --source-set pins/source-sets/vecx-8f671cc9d737-599c2197e36a.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/lowresnx-35adc1a215e9-837092a5ffca.json
+  --source-set pins/source-sets/lowresnx-35adc1a215e9-bcaea00ea240.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/race-c7810dd7f172-c3119de987bf.json
+  --source-set pins/source-sets/race-c7810dd7f172-c0ea16475d19.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/potator-227c5f6f3ce7-1617e2249087.json
+  --source-set pins/source-sets/potator-227c5f6f3ce7-66e2c96acf38.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/gearboy-36d723ff4410-f6f1b63e8798.json
+  --source-set pins/source-sets/gearboy-36d723ff4410-34b7df6bcf6b.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/gearsystem-4f029e43f2d5-35212fbb9d9a.json
+  --source-set pins/source-sets/gearsystem-4f029e43f2d5-0f8b301c259a.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/2048-c90437d3c391-86ed146bc647.json
+  --source-set pins/source-sets/2048-c90437d3c391-e1ff15dd7d6a.json
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/81-fa7094910d04-a82f6eb4a7cc.json
+  --source-set pins/source-sets/81-fa7094910d04-22dd2ebacdc6.json
 python3 -m unittest discover -s tests -v
 ```
 
@@ -521,13 +521,13 @@ Validate the current Handy lifecycle independently:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/handy-bc55d462f0b2-6923119e1743.json \
+  --pin-set pins/core-sets/handy-bc55d462f0b2-c82a2178b4f0.json \
   --verify-store --verify-sources
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/handy-bc55d462f0b2-6923119e1743.json
+  --source-set pins/source-sets/handy-bc55d462f0b2-c82a2178b4f0.json
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/handy-bc55d462f0b2-6923119e1743.json \
-  --release .local-e2e/releases/handy-bc55d462f0b2-6923119e1743 \
+  --pin-set pins/core-sets/handy-bc55d462f0b2-c82a2178b4f0.json \
+  --release .local-e2e/releases/handy-bc55d462f0b2-c82a2178b4f0 \
   --verify-store
 python3 scripts/core_pipeline.py validate-channel --channel pinned --core handy
 ```
@@ -536,30 +536,30 @@ Stella 2014 has the same isolated lifecycle:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/stella2014-4a7da82595d2-1fb14ddbab91.json \
+  --pin-set pins/core-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json \
   --verify-store --verify-sources
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/stella2014-4a7da82595d2-1fb14ddbab91.json
+  --source-set pins/source-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/stella2014-4a7da82595d2-1fb14ddbab91.json \
-  --release .local-e2e/releases/stella2014-4a7da82595d2-1fb14ddbab91 \
+  --pin-set pins/core-sets/stella2014-4a7da82595d2-a7cd8bf6403d.json \
+  --release .local-e2e/releases/stella2014-4a7da82595d2-a7cd8bf6403d \
   --verify-store
 python3 scripts/core_pipeline.py validate-channel \
   --channel pinned --core stella2014
 ```
 
 Mednafen Supafaust uses the same individual-core lifecycle under semantic ID
-`mednafen_supafaust-2b93c0d7dff5-21be3575be39`:
+`mednafen_supafaust-2b93c0d7dff5-debb21b70273`:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_supafaust-2b93c0d7dff5-21be3575be39.json \
+  --pin-set pins/core-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json \
   --verify-store --verify-sources
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_supafaust-2b93c0d7dff5-21be3575be39.json
+  --source-set pins/source-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_supafaust-2b93c0d7dff5-21be3575be39.json \
-  --release .local-e2e/releases/mednafen_supafaust-2b93c0d7dff5-21be3575be39 \
+  --pin-set pins/core-sets/mednafen_supafaust-2b93c0d7dff5-debb21b70273.json \
+  --release .local-e2e/releases/mednafen_supafaust-2b93c0d7dff5-debb21b70273 \
   --verify-store
 python3 scripts/core_pipeline.py validate-channel \
   --channel pinned --core mednafen_supafaust
@@ -570,22 +570,22 @@ and selected/reproduction run IDs are all individual-core:
 `scripts/core_pipeline_lib/contracts/mednafen_supafaust.py`,
 `manifests/compatibility/mednafen_supafaust.json`,
 `tests/cores/test_mednafen_supafaust.py`,
-`actions-sim-build-core-mednafen_supafaust-v2`, and
-`build-core-mednafen_supafaust-local-v2`. Exact build-log proof coverage stays
+`actions-sim-build-core-mednafen_supafaust-w3`, and
+`build-core-mednafen_supafaust-local-w3`. Exact build-log proof coverage stays
 in `tests/test_contract_mednafen_supafaust.py`.
 
 Mednafen Virtual Boy uses semantic ID
-`mednafen_vb-38e7a0ec9ac7-20575c76c389`:
+`mednafen_vb-38e7a0ec9ac7-ed193088da99`:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json \
+  --pin-set pins/core-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json \
   --verify-store --verify-sources
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json
+  --source-set pins/source-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json \
-  --release .local-e2e/releases/mednafen_vb-38e7a0ec9ac7-20575c76c389 \
+  --pin-set pins/core-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json \
+  --release .local-e2e/releases/mednafen_vb-38e7a0ec9ac7-ed193088da99 \
   --verify-store
 python3 scripts/core_pipeline.py validate-channel \
   --channel pinned --core mednafen_vb
@@ -593,31 +593,31 @@ python3 scripts/core_pipeline.py validate-channel \
 
 Its canonical owners are
 `scripts/core_pipeline_lib/contracts/mednafen_vb.py`,
-`pins/core-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json`,
-`pins/source-sets/mednafen_vb-38e7a0ec9ac7-20575c76c389.json`,
+`pins/core-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json`,
+`pins/source-sets/mednafen_vb-38e7a0ec9ac7-ed193088da99.json`,
 `manifests/compatibility/mednafen_vb.json`,
 `tests/cores/test_mednafen_vb.py`, and
 `tests/test_contract_mednafen_vb.py`. Selected and reproduction evidence use
-`actions-sim-build-core-mednafen_vb-v1` and
-`build-core-mednafen_vb-local-v1`. The local release is
-`.local-e2e/releases/mednafen_vb-38e7a0ec9ac7-20575c76c389`; its three aliases
+`actions-sim-build-core-mednafen_vb-w3` and
+`build-core-mednafen_vb-local-w3`. The local release is
+`.local-e2e/releases/mednafen_vb-38e7a0ec9ac7-ed193088da99`; its three aliases
 are `.local-e2e/channels/nightly.mednafen_vb.json`,
 `.local-e2e/channels/pinned.mednafen_vb.json`, and
 `.local-e2e/channels/release.mednafen_vb.json`. Publication remains disabled,
 and all device views remain ineligible pending target-runtime validation.
 
 Mednafen Neo Geo Pocket uses semantic ID
-`mednafen_ngp-a50d5ac288a8-d2dabb68d075`:
+`mednafen_ngp-a50d5ac288a8-26b82754fc25`:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_ngp-a50d5ac288a8-d2dabb68d075.json \
+  --pin-set pins/core-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json \
   --verify-store --verify-sources
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_ngp-a50d5ac288a8-d2dabb68d075.json
+  --source-set pins/source-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_ngp-a50d5ac288a8-d2dabb68d075.json \
-  --release .local-e2e/releases/mednafen_ngp-a50d5ac288a8-d2dabb68d075 \
+  --pin-set pins/core-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json \
+  --release .local-e2e/releases/mednafen_ngp-a50d5ac288a8-26b82754fc25 \
   --verify-store
 python3 scripts/core_pipeline.py validate-channel \
   --channel pinned --core mednafen_ngp
@@ -625,31 +625,31 @@ python3 scripts/core_pipeline.py validate-channel \
 
 Its canonical owners are
 `scripts/core_pipeline_lib/contracts/mednafen_ngp.py`,
-`pins/core-sets/mednafen_ngp-a50d5ac288a8-d2dabb68d075.json`,
-`pins/source-sets/mednafen_ngp-a50d5ac288a8-d2dabb68d075.json`,
+`pins/core-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json`,
+`pins/source-sets/mednafen_ngp-a50d5ac288a8-26b82754fc25.json`,
 `manifests/compatibility/mednafen_ngp.json`,
 `tests/cores/test_mednafen_ngp.py`, and
 `tests/test_contract_mednafen_ngp.py`. Selected and reproduction evidence use
-`actions-sim-build-core-mednafen_ngp-v1` and
-`build-core-mednafen_ngp-local-v1`. The local release is
-`.local-e2e/releases/mednafen_ngp-a50d5ac288a8-d2dabb68d075`; its three aliases
+`actions-sim-build-core-mednafen_ngp-w3` and
+`build-core-mednafen_ngp-local-w3`. The local release is
+`.local-e2e/releases/mednafen_ngp-a50d5ac288a8-26b82754fc25`; its three aliases
 are `.local-e2e/channels/nightly.mednafen_ngp.json`,
 `.local-e2e/channels/pinned.mednafen_ngp.json`, and
 `.local-e2e/channels/release.mednafen_ngp.json`. Publication remains disabled,
 and all device views remain ineligible pending target-runtime validation.
 
 Mednafen Lynx uses semantic ID
-`mednafen_lynx-fcdefcfb3c11-c2247f1f6de1`:
+`mednafen_lynx-fcdefcfb3c11-29e56373f32a`:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json \
+  --pin-set pins/core-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json \
   --verify-store --verify-sources
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json
+  --source-set pins/source-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json \
-  --release .local-e2e/releases/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1 \
+  --pin-set pins/core-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json \
+  --release .local-e2e/releases/mednafen_lynx-fcdefcfb3c11-29e56373f32a \
   --verify-store
 python3 scripts/core_pipeline.py validate-channel \
   --channel pinned --core mednafen_lynx
@@ -657,14 +657,14 @@ python3 scripts/core_pipeline.py validate-channel \
 
 Its canonical owners are
 `scripts/core_pipeline_lib/contracts/mednafen_lynx.py`,
-`pins/core-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json`,
-`pins/source-sets/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1.json`,
+`pins/core-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json`,
+`pins/source-sets/mednafen_lynx-fcdefcfb3c11-29e56373f32a.json`,
 `manifests/compatibility/mednafen_lynx.json`,
 `tests/cores/test_mednafen_lynx.py`, and
 `tests/test_contract_mednafen_lynx.py`. Selected and reproduction evidence use
-`actions-sim-build-core-mednafen_lynx-v1` and
-`build-core-mednafen_lynx-local-v1`. The local release is
-`.local-e2e/releases/mednafen_lynx-fcdefcfb3c11-c2247f1f6de1`; its three aliases
+`actions-sim-build-core-mednafen_lynx-w3` and
+`build-core-mednafen_lynx-local-w3`. The local release is
+`.local-e2e/releases/mednafen_lynx-fcdefcfb3c11-29e56373f32a`; its three aliases
 are `.local-e2e/channels/nightly.mednafen_lynx.json`,
 `.local-e2e/channels/pinned.mednafen_lynx.json`, and
 `.local-e2e/channels/release.mednafen_lynx.json`. Publication remains disabled.
@@ -673,17 +673,17 @@ A/V, saves, states, compatibility, frontend integration, and performance remain
 legal, policy, and target-runtime gates, so no device view is eligible.
 
 Mednafen PCE Fast uses semantic ID
-`mednafen_pce_fast-0bc6c8692834-8e747136926e`:
+`mednafen_pce_fast-0bc6c8692834-cdd0e0603032`:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json \
+  --pin-set pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json \
   --verify-store --verify-sources
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json
+  --source-set pins/source-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json \
-  --release .local-e2e/releases/mednafen_pce_fast-0bc6c8692834-8e747136926e \
+  --pin-set pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json \
+  --release .local-e2e/releases/mednafen_pce_fast-0bc6c8692834-cdd0e0603032 \
   --verify-store
 python3 scripts/core_pipeline.py validate-channel \
   --channel pinned --core mednafen_pce_fast
@@ -691,14 +691,14 @@ python3 scripts/core_pipeline.py validate-channel \
 
 Its canonical owners are
 `scripts/core_pipeline_lib/contracts/mednafen_pce_fast.py`,
-`pins/core-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json`,
-`pins/source-sets/mednafen_pce_fast-0bc6c8692834-8e747136926e.json`,
+`pins/core-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json`,
+`pins/source-sets/mednafen_pce_fast-0bc6c8692834-cdd0e0603032.json`,
 `manifests/compatibility/mednafen_pce_fast.json`,
 `tests/cores/test_mednafen_pce_fast.py`, and
 `tests/test_contract_mednafen_pce_fast.py`. Selected and reproduction evidence
-use `actions-sim-build-core-mednafen_pce_fast-v1` and
-`build-core-mednafen_pce_fast-local-v1`. The local release is
-`.local-e2e/releases/mednafen_pce_fast-0bc6c8692834-8e747136926e`; its three
+use `actions-sim-build-core-mednafen_pce_fast-w3` and
+`build-core-mednafen_pce_fast-local-w3`. The local release is
+`.local-e2e/releases/mednafen_pce_fast-0bc6c8692834-cdd0e0603032`; its three
 aliases are `.local-e2e/channels/nightly.mednafen_pce_fast.json`,
 `.local-e2e/channels/pinned.mednafen_pce_fast.json`, and
 `.local-e2e/channels/release.mednafen_pce_fast.json`. Publication remains
@@ -707,17 +707,17 @@ controls, A/V, saves, states, compatibility boundaries, frontend integration,
 and performance remain target-runtime gates, so no device view is eligible.
 
 Mednafen WonderSwan uses semantic ID
-`mednafen_wswan-da6d0d9acb8d-cc4a98ceff16`:
+`mednafen_wswan-da6d0d9acb8d-da715bbcb6da`:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16.json \
+  --pin-set pins/core-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json \
   --verify-store --verify-sources
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16.json
+  --source-set pins/source-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16.json \
-  --release .local-e2e/releases/mednafen_wswan-da6d0d9acb8d-cc4a98ceff16 \
+  --pin-set pins/core-sets/mednafen_wswan-da6d0d9acb8d-da715bbcb6da.json \
+  --release .local-e2e/releases/mednafen_wswan-da6d0d9acb8d-da715bbcb6da \
   --verify-store
 python3 scripts/core_pipeline.py validate-channel \
   --channel pinned --core mednafen_wswan
@@ -728,22 +728,22 @@ Its canonical owners are
 `manifests/compatibility/mednafen_wswan.json`,
 `tests/cores/test_mednafen_wswan.py`, and
 `tests/test_contract_mednafen_wswan.py`. Selected and reproduction evidence use
-`actions-sim-build-core-mednafen_wswan-v1` and
-`build-core-mednafen_wswan-local-v1`; local aliases are
+`actions-sim-build-core-mednafen_wswan-w3` and
+`build-core-mednafen_wswan-local-w3`; local aliases are
 `.local-e2e/channels/<channel>.mednafen_wswan.json`.
 
 Mednafen PC-FX uses semantic ID
-`mednafen_pcfx-650c30ea2203-5c0f9a256d9a`:
+`mednafen_pcfx-650c30ea2203-1c9309580e68`:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/mednafen_pcfx-650c30ea2203-5c0f9a256d9a.json \
+  --pin-set pins/core-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json \
   --verify-store --verify-sources
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/mednafen_pcfx-650c30ea2203-5c0f9a256d9a.json
+  --source-set pins/source-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/mednafen_pcfx-650c30ea2203-5c0f9a256d9a.json \
-  --release .local-e2e/releases/mednafen_pcfx-650c30ea2203-5c0f9a256d9a \
+  --pin-set pins/core-sets/mednafen_pcfx-650c30ea2203-1c9309580e68.json \
+  --release .local-e2e/releases/mednafen_pcfx-650c30ea2203-1c9309580e68 \
   --verify-store
 python3 scripts/core_pipeline.py validate-channel \
   --channel pinned --core mednafen_pcfx
@@ -754,48 +754,48 @@ Its canonical owners are
 `manifests/compatibility/mednafen_pcfx.json`,
 `tests/cores/test_mednafen_pcfx.py`, and
 `tests/test_contract_mednafen_pcfx.py`. Selected and reproduction evidence use
-`actions-sim-build-core-mednafen_pcfx-v1` and
-`build-core-mednafen_pcfx-local-v1`; local aliases are
+`actions-sim-build-core-mednafen_pcfx-w3` and
+`build-core-mednafen_pcfx-local-w3`; local aliases are
 `.local-e2e/channels/<channel>.mednafen_pcfx.json`. This is static build
 evidence only: every device view remains ineligible pending target runtime and
 provider validation. Operators must also supply the unbundled `pcfx.rom` BIOS
 and review the metadata display version `v0.9.33.3` versus compiled version
 `v0.9.36.5 650c30e` before any publication decision.
 
-PokéMini uses semantic ID `pokemini-bb009b1379ad-2f63e84b7b68`:
+PokéMini uses semantic ID `pokemini-bb009b1379ad-2ecf9f68eb0c`:
 
 ```bash
 python3 scripts/core_pipeline.py validate-pin-set \
-  --pin-set pins/core-sets/pokemini-bb009b1379ad-2f63e84b7b68.json \
+  --pin-set pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json \
   --verify-store --verify-sources
 python3 scripts/profile_registry.py report \
-  --source-set pins/source-sets/pokemini-bb009b1379ad-2f63e84b7b68.json
+  --source-set pins/source-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json
 python3 scripts/core_pipeline.py validate-release \
-  --pin-set pins/core-sets/pokemini-bb009b1379ad-2f63e84b7b68.json \
-  --release .local-e2e/releases/pokemini-bb009b1379ad-2f63e84b7b68 \
+  --pin-set pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json \
+  --release .local-e2e/releases/pokemini-bb009b1379ad-2ecf9f68eb0c \
   --verify-store
 python3 scripts/core_pipeline.py validate-channel \
   --channel pinned --core pokemini
 ```
 
 Its canonical owners are `scripts/core_pipeline_lib/contracts/pokemini.py`,
-`pins/core-sets/pokemini-bb009b1379ad-2f63e84b7b68.json`,
-`pins/source-sets/pokemini-bb009b1379ad-2f63e84b7b68.json`,
+`pins/core-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json`,
+`pins/source-sets/pokemini-bb009b1379ad-2ecf9f68eb0c.json`,
 `manifests/compatibility/pokemini.json`, `tests/cores/test_pokemini.py`, and
 `tests/test_contract_pokemini.py`. Selected and reproduction evidence use
-`actions-sim-build-core-pokemini-v1` and `build-core-pokemini-local-v1`; local
+`actions-sim-build-core-pokemini-w3` and `build-core-pokemini-local-w3`; local
 aliases are `.local-e2e/channels/<channel>.pokemini.json`. This is local static
 build evidence gathered through network source clones, not an offline or target
 runtime result. The optional, unbundled `bios.min` and the unresolved `.eep`
 path overflow warning remain runtime-review gates; every device view is
 ineligible pending provider inspection and target validation.
 
-Cap32 uses semantic ID `cap32-4abfb8be233b-afbc043051e8`. Its canonical
+Cap32 uses semantic ID `cap32-4abfb8be233b-4f89ee89dec9`. Its canonical
 owners are `scripts/core_pipeline_lib/contracts/cap32.py`, the matching
 one-core pin and source set, `manifests/compatibility/cap32.json`,
 `tests/cores/test_cap32.py`, and `tests/test_contract_cap32.py`. Selected
-`actions-sim-build-core-cap32-v2` and reproduction
-`build-core-cap32-local-v2` builds reproduce the package, metadata, and both
+`actions-sim-build-core-cap32-w3` and reproduction
+`build-core-cap32-local-w3` builds reproduce the package, metadata, and both
 ABI artifacts byte for byte; parallel log order varies while the complete
 line multisets and exact 44-command proof remain equal. Metadata/runtime
 version drift, non-commercial compiled-source terms, network-only checkout,
@@ -803,12 +803,12 @@ cached-image provenance, and all target runtime behavior remain explicit
 gates. The three `.local-e2e/channels/<channel>.cap32.json` aliases are local
 only, and every device view remains ineligible.
 
-CrocoDS uses semantic ID `crocods-87bbb3d9007a-7b4aa1fce1f1`. Its canonical
+CrocoDS uses semantic ID `crocods-87bbb3d9007a-5a44afda913e`. Its canonical
 owners are `scripts/core_pipeline_lib/contracts/crocods.py`, the matching
 one-core pin and source set, `manifests/compatibility/crocods.json`,
 `tests/cores/test_crocods.py`, and `tests/test_contract_crocods.py`. Selected
-`actions-sim-build-core-crocods-v1` and reproduction
-`build-core-crocods-local-v1` builds reproduce the package, metadata, and both
+`actions-sim-build-core-crocods-w3` and reproduction
+`build-core-crocods-local-w3` builds reproduce the package, metadata, and both
 ABI artifacts byte for byte. ARMHF logs are byte-identical; parallel ARM64
 logs have equal complete-line multisets and independently pass the exact
 50-command C proof with nine reviewed warnings and seven notes. Metadata and
@@ -819,13 +819,13 @@ all target-runtime behavior remain explicit human or device gates. The three
 device view remains ineligible.
 
 Genesis Plus GX uses semantic ID
-`genesis_plus_gx-fa4dca561e08-0e5a55ff8180`. Its canonical owners are
+`genesis_plus_gx-fa4dca561e08-b94a8729a601`. Its canonical owners are
 `scripts/core_pipeline_lib/contracts/genesis_plus_gx.py`, the matching
 one-core pin and source set, `manifests/compatibility/genesis_plus_gx.json`,
 `tests/cores/test_genesis_plus_gx.py`, and
 `tests/test_contract_genesis_plus_gx.py`. Selected
-`actions-sim-build-core-genesis_plus_gx-v1` and reproduction
-`build-core-genesis_plus_gx-local-v1` builds reproduce the package, metadata,
+`actions-sim-build-core-genesis_plus_gx-w3` and reproduction
+`build-core-genesis_plus_gx-local-w3` builds reproduce the package, metadata,
 and both ABI artifacts byte for byte. ARMHF logs are byte-identical; parallel
 ARM64 logs have equal complete-line multisets and independently pass the exact
 117-command C proof with two reviewed warnings and one note. Network-only
@@ -843,12 +843,12 @@ recipe identity; the two job counts must still match, and every surrounding
 command byte and phase boundary remains exact.
 
 Genesis Plus GX Wide independently owns semantic lifecycle
-`genesis_plus_gx_wide-29d9d104338f-7907e7e03389`, its one-core pin and source
+`genesis_plus_gx_wide-29d9d104338f-5035640f9981`, its one-core pin and source
 set, `manifests/compatibility/genesis_plus_gx_wide.json`,
 `tests/cores/test_genesis_plus_gx_wide.py`, and
 `tests/test_contract_genesis_plus_gx_wide.py`. Fresh selected
-`actions-sim-build-core-genesis_plus_gx_wide-v1` and reproduction
-`build-core-genesis_plus_gx_wide-local-v1` runs reproduce package
+`actions-sim-build-core-genesis_plus_gx_wide-w3` and reproduction
+`build-core-genesis_plus_gx_wide-local-w3` runs reproduce package
 `df36ba0750a558a846dc82012d8fe4c33dbd1e97c60d2e88d4ee42ed5efb6eec`,
 metadata, both ABI artifacts, and both logs byte for byte while independently
 passing its exact 106-command C proof. The three
@@ -859,92 +859,92 @@ and every device view remain fail-closed gates. The tracked historical Wide
 logs remain immutable test oracles and were not used for promotion.
 
 O2EM's corresponding semantic lifecycle is
-`o2em-e03d3be88f79-ede84c3862de`. Its canonical owners are
+`o2em-e03d3be88f79-a966ff1d0775`. Its canonical owners are
 `scripts/core_pipeline_lib/contracts/o2em.py`,
 `manifests/compatibility/o2em.json`, `tests/cores/test_o2em.py`, and
 `tests/test_contract_o2em.py`; selected and reproduction evidence use
-`actions-sim-build-core-o2em-v1` and `build-core-o2em-local-v1`. The local
+`actions-sim-build-core-o2em-w3` and `build-core-o2em-local-w3`. The local
 nightly, pinned, and release aliases are `.local-e2e/channels/<channel>.o2em.json`.
 
 FreeChaF's corresponding semantic lifecycle is
-`freechaf-76c7a84f1f7e-0fced3806666`. Its canonical owners are
+`freechaf-76c7a84f1f7e-3fc6b43191ef`. Its canonical owners are
 `scripts/core_pipeline_lib/contracts/freechaf.py`,
 `manifests/compatibility/freechaf.json`, `tests/cores/test_freechaf.py`, and
 `tests/test_contract_freechaf.py`; selected and reproduction evidence use
-`actions-sim-build-core-freechaf-v1` and `build-core-freechaf-local-v1`. The
+`actions-sim-build-core-freechaf-w3` and `build-core-freechaf-local-w3`. The
 local aliases are `.local-e2e/channels/<channel>.freechaf.json`.
 
 VecX's corresponding semantic lifecycle is
-`vecx-8f671cc9d737-4686ef94bf56`. Its canonical owners are
+`vecx-8f671cc9d737-599c2197e36a`. Its canonical owners are
 `scripts/core_pipeline_lib/contracts/vecx.py`,
 `manifests/compatibility/vecx.json`, `tests/cores/test_vecx.py`, and
 `tests/test_contract_vecx.py`; selected and reproduction evidence use
-`actions-sim-build-core-vecx-v2` and `build-core-vecx-local-v1`. The local
+`actions-sim-build-core-vecx-w3` and `build-core-vecx-local-w3`. The local
 aliases are `.local-e2e/channels/<channel>.vecx.json`.
 
 LowRes NX's corresponding semantic lifecycle is
-`lowresnx-35adc1a215e9-837092a5ffca`. Its canonical owners are
+`lowresnx-35adc1a215e9-bcaea00ea240`. Its canonical owners are
 `scripts/core_pipeline_lib/contracts/lowresnx.py`,
 `manifests/compatibility/lowresnx.json`, `tests/cores/test_lowresnx.py`, and
 `tests/test_contract_lowresnx.py`; selected and reproduction evidence use
-`actions-sim-build-core-lowresnx-v1` and `build-core-lowresnx-local-v1`. The
+`actions-sim-build-core-lowresnx-w3` and `build-core-lowresnx-local-w3`. The
 local aliases are `.local-e2e/channels/<channel>.lowresnx.json`. The records
 remain static-build-only: ARM64 reaches `GLIBC_2.29`, provider compatibility
 is unverified, and every device view remains ineligible pending target-runtime
 evidence.
 
 RACE's corresponding semantic lifecycle is
-`race-c7810dd7f172-c3119de987bf`. Its canonical owners are
+`race-c7810dd7f172-c0ea16475d19`. Its canonical owners are
 `scripts/core_pipeline_lib/contracts/race.py`,
 `manifests/compatibility/race.json`, `tests/cores/test_race.py`, and
 `tests/test_contract_race.py`; selected and reproduction evidence use
-`actions-sim-build-core-race-v1` and `build-core-race-local-v1`. The local
+`actions-sim-build-core-race-w3` and `build-core-race-local-w3`. The local
 aliases are `.local-e2e/channels/<channel>.race.json`. Package, metadata,
 artifacts, and logs reproduce byte for byte, but publication remains disabled:
 GPLv2 redistribution review and all provider, runtime, and device validation
 remain human gates, including ARMHF's `GLIBC_2.7` floor.
 
 Mednafen SuperGrafx's semantic lifecycle is
-`mednafen_supergrafx-3c6fcd3deded-6f92f2753900`. Its canonical owners are
+`mednafen_supergrafx-3c6fcd3deded-c84693b9711a`. Its canonical owners are
 `scripts/core_pipeline_lib/contracts/mednafen_supergrafx.py`,
-`pins/core-sets/mednafen_supergrafx-3c6fcd3deded-6f92f2753900.json`,
-`pins/source-sets/mednafen_supergrafx-3c6fcd3deded-6f92f2753900.json`,
+`pins/core-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json`,
+`pins/source-sets/mednafen_supergrafx-3c6fcd3deded-c84693b9711a.json`,
 `manifests/compatibility/mednafen_supergrafx.json`,
 `tests/cores/test_mednafen_supergrafx.py`, and
 `tests/test_contract_mednafen_supergrafx.py`. Selected
-`actions-sim-build-core-mednafen_supergrafx-v1` and independent
-`build-core-mednafen_supergrafx-local-v1` runs reproduce the package, metadata,
+`actions-sim-build-core-mednafen_supergrafx-w3` and independent
+`build-core-mednafen_supergrafx-local-w3` runs reproduce the package, metadata,
 and both ABI artifacts byte for byte; parallel logs differ while both satisfy
 the exact occurrence-aware proof. The local release is
-`.local-e2e/releases/mednafen_supergrafx-3c6fcd3deded-6f92f2753900`; its three
+`.local-e2e/releases/mednafen_supergrafx-3c6fcd3deded-c84693b9711a`; its three
 `.local-e2e/channels/<channel>.mednafen_supergrafx.json` aliases remain
 publication-disabled. GPLv2 review, the optional PCE-CD BIOS candidates (none
 packaged), display version `1.23.0` versus binary version `1.29.0`, ARMHF's
 preserved free-nonheap warning risk, and SGX/CD/CHD, provider, runtime, and
 device validation remain open, so every device view is ineligible.
 
-Potator's semantic lifecycle is `potator-227c5f6f3ce7-1617e2249087`. Its
+Potator's semantic lifecycle is `potator-227c5f6f3ce7-66e2c96acf38`. Its
 canonical owners are `scripts/core_pipeline_lib/contracts/potator.py`,
-`pins/core-sets/potator-227c5f6f3ce7-1617e2249087.json`,
-`pins/source-sets/potator-227c5f6f3ce7-1617e2249087.json`,
+`pins/core-sets/potator-227c5f6f3ce7-66e2c96acf38.json`,
+`pins/source-sets/potator-227c5f6f3ce7-66e2c96acf38.json`,
 `manifests/compatibility/potator.json`,
 `tests/cores/test_potator.py`, and `tests/test_contract_potator.py`. Selected
-`actions-sim-build-core-potator-v1` and independent
-`build-core-potator-local-v1` runs reproduce the package, metadata, both ABI
+`actions-sim-build-core-potator-w3` and independent
+`build-core-potator-local-w3` runs reproduce the package, metadata, both ABI
 artifacts, and both logs byte for byte. Resolver metadata declares
 `Public Domain`, no firmware is packaged or required, and all four reviewed
 misleading-indentation CPU warning/note pairs remain visible. The local release
-is `.local-e2e/releases/potator-227c5f6f3ce7-1617e2249087`; its three
+is `.local-e2e/releases/potator-227c5f6f3ce7-66e2c96acf38`; its three
 `.local-e2e/channels/<channel>.potator.json` aliases are publication-disabled;
 runtime and device validation remain open, so every device view is ineligible.
 
-Gearboy's semantic lifecycle is `gearboy-36d723ff4410-f6f1b63e8798`, and
-Gearsystem's is `gearsystem-4f029e43f2d5-35212fbb9d9a`. Their canonical owners
+Gearboy's semantic lifecycle is `gearboy-36d723ff4410-34b7df6bcf6b`, and
+Gearsystem's is `gearsystem-4f029e43f2d5-0f8b301c259a`. Their canonical owners
 are the matching files under `scripts/core_pipeline_lib/contracts/`,
 `pins/core-sets/`, `pins/source-sets/`, `manifests/compatibility/`,
 `tests/cores/`, and `tests/test_contract_*.py`. Selected
-`actions-sim-build-core-gearboy-v1` and
-`actions-sim-build-core-gearsystem-v1` runs reproduce their independent
+`actions-sim-build-core-gearboy-w3` and
+`actions-sim-build-core-gearsystem-w3` runs reproduce their independent
 `build-core-*-local-v1` package, metadata, both ABI artifacts, and both logs
 byte for byte. Their local releases and three per-core channel aliases remain
 publication-disabled. GPLv3 review, optional firmware handling, stale metadata
@@ -953,19 +953,19 @@ device claim remain open; ARMHF's `GLIBCXX_3.4.32` requirement leaves the Mini
 profile ineligible.
 
 2048's corresponding semantic lifecycle is
-`2048-c90437d3c391-86ed146bc647`. Its canonical owners are
+`2048-c90437d3c391-e1ff15dd7d6a`. Its canonical owners are
 `scripts/core_pipeline_lib/contracts/core_2048.py`,
 `manifests/compatibility/2048.json`, `tests/cores/test_2048.py`, and
 `tests/test_contract_2048.py`; selected and reproduction evidence use
-`actions-sim-build-core-2048-v2` and `build-core-2048-local-v1`. The local
+`actions-sim-build-core-2048-w3` and `build-core-2048-local-w3`. The local
 aliases are `.local-e2e/channels/<channel>.2048.json`. Both artifacts are
 portable build-identity records only; the source is eight commits newer than
 the shipped baseline, its SaveRAM metadata disagrees with the exposed memory
 API, and every device view remains ineligible pending target-runtime evidence.
 
-EightyOne's semantic lifecycle is `81-fa7094910d04-a82f6eb4a7cc`. Its selected
-`actions-sim-build-core-81-v2` and independent
-`build-core-81-local-v1` runs reproduce the package, metadata, and both ABI
+EightyOne's semantic lifecycle is `81-fa7094910d04-22dd2ebacdc6`. Its selected
+`actions-sim-build-core-81-w3` and independent
+`build-core-81-local-w3` runs reproduce the package, metadata, and both ABI
 artifacts byte for byte. Parallel warning/note ordering makes the raw logs
 byte-different, but both independently satisfy the exact per-owner diagnostic
 NFA. Its 16-C/12-C++ contract preserves upstream's native `src/version.c`

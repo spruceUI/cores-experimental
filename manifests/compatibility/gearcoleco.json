@@ -4,14 +4,14 @@
   "core_id": "gearcoleco",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/gearcoleco-112345747c04-046c086031cf.json",
+  "golden_source": "pins/core-sets/gearcoleco-112345747c04-02350ee96cf1.json",
   "source_commit": "112345747c04eb7752d1939258881aa10319e32e",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-gearcoleco-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "371223a72cc1529b3ca8761065661c2b41226eebc5c46bf05b331eb635bbace7",
-  "reproduction_run": ".local-e2e/runs/build-core-gearcoleco-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "2cfc9a8588cd1086347b59880f1517ec777ad71da7e1c57703f4ca68c22e80df",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-gearcoleco-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "e8f5aa0a5b8fbd60b24b11438bb9e716a4dffae20e879002fb744647e8cad251",
+  "reproduction_run": ".local-e2e/runs/build-core-gearcoleco-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "41939f93288fe37a2a75f20464bb9b7d535e670d917f8f11284b899152e3b116",
   "package_state": "reproducible",
-  "package_sha256": "8fadcfe0cb833da023c4b69685c33cf29b9430c2ce4a8cb4c429c6a8c02897a4",
+  "package_sha256": "b5fabf6b1531d6f343e39d1e95372564b3b65493e17949675a299310fffafc90",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the gearcoleco_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -75,5 +75,5 @@
       ]
     }
   },
-  "content_sha256": "1ae8014d9f8cc9246e33931972885dec23a354d668a446c489ff6fb7ab99d193"
+  "content_sha256": "2f350200788395a587dbbd6f614d61592bf51c1e5c432cd849121152a96dbd1b"
 }

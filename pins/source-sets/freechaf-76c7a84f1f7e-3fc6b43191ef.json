@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "freechaf-76c7a84f1f7e-3fc6b43191ef",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/freechaf-76c7a84f1f7e-3fc6b43191ef.json",
+    "pin_id": "freechaf-76c7a84f1f7e-3fc6b43191ef",
+    "file_sha256": "26150844982db35dbd05c5735c7d97815b10faf73020a047c7046b4bb98c5c3f",
+    "content_sha256": "2244759019c6958eaaa41169e605b13923a0e8b5f564862b2873527937cd5a12"
+  },
+  "sources": {
+    "freechaf": {
+      "path": "pins/sources/freechaf/76c7a84f1f7e80f3e6f2bba96fe100cb24e99124.json",
+      "source_lock_id": "freechaf-76c7a84f1f7e",
+      "commit": "76c7a84f1f7e80f3e6f2bba96fe100cb24e99124",
+      "file_sha256": "2ae9b4c26594ad1b6b86ef62b131a7aacd813d7f81427515f9080ae4bdf2bf39",
+      "content_sha256": "2a76dca9b9293baa418a60052de29dfcb8d79eeda0599b3de10524fc1e533ca8"
+    }
+  },
+  "content_sha256": "02148cc0ce4c2e35d25febe5ed71747adcd73472525b962a33dacdb31a39b965"
+}

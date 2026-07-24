@@ -26,7 +26,7 @@ from .support import (
 
 CORE_ID = "genesis_plus_gx_wide"
 OTHER_CORE_ID = "genesis_plus_gx"
-PIN_NAME = "genesis_plus_gx_wide-29d9d104338f-7907e7e03389.json"
+PIN_NAME = "genesis_plus_gx_wide-29d9d104338f-5035640f9981.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -45,46 +45,46 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "6fe3c024bf90d9b06a0a20794b4bb2093258f6c2062716b62ed179597fe5d19d"
 )
 PIN_FILE_SHA256 = (
-    "63023af67579c814d32b2c63cf345c603db16c59c77e5685253c4975de6a074b"
+    "f3c1ee89d8efa3694e857d733c7f53de734cc10f83e914018d78f5100aab6deb"
 )
 PIN_CONTENT_SHA256 = (
-    "aa12f4fe35e261cc11e4f2f1fce2de067db15d40172a05aaca4224571c4c3692"
+    "0ac0ab3de77c84b89de7e34251d905b1eb06d9c3db06e012e311511c94a94417"
 )
 SOURCE_SET_FILE_SHA256 = (
-    "f92b294518581c99ba1221c0fb79cb3608b6a495e4651850ede506bed6bad3d9"
+    "934d8405fe9518580342afc1432c04f941eabc9c169a1e6a25e8fafc23f85d35"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "b454a8e73b52741165b5dd1ae4b7e920c27f3eccded50121eb872512bd65dae5"
+    "dec8708254e34162934257840957de9893cfcaebb943a356a203a99e55e715f2"
 )
 COMPATIBILITY_FILE_SHA256 = (
-    "4daaf3f9b42ef3680503f5e4700ab2d21fb06495fd8776e42f29deaeff1137dc"
+    "02a0d18fa9bfc9eb6a8f7fd6a8416fc79746086cdf4680ef7d35a816c61ad567"
 )
 COMPATIBILITY_CONTENT_SHA256 = (
-    "5470d532cd19628665a115e3a2970b587e35d6a70b05eefc3f3b948ba7f279f9"
+    "c740ae102d56ab630d04735f750a4c2c2af45ee173ca19c5ed877e98a21f5ec9"
 )
 SELECTION_SHA256 = (
-    "7907e7e03389905326f9b713705455e94573de5cddeffe4dbe32f200cc9f54d1"
+    "5035640f9981f79129a9bd725f8168fbf10967b36874a172a671b02b7d8bb450"
 )
-SELECTED_RUN = "actions-sim-build-core-genesis_plus_gx_wide-v1"
-REPRODUCTION_RUN = "build-core-genesis_plus_gx_wide-local-v1"
+SELECTED_RUN = "actions-sim-build-core-genesis_plus_gx_wide-w3"
+REPRODUCTION_RUN = "build-core-genesis_plus_gx_wide-local-w3"
 E2E_CONTENT_SHA256 = {
     SELECTED_RUN: (
-        "0710b80fc0a732c425a13cf4c2369dca6203cda02c8d228e3c7658af54407d7b"
+        "bed2dc20b754b6223a6b8c40580e2be4570c14c160d2f5ec8d47347eaf0c8ed4"
     ),
     REPRODUCTION_RUN: (
-        "4f104f183ce27e13a66a16383ee80099672063b7254aecbf4ff757a61faa1cf1"
+        "89a6f437540988c8f818758a8934705f46f0784d1ed090984157c4380afcf6a7"
     ),
 }
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "1ffc973f0241c1e48f644faecc88bfc1a6f5d1474ece9a62207b430288a27827"
+        "7bc214c9f776e9be2feb96ca3d7c84439f66eeace011403d1a8d24db50e22cf8"
     ),
     REPRODUCTION_RUN: (
-        "8a3a4acb76036a310e1a963d6d4cb4126ad3c0c1ec32806e89d3db7682d6be6c"
+        "ccec44d0833154ab852ef86216d455aec2d1ff1ff9b387b4e8a3a95f899a56d5"
     ),
 }
 PACKAGE_SHA256 = (
-    "e133f0c4c1b8433a925059961aba71a9dad1d7144e3b6f592c7f5dcc1b432607"
+    "192a09032d5d6d087131b1fd4507d1c01eeff3eba8bf60e590d65b558d7d7ebc"
 )
 PACKAGE_SIZE = 2218602
 METADATA_SHA256 = (
@@ -101,7 +101,7 @@ WORKFLOW_SHA256 = (
 NATIVE_GIT_VERSION = " 29d9d10"
 BASE_SOURCE_COMMIT = "fa4dca561e08d5be9077419f7b255e1da213ed21"
 BASE_SOURCE_TREE = "7f4b0916e938e15e046e1c35acd0173aab1aaac3"
-BASE_SELECTED_RUN = "actions-sim-build-core-genesis_plus_gx-v1"
+BASE_SELECTED_RUN = "actions-sim-build-core-genesis_plus_gx-w3"
 RUNNERS = {
     SELECTED_RUN: {
         "backend": "local-docker",
@@ -126,10 +126,10 @@ TARGETS = {
         "artifact_size": 12383136,
         "record_sha256": {
             SELECTED_RUN: (
-                "38f30178722663e9a6ad08c1d75b5b6ad38249e0183fac739339a3666944ffe5"
+                "970c75ce1d83c8a1883230d979aea34455fdda132e8e676f4f42f223effeaddb"
             ),
             REPRODUCTION_RUN: (
-                "203f5fdfc07a1e3e5e92b4a01c430de13cb45a8d06328564e15d35bd28438cc4"
+                "f0dc2e66cde69438ca06a66795a68383fd6b0fd560857214d5eae5f126f6c597"
             ),
         },
         "log_sha256": {
@@ -137,7 +137,7 @@ TARGETS = {
                 "8b37e8dd6bf072cb75a19d8cb243406b3fa798e0515976fd9d9c537ee9fffc8d"
             ),
             REPRODUCTION_RUN: (
-                "e5e6731b95d99db972ba5c00e123671b66bf0f91c022c43ab6c16646b7474eca"
+                "1bd4839b0cb0edd3ff0f32704afde4000f9912832e156c016928899067a50f84"
             ),
         },
         "log_size": 90711,
@@ -166,10 +166,10 @@ TARGETS = {
         "artifact_size": 6374200,
         "record_sha256": {
             SELECTED_RUN: (
-                "6ab658e2cdaf8dd1ed6e3db24179ae7e8844f4f2f036177671ba16d9e91382ef"
+                "6042a2e50f508d982891934170d107d1bac208f78f29b7edf0584e8b0306be86"
             ),
             REPRODUCTION_RUN: (
-                "efa52c7efcf3c40bd37ec4e4749e58cc9c2a052b2a29485bf5838918f1600ba1"
+                "024aa90532908f9185c6df0d5e815b80f07ae1d7da05ababf92498ba06459d93"
             ),
         },
         "log_sha256": {

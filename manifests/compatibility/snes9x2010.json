@@ -4,14 +4,14 @@
   "core_id": "snes9x2010",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/snes9x2010-33077919157b-7a8023ffb49e.json",
+  "golden_source": "pins/core-sets/snes9x2010-33077919157b-042b85b51f07.json",
   "source_commit": "33077919157b990578011d2cce462e58c9e5c985",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-snes9x2010-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "401528aad91086dcedbefce5e6ffb0d526da4e3ddb59ceba5e2707d88a1d5597",
-  "reproduction_run": ".local-e2e/runs/build-core-snes9x2010-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "e59d82c430a146d6aedae58ef601649c81151038866dc29f006f16645574c752",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-snes9x2010-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "e7004a2d18dae982987877c72f552da93f9a7d8876708a13ca4f893c13665b6d",
+  "reproduction_run": ".local-e2e/runs/build-core-snes9x2010-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "09b37b3a4a8faac39aed0a201aa7fa408ec2b0cbda3c7162df5a62fcfd543e8d",
   "package_state": "reproducible",
-  "package_sha256": "734dedd92a85a1a435700b250f288af4daeb9200328743b5369e879429094638",
+  "package_sha256": "22721dc5df6b55984caf6e7f6bfb127c8d328ccbb3e44f25a310d7fd7b18a35b",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the snes9x2010_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -47,5 +47,5 @@
       ]
     }
   },
-  "content_sha256": "bb2be4f0c8b7f6371f38b23e74d52ecf5d266d88d2bcc262422aaab87be3ceb2"
+  "content_sha256": "43af3e5277bf930578d781f7ffda8f69c03702ca013ba4dded517f57c5269ee6"
 }

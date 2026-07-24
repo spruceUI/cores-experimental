@@ -4,14 +4,14 @@
   "core_id": "neocd",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/neocd-9e9ad181bed6-b0c1b4ef68f3.json",
+  "golden_source": "pins/core-sets/neocd-9e9ad181bed6-64986a637df3.json",
   "source_commit": "9e9ad181bed60f84f9cff02c03617b41e8a31cfe",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-neocd-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "332851d8072710d0f3248e95a6a1d7a09e701c822c247f90cdd6e2d9779865a7",
-  "reproduction_run": ".local-e2e/runs/build-core-neocd-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "95f32b855395b190fe2ba257d05f8d91b86283ec04f153918bd2300a7ceb56cb",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-neocd-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "b028d1b5bdc3abd12fa4925f208050d9d36276df588930ff5866a172643e32ac",
+  "reproduction_run": ".local-e2e/runs/build-core-neocd-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "3cad49507cc9aeac7846c2d0b12d586bdd118d21d381d84c17b9c0419224db58",
   "package_state": "reproducible",
-  "package_sha256": "f4d2198fe55d34fd9fd73cdfc1aaa86121f2fd435d1c06963f971a992edf6f67",
+  "package_sha256": "36de76bad25bad2b34c5060d17b1610dbe96879918eaa06a9bca0f7b1c99aaf2",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the neocd_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.30, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -82,5 +82,5 @@
       ]
     }
   },
-  "content_sha256": "7d6bdf5257a4f591be2264ec0282f91f0db7b229eae5a5d4260822808bb9031b"
+  "content_sha256": "c36a703e4e2fac8c5405db55e8ea1cd5e1abb72282beb0e6f95d57c56404365d"
 }

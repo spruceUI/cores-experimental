@@ -17,8 +17,8 @@ CORE_ID = "mupen64plus_next"
 SOURCE_URL = "https://github.com/libretro/mupen64plus-libretro-nx.git"
 SOURCE_COMMIT = "98c1b0d877542b01314b3b04272282ba223b65b3"
 SOURCE_TREE = "e82f86deaeb37d3df9ad2673b53738af96848325"
-SELECTED_RUN = "actions-sim-build-core-mupen64plus_next-v1"
-REPRODUCTION_RUN = "build-core-mupen64plus_next-local-v1"
+SELECTED_RUN = "actions-sim-build-core-mupen64plus_next-w3"
+REPRODUCTION_RUN = "build-core-mupen64plus_next-local-w3"
 
 
 class Mupen64PlusNextManifestTests(unittest.TestCase):

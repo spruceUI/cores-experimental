@@ -14,8 +14,8 @@ CORE_ID = "gw"
 SOURCE_URL = "https://github.com/libretro/gw-libretro.git"
 SOURCE_COMMIT = "91d599b951e7bfe7e040347f58667cba20074adc"
 SOURCE_TREE = "3e047c44fe4828599aaf72708a5cea25730bc824"
-SELECTED_RUN = "actions-sim-build-core-gw-v1"
-REPRODUCTION_RUN = "build-core-gw-local-v1"
+SELECTED_RUN = "actions-sim-build-core-gw-w3"
+REPRODUCTION_RUN = "build-core-gw-local-w3"
 
 
 class GwManifestTests(unittest.TestCase):

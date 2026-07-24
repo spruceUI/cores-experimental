@@ -13,8 +13,8 @@ from .support import ROOT, load_document
 CORE_ID = "uae4arm"
 SOURCE_COMMIT = "dafd48fad7510ebc2f90ebdee8331bbdcf65fd49"
 SOURCE_TREE = "7d99605e9faecc7c154c30861ebee2a36b9fde18"
-SELECTED_RUN = "actions-sim-build-core-uae4arm-v1"
-REPRODUCTION_RUN = "build-core-uae4arm-local-v1"
+SELECTED_RUN = "actions-sim-build-core-uae4arm-w3"
+REPRODUCTION_RUN = "build-core-uae4arm-local-w3"
 
 
 class Uae4armManifestTests(unittest.TestCase):

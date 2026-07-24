@@ -21,7 +21,7 @@ registry = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(registry)
 
 SOURCE_SET_RELATIVE = (
-    "pins/source-sets/freechaf-76c7a84f1f7e-0fced3806666.json"
+    "pins/source-sets/freechaf-76c7a84f1f7e-3fc6b43191ef.json"
 )
 SOURCE_SET_PATH = ROOT / SOURCE_SET_RELATIVE
 EXECUTION_PATH = ROOT / "manifests" / "execution-profiles.json"
@@ -207,7 +207,7 @@ class ProfileRegistryTests(unittest.TestCase):
     def _noncanonical_multi_core_source_set(self):
         source_set = copy.deepcopy(self.source_set)
         second_source_set = load(
-            ROOT / "pins/source-sets/handy-bc55d462f0b2-6923119e1743.json"
+            ROOT / "pins/source-sets/handy-bc55d462f0b2-c82a2178b4f0.json"
         )
         source_set["source_set_id"] = "noncanonical-multi-core"
         source_set["sources"].update(second_source_set["sources"])
@@ -675,7 +675,7 @@ class ProfileRegistryTests(unittest.TestCase):
         self.assertTrue(report["local_only"])
         self.assertEqual("disabled", report["publication"])
         self.assertEqual(
-            "freechaf-76c7a84f1f7e-0fced3806666",
+            "freechaf-76c7a84f1f7e-3fc6b43191ef",
             report["source_set_id"],
         )
         self.assertEqual(1, report["counts"]["source_locks"])

@@ -26,7 +26,7 @@ from .support import (
 
 CORE_ID = "o2em"
 OTHER_CORE_ID = "prosystem"
-PIN_NAME = "o2em-e03d3be88f79-ede84c3862de.json"
+PIN_NAME = "o2em-e03d3be88f79-a966ff1d0775.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -35,26 +35,26 @@ SOURCE_TREE = "fef887dc747594a47e9bed9ac7367d2912b579d1"
 SOURCE_URL = "https://github.com/libretro/libretro-o2em.git"
 SOURCE_LOCK_ID = "o2em-e03d3be88f79"
 SELECTION_SHA256 = (
-    "ede84c3862decb4830e0b68d7abc53adfaede5a09be9b9772f5cf6fc34ae39cd"
+    "a966ff1d0775c53cd287dc5e0615a1ef1ecd983094bf5ef09493114259207db8"
 )
-SELECTED_RUN = "actions-sim-build-core-o2em-v1"
-REPRODUCTION_RUN = "build-core-o2em-local-v1"
+SELECTED_RUN = "actions-sim-build-core-o2em-w3"
+REPRODUCTION_RUN = "build-core-o2em-local-w3"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "d6afd52517dd35203269c776844a30a3111f35a7c4d4936b373d3987ab180bda"
+    "76a3aa90248c26a1ca79a06a12e3fc4472b0c169358130e02214111a8e222c09"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "37d776681de2d9cc4f2a052d6643b0336e8176126f9c4bf27a8fba1f456c5d7b"
+    "bb846bfdd517444502c2e74c20301bbab7851d413cb78a29f1f3e2ef55156530"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "feaa9c30bf28f998eda52815ec83dd46816a926cbeab0fcb480d6921f8479c7c"
+        "fd118b71690c7890e0c03f039e67bfbd20835cfdf0cc55cfb1e8290bbd1b816c"
     ),
     REPRODUCTION_RUN: (
-        "87f98e56ac22f62460879a474d6863be2feb118205e2e1ebeed63bd8a41654c6"
+        "0ca14ba9fc6a5125c7dec8d0aa9b8cf3aa772a3060b2c569221c5fb0483fdb6e"
     ),
 }
 PACKAGE_SHA256 = (
-    "71a507ff09295bef706844376c26353c32c1dee1536ce3d2d262daa94b2d2866"
+    "da9ac3e4d2f713fd189bc8e6e0f61639489424c382bc56eb176d8d8839d9a5f3"
 )
 METADATA_SHA256 = (
     "d8cbfb38f736448d16817a4b2f17d61843e43c1b8bf64fae228a9d9e95e48378"
@@ -82,10 +82,10 @@ TARGETS = {
         ),
         "record_sha256": {
             SELECTED_RUN: (
-                "9ceebb1a6b36b274c14cf3101531b05a18f599ca447bf15e5745534f78123169"
+                "ebc583f0bd7eb9129b2619a600ddfca5a2a4e358da33a20c1b70a2add44d58cf"
             ),
             REPRODUCTION_RUN: (
-                "dd754e87b62163bfbbc1f3a0a0a186b705ae43ea50b8caf9ac5de6313f42f872"
+                "7e80fa306f79ee2ab1acae8724f61462a142a55b640fb408a5f975ebd91e127b"
             ),
         },
         "log_sha256": {
@@ -107,10 +107,10 @@ TARGETS = {
         ),
         "record_sha256": {
             SELECTED_RUN: (
-                "1d513fb6cba566132bc5870a8afee57b9f8096a803fd60c47f597cb5040f211a"
+                "f2ac8331cbd6100d9eef6e3401b44f4efd8b315b7667e29147b4a1c7d91b32a8"
             ),
             REPRODUCTION_RUN: (
-                "ffecbf054158a9f36b2a416129eaae7011e14cd3ea99f6eac732dc3664ea102b"
+                "fed897af69a8e514e451e458781316ba9d6012902dcb815b64884546be09a7dc"
             ),
         },
         "log_sha256": {

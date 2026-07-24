@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "puzzlescript-6d859b47092f-ab7757b08058",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/puzzlescript-6d859b47092f-ab7757b08058.json",
+    "pin_id": "puzzlescript-6d859b47092f-ab7757b08058",
+    "file_sha256": "67fac77c278bb111e290f4d7d5b7b1beb5a8aa404e9640617739fc647eb3216f",
+    "content_sha256": "bb16f2b69c5803bdf22cb752587338c86503a19699f30434544f610c69f37177"
+  },
+  "sources": {
+    "puzzlescript": {
+      "path": "pins/sources/puzzlescript/6d859b47092f585a7ec05804c1d51a1676a06531.json",
+      "source_lock_id": "puzzlescript-6d859b47092f",
+      "commit": "6d859b47092f585a7ec05804c1d51a1676a06531",
+      "file_sha256": "6d6a875181742bfd8f30b74fa03f8daf297537298b4455f68c5e4f8a56df34e3",
+      "content_sha256": "09825e238a72533a596eaccab91cca2ef6504a501e89e8179d7513de5d241424"
+    }
+  },
+  "content_sha256": "38c3fc479985be54d46b0d74f2eb8931a8b9db128b36bbccc95a7841b29d686a"
+}

@@ -4,14 +4,14 @@
   "core_id": "vecx",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/vecx-8f671cc9d737-4686ef94bf56.json",
+  "golden_source": "pins/core-sets/vecx-8f671cc9d737-599c2197e36a.json",
   "source_commit": "8f671cc9d737f2890c3ce19e177e2984dcae121f",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-vecx-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "b188e468224d938e050391c7fe3bef89a49ac7f27e503e6517da79a1b2cae021",
-  "reproduction_run": ".local-e2e/runs/build-core-vecx-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "848f9c2404fb57283c4cad9f2c71eebd9649d4b8764cb2be746dc5dc64dcfbfa",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-vecx-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "a27119cc43ea114b869a573de7be45250fd5963e3aeefe9dd7edc5a402b238ae",
+  "reproduction_run": ".local-e2e/runs/build-core-vecx-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "4f99343f98c53888395c71652e0a2d3c450c93e3a47f0c254246942ed24b7551",
   "package_state": "reproducible",
-  "package_sha256": "316c893f984b88c0684fa41358fe802613b8bec77fde17183b30e6d9b38631e4",
+  "package_sha256": "9eb9e828581c5b758356eb30d53af523ce296b3b553194683dc8f2297ba1d0d9",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the vecx_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -53,5 +53,5 @@
       ]
     }
   },
-  "content_sha256": "e5bac65ba8501c3073e36549632177d7bc365add71d5375ab9184bb696a3034b"
+  "content_sha256": "ace1dd631869d1e5933a22792331ca23a242eae8843b76045eceebddff0fcdfa"
 }

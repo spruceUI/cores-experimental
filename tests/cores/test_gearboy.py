@@ -28,7 +28,7 @@ SOURCE_COMMIT = "36d723ff44109e6d9eefba34e1c9a089c2d50e18"
 SOURCE_TREE = "d01d828b1e5e7330bcf908b19b1afae8c9f8897b"
 SOURCE_URL = "https://github.com/drhelius/Gearboy.git"
 GIT_DESCRIBE = "3.8.9-8-g36d723f"
-PIN_NAME = "gearboy-36d723ff4410-f6f1b63e8798.json"
+PIN_NAME = "gearboy-36d723ff4410-34b7df6bcf6b.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -44,46 +44,46 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "80aa29e1d988d153b12001992c1e48d721c63f1470ef2cca327c947a812e1daa"
 )
 SOURCE_SET_FILE_SHA256 = (
-    "cf3465de63c28fe085f48015874a8c7e8c589ebc2c82590db80df7c558294923"
+    "ceb696c11578d51f98f0d5a6f9bfb926bf16aaf6c7a7949b5c32325e2723cf99"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "1837bd778f5dcd924909417119e99c04a5658b74ea7d19f7bfd3a8ffa4a04985"
+    "5d04d0c72a76c79d48a5b511784d17a5be5052dc4448d26e3de383b0300eb570"
 )
 PIN_FILE_SHA256 = (
-    "c9772d472fc0794d41de7f509041349940a0c033f7a3e512cdb7f81c8ab392ce"
+    "034d8cecabccaebd8a11f0a1a2a332ff2319cc7130951fdcfe6e9751de79c364"
 )
 PIN_CONTENT_SHA256 = (
-    "9c752190ddf3b9ddb5896edb20ec00537ff466737b095f463a5c15f91c799718"
+    "bbc896eb7fc9cf7524804cee0e49ccd7c43e309cf589c942efe9fb4e136b9b65"
 )
 GOLDEN_FILE_SHA256 = (
-    "61c3b71ef56bb67d82fba63284bc2ffd24468c0b22dd1c50cabb5d061a3884d9"
+    "49c5731fdf801d162eb70174c74395e58f529ad795f814d26f543642b95666a6"
 )
 GOLDEN_CONTENT_SHA256 = (
-    "e4a455e0b1088b7db8fcb8a03b1fbaf213793ae2c6c169681e3f5a8f5b6ccfae"
+    "f402a59373ce44fcdf1cd183fb2fcd33199ec100db1a8895d44a512739e30f7d"
 )
 SELECTION_SHA256 = (
-    "f6f1b63e8798d552cacd5ac62a2b132448f1f756e22ce1e4dc98f4682536132f"
+    "34b7df6bcf6b7a0ed7872a47ae82009e8aec15b07cef76c004a9732b3ee015ff"
 )
-SELECTED_RUN = "actions-sim-build-core-gearboy-v1"
-REPRODUCTION_RUN = "build-core-gearboy-local-v1"
+SELECTED_RUN = "actions-sim-build-core-gearboy-w3"
+REPRODUCTION_RUN = "build-core-gearboy-local-w3"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "522975c6948bc56356e736d85d4aa855e9e9ce7a893b46f424922938e0b41d4f"
+    "1fbfd7c6f74c87c06b7f5ae74f7b05811c119415b7d5231b5135a9724183854e"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "8e92533c9beb09740dd2543be5d2cf5c86ec9ac07a105a337d6e092ca97442e7"
+    "fbd8d22d60bfdcb42d76ebaaa3d711489c1bd1a53ce6ddf20de762c4abd6b579"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "c7c0489ad57da69177f8b3b4ee9beef77d4f4c1304475711caa39c77175a849f"
+        "874de3757bdb4effbfd1d586aa4011cb83ed8c118bbbbb52ce2783330c5306b1"
     ),
     REPRODUCTION_RUN: (
-        "4d5960039a579b4e8df9365075209bee69bc969987fa9bf38025104d90b56f1e"
+        "74b79cba2578667b7e5470905827392d22d3f526198ac23bbf106fd454e71678"
     ),
 }
 PACKAGE_SHA256 = (
-    "05ebb30add0a597e7b8b9af9b4ba76f30821ee27b1abbd29b676e10e39f0f57c"
+    "4438255de7a9947ace961dad47ddda9e261b2a975fd049008a61b0bca2148855"
 )
-PACKAGE_SIZE = 393447
+PACKAGE_SIZE = 393448
 METADATA_SHA256 = (
     "6f4361be56480bf46aaed5fe35945e93fee3f6a5fb030d9ac19f79e5c0bde0e1"
 )
@@ -112,10 +112,10 @@ TARGETS = {
         "artifact_size": 626216,
         "record_sha256": {
             SELECTED_RUN: (
-                "8add53e39ad5bd9b6e26d8ab0025ce183ac822dcd6f4f1945e3fdab512ac3170"
+                "5361c17feb01c120fa42a70c25436c7cb8102ec302c4def0617eafcfb9400f53"
             ),
             REPRODUCTION_RUN: (
-                "1822c69ccdb28a35cb06249e508a760452c248663dabab048924640412bb68ea"
+                "23d03011915e1fe96d7f6417a23c88e6d0d94034cb64f3b69a187e3fd3872f03"
             ),
         },
         "log_sha256": (
@@ -149,10 +149,10 @@ TARGETS = {
         "artifact_size": 465544,
         "record_sha256": {
             SELECTED_RUN: (
-                "ac4f44fbb14562a5ae4b28cba3e4be5e9f159db1772f922ebad12f20a30f5ca6"
+                "11f909fc7318c64f616763199316d2f5ebb047c3b9f1a09d5b4fa99ba6e130a1"
             ),
             REPRODUCTION_RUN: (
-                "67c90535a4b491ed8feb1e60a1a9eb0b684033081205f05a25ba503b1dc3e23f"
+                "6a39f948c83054416623c54c1594d06561107a383dc8389b3e7fa674734695e4"
             ),
         },
         "log_sha256": (

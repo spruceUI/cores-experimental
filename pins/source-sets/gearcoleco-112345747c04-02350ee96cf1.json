@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "gearcoleco-112345747c04-02350ee96cf1",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/gearcoleco-112345747c04-02350ee96cf1.json",
+    "pin_id": "gearcoleco-112345747c04-02350ee96cf1",
+    "file_sha256": "09efcbc9b154b806b7f24355505b8317a22152e681a51eafcbde59633aba0101",
+    "content_sha256": "27481b866249c6e6c946633b22cdf63f76e4aedb0411aba08508428ec68a07c6"
+  },
+  "sources": {
+    "gearcoleco": {
+      "path": "pins/sources/gearcoleco/112345747c04eb7752d1939258881aa10319e32e.json",
+      "source_lock_id": "gearcoleco-112345747c04",
+      "commit": "112345747c04eb7752d1939258881aa10319e32e",
+      "file_sha256": "6188f1d27318f08693119beaafe5200ccba55e25d87a8fbde8b0f995b8e67379",
+      "content_sha256": "6d67ecb53d00218fab62a9d7964633cc6b6e951ea6c8ada837feb568a9449467"
+    }
+  },
+  "content_sha256": "388c89b7554ae95babdcbcb068c5affc76e66d6c5e81414de3320cb19c5de7b7"
+}

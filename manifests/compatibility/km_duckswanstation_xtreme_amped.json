@@ -4,14 +4,14 @@
   "core_id": "km_duckswanstation_xtreme_amped",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/km_duckswanstation_xtreme_amped-be16ead371a6-3cd0293f7e46.json",
+  "golden_source": "pins/core-sets/km_duckswanstation_xtreme_amped-be16ead371a6-1d7c94544534.json",
   "source_commit": "be16ead371a6403c92cf196d80bee75356027670",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-km_duckswanstation_xtreme_amped-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "05a60750a796bb66b6b8269d27609f3aa5f9b63fe2e95d3ad6fa82b4924e1c6e",
-  "reproduction_run": ".local-e2e/runs/build-core-km_duckswanstation_xtreme_amped-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "bda7c52084044dbd510827775635bc0d6e22e027154f34aed4e4dc54f29a8c11",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-km_duckswanstation_xtreme_amped-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "e431528a6ad3c947c8cf3a6c8bc12320668683defb174013a9cf9369ca7f40c9",
+  "reproduction_run": ".local-e2e/runs/build-core-km_duckswanstation_xtreme_amped-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "c93d1f43397f5eb3e158117b1b7bfb99e09734c0da2aba212bb95ff5e385e436",
   "package_state": "reproducible",
-  "package_sha256": "ed1e644b897df5a90343cf227e99b1d705883a21cc8c59a9b4940feb21c1f1ab",
+  "package_sha256": "3572c908b048244bc41d3cec3b820d694b6e7999e0489ff69046433e7d0caff7",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the km_duckswanstation_xtreme_amped_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -61,5 +61,5 @@
       ]
     }
   },
-  "content_sha256": "afc57486e795b8686c6e40065a516840cee9a113460c9243ccffe961769f78cb"
+  "content_sha256": "778fdb457e483411c91e7700cd9f40315e718eced66cc3d37318e8131a4a4928"
 }

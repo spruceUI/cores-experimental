@@ -14,8 +14,8 @@ CORE_ID = "gme"
 SOURCE_URL = "https://github.com/libretro/libretro-gme.git"
 SOURCE_COMMIT = "818629a9fbb9f99bd9c585395318834ae5c6434e"
 SOURCE_TREE = "dd10fdad6ccd383a7fa163ac76ad3d952e9842a5"
-SELECTED_RUN = "actions-sim-build-core-gme-v1"
-REPRODUCTION_RUN = "build-core-gme-local-v1"
+SELECTED_RUN = "actions-sim-build-core-gme-w3"
+REPRODUCTION_RUN = "build-core-gme-local-w3"
 
 
 class GmeManifestTests(unittest.TestCase):

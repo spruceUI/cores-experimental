@@ -15,7 +15,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "genesis_plus_gx"
 OTHER_CORE_ID = "genesis_plus_gx_wide"
-PIN_NAME = "genesis_plus_gx-fa4dca561e08-0e5a55ff8180.json"
+PIN_NAME = "genesis_plus_gx-fa4dca561e08-b94a8729a601.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -34,46 +34,46 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "c8f9eb3c43905052f6897b247f4229c661db58d96c2c92bb3894d749d9e1117c"
 )
 PIN_FILE_SHA256 = (
-    "8446aaf5c2ff982ec5d72e5b64a87f1ba2c7869faa067bfd4d19bf4eebbd1bca"
+    "363750f09adf1e6ec92569b0f7f28fbc99677ddccc4b976ce7243c76ed382e3a"
 )
 PIN_CONTENT_SHA256 = (
-    "1e8cb13f847835bf9d5b1a890e506d9307525f2f61e7e47a223bf6f57c78bd76"
+    "14e62a2e36e83a738db7a755e9ec4b386f03cda879266bc2309fee7a72f2e9b5"
 )
 SOURCE_SET_FILE_SHA256 = (
-    "377450a819350c198f97356c471b24ed4897e8b53c47f9b2fa503a1e5ccbd074"
+    "907735c066f981eec83dbd9e1759a6e52a5271e61afff4f222154ff307843502"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "edd3c9950da5d7129fa641732c2d92dbc9b50cf589897015ebeb7470c9f4851c"
+    "33ed18e0b2d1414beb7bd567a5a85b1fd6c11ca27ac7ad10bd35d1364ba18a66"
 )
 COMPATIBILITY_FILE_SHA256 = (
-    "46c95757283a2cfc5d126e098bb420647765aacada0ca51577c7c9aac42e68d9"
+    "f40e57aff871ace13e61087605d9e58b2eecce1f3ec40b0d94c4737c9d034525"
 )
 COMPATIBILITY_CONTENT_SHA256 = (
-    "3f1526cf4f779fbceb9a16f168149eb27b2bcc9e090362f2c64c27a0ca9261f2"
+    "009c0e14345142829a255defd375eb8f1b28980a49678a7cce6c8091cf3c6d31"
 )
 SELECTION_SHA256 = (
-    "0e5a55ff8180895a8880000f6041323cb3f319f299782e75cc54ecf7534774e8"
+    "b94a8729a601a9538c9d0fd7dd1d9de0dabc6cdce3fe2909f246e769edd7edb2"
 )
-SELECTED_RUN = "actions-sim-build-core-genesis_plus_gx-v1"
-REPRODUCTION_RUN = "build-core-genesis_plus_gx-local-v1"
+SELECTED_RUN = "actions-sim-build-core-genesis_plus_gx-w3"
+REPRODUCTION_RUN = "build-core-genesis_plus_gx-local-w3"
 E2E_CONTENT_SHA256 = {
     SELECTED_RUN: (
-        "f37d05ad0925787dd4d350a3bf79430a9e1b046cb4fcb57f22640c90d24a5000"
+        "caeeccd791699bf42ef4b31391f669eda20fbdf428f2c77f76c09e8d4b7232cb"
     ),
     REPRODUCTION_RUN: (
-        "a19c73b1fb7ffe95c8e42804af49e371037b1ca5f6d9bc1bc28d2698dc941ee7"
+        "80960fc4d608012257e98a277a91cd8a3d8484b2a95c438b56b07ec7a4df3507"
     ),
 }
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "6a3a66bff78af02772e571db3e6c00f8033c4fad5d6e49c7b3a31c3bd6ee9255"
+        "f847573e1c9b0ec4d65a2bebc2baf4036488eab048514e26defe4a26ae032637"
     ),
     REPRODUCTION_RUN: (
-        "fd74c4a6cb0d663d2846dcd06cf2b3a25a74abff7b285e1e12f995312fd2bbca"
+        "e0ff653fb0898b8542ad591a295a3f666eb6e6de3b9100bb0f3e2a007fd2f1b7"
     ),
 }
 PACKAGE_SHA256 = (
-    "06375fd783735dbc46ba41fdd47d7f774bee35bfa121d74bd6ceb92cdc9bb61f"
+    "77c2dc9d6c84f173bb0b38b457df5ef34874a3db3d76e46691f583b0dfaa8f26"
 )
 PACKAGE_SIZE = 2433019
 METADATA_SHA256 = (
@@ -115,15 +115,15 @@ TARGETS = {
         ),
         "record_sha256": {
             SELECTED_RUN: (
-                "1605ce3471f565f6518ceb73b344fdb5f062d88e834cae5161782a54019bb771"
+                "b98fd2dbd9152236ffedb3a7a15a89ba940ca72abc3a67dc1dc868f1e52ab28f"
             ),
             REPRODUCTION_RUN: (
-                "196af5f6b85f1395805e6580459193616a6ac196afa742dc1697c8e98c9781ea"
+                "91041d322c4161ddf02fbe5c075af0f1f46fad86fbb9912d05cdc5b7fa41d2de"
             ),
         },
         "log_sha256": {
             SELECTED_RUN: (
-                "1b946fc9d4e4cb700c12aab1deaa8ccb03943405b401bf19ad47db1f1e0cc93c"
+                "973ad53207d3ec736f61c4528e48134ddaff73408a18d2b4315cce0711832f26"
             ),
             REPRODUCTION_RUN: (
                 "6b90b5ab7fb16cfcd21ed58d7b2f1e492b1c31aa79b86110d5feea1bbcb4ffae"
@@ -137,7 +137,7 @@ TARGETS = {
         "version_requirements": ["GLIBC_2.17", "GLIBC_2.29"],
         "execution_profile_id": "ra64-universal-v1",
         "image_id": (
-            "sha256:cc8a545183ab61910e87b86b9d498ebff596ec8a253e28272e96f3f7a7fd4488"
+            "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9"
         ),
         "archive_sha256": (
             "bb1c69cf19fcf3cbccaee06cc8b8a01bf7020fb1ac306d3d876530b6e9636012"
@@ -157,10 +157,10 @@ TARGETS = {
         ),
         "record_sha256": {
             SELECTED_RUN: (
-                "9ce55a0ab2c47f66602d1327a654fd8a03298c2524e4e452d237fde974f0a676"
+                "80f9ffdb9c8525ec84e64bac3909fd99a710df6e5d05c5bed9a0e4a86b0936cf"
             ),
             REPRODUCTION_RUN: (
-                "415d5f1158cb29185087305d50231de504feb7b07c7ebfc15644d5501828224d"
+                "071ee8491d60b7e9748d93b35afe77b5d5935aa00078d8a85443bdce3d350741"
             ),
         },
         "log_sha256": {
@@ -179,7 +179,7 @@ TARGETS = {
         "version_requirements": ["GLIBC_2.4", "GLIBC_2.7"],
         "execution_profile_id": "ra32-a30-v1",
         "image_id": (
-            "sha256:e09ffce413cf62c14a24fd8aa3beebbbfaccd5b0b5223ac529d132f4aabd92b9"
+            "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9"
         ),
         "archive_sha256": (
             "e2b103c7bf1fdc9bb3ce3cf7bcde9cf2f3fd473fb0d916e8b4d0b4d278fd1afe"

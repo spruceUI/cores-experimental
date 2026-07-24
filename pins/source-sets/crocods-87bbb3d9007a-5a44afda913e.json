@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "crocods-87bbb3d9007a-5a44afda913e",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/crocods-87bbb3d9007a-5a44afda913e.json",
+    "pin_id": "crocods-87bbb3d9007a-5a44afda913e",
+    "file_sha256": "f8a6a3f72fa41f84c0b657b52a7d63afdb183fce24d6f5325a2ebfe3fa5ce0e1",
+    "content_sha256": "b24f1a3c769b7afe1b6803fe92186f81f4d0bbf2b2aa62e51c968a6069a3c56c"
+  },
+  "sources": {
+    "crocods": {
+      "path": "pins/sources/crocods/87bbb3d9007ac537864278c6c3149ae3291873f8.json",
+      "source_lock_id": "crocods-87bbb3d9007a",
+      "commit": "87bbb3d9007ac537864278c6c3149ae3291873f8",
+      "file_sha256": "8d9b5b70fde49c6240d7d2420cf7b166eeb23bd791e7b60a2b0afa6fb4f5fc53",
+      "content_sha256": "153fa581737cacd3879922bacdfbbd2114651af6d8b900daef8c571e267e5268"
+    }
+  },
+  "content_sha256": "3a9b57821d089d52879b73030483a28a6dd9f0acf1213674602b149ec081c8ae"
+}

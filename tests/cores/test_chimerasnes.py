@@ -14,8 +14,8 @@ CORE_ID = "chimerasnes"
 SOURCE_URL = "https://github.com/jamsilva/chimerasnes.git"
 SOURCE_COMMIT = "04c57c2902c25f36ae5a5d9c57aff851a772c868"
 SOURCE_TREE = "243afd13215337662b2e3e69a802a2bccf38ecd8"
-SELECTED_RUN = "actions-sim-build-core-chimerasnes-v1"
-REPRODUCTION_RUN = "build-core-chimerasnes-local-v1"
+SELECTED_RUN = "actions-sim-build-core-chimerasnes-w3"
+REPRODUCTION_RUN = "build-core-chimerasnes-local-w3"
 
 
 class GwManifestTests(unittest.TestCase):

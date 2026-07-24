@@ -13,7 +13,7 @@ from tests.test_contract_c_only import build_c_only_fixture
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SELECTED_RUN = "actions-sim-build-core-a5200-v1"
+SELECTED_RUN = "actions-sim-build-core-a5200-w3"
 
 
 class A5200LogContractTests(unittest.TestCase):

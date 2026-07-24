@@ -14,8 +14,8 @@ CORE_ID = "mu"
 SOURCE_URL = "https://github.com/libretro/Mu.git"
 SOURCE_COMMIT = "de05588fcb1adca6738dc4cf6a2e6e6c447bf2f2"
 SOURCE_TREE = "e99eae2df1b0564c808663d6a398d597fb5f42b9"
-SELECTED_RUN = "actions-sim-build-core-mu-v1"
-REPRODUCTION_RUN = "build-core-mu-local-v1"
+SELECTED_RUN = "actions-sim-build-core-mu-w3"
+REPRODUCTION_RUN = "build-core-mu-local-w3"
 
 
 class MuManifestTests(unittest.TestCase):

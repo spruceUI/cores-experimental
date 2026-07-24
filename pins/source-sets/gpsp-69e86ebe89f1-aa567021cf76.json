@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "gpsp-69e86ebe89f1-aa567021cf76",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/gpsp-69e86ebe89f1-aa567021cf76.json",
+    "pin_id": "gpsp-69e86ebe89f1-aa567021cf76",
+    "file_sha256": "932fc7736655193ddaa5c2cd075ebba248bc941cb7a1f3676578fad46e2f2b93",
+    "content_sha256": "0a2be55469d373177d59bdfcb35ae72753ebd82715a1ffdb065862a9b2bc1aca"
+  },
+  "sources": {
+    "gpsp": {
+      "path": "pins/sources/gpsp/69e86ebe89f14c3f5f75b809c12c0a953b3d6ce4.json",
+      "source_lock_id": "gpsp-69e86ebe89f1",
+      "commit": "69e86ebe89f14c3f5f75b809c12c0a953b3d6ce4",
+      "file_sha256": "aa615ff57dbd6b5a67ca0e1829831c2004be528549356977974576e6b697a697",
+      "content_sha256": "05256cdcf6530589cffe0ad6c5474f79fb9cd8c39e3b54a659520a23836b6d10"
+    }
+  },
+  "content_sha256": "9880f27631ae97168362e800dcd9feaadc6cf68a8fb22026cc280a8f25f4bcc4"
+}

@@ -14,8 +14,8 @@ CORE_ID = "opera"
 SOURCE_URL = "https://github.com/libretro/opera-libretro.git"
 SOURCE_COMMIT = "5a4eb964e687ad029f3df51cf535a6e63b414181"
 SOURCE_TREE = "33540262f3a4cd88ffe537c303d947178a7da95d"
-SELECTED_RUN = "actions-sim-build-core-opera-v1"
-REPRODUCTION_RUN = "build-core-opera-local-v1"
+SELECTED_RUN = "actions-sim-build-core-opera-w3"
+REPRODUCTION_RUN = "build-core-opera-local-w3"
 
 
 class GwManifestTests(unittest.TestCase):

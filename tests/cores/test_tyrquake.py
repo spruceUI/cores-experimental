@@ -14,8 +14,8 @@ CORE_ID = "tyrquake"
 SOURCE_URL = "https://github.com/libretro/tyrquake.git"
 SOURCE_COMMIT = "e57bb11597e8a00380f30f2627d219da960cf69a"
 SOURCE_TREE = "796dfc170786fcb21a5fd5f5cc9a44f5dd9e1853"
-SELECTED_RUN = "actions-sim-build-core-tyrquake-v1"
-REPRODUCTION_RUN = "build-core-tyrquake-local-v1"
+SELECTED_RUN = "actions-sim-build-core-tyrquake-w3"
+REPRODUCTION_RUN = "build-core-tyrquake-local-w3"
 
 
 class TyrquakeManifestTests(unittest.TestCase):

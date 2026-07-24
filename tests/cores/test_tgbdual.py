@@ -12,7 +12,7 @@ from .support import ROOT, file_sha256, load_core_documents, load_document
 
 CORE_ID = "tgbdual"
 OTHER_CORE_ID = "gambatte"
-PIN_NAME = "tgbdual-bf816b096f1d-8118d938b91c.json"
+PIN_NAME = "tgbdual-bf816b096f1d-e1aa014fb7ae.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -20,12 +20,12 @@ SOURCE_COMMIT = "bf816b096f1dca55ea805337d7c9e78d6b98d839"
 SOURCE_TREE = "96122db14e9117e875c7ecaec7e77519e8be5636"
 SOURCE_LOCK_ID = "tgbdual-bf816b096f1d"
 SELECTION_SHA256 = (
-    "8118d938b91c631b692f56eb6036f669a2fea5e8b8562930135b0a985f5c3d50"
+    "e1aa014fb7ae8743810dff985b19965c880bab0527d500f554094400793070d0"
 )
-SELECTED_RUN = "actions-sim-build-core-tgbdual-v1"
-REPRODUCTION_RUN = "build-core-tgbdual-local-v1"
+SELECTED_RUN = "actions-sim-build-core-tgbdual-w3"
+REPRODUCTION_RUN = "build-core-tgbdual-local-w3"
 PACKAGE_SHA256 = (
-    "e6278d785507b6b02b0526f1189ce64b3ed1c860c823f27e14381ec4a2c71da4"
+    "9e0ebe6e48850a5e97f753a229cac1c2476caf7675d2ad9a8315e35c87ab7bf2"
 )
 METADATA_SHA256 = (
     "1a58735e8a305d82684bd402e92fbf0195b78f12b80883bd602f93eed28f28ef"

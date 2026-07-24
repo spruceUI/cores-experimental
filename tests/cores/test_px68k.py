@@ -14,8 +14,8 @@ CORE_ID = "px68k"
 SOURCE_URL = "https://github.com/libretro/px68k-libretro.git"
 SOURCE_COMMIT = "cc45b55983b4d30c961a313a77df9bcf9461dc63"
 SOURCE_TREE = "eeb7afbc7ec5480788a29fa335f7be5802b0580f"
-SELECTED_RUN = "actions-sim-build-core-px68k-v1"
-REPRODUCTION_RUN = "build-core-px68k-local-v1"
+SELECTED_RUN = "actions-sim-build-core-px68k-w3"
+REPRODUCTION_RUN = "build-core-px68k-local-w3"
 
 
 class Px68kManifestTests(unittest.TestCase):

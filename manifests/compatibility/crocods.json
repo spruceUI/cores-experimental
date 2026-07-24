@@ -4,14 +4,14 @@
   "core_id": "crocods",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/crocods-87bbb3d9007a-7b4aa1fce1f1.json",
+  "golden_source": "pins/core-sets/crocods-87bbb3d9007a-5a44afda913e.json",
   "source_commit": "87bbb3d9007ac537864278c6c3149ae3291873f8",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-crocods-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "09c35111444a61fda4d591c0120c84604d5941ea05a124a705ff757872b07207",
-  "reproduction_run": ".local-e2e/runs/build-core-crocods-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "477a92662b148416a35f16fa6214aa017d9117bec196abc7a7a939cb23ac6c61",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-crocods-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "c61fde30675b6a7b41751c3505eccb8d83a3bd23334b099aa9498accf1846016",
+  "reproduction_run": ".local-e2e/runs/build-core-crocods-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "ca9da6d1214d2e5a000a013270d278b7524e10ed9cd2e8ccb0dbc2ed59dab602",
   "package_state": "reproducible",
-  "package_sha256": "0a7ff92c31cf94a7664876c6d8cdf0391a9abe7f70855fe893af4d734403f25b",
+  "package_sha256": "9504d858daaee44be2f789dde40f53ab532ba7c2e3515a0468d19740e1423d35",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the crocods_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "The armhf artifact has no libstdc++ dependency, so it clears every captured provider ceiling; ARM64 is bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. Provider inspection and target-runtime capture are absent, so every device view remains provisional and ineligible pending a runtime smoke result.",
@@ -57,5 +57,5 @@
       ]
     }
   },
-  "content_sha256": "76b240f75a2969b7d60e02a46305050f78e59496d552a8c3a4ea4b7688f01a60"
+  "content_sha256": "ac5dd6a26107d59250059b2075454d4a4e56c383befe652a5ae105f945d91b5d"
 }

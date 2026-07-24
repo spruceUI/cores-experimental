@@ -27,7 +27,7 @@ from .support import (
 
 CORE_ID = "bluemsx"
 OTHER_CORE_ID = "fmsx"
-PIN_NAME = "bluemsx-5f595c79906f-a1c1fd914a76.json"
+PIN_NAME = "bluemsx-5f595c79906f-e600380ac6d7.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -46,43 +46,43 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "46a90fa7e78b9c164cd5d834b5ccaa1af8da5c5d7031e07bf52b7c2f79c2d894"
 )
 SOURCE_SET_FILE_SHA256 = (
-    "ec911921f26fce362953adb8562b9dce970ec7c2b4d6d61f4d9601c95d59944a"
+    "3d746c6560ed4154c4c9e475ddada028ec8148ec8dc5836b75dff27467051120"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "cdcab72207a166d378f5e3dfb61e2313a632bc0925446a86ded9dc572d446c7d"
+    "5a3237a3056a20f5fca2185c5c22587fce09ec402113d661bffbe9f582ec4996"
 )
 PIN_FILE_SHA256 = (
-    "7c7c30e1a678b8f05def06bc20d9f4f97b1f21e2dfc612f647b979daa9c28959"
+    "ccfe1de55c262d6661d38656fdd24a0cdefa27bdcffc16cd019d5538f0b6fbf8"
 )
 PIN_CONTENT_SHA256 = (
-    "7d0a212be605cf634a3d01dcc3faf5599fb629c58792715f8699bc516c049f59"
+    "f991b2fbed831584737f61d033448c83b647ae7378c8cca1949d86f3a40c0a0e"
 )
 COMPATIBILITY_CONTENT_SHA256 = (
-    "174f47a9e8312b00941c45fca96a20a1179e03f55a86cfb0bdf0585e81c02935"
+    "49ac23b94e7e87edaa47119102fab2d6c43c1ad2f381caa78bf3e3da5114724a"
 )
 SELECTION_SHA256 = (
-    "a1c1fd914a768b75fef16bad1b69d61fb8bc7eca8c6541451c536c48368cbc61"
+    "e600380ac6d791374810b4185b5d506d6be5cd8ec2b92333d139225ac9759c29"
 )
-SELECTED_RUN = "actions-sim-build-core-bluemsx-v1"
-REPRODUCTION_RUN = "build-core-bluemsx-local-v1"
+SELECTED_RUN = "actions-sim-build-core-bluemsx-w3"
+REPRODUCTION_RUN = "build-core-bluemsx-local-w3"
 E2E_CONTENT_SHA256 = {
     SELECTED_RUN: (
-        "eb1a8a4962af898ca58c84ebc62f02e813c0a09f0c0eb8c6af7a5fc808f371e1"
+        "6866d998e861843d5eb66ecdd65e13e1fe726be17a23fb875570b48f9ffcaec1"
     ),
     REPRODUCTION_RUN: (
-        "c06ccc587a3c51d7f9e461eecf29fc1699fdac31407eb307e4603daaab37a296"
+        "6629b72940b172e07ddd4e416712411e4b438783d2bcbc417e1000f136644cbb"
     ),
 }
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "de99789cd3140674a749410efe00fd34e8876ee9fba52125d1a4d363f6bfb99d"
+        "79834324e1ec83eae1d0184074d0864997bb7491c647a3489695e03b09020d60"
     ),
     REPRODUCTION_RUN: (
-        "2ec9fb8e54c3db180d749a6804c2d981826c426ba7a3a8b41f71e29994fdc8d6"
+        "23a827566bd9f6d9a5ecd3869d45e443616095d9c4659d8c3cc03441478cff0b"
     ),
 }
 PACKAGE_SHA256 = (
-    "c8629c729b2487bc21d6d9bbd9de53aed28d341c919daefb23070a648de82319"
+    "8ec3c360d6be309730509311eb5cadce01b9dfeb173debc536f353908c8d7c9f"
 )
 PACKAGE_SIZE = 1513398
 METADATA_SHA256 = (
@@ -136,10 +136,10 @@ TARGETS = {
         "artifact_size": 1812712,
         "record_sha256": {
             SELECTED_RUN: (
-                "68d4ca619510ca37afb2ba54db915ee95e306979088d3666f5e9e445e8ace8f3"
+                "d958846a9c629c4aa5472cea1d16dcb39e0b5d4f2986d6b081f48517933fcd4a"
             ),
             REPRODUCTION_RUN: (
-                "5d9b74e3c7252c6c87690ce7e1dea2fc1a035c3bd3aed75d1a0f9fe5dec2ed22"
+                "b8013ac988e98c4f1d0217d6fcfa27f6442ed34dd68e7268588461073835c4b5"
             ),
         },
         "log_sha256": (
@@ -178,7 +178,7 @@ TARGETS = {
         "artifact_size": 1538228,
         "record_sha256": {
             SELECTED_RUN: (
-                "5d705e670279c2495c9866f2a394f6d23ccfb6557d7e9b8ba5c950f6bab4d25d"
+                "797f4a94ae98c9d5f5dbd311a98bb7156948b62f4d24076bced5588cef851b1e"
             ),
             REPRODUCTION_RUN: (
                 "2427046570e1dd137399e6cbf6ed33dc838b5cacb221735920b679e6cb6363ac"
@@ -442,20 +442,20 @@ class BlueMsxCoreEvidenceTests(unittest.TestCase):
         }
         target_hashes = {
             "nightly": (
-                "8d6e7037d794abc053ab37a14836c23b30514aca0cd4345139668dfbb02ae45a"
+                "b3be23443add7d382e5d3566ebaad63d0610f0da7a842466e1b7c181e07e2a55"
             ),
             "pinned": PIN_FILE_SHA256,
             "release": (
-                "d1fd84f19102b97f05335e485a44c333b4ef1a2045a17c2634f1b506f55551b2"
+                "0c4330ea6d2022f77069a353ab96f52cfc942f7a9f22a4d8beffcd8f728fce0c"
             ),
         }
         content_hashes = {
             "nightly": (
-                "a020318a215f41ad20f57b241dfdef3d3a470114382c5c30d8b8c828dd532897"
+                "fcd03723f9016de8a9b070cb790b86b5d9bb5d2553e8e83d322181023e174760"
             ),
             "pinned": PIN_CONTENT_SHA256,
             "release": (
-                "78ce5849f8f202e77ded22a664a03ed6710a75d12082fe3822989ec61127f28f"
+                "8497b7e4c25349d9dba21dec7b5a413f59313a4812550ed33cd4d53d761b6570"
             ),
         }
         for channel, target_path in target_paths.items():

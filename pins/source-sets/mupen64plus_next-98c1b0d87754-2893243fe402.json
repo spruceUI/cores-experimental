@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "mupen64plus_next-98c1b0d87754-2893243fe402",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/mupen64plus_next-98c1b0d87754-2893243fe402.json",
+    "pin_id": "mupen64plus_next-98c1b0d87754-2893243fe402",
+    "file_sha256": "b20b3106aa1cb80fa72e566d0cb0445ec133bf5d24268d08178274363dd7ab5b",
+    "content_sha256": "f53035e8b5a0ea1d0ad4be063b5b76b6ca42db50abee007849cfc4abc2c1688d"
+  },
+  "sources": {
+    "mupen64plus_next": {
+      "path": "pins/sources/mupen64plus_next/98c1b0d877542b01314b3b04272282ba223b65b3.json",
+      "source_lock_id": "mupen64plus_next-98c1b0d87754",
+      "commit": "98c1b0d877542b01314b3b04272282ba223b65b3",
+      "file_sha256": "403af82411987689ec501815652fd34e5b1e1c582868813a3ee567c4b42811b8",
+      "content_sha256": "37110ae4e6e7962a1f15faff698fcd2caad0f5fe8f66d1b3b4d4e06aed27217a"
+    }
+  },
+  "content_sha256": "bd1e95b916f8cec9695d4546f771a68fd40b195e461f45b42016c62263d88cc0"
+}

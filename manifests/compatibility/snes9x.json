@@ -4,14 +4,14 @@
   "core_id": "snes9x",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/snes9x-185488cd83aa-1007f6c98b6b.json",
+  "golden_source": "pins/core-sets/snes9x-185488cd83aa-b7aaac2ae7c1.json",
   "source_commit": "185488cd83aaf274752a742c94d45561cbecb7af",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-snes9x-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "c98d83c4ecd21700c2b848d4ac225b6006d7cc662c4abdf198f75422c1117bc8",
-  "reproduction_run": ".local-e2e/runs/build-core-snes9x-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "5404448ecc3235216d981172ef587217339cb3b594d1b35b8d8c371d98b0b441",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-snes9x-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "1249f98df6f2b8e70ff36f164ff20ce4a3b2d052b9c0d7a86d7d22225fafa3f4",
+  "reproduction_run": ".local-e2e/runs/build-core-snes9x-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "50fb22f0e167d85cec2ff8f4ce979af88f827be81631a97f5525cb44b7b3ccf4",
   "package_state": "reproducible",
-  "package_sha256": "3d734cbaeb15e0ef12bc682970cf6cf26cc2be4ab4cbfaa2c4b92d8b799a81ef",
+  "package_sha256": "83223c6aa78ed8ff1d55d8990ff6e47d4a3f6c222737c5a8e0c4b63246cdfe40",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the snes9x_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -78,5 +78,5 @@
       ]
     }
   },
-  "content_sha256": "544b30f9eb93571561bc27f3cc6a846dc9289fe25392caf0b35d6f9f74796949"
+  "content_sha256": "c9e0171cb382a2852512c3c0f65fdc02f7118d5a5d90ba6a7f48d7a226d65a1e"
 }

@@ -26,7 +26,7 @@ from .support import (
 
 CORE_ID = "mednafen_vb"
 OTHER_CORE_ID = "mednafen_pcfx"
-PIN_NAME = "mednafen_vb-38e7a0ec9ac7-20575c76c389.json"
+PIN_NAME = "mednafen_vb-38e7a0ec9ac7-ed193088da99.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -35,28 +35,28 @@ SOURCE_TREE = "842c635c9a5fdbef374616f01fa2d57bf1ec3fa7"
 SOURCE_URL = "https://github.com/libretro/beetle-vb-libretro.git"
 SOURCE_LOCK_ID = "mednafen_vb-38e7a0ec9ac7"
 SELECTION_SHA256 = (
-    "20575c76c389669a2d836a2af676949d08f3b2d960a31d47d2ed6e5259007c52"
+    "ed193088da99527a017385d85c38de62475f7e5d1e2ad37cc3e0d773e7d1de51"
 )
-SELECTED_RUN = "actions-sim-build-core-mednafen_vb-v1"
-REPRODUCTION_RUN = "build-core-mednafen_vb-local-v1"
+SELECTED_RUN = "actions-sim-build-core-mednafen_vb-w3"
+REPRODUCTION_RUN = "build-core-mednafen_vb-local-w3"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "3e7afd592afd1084e0d093cf5b91c96a411e5b062d257757f5a272e669d10fec"
+    "6421a4fc92f15969583d2cd114e75016e96876da312a0e7be5a00393aee89176"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "49ae6645ea6c9171523da113311e0158684f67654cfc3b88d3a3870dd4491b2b"
+    "506279cdf1bfeafede7259232b885312ac821fa11fec1c7a05c4237b2340493a"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "dbf5d50aa50a1051c21e99eb72098d9a717be65c18477875b6ee5682e4fe4f86"
+        "6f671f5e512a5287f3307993ec273dc3f7f2077a98bbacb29964c63ad91780a4"
     ),
     REPRODUCTION_RUN: (
-        "1309a9041e03cf482adde95eb01b4788957ab3ba211eff54a631fef06281f51d"
+        "6dadab02ca70fb5a4d6f669862df87a6a69b774a4af4b1ad81537c1a58bba310"
     ),
 }
 PACKAGE_SHA256 = (
-    "d8383c569494e8e910e5a95230d940b0c33e520b9dade3c6b2f0129c77b4b93c"
+    "5f30af0cb6af06d28d445b73e95ab655275cffbef39160bd315c4c155dbc0a43"
 )
-PACKAGE_SIZE = 158436
+PACKAGE_SIZE = 158435
 METADATA_SHA256 = (
     "425e0ef983f72b7e938af8cc170d2ddc1cb6b0a19a98aa4fce49bb2957567236"
 )
@@ -85,10 +85,10 @@ TARGETS = {
         "artifact_size": 206328,
         "record_sha256": {
             SELECTED_RUN: (
-                "82f89fdfe41e40fc864a4a573154070924387775a4e0bb28379603bcf07a19fa"
+                "7206b30bcb870ee3260d5bb080ffadd5e57ab4674e105a62eaa60552146762c9"
             ),
             REPRODUCTION_RUN: (
-                "10a41058a2ec34d018d5f4f20bae08ff0fcd4d2c76783307cef105ce1add49cc"
+                "caf4c434f43c161b771c8689bc15456e495175b5f16cad58fbaf650117367ede"
             ),
         },
         "log_sha256": (
@@ -119,10 +119,10 @@ TARGETS = {
         "artifact_size": 153412,
         "record_sha256": {
             SELECTED_RUN: (
-                "4bb21277f6bab227f76b7348cbb39d2c2f9afe60c93435a68dfade3761ce3e52"
+                "ba0ed193c51c0500f873954908c04629e2d8b4ec22f53537d77316a357cc745e"
             ),
             REPRODUCTION_RUN: (
-                "2f219c6d334aa04a89442c69196afbe4ed201fa5a3f2f6127da3330cbecf28fb"
+                "bae1f397d28b60bbb17c198489458e9175246914521a56dce2f442b9449b93fc"
             ),
         },
         "log_sha256": (

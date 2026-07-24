@@ -4,14 +4,14 @@
   "core_id": "uae4arm",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/uae4arm-dafd48fad751-aaae0e3bbc3a.json",
+  "golden_source": "pins/core-sets/uae4arm-dafd48fad751-10f060a87a8a.json",
   "source_commit": "dafd48fad7510ebc2f90ebdee8331bbdcf65fd49",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-uae4arm-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "9f8123afb2dae283a12abbb9f2e36dd12b84921cc85d1f36aa22f1b5d52c91bb",
-  "reproduction_run": ".local-e2e/runs/build-core-uae4arm-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "17341b40a0dad32f7383a8d2547bc899294fe16212e85a18758c5a187d061aa7",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-uae4arm-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "668a05cd47828234eba5a58a890790d3c80403ed553974900fd05075a2b2b637",
+  "reproduction_run": ".local-e2e/runs/build-core-uae4arm-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "3f41b6a0bf06455537f2c7f84cb2ad33f485e181294dd2f990cd30b11101f638",
   "package_state": "reproducible",
-  "package_sha256": "f643071968be9f921ef22c6a6815d131ee83f1cd30a28b334503872523ae597e",
+  "package_sha256": "269d1e1daa6379e1122a298382d5c8a1270d63f0f9055ec92ba88cb22ded0dcf",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the uae4arm_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF requires GLIBCXX_3.4.32, above the observed non-enforcing Miyoo Mini fallback provider value GLIBCXX_3.4.24, so the Mini profile is ineligible; A30 is the eligible 32-bit consumer at the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -45,5 +45,5 @@
       ]
     }
   },
-  "content_sha256": "afb895020b6d0271492feb6db2d6df4e704ec25eefa8063c1f145b4aaa40f940"
+  "content_sha256": "00c284e7c3530bfe98b5e99b7f8f7a0fb78c66b9ad2fa9ec4d8823ef393dc8af"
 }

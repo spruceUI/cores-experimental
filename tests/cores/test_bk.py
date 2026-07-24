@@ -14,8 +14,8 @@ CORE_ID = "bk"
 SOURCE_URL = "https://github.com/libretro/bk-emulator.git"
 SOURCE_COMMIT = "fe64da42ee463c1b2f4d0566e4d0f7a9667506f6"
 SOURCE_TREE = "7936963f4fcfbd4961f49b2d9ae722a7ab31b85f"
-SELECTED_RUN = "actions-sim-build-core-bk-v1"
-REPRODUCTION_RUN = "build-core-bk-local-v1"
+SELECTED_RUN = "actions-sim-build-core-bk-w3"
+REPRODUCTION_RUN = "build-core-bk-local-w3"
 
 
 class GwManifestTests(unittest.TestCase):

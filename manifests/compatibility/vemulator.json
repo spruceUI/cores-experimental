@@ -4,14 +4,14 @@
   "core_id": "vemulator",
   "publication": "disabled",
   "evidence_availability": "workspace-local-ignored",
-  "golden_source": "pins/core-sets/vemulator-7fade9550620-3744d68f3097.json",
+  "golden_source": "pins/core-sets/vemulator-7fade9550620-c95725b18206.json",
   "source_commit": "7fade95506201aed83316cc3f2efe3d7cecf75a7",
-  "e2e_run": ".local-e2e/runs/actions-sim-build-core-vemulator-v1/e2e-record.json",
-  "selected_e2e_content_sha256": "96e024289bb517d349fdc94dc18865840f4c55c77071102f49a0f29dfe31052e",
-  "reproduction_run": ".local-e2e/runs/build-core-vemulator-local-v1/e2e-record.json",
-  "reproduction_e2e_content_sha256": "8d3270f42bbce724a09ebb79a5e4c91ea81b9c3cd22ba1bbcbed44f764ecc075",
+  "e2e_run": ".local-e2e/runs/actions-sim-build-core-vemulator-w3/e2e-record.json",
+  "selected_e2e_content_sha256": "625df01df47d9068c73ec76c9df374abcfe3501ceb4c48724c710261c17a7ca7",
+  "reproduction_run": ".local-e2e/runs/build-core-vemulator-local-w3/e2e-record.json",
+  "reproduction_e2e_content_sha256": "5e704f97550df04522cd2f007790d37dba13d0d25bb6c09ebbe6918b2b9846f1",
   "package_state": "reproducible",
-  "package_sha256": "d4fea76a59dc75d1ef91e85906a7595442ee8f8e8164d9c92651c5309b9797d3",
+  "package_sha256": "8ef92758c671d01d59ef801cc64400990ca83d030d533f772d8b87c0dea73aa8",
   "caveats": [
     "The publication-disabled simulated-Actions build-core run and the independent native-local build-core run reproduced the vemulator_libretro.zip package, resolver metadata, both ABI artifacts, and both active-marker build logs byte for byte. Execution was local; both builds cloned the pinned source over the network, so no offline source cache is proven.",
     "This is static build/package evidence only. ARM64 is build-identity-bound to ra64-universal-v1 and ARMHF to ra32-a30-v1. ARMHF's maximum GLIBCXX_3.4 is within the observed Miyoo Mini fallback provider ceiling GLIBCXX_3.4.24, so both the Mini and A30 profiles clear the ABI screen. Provider inspection and target-runtime capture are absent, so every execution profile and device view remains provisional and ineligible pending a runtime smoke result.",
@@ -58,5 +58,5 @@
       ]
     }
   },
-  "content_sha256": "74e8487bffe23a121cbba0959157121044efd16779101ed686ebfd84cfabb84a"
+  "content_sha256": "6557ce9e93bc39b1ea960d7dc01c6ff088b02aea399696335d6ee4d1acf7d151"
 }

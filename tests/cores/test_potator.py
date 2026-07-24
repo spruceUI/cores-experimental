@@ -23,7 +23,7 @@ from .support import (
 
 CORE_ID = "potator"
 OTHER_CORE_ID = "race"
-PIN_NAME = "potator-227c5f6f3ce7-1617e2249087.json"
+PIN_NAME = "potator-227c5f6f3ce7-66e2c96acf38.json"
 SEMANTIC_ID = PIN_NAME.removesuffix(".json")
 PIN_PATH = f"pins/core-sets/{PIN_NAME}"
 SOURCE_SET_PATH = f"pins/source-sets/{PIN_NAME}"
@@ -42,41 +42,41 @@ SOURCE_LOCK_CONTENT_SHA256 = (
     "5fcaf01f34d511e0d37d086b8962d4a689ffad1be725f895a66c9137c5bb5086"
 )
 SOURCE_SET_CONTENT_SHA256 = (
-    "bd5f88b4464c3cc19b3a96fb3d24ffa6c8160d594f9a41469e215c3c56b2fb58"
+    "18a3398d1a0d588346b02dea847f63abcde1c9076cb85b66f797fca8aff463d9"
 )
 PIN_FILE_SHA256 = (
-    "ccd091f4d07718403b1fc850941b8ef51b308842051f3da8c8bef95c8dbb4f02"
+    "3de10207e80a7e47004c87f5e5e980bc6f92c777a5343468ce06652d172cf5c5"
 )
 PIN_CONTENT_SHA256 = (
-    "4ecdd52cace1899b09baad6c0d4326b9baa7ec39d93b6c00d33bb392149545fb"
+    "9d96c53565a74785be6392a091769dea1e9b04d23b6e8d3f6012c05f31144862"
 )
 GOLDEN_FILE_SHA256 = (
-    "3c3d3f88615f93f75bd643417b86f4188f1e3fc35ec0ff72af25a5df73d33891"
+    "2053d57aa38f1e52a8d63f4e775bcc3f5037a70105252145b4b288d74804d896"
 )
 GOLDEN_CONTENT_SHA256 = (
-    "9ab30cbef1f6a2e8c8cb735815c52e3ccbcfdeff97bb38c161b379f45e858709"
+    "98a6cfb53cf36a46bbdee6a5ca2ef24714c74c255ac6870a41183e789b97c318"
 )
 SELECTION_SHA256 = (
-    "1617e22490871ddecd82a449a8590fd0db82b2a7f23cf914d0106922b54a94b2"
+    "66e2c96acf382d506aabc8e708c2399998a2517f8fd8e55412814d97cce8c51a"
 )
-SELECTED_RUN = "actions-sim-build-core-potator-v1"
-REPRODUCTION_RUN = "build-core-potator-local-v1"
+SELECTED_RUN = "actions-sim-build-core-potator-w3"
+REPRODUCTION_RUN = "build-core-potator-local-w3"
 SELECTED_E2E_CONTENT_SHA256 = (
-    "1b455b3fab42fb7506c426a95e4ec883d86700fb81ab370eeb58432532af8b96"
+    "6bb81226e712383a7df4e117a665412a68b56ebd9d91684e1bf89b11f7c208ea"
 )
 REPRODUCTION_E2E_CONTENT_SHA256 = (
-    "abcf3871f1356ddfe3a4adf09fd342045dcadcff8610963918e1607750a00044"
+    "feaceb99f3b7a3a5da89c37cb1f10a9077e78727a0ba922b50a98ec9d5b26d13"
 )
 E2E_FILE_SHA256 = {
     SELECTED_RUN: (
-        "5fb16c9c22651ba522e63e63f713c75a8389320f2c218615713a16455b2152e4"
+        "c726f9b225dcbebbccc860cec894a378fab93a1d534cb0c0642d69093a9df2f3"
     ),
     REPRODUCTION_RUN: (
-        "3a589debb934cfb49d655b5b43e4ee2bff8c5a258efc0e96b73a6c8a555ec548"
+        "759a4fc63fc52d1d2d1b07b2aa1fcdf8cef6c0d3ca5ffaa9c7861a2acbf0a348"
     ),
 }
 PACKAGE_SHA256 = (
-    "31d5e38ea09a64ec3f28519a80d1079f009e977099282d30cdba51ec875209b5"
+    "601a7088532366868584baebb23b28b6ecaf60a60947badb4408bb813527911c"
 )
 PACKAGE_SIZE = 46578
 METADATA_SHA256 = (
@@ -107,10 +107,10 @@ TARGETS = {
         "artifact_size": 72328,
         "record_sha256": {
             SELECTED_RUN: (
-                "fcd65a5f8b9a024c09e93b9d5710096fe36df81b4480fd007c126749fdb6c58f"
+                "4a63966cb49e9e1114a45e30bbfddd04e72dbb3f295a83a7f8f724aad5062a9d"
             ),
             REPRODUCTION_RUN: (
-                "15403612221e279c171dd63a48e38271ae0fc51042f5d25bb81f3c49074f890e"
+                "6843d9dfb669aad2d7b108b35d4b2a45fff10e7330768e05cf9650f4e81c4d31"
             ),
         },
         "log_sha256": (
@@ -128,10 +128,10 @@ TARGETS = {
         "artifact_size": 57560,
         "record_sha256": {
             SELECTED_RUN: (
-                "28773fa77d8e7093cc57c9206bf746163e1f095d71c3ff8effaae0adfb4a9b2d"
+                "ef43784bd46b3514a0673d2e5954bddf15303363366d4ec14658839ad4318513"
             ),
             REPRODUCTION_RUN: (
-                "5b7e473363fab15be8cfd63c4795d06310484e7a52695e94faa0bdaacaa78ab3"
+                "5f3143f38b9f3529860125ae84e31a5b527a2b479a3f481c68ff9988d9394ea3"
             ),
         },
         "log_sha256": (

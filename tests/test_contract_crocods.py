@@ -50,8 +50,8 @@ ORACLE_LOG_IDENTITIES = {
     ),
 }
 CURRENT_REAL_LOG_RUNS = (
-    "actions-sim-build-core-crocods-v1",
-    "build-core-crocods-local-v1",
+    "actions-sim-build-core-crocods-w3",
+    "build-core-crocods-local-w3",
 )
 
 

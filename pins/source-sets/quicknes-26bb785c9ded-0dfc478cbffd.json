@@ -1,0 +1,23 @@
+{
+  "$schema": "../../manifests/core-source-set.schema.json",
+  "schema_version": 1,
+  "source_set_id": "quicknes-26bb785c9ded-0dfc478cbffd",
+  "local_only": true,
+  "publication": "disabled",
+  "evidence_pin": {
+    "path": "pins/core-sets/quicknes-26bb785c9ded-0dfc478cbffd.json",
+    "pin_id": "quicknes-26bb785c9ded-0dfc478cbffd",
+    "file_sha256": "526bb85b86d2fae4bb8b8d55f79f961f798181f612ade67da00f199d90452ab0",
+    "content_sha256": "d55b87cf28f726ae83b654b775a908b1328417a6e5ee0dfefa66f5e2d8a4fdba"
+  },
+  "sources": {
+    "quicknes": {
+      "path": "pins/sources/quicknes/26bb785c9deddb66a17717b21bb4e328f03ade32.json",
+      "source_lock_id": "quicknes-26bb785c9ded",
+      "commit": "26bb785c9deddb66a17717b21bb4e328f03ade32",
+      "file_sha256": "bf73be9c81cb52a0de8276137d79ae5fd8cc1b182647a600133694c52acb5b09",
+      "content_sha256": "4e8be2d851d477f0bafa84ac6570776defbbed59d62be570a75d3760956e6ca3"
+    }
+  },
+  "content_sha256": "4a86da56f93e196e887fd50dcf590034005b523c185e101a1eea22850d25a477"
+}
