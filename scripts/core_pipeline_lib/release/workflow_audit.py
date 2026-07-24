@@ -27,7 +27,7 @@ WORKER_PATH = Path(".github/workflows/_build-one-core.yml")
 WORKER_REFERENCE = "./.github/workflows/_build-one-core.yml"
 EXPECTED_WORKFLOW_SHA256 = {
     "coordinator": "f621bb5c002728c8f23aabf9ae426ca71a074c819fbdd3d4e398a8c605625df3",
-    "worker": "cf12caba053e99521cf173255b78e04fe50968b0172359c3b3025ee3bdbfd5b6",
+    "worker": "1ddb6293018f00de6e3974c92a1d2b99e23c4e7abcc6fa3210000d9a2e79fb85",
 }
 
 APPROVED_ACTION_REVISIONS = {
@@ -698,9 +698,9 @@ def _audit_worker(text: str, record: dict[str, Any]) -> None:
         errors.append("toolchain archives must be staged below RUNNER_TEMP")
     if re.search(r"gh\s+release\s+download[^\n]*--dir\s+\.(?:\s|$)", build_text):
         errors.append("toolchain archives must not be downloaded into the repository")
-    if len(re.findall(r"gh\s+release\s+download\s+toolchains", build_text)) != 2:
-        errors.append("worker must download exactly two toolchain archives")
-    for architecture in ("arm64", "armhf"):
+    if len(re.findall(r"gh\s+release\s+download\s+toolchains", build_text)) != 3:
+        errors.append("worker must download exactly three toolchain archives")
+    for architecture in ("arm64", "armhf", "rust"):
         archive = f"cores-{architecture}.tar.gz"
         if f'--pattern "{archive}"' not in build_text:
             errors.append(f"worker must download {archive}")
@@ -713,7 +713,7 @@ def _audit_worker(text: str, record: dict[str, Any]) -> None:
     verify_position = build_text.find("scripts/toolchain_archive.py verify-downloads")
     load_position = build_text.find("docker load")
     if verify_position < 0 or load_position < 0 or verify_position >= load_position:
-        errors.append("worker must verify both archives before loading either image")
+        errors.append("worker must verify every archive before loading any image")
 
     if '--output-dir "$RESULT_PARENT/$CORE_ID"' not in build_text:
         errors.append("record-release-result output must preserve the core directory")
