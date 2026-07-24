@@ -570,6 +570,24 @@ PORTABLE_FFMPEG_MAKE_VARIABLES = {
     "OPENGL": 0,
 }
 PORTABLE_FFMPEG_MAKE_PROFILE = "portable-ffmpeg-v1"
+PORTABLE_FFMPEG_OVERLAY = {
+    "kind": "git-apply-v1",
+    "patch_path": "patches/ffmpeg/makefile-ffmpeg-sort-wildcard-sources.patch",
+    "patch_sha256": (
+        "81e3f8b8722e048eda0749588482257351960862bdcc82c89ac94448e8e280c0"
+    ),
+    "source_path": "libretro/Makefile.ffmpeg",
+    "preimage_sha256": (
+        "d5734bff3fdda57246a4cb5b801fe1d97491ccfdb4324582ca9443957ee827e4"
+    ),
+    "postimage_sha256": (
+        "2d223630fb9f7b21827ba848ce2e5d46e408d268dbabd2f3227d82d48821f8c4"
+    ),
+}
+PORTABLE_FFMPEG_OVERLAYS = {
+    "arm64": [dict(PORTABLE_FFMPEG_OVERLAY)],
+    "armhf": [dict(PORTABLE_FFMPEG_OVERLAY)],
+}
 PORTABLE_FFMPEG_BUILD_KEYS = frozenset(
     {
         "artifact_name",
@@ -1498,6 +1516,7 @@ class MakeVariableProfileFacts(NamedTuple):
     makefile: str = "Makefile"
     golden_epoch: bool | None = None
     forbidden_compile_macros: frozenset[str] = frozenset()
+    expected_overlays: dict | None = None
 
 
 def _make_variable_profile_facts() -> dict[str, MakeVariableProfileFacts]:
@@ -1517,6 +1536,7 @@ def _make_variable_profile_facts() -> dict[str, MakeVariableProfileFacts]:
             make_subdir_libretro=True,
             golden_epoch=True,
             forbidden_compile_macros=PORTABLE_FFMPEG_FORBIDDEN_COMPILE_MACROS,
+            expected_overlays=PORTABLE_FFMPEG_OVERLAYS,
         ),
         VECX_SOFTWARE_MAKE_PROFILE: MakeVariableProfileFacts(
             variables=VECX_SOFTWARE_MAKE_VARIABLES,
@@ -2018,6 +2038,15 @@ def validated_make_variables(spec: dict) -> dict[str, int]:
                 "build.source_date_epoch is required with build.make_variables"
             )
         expected_build_keys = facts.expected_build_keys
+        if facts.expected_overlays is not None:
+            # A profile may declare exact reviewed overlays; the build must
+            # then carry precisely that mapping.
+            expected_build_keys = frozenset(expected_build_keys) | {"overlays"}
+            if build.get("overlays") != facts.expected_overlays:
+                raise PipelineError(
+                    f"build.overlays must equal the exact reviewed "
+                    f"{facts.contract_name} overlay contract"
+                )
         contract_name = facts.contract_name
     else:
         if not vecx_software_identity_is_well_formed(spec):

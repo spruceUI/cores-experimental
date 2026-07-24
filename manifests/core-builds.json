@@ -832,6 +832,28 @@
           "OPENGL": 0
         },
         "output_path": "dist/unix/ffmpeg_libretro.so",
+        "overlays": {
+          "arm64": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/ffmpeg/makefile-ffmpeg-sort-wildcard-sources.patch",
+              "patch_sha256": "81e3f8b8722e048eda0749588482257351960862bdcc82c89ac94448e8e280c0",
+              "postimage_sha256": "2d223630fb9f7b21827ba848ce2e5d46e408d268dbabd2f3227d82d48821f8c4",
+              "preimage_sha256": "d5734bff3fdda57246a4cb5b801fe1d97491ccfdb4324582ca9443957ee827e4",
+              "source_path": "libretro/Makefile.ffmpeg"
+            }
+          ],
+          "armhf": [
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/ffmpeg/makefile-ffmpeg-sort-wildcard-sources.patch",
+              "patch_sha256": "81e3f8b8722e048eda0749588482257351960862bdcc82c89ac94448e8e280c0",
+              "postimage_sha256": "2d223630fb9f7b21827ba848ce2e5d46e408d268dbabd2f3227d82d48821f8c4",
+              "preimage_sha256": "d5734bff3fdda57246a4cb5b801fe1d97491ccfdb4324582ca9443957ee827e4",
+              "source_path": "libretro/Makefile.ffmpeg"
+            }
+          ]
+        },
         "source_date_epoch": 1598579820,
         "source_dir": "libretro-ffmpeg",
         "source_key": "ffmpeg"
@@ -2060,6 +2082,14 @@
               "postimage_sha256": "b89f3bdfa604c0414e294c6e0382dd995e04a01504aeb9f97f8277c9186f2b70",
               "preimage_sha256": "6f14de3134684c44e2661fb45933facd5779f831395dcef9654cdd7b39b5fb1c",
               "source_path": "sdl/Makefile.common"
+            },
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/np2kai/makefile-libretro-sort-wildcard-sources.patch",
+              "patch_sha256": "fbbf83c0357d4c4f13c364060352d019d330e1e161c4948dd915008579a60941",
+              "postimage_sha256": "a35cd56a7145bd2a7da4fe56782fe05e0976e503b894a5b9f261c54f49d7fc79",
+              "preimage_sha256": "2297a7200d42f09b842791f2c8bce663cee5df3ecfc263ccb01cec29121a3d93",
+              "source_path": "sdl/Makefile.libretro"
             }
           ],
           "armhf": [
@@ -2070,6 +2100,14 @@
               "postimage_sha256": "b89f3bdfa604c0414e294c6e0382dd995e04a01504aeb9f97f8277c9186f2b70",
               "preimage_sha256": "6f14de3134684c44e2661fb45933facd5779f831395dcef9654cdd7b39b5fb1c",
               "source_path": "sdl/Makefile.common"
+            },
+            {
+              "kind": "git-apply-v1",
+              "patch_path": "patches/np2kai/makefile-libretro-sort-wildcard-sources.patch",
+              "patch_sha256": "fbbf83c0357d4c4f13c364060352d019d330e1e161c4948dd915008579a60941",
+              "postimage_sha256": "a35cd56a7145bd2a7da4fe56782fe05e0976e503b894a5b9f261c54f49d7fc79",
+              "preimage_sha256": "2297a7200d42f09b842791f2c8bce663cee5df3ecfc263ccb01cec29121a3d93",
+              "source_path": "sdl/Makefile.libretro"
             }
           ]
         },
