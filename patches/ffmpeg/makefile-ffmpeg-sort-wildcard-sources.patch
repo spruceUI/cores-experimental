@@ -1,0 +1,76 @@
+diff --git a/libretro/Makefile.ffmpeg b/libretro/Makefile.ffmpeg
+--- a/libretro/Makefile.ffmpeg
++++ b/libretro/Makefile.ffmpeg
+@@ -7,7 +7,7 @@
+ 	HAVE_ZLIB = 1
+ 	DEFINES     += -DWANT_ZLIB
+ 	INCFLAGS    += -I$(DEPS_DIR)/libz
+-	DEPS_SOURCE += $(wildcard $(DEPS_DIR)/libz/*.c)
++	DEPS_SOURCE += $(sort $(wildcard $(DEPS_DIR)/libz/*.c))
+ endif
+ 
+ ifeq ($(INTERNAL_LIBFLAC),0)
+@@ -18,7 +18,7 @@
+ 	INCFLAGS += -I$(LIBFLAC_DIR) -I$(LIBFLAC_DIR)/include
+ 	DEFINES  += -DHAVE_LROUND
+ 	HAVE_LIBFLAC = 1
+-	DEPS_SOURCE += $(wildcard $(LIBFLAC_DIR)/*.c)
++	DEPS_SOURCE += $(sort $(wildcard $(LIBFLAC_DIR)/*.c))
+ endif
+ 
+ ifeq ($(INTERNAL_LIBOPUS),0)
+@@ -69,7 +69,7 @@
+ else
+ 	HAVE_LIBLAME = 1
+ 	INCFLAGS += -I$(DEPS_DIR)/libmp3lame
+-	DEPS_SOURCE += $(wildcard $(DEPS_DIR)/libmp3lame/*.c)
++	DEPS_SOURCE += $(sort $(wildcard $(DEPS_DIR)/libmp3lame/*.c))
+ endif
+ 
+ ifeq ($(HAVE_NEON),1)
+@@ -107,7 +107,7 @@
+ else
+ 	INCFLAGS += -I$(DEPS_DIR)/libfaac
+ 	HAVE_LIBFAAC = 1
+-	DEPS_SOURCE += $(wildcard $(DEPS_DIR)/libfaac/*.c)
++	DEPS_SOURCE += $(sort $(wildcard $(DEPS_DIR)/libfaac/*.c))
+ endif
+ 
+ ifeq ($(INTERNAL_WAVPACK),0)
+@@ -1329,7 +1329,7 @@
+ endif
+ 
+ ifeq ($(ARCH_ARM),1)
+-LIBAVUTIL_SOURCE += $(filter-out $(AVUTIL_BLACKLIST),$(wildcard $(AVUTIL_DIR)/arm/*.c))
++LIBAVUTIL_SOURCE += $(filter-out $(AVUTIL_BLACKLIST),$(sort $(wildcard $(AVUTIL_DIR)/arm/*.c)))
+ endif
+ 
+ ifeq ($(ARCH_PPC),1)
+@@ -1440,7 +1440,7 @@
+ AVFORMAT_BLACKLIST += $(AVFORMAT_DIR)/unix.c
+ endif
+ 
+-LIBAVFORMAT_SOURCE += $(filter-out $(AVFORMAT_BLACKLIST),$(wildcard $(AVFORMAT_DIR)/*.c))
++LIBAVFORMAT_SOURCE += $(filter-out $(AVFORMAT_BLACKLIST),$(sort $(wildcard $(AVFORMAT_DIR)/*.c)))
+ endif
+ 
+ #libavcodec
+@@ -1846,15 +1846,15 @@
+ 
+ AVCODEC_BLACKLIST += $(AVCODEC_DIR)/videotoolbox.c
+ 
+-LIBAVCODEC_SOURCE += $(filter-out $(AVCODEC_BLACKLIST),$(wildcard $(AVCODEC_DIR)/*.c))
++LIBAVCODEC_SOURCE += $(filter-out $(AVCODEC_BLACKLIST),$(sort $(wildcard $(AVCODEC_DIR)/*.c)))
+ 
+ ifeq ($(ARCH_ARM),1)
+-LIBAVCODEC_SOURCE += $(filter-out $(AVCODEC_BLACKLIST),$(wildcard $(AVCODEC_DIR)/arm/*.c))
++LIBAVCODEC_SOURCE += $(filter-out $(AVCODEC_BLACKLIST),$(sort $(wildcard $(AVCODEC_DIR)/arm/*.c)))
+ DEFINES += -DHAVE_AS_DN_DIRECTIVE=0
+ endif
+ 
+ ifeq ($(ARCH_X86),1)
+-LIBAVCODEC_SOURCE += $(filter-out $(AVCODEC_BLACKLIST),$(wildcard $(AVCODEC_DIR)/x86/*.c))
++LIBAVCODEC_SOURCE += $(filter-out $(AVCODEC_BLACKLIST),$(sort $(wildcard $(AVCODEC_DIR)/x86/*.c)))
+ endif
+ 
+ endif

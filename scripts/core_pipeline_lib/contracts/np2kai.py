@@ -64,6 +64,22 @@ NP2KAI_SORT_OVERLAY = {
 }
 
 
+NP2KAI_LIBRETRO_SORT_OVERLAY = {
+    "kind": "git-apply-v1",
+    "patch_path": "patches/np2kai/makefile-libretro-sort-wildcard-sources.patch",
+    "patch_sha256": (
+        "fbbf83c0357d4c4f13c364060352d019d330e1e161c4948dd915008579a60941"
+    ),
+    "source_path": "sdl/Makefile.libretro",
+    "preimage_sha256": (
+        "2297a7200d42f09b842791f2c8bce663cee5df3ecfc263ccb01cec29121a3d93"
+    ),
+    "postimage_sha256": (
+        "a35cd56a7145bd2a7da4fe56782fe05e0976e503b894a5b9f261c54f49d7fc79"
+    ),
+}
+
+
 def np2kai_spec_is_well_formed(spec: object) -> bool:
     """Require NP2kai's exact immutable catalog identity."""
 
@@ -86,8 +102,8 @@ def np2kai_spec_is_well_formed(spec: object) -> bool:
                 "output_path": identity["output_path"],
                 "artifact_name": identity["artifact_name"],
                 "overlays": {
-                    "arm64": [dict(NP2KAI_SORT_OVERLAY)],
-                    "armhf": [dict(NP2KAI_SORT_OVERLAY)],
+                    "arm64": [dict(NP2KAI_SORT_OVERLAY), dict(NP2KAI_LIBRETRO_SORT_OVERLAY)],
+                    "armhf": [dict(NP2KAI_SORT_OVERLAY), dict(NP2KAI_LIBRETRO_SORT_OVERLAY)],
                 },
             },
             "metadata": {
