@@ -1,8 +1,8 @@
 # Adding a new core build to the pipeline
 
 This is the end-to-end runbook for onboarding one libretro core into the
-fail-closed, hash-locked catalog: from an uncataloged (fail-open) workflow to a
-canonical core whose exact compile/link argv is proven by sha256, promoted with
+fail-closed, hash-locked catalog: from an uncataloged core to a
+canonical one whose exact compile/link argv is proven by sha256, promoted with
 a reproducible build golden, and gated by the full test suite.
 
 All 98 shipped-core workflows are onboarded (2026-07-24); this runbook is
@@ -31,17 +31,19 @@ the two builds will not reconcile).
   `import-golden` as the artifact-only starting point).
 - You are in a clean working tree on a work branch.
 
-Confirm the core is currently an uncataloged fail-open workflow:
+Confirm the core is not already cataloged, and see how the audit
+classifies it (every catalog core owns exactly one workflow; a new core
+starts with neither):
 
 ```bash
-python3 scripts/core_pipeline.py audit-workflows | grep -A99 unmigrated_workflows
+python3 scripts/core_pipeline.py audit-workflows
 ```
 
 ## The recipe at a glance
 
 1. Pin the source identity (repo, ref, commit, tree; canonical URL casing).
 2. Add the catalog entry + compose the source lock.
-3. Swap the fail-open workflow for the fail-closed dispatcher.
+3. Add the core's fail-closed dispatcher workflow.
 4. Exploratory build → **classify** the core (pick the proof engine).
 5. Extract the exact constants (counts + sha256 set) from the build log.
 6. Author the contract module.
@@ -148,11 +150,12 @@ state"* — expected; the compatibility manifest is written by the promote chain
   fresh per-arch log with `cargo_compiling_lines` +
   `multiset_lines_sha256`.
 
-## 3. Swap the workflow
+## 3. Add the workflow
 
-Replace the fail-open workflow (it contains `|| echo "::warning::...build
-failed"` and `gh release` publish steps) with the fail-closed dispatcher by
-copying an onboarded sibling of the same ABI shape:
+Create the core's fail-closed dispatcher workflow (if a legacy fail-open
+workflow exists — `|| echo` masks, `gh release` publish steps — it is
+replaced, not kept) by copying an onboarded sibling of the same ABI
+shape:
 
 ```bash
 sed 's/opera/<core>/g' .github/workflows/build-opera.yml > .github/workflows/build-<core>.yml
@@ -346,12 +349,9 @@ file, `tests/expected_counts.py` (the scoreboard literals live only there):
   `len(CORE_LOG_CONTRACTS)`, add the `(contract_id, proof_name)` mapping entry.
 - `tests/test_core_pipeline.py` — add `"<core>"` to the canonical id list and
   bump the `audit_workflows` counts: `catalog_core_count`,
-  `catalog_workflow_count`, `shared_pipeline_workflows` (+1);
-  `uncataloged`/`unmigrated` (−1); `masked_build_failure_paths` and
-  `info_only_risk_workflows` (−1 per removed `|| echo` / info-only path — read
-  the real values from `audit-workflows`).
-- `tests/test_full_release_repository.py` — the `uncataloged=/nonshared=`
-  summary string (−1).
+  `catalog_workflow_count`, `shared_pipeline_workflows` (+1); read the
+  real values from `audit-workflows` rather than computing deltas.
+- `tests/test_full_release_repository.py` — the roster summary string.
 
 Run focused, then the full suite:
 
