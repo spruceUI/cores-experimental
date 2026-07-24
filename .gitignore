@@ -9,3 +9,10 @@ device-probe-*.log
 # limit. Canonical bytes: https://static.rust-lang.org/dist/rust-1.90.0-x86_64-unknown-linux-gnu.tar.gz
 # sha256-pinned in Dockerfile.rust (the build refuses any other bytes).
 /rust.tar.gz
+
+# Local working notes (session handoff, planning, review records) stay
+# out of the published tree.
+/REVIEW.md
+/PLAN.md
+/SESSION.md
+/TODO.md
