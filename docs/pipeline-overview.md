@@ -71,6 +71,53 @@ focused runbooks in this directory go deeper on each area.
 Nothing in `scripts/core_pipeline.py` publishes to GitHub. Local output is
 written beneath `.local-e2e/`, which is ignored by Git.
 
+## ABI floors and ceilings (glibc / libstdc++)
+
+**With the Mini family's bundled libstdc++ updated to the A30 provider
+(libstdc++ 6.0.32, GLIBCXX 3.4.32 — spruceOS Development `ee825739d`),
+no currently pinned core is blocked by a glibc or libstdc++ floor or
+ceiling on any probed device.** The over-ceiling (`C`) class in the
+device matrix is empty; every eligibility miss that remains is a missing
+library or an unprobed device, never a symbol-version ceiling. This
+holds for spruce builds carrying that provider — on older Mini firmware
+the packaged fallback provider stops at GLIBCXX 3.4.24, which would put
+the modern-toolchain C++ cores back over the ceiling.
+
+Effective requirements, measured across all 98 pinned cores (the maximum
+any core's artifact demands):
+
+| Arch | max GLIBC | max GLIBCXX | max CXXABI | set by |
+|---|---|---|---|---|
+| arm64 | 2.29 | 3.4.26 | 1.3.11 | tyrquake / neocd / flycast |
+| armhf | 2.18 | 3.4.32 | 1.3.13 (+ CXXABI_ARM 1.3.3) | libgametank / nestopia / km_parallel_n64 |
+
+Captured per-device libstdc++ provider ceilings (loader-truth probe):
+
+| Device family | ABI | GLIBCXX ceiling | Headroom vs pinned max |
+|---|---|---|---|
+| Miyoo A30 | armhf | 3.4.32 (A30 provider) | 0 — requirement sits exactly at the ceiling |
+| Miyoo Mini family | armhf | 3.4.32 (bundled A30 provider) | 0 — same; 3.4.24 on the pre-update fallback |
+| Miyoo Flip | arm64 | 3.4.32 | +6 minor versions |
+| Trimui Brick / Smart Pro | arm64 | 3.4.28 | +2 |
+| Trimui Smart Pro S | arm64 | 3.4.28 | +2 |
+| GKD Pixel 2 | arm64 | 3.4.33 | +7 |
+| Anbernic H700 family | — | not probed | fails closed (`?` in the matrix) |
+| MagicX Zero28 | — | not probed | fails closed (`?` in the matrix) |
+
+Two consequences worth keeping in view:
+
+- **armhf has zero ceiling headroom.** The armhf toolchain (GCC 13.2)
+  emits GLIBCXX 3.4.32 symbols and the fleet provider supplies exactly
+  3.4.32: any future armhf toolchain bump that emits newer symbols
+  exceeds every armhf device at once, and would need a provider-bundle
+  update to land first (the Lever-B mechanism in
+  [device-abi-variant-sets-design.md](device-abi-variant-sets-design.md)).
+- **glibc floors clear with similar margins.** The armhf maximum
+  (GLIBC 2.18, libgametank's zigbuild floor) equals the weakest device's
+  glibc; the arm64 maximum (2.29) resolves on every probed arm64 device
+  — proven by the loader-truth join behind each matrix `Y`, which
+  verifies the full needed-set resolution, glibc included.
+
 ## Golden tiers
 
 - `imported_baseline` pins the SHA256 and validated ELF metadata of the binaries

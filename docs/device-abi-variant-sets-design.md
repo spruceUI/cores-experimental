@@ -3,6 +3,13 @@
 Status: **proposal / RFC** · Scope: build + device-eligibility architecture ·
 Preserves: fail-closed, hash-locked, publication-disabled invariants.
 
+> **Status update (2026-07-24):** the Mini-family ceiling this proposal
+> opens with is resolved — the family's bundled libstdc++ provider is now
+> the A30 build (Lever B, shipped as spruceOS `ee825739d`), raising the
+> effective armhf fleet ceiling to GLIBCXX 3.4.32. No pinned core is over
+> any probed device's ceiling today; the flavor machinery below remains
+> the design of record for future ceiling or GPU-provider divergence.
+
 ## 1. Problem
 
 Today a core builds exactly two artifacts — one per ABI (`arm64` →
