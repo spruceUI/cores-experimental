@@ -452,6 +452,13 @@ golden, pin selection, and release manifest.
 
 ## Update local artifact channels
 
+**Frozen surface.** The channel layer has no consumer yet — pointers are
+maintained automatically by `promote_core.py run`/`wave` and validated
+by the suite, and that is all the investment it receives until a
+publication consumer exists. Do not extend it; revisit the design when
+the publication path is taken up.
+
+
 New work uses individual schema-v2 pointers, one per core and channel,
 at `.local-e2e/channels/<channel>.<core>.json`. Create a pointer with
 `--expect-absent` only when the alias is absent; the three channels for
