@@ -253,8 +253,42 @@
         "runtime_capture": {
           "enum": [
             "needs-target-runtime",
-            "device-probe-v3"
+            "device-probe-v3",
+            "load-smoke-v1"
           ]
+        },
+        "load_smoke": {
+          "type": "object",
+          "required": [
+            "capture",
+            "capture_id",
+            "devices_tested",
+            "result",
+            "excluded_cores"
+          ],
+          "properties": {
+            "capture": {
+              "type": "string"
+            },
+            "capture_id": {
+              "type": "string"
+            },
+            "devices_tested": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "result": {
+              "enum": [
+                "pass",
+                "pass-with-exclusions"
+              ]
+            },
+            "excluded_cores": {
+              "type": "object"
+            }
+          }
         },
         "effective_abi_ceiling": {
           "const": "unknown"

@@ -319,6 +319,7 @@ def assemble_device_sets(
             ),
             "frontend_available": profile_frontend_available(profiles, profile_id),
             "runtime_capture": contract.get("runtime_capture"),
+            "load_smoke": contract.get("load_smoke"),
             "counts": {name: len(rows) for name, rows in buckets.items()},
             **buckets,
         }
