@@ -1062,8 +1062,11 @@ def validate_runtime_contracts(
     if family_by_contract["device-trimui-a133p-family-v0"] != family_by_contract["device-magicx-zero28-v0"]:
         raise RegistryError("TrimUI and MagicX A133P views must share a runtime family")
     constraints = _array(document["compatibility_constraints"], "runtime contracts.compatibility_constraints")
-    if len(constraints) != 1:
-        raise RegistryError("runtime contracts must contain the one known Mini C++ uncertainty")
+    if len(constraints) != 2:
+        raise RegistryError(
+            "runtime contracts must contain exactly the reviewed Mini C++ "
+            "uncertainty and the Mini memory-capacity constraint"
+        )
     constraint = _object(constraints[0], "runtime compatibility constraint")
     _exact_keys(constraint, {"constraint_id", "core_ids", "execution_profile_id", "kind", "required_symbols", "disposition", "evidence_scope"}, "runtime compatibility constraint")
     if (
@@ -1076,6 +1079,52 @@ def validate_runtime_contracts(
         or constraint["evidence_scope"] != "packaged-fallback-observation"
     ):
         raise RegistryError("Mini compatibility constraint overclaims or differs")
+    memory = _object(constraints[1], "runtime memory constraint")
+    _exact_keys(
+        memory,
+        {
+            "constraint_id",
+            "core_ids",
+            "runtime_contract_id",
+            "kind",
+            "observed_failure",
+            "capture_id",
+            "disposition",
+            "evidence_scope",
+        },
+        "runtime memory constraint",
+    )
+    mini_family = _object(
+        document["contracts"]["device-miyoo-mini-family-v0"],
+        "runtime contract device-miyoo-mini-family-v0",
+    )
+    mini_smoke = _object(
+        mini_family.get("load_smoke"),
+        "runtime contract device-miyoo-mini-family-v0.load_smoke",
+    )
+    mini_excluded = _object(
+        mini_smoke.get("excluded_cores"),
+        "runtime contract device-miyoo-mini-family-v0.load_smoke.excluded_cores",
+    )
+    if (
+        memory["constraint_id"] != "mini-family-memory-capacity-v0"
+        or memory["core_ids"] != sorted(mini_excluded)
+        or memory["runtime_contract_id"] != "device-miyoo-mini-family-v0"
+        or memory["kind"] != "memory-capacity-exceeded"
+        or memory["observed_failure"] != "memory-zero-fill-map"
+        or memory["capture_id"] != mini_smoke.get("capture_id")
+        or memory["disposition"] != "ineligible-for-contract"
+        or memory["evidence_scope"] != "on-device-load-smoke"
+        or not mini_excluded
+        or any(
+            reason != memory["observed_failure"]
+            for devices in mini_excluded.values()
+            for reason in devices.values()
+        )
+    ):
+        raise RegistryError(
+            "Mini memory-capacity constraint does not bind the load-smoke capture"
+        )
     core_policies = _object(document["core_policies"], "runtime contracts.core_policies")
     _exact_keys(core_policies, {"ffmpeg", "swanstation"}, "runtime contracts.core_policies")
     ffmpeg = _object(core_policies["ffmpeg"], "runtime contracts.core_policies.ffmpeg")

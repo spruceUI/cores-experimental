@@ -98,8 +98,8 @@ class ProfileRegistryTests(unittest.TestCase):
         )
 
     def test_source_locks_exclude_recipe_inputs_and_catalog_epochs_stay_exact(self) -> None:
-        for reference in self.source_set["sources"].values():
-            document = load(ROOT / reference["path"])
+        for core_id in self.source_set["sources"]:
+            document = registry.composed_source_lock(core_id)
             self.assertNotIn("source_date_epoch", json.dumps(document))
             self.assertNotIn("build", document)
         catalog = load(ROOT / "manifests" / "core-builds.json")
@@ -531,6 +531,42 @@ class ProfileRegistryTests(unittest.TestCase):
         self.assertEqual(["gearboy", "gearsystem"], constraint["core_ids"])
         self.assertEqual("unverified-for-profile", constraint["disposition"])
         self.assertNotIn("swanstation", constraint["core_ids"])
+        memory = self.runtime["compatibility_constraints"][1]
+        self.assertEqual(
+            ["km_parallel_n64_xtreme_amped_turbo", "puae2021"],
+            memory["core_ids"],
+        )
+        self.assertEqual(
+            "device-miyoo-mini-family-v0", memory["runtime_contract_id"]
+        )
+        self.assertEqual("ineligible-for-contract", memory["disposition"])
+
+    def test_memory_constraint_tampering_fails_closed(self) -> None:
+        for mutate in (
+            lambda d: d["compatibility_constraints"].pop(1),
+            lambda d: d["compatibility_constraints"][1].__setitem__(
+                "core_ids", ["puae2021"]
+            ),
+            lambda d: d["compatibility_constraints"][1].__setitem__(
+                "capture_id", "load-smoke-20990101-v1"
+            ),
+            lambda d: d["compatibility_constraints"][1].__setitem__(
+                "observed_failure", "sigbus"
+            ),
+            lambda d: d["contracts"]["device-miyoo-mini-family-v0"][
+                "load_smoke"
+            ]["excluded_cores"].__setitem__(
+                "gambatte",
+                {"MIYOO_MINI_PLUS": "memory-zero-fill-map"},
+            ),
+        ):
+            document = copy.deepcopy(self.runtime)
+            mutate(document)
+            refresh_digest(document)
+            with self.assertRaises(registry.RegistryError):
+                registry.validate_runtime_contracts(
+                    document, execution_profiles=self.execution
+                )
 
     def test_ffmpeg_and_swanstation_policies_remain_fail_closed(self) -> None:
         policies = self.runtime["core_policies"]
