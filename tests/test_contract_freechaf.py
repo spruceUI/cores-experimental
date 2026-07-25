@@ -122,7 +122,15 @@ class FreechafLogContractTests(unittest.TestCase):
         self.assertEqual(identity["source_url"], spec["source"]["url"])
         self.assertEqual(identity["source_commit"], spec["source"]["commit"])
         self.assertEqual(identity["source_tree"], spec["source"]["tree"])
-        self.assertNotIn("submodules", spec["source"])
+        self.assertEqual(
+            [
+                {
+                    "path": "src/deps/libretro-common",
+                    "commit": "01c6122931a10a7012973054e7067859d2116420",
+                }
+            ],
+            spec["source"]["submodules"],
+        )
         self.assertEqual(
             "./libretro-build.sh freechaf",
             pipeline.libretro_build_shell(spec, freechaf.FREECHAF_CORE_ID),

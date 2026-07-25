@@ -276,15 +276,13 @@ class GearboyCatalogTests(unittest.TestCase):
 class GearboyLifecycleTests(unittest.TestCase):
 
     def test_source_set_maps_profiles_without_device_claims(self) -> None:
-        source_set_path = ROOT / SOURCE_SET_PATH
-        source_set = load_document(source_set_path)
+        source_set = registry.composed_source_set(SEMANTIC_ID)
         registry.validate_source_set(source_set)
         report = registry.report_data(source_set_path=SOURCE_SET_PATH)
         catalog_core_count = len(
             load_document(ROOT / "manifests/core-builds.json")["cores"]
         )
 
-        self.assertEqual(SOURCE_SET_FILE_SHA256, file_sha256(source_set_path))
         self.assertEqual(SEMANTIC_ID, source_set["source_set_id"])
         self.assertEqual(SOURCE_SET_CONTENT_SHA256, source_set["content_sha256"])
         self.assertTrue(source_set["local_only"])

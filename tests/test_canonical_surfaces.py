@@ -13,6 +13,7 @@ import unittest
 from pathlib import Path
 
 from scripts import core_pipeline as pipeline
+from scripts import profile_registry as registry
 from scripts.core_pipeline_lib.records import compatibility_pending as pending
 from scripts.core_pipeline_lib.errors import PipelineError
 
@@ -35,14 +36,12 @@ class CanonicalSurfaceTests(unittest.TestCase):
                 (ROOT / "pins/core-sets" / f"{semantic_id}.json").is_file(),
                 golden_source,
             )
-            self.assertTrue(
-                (ROOT / "pins/source-sets" / f"{semantic_id}.json").is_file(),
-                golden_source,
-            )
+            composed = registry.composed_source_set(semantic_id)
+            self.assertEqual({core_id}, set(composed["sources"]), golden_source)
         self.assertEqual(set(catalog["cores"]), set(canonical))
 
         expected = {f"{sid}.json" for sid in canonical.values()}
-        for directory in ("pins/core-sets", "pins/source-sets"):
+        for directory in ("pins/core-sets",):
             stray = {
                 path.name for path in (ROOT / directory).glob("*.json")
             } - expected

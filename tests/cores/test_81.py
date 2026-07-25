@@ -126,7 +126,7 @@ class Core81ReviewedPinTests(unittest.TestCase):
 
 class Core81LifecycleTests(unittest.TestCase):
     def test_source_set_maps_shared_profiles_without_device_claims(self) -> None:
-        source_set = load_document(ROOT / SOURCE_SET_PATH)
+        source_set = registry.composed_source_set(SEMANTIC_ID)
         registry.validate_source_set(source_set)
         report = registry.report_data(source_set_path=SOURCE_SET_PATH)
         catalog_core_count = len(

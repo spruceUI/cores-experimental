@@ -615,6 +615,12 @@
         "commit": "4731f0075d6c225921b40b341b23971e73dd9dfc",
         "requested_ref": "refs/heads/master",
         "tree": "4e651e299a236ecfbbb4e44427e0087790ff1c64",
+        "submodules": [
+          {
+            "path": "src/libretro/libretro-common",
+            "commit": "996376e36d3f4f56eba202cb96230568628d2583"
+          }
+        ],
         "url": "https://github.com/libretro/ecwolf.git"
       },
       "targets": [
@@ -1006,6 +1012,12 @@
         "commit": "76c7a84f1f7e80f3e6f2bba96fe100cb24e99124",
         "requested_ref": "refs/heads/master",
         "tree": "da8f96e1b0866e49ecf6a3bcd2b9974670669429",
+        "submodules": [
+          {
+            "path": "src/deps/libretro-common",
+            "commit": "01c6122931a10a7012973054e7067859d2116420"
+          }
+        ],
         "url": "https://github.com/libretro/FreeChaF.git"
       },
       "targets": [
@@ -2256,6 +2268,12 @@
         "commit": "050981b6eeb715f142854f57c68086f62921f027",
         "requested_ref": "refs/heads/master",
         "tree": "a6bf9ddaaf02f0b163996a195edf1bfcbd89b01c",
+        "submodules": [
+          {
+            "path": "frontend/libpicofe",
+            "commit": "dd11f2d723162eb1cf8e6db9f40de7db0d0b6bba"
+          }
+        ],
         "url": "https://github.com/libretro/pcsx_rearmed.git"
       },
       "targets": [
@@ -2736,6 +2754,40 @@
         "commit": "185488cd83aaf274752a742c94d45561cbecb7af",
         "requested_ref": "refs/heads/master",
         "tree": "da7c15404a93174aa0972d8ec053471e6cef064d",
+        "submodules": [
+          {
+            "path": "external/SPIRV-Cross",
+            "commit": "bccaa94db814af33d8ef05c153e7c34d8bd4d685"
+          },
+          {
+            "path": "external/cubeb",
+            "commit": "ac8474a5929e9de3bce84f16f8c589240eb9f7c4"
+          },
+          {
+            "path": "external/cubeb/cmake/sanitizers-cmake",
+            "commit": "aab6948fa863bc1cbe5d0850bc46b9ef02ed4c1a"
+          },
+          {
+            "path": "external/cubeb/googletest",
+            "commit": "40412d85124f7c6f3d88454583c4633e5e10fc8c"
+          },
+          {
+            "path": "external/glslang",
+            "commit": "9c7fd1a33e5cecbe465e1cd70170167d5e40d398"
+          },
+          {
+            "path": "external/vulkan-headers",
+            "commit": "577baa05033cf1d9236b3d078ca4b3269ed87a2b"
+          },
+          {
+            "path": "win32/libpng/src",
+            "commit": "b78804f9a2568b270ebd30eca954ef7447ba92f7"
+          },
+          {
+            "path": "win32/zlib/src",
+            "commit": "cacf7f1d4e3d44d871b605da3b647f07d718623f"
+          }
+        ],
         "url": "https://github.com/libretro/snes9x.git"
       },
       "targets": [

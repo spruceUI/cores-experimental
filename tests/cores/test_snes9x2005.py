@@ -78,12 +78,10 @@ class Snes9x2005CoreEvidenceTests(unittest.TestCase):
 
 
     def test_individual_source_set_maps_profiles_without_device_claims(self) -> None:
-        source_set_path = ROOT / SOURCE_SET_PATH
-        source_set = load_document(source_set_path)
+        source_set = registry.composed_source_set(SEMANTIC_ID)
         registry.validate_source_set(source_set)
         report = registry.report_data(source_set_path=SOURCE_SET_PATH)
 
-        self.assertEqual(SOURCE_SET_FILE_SHA256, file_sha256(source_set_path))
         self.assertEqual(SOURCE_SET_CONTENT_SHA256, source_set["content_sha256"])
         self.assertEqual(SEMANTIC_ID, source_set["source_set_id"])
         self.assertEqual(PIN_PATH, source_set["evidence_pin"]["path"])
@@ -100,7 +98,7 @@ class Snes9x2005CoreEvidenceTests(unittest.TestCase):
         self.assertEqual(SOURCE_COMMIT, source["commit"])
         self.assertEqual(SOURCE_LOCK_FILE_SHA256, source["file_sha256"])
         self.assertEqual(SOURCE_LOCK_CONTENT_SHA256, source["content_sha256"])
-        source_lock = load_document(ROOT / SOURCE_LOCK_PATH)
+        source_lock = registry.composed_source_lock(CORE_ID)
         self.assertEqual(SOURCE_LOCK_ID, source_lock["source_lock_id"])
         self.assertEqual(SOURCE_URL, source_lock["source"]["url"])
         self.assertEqual(SOURCE_COMMIT, source_lock["source"]["commit"])

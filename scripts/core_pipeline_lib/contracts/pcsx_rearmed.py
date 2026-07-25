@@ -68,6 +68,9 @@ def pcsx_rearmed_spec_is_well_formed(spec: object) -> bool:
                 "requested_ref": identity["source_requested_ref"],
                 "commit": identity["source_commit"],
                 "tree": identity["source_tree"],
+                "submodules": [
+                    {"path": "frontend/libpicofe", "commit": "dd11f2d723162eb1cf8e6db9f40de7db0d0b6bba"},
+                ],
             },
             "build": {
                 "driver": "libretro-super",

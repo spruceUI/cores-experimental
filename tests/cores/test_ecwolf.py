@@ -33,6 +33,12 @@ class EcwolfManifestTests(unittest.TestCase):
                 "requested_ref": "refs/heads/master",
                 "commit": SOURCE_COMMIT,
                 "tree": SOURCE_TREE,
+                "submodules": [
+                    {
+                        "path": "src/libretro/libretro-common",
+                        "commit": "996376e36d3f4f56eba202cb96230568628d2583",
+                    }
+                ],
             },
             self.spec["source"],
         )

@@ -584,6 +584,26 @@
             },
             "tree": {
               "$ref": "#/$defs/sha1"
+            },
+            "submodules": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "path",
+                  "commit"
+                ],
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "commit": {
+                    "$ref": "#/$defs/sha1"
+                  }
+                },
+                "additionalProperties": false
+              }
             }
           },
           "additionalProperties": false

@@ -18,6 +18,13 @@ import sys
 from typing import Any
 from urllib.parse import urlsplit
 
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
+
+from core_pipeline_lib.errors import PipelineError  # noqa: E402
+from core_pipeline_lib.records import source as records_source  # noqa: E402
+
 
 ROOT = Path(__file__).resolve().parents[1]
 EXECUTION_PROFILES_PATH = ROOT / "manifests" / "execution-profiles.json"
@@ -536,6 +543,24 @@ def _validate_spruce_snapshot(snapshot: Any, label: str) -> dict[str, Any]:
     return result
 
 
+def composed_source_lock(core_id: str, *, repo_root: Path = ROOT) -> dict[str, Any]:
+    """Compose a core's source lock from the tracked catalog."""
+
+    try:
+        return records_source.compose_source_lock(core_id, repository_root=repo_root)
+    except PipelineError as exc:
+        raise RegistryError(str(exc)) from exc
+
+
+def composed_source_set(semantic_id: str, *, repo_root: Path = ROOT) -> dict[str, Any]:
+    """Compose a semantic id's source-set from the catalog and its pin."""
+
+    try:
+        return records_source.compose_source_set(semantic_id, repository_root=repo_root)
+    except PipelineError as exc:
+        raise RegistryError(str(exc)) from exc
+
+
 def validate_source_lock(
     document: dict[str, Any],
     *,
@@ -681,11 +706,10 @@ def validate_source_set(
         if reference["source_lock_id"] != f"{core_id}-{reference['commit'][:12]}":
             raise RegistryError(f"source set reference id does not bind {core_id}")
         if verify_files:
-            lock_path = _safe_repo_file(repo_root, reference["path"], f"source lock {core_id}")
-            if sha256_file(lock_path) != reference["file_sha256"]:
+            lock = composed_source_lock(core_id, repo_root=repo_root)
+            validate_source_lock(lock)
+            if records_source.record_file_sha256(lock) != reference["file_sha256"]:
                 raise RegistryError(f"source lock file digest differs for {core_id}")
-            lock = strict_json_file(lock_path)
-            validate_source_lock(lock, path=lock_path, repo_root=repo_root)
             if (
                 lock["core_id"] != core_id
                 or lock["source_lock_id"] != reference["source_lock_id"]
@@ -1129,7 +1153,7 @@ def verify_catalog_source_mirror(
         raise RegistryError("source set coverage differs from its evidence pin")
     evidence_cells = 0
     for core_id, reference in source_references.items():
-        lock = strict_json_file(_safe_repo_file(repo_root, reference["path"], f"source lock {core_id}"))
+        lock = composed_source_lock(core_id, repo_root=repo_root)
         source = lock["source"]
         catalog_source = _object(_object(cores[core_id], f"catalog core {core_id}").get("source"), f"catalog core {core_id}.source")
         for field in ("url", "requested_ref", "commit"):
@@ -1308,12 +1332,11 @@ def report_data(
     """Return the active exact-one-core source/profile report."""
 
     _string(source_set_path, "source set path", SOURCE_SET_PATH_RE)
-    source_set = strict_json_file(
-        _safe_repo_file(repo_root, source_set_path, "source set")
-    )
+    semantic_id = Path(source_set_path).stem
+    if source_set_path != records_source.source_set_coordinate(semantic_id):
+        raise RegistryError("source set path is not a canonical coordinate")
+    source_set = composed_source_set(semantic_id, repo_root=repo_root)
     validate_source_set(source_set, repo_root=repo_root)
-    if len(source_set["sources"]) != 1:
-        raise RegistryError("individual source set must contain exactly one core")
     return _source_set_report_data(
         source_set=source_set,
         repo_root=repo_root,

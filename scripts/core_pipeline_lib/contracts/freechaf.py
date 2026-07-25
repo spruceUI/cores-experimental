@@ -115,6 +115,9 @@ def freechaf_spec_is_well_formed(spec: object) -> bool:
                 "requested_ref": identity["source_requested_ref"],
                 "commit": identity["source_commit"],
                 "tree": identity["source_tree"],
+                "submodules": [
+                    {"path": "src/deps/libretro-common", "commit": "01c6122931a10a7012973054e7067859d2116420"},
+                ],
             },
             "build": {
                 "driver": "libretro-super",

@@ -74,7 +74,7 @@ class LowResNxCoreTests(unittest.TestCase):
 
 
     def test_source_set_release_and_channels_are_core_owned(self) -> None:
-        source_set = load_document(ROOT / SOURCE_SET_PATH)
+        source_set = registry.composed_source_set(SEMANTIC_ID)
         catalog_core_count = len(
             load_document(ROOT / "manifests/core-builds.json")["cores"]
         )

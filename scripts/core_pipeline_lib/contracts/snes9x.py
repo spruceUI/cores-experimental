@@ -140,6 +140,16 @@ def snes9x_spec_is_well_formed(spec: object) -> bool:
                 "requested_ref": identity["source_requested_ref"],
                 "commit": identity["source_commit"],
                 "tree": identity["source_tree"],
+                "submodules": [
+                    {"path": "external/SPIRV-Cross", "commit": "bccaa94db814af33d8ef05c153e7c34d8bd4d685"},
+                    {"path": "external/cubeb", "commit": "ac8474a5929e9de3bce84f16f8c589240eb9f7c4"},
+                    {"path": "external/cubeb/cmake/sanitizers-cmake", "commit": "aab6948fa863bc1cbe5d0850bc46b9ef02ed4c1a"},
+                    {"path": "external/cubeb/googletest", "commit": "40412d85124f7c6f3d88454583c4633e5e10fc8c"},
+                    {"path": "external/glslang", "commit": "9c7fd1a33e5cecbe465e1cd70170167d5e40d398"},
+                    {"path": "external/vulkan-headers", "commit": "577baa05033cf1d9236b3d078ca4b3269ed87a2b"},
+                    {"path": "win32/libpng/src", "commit": "b78804f9a2568b270ebd30eca954ef7447ba92f7"},
+                    {"path": "win32/zlib/src", "commit": "cacf7f1d4e3d44d871b605da3b647f07d718623f"},
+                ],
             },
             "build": {
                 "driver": "libretro-super",

@@ -2,18 +2,13 @@
 """Compose the hand-authored tail of a canonical core promotion.
 
 The pipeline provides commands for the build/promote chain (import-golden,
-promote, derive-core-id, compose-core-golden, compose-pin-set) but nothing for
-the two remaining lifecycle artifacts, which until now were written by hand for
-every core:
-
-  * the source-set (pins/source-sets/<semantic-id>.json), and
-  * the compatibility manifest (manifests/compatibility/<core>.json).
-
-Both are fully determined by evidence that already exists after the pin is
-composed (the pin, the source lock, the semantic golden, and the two e2e
-records), so this tool composes them deterministically. Composing them by hand
-44+ more times is error-prone; in particular the device-eligibility caveat (the
-ABI-ceiling reasoning) is derived here from the captured version_requirements
+promote, derive-core-id, compose-core-golden, compose-pin-set); this tool owns
+the lifecycle tail. The source lock and source-set are composed in memory
+(records.source is the single composer; they are never written as files), and
+the one remaining written lifecycle artifact is the compatibility manifest
+(manifests/compatibility/<core>.json), fully determined by evidence that
+already exists after the pin is composed. The device-eligibility caveat (the
+ABI-ceiling reasoning) is derived from the captured version_requirements
 rather than retyped per core.
 
 Full promotion sequence (this tool is the last step):
@@ -43,6 +38,12 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+if str(ROOT / "scripts") not in sys.path:
+    sys.path.insert(0, str(ROOT / "scripts"))
+
+from core_pipeline_lib.errors import PipelineError  # noqa: E402
+from core_pipeline_lib.records import source as records_source  # noqa: E402
 
 # Captured device provider ceilings (device-runtime-contracts.json). Used only
 # to phrase the device-eligibility caveat; the machine-readable screen lives in
@@ -92,78 +93,23 @@ def max_glibcxx(version_requirements: list[str]) -> tuple[str | None, tuple[int,
 
 
 def compose_source_set(semantic_id: str) -> dict[str, Any]:
-    """Compose the source-set from the pin and its referenced source lock."""
+    """Compose the source-set (records.source is the single composer)."""
 
-    core_id = semantic_id.split("-", 1)[0]
-    pin_relative = f"pins/core-sets/{semantic_id}.json"
-    pin_path = ROOT / pin_relative
-    pin = _load(pin_path)
-    source_dir = ROOT / "pins" / "sources" / core_id
-    locks = sorted(source_dir.glob("*.json")) if source_dir.is_dir() else []
-    if len(locks) != 1:
-        raise PromoteCoreError(
-            f"expected exactly one source lock under {source_dir}, found {len(locks)}"
+    try:
+        return records_source.compose_source_set(
+            semantic_id, repository_root=ROOT
         )
-    lock_path = locks[0]
-    lock = _load(lock_path)
-    lock_relative = lock_path.relative_to(ROOT).as_posix()
-    document = {
-        "$schema": "../../manifests/core-source-set.schema.json",
-        "schema_version": 1,
-        "source_set_id": semantic_id,
-        "local_only": True,
-        "publication": "disabled",
-        "evidence_pin": {
-            "path": pin_relative,
-            "pin_id": semantic_id,
-            "file_sha256": _sha256_file(pin_path),
-            "content_sha256": pin["content_sha256"],
-        },
-        "sources": {
-            core_id: {
-                "path": lock_relative,
-                "source_lock_id": lock["source_lock_id"],
-                "commit": lock["source"]["commit"],
-                "file_sha256": _sha256_file(lock_path),
-                "content_sha256": lock["content_sha256"],
-            }
-        },
-    }
-    document["content_sha256"] = content_sha256(document)
-    return document
+    except PipelineError as exc:
+        raise PromoteCoreError(str(exc)) from exc
 
 
 def compose_source_lock(core_id: str) -> dict[str, Any]:
-    """Compose a core's source lock from its catalog source block.
+    """Compose a core's source lock (records.source is the single composer)."""
 
-    The lock is fully determined by the pinned catalog entry (exact HTTPS Git
-    URL, requested ref, commit, and content tree). Vendored-dependency cores
-    carry no submodules; if that ever changes for a core it must be recorded
-    here explicitly.
-    """
-
-    catalog = _load(ROOT / "manifests" / "core-builds.json")
-    spec = catalog.get("cores", {}).get(core_id)
-    if not isinstance(spec, dict):
-        raise PromoteCoreError(f"catalog has no core {core_id}")
-    source = spec["source"]
-    document = {
-        "$schema": "../../../manifests/core-source-lock.schema.json",
-        "schema_version": 1,
-        "source_lock_id": f"{core_id}-{source['commit'][:12]}",
-        "core_id": core_id,
-        "source": {
-            "url": source["url"],
-            "requested_ref": source["requested_ref"],
-            "commit": source["commit"],
-            "tree": source["tree"],
-            "submodules": [],
-        },
-        "local_only": True,
-        "publication": "disabled",
-    }
-    document["content_sha256"] = content_sha256(document)
-    return document
+    try:
+        return records_source.compose_source_lock(core_id, repository_root=ROOT)
+    except PipelineError as exc:
+        raise PromoteCoreError(str(exc)) from exc
 
 
 def _device_caveat(targets: dict[str, Any]) -> str:
@@ -468,10 +414,7 @@ def run_promotion(
         previous_sid = Path(previous_pin).stem if previous_pin else ""
         candidates = [compatibility_path]
         if previous_sid:
-            candidates += [
-                ROOT / "pins" / "core-sets" / f"{previous_sid}.json",
-                ROOT / "pins" / "source-sets" / f"{previous_sid}.json",
-            ]
+            candidates.append(ROOT / "pins" / "core-sets" / f"{previous_sid}.json")
         for stale in candidates:
             if stale.exists():
                 aside = stale.with_name(stale.name + ".retiring")
@@ -536,16 +479,11 @@ def _run_promotion_chain(
               "--verify-store", "--verify-sources")
     print("pin-set valid")
 
-    source_set = compose_source_set(semantic_id)
     compatibility = compose_compatibility(
         core, semantic_id, selected_run, reproduction_run, caveats
     )
-    _write_create_only(
-        ROOT / "pins" / "source-sets" / f"{semantic_id}.json", source_set
-    )
     _write_create_only(compatibility_path, compatibility)
-    print(f"wrote pins/source-sets/{semantic_id}.json and "
-          f"manifests/compatibility/{core}.json")
+    print(f"wrote manifests/compatibility/{core}.json")
     _pipeline("catalog-check")
     print("catalog valid")
     for original, aside in retired:
@@ -625,16 +563,7 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
         if args.command == "compose-source-lock":
-            lock = compose_source_lock(args.core)
-            if args.print:
-                print(json.dumps(lock, indent=2))
-                return 0
-            _write_create_only(
-                ROOT / "pins" / "sources" / args.core
-                / f"{lock['source']['commit']}.json",
-                lock,
-            )
-            print(f"wrote pins/sources/{args.core}/{lock['source']['commit']}.json")
+            print(json.dumps(compose_source_lock(args.core), indent=2))
             return 0
         if args.command == "run":
             caveats = args.caveat
@@ -671,15 +600,9 @@ def main(argv: list[str] | None = None) -> int:
                 print(json.dumps({"source_set": source_set, "compatibility": compatibility}, indent=2))
                 return 0
             _write_create_only(
-                ROOT / "pins" / "source-sets" / f"{args.semantic_id}.json", source_set
-            )
-            _write_create_only(
                 ROOT / "manifests" / "compatibility" / f"{args.core}.json", compatibility
             )
-            print(
-                f"wrote pins/source-sets/{args.semantic_id}.json and "
-                f"manifests/compatibility/{args.core}.json"
-            )
+            print(f"wrote manifests/compatibility/{args.core}.json")
             return 0
     except PromoteCoreError as exc:
         print(f"promote-core error: {exc}", file=sys.stderr)

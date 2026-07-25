@@ -63,7 +63,7 @@ class HandyCoreEvidenceTests(unittest.TestCase):
     def test_individual_source_set_maps_build_profiles_without_device_claims(
         self,
     ) -> None:
-        source_set = load_document(ROOT / SOURCE_SET_PATH)
+        source_set = registry.composed_source_set(SEMANTIC_ID)
         catalog_core_count = len(
             load_document(ROOT / "manifests" / "core-builds.json")["cores"]
         )

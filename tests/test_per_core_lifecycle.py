@@ -12,6 +12,7 @@ import unittest
 from unittest import mock
 
 from scripts import core_pipeline as pipeline
+from scripts import profile_registry as registry
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -36,9 +37,7 @@ class PerCoreLifecycleTests(unittest.TestCase):
                 self.assertEqual(core_id, compatibility_path.stem)
                 pin_path = ROOT / document["golden_source"]
                 self.assertTrue(pin_path.is_file())
-                self.assertTrue(
-                    (ROOT / "pins" / "source-sets" / pin_path.name).is_file()
-                )
+                registry.composed_source_set(pin_path.stem)
                 self.assertTrue(
                     (ROOT / "tests" / "cores" / f"test_{core_id}.py").is_file()
                 )
@@ -114,8 +113,7 @@ class PerCoreLifecycleTests(unittest.TestCase):
                 source_set_relative = (
                     f"pins/source-sets/{semantic_id}.json"
                 )
-                source_set_path = ROOT / source_set_relative
-                source_set = pipeline.load_json(source_set_path)
+                source_set = registry.composed_source_set(semantic_id)
                 self.assertEqual(semantic_id, source_set["source_set_id"])
                 self.assertEqual({core_id}, set(source_set["sources"]))
                 self.assertEqual(
