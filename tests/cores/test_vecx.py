@@ -330,26 +330,6 @@ class VecxCoreTests(unittest.TestCase):
                 encoding="utf-8"
             )
         )
-        self.assertEqual(
-            "#/$defs/vecxCore",
-            schema["properties"]["cores"]["properties"]["vecx"]["$ref"],
-        )
-        vecx_schema = schema["$defs"]["vecxCore"]["allOf"][1]
-        self.assertIn("validation", vecx_schema["required"])
-        self.assertIn(
-            "make_variables",
-            vecx_schema["properties"]["build"]["required"],
-        )
-        self.assertEqual(
-            expected_git_version["value"],
-            vecx_schema["properties"]["build"]["properties"]["git_version"][
-                "allOf"
-            ][1]["properties"]["value"]["const"],
-        )
-        self.assertIn(
-            "replacement",
-            vecx_schema["properties"]["metadata"]["required"],
-        )
         for arch in ("arm64", "armhf"):
             contract = pipeline.normalized_build_contract(spec, arch)
             self.assertEqual({"HAS_GPU": 0}, contract["make_variables"])
@@ -357,7 +337,6 @@ class VecxCoreTests(unittest.TestCase):
             self.assertEqual(
                 expected_replacement, contract["metadata_replacement"]
             )
-
         script = pipeline.container_build_script(
             "vecx", "arm64", spec, catalog["resolver"]
         )

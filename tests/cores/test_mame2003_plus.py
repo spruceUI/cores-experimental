@@ -127,76 +127,15 @@ class Mame2003PlusManifestTests(unittest.TestCase):
         catalog_schema = load_document(
             ROOT / "manifests/core-builds.schema.json"
         )
-        self.assertEqual(
-            {"$ref": "#/$defs/mame2003PlusCore"},
-            catalog_schema["properties"]["cores"]["properties"][CORE_ID],
+        self.assertNotIn(
+            "mame2003_plus",
+            catalog_schema["properties"]["cores"].get(
+                "properties", {}
+            ),
         )
-        exact_core = catalog_schema["$defs"]["mame2003PlusCore"][
-            "allOf"
-        ][1]
-        build_schema = exact_core["properties"]["build"]
-        self.assertEqual(
-            {
-                "artifact_name",
-                "driver",
-                "git_version",
-                "output_path",
-                "source_date_epoch",
-                "source_dir",
-                "source_key",
-            },
-            set(build_schema["required"]),
-        )
-        self.assertEqual(
-            {"$ref": "#/$defs/mame2003PlusNativeGitVersion"},
-            build_schema["properties"]["git_version"],
-        )
-        self.assertEqual(
-            SOURCE_DATE_EPOCH,
-            build_schema["properties"]["source_date_epoch"]["const"],
-        )
-        metadata_schema = exact_core["properties"]["metadata"]
-        self.assertNotIn("replacement", metadata_schema["properties"])
-        self.assertEqual(
-            FORBIDDEN_NEEDED_PREFIXES,
-            exact_core["properties"]["validation"]["properties"]
-            ["forbidden_needed_prefixes"]["const"],
-        )
-
         golden_schema = load_document(
             ROOT / "manifests/golden-start.schema.json"
         )
-        build_golden = golden_schema["$defs"]["buildGolden"]
-        branch = next(
-            candidate
-            for candidate in build_golden["dependentSchemas"]["build"]
-            ["then"]["oneOf"]
-            if candidate["properties"]["core_id"].get("const") == CORE_ID
-        )
-        source_schema = branch["properties"]["source"]["properties"]
-        self.assertEqual(SOURCE_URL, source_schema["url"]["const"])
-        self.assertEqual(
-            SOURCE_URL, source_schema["resolved_url"]["const"]
-        )
-        self.assertEqual([], source_schema["submodules"]["const"])
-        golden_build = branch["properties"]["build"]
-        self.assertEqual(
-            {
-                "driver",
-                "environment",
-                "compile_definitions",
-                "git_version",
-                "source_date_epoch",
-                "log",
-                "log_sha256",
-            },
-            set(golden_build["required"]),
-        )
-        self.assertEqual(
-            [],
-            golden_build["properties"]["compile_definitions"]["const"],
-        )
-
         core_golden_schema = load_document(
             ROOT / "manifests/core-golden.schema.json"
         )

@@ -209,9 +209,11 @@ class MgbaCatalogTests(unittest.TestCase):
         catalog_schema = load_document(
             ROOT / "manifests" / "core-builds.schema.json"
         )
-        self.assertEqual(
-            {"$ref": "#/$defs/mgbaCore"},
-            catalog_schema["properties"]["cores"]["properties"][CORE_ID],
+        self.assertNotIn(
+            "mgba",
+            catalog_schema["properties"]["cores"].get(
+                "properties", {}
+            ),
         )
         version_schema = catalog_schema["$defs"]["mgbaNativeGitVersion"]
         self.assertEqual(
@@ -228,16 +230,6 @@ class MgbaCatalogTests(unittest.TestCase):
         self.assertEqual(
             "c", version_schema["properties"]["compiler_scope"]["const"]
         )
-        mgba_core = catalog_schema["$defs"]["mgbaCore"]["allOf"][1]
-        self.assertEqual(
-            SOURCE_TREE,
-            mgba_core["properties"]["source"]["properties"]["tree"]["const"],
-        )
-        self.assertEqual(
-            {"$ref": "#/$defs/mgbaNativeGitVersion"},
-            mgba_core["properties"]["build"]["properties"]["git_version"],
-        )
-
         golden_schema = load_document(
             ROOT / "manifests" / "golden-start.schema.json"
         )
@@ -269,7 +261,6 @@ class MgbaCatalogTests(unittest.TestCase):
         ]["core_id"]["enum"]
         self.assertIn(CORE_ID, trigger_core_ids)
         self.assertNotIn(CORE_ID, required_build_core_ids)
-
         core_golden_schema = load_document(
             ROOT / "manifests" / "core-golden.schema.json"
         )

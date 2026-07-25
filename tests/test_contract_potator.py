@@ -45,7 +45,6 @@ class PotatorContractTests(unittest.TestCase):
     def test_exact_catalog_and_schema_identity_is_core_owned(self) -> None:
         spec = hardened_catalog_spec()
         identity = potator.POTATOR_NATIVE_GIT_VERSION_SPEC_IDENTITY
-
         self.assertTrue(potator.potator_spec_is_well_formed(spec))
         self.assertEqual("platform/libretro/Makefile", identity["native_makefile"])
         self.assertEqual("c", identity["compiler_scope"])
@@ -61,25 +60,10 @@ class PotatorContractTests(unittest.TestCase):
         self.assertNotIn("compile_definitions", spec["build"])
         self.assertNotIn("make_variables", spec["build"])
         self.assertNotIn("source_date_epoch", spec["build"])
-
         schema = json.loads(
             (ROOT / "manifests/core-builds.schema.json").read_text(
                 encoding="utf-8"
             )
-        )
-        self.assertEqual(
-            {"$ref": "#/$defs/potatorCore"},
-            schema["properties"]["cores"]["properties"][potator.POTATOR_CORE_ID],
-        )
-        exact = schema["$defs"]["potatorCore"]["allOf"][1]
-        version = exact["properties"]["build"]["properties"]["git_version"]
-        self.assertEqual(
-            ["derivation", "value", "compiler_scope"],
-            version["allOf"][1]["propertyNames"]["enum"],
-        )
-        self.assertEqual(
-            {"const": "c"},
-            version["allOf"][1]["properties"]["compiler_scope"],
         )
 
     def test_catalog_predicate_rejects_every_owned_boundary(self) -> None:

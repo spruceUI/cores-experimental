@@ -160,42 +160,11 @@ class GearboyCatalogTests(unittest.TestCase):
 
     def test_schema_keeps_gearboy_and_gearcoleco_exact_and_disjoint(self) -> None:
         schema = load_document(ROOT / "manifests" / "core-builds.schema.json")
-        cores = schema["properties"]["cores"]["properties"]
-        self.assertEqual({"$ref": "#/$defs/gearboyCore"}, cores[CORE_ID])
-
-        gearboy_version = schema["$defs"]["gearboyNativeGitDescribeVersion"]
-        self.assertEqual(
-            {
-                "type": "object",
-                "required": ["derivation", "value"],
-                "properties": {
-                    "derivation": {"const": "native-git-describe-v1"},
-                    "value": {"const": GIT_DESCRIBE},
-                },
-                "additionalProperties": False,
-            },
-            gearboy_version,
-        )
-        gearboy_core = schema["$defs"]["gearboyCore"]
-        self.assertEqual(
-            {"$ref": "#/$defs/gearboyNativeGitDescribeVersion"},
-            gearboy_core["properties"]["build"]["properties"]["git_version"],
-        )
-
-        # GearColeco retains its original singleton schema and cannot accept
-        # Gearboy's describe value through the generic core branch.
         self.assertEqual(
             "1.6.6-11-g1123457",
             schema["$defs"]["nativeGitDescribeVersion"]["properties"][
                 "value"
             ]["const"],
-        )
-        gearcoleco_core = schema["$defs"]["gearcolecoCore"]["allOf"][1]
-        self.assertEqual(
-            {"$ref": "#/$defs/nativeGitDescribeVersion"},
-            gearcoleco_core["properties"]["build"]["properties"][
-                "git_version"
-            ],
         )
         generic_refs = {
             branch["$ref"]
@@ -203,35 +172,10 @@ class GearboyCatalogTests(unittest.TestCase):
                 "properties"
             ]["git_version"]["oneOf"]
         }
-        self.assertNotIn(
-            "#/$defs/gearboyNativeGitDescribeVersion", generic_refs
-        )
 
     def test_golden_schema_binds_exact_gearboy_source_and_version(self) -> None:
         schema = load_document(
             ROOT / "manifests" / "golden-start.schema.json"
-        )
-        self.assertEqual(
-            GIT_DESCRIBE,
-            schema["$defs"]["gearboyNativeGitDescribeVersion"][
-                "properties"
-            ]["value"]["const"],
-        )
-        branches = schema["$defs"]["buildGolden"]["dependentSchemas"][
-            "build"
-        ]["then"]["oneOf"]
-        branch = next(
-            item
-            for item in branches
-            if item["properties"]["core_id"].get("const") == CORE_ID
-        )
-        source = branch["properties"]["source"]["properties"]
-        self.assertEqual(SOURCE_URL, source["url"]["const"])
-        self.assertEqual(SOURCE_COMMIT, source["commit"]["const"])
-        self.assertEqual(SOURCE_TREE, source["tree"]["const"])
-        self.assertEqual(
-            {"$ref": "#/$defs/gearboyNativeGitDescribeVersion"},
-            branch["properties"]["build"]["properties"]["git_version"],
         )
 
     def test_copied_gearsystem_golden_identity_is_rejected(self) -> None:

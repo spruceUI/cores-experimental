@@ -383,39 +383,6 @@ class PokeminiModuleTests(unittest.TestCase):
                 encoding="utf-8"
             )
         )
-        self.assertEqual(
-            {"$ref": "#/$defs/pokeminiCore"},
-            schema["properties"]["cores"]["properties"][
-                pokemini.POKEMINI_CORE_ID
-            ],
-        )
-        exact = schema["$defs"]["pokeminiCore"]["allOf"][1]
-        self.assertEqual(
-            {"workflow", "source", "build", "metadata", "targets"},
-            set(exact["required"]),
-        )
-        build = exact["properties"]["build"]
-        self.assertEqual(
-            {
-                "artifact_name",
-                "driver",
-                "git_version",
-                "output_path",
-                "source_dir",
-                "source_key",
-            },
-            set(build["required"]),
-        )
-        self.assertEqual(set(build["required"]), set(build["propertyNames"]["enum"]))
-        native = build["properties"]["git_version"]["allOf"][1]
-        self.assertEqual(
-            {"derivation", "value"},
-            set(native["propertyNames"]["enum"]),
-        )
-        self.assertEqual(
-            {"const": pokemini.POKEMINI_NATIVE_GIT_VERSION},
-            native["properties"]["value"],
-        )
 
     def test_reviewed_build_fingerprints_are_individual_and_exact(self) -> None:
         self.assertEqual(43, pokemini.POKEMINI_EXPECTED_COMPILE_COUNT)

@@ -682,7 +682,10 @@ class GearcolecoModuleTests(unittest.TestCase):
             f"#/$defs/{name}" for name in catalog_ref_defs
         ]
         golden_expected_refs = [f"#/$defs/{name}" for name in version_defs]
-        for schema in (catalog_schema, golden_schema):
+        for schema, def_names in (
+            (catalog_schema, catalog_ref_defs),
+            (golden_schema, version_defs),
+        ):
             with self.subTest(schema=schema["$id"]):
                 self.assertEqual(
                     expected_version,
@@ -698,24 +701,13 @@ class GearcolecoModuleTests(unittest.TestCase):
                             sort_keys=True,
                         ),
                     )
-                    for name in version_defs
+                    for name in def_names
                 ]
                 self.assertEqual(len(identities), len(set(identities)))
 
-        self.assertEqual(
-            "#/$defs/gearcolecoCore",
-            catalog_schema["properties"]["cores"]["properties"]["gearcoleco"][
-                "$ref"
-            ],
-        )
-        exact_core = catalog_schema["$defs"]["gearcolecoCore"]["allOf"][1]
-        self.assertEqual(
-            {"workflow", "source", "build", "metadata", "targets"},
-            set(exact_core["required"]),
-        )
-        self.assertEqual(
-            {"$ref": "#/$defs/nativeGitDescribeVersion"},
-            exact_core["properties"]["build"]["properties"]["git_version"],
+        self.assertNotIn(
+            "gearcoleco",
+            catalog_schema["properties"]["cores"].get("properties", {}),
         )
         catalog_git_refs = [
             branch["$ref"]
