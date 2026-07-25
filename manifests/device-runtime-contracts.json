@@ -29,7 +29,7 @@
       "default_execution_profile": "ra32-a30-v1",
       "optional_execution_profiles": [],
       "candidate_build_flavors": [],
-      "runtime_capture": "device-probe-v3",
+      "runtime_capture": "load-smoke-v1",
       "effective_abi_ceiling": "unknown",
       "provider_observations": [
         {
@@ -85,6 +85,15 @@
         ],
         "unresolvable_installed_cores": [],
         "enforcing": false
+      },
+      "load_smoke": {
+        "capture": "manifests/device-runtime-captures/load-smoke-20260724-v1.json",
+        "capture_id": "load-smoke-20260724-v1",
+        "devices_tested": [
+          "MIYOO_A30"
+        ],
+        "result": "pass",
+        "excluded_cores": {}
       }
     },
     "device-miyoo-flip-v0": {
@@ -102,7 +111,7 @@
         "ra32-universal-v0"
       ],
       "candidate_build_flavors": [],
-      "runtime_capture": "device-probe-v3",
+      "runtime_capture": "load-smoke-v1",
       "effective_abi_ceiling": "unknown",
       "provider_observations": [
         {
@@ -165,6 +174,15 @@
           "yabasanshiro_smartpros"
         ],
         "enforcing": false
+      },
+      "load_smoke": {
+        "capture": "manifests/device-runtime-captures/load-smoke-20260724-v1.json",
+        "capture_id": "load-smoke-20260724-v1",
+        "devices_tested": [
+          "MIYOO_FLIP"
+        ],
+        "result": "pass",
+        "excluded_cores": {}
       }
     },
     "device-miyoo-mini-family-v0": {
@@ -195,7 +213,7 @@
       "default_execution_profile": "ra32-mini-v0",
       "optional_execution_profiles": [],
       "candidate_build_flavors": [],
-      "runtime_capture": "device-probe-v3",
+      "runtime_capture": "load-smoke-v1",
       "effective_abi_ceiling": "unknown",
       "provider_observations": [
         {
@@ -253,6 +271,25 @@
           "flycast"
         ],
         "enforcing": false
+      },
+      "load_smoke": {
+        "capture": "manifests/device-runtime-captures/load-smoke-20260724-v1.json",
+        "capture_id": "load-smoke-20260724-v1",
+        "devices_tested": [
+          "MIYOO_MINI_PLUS",
+          "MIYOO_MINI_FLIP"
+        ],
+        "result": "pass-with-exclusions",
+        "excluded_cores": {
+          "km_parallel_n64_xtreme_amped_turbo": {
+            "MIYOO_MINI_PLUS": "memory-zero-fill-map",
+            "MIYOO_MINI_FLIP": "memory-zero-fill-map"
+          },
+          "puae2021": {
+            "MIYOO_MINI_PLUS": "memory-zero-fill-map",
+            "MIYOO_MINI_FLIP": "memory-zero-fill-map"
+          }
+        }
       }
     },
     "device-trimui-a133p-family-v0": {
@@ -278,7 +315,7 @@
       "default_execution_profile": "ra64-universal-v1",
       "optional_execution_profiles": [],
       "candidate_build_flavors": [],
-      "runtime_capture": "device-probe-v3",
+      "runtime_capture": "load-smoke-v1",
       "effective_abi_ceiling": "unknown",
       "provider_observations": [
         {
@@ -337,6 +374,16 @@
           "yabasanshiro_smartpros"
         ],
         "enforcing": false
+      },
+      "load_smoke": {
+        "capture": "manifests/device-runtime-captures/load-smoke-20260724-v1.json",
+        "capture_id": "load-smoke-20260724-v1",
+        "devices_tested": [
+          "TRIMUI_BRICK",
+          "TRIMUI_SMART_PRO"
+        ],
+        "result": "pass",
+        "excluded_cores": {}
       }
     },
     "device-trimui-smart-pro-s-v0": {
@@ -352,7 +399,7 @@
       "default_execution_profile": "ra64-universal-v1",
       "optional_execution_profiles": [],
       "candidate_build_flavors": [],
-      "runtime_capture": "device-probe-v3",
+      "runtime_capture": "load-smoke-v1",
       "effective_abi_ceiling": "unknown",
       "provider_observations": [
         {
@@ -413,6 +460,15 @@
           "yabasanshiro_a133p"
         ],
         "enforcing": false
+      },
+      "load_smoke": {
+        "capture": "manifests/device-runtime-captures/load-smoke-20260724-v1.json",
+        "capture_id": "load-smoke-20260724-v1",
+        "devices_tested": [
+          "TRIMUI_SMART_PRO_S"
+        ],
+        "result": "pass",
+        "excluded_cores": {}
       }
     },
     "device-gkd-pixel2-v0": {
