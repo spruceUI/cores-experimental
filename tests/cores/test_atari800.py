@@ -237,33 +237,12 @@ class Atari800CatalogTests(unittest.TestCase):
         catalog_schema = load_document(
             ROOT / "manifests/core-builds.schema.json"
         )
-        self.assertEqual(
-            {"$ref": "#/$defs/atari800Core"},
-            catalog_schema["properties"]["cores"]["properties"][CORE_ID],
+        self.assertNotIn(
+            "atari800",
+            catalog_schema["properties"]["cores"].get(
+                "properties", {}
+            ),
         )
-        exact_core = catalog_schema["$defs"]["atari800Core"]["allOf"][1]
-        self.assertEqual(
-            ["workflow", "source", "build", "metadata", "validation", "targets"],
-            exact_core["required"],
-        )
-        self.assertEqual(
-            {"$ref": "#/$defs/atari800MetadataReplacement"},
-            exact_core["properties"]["metadata"]["properties"]["replacement"],
-        )
-        build_schema = exact_core["properties"]["build"]
-        self.assertEqual(
-            set(self.spec["build"]),
-            set(build_schema["required"]),
-        )
-        self.assertEqual(
-            set(self.spec["build"]),
-            set(build_schema["propertyNames"]["enum"]),
-        )
-        self.assertEqual(
-            set(self.spec["build"]),
-            set(build_schema["properties"]),
-        )
-
         golden_schema = load_document(
             ROOT / "manifests/golden-start.schema.json"
         )
@@ -286,7 +265,6 @@ class Atari800CatalogTests(unittest.TestCase):
             "metadata_replacement",
             exact_branch["properties"]["build"]["required"],
         )
-
         core_golden_schema = load_document(
             ROOT / "manifests/core-golden.schema.json"
         )

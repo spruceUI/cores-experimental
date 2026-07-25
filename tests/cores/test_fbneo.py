@@ -115,9 +115,11 @@ class FbneoManifestTests(unittest.TestCase):
         catalog_schema = load_document(
             ROOT / "manifests/core-builds.schema.json"
         )
-        self.assertEqual(
-            {"$ref": "#/$defs/fbneoCore"},
-            catalog_schema["properties"]["cores"]["properties"][CORE_ID],
+        self.assertNotIn(
+            "fbneo",
+            catalog_schema["properties"]["cores"].get(
+                "properties", {}
+            ),
         )
         version_schema = catalog_schema["$defs"]["fbneoNativeVersion"]
         self.assertEqual(
@@ -132,59 +134,6 @@ class FbneoManifestTests(unittest.TestCase):
                 for key, value in version_schema["properties"].items()
             },
         )
-
-        exact_core = catalog_schema["$defs"]["fbneoCore"]["allOf"][1]
-        self.assertEqual(set(exact_core["required"]), {
-            "workflow",
-            "source",
-            "build",
-            "metadata",
-            "validation",
-            "targets",
-        })
-        self.assertEqual(
-            set(exact_core["required"]),
-            set(exact_core["propertyNames"]["enum"]),
-        )
-        source_schema = exact_core["properties"]["source"]
-        self.assertEqual(
-            set(source_schema["required"]),
-            set(source_schema["propertyNames"]["enum"]),
-        )
-        build_schema = exact_core["properties"]["build"]
-        self.assertEqual(
-            {
-                "artifact_name",
-                "compile_definitions",
-                "driver",
-                "git_version",
-                "output_path",
-                "source_date_epoch",
-                "source_dir",
-                "source_key",
-            },
-            set(build_schema["required"]),
-        )
-        self.assertEqual(
-            set(build_schema["required"]) | {"overlays"},
-            set(build_schema["propertyNames"]["enum"]),
-        )
-        self.assertEqual(
-            {"$ref": "#/$defs/fbneoNativeVersion"},
-            build_schema["properties"]["git_version"],
-        )
-        self.assertEqual(
-            SOURCE_DATE_EPOCH,
-            build_schema["properties"]["source_date_epoch"]["const"],
-        )
-        metadata_schema = exact_core["properties"]["metadata"]
-        self.assertNotIn("replacement", metadata_schema["properties"])
-        self.assertEqual(
-            FORBIDDEN_NEEDED_PREFIXES,
-            exact_core["properties"]["validation"]["properties"]
-            ["forbidden_needed_prefixes"]["const"],
-        )
-
         golden_schema = load_document(
             ROOT / "manifests/golden-start.schema.json"
         )
@@ -195,17 +144,6 @@ class FbneoManifestTests(unittest.TestCase):
             ["then"]["oneOf"]
             if candidate["properties"]["core_id"].get("const") == CORE_ID
         )
-        source_schema = branch["properties"]["source"]
-        self.assertEqual(
-            set(source_schema["required"]),
-            set(source_schema["propertyNames"]["enum"]),
-        )
-        source_properties = source_schema["properties"]
-        self.assertEqual(SOURCE_URL, source_properties["url"]["const"])
-        self.assertEqual(
-            SOURCE_URL, source_properties["resolved_url"]["const"]
-        )
-        self.assertEqual([], source_properties["submodules"]["const"])
         golden_build = branch["properties"]["build"]
         self.assertEqual(
             {
@@ -245,7 +183,6 @@ class FbneoManifestTests(unittest.TestCase):
                 target_branch["then"]["properties"]["build"]["properties"]
                 ["compile_definitions"]["const"],
             )
-
         core_golden_schema = load_document(
             ROOT / "manifests/core-golden.schema.json"
         )

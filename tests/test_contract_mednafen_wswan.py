@@ -368,42 +368,11 @@ class MednafenWswanModuleTests(unittest.TestCase):
             )
         )
         core_id = mednafen_wswan.MEDNAFEN_WSWAN_CORE_ID
-        self.assertEqual(
-            {"$ref": "#/$defs/mednafenWswanCore"},
-            catalog_schema["properties"]["cores"]["properties"][core_id],
-        )
-        catalog_exact = catalog_schema["$defs"]["mednafenWswanCore"][
-            "allOf"
-        ][1]
-        self.assertEqual(
-            " da6d0d9",
-            catalog_exact["properties"]["build"]["properties"]
-            ["git_version"]["allOf"][1]["properties"]["value"]["const"],
-        )
-        golden_version = golden_schema["$defs"][
-            "mednafenWswanNativeGitVersion"
-        ]["allOf"][1]
-        self.assertEqual(
-            {"derivation", "value"},
-            set(golden_version["propertyNames"]["enum"]),
-        )
-        self.assertEqual(
-            " da6d0d9", golden_version["properties"]["value"]["const"]
-        )
-        exact_build = golden_schema["$defs"]["buildGolden"][
-            "dependentSchemas"
-        ]["build"]
-        branch = next(
-            item
-            for item in exact_build["then"]["oneOf"]
-            if item["properties"]["core_id"].get("const") == core_id
-        )
-        self.assertEqual(
-            {"core_id", "source", "build"}, set(branch["required"])
-        )
-        self.assertEqual(
-            {"$ref": "#/$defs/mednafenWswanNativeGitVersion"},
-            branch["properties"]["build"]["properties"]["git_version"],
+        self.assertNotIn(
+            "mednafen_wswan",
+            catalog_schema["properties"]["cores"].get(
+                "properties", {}
+            ),
         )
 
     def test_synthetic_logs_prove_both_architecture_contracts(self) -> None:

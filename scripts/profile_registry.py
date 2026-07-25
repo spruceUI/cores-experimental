@@ -924,8 +924,10 @@ def validate_runtime_contracts(
         contract = _object(raw_contract, f"runtime contract {contract_id}")
         # `library_observations` is optional: it appears once a device_probe
         # run has resolved the installed cores' libraries on that device.
+        # `load_smoke` is optional: it appears once an on-device load-smoke
+        # capture has been recorded for the contract's devices.
         _exact_keys(
-            set(contract) - {"library_observations"},
+            set(contract) - {"library_observations", "load_smoke"},
             {
                 "status",
                 "runtime_family_id",
@@ -944,9 +946,12 @@ def validate_runtime_contracts(
         # playback, so it may name the probe that ran but must not promote the
         # contract's status or claim an ABI ceiling. Those still require a
         # target-runtime smoke test.
+        # A load-smoke capture is likewise loading evidence only: the
+        # contract stays provisional and playback claims remain gated.
         if contract["status"] != "provisional" or contract["runtime_capture"] not in {
             "needs-target-runtime",
             "device-probe-v3",
+            "load-smoke-v1",
         }:
             raise RegistryError(f"runtime contract {contract_id} overclaims validation")
         observations = contract.get("library_observations")
@@ -958,7 +963,12 @@ def validate_runtime_contracts(
                 raise RegistryError(
                     f"runtime contract {contract_id} library observations overclaim enforcement"
                 )
-            if contract["runtime_capture"] != observations.get("probe_schema"):
+            if contract["runtime_capture"] != observations.get(
+                "probe_schema"
+            ) and not (
+                contract["runtime_capture"] == "load-smoke-v1"
+                and "load_smoke" in contract
+            ):
                 raise RegistryError(
                     f"runtime contract {contract_id} runtime_capture does not name its probe"
                 )

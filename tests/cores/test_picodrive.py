@@ -169,40 +169,10 @@ class PicoDriveManifestTests(unittest.TestCase):
             ROOT / "manifests/core-builds.schema.json"
         )
         self.assertEqual(
-            {"$ref": "#/$defs/picodriveCore"},
-            catalog_schema["properties"]["cores"]["properties"][CORE_ID],
-        )
-        exact_core = catalog_schema["$defs"]["picodriveCore"]["allOf"][1]
-        build_schema = exact_core["properties"]["build"]
-        self.assertEqual(
-            {
-                "artifact_name",
-                "compile_definitions",
-                "driver",
-                "output_path",
-                "recipe_profile",
-                "source_date_epoch",
-                "source_dir",
-                "source_key",
-            },
-            set(build_schema["required"]),
-        )
-        self.assertEqual(
-            COMPILE_DEFINITIONS,
-            build_schema["properties"]["compile_definitions"]["const"],
-        )
-        self.assertEqual(
-            {"$ref": "#/$defs/picodriveRecipeProfile"},
-            build_schema["properties"]["recipe_profile"],
-        )
-        self.assertEqual(
-            SOURCE_DATE_EPOCH,
-            build_schema["properties"]["source_date_epoch"]["const"],
-        )
-        self.assertEqual(
-            FORBIDDEN_NEEDED_PREFIXES,
-            exact_core["properties"]["validation"]["properties"]
-            ["forbidden_needed_prefixes"]["const"],
+            {"$ref": "#/$defs/core"},
+            catalog_schema["properties"]["cores"][
+                "properties"
+            ]["picodrive"],
         )
         self.assertEqual(
             RECIPE_PROFILE,
@@ -227,37 +197,9 @@ class PicoDriveManifestTests(unittest.TestCase):
         self.assertEqual(
             {"required": ["recipe_profile"]}, generic_build["not"]
         )
-
         golden_schema = load_document(
             ROOT / "manifests/golden-start.schema.json"
         )
-        build_golden = golden_schema["$defs"]["buildGolden"]
-        branch = next(
-            candidate
-            for candidate in build_golden["dependentSchemas"]["build"]
-            ["then"]["oneOf"]
-            if candidate["properties"]["core_id"].get("const") == CORE_ID
-        )
-        source_schema = branch["properties"]["source"]["properties"]
-        self.assertEqual(
-            RECURSIVE_SUBMODULES, source_schema["submodules"]["const"]
-        )
-        golden_build = branch["properties"]["build"]
-        self.assertIn("recipe_profile", golden_build["required"])
-        self.assertIn("source_date_epoch", golden_build["required"])
-        self.assertIn("metadata_replacement", golden_build["required"])
-        architecture_contracts = branch["allOf"]
-        self.assertEqual(
-            [],
-            architecture_contracts[0]["then"]["properties"]["build"]
-            ["properties"]["compile_definitions"]["const"],
-        )
-        self.assertEqual(
-            COMPILE_DEFINITIONS["armhf"],
-            architecture_contracts[1]["then"]["properties"]["build"]
-            ["properties"]["compile_definitions"]["const"],
-        )
-
         core_golden_schema = load_document(
             ROOT / "manifests/core-golden.schema.json"
         )

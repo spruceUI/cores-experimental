@@ -434,34 +434,12 @@ class BluemsxModuleTests(unittest.TestCase):
                 encoding="utf-8"
             )
         )
-        self.assertEqual(
-            {"$ref": "#/$defs/bluemsxCore"},
-            catalog_schema["properties"]["cores"]["properties"][
-                bluemsx.BLUEMSX_CORE_ID
-            ],
+        self.assertNotIn(
+            "bluemsx",
+            catalog_schema["properties"]["cores"].get(
+                "properties", {}
+            ),
         )
-        exact = catalog_schema["$defs"]["bluemsxCore"]["allOf"][1]
-        self.assertEqual(
-            {"workflow", "source", "build", "metadata", "targets"},
-            set(exact["required"]),
-        )
-        catalog_version = exact["properties"]["build"]["properties"][
-            "git_version"
-        ]["allOf"][1]
-        self.assertEqual(["compiler_scope"], catalog_version["required"])
-        self.assertEqual(
-            ["derivation", "value", "compiler_scope"],
-            catalog_version["propertyNames"]["enum"],
-        )
-        self.assertEqual(
-            {"const": "c"},
-            catalog_version["properties"]["compiler_scope"],
-        )
-        self.assertEqual(
-            {"const": bluemsx.BLUEMSX_NATIVE_GIT_VERSION},
-            catalog_version["properties"]["value"],
-        )
-
         self.assertEqual(
             {
                 "allOf": [

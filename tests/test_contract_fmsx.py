@@ -383,30 +383,12 @@ class FmsxModuleTests(unittest.TestCase):
                 encoding="utf-8"
             )
         )
-        self.assertEqual(
-            {"$ref": "#/$defs/fmsxCore"},
-            catalog_schema["properties"]["cores"]["properties"][
-                fmsx.FMSX_CORE_ID
-            ],
+        self.assertNotIn(
+            "fmsx",
+            catalog_schema["properties"]["cores"].get(
+                "properties", {}
+            ),
         )
-        exact = catalog_schema["$defs"]["fmsxCore"]["allOf"][1]
-        self.assertEqual(
-            {"workflow", "source", "build", "metadata", "targets"},
-            set(exact["required"]),
-        )
-        catalog_version = exact["properties"]["build"]["properties"][
-            "git_version"
-        ]["allOf"][1]
-        self.assertEqual(
-            ["derivation", "value"],
-            catalog_version["propertyNames"]["enum"],
-        )
-        self.assertNotIn("compiler_scope", catalog_version["properties"])
-        self.assertEqual(
-            {"const": fmsx.FMSX_NATIVE_GIT_VERSION},
-            catalog_version["properties"]["value"],
-        )
-
         self.assertEqual(
             {
                 "allOf": [

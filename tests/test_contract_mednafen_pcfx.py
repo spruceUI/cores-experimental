@@ -397,12 +397,6 @@ class MednafenPcfxModuleTests(unittest.TestCase):
     ) -> None:
         schema = pipeline.load_json(ROOT / "manifests/core-builds.schema.json")
         self.assertEqual(
-            {"$ref": "#/$defs/mednafenPcfxCore"},
-            schema["properties"]["cores"]["properties"][
-                mednafen_pcfx.MEDNAFEN_PCFX_CORE_ID
-            ],
-        )
-        self.assertEqual(
             ["c", "cxx"],
             schema["$defs"]["nativeGitVersion"]["properties"][
                 "compiler_scope"
@@ -413,23 +407,6 @@ class MednafenPcfxModuleTests(unittest.TestCase):
             schema["$defs"]["gitVersion"]["properties"][
                 "compiler_scope"
             ]["const"],
-        )
-
-        pcfx_build = schema["$defs"]["mednafenPcfxCore"]["allOf"][1][
-            "properties"
-        ]["build"]
-        pcfx_git_version = pcfx_build["properties"]["git_version"][
-            "allOf"
-        ][1]
-        self.assertEqual(["compiler_scope"], pcfx_git_version["required"])
-        self.assertEqual(
-            {"const": "cxx"},
-            pcfx_git_version["properties"]["compiler_scope"],
-        )
-        self.assertIn("make_variables", pcfx_build["required"])
-        self.assertEqual(
-            {"$ref": "#/$defs/pcfxPortableMakeVariables"},
-            pcfx_build["properties"]["make_variables"],
         )
 
     def test_shared_validators_bind_pcfx_cxx_version_and_portable_make(

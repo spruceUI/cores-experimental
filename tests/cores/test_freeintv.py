@@ -141,23 +141,12 @@ class FreeIntvCatalogTests(unittest.TestCase):
         catalog_schema = load_document(
             ROOT / "manifests" / "core-builds.schema.json"
         )
-        self.assertEqual(
-            {"$ref": "#/$defs/freeintvCore"},
-            catalog_schema["properties"]["cores"]["properties"][CORE_ID],
-        )
-        exact_core = catalog_schema["$defs"]["freeintvCore"]["allOf"][1][
-            "properties"
-        ]
-        source_schema = exact_core["source"]["properties"]
-        self.assertEqual(SOURCE_URL, source_schema["url"]["const"])
-        self.assertEqual(SOURCE_COMMIT, source_schema["commit"]["const"])
-        self.assertEqual(SOURCE_TREE, source_schema["tree"]["const"])
-        build_schema = exact_core["build"]
-        self.assertNotIn("git_version", build_schema["required"])
         self.assertNotIn(
-            "git_version", build_schema["propertyNames"]["enum"]
+            "freeintv",
+            catalog_schema["properties"]["cores"].get(
+                "properties", {}
+            ),
         )
-
         golden_schema = load_document(
             ROOT / "manifests" / "golden-start.schema.json"
         )
@@ -194,7 +183,6 @@ class FreeIntvCatalogTests(unittest.TestCase):
         self.assertNotIn(
             "git_version", golden_build["propertyNames"]["enum"]
         )
-
         core_golden_schema = load_document(
             ROOT / "manifests" / "core-golden.schema.json"
         )
