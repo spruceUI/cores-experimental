@@ -159,6 +159,22 @@ def _policy_exclusion(
     return None
 
 
+def _contract_memory_exclusions(
+    contracts: dict[str, Any], contract_id: str
+) -> dict[str, dict[str, Any]]:
+    """Map core_id -> memory constraint for constraints bound to this contract."""
+
+    result: dict[str, dict[str, Any]] = {}
+    for constraint in contracts.get("compatibility_constraints", []):
+        if (
+            constraint.get("kind") == "memory-capacity-exceeded"
+            and constraint.get("runtime_contract_id") == contract_id
+        ):
+            for core_id in constraint.get("core_ids", []):
+                result[core_id] = constraint
+    return result
+
+
 def _profile_constraints(
     contracts: dict[str, Any], profile_id: str
 ) -> dict[str, str]:
@@ -276,9 +292,11 @@ def assemble_device_sets(
         architecture = profile_architecture(profiles, profile_id)
         ceiling = device_glibcxx_ceiling(contract)
         constraints = _profile_constraints(contracts, profile_id)
+        memory_exclusions = _contract_memory_exclusions(contracts, contract_id)
         libraries = device_library_availability(contract)
         buckets: dict[str, list[dict[str, Any]]] = {
             "eligible": [],
+            "memory_ineligible": [],
             "eligible_ceiling_uncaptured": [],
             "over_ceiling": [],
             "missing_provider": [],
@@ -291,6 +309,19 @@ def assemble_device_sets(
             if excluded is not None:
                 buckets["policy_excluded"].append(
                     {"core": core_id, "reason": excluded}
+                )
+                continue
+            memory_constraint = memory_exclusions.get(core_id)
+            if memory_constraint is not None:
+                # Measured on-device load failure outranks any static ABI
+                # standing: the device cannot map the core at all.
+                buckets["memory_ineligible"].append(
+                    {
+                        "core": core_id,
+                        "reason": memory_constraint["observed_failure"],
+                        "capture": memory_constraint["capture_id"],
+                        "constraint": memory_constraint["constraint_id"],
+                    }
                 )
                 continue
             bucket, detail = classify_core(

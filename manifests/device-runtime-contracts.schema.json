@@ -52,7 +52,14 @@
     "compatibility_constraints": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/constraint"
+        "oneOf": [
+          {
+            "$ref": "#/$defs/providerConstraint"
+          },
+          {
+            "$ref": "#/$defs/memoryConstraint"
+          }
+        ]
       }
     },
     "core_policies": {
@@ -319,56 +326,6 @@
       },
       "additionalProperties": false
     },
-    "constraint": {
-      "type": "object",
-      "required": [
-        "constraint_id",
-        "core_ids",
-        "execution_profile_id",
-        "kind",
-        "required_symbols",
-        "disposition",
-        "evidence_scope"
-      ],
-      "properties": {
-        "constraint_id": {
-          "type": "string",
-          "pattern": "^[a-z0-9][a-z0-9-]+-v[0-9]+$"
-        },
-        "core_ids": {
-          "type": "array",
-          "minItems": 1,
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "pattern": "^[a-z0-9][a-z0-9_]*$"
-          }
-        },
-        "execution_profile_id": {
-          "type": "string",
-          "pattern": "^ra(32|64)-[a-z0-9-]+-v[0-9]+$"
-        },
-        "kind": {
-          "const": "provider-ceiling-unverified"
-        },
-        "required_symbols": {
-          "type": "array",
-          "minItems": 1,
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "pattern": "^(GLIBCXX|CXXABI)_[0-9]+(?:\\.[0-9]+)+$"
-          }
-        },
-        "disposition": {
-          "const": "unverified-for-profile"
-        },
-        "evidence_scope": {
-          "const": "packaged-fallback-observation"
-        }
-      },
-      "additionalProperties": false
-    },
     "acceleratedCandidate": {
       "type": "object",
       "required": [
@@ -521,6 +478,106 @@
         },
         "enforcing": {
           "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "providerConstraint": {
+      "type": "object",
+      "required": [
+        "constraint_id",
+        "core_ids",
+        "execution_profile_id",
+        "kind",
+        "required_symbols",
+        "disposition",
+        "evidence_scope"
+      ],
+      "properties": {
+        "constraint_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]+-v[0-9]+$"
+        },
+        "core_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_]*$"
+          }
+        },
+        "execution_profile_id": {
+          "type": "string",
+          "pattern": "^ra(32|64)-[a-z0-9-]+-v[0-9]+$"
+        },
+        "kind": {
+          "const": "provider-ceiling-unverified"
+        },
+        "required_symbols": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(GLIBCXX|CXXABI)_[0-9]+(?:\\.[0-9]+)+$"
+          }
+        },
+        "disposition": {
+          "const": "unverified-for-profile"
+        },
+        "evidence_scope": {
+          "const": "packaged-fallback-observation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "memoryConstraint": {
+      "type": "object",
+      "required": [
+        "constraint_id",
+        "core_ids",
+        "runtime_contract_id",
+        "kind",
+        "observed_failure",
+        "capture_id",
+        "disposition",
+        "evidence_scope"
+      ],
+      "properties": {
+        "constraint_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]+-v[0-9]+$"
+        },
+        "core_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_]*$"
+          }
+        },
+        "runtime_contract_id": {
+          "type": "string",
+          "pattern": "^device-[a-z0-9-]+-v[0-9]+$"
+        },
+        "kind": {
+          "const": "memory-capacity-exceeded"
+        },
+        "observed_failure": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "capture_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "disposition": {
+          "const": "ineligible-for-contract"
+        },
+        "evidence_scope": {
+          "const": "on-device-load-smoke"
         }
       },
       "additionalProperties": false

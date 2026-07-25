@@ -621,6 +621,19 @@
       ],
       "disposition": "unverified-for-profile",
       "evidence_scope": "packaged-fallback-observation"
+    },
+    {
+      "constraint_id": "mini-family-memory-capacity-v0",
+      "core_ids": [
+        "km_parallel_n64_xtreme_amped_turbo",
+        "puae2021"
+      ],
+      "runtime_contract_id": "device-miyoo-mini-family-v0",
+      "kind": "memory-capacity-exceeded",
+      "observed_failure": "memory-zero-fill-map",
+      "capture_id": "load-smoke-20260724-v1",
+      "disposition": "ineligible-for-contract",
+      "evidence_scope": "on-device-load-smoke"
     }
   ],
   "core_policies": {
@@ -655,5 +668,5 @@
       "catalog_menu_eligibility": "unsupported"
     }
   },
-  "content_sha256": "a6b7ea66b98d8fae202013826fc81497daa310aad4963d820d6f0b8fa52dc3d8"
+  "content_sha256": "267173066a1fabe8802ede7146b286aed781d76adf3bbbda740313e81d98f7a6"
 }
