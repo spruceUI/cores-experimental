@@ -284,6 +284,7 @@ def _imported_artifact(
     artifacts = load_document(golden_path)["cores"][core_id].get(
         "artifacts", {}
     )
-    if arch not in artifacts:
+    entry = artifacts.get(arch)
+    if not isinstance(entry, dict) or "sha256" not in entry:
         return {}
-    return {"imported_artifact_sha256": artifacts[arch]["sha256"]}
+    return {"imported_artifact_sha256": entry["sha256"]}
