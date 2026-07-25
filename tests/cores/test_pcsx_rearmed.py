@@ -42,6 +42,12 @@ class PcsxRearmedManifestTests(unittest.TestCase):
                 "requested_ref": "refs/heads/master",
                 "commit": SOURCE_COMMIT,
                 "tree": SOURCE_TREE,
+                "submodules": [
+                    {
+                        "path": "frontend/libpicofe",
+                        "commit": "dd11f2d723162eb1cf8e6db9f40de7db0d0b6bba",
+                    }
+                ],
             },
             self.spec["source"],
         )

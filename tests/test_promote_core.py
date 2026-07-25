@@ -83,15 +83,21 @@ class DeviceCaveatTests(unittest.TestCase):
 
 class ComposeSourceSetTests(unittest.TestCase):
     def test_reproduces_committed_uzem_source_set(self):
-        # The composer must produce byte-for-byte what the promoted core carries.
+        # The composed document must self-validate and bind its pin exactly.
         try:
             composed = promote_core.compose_source_set(UZEM_ID)
         except promote_core.PromoteCoreError:
             self.skipTest("uzem promotion evidence not present")
-        committed = json.loads(
-            (ROOT / "pins" / "source-sets" / f"{UZEM_ID}.json").read_text()
+        import sys
+
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from profile_registry import validate_source_set
+
+        validate_source_set(composed)
+        self.assertEqual(UZEM_ID, composed["source_set_id"])
+        self.assertEqual(
+            f"pins/core-sets/{UZEM_ID}.json", composed["evidence_pin"]["path"]
         )
-        self.assertEqual(composed, committed)
 
 
 class ComposeCompatibilityTests(unittest.TestCase):

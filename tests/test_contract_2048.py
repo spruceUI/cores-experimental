@@ -17,13 +17,6 @@ from tests.core_contract_helpers import build_c_only_log_fixture
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE_LOCK_PATH = (
-    ROOT
-    / "pins"
-    / "sources"
-    / "2048"
-    / "c90437d3c3913999624deca3fb55ecfa632b72c4.json"
-)
 SOURCE_LOCK_FILE_SHA256 = (
     "1a91c8cc3f0349ec6b191fa5a14c1e3bd48f84086950cad2836fe11085ff6ce6"
 )
@@ -35,12 +28,10 @@ SOURCE_LOCK_CONTENT_SHA256 = (
 class Core2048ContractTests(unittest.TestCase):
     def test_source_lock_is_exact_and_catalog_bound(self) -> None:
         identity = core_2048.CORE_2048_NATIVE_GIT_VERSION_SPEC_IDENTITY
-        source_lock = json.loads(SOURCE_LOCK_PATH.read_text(encoding="utf-8"))
+        source_lock = registry.composed_source_lock("2048")
 
         registry.validate_source_lock(
             source_lock,
-            path=SOURCE_LOCK_PATH,
-            repo_root=ROOT,
         )
         self.assertEqual("2048-c90437d3c391", source_lock["source_lock_id"])
         self.assertEqual(core_2048.CORE_2048_ID, source_lock["core_id"])
@@ -58,7 +49,6 @@ class Core2048ContractTests(unittest.TestCase):
             SOURCE_LOCK_CONTENT_SHA256,
             registry.canonical_content_sha256(source_lock),
         )
-        self.assertEqual(SOURCE_LOCK_FILE_SHA256, sha256_file(SOURCE_LOCK_PATH))
 
     def test_registry_identity_is_owned_by_2048(self) -> None:
         contract = core_log_contract_for(core_2048.CORE_2048_ID)

@@ -20,10 +20,10 @@ assert SPEC and SPEC.loader
 registry = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(registry)
 
+FREECHAF_SEMANTIC_ID = "freechaf-76c7a84f1f7e-3fc6b43191ef"
 SOURCE_SET_RELATIVE = (
-    "pins/source-sets/freechaf-76c7a84f1f7e-3fc6b43191ef.json"
+    f"pins/source-sets/{FREECHAF_SEMANTIC_ID}.json"
 )
-SOURCE_SET_PATH = ROOT / SOURCE_SET_RELATIVE
 EXECUTION_PATH = ROOT / "manifests" / "execution-profiles.json"
 RUNTIME_PATH = ROOT / "manifests" / "device-runtime-contracts.json"
 CATALOG_CORE_COUNT = len(
@@ -42,7 +42,7 @@ def refresh_digest(document: dict) -> None:
 
 class ProfileRegistryTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.source_set = load(SOURCE_SET_PATH)
+        self.source_set = registry.composed_source_set(FREECHAF_SEMANTIC_ID)
         self.execution = load(EXECUTION_PATH)
         self.runtime = load(RUNTIME_PATH)
 
@@ -115,7 +115,7 @@ class ProfileRegistryTests(unittest.TestCase):
             )
 
     def test_source_lock_tampering_fails_closed(self) -> None:
-        base = load(ROOT / self.source_set["sources"]["freechaf"]["path"])
+        base = registry.composed_source_lock("freechaf")
         mutations = []
         changed_url = copy.deepcopy(base)
         changed_url["source"]["url"] = "https://example.com/freechaf.git"
@@ -147,7 +147,7 @@ class ProfileRegistryTests(unittest.TestCase):
                     registry.validate_source_lock(document)
 
     def test_source_lock_rejects_unsafe_urls_empty_refs_and_paths_after_rehash(self) -> None:
-        base = load(ROOT / self.source_set["sources"]["freechaf"]["path"])
+        base = registry.composed_source_lock("freechaf")
         mutations = []
         for url in (
             "https://user@github.com/libretro/FreeChaF.git",
@@ -196,32 +196,12 @@ class ProfileRegistryTests(unittest.TestCase):
     def _copy_mirror_inputs(self, destination: Path) -> None:
         relative_paths = [
             Path("manifests/core-builds.json"),
-            Path(SOURCE_SET_RELATIVE),
             Path(self.source_set["evidence_pin"]["path"]),
-        ] + [Path(reference["path"]) for reference in self.source_set["sources"].values()]
+        ]
         for relative in relative_paths:
             target = destination / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / relative, target)
-
-    def _noncanonical_multi_core_source_set(self):
-        source_set = copy.deepcopy(self.source_set)
-        second_source_set = load(
-            ROOT / "pins/source-sets/handy-bc55d462f0b2-c82a2178b4f0.json"
-        )
-        source_set["source_set_id"] = "noncanonical-multi-core"
-        source_set["sources"].update(second_source_set["sources"])
-        refresh_digest(source_set)
-        temporary = tempfile.NamedTemporaryFile(
-            mode="w+",
-            encoding="utf-8",
-            prefix="noncanonical-multi-core-",
-            suffix=".json",
-            dir=ROOT / "pins/source-sets",
-        )
-        json.dump(source_set, temporary)
-        temporary.flush()
-        return temporary
 
     def test_source_mirror_allows_future_catalog_superset_but_rejects_locked_drift(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -268,7 +248,9 @@ class ProfileRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             repo = Path(temporary)
             self._copy_mirror_inputs(repo)
-            source_set = load(repo / SOURCE_SET_RELATIVE)
+            source_set = registry.composed_source_set(
+                FREECHAF_SEMANTIC_ID, repo_root=repo
+            )
             original_pin = repo / source_set["evidence_pin"]["path"]
             successor_pin = repo / "pins/core-sets/successor-evidence.json"
             shutil.copy2(original_pin, successor_pin)
@@ -317,8 +299,9 @@ class ProfileRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             repo = Path(temporary)
             self._copy_mirror_inputs(repo)
-            source_set_path = repo / SOURCE_SET_RELATIVE
-            source_set = load(source_set_path)
+            source_set = registry.composed_source_set(
+                FREECHAF_SEMANTIC_ID, repo_root=repo
+            )
             pin_path = repo / source_set["evidence_pin"]["path"]
             pin = load(pin_path)
             pin["cores"]["freechaf"]["selection"]["targets"]["arm64"][
@@ -327,7 +310,6 @@ class ProfileRegistryTests(unittest.TestCase):
             pin_path.write_text(json.dumps(pin), encoding="utf-8")
             source_set["evidence_pin"]["file_sha256"] = registry.sha256_file(pin_path)
             refresh_digest(source_set)
-            source_set_path.write_text(json.dumps(source_set), encoding="utf-8")
             with self.assertRaises(registry.RegistryError):
                 registry.validate_source_set(source_set, repo_root=repo)
 
@@ -583,15 +565,6 @@ class ProfileRegistryTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             registry.verify_catalog_source_mirror()
 
-    def test_report_enforces_individual_source_set_cardinality(self) -> None:
-        with self._noncanonical_multi_core_source_set() as temporary:
-            source_set_path = Path(temporary.name).relative_to(ROOT).as_posix()
-            with self.assertRaisesRegex(
-                registry.RegistryError,
-                "individual source set must contain exactly one core",
-            ):
-                registry.report_data(source_set_path=source_set_path)
-
     def test_production_profile_registry_has_no_legacy_audit_api(self) -> None:
         self.assertFalse(hasattr(registry, "audit_legacy_data"))
 
@@ -623,27 +596,22 @@ class ProfileRegistryTests(unittest.TestCase):
             completed.stdout,
         )
 
-    def test_cli_report_rejects_multi_core_input(self) -> None:
-        with self._noncanonical_multi_core_source_set() as temporary:
-            source_set_path = Path(temporary.name).relative_to(ROOT).as_posix()
-            completed = subprocess.run(
-                [
-                    "python3",
-                    str(MODULE_PATH),
-                    "report",
-                    "--source-set",
-                    source_set_path,
-                ],
-                cwd=ROOT,
-                check=False,
-                capture_output=True,
-                text=True,
-            )
-        self.assertEqual(2, completed.returncode)
-        self.assertIn(
-            "individual source set must contain exactly one core",
-            completed.stderr,
+    def test_cli_report_rejects_unpinned_source_set_coordinates(self) -> None:
+        completed = subprocess.run(
+            [
+                "python3",
+                str(MODULE_PATH),
+                "report",
+                "--source-set",
+                "pins/source-sets/unpinned-000000000000-000000000000.json",
+            ],
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
         )
+        self.assertEqual(2, completed.returncode)
+        self.assertIn("missing input", completed.stderr)
 
     def test_cli_has_no_legacy_audit_command(self) -> None:
         completed = subprocess.run(

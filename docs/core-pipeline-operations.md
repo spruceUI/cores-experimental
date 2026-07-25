@@ -275,7 +275,7 @@ python3 scripts/promote_core.py run \
 ```
 
 `--refresh` re-promotes an already-promoted core. The previous promotion's
-pin-set, source-set, and compatibility manifest are renamed aside (never
+pin-set and compatibility manifest are renamed aside (never
 deleted) and restored on any failure; they are removed only after the whole
 chain, catalog-check included, succeeds. A failed refresh therefore cannot
 destroy a core's promoted outputs. Caveats are NOT carried over implicitly:
@@ -418,11 +418,11 @@ pins have exactly one core in `scope`, no parent, and no retained selection.
 Legacy aggregate pins remain readable validation fixtures, but the active
 pipeline has no aggregate composition writer.
 
-After each pin exists, create its immutable source lock and one-core source set
-as described in
-[Immutable source locks and source sets](#immutable-source-locks-and-source-sets-manual-contract).
-Every promoted core's records demonstrate the resulting paths; validate
-the source set with:
+The source lock and one-core source set are not files: they are composed in
+memory from the catalog and the pin by the single composer
+(`scripts/core_pipeline_lib/records/source.py`) — see
+[Composed source locks and source sets](#composed-source-locks-and-source-sets).
+Validate the composed source set with:
 
 ```bash
 python3 scripts/profile_registry.py report \
@@ -601,14 +601,14 @@ For a proposed commit:
    value.
 4. Run `catalog-check`, both-ABI E2E, and an independent reproducibility E2E with
    a new run ID. Compare package and target artifact SHA-256 values.
-5. Promote into a new golden/pin/release lineage. Once accepted, add the new
-   immutable source lock/source set and create or replace that core's canonical
-   `manifests/compatibility/<core_id>.json` record with the actual run and
-   artifact evidence. The merged registry lets this canonical file supersede
-   the immutable legacy matrix row for the same core. Never edit an older
-   immutable source lock, pin set, release, or legacy matrix row to point at the
-   new commit; duplicate ownership among canonical compatibility files is
-   invalid.
+5. Promote into a new golden/pin/release lineage. Once accepted, create or
+   replace that core's canonical `manifests/compatibility/<core_id>.json`
+   record with the actual run and artifact evidence (the source lock and
+   source set are composed, never written). The merged registry lets this
+   canonical file supersede the immutable legacy matrix row for the same
+   core. Never edit an older pin set, release, or legacy matrix row to
+   point at the new commit; duplicate ownership among canonical
+   compatibility files is invalid.
 
 The canonical compatibility record must name distinct run IDs and bind both
 E2E semantic digests: `selected_e2e_content_sha256` belongs to an exact
@@ -634,41 +634,31 @@ canonical build, pin, manifest, test, channel, and run IDs must remain
 individual-core; historical grouped identifiers are rejected by the
 candidate-id guard.
 
-### Immutable source locks and source sets: manual contract
+### Composed source locks and source sets
 
-After the source and complete artifact selection are proven, the repository
-currently records them manually as:
+The source lock and the one-core source set are pure functions of tracked
+state — the lock of the catalog's source block (URL, ref, commit, tree,
+resolved submodule pins), the source-set of the composed lock plus the
+evidence pin — so neither is stored as a file. The single composer is
+`scripts/core_pipeline_lib/records/source.py`; `promote_core.py`,
+`profile_registry.py`, and the release planner all compose through it.
 
-- `pins/sources/<core_id>/<commit>.json`, validated by
-  `manifests/core-source-lock.schema.json`
-- `pins/source-sets/<source-set-id>.json`, validated by
-  `manifests/core-source-set.schema.json` and bound to an immutable evidence pin
-
-There is no supported generator or promotion CLI for these files. Follow an
-existing recent source lock/source set exactly, create new files rather than
-rewriting old ones, and validate the finished source set with:
+The historical `pins/sources/<core_id>/<commit>.json` and
+`pins/source-sets/<source-set-id>.json` strings survive as identity
+coordinates inside the documents and their references (and as the
+`--source-set` CLI argument), and the shapes remain governed by
+`manifests/core-source-lock.schema.json` and
+`manifests/core-source-set.schema.json`. Reference `file_sha256` values are
+computed over the canonical serialization (`serialize_record`), which
+reproduces the retired files' bytes exactly, so digests embedded in pins,
+goldens, release manifests, and evidence indexes keep binding.
+`content_sha256` values use the
+`scripts.profile_registry.canonical_content_sha256` contract, which excludes
+only `$schema` and `content_sha256`. Validate any core's composed set with:
 
 ```bash
 python3 scripts/profile_registry.py report \
   --source-set pins/source-sets/<source-set-id>.json
-```
-
-The per-file `file_sha256` is the SHA-256 of the final referenced file. Source
-lock and source-set `content_sha256` values use the current
-`scripts.profile_registry.canonical_content_sha256` contract, which excludes
-only `$schema` and `content_sha256`. Until a supported writer exists, print the
-expected semantic digest for a manually edited document with:
-
-```bash
-python3 - pins/sources/<core_id>/<commit>.json <<'PY'
-import json
-import sys
-from pathlib import Path
-from scripts.profile_registry import canonical_content_sha256
-
-document = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-print(canonical_content_sha256(document))
-PY
 ```
 
 Copy the result into `content_sha256`, then compute the final file digest with

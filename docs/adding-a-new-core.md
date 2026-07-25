@@ -42,7 +42,7 @@ python3 scripts/core_pipeline.py audit-workflows
 ## The recipe at a glance
 
 1. Pin the source identity (repo, ref, commit, tree; canonical URL casing).
-2. Add the catalog entry + compose the source lock.
+2. Add the catalog entry (the source lock is composed from it; nothing to write).
 3. Add the core's fail-closed dispatcher workflow.
 4. Exploratory build → **classify** the core (pick the proof engine).
 5. Extract the exact constants (counts + sha256 set) from the build log.

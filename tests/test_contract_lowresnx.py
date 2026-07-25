@@ -27,13 +27,6 @@ CONTROL_LOG_IDENTITIES = {
         22230,
     ),
 }
-SOURCE_LOCK_PATH = (
-    ROOT
-    / "pins"
-    / "sources"
-    / "lowresnx"
-    / "35adc1a215e975be964b2ef4b652117acd7beba1.json"
-)
 SOURCE_LOCK_FILE_SHA256 = (
     "7e2567911869847ba52daf8a28867854db5fd93fed2723c2d16c2ddc59b95473"
 )
@@ -45,12 +38,10 @@ SOURCE_LOCK_CONTENT_SHA256 = (
 class LowResNXContractTests(unittest.TestCase):
     def test_source_lock_is_exact_and_catalog_bound(self) -> None:
         identity = lowresnx.LOWRESNX_NATIVE_GIT_VERSION_SPEC_IDENTITY
-        source_lock = json.loads(SOURCE_LOCK_PATH.read_text(encoding="utf-8"))
+        source_lock = registry.composed_source_lock("lowresnx")
 
         registry.validate_source_lock(
             source_lock,
-            path=SOURCE_LOCK_PATH,
-            repo_root=ROOT,
         )
         self.assertEqual("lowresnx-35adc1a215e9", source_lock["source_lock_id"])
         self.assertEqual(lowresnx.LOWRESNX_CORE_ID, source_lock["core_id"])
@@ -72,7 +63,6 @@ class LowResNXContractTests(unittest.TestCase):
             SOURCE_LOCK_CONTENT_SHA256,
             registry.canonical_content_sha256(source_lock),
         )
-        self.assertEqual(SOURCE_LOCK_FILE_SHA256, sha256_file(SOURCE_LOCK_PATH))
 
     def test_registry_identity_is_owned_by_lowresnx(self) -> None:
         contract = core_log_contract_for(lowresnx.LOWRESNX_CORE_ID)

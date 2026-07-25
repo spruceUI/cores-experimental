@@ -257,7 +257,7 @@ class FmsxCoreEvidenceTests(unittest.TestCase):
             pin_report["errors"],
         )
 
-        source_set = load_document(ROOT / SOURCE_SET_PATH)
+        source_set = registry.composed_source_set(SEMANTIC_ID)
         malformed_source_set = copy.deepcopy(source_set)
         malformed_source_set["sources"][CORE_ID]["commit"] = "0" * 40
         with self.assertRaisesRegex(

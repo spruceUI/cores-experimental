@@ -23,6 +23,12 @@ from ..foundation import (
 )
 from ..source_bundle import pipeline_source_bundle
 from .model import document_file_sha256
+from ..records.source import (
+    compose_source_lock,
+    compose_source_set,
+    record_file_sha256,
+    source_set_coordinate,
+)
 from .plan import (
     construct_release_plan,
     validate_release_plan,
@@ -339,14 +345,8 @@ def _release_core_row(
     ):
         raise PipelineError(f"{core_id} compatibility target scope differs from pin")
 
-    source_set_relative = f"pins/source-sets/{semantic_id}.json"
-    source_set_path = _tracked_file(
-        repository_root,
-        repository_root / "pins" / "source-sets",
-        source_set_relative,
-        f"{core_id} source set",
-    )
-    source_set = load_json(source_set_path)
+    source_set_relative = source_set_coordinate(semantic_id)
+    source_set = compose_source_set(semantic_id, repository_root=repository_root)
     if (
         source_set.get("source_set_id") != semantic_id
         or set(source_set.get("sources", {})) != {core_id}
@@ -368,17 +368,7 @@ def _release_core_row(
     ):
         raise PipelineError(f"{core_id} release plan must not inherit device claims")
 
-    source_reference = source_set["sources"][core_id]
-    source_lock_relative = source_reference.get("path")
-    if not isinstance(source_lock_relative, str):
-        raise PipelineError(f"{core_id} source set omitted its source lock")
-    source_lock_path = _tracked_file(
-        repository_root,
-        repository_root / "pins" / "sources" / core_id,
-        source_lock_relative,
-        f"{core_id} source lock",
-    )
-    source_lock = load_json(source_lock_path)
+    source_lock = compose_source_lock(core_id, repository_root=repository_root)
     source = source_lock.get("source")
     if not isinstance(source, dict):
         raise PipelineError(f"{core_id} source lock is malformed")
@@ -447,7 +437,7 @@ def _release_core_row(
         "source_set": {
             "path": source_set_relative,
             "source_set_id": source_set["source_set_id"],
-            "file_sha256": sha256_file(source_set_path),
+            "file_sha256": record_file_sha256(source_set),
             "content_sha256": source_set["content_sha256"],
         },
         "compatibility": {

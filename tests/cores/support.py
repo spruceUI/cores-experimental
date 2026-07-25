@@ -11,6 +11,9 @@ import shutil
 import tempfile
 from typing import Any
 
+from scripts import profile_registry as registry
+from scripts.core_pipeline_lib.records import source as records_source
+
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -242,19 +245,19 @@ def _recipe_handles(
         core_id
     ]
     handles["SOURCE_URL"] = spec["source"]["url"]
-    lock_path = (
+    source_lock = registry.composed_source_lock(core_id)
+    handles["SOURCE_LOCK_PATH"] = (
         f"pins/sources/{core_id}/{spec['source']['commit']}.json"
     )
-    handles["SOURCE_LOCK_PATH"] = lock_path
-    handles["SOURCE_LOCK_FILE_SHA256"] = file_sha256(ROOT / lock_path)
-    handles["SOURCE_LOCK_CONTENT_SHA256"] = load_document(
-        ROOT / lock_path
-    )["content_sha256"]
-    source_set_path = ROOT / index["source_set_path"]
-    handles["SOURCE_SET_FILE_SHA256"] = file_sha256(source_set_path)
-    handles["SOURCE_SET_CONTENT_SHA256"] = load_document(source_set_path)[
-        "content_sha256"
-    ]
+    handles["SOURCE_LOCK_FILE_SHA256"] = records_source.record_file_sha256(
+        source_lock
+    )
+    handles["SOURCE_LOCK_CONTENT_SHA256"] = source_lock["content_sha256"]
+    source_set = registry.composed_source_set(index["semantic_id"])
+    handles["SOURCE_SET_FILE_SHA256"] = records_source.record_file_sha256(
+        source_set
+    )
+    handles["SOURCE_SET_CONTENT_SHA256"] = source_set["content_sha256"]
     metadata_path = (
         ROOT
         / ".local-e2e/runs"

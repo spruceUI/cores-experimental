@@ -116,7 +116,7 @@ class MednafenSupergrafxLifecycleTests(unittest.TestCase):
 
 
     def test_source_set_maps_profiles_without_device_claims(self) -> None:
-        source_set = load_document(ROOT / SOURCE_SET_PATH)
+        source_set = registry.composed_source_set(SEMANTIC_ID)
         registry.validate_source_set(source_set)
         report = registry.report_data(source_set_path=SOURCE_SET_PATH)
         catalog_core_count = len(
@@ -290,7 +290,7 @@ class MednafenSupergrafxLifecycleTests(unittest.TestCase):
         bad_pin_report = pipeline.validate_pin_set_document(bad_pin)
         self.assertEqual("invalid", bad_pin_report["status"])
 
-        source_set = load_document(ROOT / SOURCE_SET_PATH)
+        source_set = registry.composed_source_set(SEMANTIC_ID)
         bad_digest = copy.deepcopy(source_set)
         bad_digest["content_sha256"] = "0" * 64
         with self.assertRaisesRegex(

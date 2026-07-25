@@ -61,6 +61,9 @@ def ecwolf_spec_is_well_formed(spec: object) -> bool:
                 "requested_ref": identity["source_requested_ref"],
                 "commit": identity["source_commit"],
                 "tree": identity["source_tree"],
+                "submodules": [
+                    {"path": "src/libretro/libretro-common", "commit": "996376e36d3f4f56eba202cb96230568628d2583"},
+                ],
             },
             "build": {
                 "driver": "libretro-super",
