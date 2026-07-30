@@ -1,7 +1,5 @@
 # Cores-spruce
-
-> This repository (`cores-experimental`) carries the complete Cores-spruce
-> pipeline, transplanted at its migration-complete checkpoint.
+[![Build release candidate](https://github.com/spruceUI/cores-experimental/actions/workflows/release-candidate.yml/badge.svg)](https://github.com/spruceUI/cores-experimental/actions/workflows/release-candidate.yml)
 
 A fail-closed, hash-locked build pipeline for the libretro cores SpruceOS
 ships. Every one of the 98 workflow cores is built from a pinned source
