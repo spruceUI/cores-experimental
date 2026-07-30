@@ -12,6 +12,7 @@ from scripts import core_pipeline as pipeline
 from scripts import profile_registry as registry
 from core_pipeline_lib.contracts import vice_x64
 from core_pipeline_lib.records import compatibility as compatibility_records
+from core_pipeline_lib.records import source as records_source
 
 from .support import (
     ROOT,
@@ -112,9 +113,10 @@ class ViceX64CoreEvidenceTests(unittest.TestCase):
         source = source_set["sources"][CORE_ID]
         self.assertEqual(SOURCE_LOCK_ID, source["source_lock_id"])
         self.assertEqual(SOURCE_COMMIT, source["commit"])
-        source_lock_path = ROOT / source["path"]
-        source_lock = load_document(source_lock_path)
-        self.assertEqual(SOURCE_LOCK_FILE_SHA256, file_sha256(source_lock_path))
+        source_lock = registry.composed_source_lock(CORE_ID)
+        self.assertEqual(
+            SOURCE_LOCK_FILE_SHA256, records_source.record_file_sha256(source_lock)
+        )
         self.assertEqual(SOURCE_LOCK_CONTENT_SHA256, source_lock["content_sha256"])
         self.assertEqual(SOURCE_LOCK_ID, source_lock["source_lock_id"])
         self.assertEqual(CORE_ID, source_lock["core_id"])

@@ -15,7 +15,7 @@ from scripts.core_pipeline_lib.foundation import sha256_bytes
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG_PATH = ROOT / "manifests/core-builds.json"
 EXPECTED_CORE_SPEC_SHA256 = (
-    "7a0abc99b618f6bbcc6892e46b87be9c97f781ef84dab06b552671353f2ba66a"
+    "a55d0e4f5508d4a7ac56d4d953e8958ad55773881f48bc9086e5241fd663c05d"
 )
 
 
@@ -47,6 +47,30 @@ EXPECTED_SPEC = {
             "value": "9d7716aa2",
             "git_date": "260503",
             "compiler_scope": "cxx",
+        },
+        "overlays": {
+            arch: [
+                {
+                    "kind": "git-apply-v1",
+                    "patch_path": (
+                        "patches/fbneo/makefile-sort-wildcard-sources.patch"
+                    ),
+                    "patch_sha256": (
+                        "36359710caa6b337253ea7acf3cc0fe43083a3eb1977f62cc"
+                        "764fd888eceb54e"
+                    ),
+                    "preimage_sha256": (
+                        "b7030bbeb7c69a46e846084a1a852c972d5360b8f319caca9"
+                        "87dc1ec9dfefb73"
+                    ),
+                    "postimage_sha256": (
+                        "d7e2bd630fffafb6def25a52295e2b582fe5bcf31b8e246dc"
+                        "adc53f2f437bc0b"
+                    ),
+                    "source_path": "src/burner/libretro/Makefile.all",
+                }
+            ]
+            for arch in ("arm64", "armhf")
         },
     },
     "metadata": {

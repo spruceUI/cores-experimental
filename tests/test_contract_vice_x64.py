@@ -732,34 +732,9 @@ class ViceX64ModuleTests(unittest.TestCase):
                 }
                 self.assertEqual(4, len(derivations))
 
-        definition = "viceX64Core"
-        self.assertEqual(
-            {"$ref": f"#/$defs/{definition}"},
-            catalog_schema["properties"]["cores"]["properties"][
-                vice_x64.VICE_X64_CORE_ID
-            ],
-        )
-        exact = catalog_schema["$defs"][definition]["allOf"][1]
-        build = exact["properties"]["build"]
-        self.assertEqual(
-            {
-                "artifact_name",
-                "driver",
-                "git_version",
-                "output_path",
-                "source_date_epoch",
-                "source_dir",
-                "source_key",
-            },
-            set(build["required"]),
-        )
-        self.assertEqual(
-            {"$ref": "#/$defs/viceNativeGitVersion"},
-            build["properties"]["git_version"],
-        )
-        self.assertEqual(
-            {"const": 1780486798},
-            build["properties"]["source_date_epoch"],
+        self.assertNotIn(
+            vice_x64.VICE_X64_CORE_ID,
+            catalog_schema["properties"]["cores"].get("properties", {}),
         )
 
         exact_build = golden_schema["$defs"]["buildGolden"][

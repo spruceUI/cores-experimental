@@ -69,7 +69,7 @@ class Snes9xCoreEvidenceTests(unittest.TestCase):
         source = source_set["sources"][CORE_ID]
         self.assertEqual(SOURCE_LOCK_ID, source["source_lock_id"])
         self.assertEqual(SOURCE_COMMIT, source["commit"])
-        source_lock = load_document(ROOT / source["path"])
+        source_lock = registry.composed_source_lock(CORE_ID)
         self.assertEqual(SOURCE_LOCK_ID, source_lock["source_lock_id"])
         self.assertEqual(8, len(source_lock["source"]["submodules"]))
         self.assertEqual(1, report["counts"]["source_locks"])
