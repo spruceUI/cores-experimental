@@ -11,7 +11,7 @@ from unittest import mock
 from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import potator
 from core_pipeline_lib.contracts.registry import core_log_contract_for
-from core_pipeline_lib.foundation import sha256_file
+from core_pipeline_lib.records import source as records_source
 from tests.core_contract_helpers import build_c_only_log_fixture
 
 
@@ -138,16 +138,13 @@ class PotatorContractTests(unittest.TestCase):
 
     def test_source_lock_is_exact_and_catalog_bound(self) -> None:
         identity = potator.POTATOR_NATIVE_GIT_VERSION_SPEC_IDENTITY
-        source_lock_path = (
-            ROOT
-            / "pins/sources/potator"
-            / f"{identity['source_commit']}.json"
+        source_lock = records_source.compose_source_lock(
+            potator.POTATOR_CORE_ID, repository_root=ROOT
         )
         self.assertEqual(
             "8044bbf6398ccefa73b2dc1c2b123b4e67c52ca185cb45b4641314cfdd949bd8",
-            sha256_file(source_lock_path),
+            records_source.record_file_sha256(source_lock),
         )
-        source_lock = json.loads(source_lock_path.read_text(encoding="utf-8"))
         self.assertEqual("potator-227c5f6f3ce7", source_lock["source_lock_id"])
         self.assertEqual(
             "5fcaf01f34d511e0d37d086b8962d4a689ffad1be725f895a66c9137c5bb5086",

@@ -6432,6 +6432,10 @@ def validate_build_record_identity(
 
     source = record.get("source", {})
     for key, expected in spec["source"].items():
+        # Submodule pins are {path, commit} while records capture the live
+        # `git submodule status` shape; they are bound exactly below instead.
+        if key == "submodules":
+            continue
         if source.get(key) != expected:
             raise PipelineError(f"build record source identity mismatch: {key}")
     if source.get("resolved_commit") != spec["source"]["commit"]:
@@ -6475,13 +6479,20 @@ def validate_build_record_identity(
         raise PipelineError(
             "build record source does not match the exact FBNeo contract"
         )
-    for submodule in source.get("submodules", []):
+    recorded_submodules = source.get("submodules", [])
+    for submodule in recorded_submodules:
         if (
             submodule.get("state") != " "
             or not SHA1_RE.fullmatch(submodule.get("commit", ""))
             or not submodule.get("path")
         ):
             raise PipelineError("submodule state is not coherent with the pinned source")
+    pinned_submodules = spec["source"].get("submodules")
+    if pinned_submodules is not None and [
+        {"path": submodule["path"], "commit": submodule["commit"]}
+        for submodule in recorded_submodules
+    ] != pinned_submodules:
+        raise PipelineError("recorded submodules do not match the pinned source submodules")
 
     toolchain = record.get("toolchain", {})
     expected_toolchain = catalog["toolchains"][build_toolchain_key(spec, arch)]
@@ -7861,7 +7872,15 @@ def verify_recipe_snapshot(path: Path, record: dict, label: str) -> list[str]:
         elif any(
             record_source.get(key) != value
             for key, value in snapshot_source.items()
+            # Submodule pins are {path, commit}; records capture the live
+            # `git submodule status` shape, so bind the projection instead.
+            if key != "submodules"
         ):
+            errors.append(f"{label}: source does not match the catalog snapshot")
+        elif "submodules" in snapshot_source and [
+            {"path": submodule.get("path"), "commit": submodule.get("commit")}
+            for submodule in record_source.get("submodules", [])
+        ] != snapshot_source["submodules"]:
             errors.append(f"{label}: source does not match the catalog snapshot")
         expected_definitions = compile_definitions_for_target(
             snapshot_spec, record["architecture"]

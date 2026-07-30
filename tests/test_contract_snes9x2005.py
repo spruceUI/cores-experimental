@@ -229,22 +229,9 @@ class Snes9x2005ContractTests(unittest.TestCase):
             )
         )
         core_id = snes9x2005.SNES9X2005_CORE_ID
-        definition = "snes9x2005Core"
-        self.assertEqual(
-            {"$ref": f"#/$defs/{definition}"},
-            catalog_schema["properties"]["cores"]["properties"][core_id],
-        )
-        exact = catalog_schema["$defs"][definition]["allOf"][1]
-        git_version = exact["properties"]["build"]["properties"][
-            "git_version"
-        ]["allOf"][1]
-        self.assertEqual(["compiler_scope"], git_version["required"])
-        self.assertEqual(
-            {"const": " b603569"}, git_version["properties"]["value"]
-        )
-        self.assertEqual(
-            {"const": "c"},
-            git_version["properties"]["compiler_scope"],
+        self.assertNotIn(
+            core_id,
+            catalog_schema["properties"]["cores"].get("properties", {}),
         )
 
         exact_build = golden_schema["$defs"]["buildGolden"][

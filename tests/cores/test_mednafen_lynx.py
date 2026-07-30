@@ -143,7 +143,7 @@ class MednafenLynxCoreEvidenceTests(unittest.TestCase):
         self.assertEqual(
             SOURCE_LOCK_CONTENT_SHA256, source["content_sha256"]
         )
-        source_lock = load_document(ROOT / source["path"])
+        source_lock = registry.composed_source_lock(CORE_ID)
         self.assertEqual(SOURCE_LOCK_ID, source_lock["source_lock_id"])
         self.assertEqual(CORE_ID, source_lock["core_id"])
         self.assertEqual(SOURCE_LOCK_IDENTITY, source_lock["source"])

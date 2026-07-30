@@ -2927,7 +2927,10 @@ class CatalogTests(unittest.TestCase):
             "resolved_commit": spec["source"]["commit"],
             "resolved_url": spec["source"]["url"],
             "tree": spec["source"]["tree"],
-            "submodules": [],
+            "submodules": [
+                        {"state": " ", **entry}
+                        for entry in spec["source"].get("submodules", [])
+                    ],
         }
         base_toolchain = {
             **catalog["toolchains"]["arm64"],
@@ -2989,7 +2992,10 @@ class CatalogTests(unittest.TestCase):
                 **pcsx_spec["source"],
                 "resolved_commit": pcsx_spec["source"]["commit"],
                 "resolved_url": pcsx_spec["source"]["url"],
-                "submodules": [],
+                "submodules": [
+                    {"state": " ", **entry}
+                    for entry in pcsx_spec["source"].get("submodules", [])
+                ],
             }
             timestamped["recipe"] = self._legacy_recipe_without_pipeline_bundle(
                 pipeline.recipe_record(
@@ -6100,7 +6106,10 @@ class GoldenPromotionTests(unittest.TestCase):
                     "resolved_commit": spec["source"]["commit"],
                     "resolved_url": spec["source"]["url"],
                     "tree": spec["source"]["tree"],
-                    "submodules": [],
+                    "submodules": [
+                        {"state": " ", **entry}
+                        for entry in spec["source"].get("submodules", [])
+                    ],
                 },
                 "toolchain": {
                     **catalog["toolchains"]["arm64"],
@@ -6503,7 +6512,10 @@ class GoldenPromotionTests(unittest.TestCase):
                     **spec["source"],
                     "resolved_commit": spec["source"]["commit"],
                     "resolved_url": spec["source"]["url"],
-                    "submodules": [],
+                    "submodules": [
+                        {"state": " ", **entry}
+                        for entry in spec["source"].get("submodules", [])
+                    ],
                 },
                 "toolchain": {
                     **catalog["toolchains"][arch],
