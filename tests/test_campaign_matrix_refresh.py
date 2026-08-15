@@ -209,7 +209,7 @@ def _inventory(
         "local_only": True,
         "publication": "disabled",
         "group_tag": (
-            f"{coordinate.track}-test-{coordinate.chipset}"
+            f"{coordinate.track}-test:{coordinate.chipset}"
         ),
         "applicability_scope": copy.deepcopy(registry["applicability_scope"]),
         "catalog_content_sha256": catalog["content_sha256"],
@@ -893,7 +893,7 @@ def test_projection_rejects_stale_inventory_identity() -> None:
         "validation_scope": "static-build-selection-only",
         "local_only": True,
         "publication": "disabled",
-        "group_tag": "main-test-universal",
+        "group_tag": "main-test:universal",
         "applicability_scope": {},
         "catalog_content_sha256": "0" * 64,
         "track_registry_content_sha256": "1" * 64,
@@ -907,6 +907,26 @@ def test_projection_rejects_stale_inventory_identity() -> None:
         "content_sha256": "3" * 64,
     }
     with pytest.raises(PipelineError, match="inventory identity is stale"):
+        project_track_inventory_cell_v1(
+            inventory,
+            coordinate=MatrixCoordinateV1(
+                core_id="gambatte",
+                track="main",
+                chipset="universal",
+                architecture="arm64",
+            ),
+            track_registry=registry,
+            predecessor_cell=object(),  # type: ignore[arg-type]
+            evidence=object(),  # type: ignore[arg-type]
+            producer_coordinate=object(),  # type: ignore[arg-type]
+        )
+    inventory["group_tag"] = "main-test-universal"
+    inventory["track_registry_content_sha256"] = registry["content_sha256"]
+    inventory["content_sha256"] = core_track_inventory_content_sha256(inventory)
+    with pytest.raises(
+        PipelineError,
+        match="inventory group does not match the matrix coordinate",
+    ):
         project_track_inventory_cell_v1(
             inventory,
             coordinate=MatrixCoordinateV1(

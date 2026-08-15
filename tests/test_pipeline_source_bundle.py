@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -26,6 +27,7 @@ class PipelineSourceBundleTests(unittest.TestCase):
         paths = self._bundle_paths(root)
         paths["PIPELINE_PACKAGE_ROOT"].mkdir(parents=True)
         paths["PIPELINE_LAUNCHER"].write_text("# launcher\n", encoding="utf-8")
+        paths["PIPELINE_LAUNCHER"].chmod(0o755)
         (paths["PIPELINE_PACKAGE_ROOT"] / "__init__.py").write_text(
             '"""Package."""\n', encoding="utf-8"
         )
@@ -115,6 +117,134 @@ class PipelineSourceBundleTests(unittest.TestCase):
             self.assertTrue(pipeline.pipeline_source_bundle_is_well_formed(bundle))
             for relative, digest in bundle["files"].items():
                 self.assertEqual(pipeline.sha256_file(root / relative), digest)
+
+    def test_capture_retains_exact_bytes_and_expected_member_modes(self) -> None:
+        capture = source_bundle.pipeline_source_capture()
+        self.assertEqual(
+            sorted(member.path for member in capture.members),
+            [member.path for member in capture.members],
+        )
+        for member in capture.members:
+            self.assertEqual((ROOT / member.path).read_bytes(), member.raw)
+            self.assertEqual(len(member.raw), member.size)
+            self.assertEqual(
+                0o755 if member.path == "scripts/core_pipeline.py" else 0o644,
+                member.mode,
+            )
+
+    def test_capture_rejects_noncanonical_mode_and_hardlinks(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._write_minimal_pipeline(root)
+            package_root = self._bundle_paths(root)["PIPELINE_PACKAGE_ROOT"]
+            implementation = package_root / "implementation.py"
+            implementation.write_text("VALUE = 1\n", encoding="utf-8")
+            implementation.chmod(0o600)
+            with mock.patch.multiple(source_bundle, **self._bundle_paths(root)):
+                with self.assertRaisesRegex(
+                    pipeline.PipelineError,
+                    "mode must be 0644",
+                ):
+                    pipeline.pipeline_source_bundle()
+
+            implementation.chmod(0o644)
+            os.link(implementation, package_root / "alias.py")
+            with mock.patch.multiple(source_bundle, **self._bundle_paths(root)):
+                with self.assertRaisesRegex(
+                    pipeline.PipelineError,
+                    "link count must be one",
+                ):
+                    pipeline.pipeline_source_bundle()
+
+    def test_capture_rejects_directory_replacement_aba(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._write_minimal_pipeline(root)
+            package_root = self._bundle_paths(root)["PIPELINE_PACKAGE_ROOT"]
+            (package_root / "implementation.py").write_text(
+                "VALUE = 1\n",
+                encoding="utf-8",
+            )
+            parked = package_root.with_name("core_pipeline_lib.parked")
+            transient = package_root.with_name("core_pipeline_lib.transient")
+            real_listdir = source_bundle.os.listdir
+            replaced = False
+
+            def aba_listdir(descriptor: int) -> list[str]:
+                nonlocal replaced
+                names = real_listdir(descriptor)
+                descriptor_path = Path(os.readlink(f"/proc/self/fd/{descriptor}"))
+                if not replaced and descriptor_path == package_root:
+                    package_root.rename(parked)
+                    package_root.mkdir()
+                    package_root.rename(transient)
+                    parked.rename(package_root)
+                    replaced = True
+                return names
+
+            with (
+                mock.patch.multiple(source_bundle, **self._bundle_paths(root)),
+                mock.patch.object(
+                    source_bundle.os,
+                    "listdir",
+                    side_effect=aba_listdir,
+                ),
+            ):
+                with self.assertRaisesRegex(
+                    pipeline.PipelineError,
+                    "directory changed during capture",
+                ):
+                    pipeline.pipeline_source_bundle()
+            self.assertTrue(replaced)
+
+    def test_capture_rejects_in_place_mutation_during_final_directory_pass(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._write_minimal_pipeline(root)
+            package_root = self._bundle_paths(root)["PIPELINE_PACKAGE_ROOT"]
+            implementation = package_root / "implementation.py"
+            initial_raw = b"VALUE = 1\n"
+            changed_raw = b"VALUE = 2\n"
+            self.assertEqual(len(initial_raw), len(changed_raw))
+            implementation.write_bytes(initial_raw)
+            original = implementation.stat()
+            real_listdir = source_bundle.os.listdir
+            package_enumerations = 0
+            mutated = False
+
+            def mutating_listdir(descriptor: int) -> list[str]:
+                nonlocal mutated, package_enumerations
+                names = real_listdir(descriptor)
+                descriptor_path = Path(os.readlink(f"/proc/self/fd/{descriptor}"))
+                if descriptor_path == package_root:
+                    package_enumerations += 1
+                    if package_enumerations == 2:
+                        with implementation.open("r+b") as handle:
+                            handle.write(changed_raw)
+                            handle.flush()
+                        changed = implementation.stat()
+                        self.assertEqual(original.st_ino, changed.st_ino)
+                        self.assertEqual(original.st_size, changed.st_size)
+                        mutated = True
+                return names
+
+            with (
+                mock.patch.multiple(source_bundle, **self._bundle_paths(root)),
+                mock.patch.object(
+                    source_bundle.os,
+                    "listdir",
+                    side_effect=mutating_listdir,
+                ),
+            ):
+                with self.assertRaisesRegex(
+                    pipeline.PipelineError,
+                    "source member .* changed during capture",
+                ):
+                    pipeline.pipeline_source_bundle()
+            self.assertTrue(mutated)
+            self.assertEqual(2, package_enumerations)
 
     def test_bundle_rejects_digest_and_path_tampering(self) -> None:
         bundle = pipeline.pipeline_source_bundle()

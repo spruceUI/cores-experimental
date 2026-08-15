@@ -4,6 +4,7 @@ from dataclasses import replace
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 import xml.etree.ElementTree as ET
 
 from scripts.core_pipeline_lib.campaign import (
@@ -675,6 +676,41 @@ class CampaignCheckAdapterTests(unittest.TestCase):
                 tier=CheckTier.STATIC,
             )
         self.assertEqual(1, len(runner.calls))
+
+    def test_stored_validation_routes_every_read_through_injected_reader(self) -> None:
+        receipt = _receipt(CheckTier.STATIC)
+        stored = run_and_store_check_receipt(
+            runner=SpyRunner(receipt),  # type: ignore[arg-type]
+            store=self.store,
+            tier=CheckTier.STATIC,
+            subject=SUBJECT,
+        )
+        references = (stored.receipt_ref, *stored.artifact_refs)
+        content = {reference: self.store.read_exact(reference) for reference in references}
+        reads: list[EvidenceRef] = []
+
+        class Reader:
+            def read_exact(self, reference: EvidenceRef) -> bytes:
+                reads.append(reference)
+                return content[reference]
+
+        with mock.patch.object(
+            self.store,
+            "read_exact",
+            side_effect=AssertionError("validator bypassed injected reader"),
+        ):
+            validated = validate_stored_check_receipt(
+                store=self.store,
+                reader=Reader(),
+                receipt_ref=stored.receipt_ref,
+                artifact_refs=stored.artifact_refs,
+                expected_subject=SUBJECT,
+                expected_tier=CheckTier.STATIC,
+                expected_check_ids=check_ids_for_tier(CheckTier.STATIC),
+            )
+
+        self.assertEqual(receipt, validated)
+        self.assertEqual(list(references), reads)
 
     def test_external_and_rebuild_boundaries_are_rejected_without_process(self) -> None:
         receipt = _receipt(CheckTier.QUICK)

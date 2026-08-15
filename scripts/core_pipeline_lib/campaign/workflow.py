@@ -100,6 +100,73 @@ class _PlannedClosure:
     base_outputs: tuple[EvidenceRef, ...]
 
 
+@dataclass(frozen=True, slots=True, kw_only=True)
+class LoadedHistoricalTransition:
+    """Fully authenticated immutable H3 ancestry, without pointer selection."""
+
+    state_root: StateRoot
+    state_root_ref: EvidenceRef
+    staged_receipt_ref: EvidenceRef
+    check_receipt_ref: EvidenceRef
+    pre_commit_receipt_ref: EvidenceRef
+    post_commit_receipt_ref: EvidenceRef
+    process_receipt_ref: EvidenceRef
+    current_pointer_ref: EvidenceRef
+    required_objects: tuple[EvidenceRef, ...]
+
+    def __post_init__(self) -> None:
+        if type(self.state_root) is not StateRoot:
+            raise PipelineError("historical transition StateRoot is invalid")
+        expected_kinds = (
+            (self.state_root_ref, "state-root"),
+            (self.staged_receipt_ref, "validation-receipt"),
+            (self.check_receipt_ref, "validation-receipt"),
+            (self.pre_commit_receipt_ref, "validation-receipt"),
+            (self.post_commit_receipt_ref, "validation-receipt"),
+            (self.process_receipt_ref, "check-log"),
+            (self.current_pointer_ref, "matrix-pointer"),
+        )
+        if any(
+            type(reference) is not EvidenceRef or reference.kind != kind
+            for reference, kind in expected_kinds
+        ):
+            raise PipelineError("historical transition reference topology is invalid")
+        if self.state_root_ref.target_content_sha256 != self.state_root.content_sha256:
+            raise PipelineError("historical transition StateRoot identity is invalid")
+        if (
+            type(self.required_objects) is not tuple
+            or not self.required_objects
+            or any(type(item) is not EvidenceRef for item in self.required_objects)
+        ):
+            raise PipelineError("historical transition retention closure is invalid")
+        keys = tuple((item.kind, item.path) for item in self.required_objects)
+        if (
+            keys != tuple(sorted(keys))
+            or len(keys) != len(set(keys))
+            or any(item.kind == "matrix-pointer" for item in self.required_objects)
+        ):
+            raise PipelineError("historical transition retention closure is invalid")
+        named_immutable = {
+            self.state_root_ref,
+            self.staged_receipt_ref,
+            self.check_receipt_ref,
+            self.pre_commit_receipt_ref,
+            self.post_commit_receipt_ref,
+            self.process_receipt_ref,
+            self.state_root.plan,
+            self.state_root.current,
+        }
+        if not named_immutable.issubset(set(self.required_objects)) or (
+            self.state_root.receipt != self.post_commit_receipt_ref
+            or self.current_pointer_ref.file_sha256
+            != self.state_root.current.file_sha256
+            or self.current_pointer_ref.target_content_sha256
+            != self.state_root.current.target_content_sha256
+            or self.current_pointer_ref.size != self.state_root.current.size
+        ):
+            raise PipelineError("historical transition named closure is invalid")
+
+
 def _utc_now() -> str:
     return dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -1113,16 +1180,25 @@ def commit_transition(
     return result, root_ref
 
 
-def verify_transition(
+def load_historical_transition(
     store: CampaignStore,
     *,
+    reader: _Reader | None = None,
     state_root_ref: EvidenceRef,
-) -> StateRoot:
-    """Verify an immutable chain and its exact live pointer under shared lock."""
+) -> LoadedHistoricalTransition:
+    """Authenticate the complete immutable H3 chain without reading a pointer.
+
+    ``reader`` may be an already-locked transaction view.  Every evidence byte
+    is obtained through that reader; ``store`` is used only to derive and
+    compare canonical content-addressed references.
+    """
 
     store = _require_store(store)
+    exact_reader = store if reader is None else reader
+    if not callable(getattr(exact_reader, "read_exact", None)):
+        raise PipelineError("historical transition reader is invalid")
     root_value, root_raw = _read_record(
-        store,
+        exact_reader,
         state_root_ref,
         StateRoot,
         kind="state-root",
@@ -1132,7 +1208,7 @@ def verify_transition(
         raise AssertionError("closed root decoder returned a non-root")
     _canonical_object_reference(store, state_root_ref, root_raw)
     post_value, post_raw = _read_record(
-        store,
+        exact_reader,
         root_value.receipt,
         Receipt,
         kind="validation-receipt",
@@ -1146,96 +1222,114 @@ def verify_transition(
         "matrix-pointer",
         label="post-commit receipt",
     )
+    pre_ref = _only_kind(
+        post_value.outputs,
+        "validation-receipt",
+        label="post-commit receipt",
+    )
+    pre_value, pre_raw = _read_record(
+        exact_reader,
+        pre_ref,
+        Receipt,
+        kind="validation-receipt",
+        label="pre-commit receipt",
+    )
+    if type(pre_value) is not Receipt:
+        raise AssertionError("closed receipt decoder returned a non-receipt")
+    _canonical_object_reference(store, pre_ref, pre_raw)
+    staged_ref = _only_kind(
+        pre_value.outputs,
+        "validation-receipt",
+        label="pre-commit receipt",
+    )
+    closure, _check, check_ref, staged_value = _load_staged_closure(
+        store,
+        exact_reader,
+        staged_ref,
+        require_live_engine=False,
+    )
+    expected_pointer = legacy_matrix_pointer_reference(closure.spec, closure.result)
+    if expected_pointer != pointer_ref:
+        raise PipelineError("StateRoot chain names a different live pointer")
+    _require_receipt(
+        closure.result.plan,
+        pre_value,
+        stage="pre-commit",
+        outputs=(staged_ref,),
+        process_receipt_ref=closure.process_receipt_ref,
+    )
+    post_outputs = _sorted_refs(pre_ref, expected_pointer)
+    _require_receipt(
+        closure.result.plan,
+        post_value,
+        stage="post-commit",
+        outputs=post_outputs,
+        process_receipt_ref=closure.process_receipt_ref,
+    )
+    validate_transition_chain(
+        closure.spec,
+        closure.result.plan,
+        post_value,
+        root_value,
+    )
+    if root_value.generation != 1 or root_value.previous is not None:
+        raise PipelineError("pilot StateRoot generation topology is invalid")
+    required_objects = _sorted_refs(
+        state_root_ref,
+        root_value.receipt,
+        pre_ref,
+        staged_ref,
+        *staged_value.outputs,
+    )
+    if any(reference.kind == "matrix-pointer" for reference in required_objects):
+        raise PipelineError("historical retention closure contains a pointer")
+    return LoadedHistoricalTransition(
+        state_root=root_value,
+        state_root_ref=state_root_ref,
+        staged_receipt_ref=staged_ref,
+        check_receipt_ref=check_ref,
+        pre_commit_receipt_ref=pre_ref,
+        post_commit_receipt_ref=root_value.receipt,
+        process_receipt_ref=closure.process_receipt_ref,
+        current_pointer_ref=expected_pointer,
+        required_objects=required_objects,
+    )
+
+
+def verify_transition(
+    store: CampaignStore,
+    *,
+    state_root_ref: EvidenceRef,
+) -> StateRoot:
+    """Verify an immutable chain and its exact live pointer under shared lock."""
+
+    store = _require_store(store)
+    predicted = load_historical_transition(
+        store,
+        reader=store,
+        state_root_ref=state_root_ref,
+    )
 
     def validate_locked(view) -> StateRoot:
-        persisted_root, persisted_root_raw = _read_record(
-            view,
-            state_root_ref,
-            StateRoot,
-            kind="state-root",
-            label="state root",
-        )
-        if type(persisted_root) is not StateRoot:
-            raise AssertionError("closed root decoder returned a non-root")
-        if persisted_root_raw != root_raw or persisted_root != root_value:
-            raise PipelineError("state root changed before locked verification")
-        persisted_post, persisted_post_raw = _read_record(
-            view,
-            persisted_root.receipt,
-            Receipt,
-            kind="validation-receipt",
-            label="post-commit receipt",
-        )
-        if type(persisted_post) is not Receipt:
-            raise AssertionError("closed receipt decoder returned a non-receipt")
-        _canonical_object_reference(
+        persisted = load_historical_transition(
             store,
-            persisted_root.receipt,
-            persisted_post_raw,
+            reader=view,
+            state_root_ref=state_root_ref,
         )
-        pre_ref = _only_kind(
-            persisted_post.outputs,
-            "validation-receipt",
-            label="post-commit receipt",
-        )
-        pre_value, pre_raw = _read_record(
-            view,
-            pre_ref,
-            Receipt,
-            kind="validation-receipt",
-            label="pre-commit receipt",
-        )
-        if type(pre_value) is not Receipt:
-            raise AssertionError("closed receipt decoder returned a non-receipt")
-        _canonical_object_reference(store, pre_ref, pre_raw)
-        staged_ref = _only_kind(
-            pre_value.outputs,
-            "validation-receipt",
-            label="pre-commit receipt",
-        )
-        closure, _check, _check_ref, _staged = _load_staged_closure(
-            store,
-            view,
-            staged_ref,
-            require_live_engine=False,
-        )
-        expected_pointer = legacy_matrix_pointer_reference(closure.spec, closure.result)
-        if expected_pointer != pointer_ref:
-            raise PipelineError("StateRoot chain names a different live pointer")
-        live = view.read_pointer(expected_pointer)
-        if live is None or live.raw != closure.result.candidate_raw:
+        if persisted != predicted:
+            raise PipelineError("historical transition changed before locked verification")
+        successor_raw = view.read_exact(persisted.state_root.current)
+        live = view.read_pointer(persisted.current_pointer_ref)
+        if live is None or live.raw != successor_raw:
             raise PipelineError("StateRoot chain is not selected by the live pointer")
-        _require_receipt(
-            closure.result.plan,
-            pre_value,
-            stage="pre-commit",
-            outputs=(staged_ref,),
-            process_receipt_ref=closure.process_receipt_ref,
-        )
-        post_outputs = _sorted_refs(pre_ref, expected_pointer)
-        _require_receipt(
-            closure.result.plan,
-            persisted_post,
-            stage="post-commit",
-            outputs=post_outputs,
-            process_receipt_ref=closure.process_receipt_ref,
-        )
-        validate_transition_chain(
-            closure.spec,
-            closure.result.plan,
-            persisted_post,
-            persisted_root,
-        )
-        if persisted_root.generation != 1 or persisted_root.previous is not None:
-            raise PipelineError("pilot StateRoot generation topology is invalid")
-        live = view.read_pointer(expected_pointer)
-        if live is None or live.raw != closure.result.candidate_raw:
+        live = view.read_pointer(persisted.current_pointer_ref)
+        if live is None or live.raw != successor_raw:
             raise PipelineError("live pointer changed during chain verification")
-        return persisted_root
+        return persisted.state_root
 
     return store.verify_pointer(
-        campaign_id=root_value.campaign_id,
-        expected=pointer_ref,
+        campaign_id=predicted.state_root.campaign_id,
+        expected=predicted.current_pointer_ref,
         validator=validate_locked,
     )
 
@@ -1243,8 +1337,10 @@ def verify_transition(
 __all__ = [
     "Clock",
     "DEFAULT_STATE_RELATIVE",
+    "LoadedHistoricalTransition",
     "check_transition",
     "commit_transition",
+    "load_historical_transition",
     "predict_transition",
     "stage_transition",
     "verify_transition",
