@@ -766,10 +766,10 @@ def _matrix_members(
     evidence: _EvidenceClosure,
     inventories: Mapping[str, Mapping[str, object]],
 ) -> tuple[AuthenticatedInput, ...]:
+    telemetry_schema = _phase_inputs(phase_bootstrap)["telemetry-schema"]
     physical_paths = {
         MATRIX_GENERATOR_PATH,
         _phase_inputs(phase_bootstrap)["tracks"].reference.path,
-        evidence.seed.telemetry_schema.path,
         *(item.path for item in evidence.bindings),
         *(
             path
@@ -777,10 +777,25 @@ def _matrix_members(
             if path.startswith(PIN_DIRECTORY_PATH + "/") and path.endswith(".json")
         ),
     }
-    members = [
-        _physical_input(path=path, members=captured)
-        for path in sorted(physical_paths)
-    ]
+    members = []
+    for path in sorted(physical_paths):
+        if path == telemetry_schema.reference.path:
+            captured_schema = _source_member(
+                captured, path, label="matrix telemetry schema"
+            )
+            if captured_schema.raw != telemetry_schema.raw:
+                raise PipelineError(
+                    "matrix telemetry schema differs from the H5 authority"
+                )
+            members.append(
+                AuthenticatedInput(
+                    name=_source_name(path),
+                    reference=telemetry_schema.reference,
+                    raw=telemetry_schema.raw,
+                )
+            )
+        else:
+            members.append(_physical_input(path=path, members=captured))
     members.extend(
         _inventory_input(
             transition_id=phase_bootstrap.result.plan.transition_id,

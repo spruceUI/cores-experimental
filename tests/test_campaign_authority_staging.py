@@ -19,6 +19,7 @@ from scripts.core_pipeline_lib.campaign.authority_staging import (
     AuthorityCopyV1,
     AuthorityStagePlanV1,
     DirectoryReplayV1,
+    EvidenceReplayV1,
     LegacyMatrixStageV1,
     MatrixCellReplayV1,
     MatrixCoreDeltaV1,
@@ -1440,6 +1441,38 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                 tracks_raw,
                 target=authorities["tracks"].target_content_sha256,
             )
+            telemetry_raw = b'{"telemetry":"frozen"}\n'
+            telemetry_source = source(
+                authorities["telemetry-schema"].path,
+                telemetry_raw,
+                target=authorities[
+                    "telemetry-schema"
+                ].target_content_sha256,
+            )
+            authorities["telemetry-schema"] = telemetry_source
+            telemetry_evidence = EvidenceReplayV1(
+                pin="matrix.telemetry",
+                golden="matrix.telemetry",
+                selected_e2e="matrix.telemetry",
+                reproduction_e2e="matrix.telemetry",
+                selected_telemetry="matrix.telemetry",
+                reproduction_telemetry="matrix.telemetry",
+                selected_build_record="matrix.telemetry",
+                reproduction_build_record="matrix.telemetry",
+                telemetry_schema="matrix.telemetry",
+            )
+            replay = replace(
+                replay,
+                cells=(
+                    replace(
+                        replay.cells[0],
+                        evidence=telemetry_evidence,
+                        producer_coordinate=replay.cells[0].coordinate,
+                        pipeline_bundle_content_sha256=None,
+                    ),
+                    *replay.cells[1:],
+                ),
+            )
 
             def phase_source_payload(reference: EvidenceRef, raw: bytes):
                 return staging._copy_payload(
@@ -1469,6 +1502,13 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
             payloads = [
                 phase_source_payload(generator_source, generator_raw),
                 phase_source_payload(tracks_source, tracks_raw),
+                phase_source_payload(
+                    replace(
+                        telemetry_source,
+                        target_content_sha256=None,
+                    ),
+                    telemetry_raw,
+                ),
                 staging._copy_payload(
                     store,
                     name="matrix.member.matrix.generator",
@@ -1480,6 +1520,12 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                     name="matrix.member.matrix.tracks",
                     source=tracks_source,
                     raw=tracks_raw,
+                ),
+                staging._copy_payload(
+                    store,
+                    name="matrix.member.matrix.telemetry",
+                    source=telemetry_source,
+                    raw=telemetry_raw,
                 ),
             ]
             for ordinal in range(27):
@@ -1578,6 +1624,28 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                     "copies": copies,
                 }
                 staging.validate_h5_h6_authority_bindings(**arguments)
+
+                raw_only_telemetry = staging._copy_payload(
+                    store,
+                    name="matrix.member.matrix.telemetry",
+                    source=replace(
+                        telemetry_source,
+                        target_content_sha256=None,
+                    ),
+                    raw=telemetry_raw,
+                )
+                with self.assertRaisesRegex(
+                    PipelineError, "telemetry schema differs from H5 authority"
+                ):
+                    staging.validate_h5_h6_authority_bindings(
+                        **{
+                            **arguments,
+                            "copies": replace_copy(
+                                "matrix.member.matrix.telemetry",
+                                raw_only_telemetry,
+                            ),
+                        }
+                    )
 
                 alternate_tracks_raw = b'{"tracks":"coordinated-rebind"}\n'
                 alternate_tracks_source = source(
@@ -1882,6 +1950,97 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
             )
             self.assertIsInstance(process_receipt, StoredCheckReceipt)
 
+            semantic_telemetry = next(
+                item
+                for item in planned.copies
+                if item.copy.name == "matrix.member.telemetry-schema"
+            )
+            phase_telemetry = next(
+                item
+                for item in planned.copies
+                if item.copy.name == "phase.authority.telemetry-schema"
+            )
+            self.assertIsNotNone(
+                semantic_telemetry.copy.stored.target_content_sha256
+            )
+            self.assertEqual(
+                semantic_telemetry.copy.stored,
+                phase_telemetry.copy.stored,
+            )
+            self.assertEqual(
+                1,
+                staging._plan_receipt_outputs(planned).count(
+                    semantic_telemetry.copy.stored
+                ),
+            )
+
+            raw_only_telemetry = staging._copy_payload(
+                store,
+                name=semantic_telemetry.copy.name,
+                source=replace(
+                    semantic_telemetry.copy.source,
+                    target_content_sha256=None,
+                ),
+                raw=semantic_telemetry.raw,
+            )
+            self.assertNotEqual(
+                semantic_telemetry.copy.stored,
+                raw_only_telemetry.copy.stored,
+            )
+            self.assertEqual(
+                (
+                    semantic_telemetry.copy.stored.kind,
+                    semantic_telemetry.copy.stored.path,
+                    semantic_telemetry.copy.stored.file_sha256,
+                    semantic_telemetry.copy.stored.size,
+                ),
+                (
+                    raw_only_telemetry.copy.stored.kind,
+                    raw_only_telemetry.copy.stored.path,
+                    raw_only_telemetry.copy.stored.file_sha256,
+                    raw_only_telemetry.copy.stored.size,
+                ),
+            )
+            self.assertIsNone(
+                raw_only_telemetry.copy.stored.target_content_sha256
+            )
+            colliding_copies = tuple(
+                raw_only_telemetry if item is semantic_telemetry else item
+                for item in planned.copies
+            )
+            colliding_plan = replace(
+                planned.plan,
+                copies=tuple(item.copy for item in colliding_copies),
+            )
+            colliding = _unsafe_replace(
+                planned,
+                plan=colliding_plan,
+                copies=colliding_copies,
+            )
+            store.publications.clear()
+            with self.assertRaisesRegex(PipelineError, "outputs collide by kind/path"):
+                staging.validate_planned_authority_stage(colliding)
+            self.assertEqual([], store.publications)
+            with self.assertRaisesRegex(PipelineError, "outputs collide by kind/path"):
+                staging.stage_authority_plan(
+                    store,
+                    colliding,
+                    process_receipt=process_receipt,
+                )
+            self.assertEqual([], store.publications)
+
+            def failing_clock() -> str:
+                raise RuntimeError("injected receipt clock failure")
+
+            with self.assertRaisesRegex(RuntimeError, "receipt clock failure"):
+                staging.stage_authority_plan(
+                    store,
+                    planned,
+                    process_receipt=process_receipt,
+                    clock=failing_clock,
+                )
+            self.assertEqual([], store.publications)
+
             coordinated_replays = (
                 (
                     replace(
@@ -2172,6 +2331,18 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
             self.assertEqual(1, len(captured_loads))
             loaded = captured_loads[0]
             self.assertEqual(planned.plan, loaded.planned.plan)
+            self.assertEqual(
+                (semantic_telemetry.copy.stored,),
+                tuple(
+                    item
+                    for item in loaded.receipt.outputs
+                    if (item.kind, item.path)
+                    == (
+                        semantic_telemetry.copy.stored.kind,
+                        semantic_telemetry.copy.stored.path,
+                    )
+                ),
+            )
             self.assertEqual(pointer, loaded.predecessor_pointer)
             self.assertEqual(planned.legacy_raw, loaded.successor_raw)
             self.assertEqual(
