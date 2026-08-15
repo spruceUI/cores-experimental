@@ -2096,14 +2096,19 @@ def validate_h5_h6_authority_bindings(
         if _PHASE_SOURCE_COPY_RE.fullmatch(item.copy.name) is not None
     }
     members = _matrix_member_payloads(copies)
+    telemetry_schema_names = tuple(
+        sorted(
+            {
+                row.evidence.telemetry_schema
+                for row in matrix_replay.cells
+                if row.evidence is not None
+            }
+        )
+    )
     required_overlap_names = {
         matrix_replay.generator_copy,
         matrix_replay.track_registry_copy,
-        *(
-            getattr(row.evidence, "telemetry_schema")
-            for row in matrix_replay.cells
-            if row.evidence is not None
-        ),
+        *telemetry_schema_names,
     }
     for name, member in members.items():
         phase_source = phase_sources.get(member.copy.source.path)
@@ -2118,6 +2123,17 @@ def validate_h5_h6_authority_bindings(
         ):
             raise PipelineError(
                 f"matrix member differs from captured H5 source: {name}"
+            )
+    for name in telemetry_schema_names:
+        try:
+            telemetry_schema = members[name]
+        except KeyError as exc:
+            raise PipelineError(
+                f"matrix replay lacks telemetry schema member: {name}"
+            ) from exc
+        if telemetry_schema.copy.source != authorities["telemetry-schema"]:
+            raise PipelineError(
+                f"matrix telemetry schema differs from H5 authority: {name}"
             )
 
     inventory_expected = {
@@ -2218,6 +2234,7 @@ def validate_planned_authority_stage(value: object) -> None:
         raise PipelineError("planned authority-stage copy payloads are not sorted")
     if copy_records != plan.copies:
         raise PipelineError("planned authority-stage copies differ from the plan")
+    _plan_receipt_outputs(value)
     if type(value.matrix_replay) is not MatrixRefreshReplayV1 or (
         value.matrix_replay.transition_id != plan.transition_id
     ):
@@ -2548,6 +2565,16 @@ def _receipt_outputs(
     process_receipt: StoredCheckReceipt,
 ) -> tuple[EvidenceRef, ...]:
     return _sorted_unique_refs(
+        *_plan_receipt_outputs(planned),
+        process_receipt.receipt_ref,
+        *process_receipt.artifact_refs,
+    )
+
+
+def _plan_receipt_outputs(
+    planned: PlannedAuthorityStageV1,
+) -> tuple[EvidenceRef, ...]:
+    return _sorted_unique_refs(
         planned.plan_reference,
         planned.plan.current_state_root,
         planned.plan.phase_plan,
@@ -2560,8 +2587,6 @@ def _receipt_outputs(
         planned.plan.schema.stored,
         planned.plan.matrix_replay.stored,
         *(item.copy.stored for item in planned.copies),
-        process_receipt.receipt_ref,
-        *process_receipt.artifact_refs,
     )
 
 
@@ -2748,6 +2773,14 @@ def stage_authority_plan(
         materialize_matrix_v2(planned.predecessor_matrix),
     )
 
+    receipt = _staged_receipt(planned, process_receipt, clock=clock)
+    receipt_raw = rendered_json_bytes(receipt.to_document())
+    receipt_ref = store.reference_for(
+        kind="validation-receipt",
+        raw=receipt_raw,
+        target_content_sha256=receipt.content_sha256,
+    )
+
     # Complete in-memory validation above precedes the first create-or-verify.
     _stage_exact(store, planned.plan.schema.stored, planned.schema_raw)
     for item in planned.copies:
@@ -2776,13 +2809,6 @@ def stage_authority_plan(
         render_authority_stage_plan(planned.plan),
     )
 
-    receipt = _staged_receipt(planned, process_receipt, clock=clock)
-    receipt_raw = rendered_json_bytes(receipt.to_document())
-    receipt_ref = store.reference_for(
-        kind="validation-receipt",
-        raw=receipt_raw,
-        target_content_sha256=receipt.content_sha256,
-    )
     _stage_exact(store, receipt_ref, receipt_raw)
     load_staged_authority_plan(
         store,

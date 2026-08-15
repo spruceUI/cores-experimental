@@ -1193,6 +1193,20 @@ def test_synthetic_repository_planner_captures_and_composes_end_to_end(
     assert names == tuple(sorted(set(names)))
     assert any(name.startswith("inventory.main.") for name in names)
     assert "engine-bundle" in names
+    telemetry_member = next(
+        item
+        for item in result.matrix_members
+        if item.reference.path == role_paths["telemetry-schema"]
+    )
+    assert telemetry_member.name == composition._source_name(
+        role_paths["telemetry-schema"]
+    )
+    assert telemetry_member.reference == phase_references["telemetry-schema"]
+    assert telemetry_member.raw == next(
+        item.raw
+        for item in result.phase_bootstrap.request.inputs
+        if item.name == "telemetry-schema"
+    )
 
     phase_source_copies = []
     for member in result.phase_bootstrap.source_members:
