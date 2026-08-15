@@ -8,14 +8,22 @@ import copy
 import importlib.util
 from pathlib import Path
 import shlex
+import sys
 import tempfile
 import unittest
 from unittest import mock
 import json
 import zipfile
 
-
 ROOT = Path(__file__).resolve().parents[1]
+if __package__:
+    from .cores.support import load_live_authoritative_core_pin_index
+else:
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    from cores.support import load_live_authoritative_core_pin_index
+
+
 MODULE_PATH = ROOT / "scripts" / "core_pipeline.py"
 SPEC = importlib.util.spec_from_file_location(
     "core_pipeline_track_build_integration", MODULE_PATH
@@ -29,7 +37,10 @@ class TrackBuildIntegrationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.catalog = pipeline.load_catalog(pipeline.DEFAULT_CATALOG)
-        cls.authoritative_pin_index = pipeline.load_authoritative_core_pin_index()
+        cls.authoritative_pin_index = load_live_authoritative_core_pin_index(
+            repository_root=ROOT,
+            loader=pipeline.load_authoritative_core_pin_index,
+        )
 
     @staticmethod
     @contextmanager

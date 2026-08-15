@@ -4,11 +4,13 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterator
 from contextlib import contextmanager
+import copy
 import hashlib
 import json
 from pathlib import Path
 import shutil
 import tempfile
+from threading import Lock
 from typing import Any
 
 from scripts import core_pipeline as pipeline
@@ -17,6 +19,45 @@ from scripts.core_pipeline_lib.records import source as records_source
 
 
 ROOT = Path(__file__).resolve().parents[2]
+
+_LIVE_AUTHORITY_CACHE_ROOT: Path | None = None
+_LIVE_AUTHORITY_CACHE: dict[str, dict[str, Any]] | None = None
+_LIVE_AUTHORITY_CACHE_LOCK = Lock()
+
+
+def load_live_authoritative_core_pin_index(
+    *,
+    repository_root: Path,
+    loader: Callable[[], dict[str, dict[str, Any]]],
+) -> dict[str, dict[str, Any]]:
+    """Return a detached copy of one process-wide validated live pin index.
+
+    The first caller still runs its real authoritative loader. Later test
+    consumers may reuse that exact validated snapshot only for the same
+    repository root, and no consumer can mutate the private cached value.
+    """
+
+    resolved_root = repository_root.resolve(strict=True)
+    if not resolved_root.is_dir():
+        raise ValueError("live authority repository root must be a directory")
+
+    global _LIVE_AUTHORITY_CACHE_ROOT, _LIVE_AUTHORITY_CACHE
+    with _LIVE_AUTHORITY_CACHE_LOCK:
+        if _LIVE_AUTHORITY_CACHE is None:
+            loaded = loader()
+            if not isinstance(loaded, dict):
+                raise TypeError("live authoritative core pin index must be a dict")
+            snapshot = copy.deepcopy(loaded)
+            _LIVE_AUTHORITY_CACHE_ROOT, _LIVE_AUTHORITY_CACHE = (
+                resolved_root,
+                snapshot,
+            )
+        elif resolved_root != _LIVE_AUTHORITY_CACHE_ROOT:
+            raise ValueError(
+                "live authority cache is bound to a different repository root"
+            )
+
+        return copy.deepcopy(_LIVE_AUTHORITY_CACHE)
 
 
 def load_document(path: Path) -> dict[str, Any]:
