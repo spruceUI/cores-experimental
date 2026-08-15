@@ -11,6 +11,10 @@ on:
         description: Core selected from the immutable release plan
         required: true
         type: string
+      group_tag:
+        description: Exact track/stability/chipset group selected by the plan
+        required: true
+        type: string
       plan_artifact_name:
         description: Run-attempt-qualified plan artifact
         required: true
@@ -30,6 +34,7 @@ jobs:
     env:
       CANDIDATE_ID: ${{ inputs.candidate_id }}
       CORE_ID: ${{ inputs.core_id }}
+      GROUP_TAG: ${{ inputs.group_tag }}
       PLAN_PATH: .local-e2e/release-plans/${{ inputs.candidate_id }}.json
       RESULT_PARENT: .local-e2e/release-results/${{ inputs.candidate_id }}/github-actions
       RUN_ID: actions-${{ github.run_id }}-${{ github.run_attempt }}
@@ -50,6 +55,15 @@ jobs:
           test -z "$(git status --short)"
           jq -e --arg core "$CORE_ID" \
             '.cores | any(.core_id == $core)' "$PLAN_PATH" >/dev/null
+          jq -e --arg group "$GROUP_TAG" \
+            '.scope == "track-group" and .group.group_tag == $group' \
+            "$PLAN_PATH" >/dev/null
+
+      - name: Prepare exact release source graph
+        run: >-
+          python3 scripts/core_pipeline.py prepare-release-source-graph
+          --group-tag "$GROUP_TAG"
+          --core "$CORE_ID"
 
       - name: Download Docker image archives outside the repository
         env:
@@ -85,6 +99,7 @@ jobs:
           python3 scripts/core_pipeline.py build-core
           --runner-profile github-actions
           --core "$CORE_ID"
+          --group-tag "$GROUP_TAG"
           --run-id "$RUN_ID"
 
       - name: Record portable release result
@@ -92,6 +107,7 @@ jobs:
           python3 scripts/core_pipeline.py record-release-result
           --plan "$PLAN_PATH"
           --core "$CORE_ID"
+          --group-tag "$GROUP_TAG"
           --e2e-record ".local-e2e/runs/$RUN_ID/e2e-record.json"
           --output-dir "$RESULT_PARENT/$CORE_ID"
 

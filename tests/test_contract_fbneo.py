@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from scripts.core_pipeline_lib.contracts import fbneo
 from scripts.core_pipeline_lib.contracts.registry import core_log_contract_for
 from scripts.core_pipeline_lib.errors import PipelineError

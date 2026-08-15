@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+import io
 import json
 from pathlib import Path
 import re
@@ -11,10 +12,13 @@ import zipfile
 
 from ..errors import PipelineError
 from ..foundation import (
+    decode_json_object,
     load_json,
+    load_json_with_sha256,
     sha256_bytes,
     sha256_file,
 )
+from ..runtime import base_runner_evidence, runner_evidence_is_hardened
 
 
 CORE_ID_RE = re.compile(r"^[a-z0-9][a-z0-9_]*$")
@@ -61,7 +65,7 @@ PinValidator = Callable[..., dict[str, Any]]
 E2EValidator = Callable[
     [Path, str, dict[str, dict[str, Any]]], dict[str, Any]
 ]
-ArtifactValidator = Callable[[Path, str], dict[str, Any]]
+ArtifactValidator = Callable[[bytes, str], dict[str, Any]]
 BuildRecordValidator = Callable[
     [dict[str, Any], Path, dict[str, Any], str], None
 ]
@@ -213,6 +217,7 @@ def validate_core_e2e_run(
     build_record_validator: BuildRecordValidator,
     content_hasher: ContentHasher,
     runner_validator: RunnerValidator,
+    evidence_document: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Validate immutable ignored E2E bytes without current-recipe coupling."""
 
@@ -221,13 +226,16 @@ def validate_core_e2e_run(
     )
     if e2e_path.name != "e2e-record.json":
         raise PipelineError("compatibility E2E record path is invalid")
-    try:
-        evidence_bytes = e2e_path.read_bytes()
-        evidence = json.loads(evidence_bytes)
-    except (OSError, json.JSONDecodeError, UnicodeDecodeError) as exc:
-        raise PipelineError(f"cannot load compatibility E2E record: {exc}") from exc
-    if not isinstance(evidence, dict):
-        raise PipelineError("compatibility E2E record must be a JSON object")
+    if evidence_document is None:
+        try:
+            evidence_bytes = e2e_path.read_bytes()
+        except OSError as exc:
+            raise PipelineError(f"cannot load compatibility E2E record: {exc}") from exc
+        evidence = decode_json_object(evidence_bytes, e2e_path)
+    elif not isinstance(evidence_document, dict):
+        raise PipelineError("compatibility E2E preloaded document is invalid")
+    else:
+        evidence = evidence_document
     schema_version = evidence.get("schema_version")
     if type(schema_version) is not int or schema_version not in {1, 2}:
         raise PipelineError("compatibility E2E schema version is invalid")
@@ -282,14 +290,15 @@ def validate_core_e2e_run(
             run_root,
             "compatibility E2E build record",
         )
-        if (
-            not record_path.is_file()
-            or sha256_file(record_path) != entry.get("record_sha256")
-        ):
+        if not record_path.is_file():
             raise PipelineError(
                 f"{core_id}/{architecture}: compatibility build record digest is invalid"
             )
-        record = load_json(record_path)
+        record, record_sha256 = load_json_with_sha256(record_path)
+        if record_sha256 != entry.get("record_sha256"):
+            raise PipelineError(
+                f"{core_id}/{architecture}: compatibility build record digest is invalid"
+            )
         if (
             record.get("core_id") != core_id
             or record.get("architecture") != architecture
@@ -300,6 +309,13 @@ def validate_core_e2e_run(
         ):
             raise PipelineError(
                 f"{core_id}/{architecture}: compatibility build record is invalid"
+            )
+        recipe = record.get("recipe")
+        has_host_execution = isinstance(recipe, dict) and "host_execution" in recipe
+        if has_host_execution != runner_evidence_is_hardened(evidence.get("runner")):
+            raise PipelineError(
+                f"{core_id}/{architecture}: host-execution recipe and hardened "
+                "runner evidence differ"
             )
         source = record.get("source")
         if (
@@ -321,17 +337,23 @@ def validate_core_e2e_run(
             record_path.parent,
             "compatibility build log",
         )
-        if (
-            log_path.name != "build.log"
-            or not log_path.is_file()
-            or sha256_file(log_path) != build.get("log_sha256")
-        ):
+        if log_path.name != "build.log" or not log_path.is_file():
             raise PipelineError(
                 f"{core_id}/{architecture}: compatibility build log bytes are invalid"
             )
         try:
-            build_log_text = log_path.read_text(encoding="utf-8")
+            build_log_bytes = log_path.read_bytes()
         except (OSError, UnicodeDecodeError) as exc:
+            raise PipelineError(
+                f"{core_id}/{architecture}: cannot read compatibility build log: {exc}"
+            ) from exc
+        if sha256_bytes(build_log_bytes) != build.get("log_sha256"):
+            raise PipelineError(
+                f"{core_id}/{architecture}: compatibility build log bytes are invalid"
+            )
+        try:
+            build_log_text = build_log_bytes.decode("utf-8")
+        except UnicodeDecodeError as exc:
             raise PipelineError(
                 f"{core_id}/{architecture}: cannot read compatibility build log: {exc}"
             ) from exc
@@ -354,7 +376,13 @@ def validate_core_e2e_run(
             record_path.parent,
             "compatibility build artifact",
         )
-        current_artifact = artifact_validator(artifact_path, architecture)
+        try:
+            artifact_bytes = artifact_path.read_bytes()
+        except OSError as exc:
+            raise PipelineError(
+                f"{core_id}/{architecture}: cannot read compatibility artifact: {exc}"
+            ) from exc
+        current_artifact = artifact_validator(artifact_bytes, architecture)
         if not isinstance(current_artifact, dict):
             raise PipelineError(
                 f"{core_id}/{architecture}: compatibility artifact validator failed"
@@ -430,15 +458,25 @@ def validate_core_e2e_run(
     if (
         package_path.name != f"{core_id}_libretro.zip"
         or not package_path.is_file()
-        or package_path.stat().st_size != package_record.get("size")
-        or sha256_file(package_path) != package_record.get("sha256")
+    ):
+        raise PipelineError("compatibility E2E package bytes are invalid")
+    try:
+        package_bytes = package_path.read_bytes()
+    except OSError as exc:
+        raise PipelineError(f"cannot read compatibility E2E package: {exc}") from exc
+    if (
+        len(package_bytes) != package_record.get("size")
+        or sha256_bytes(package_bytes) != package_record.get("sha256")
     ):
         raise PipelineError("compatibility E2E package bytes are invalid")
 
     try:
-        with zipfile.ZipFile(package_path) as archive:
+        with zipfile.ZipFile(io.BytesIO(package_bytes)) as archive:
             expected_members = {"manifest.json"}
-            manifest = json.loads(archive.read("manifest.json"))
+            manifest = decode_json_object(
+                archive.read("manifest.json"),
+                "compatibility package manifest",
+            )
             if (
                 not isinstance(manifest, dict)
                 or manifest.get("core_id") != core_id
@@ -837,7 +875,7 @@ def validate_core_compatibility_document(
                 if run_kind == "selected"
                 else REPRODUCTION_RUNNER
             )
-            if verified.get("runner") != expected_runner:
+            if base_runner_evidence(verified.get("runner")) != expected_runner:
                 errors.append(
                     f"individual core {run_kind} E2E runner profile is invalid"
                 )

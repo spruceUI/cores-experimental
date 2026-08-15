@@ -7,7 +7,7 @@ from pathlib import Path
 import shlex
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from core_pipeline_lib.contracts import atari800, c_only
 from core_pipeline_lib.contracts.compiler import (
     TARGET_COMPILERS,

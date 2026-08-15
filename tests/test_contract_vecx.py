@@ -4,7 +4,7 @@ import copy
 from pathlib import Path
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from core_pipeline_lib.contracts import vecx
 from core_pipeline_lib.contracts.registry import core_log_contract_for
 

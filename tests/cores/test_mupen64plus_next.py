@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import copy
 import dataclasses
+from pathlib import Path
+import tempfile
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from core_pipeline_lib.contracts import mupen64plus_next
 from core_pipeline_lib.contracts.c_asm import c_asm_log_proves_contract
 
@@ -75,10 +77,69 @@ class Mupen64PlusNextManifestTests(unittest.TestCase):
         # Provenance must still record the gitlink rather than hide it.
         shell = pipeline.provenance_shell("src", True, False)
         self.assertIn("ls-tree -r HEAD", shell)
+        self.assertIn('print " " $3, $4', shell)
         self.assertIn("/output/submodules.txt", shell)
         # And the checkout must not attempt a fetch that cannot succeed.
         checkout = pipeline.checkout_shell("src", "a" * 40, True, False)
         self.assertNotIn("submodule update", checkout)
+
+    def test_prefixless_stray_gitlink_provenance_is_preserved(self) -> None:
+        commit = "e54b645fc6b8422562327443bda575c65d931fbd"
+        gitlink = "mupen64plus-rsp-paraLLEl/lightning/gnulib"
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "submodules.txt"
+            path.write_text(f"{commit} {gitlink}\n", encoding="utf-8")
+            records, raw_line_count = pipeline.parse_submodule_provenance(path)
+        self.assertEqual(1, raw_line_count)
+        self.assertEqual(
+            [{"state": " ", "commit": commit, "path": gitlink}], records
+        )
+
+    def test_canonical_gitlink_provenance_preserves_status_and_description(
+        self,
+    ) -> None:
+        clean_commit = "1" * 40
+        changed_commit = "2" * 40
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "submodules.txt"
+            path.write_text(
+                f" {clean_commit} deps/clean\n"
+                f"+{changed_commit} deps/changed (heads/main)\n",
+                encoding="utf-8",
+            )
+            records, raw_line_count = pipeline.parse_submodule_provenance(path)
+        self.assertEqual(2, raw_line_count)
+        self.assertEqual(
+            [
+                {"state": " ", "commit": clean_commit, "path": "deps/clean"},
+                {
+                    "state": "+",
+                    "commit": changed_commit,
+                    "path": "deps/changed",
+                },
+            ],
+            records,
+        )
+
+    def test_malformed_gitlink_provenance_fails_closed(self) -> None:
+        commit = "3" * 40
+        malformed_lines = {
+            "blank": "\n",
+            "invalid-state": f"x{commit} deps/one\n",
+            "short-commit": f" {commit[:-1]} deps/one\n",
+            "uppercase-commit": f" {commit.upper().replace('3', 'A', 1)} deps/one\n",
+            "prefixless-suffix": f"{commit} deps/one injected\n",
+            "status-suffix-injection": f" {commit} deps/one (heads/main) injected\n",
+        }
+        for name, content in malformed_lines.items():
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as temporary:
+                path = Path(temporary) / "submodules.txt"
+                path.write_text(content, encoding="utf-8")
+                with self.assertRaisesRegex(
+                    pipeline.PipelineError,
+                    "submodule provenance line 1 is malformed",
+                ):
+                    pipeline.parse_submodule_provenance(path)
 
     def test_workflow_is_a_migrated_read_only_dispatcher(self) -> None:
         workflow = (ROOT / self.spec["workflow"]).read_text(encoding="utf-8")

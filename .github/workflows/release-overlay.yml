@@ -4,11 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       coordinator_run_id:
-        description: >-
-          Run ID of a successful "Build release candidate" run;
-          empty selects the latest successful run
-        required: false
-        default: ""
+        description: Exact successful release-candidate workflow run ID
+        required: true
         type: string
 
 permissions:
@@ -20,66 +17,104 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      COORDINATOR_WORKFLOW: release-candidate.yml
       CANDIDATE_INPUT_ROOT: .local-e2e/overlay-input
       OVERLAY_OUTPUT_ROOT: .local-e2e/overlays
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-        with:
-          persist-credentials: false
-
-      - name: Resolve coordinator run
+      - name: Verify exact coordinator run
         id: run
         env:
           GH_TOKEN: ${{ github.token }}
           REQUESTED_RUN_ID: ${{ inputs.coordinator_run_id }}
         run: |
-          if [ -n "$REQUESTED_RUN_ID" ]; then
-            run_id="$REQUESTED_RUN_ID"
-          else
-            run_id="$(gh run list \
-              --repo "$GITHUB_REPOSITORY" \
-              --workflow "$COORDINATOR_WORKFLOW" \
-              --status success \
-              --limit 1 \
-              --json databaseId \
-              --jq '.[0].databaseId // empty')"
-          fi
-          if [ -z "$run_id" ]; then
-            echo "no successful release-candidate run found" >&2
+          case "$REQUESTED_RUN_ID" in
+            ""|*[!0-9]*)
+              echo "coordinator run ID must be a positive decimal integer" >&2
+              exit 1
+              ;;
+          esac
+          if [ "$REQUESTED_RUN_ID" -lt 1 ]; then
+            echo "coordinator run ID must be positive" >&2
             exit 1
           fi
-          printf 'run_id=%s\n' "$run_id" >> "$GITHUB_OUTPUT"
+          run_json="$(gh api \
+            --method GET \
+            -H 'Accept: application/vnd.github+json' \
+            -H 'X-GitHub-Api-Version: 2022-11-28' \
+            "repos/$GITHUB_REPOSITORY/actions/runs/$REQUESTED_RUN_ID")"
+          printf '%s\n' "$run_json" | jq -e \
+            --arg repository "$GITHUB_REPOSITORY" \
+            --argjson run_id "$REQUESTED_RUN_ID" '
+              .id == $run_id and
+              .repository.full_name == $repository and
+              .head_repository.full_name == $repository and
+              .path == ".github/workflows/release-candidate.yml" and
+              .event == "workflow_dispatch" and
+              .status == "completed" and
+              .conclusion == "success" and
+              (.head_sha | test("^[0-9a-f]{40}$")) and
+              (.run_attempt | type == "number" and . >= 1 and floor == .)
+            ' >/dev/null
+          head_sha="$(printf '%s\n' "$run_json" | jq -er '.head_sha')"
+          run_attempt="$(printf '%s\n' "$run_json" | jq -er '.run_attempt')"
+          if [ "$GITHUB_SHA" != "$head_sha" ]; then
+            echo "overlay workflow commit must equal coordinator head" >&2
+            exit 1
+          fi
+          printf 'run_id=%s\n' "$REQUESTED_RUN_ID" >> "$GITHUB_OUTPUT"
+          printf 'run_attempt=%s\n' "$run_attempt" >> "$GITHUB_OUTPUT"
+          printf 'head_sha=%s\n' "$head_sha" >> "$GITHUB_OUTPUT"
 
-      - name: Download sealed candidate
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+          ref: ${{ steps.run.outputs.head_sha }}
+
+      - name: Verify exact coordinator checkout
+        env:
+          EXPECTED_HEAD: ${{ steps.run.outputs.head_sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          test -z "$(git status --short)"
+
+      - name: Download exact sealed candidate
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
-          pattern: release-candidate-*
+          name: release-candidate-${{ steps.run.outputs.run_id }}-${{ steps.run.outputs.run_attempt }}
           run-id: ${{ steps.run.outputs.run_id }}
           github-token: ${{ github.token }}
-          path: ${{ env.CANDIDATE_INPUT_ROOT }}
-          merge-multiple: false
+          path: ${{ env.CANDIDATE_INPUT_ROOT }}/release-candidate-${{ steps.run.outputs.run_id }}-${{ steps.run.outputs.run_attempt }}
 
-      - name: Convert to file overlay
-        id: convert
+      - name: Prepare exact release source graph
+        env:
+          CANDIDATE_DIR: ${{ env.CANDIDATE_INPUT_ROOT }}/release-candidate-${{ steps.run.outputs.run_id }}-${{ steps.run.outputs.run_attempt }}
         run: |
-          candidate_dir="$(find "$CANDIDATE_INPUT_ROOT" -mindepth 1 -maxdepth 1 \
-            -type d -name 'release-candidate-*' | sort | tail -n 1)"
-          if [ -z "$candidate_dir" ]; then
-            echo "no release-candidate artifact downloaded" >&2
-            exit 1
-          fi
-          output_dir="$OVERLAY_OUTPUT_ROOT/$(basename "$candidate_dir")"
-          python3 scripts/release_overlay.py \
-            --candidate-dir "$candidate_dir" \
-            --output-dir "$output_dir"
-          printf 'output_dir=%s\n' "$output_dir" >> "$GITHUB_OUTPUT"
+          group_tag="$(jq -er '.group.group_tag' "$CANDIDATE_DIR/plan.json")"
+          python3 scripts/core_pipeline.py prepare-release-source-graph \
+            --group-tag "$group_tag"
+
+      - name: Convert run-bound candidate to file overlay
+        id: convert
+        env:
+          CANDIDATE_DIR: ${{ env.CANDIDATE_INPUT_ROOT }}/release-candidate-${{ steps.run.outputs.run_id }}-${{ steps.run.outputs.run_attempt }}
+          COORDINATOR_HEAD: ${{ steps.run.outputs.head_sha }}
+          COORDINATOR_RUN_ID: ${{ steps.run.outputs.run_id }}
+          COORDINATOR_RUN_ATTEMPT: ${{ steps.run.outputs.run_attempt }}
+          OUTPUT_DIR: ${{ env.OVERLAY_OUTPUT_ROOT }}/release-overlay-${{ steps.run.outputs.run_id }}-${{ steps.run.outputs.run_attempt }}
+        run: |
+          python3 scripts/core_pipeline.py convert-release-overlay \
+            --candidate-dir "$CANDIDATE_DIR" \
+            --output-dir "$OUTPUT_DIR" \
+            --expected-repository-head "$COORDINATOR_HEAD" \
+            --coordinator-run-id "$COORDINATOR_RUN_ID" \
+            --coordinator-run-attempt "$COORDINATOR_RUN_ATTEMPT"
+          printf 'output_dir=%s\n' "$OUTPUT_DIR" >> "$GITHUB_OUTPUT"
 
       - name: Upload file overlay
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: release-overlay-${{ steps.run.outputs.run_id }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: release-overlay-${{ steps.run.outputs.run_id }}-${{ steps.run.outputs.run_attempt }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ steps.convert.outputs.output_dir }}/
           if-no-files-found: error
+          include-hidden-files: true
           compression-level: 0
           retention-days: 14

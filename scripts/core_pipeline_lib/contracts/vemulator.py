@@ -45,6 +45,7 @@ VEMULATOR_SOURCE_IDENTITY_MARKER = (
     "7fade95506201aed83316cc3f2efe3d7cecf75a7|"
     "09e8c0ec31c874ea555288c53c975e289e865c0a|catalog"
 )
+VEMULATOR_JOBS_MARKER_PREFIX = "CORE_PIPELINE_JOBS"
 VEMULATOR_COPY_COMMAND = (
     'cp "vemulator_libretro.so" '
     '"/libretro-super/dist/unix/vemulator_libretro.so"'
@@ -101,6 +102,10 @@ VEMULATOR_EXPECTED_COMPILE_PAIR_SHA256 = (
 VEMULATOR_EXPECTED_COMPILE_INVOCATION_SHA256 = {
     "arm64": "d34b29b8065e7e52931dd5694cd7970e15644116b963fb0714bc5a8bfd3b937b",
     "armhf": "8836fa35c7bdecec66659dd341506287fc1b261c38e5c61ed514c55d585311f4",
+}
+VEMULATOR_EXPECTED_RAW_COMPILE_INVOCATION_SHA256 = {
+    "arm64": "c3def28da3661441df0168c83520f8acaca4363e258d3d4bb48a2fdb6e55d049",
+    "armhf": "86248f147656e3289e9c229f27a2ca9b67e61f590c4a164214f11975844ea4c4",
 }
 VEMULATOR_EXPECTED_LINK_OBJECT_SHA256 = (
     "e8fdd11a7c73d751e0da3a4e2fb951e4d1973573668837db212ae42f2a59dd26"
@@ -452,7 +457,31 @@ VEMULATOR_LOG_CONTRACT = MixedLanguageLogContract(
     expected_ordered_link_argv_sha256=(
         VEMULATOR_EXPECTED_ORDERED_LINK_ARGV_SHA256
     ),
+    expected_raw_compile_invocation_sha256=(
+        VEMULATOR_EXPECTED_RAW_COMPILE_INVOCATION_SHA256
+    ),
 )
+
+
+def _vemulator_runner_prefix(
+    lines: list[str],
+) -> tuple[list[str], str | None] | None:
+    jobs_markers = tuple(
+        (position, line)
+        for position, line in enumerate(lines)
+        if line.startswith(VEMULATOR_JOBS_MARKER_PREFIX)
+    )
+    if not jobs_markers:
+        return lines, None
+    if len(jobs_markers) != 1 or jobs_markers[0][0] != 0:
+        return None
+    match = re.fullmatch(
+        re.escape(VEMULATOR_JOBS_MARKER_PREFIX) + r"\|([1-9][0-9]*)",
+        jobs_markers[0][1],
+    )
+    if match is None:
+        return None
+    return lines[1:], match.group(1)
 
 
 def _vemulator_markers_are_exact(
@@ -602,6 +631,10 @@ def _vemulator_compile_and_link_scope_is_exact(
 def _vemulator_log_envelope_is_exact(
     lines: list[str], arch: str
 ) -> bool:
+    runner_prefix = _vemulator_runner_prefix(lines)
+    if runner_prefix is None:
+        return False
+    lines, runner_jobs = runner_prefix
     if not _vemulator_markers_are_exact(lines):
         return False
     commands = _vemulator_compile_and_link_scope_is_exact(lines, arch)
@@ -662,7 +695,11 @@ def _vemulator_log_envelope_is_exact(
         + r"([1-9][0-9]*)  clean",
         lines[clean_invocation_position],
     )
-    if clean_match is None:
+    if (
+        clean_match is None
+        or runner_jobs is not None
+        and clean_match.group(1) != runner_jobs
+    ):
         return False
     try:
         clean_argv = shlex.split(lines[clean_positions[0]])

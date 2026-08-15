@@ -1,0 +1,464 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/core-track-inventory.schema.json",
+  "title": "Resolved Spruce core track inventory",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "validation_scope",
+    "local_only",
+    "publication",
+    "group_tag",
+    "applicability_scope",
+    "catalog_content_sha256",
+    "track_registry_content_sha256",
+    "tuning_registry_content_sha256",
+    "cores",
+    "deferred_cores",
+    "unsupported_core_ids",
+    "inventory_state",
+    "complete",
+    "summary",
+    "content_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 2},
+    "validation_scope": {"const": "static-build-selection-only"},
+    "local_only": {"const": true},
+    "publication": {"const": "disabled"},
+    "group_tag": {
+      "type": "string",
+      "pattern": "^(main|nightly|edge)-(stable|test):(universal|h700|a133p|a33|a523|rk3566|rk3326|ssd202d)$"
+    },
+    "applicability_scope": {"const": "architecture-only"},
+    "catalog_content_sha256": {"$ref": "#/$defs/sha256"},
+    "track_registry_content_sha256": {"$ref": "#/$defs/sha256"},
+    "tuning_registry_content_sha256": {"$ref": "#/$defs/sha256"},
+    "cores": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/core"}
+    },
+    "deferred_cores": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/deferredCore"}
+    },
+    "unsupported_core_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/coreId"}
+    },
+    "inventory_state": {"enum": ["stable", "unstable", "deferred", "unavailable"]},
+    "complete": {"type": "boolean"},
+    "summary": {"$ref": "#/$defs/summary"},
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nullableSha256": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/sha256"}
+      ]
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "coreId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]*$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[A-Za-z0-9._+-]+(?:/[A-Za-z0-9._+-]+)*$"
+    },
+    "pin": {
+      "type": "object",
+      "required": ["path", "pin_id", "file_sha256", "content_sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "pin_id": {"$ref": "#/$defs/identifier"},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "tuningProperties": {
+      "type": "object",
+      "properties": {
+        "cpu_target": {"enum": ["cortex-a7", "cortex-a35", "cortex-a53", "cortex-a55"]},
+        "tune_target": {"enum": ["cortex-a7", "cortex-a35", "cortex-a53", "cortex-a55"]},
+        "fpu": {"const": "neon-vfpv4"},
+        "float_abi": {"const": "hard"}
+      },
+      "additionalProperties": false
+    },
+    "tuning": {
+      "type": "object",
+      "required": [
+        "profile_id",
+        "content_sha256",
+        "properties",
+        "compiler_argument_mapping_version",
+        "compiler_arguments"
+      ],
+      "properties": {
+        "profile_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*-v[0-9]+$"
+        },
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "properties": {"$ref": "#/$defs/tuningProperties"},
+        "compiler_argument_mapping_version": {"const": "gcc-machine-flags-v1"},
+        "compiler_arguments": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^-m(cpu|tune|fpu|float-abi)=[A-Za-z0-9._+-]+$"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "approval": {
+      "type": "object",
+      "required": [
+        "approved_test_variant_id",
+        "approved_test_origin_track",
+        "approved_at",
+        "approved_by",
+        "reason",
+        "previous_stable_variant_id",
+        "source_registry_content_sha256"
+      ],
+      "properties": {
+        "approved_test_variant_id": {"$ref": "#/$defs/sha256"},
+        "approved_test_origin_track": {"enum": ["main", "nightly", "edge"]},
+        "approved_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "approved_by": {"type": "string", "minLength": 1, "pattern": "\\S"},
+        "reason": {"type": "string", "minLength": 1, "pattern": "\\S"},
+        "previous_stable_variant_id": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/sha256"}
+          ]
+        },
+        "source_registry_content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "branchBasis": {
+      "type": "object",
+      "required": ["basis_id", "basis_content_sha256"],
+      "properties": {
+        "basis_id": {"enum": ["spruce-main", "spruce-development"]},
+        "basis_content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "versionSlice": {
+      "type": "object",
+      "required": ["model", "track", "slice_time", "content_sha256"],
+      "properties": {
+        "model": {"const": "manual-track-version-slice-v1"},
+        "track": {"enum": ["main", "nightly", "edge"]},
+        "slice_time": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "sliceComparisonBasis": {
+      "type": "object",
+      "required": [
+        "model", "track", "slice_time",
+        "spruce_branch_registry_content_sha256", "basis_id",
+        "basis_content_sha256", "branch", "content_sha256"
+      ],
+      "properties": {
+        "model": {"const": "spruce-track-comparison-basis-projection-v1"},
+        "track": {"enum": ["main", "nightly", "edge"]},
+        "slice_time": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "spruce_branch_registry_content_sha256": {"$ref": "#/$defs/sha256"},
+        "basis_id": {"enum": ["spruce-main", "spruce-development"]},
+        "basis_content_sha256": {"$ref": "#/$defs/sha256"},
+        "branch": {
+          "type": "object",
+          "required": ["repository", "ref", "commit", "tree"],
+          "properties": {
+            "repository": {"type": "string", "minLength": 1},
+            "ref": {"type": "string", "pattern": "^refs/heads/\\S+$"},
+            "commit": {"$ref": "#/$defs/sha1"},
+            "tree": {"$ref": "#/$defs/sha1"}
+          },
+          "additionalProperties": false
+        },
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "deferredCore": {
+      "type": "object",
+      "required": [
+        "core_id",
+        "track",
+        "requested_marker",
+        "requested_chipset",
+        "selected_chipset",
+        "state",
+        "reason",
+        "origin_track",
+        "current_assignment_content_sha256",
+        "resolution",
+        "spruce_branch_basis"
+      ],
+      "properties": {
+        "core_id": {"$ref": "#/$defs/coreId"},
+        "track": {"enum": ["main", "nightly", "edge"]},
+        "requested_marker": {"enum": ["stable", "test"]},
+        "requested_chipset": {"$ref": "#/$defs/chipset"},
+        "selected_chipset": {"$ref": "#/$defs/chipset"},
+        "state": {"const": "deferred"},
+        "reason": {"const": "no-reviewed-version-channel-build-pin"},
+        "origin_track": {"enum": ["main", "nightly", "edge"]},
+        "current_assignment_content_sha256": {
+          "$ref": "#/$defs/nullableSha256"
+        },
+        "resolution": {
+          "enum": ["exact_deferred", "universal_deferred_fallback"]
+        },
+        "spruce_branch_basis": {"$ref": "#/$defs/branchBasis"}
+      },
+      "additionalProperties": false
+    },
+    "core": {
+      "type": "object",
+      "required": [
+        "core_id",
+        "track",
+        "requested_marker",
+        "requested_chipset",
+        "selected_chipset",
+        "selected_state",
+        "stability",
+        "resolution",
+        "test_origin_track",
+        "current_assignment_content_sha256",
+        "spruce_branch_basis",
+        "version_slice",
+        "slice_comparison_basis",
+        "variant_id",
+        "pin",
+        "source_commit",
+        "architectures",
+        "selected_architectures",
+        "tuning"
+      ],
+      "properties": {
+        "core_id": {"$ref": "#/$defs/coreId"},
+        "track": {"enum": ["main", "nightly", "edge"]},
+        "requested_marker": {"enum": ["stable", "test"]},
+        "requested_chipset": {"$ref": "#/$defs/chipset"},
+        "selected_chipset": {"$ref": "#/$defs/chipset"},
+        "selected_state": {"enum": ["stable", "test", "unstable_fallback"]},
+        "stability": {"enum": ["stable", "unstable"]},
+        "resolution": {
+          "enum": [
+            "exact_stable",
+            "universal_stable_fallback",
+            "exact_test",
+            "universal_test_fallback",
+            "exact_test_unstable_fallback",
+            "universal_test_unstable_fallback"
+          ]
+        },
+        "test_origin_track": {"enum": ["main", "nightly", "edge"]},
+        "current_assignment_content_sha256": {
+          "$ref": "#/$defs/nullableSha256"
+        },
+        "spruce_branch_basis": {"$ref": "#/$defs/branchBasis"},
+        "version_slice": {"$ref": "#/$defs/versionSlice"},
+        "slice_comparison_basis": {"$ref": "#/$defs/sliceComparisonBasis"},
+        "variant_id": {"$ref": "#/$defs/sha256"},
+        "pin": {"$ref": "#/$defs/pin"},
+        "source_commit": {"$ref": "#/$defs/sha1"},
+        "architectures": {"$ref": "#/$defs/architectures"},
+        "selected_architectures": {"$ref": "#/$defs/architectures"},
+        "tuning": {"$ref": "#/$defs/tuning"},
+        "approval": {"$ref": "#/$defs/approval"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"selected_state": {"const": "stable"}},
+            "required": ["selected_state"]
+          },
+          "then": {
+            "properties": {
+              "requested_marker": {"const": "stable"},
+              "stability": {"const": "stable"},
+              "resolution": {
+                "enum": ["exact_stable", "universal_stable_fallback"]
+              }
+            },
+            "required": ["approval"]
+          },
+          "else": {"not": {"required": ["approval"]}}
+        },
+        {
+          "if": {
+            "properties": {"selected_state": {"const": "test"}},
+            "required": ["selected_state"]
+          },
+          "then": {
+            "properties": {
+              "requested_marker": {"const": "test"},
+              "stability": {"const": "unstable"},
+              "resolution": {
+                "enum": ["exact_test", "universal_test_fallback"]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"selected_state": {"const": "unstable_fallback"}},
+            "required": ["selected_state"]
+          },
+          "then": {
+            "properties": {
+              "requested_marker": {"const": "stable"},
+              "stability": {"const": "unstable"},
+              "resolution": {
+                "enum": [
+                  "exact_test_unstable_fallback",
+                  "universal_test_unstable_fallback"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "resolution": {
+                "enum": [
+                  "exact_stable",
+                  "exact_test",
+                  "exact_test_unstable_fallback"
+                ]
+              }
+            },
+            "required": ["resolution"]
+          },
+          "then": {
+            "oneOf": [
+              {
+                "properties": {
+                  "requested_chipset": {"const": "universal"},
+                  "selected_chipset": {"const": "universal"}
+                }
+              },
+              {
+                "properties": {
+                  "requested_chipset": {"const": "h700"},
+                  "selected_chipset": {"const": "h700"}
+                }
+              },
+              {
+                "properties": {
+                  "requested_chipset": {"const": "a133p"},
+                  "selected_chipset": {"const": "a133p"}
+                }
+              },
+              {
+                "properties": {
+                  "requested_chipset": {"const": "a33"},
+                  "selected_chipset": {"const": "a33"}
+                }
+              },
+              {
+                "properties": {
+                  "requested_chipset": {"const": "a523"},
+                  "selected_chipset": {"const": "a523"}
+                }
+              },
+              {
+                "properties": {
+                  "requested_chipset": {"const": "rk3566"},
+                  "selected_chipset": {"const": "rk3566"}
+                }
+              },
+              {
+                "properties": {
+                  "requested_chipset": {"const": "rk3326"},
+                  "selected_chipset": {"const": "rk3326"}
+                }
+              },
+              {
+                "properties": {
+                  "requested_chipset": {"const": "ssd202d"},
+                  "selected_chipset": {"const": "ssd202d"}
+                }
+              }
+            ]
+          },
+          "else": {
+            "properties": {
+              "requested_chipset": {
+                "enum": ["h700", "a133p", "a33", "a523", "rk3566", "rk3326", "ssd202d"]
+              },
+              "selected_chipset": {"const": "universal"}
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "chipset": {
+      "enum": ["universal", "h700", "a133p", "a33", "a523", "rk3566", "rk3326", "ssd202d"]
+    },
+    "architectures": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["arm64", "armhf"]}
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "selected_core_count",
+        "stable_core_count",
+        "unstable_core_count",
+        "deferred_core_count",
+        "unsupported_core_count",
+        "universal_fallback_count"
+      ],
+      "properties": {
+        "selected_core_count": {"type": "integer", "minimum": 0},
+        "stable_core_count": {"type": "integer", "minimum": 0},
+        "unstable_core_count": {"type": "integer", "minimum": 0},
+        "deferred_core_count": {"type": "integer", "minimum": 0},
+        "unsupported_core_count": {"type": "integer", "minimum": 0},
+        "universal_fallback_count": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -63,6 +63,7 @@ class MixedLanguageLogContract:
     # admits it only in non-word-initial position (see
     # command_line_is_lexically_safe); every other core keeps the strict guard.
     allow_embedded_tilde: bool = False
+    expected_raw_compile_invocation_sha256: Mapping[str, str] | None = None
 
 
 def mixed_language_semantic_log_path(
@@ -262,6 +263,21 @@ def mixed_language_compile_invocation_sha256(
     )
 
 
+def mixed_language_raw_compile_invocation_sha256(
+    invocations: Iterable[tuple[str, ...]],
+) -> str:
+    """Hash exact compile argv while allowing parallel command reordering."""
+
+    canonical = sorted([list(tokens) for tokens in invocations])
+    return sha256_bytes(
+        json.dumps(
+            canonical,
+            ensure_ascii=True,
+            separators=(",", ":"),
+        ).encode("ascii")
+    )
+
+
 def mixed_language_link_object_sha256(objects: Iterable[str]) -> str:
     material = "".join(f"{path}\n" for path in sorted(objects))
     return sha256_bytes(material.encode("utf-8"))
@@ -304,6 +320,7 @@ def mixed_language_log_proves_contract(
     compile_invocations: list[
         tuple[str, str, str, str, str, tuple[str, ...]]
     ] = []
+    raw_compile_invocations: list[tuple[str, ...]] = []
     language_counts: Counter[str] = Counter()
     link_objects: Counter[str] | None = None
     link_object_sha256: str | None = None
@@ -348,6 +365,7 @@ def mixed_language_log_proves_contract(
             output, source, language, *_raw = invocation
             compile_pairs[(output, source)] += 1
             compile_invocations.append(invocation)
+            raw_compile_invocations.append(tuple(tokens))
             language_counts[language] += 1
             continue
         if not has_output or link_objects is not None:
@@ -381,6 +399,13 @@ def mixed_language_log_proves_contract(
         == contract.expected_compile_pair_sha256
         and mixed_language_compile_invocation_sha256(compile_invocations)
         == contract.expected_compile_invocation_sha256.get(arch)
+        and (
+            contract.expected_raw_compile_invocation_sha256 is None
+            or mixed_language_raw_compile_invocation_sha256(
+                raw_compile_invocations
+            )
+            == contract.expected_raw_compile_invocation_sha256.get(arch)
+        )
         and link_objects == compile_objects
         and link_object_sha256 == contract.expected_link_object_sha256
         and raw_link_object_sha256 == contract.expected_raw_link_object_sha256

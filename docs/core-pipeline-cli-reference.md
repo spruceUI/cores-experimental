@@ -23,7 +23,7 @@ python3 scripts/core_pipeline.py <command> --help
 
 The script is executable, so `./scripts/core_pipeline.py` is equivalent when
 the shebang can find Python 3. Both `-h` and `--help` are valid. Top-level help
-lists all 20 commands; command help lists that command's parser-visible flags.
+lists all supported commands; command help lists that command's parser-visible flags.
 Help exits successfully without executing a command.
 
 The execution grammar is:
@@ -42,7 +42,10 @@ arbitrary self-contained manifest from another directory.
 
 The following commands read `--catalog`:
 
-- `catalog-check`, `audit-workflows`, `build`, `build-core`, `e2e`, `promote`,
+- `catalog-check`, `core-track-inventory`, `core-track-set-test`,
+  `audit-workflows`, `build`, `build-core`, `e2e`, `promote`,
+  `promote-host-reproduction`, `promote-source-candidate`,
+  `promote-tuned-variant`,
   `derive-core-id`, `compose-core-golden`, `compose-pin-set`, `promote-release`,
   `update-channel`, `plan-release`, `release-matrix`, `record-release-result`,
   and `seal-release`
@@ -125,6 +128,29 @@ All three selectors record local-only, publication-disabled evidence. The
 simulation selector records normalized profile `github-actions`, mode
 `simulated`, and backend `local-docker`.
 
+New `local` and `github-actions-sim` E2Es are hardened host runs. They resolve
+distinct selector identities from the hash-bound
+`manifests/host-build-execution-profiles.json` registry but share the
+`host-8c-4g-noswap-v1` resource-equivalence class: eight build jobs, an
+eight-CPU Docker quota, 4 GiB memory, 1,024 PIDs, matrix parallelism one, and
+sequential selected/reproduction execution. Docker `MemorySwap` is a total
+memory-plus-swap limit. Its value is 4 GiB, equal to `Memory`, so usable swap is
+zero and cgroup v2 reports `memory.swap.max=0`; it does not provide 4 GiB of
+swap. The current admissible instrumented build driver is `libretro-super`;
+unsupported drivers fail closed.
+
+Each hardened run binds the immutable profile registry/schema, deterministic
+jobs/resource/cache/tool-wrapper contract, and a content-addressed telemetry
+sidecar. The sidecar records the exact container lifecycle and cgroup limits,
+phase timing, CPU/memory/I/O/swap/PID counters, OOM state, output bindings, and
+compile/link unit evidence actually observed. Measured counters, timestamps,
+and container IDs remain observational and do not alter artifact/package
+equivalence. Native `github-actions` retains its historical five-field runner
+record because hosted-runner cgroup claims are not available to this local
+instrumentation tranche; it must not be described as host-validated. The
+standalone `build` command is diagnostic and does not emit campaign-admissible
+host telemetry.
+
 ## Commands
 
 ### `catalog-check`
@@ -149,6 +175,159 @@ immutable legacy bridge row, with canonical state superseding a frozen row for
 the same core. The output reports separate canonical-admission, legacy-bridge,
 effective-coverage, and pending counts plus the pending core IDs. Pending
 records never count as canonical compatibility or golden sources.
+
+With the default catalog, `catalog-check` also validates the tracked core-track
+and chipset-tuning registries, the exact Spruce branch artifact comparison
+bases, the historical roster correlation, their semantic hashes, every
+referenced build pin, and the exact 48 `track-marker:chipset` selector
+combinations. The comparison bases do not select source revisions or require
+new pins to reproduce historical artifact bytes. This is a static
+build-selection check; it does not replace device compatibility.
+
+### `core-track-inventory`
+
+Resolve one deterministic build-pin/deferred inventory for a track, stability
+marker, and chipset.
+
+```text
+core-track-inventory --group-tag GROUP [--core CORE]...
+```
+
+`GROUP` is exactly `(main|nightly|edge)-(stable|test):CHIPSET`, where
+`CHIPSET` is `universal`, `h700`, `a133p`, `a523`, `a33`, `rk3566`, `rk3326`,
+or `ssd202d`.
+Repeated `--core` values must be unique; omitting them selects the whole
+catalog. The command requires the canonical catalog; a custom global
+`--catalog` is rejected because the track registry is path-bound to the
+repository's pins. Unknown or unsupported spelling is rejected.
+
+Main and nightly are the manually selected Spruce stable/Main and Development
+version levels. Edge is the exact upstream branch tip captured and reviewed at
+admission. Their exact commits and trees remain pinned and normally satisfy
+`main <= nightly <= edge` by repository equality and Git ancestry/equality when
+each direct child TEST assignment is created. The recorded parent binding, not
+a later moving parent, remains that child's ordering evidence. Only an exact
+recorded outlier authorization may bypass repository/ancestry ordering; same
+commit with a different tree always fails. `stable` remains a separate approval
+marker rather than a fourth source channel, and current Edge-head freshness
+applies to TEST rather than historical STABLE snapshots.
+
+Stable selection prefers an exact stable cell, then a compatible universal
+stable cell, then exact/universal tests marked unstable. Test selection never
+substitutes stable. `universal` is the default build and is required to resolve
+to an empty property map and no compiler arguments. A deferred cell never
+becomes an executable row: it appears in `deferred_cores`, makes
+`complete: false`, and sets `inventory_state` to `deferred`. Output is
+deterministic JSON conforming to
+`manifests/core-track-inventory.schema.json` and remains local-only,
+publication-disabled, and `static-build-selection-only`. See
+[Core tracks, stability, and chipset selection](core-track-groups.md) for the
+complete precedence and evidence boundary.
+
+### `core-track-promote`
+
+Promote one exact effective TEST cell into the track-local stable map while
+freezing its complete source registry as repository-local, content-addressed
+evidence. Review and commit the snapshot and updated registry together before
+treating the approval as durable.
+
+```text
+core-track-promote --track TRACK --core CORE --chipset CHIPSET
+  --expected-test-variant SHA256
+  --expected-current-stable absent|SHA256
+  --approved-by NAME --reason TEXT
+  [--approved-at YYYY-MM-DDTHH:MM:SSZ]
+```
+
+The command requires the canonical catalog. `--expected-test-variant` is a
+compare-and-swap gate: promotion fails before any write if the currently
+effective exact TEST variant differs. `--expected-current-stable` is the other
+side of the gate: use literal `absent` for an initial approval, or the exact
+reviewed 64-hex `approved_test_variant_id` to advance an existing stable cell.
+Universal fallback is never implicit; approve `--chipset universal`
+explicitly. The command writes an immutable snapshot of the complete prior
+registry (including any replaced stable approval) before the updated registry,
+records the prior variant or `null` in `previous_stable_variant_id`, then
+revalidates that CAS lineage against the snapshot. Approval metadata requires a
+real, canonical UTC-second timestamp and non-whitespace approver and reason.
+Its output and effects remain local-only and publication-disabled.
+
+### `core-track-set-test`
+
+Atomically admit one authoritative immutable pin into one exact track-local
+TEST cell without changing stable approvals.
+
+```text
+core-track-set-test --track TRACK --core CORE --chipset CHIPSET
+  --pin-id PIN --tuning-profile PROFILE
+  --slice-time YYYY-MM-DDTHH:MM:SSZ
+  [--applicable-chipset CHIPSET]...
+  --expected-current-test absent|SHA256
+  --expected-current-assignment absent|SHA256
+  --expected-new-variant SHA256
+  [--expected-parent-variant SHA256 --expected-parent-registry SHA256]
+  [--outlier-authorized-at YYYY-MM-DDTHH:MM:SSZ
+   --outlier-authorized-by NAME --outlier-reason TEXT]
+```
+
+The two current arguments and the new variant are compare-and-swap assertions.
+`--expected-current-test` addresses only the build-variant identity in the
+direct TEST cell, not an inherited cell. `--expected-current-assignment`
+addresses the complete direct assignment, including its immutable version
+slice and parent-registry lineage. Obtain it from the requested coordinate's
+`current_assignment_content_sha256` in `core-track-inventory`; use literal
+`absent` when that field is `null`. This second CAS prevents a slice-only or
+other assignment-level change from being silently overwritten even when the
+build variant is unchanged. The new assertion must equal the complete build
+variant derived from the authoritative pin, profile, applicability, and
+current registries. Any drift in the registry, pin, ancestry evidence, outlier
+authorization, or CAS expectations fails before the atomic write.
+
+`--slice-time` is required for every track and must be a canonical UTC-second
+value exactly matching `YYYY-MM-DDTHH:MM:SSZ`. It creates immutable
+assignment/tranche metadata. The slice is deliberately excluded from build
+variant identity, so two time slices may select the same build; it is included
+in `assignment_content_sha256`, the CAS identity of the whole direct
+assignment. Its comparison basis and authenticated Spruce branch-basis
+snapshot are append-only registry evidence rather than mutable labels.
+
+Ordered channels add two parent compare-and-swap gates. `main` has no parent
+and forbids both `--expected-parent-variant` and
+`--expected-parent-registry`; `nightly` requires both for its `main` parent,
+and `edge` requires both for its `nightly` parent. The predecessor must exist,
+the variant option must name its exact current 64-hex variant identity, and the
+registry option must name the exact reviewed parent registry content digest.
+Before the registry write, the successful assignment creates or reuses the
+returned content-addressed parent-registry snapshot and verifies its file
+digest. The child binding freezes the effective parent's version slice,
+selection, inherited origin, and lineage. Later parent movement does not
+invalidate the child, and a direct child equal to its parent remains an
+intentional temporal freeze. A source-order exception is explicit TEST
+evidence, not a loose bypass, and cannot authorize an absent predecessor:
+`--outlier-authorized-at`, `--outlier-authorized-by`, and `--outlier-reason`
+must be supplied together or all omitted, and the setter validates their
+content and applicability. Success reports the previous and new assignment
+digests, `version_slice`, `slice_comparison_basis`, the authenticated
+`slice_branch_basis_registry_content_sha256` and
+`slice_branch_basis_snapshot`, `parent_variant_id`, the complete
+`source_order_parent_binding` (including its digest), snapshot path/file hash,
+`source_order_outlier`, and `edge_deferred_by_admission` alongside the admitted
+variant and registry identity.
+
+For a real chipset, omit `--applicable-chipset`: the pin must contain exactly
+the profile's one ABI and bind its non-universal tuning identity. For
+`--chipset universal`, use `universal-v1` and repeat
+`--applicable-chipset` in unique sorted order for every reviewed real-chipset
+fallback. The pin must contain every corresponding ABI and must bind no
+chipset-specific tuning. This permits an explicit dual-ABI portable fallback
+without treating it as a tuned pin. Fresh TEST admission also requires the pin
+selection to carry a non-null `host_reproduction` digest produced by two
+deeply validated hardened E2Es in authoritative selected-then-reproduction
+role order. Legacy proof-less pins remain readable as frozen historical state
+but cannot be newly assigned to TEST or STABLE. The command requires the
+canonical catalog and fully validates the pin's historical
+store/source/recipe/telemetry evidence; it never promotes the cell to stable,
+releases it, or publishes it.
 
 ### `audit-workflows`
 
@@ -281,22 +460,37 @@ that core. This is the single-core complete-build entry point.
 
 ```text
 build-core [--runner-profile {local,github-actions,github-actions-sim}]
-           --core CORE [--run-id RUN_ID] [--output-root PATH]
+           --core CORE [--group-tag GROUP]
+           [--run-id RUN_ID] [--output-root PATH]
 ```
 
 | Choice | Valid values |
 | --- | --- |
 | Runner | omit for `local`, or select exactly one of the three profiles |
 | Core | exactly one `--core CORE` |
+| Group | omit for the catalog target set, or supply one canonical `<track>-<stable\|test>:<chipset>` tag |
 | Run ID | use the selected profile's form in [Runner profiles](#runner-profiles) |
 | Output root | omit for `.local-e2e/runs`, or supply once |
 
-There is deliberately no `--arch` option. The command obtains the core's
+There is deliberately no `--arch` option. Without a group tag, the command obtains the core's
 ordered target list, build driver, source pin, toolchain, metadata, overlays,
 and compatibility parameters from the catalog. It enables fail-fast behavior,
 builds every declared target, and packages only that core. An unknown or
 ineligible core is rejected, and there is no flag with which to substitute a
 different target architecture or build recipe.
+
+With `--group-tag`, the command preflights the canonical track registry and
+exact Spruce branch comparison basis before creating the run directory. A
+deferred row fails there without creating the run. An admitted row binds the
+selected immutable build pin, ABI set, typed tuning, and exact
+URL/ref/commit/tree/submodule execution source. Its repository URL must match
+the catalog, but its immutable revision may differ from the catalog default
+when the selected pin's normalized build and output contracts remain
+compatible with the current recipe. Live checkout provenance and source-aware
+log checks use that selected revision.
+Selected artifacts and metadata must match the pin exactly; a full-scope
+package must also match. Historical recipe interpretation and legacy
+golden/pin/release promotion are not supported.
 
 **External data:** all `build` dependencies for every target declared by the
 core, plus the selected runner-profile environment and a Git `HEAD`. An
@@ -311,7 +505,8 @@ the run to one or more of that core's architectures for diagnostics.
 
 ```text
 e2e [--runner-profile {local,github-actions,github-actions-sim}]
-    --core CORE [--arch {arm64,armhf}]...
+    --core CORE
+    [--group-tag GROUP | --tuning-profile PROFILE | --arch {arm64,armhf}]...
     [--run-id RUN_ID] [--output-root PATH] [--fail-fast]
 ```
 
@@ -319,6 +514,8 @@ e2e [--runner-profile {local,github-actions,github-actions-sim}]
 | --- | --- |
 | Runner | omit for `local`, or select exactly one profile |
 | Core scope | exactly one `--core CORE` |
+| Group | omit, or supply one canonical group tag; it cannot be combined with `--arch` |
+| Tuning candidate | omit, or supply one current non-universal registry profile; it cannot be combined with `--group-tag` or `--arch` |
 | Architecture scope | omit every `--arch` for the core's complete declared target set, or repeat it for one or more unique architectures enabled by that core |
 | Run ID | use the selected profile's form in [Runner profiles](#runner-profiles) |
 | Output root | omit for `.local-e2e/runs`, or supply once |
@@ -330,6 +527,10 @@ these runtime restrictions:
 - Omitting `--core` or supplying it more than once is an error; one E2E run
   never coordinates multiple cores.
 - Repeating the same architecture is an error.
+- A tuning candidate resolves exactly one registry-owned ABI, rejects the
+  universal profile, and packages that exact one-ABI scope. Typed compiler
+  injection and its build-log proof must be supported by the core's driver;
+  non-empty tuned `direct-cargo` builds fail before creating the run root.
 - The selected core must exist, be currently eligible, and enable every
   explicitly selected architecture.
 - With no `--arch`, the core uses its exact catalog target set and can package.
@@ -341,9 +542,10 @@ these runtime restrictions:
   exact target set is those two architectures.
 
 **External data:** the `build` dependencies for every selected target of the
-one core, the runner-profile environment, and repository `HEAD`/clean state as
-required by that profile. Packaging uses only artifacts produced in the new
-run directory.
+one core, the runner-profile environment, repository `HEAD`/clean state as
+required by that profile, and the canonical chipset-tuning registry when a
+tuning candidate is selected. Packaging uses only artifacts produced in the
+new run directory.
 
 ### `promote`
 
@@ -372,9 +574,98 @@ architecture slot must be empty. This makes the working candidate core-owned
 before its first promotion.
 The command mutates that golden and adds exact evidence bytes to
 `.local-e2e/store/`; it never overwrites a filled slot or adds a second core.
+Tuned candidates are rejected; they require the separate dual-E2E command.
 
 **External data:** the existing golden, passed E2E/package/build/log/recipe
 files, current catalog and blacklist, and writable local store.
+
+### `promote-host-reproduction`
+
+Create one immutable proof-bearing ordinary golden and parentless pin from a
+selected simulated-Actions E2E and an independent native-local reproduction.
+
+```text
+promote-host-reproduction --core CORE --source-golden PATH
+  --selected-e2e PATH --reproduction-e2e PATH
+```
+
+The source golden must be an active empty one-core candidate below
+`.local-e2e/nightlies/`. The selected E2E must be hardened
+`github-actions-sim` evidence (`github-actions/simulated/local-docker`); the
+reproduction must be hardened `local` evidence
+(`local/native/local-docker`). Both must pass, use distinct run, E2E,
+build-record, and log identities, and bind the same selector-neutral resource
+class, jobs, instrumentation, source, recipe, toolchain, ABI, build contract,
+artifact, metadata, and complete package bytes. Telemetry values and log bytes
+may differ because they are observations, but both sides are independently
+deep-validated through immutable CAS references.
+
+The command stores the raw E2Es and deterministic build inputs, creates a
+self-hashed `host_reproduction` proof whose E2E references transitively bind
+profile/schema/tool/telemetry CAS objects, and projects that proof through the
+golden, core selection, pin, and semantic ID. It is create-only: neither the
+input candidate nor an existing output path is overwritten. Grouped, tuned,
+source-candidate, legacy five-field, mixed-mode, role-swapped, or output-drifted
+evidence is rejected. This is the ordinary path for producing a pin eligible
+for fresh `core-track-set-test` admission.
+
+**External data:** the canonical catalog and blacklist, both complete hardened
+run trees, the source golden, and writable local store/nightly/pin directories.
+Everything remains local-only and publication-disabled.
+
+### `promote-source-candidate`
+
+Create an immutable Edge/source-candidate golden and pin from two independent
+untuned E2Es built from one authenticated generated candidate catalog.
+
+```text
+python3 scripts/core_pipeline.py --catalog CANDIDATE-CATALOG \
+  promote-source-candidate --core CORE --source-golden PATH \
+  --selected-e2e PATH --reproduction-e2e PATH
+```
+
+The selected run must use `github-actions-sim`, the reproduction must use
+`local`, and the candidate/source/recipe/toolchain/ABI/artifact/metadata/package
+contracts must agree exactly while logs remain independent. Fresh hardened
+pairs additionally layer the same `host_reproduction` proof into every
+promoted architecture, so the resulting source-candidate pin satisfies the
+universal fresh track-admission proof gate. Mixed hardened/legacy evidence
+fails closed. The separate `source_candidate` and `output_reproduction` proofs
+continue to authenticate the generated catalog and its exact output pair.
+
+### `promote-tuned-variant`
+
+Promote two independently validated executions of one registry-owned,
+non-universal tuning profile into an immutable one-core one-ABI golden and pin.
+
+```text
+promote-tuned-variant --core CORE --tuning-profile PROFILE
+  --source-golden PATH --selected-e2e PATH --reproduction-e2e PATH
+```
+
+The source golden must be an active empty one-core candidate below
+`.local-e2e/nightlies/`. Both E2Es must be fresh passing one-ABI tuning
+candidates for the same current profile, source, normalized recipe, toolchain,
+and output contract. The selected run uses `github-actions-sim`; the
+reproduction uses `local`. Their run IDs, E2E paths, build-record paths, and log
+paths must differ. Each log is checked independently, so log hashes may differ;
+artifact, metadata, and complete package hashes and sizes must match, and all
+three selected files are rehashed during store admission.
+
+The resulting historical recipe snapshot includes the exact
+`manifests/chipset-tunings.json` bytes and proves that its embedded profile,
+mapping, properties, and compiler arguments are coherent. The command then
+deep-validates both stored E2E sides, derives the semantic ID, and creates the
+canonical golden and parentless pin without overwriting either path. Grouped
+records, a projected universal package, `universal-v1`, source/ABI/profile
+drift, or a legacy partial package are rejected. This does not edit a track;
+use `core-track-set-test` with the returned pin and reviewed variant identity.
+Fresh hardened pairs also layer the selector-neutral `host_reproduction` proof
+into the promoted record and pin; mixed hardened/legacy evidence fails closed.
+
+**External data:** the canonical catalog/tuning registry, current blacklist,
+source candidate, both complete local E2E trees, and writable local store and
+nightly/pin directories. It remains local-only and publication-disabled.
 
 ### `derive-core-id`
 
@@ -567,13 +858,18 @@ plan-release --candidate-id ID --core CORE [--core CORE]...
 plan-release --candidate-id ID
              --scope {canonical,full-workflow-roster}
              --output .local-e2e/release-plans/ID.json
+
+plan-release --candidate-id ID
+             --group-tag TRACK-MARKER:CHIPSET
+             --output .local-e2e/release-plans/ID.json
 ```
 
 | Choice | Valid values |
 | --- | --- |
 | Candidate | exactly one valid `--candidate-id ID` |
-| Core selection | one or more unique repeated `--core CORE`, or exactly one `--scope` |
+| Core selection | one or more unique repeated `--core CORE`, exactly one `--scope`, or exactly one `--group-tag` |
 | Named scope | `canonical` or `full-workflow-roster`; mutually exclusive with every `--core` |
+| Track group | one exact canonical group tag; mutually exclusive with `--core` and `--scope` |
 | Output | exactly `.local-e2e/release-plans/ID.json` |
 
 There is no `--all` alias. `canonical` selects every current canonical
@@ -581,6 +877,12 @@ individual compatibility owner. `full-workflow-roster` means every discovered
 per-core workflow and fails with categorized counts while any workflow is
 uncataloged, legacy-bridge-only, pending, non-shared, or missing from canonical
 state. Explicit cores must already be canonical and use the shared pipeline.
+`--group-tag` selects the complete workflow roster and binds the exact track,
+tuning, Spruce branch comparison-basis registry, historical roster
+correlation, build pin, variant, chipset, stability, and architecture
+identities. Every selected row must retain a complete exact pinned package.
+Deferred rows, projected architecture packages, and unsupported historical
+recipes fail before the plan or matrix is written.
 
 The repository must be completely clean. Planning binds `HEAD`, the catalog,
 toolchain lock, blacklist, full tracked Python source bundle, full tracked
@@ -607,9 +909,12 @@ release-matrix --plan .local-e2e/release-plans/ID.json
 
 **Valid forms:** `--plan` is required exactly once and has no combinable
 command-specific flags. The plan must use its canonical candidate-derived
-path, pass schema and semantic validation, and exactly match the current clean
-tracked repository. The global `--catalog` may precede the command, but only
-the canonical catalog is accepted during repository reconstruction.
+path, pass mandatory Python structural and cross-field semantic validation,
+and exactly match the current clean tracked repository. The published
+full-release JSON Schemas are structural interoperability contracts only; this
+command does not substitute JSON Schema evaluation for Python validation and
+repository reconstruction. The global `--catalog` may precede the command, but
+only the canonical catalog is accepted during repository reconstruction.
 
 Success writes exactly one compact JSON line to stdout, with no status wrapper
 or diagnostic text:
@@ -617,6 +922,9 @@ or diagnostic text:
 ```json
 {"include":[{"core_id":"2048"},{"core_id":"gambatte"}]}
 ```
+
+A track-group plan adds the same immutable `group_tag` to every row; the
+reusable worker passes it to both `build-core` and `record-release-result`.
 
 Rows retain the plan's sorted core order. Projection rejects more than 256
 rows, matching the Actions matrix ceiling. The command does not build, write a
@@ -635,20 +943,26 @@ Turn one fresh, complete one-core E2E run into a portable worker bundle:
 record-release-result
   --plan .local-e2e/release-plans/ID.json
   --core CORE
+  [--group-tag TRACK-MARKER:CHIPSET]
   --e2e-record .local-e2e/runs/RUN_ID/e2e-record.json
   --output-dir .local-e2e/release-results/ID/RUNNER/CORE
 ```
 
-**Valid forms:** all four command-specific flags are required exactly once.
+**Valid forms:** the four base command-specific flags are required exactly
+once. A track-group plan additionally requires its exact `--group-tag`; legacy
+plans forbid one.
 `RUNNER` is derived from the deeply validated E2E record and is exactly one of
 `local`, `github-actions`, or `github-actions-sim`; there is deliberately no
 separate runner flag. The plan must contain `CORE`, match the clean current
 repository exactly, and use its canonical path. The output path must contain
 the same candidate ID, derived runner, and core, and must not already exist.
+That coordinate is recomputed from the deeply validated plan and E2E snapshot
+inside the worker before bundle staging; an earlier preflight read cannot
+authorize a destination for later, swapped input bytes.
 
 The E2E record must be schema v2, one-core, passed, local-only, and
-publication-disabled. It must contain the complete catalog target set and one
-valid package. Every build record, build log, artifact, metadata file, ZIP
+publication-disabled. It must contain the plan's exact selected target set and
+one valid exact package. Every build record, build log, artifact, metadata file, ZIP
 member, source/tree/submodule identity, toolchain, workflow, blacklist, catalog,
 and current pipeline recipe is revalidated. Every target must have been built
 from the clean commit stored in the plan. Fresh package and artifact bytes must
@@ -682,18 +996,27 @@ duplicate, unexpected, failed, tampered, mixed-plan, mixed-runner, wrong-core,
 extra-file, symlink, and package-byte drift all fail before a final output is
 visible. A successful candidate contains `candidate.json`, `plan.json`, one ZIP
 per core under `assets/`, and one portable result record per core under
-`results/`. `asset_set_sha256` covers only sorted package identities, so equal
-local and simulated-Actions builds have the same asset-set identity even though
-their runner-bound candidate content hashes differ.
+`results/`. `asset_set_sha256` is the seal's output-equivalence identity: it
+covers only sorted core IDs, package names, hashes, and sizes. Equal local and
+simulated-Actions builds therefore have the same approval identity even when
+their independently valid logs and runner-bound candidate content hashes
+differ. Log hashes remain evidence identities and are never collapsed into the
+asset-set hash.
 
-The release-plan schema is v2 so it can bind the coordinator and reusable
-worker identities. Its target model, and the v1 worker-result/candidate
-schemas, remain static-build-only and carry no device claims. Targets are
+The release-plan schema is v3 so it can bind the coordinator and reusable
+worker identities plus an explicit nullable track-group contract. Its target
+model, and the v2 worker-result/candidate schemas, remain static-build-only and
+carry no device claims. Targets are
 unique by architecture because current pins and E2E records expose one
 evidence cell per architecture (`ra64-universal-v1` and `ra32-a30-v1`). A
 future same-architecture sparse device override requires a later
 execution-profile-keyed schema revision; it must not be squeezed into the
 current architecture-keyed model.
+
+Those three published JSON Schemas validate structural interoperability only.
+Every production boundary additionally runs the mandatory Python
+cross-field validator and, where applicable, exact repository reconstruction;
+schema acceptance alone never authorizes a matrix, result, seal, or overlay.
 
 **External data:** the canonical plan plus the complete portable worker-result
 tree. Docker, source trees, the original E2E directories, credentials, and

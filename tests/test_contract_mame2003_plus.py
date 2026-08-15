@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from core_pipeline_lib.contracts import mame2003_plus as mame
 from core_pipeline_lib.contracts.registry import core_log_contract_for
 from core_pipeline_lib.errors import PipelineError

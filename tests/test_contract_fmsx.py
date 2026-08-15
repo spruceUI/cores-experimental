@@ -9,7 +9,7 @@ import shlex
 import unittest
 from unittest import mock
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from core_pipeline_lib.contracts import c_only, fmsx
 from core_pipeline_lib.contracts.command_line import ordered_command_argv_sha256
 from core_pipeline_lib.contracts.registry import core_log_contract_for

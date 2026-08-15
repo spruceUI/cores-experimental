@@ -6,7 +6,7 @@ import copy
 import unittest
 from unittest import mock
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from scripts.core_pipeline_lib.contracts import core_log_contract_for
 from scripts.core_pipeline_lib.contracts import uzem
 

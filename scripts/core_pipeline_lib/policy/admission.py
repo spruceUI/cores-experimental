@@ -7,12 +7,12 @@ from pathlib import Path
 import re
 
 from ..errors import PipelineError
-from ..foundation import require_manifest_reference_path, sha256_file
+from ..foundation import require_manifest_reference_path, sha256_bytes
 from .blacklist import (
     CommitBlacklist,
     CommitBlacklistError,
     CommitPolicyReport,
-    load_commit_blacklist,
+    parse_commit_blacklist_bytes,
     require_commit_eligible,
 )
 
@@ -60,13 +60,15 @@ def load_catalog_commit_blacklist(
         repository_root,
     )
     try:
-        file_sha256 = sha256_file(path) if path.is_file() else None
+        raw = path.read_bytes() if path.is_file() else None
     except OSError as exc:
-        raise PipelineError(f"cannot hash commit blacklist: {exc}") from exc
+        raise PipelineError(f"cannot read commit blacklist: {exc}") from exc
+    file_sha256 = sha256_bytes(raw) if raw is not None else None
     if file_sha256 != reference["file_sha256"]:
         raise PipelineError("commit_blacklist file SHA256 does not match")
     try:
-        blacklist = load_commit_blacklist(path)
+        assert raw is not None
+        blacklist = parse_commit_blacklist_bytes(raw, path)
     except CommitBlacklistError as exc:
         raise PipelineError(f"commit blacklist is invalid: {exc}") from exc
     if (

@@ -6,7 +6,7 @@ import copy
 import unittest
 import zipfile
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from scripts import profile_registry as registry
 from core_pipeline_lib.contracts import race
 

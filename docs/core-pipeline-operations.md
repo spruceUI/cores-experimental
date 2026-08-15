@@ -18,6 +18,7 @@ the content-addressed store, channel pointers, and local releases stay below
 [Tests and validation](#run-tests-and-validation) ·
 [Promote a candidate](#promote-a-passing-candidate-locally) ·
 [Channels](#update-local-artifact-channels) ·
+[Core tracks](core-track-groups.md) ·
 [Source lifecycle](#source-commit-lifecycle) ·
 [Commit blacklist](#blacklist-a-source-commit) ·
 [Final checklist](#final-operator-checklist).
@@ -40,17 +41,49 @@ The repository currently has two related lifecycles. Do not confuse them:
   rebuild or publish anything.
 - `nightly`, `pinned`, and `release` are mutable local channel pointers to
   immutable artifacts. They are not independent source-commit fields.
+- `main`, `nightly`, and `edge` are ordered build-pin/deferred policies;
+  `stable` and `test` are separate per-track markers. Main is the manually
+  selected Spruce stable/Main version level, nightly is the manually selected
+  Spruce Development version level, and edge is an exact upstream branch tip
+  captured and reviewed at admission. Exact source commits and trees remain
+  pinned. Each direct child TEST assignment must satisfy
+  `main <= nightly <= edge` against its then-current effective parent by Git
+  ancestry or equality and records that parent binding. Later parent movement
+  does not retroactively change the child. Only an exact recorded outlier
+  authorization may bypass repository/ancestry ordering; a
+  same-commit/different-tree inconsistency may never bypass validation. These
+  names are separate from the mutable local `nightly` and `pinned` channels
+  above.
 
-There is currently only one active source-commit field per core. Separate
-`pinned_commit`, `release_candidate_commit`, and `release_commit` fields and
-commands do **not** exist yet; see [Source commit lifecycle](#source-commit-lifecycle).
+The immutable `Spruce:main` and `Spruce:Development` artifact bases remain
+comparison evidence only. They do not select source revisions and new pins do
+not have to reproduce their artifact bytes.
+
+There is currently only one default source-commit field per catalog core.
+Track cells do not add mutable `pinned_commit`, `release_candidate_commit`, or
+`release_commit` fields. Each effective universal state is either deferred or
+references an immutable build pin whose complete execution source can differ
+from the catalog default and coexist with other tracks. Deferred groups stop
+before build, run-directory, plan, or matrix creation. See
+[Core tracks](core-track-groups.md) and
+[Source commit lifecycle](#source-commit-lifecycle).
 Every active lifecycle uses an individual core file and semantic ID. Grouped
-names and aggregate chronology were retired on 2026-07-23 and are preserved
-only in git history.
+artifact-set names and aggregate chronology were retired on 2026-07-23 and are
+preserved only in git history; canonical core-track group tags are a separate
+selection layer.
 
 ## Prerequisites
 
-- Python 3, Git, and Docker must be available.
+- Python 3, Git, and Docker must be available. Install the exact host-side test
+  dependencies before running validation:
+
+  ```bash
+  python3 -m pip install --requirement requirements-test.txt
+  ```
+
+  `jsonschema` 4.19.2 matches the Debian 13 host package and is mandatory
+  because the inventory schema test is fail-closed; a missing validator is an
+  environment failure, not a skipped test.
 - Docker must be able to inspect and run `cores-arm64:latest`,
   `cores-armhf:latest`, and `cores-rust:latest` (the direct-cargo
   driver's image) with the exact image IDs declared in
@@ -62,11 +95,19 @@ only in git history.
   reserved historical-name guard (any ID containing `tranche` is rejected).
 - Local and simulated-Actions profiles reject `GITHUB_ACTIONS=true`. Run the
   native `github-actions` profile only inside the corresponding workflow job.
+- New local and simulated-Actions E2Es use the shared
+  `host-8c-4g-noswap-v1` execution class: eight jobs/eight CPUs, 4 GiB memory,
+  1,024 PIDs, matrix parallelism one, and sequential selected/reproduction
+  runs. Docker `MemorySwap=4 GiB` is the total memory-plus-swap limit; because
+  it equals `Memory=4 GiB`, usable swap is disabled (`memory.swap.max=0`).
+  This initial hardened tranche supports `libretro-super` builds and fails
+  closed for unsupported drivers.
 
 Useful preflight checks:
 
 ```bash
 python3 scripts/core_pipeline.py catalog-check
+python3 scripts/core_pipeline.py core-track-inventory --group-tag main-stable:h700
 python3 scripts/core_pipeline.py audit-workflows
 python3 scripts/toolchain_archive.py validate-lock
 python3 scripts/toolchain_archive.py validate-lock --verify-store
@@ -102,7 +143,8 @@ python3 scripts/core_pipeline.py build \
 
 The command writes a build record, build log, artifact, and metadata beneath the
 chosen output directory. Use an output below `.local-e2e/` so local evidence
-remains ignored by Git.
+remains ignored by Git. This standalone diagnostic path does not create an E2E,
+package, or campaign-admissible telemetry record.
 
 ### Build and package one complete core
 
@@ -127,6 +169,111 @@ files are:
 There is deliberately no `--arch` flag on `build-core`: target selection,
 toolchains, source pins, recipes, metadata, overlays, and compatibility
 parameters all come from the selected core's catalog entry.
+
+To reproduce one resolved track variant against its immutable pin, add a group
+tag. This preflight runs before the output directory is created:
+
+```bash
+python3 scripts/core_pipeline.py build-core \
+  --runner-profile local \
+  --core mgba \
+  --group-tag main-test:a523 \
+  --run-id local-mgba-main-test-a523-01
+```
+
+The resolved group selects the ABI set and typed tuning, and every selected
+artifact plus metadata must match the pin. Do not combine `e2e --group-tag`
+with `--arch`. Grouped records are reproduction evidence and are not accepted
+by the legacy promotion/release commands.
+
+To create an ordinary proof-bearing pin, run the selected side with the
+simulated-Actions selector and then reproduce it locally under the equivalent
+resource class:
+
+```bash
+python3 scripts/core_pipeline.py e2e \
+  --runner-profile github-actions-sim --core handy \
+  --run-id actions-sim-handy-selected-01
+python3 scripts/core_pipeline.py e2e \
+  --runner-profile local --core handy \
+  --run-id local-handy-reproduction-01
+
+python3 scripts/core_pipeline.py promote-host-reproduction \
+  --core handy \
+  --source-golden .local-e2e/nightlies/handy-candidate-host/golden.json \
+  --selected-e2e .local-e2e/runs/actions-sim-handy-selected-01/e2e-record.json \
+  --reproduction-e2e .local-e2e/runs/local-handy-reproduction-01/e2e-record.json
+```
+
+The source golden must be an empty active one-core candidate. Both E2Es are
+deep-validated through their content-addressed telemetry, profile, schema,
+wrapper, build-record, and output references. Source, selector-neutral recipe,
+toolchain, ABI, artifact, metadata, and package bytes must agree exactly;
+container IDs, timings, counters, and log bytes may differ. The create-only
+promotion writes a new proof-bearing golden and pin and never overwrites the
+candidate or an existing result.
+
+To bootstrap a new non-universal tuning pin, run the same current registry
+profile twice as separate one-ABI E2Es. Do not use a group tag or architecture
+selector for these candidate runs:
+
+```bash
+python3 scripts/core_pipeline.py e2e \
+  --runner-profile github-actions-sim --core mgba \
+  --tuning-profile a523-cortex-a55-v1 \
+  --run-id actions-sim-mgba-a523-selected
+python3 scripts/core_pipeline.py e2e \
+  --runner-profile local --core mgba \
+  --tuning-profile a523-cortex-a55-v1 \
+  --run-id local-mgba-a523-reproduction
+```
+
+Each run must independently prove its typed compiler arguments and core-owned
+log contract. The log bytes may differ, but source, recipe, tuning, ABI,
+artifact, metadata, and one-ABI ZIP identity must agree exactly. Promote the
+pair through the separate fail-closed path:
+
+```bash
+python3 scripts/core_pipeline.py promote-tuned-variant \
+  --core mgba --tuning-profile a523-cortex-a55-v1 \
+  --source-golden .local-e2e/nightlies/mgba-candidate-a523/golden.json \
+  --selected-e2e .local-e2e/runs/actions-sim-mgba-a523-selected/e2e-record.json \
+  --reproduction-e2e .local-e2e/runs/local-mgba-a523-reproduction/e2e-record.json
+```
+
+The source golden must be an empty active one-core candidate. Promotion stores
+both proofs, snapshots the tuning registry in the historical recipe, verifies
+the complete store, and creates the semantic one-core golden and pin. It does
+not edit track policy. Admit the reviewed pin with direct-cell, new-variant,
+and parent CAS:
+
+```bash
+python3 scripts/core_pipeline.py core-track-set-test \
+  --track nightly --core mgba --chipset a523 \
+  --pin-id <promoted-pin-id> --tuning-profile a523-cortex-a55-v1 \
+  --slice-time 2026-08-10T12:00:00Z \
+  --expected-current-test absent \
+  --expected-current-assignment absent \
+  --expected-parent-variant <reviewed-main-variant-id> \
+  --expected-parent-registry <reviewed-main-registry-content-sha256> \
+  --expected-new-variant <reviewed-64-hex-variant-id>
+```
+
+To advance an untuned fallback instead, use `--chipset universal`,
+`--tuning-profile universal-v1`, and repeat `--applicable-chipset` in sorted
+order for each reviewed target chipset. A dual-ABI portable pin can cover both
+ARM64 and ARMHF applicability. TEST admission never changes stable state;
+approve it later with `core-track-promote` after review.
+The slice is immutable assignment/tranche metadata and is excluded from build
+variant identity but included in the complete assignment digest. Obtain
+`--expected-current-assignment` from the inventory row's direct-coordinate
+`current_assignment_content_sha256` (`null` means `absent`). The child
+admission captures the exact effective parent registry, selection, slice, and
+history and reports its content-addressed binding. Advancing Main later does
+not invalidate this Nightly assignment; replacing Nightly performs new parent
+variant/registry and direct-assignment CAS checks. Fresh admission requires the
+pin's hardened `host_reproduction` proof; tuned and source-candidate promotions
+layer that proof automatically when supplied the required hardened pair.
 
 ### Run a per-core E2E or architecture diagnostic
 
@@ -194,6 +341,19 @@ release-candidate workflow — is the only place full from-source rebuild
 reproducibility is proven, in hours. Don't duplicate rebuild proof
 locally; don't read a green static tier as a rebuild claim.
 
+The host suite consumes the exact versions in `requirements-test.txt`. For an
+isolated run of the track and inventory schema tests, build the separate test
+image and mount the checkout read-only:
+
+```bash
+docker build --file Dockerfile.tests --tag cores-tests .
+docker run --rm --volume "$PWD:/workspace:ro" cores-tests
+```
+
+This image is test infrastructure only. It is not part of the toolchain lock,
+does not build cores, and does not change the arm64, armhf, or Rust compiler
+image identities.
+
 Sweep every promoted surface for one core (or `--all` for the catalog):
 golden, pin-set (store + sources), source-set registry, release, and all
 three channels, discovered from the core id alone:
@@ -229,7 +389,7 @@ python3 -m unittest tests.test_core_pipeline
 Run all unit tests before a checkpoint or lifecycle promotion:
 
 ```bash
-python3 -m unittest discover -s tests -v
+python3 -B -m pytest --import-mode=importlib -p no:cacheprovider tests/ -q
 ```
 
 Run the focused per-core evidence and contract tests while changing a
@@ -618,11 +778,12 @@ E2E semantic digests: `selected_e2e_content_sha256` belongs to an exact
 as reproduction evidence. Deep validation reads each recorded log, proves its
 digest and compile contract, and checks both runs against the selected pin's
 historical content-addressed recipe snapshot; it deliberately does not require
-the immutable record to match today's catalog or pipeline bytes. When parallel
-compilation changes only log-line ordering, the reproduction build may carry a
-different `log_sha256` only if every other build field matches and the complete
-line multiset is identical to the selected content-addressed log. Missing,
-changed, or extra lines still fail closed.
+the immutable record to match today's catalog or pipeline bytes. Selected and
+reproduction logs may have different `log_sha256` values: log bytes identify
+the evidence from one execution, while reproducibility approval is based on the
+exact package and target artifact hashes and sizes. Each log is still rehashed
+and must independently satisfy the complete build and core-owned log contract;
+different logs do not excuse a missing, malformed, or invalid proof.
 
 Every core's current lifecycle bindings — semantic pin/source-set ID,
 selected and reproduction run IDs, package and artifact digests, and the
@@ -737,6 +898,23 @@ the same matrix with `fromJSON` and calls one parameterized reusable worker,
 rather than calling one unique reusable workflow per core. A local coordinator
 should iterate the same output.
 
+For a track-group release, replace both legacy selector forms with one exact
+full-roster tag:
+
+```bash
+python3 scripts/core_pipeline.py plan-release \
+  --candidate-id main-stable-universal-v1 \
+  --group-tag main-stable:universal \
+  --output .local-e2e/release-plans/main-stable-universal-v1.json
+```
+
+Every matrix row includes that same `group_tag`; pass it to both `build-core`
+and `record-release-result`. Planning admits only complete exact pinned
+packages. A chipset selector that projects one ABI from a multi-ABI pin fails
+before the matrix is produced. Stable and unstable-fallback selections may
+coexist in the same plan and remain marked in every result, the seal, and the
+overlay manifest.
+
 A fleet run that fails on an **out-of-repo transient** (runner death, a
 GitHub 500 serving a toolchain asset) does not need a full rebuild:
 `gh run rerun <run-id> --failed` re-executes only the failed workers and
@@ -750,10 +928,10 @@ a new plan, and a full roster by construction. (Validated on run
 30124953754: 97 attempt-1 results plus one attempt-2 rebuild sealed the
 first release candidate.)
 
-`--scope full-workflow-roster` admits every discovered workflow into the
+Legacy `--scope full-workflow-roster` admits every discovered workflow into the
 census and constructs since the migration completed (98/98 canonical);
-it is the scope the GitHub Actions release-candidate roster runs. Do not
-weaken that census.
+the GitHub Actions release-candidate coordinator applies that same complete
+census through its required group tag. Do not weaken that census.
 
 Plan creation reads only tracked files. Each worker deeply validates its fresh
 E2E tree and requires package/artifact bytes, clean repository commit, sources,
@@ -761,12 +939,19 @@ toolchains, workflow, blacklist, and pipeline identity to match the plan. The
 seal reads only portable worker bundles and rejects any incomplete, extra,
 tampered, mixed-plan, or mixed-runner fan-in before exposing output.
 
-The release plan is schema v2 because it binds the coordinator and reusable
-worker file identities. Its target model and the v1 result/candidate schemas
-remain static-build-only: they bind one current evidence cell per architecture
-and make no device eligibility claim. A second build profile for the same
+The release plan is schema v3 because it binds the coordinator and reusable
+worker file identities plus the nullable exact track group. Its target model
+and the v2 result/candidate schemas remain static-build-only: they bind one
+selected evidence cell per architecture and make no device eligibility claim.
+A second build profile for the same
 architecture requires a later execution-profile-keyed schema rather than an
 overloaded architecture target.
+
+The three published full-release JSON Schemas are structural interoperability
+contracts only. Plan, worker-result, seal, and overlay operations always run
+the mandatory Python cross-field validators, and repository-facing operations
+also reconstruct the exact tracked state. JSON Schema acceptance by itself is
+never release eligibility or approval.
 
 ### Release-candidate and release source-role commit IDs: planned
 

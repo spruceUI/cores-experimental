@@ -17,7 +17,7 @@ from typing import Any
 
 from ..errors import PipelineError
 from ..foundation import sha256_bytes
-from ..runtime import runner_evidence_is_well_formed
+from ..runtime import base_runner_evidence, runner_evidence_is_well_formed
 
 
 FULL_RELEASE_PLAN_SCHEMA_REF = "../../manifests/full-release-plan.schema.json"
@@ -34,12 +34,17 @@ PLAN_SCHEMA_REF = FULL_RELEASE_PLAN_SCHEMA_REF
 CORE_RESULT_SCHEMA_REF = FULL_RELEASE_CORE_RESULT_SCHEMA_REF
 CANDIDATE_SCHEMA_REF = FULL_RELEASE_CANDIDATE_SCHEMA_REF
 
-PLAN_SCHEMA_VERSION = 2
-CORE_RESULT_SCHEMA_VERSION = 1
-CANDIDATE_SCHEMA_VERSION = 1
+PLAN_SCHEMA_VERSION = 3
+CORE_RESULT_SCHEMA_VERSION = 2
+CANDIDATE_SCHEMA_VERSION = 2
 VALIDATION_SCOPE = "static-build-only"
 PUBLICATION = "disabled"
-RELEASE_SCOPES = ("explicit", "canonical", "full-workflow-roster")
+RELEASE_SCOPES = (
+    "explicit",
+    "canonical",
+    "full-workflow-roster",
+    "track-group",
+)
 RUNNER_SELECTORS = ("local", "github-actions", "github-actions-sim")
 
 CORE_ID_RE = re.compile(r"^[a-z0-9][a-z0-9_]*$")
@@ -91,6 +96,7 @@ PLAN_KEYS = frozenset(
         "validation_scope",
         "local_only",
         "publication",
+        "group",
         "repository",
         "cores",
         "summary",
@@ -145,6 +151,7 @@ PLAN_CORE_KEYS = frozenset(
         "compatibility",
         "package",
         "targets",
+        "core_group",
     }
 )
 PACKAGE_KEYS = frozenset({"name", "sha256", "size"})
@@ -170,6 +177,7 @@ CORE_RESULT_KEYS = frozenset(
         "local_only",
         "publication",
         "result",
+        "core_group",
         "plan",
         "runner",
         "e2e",
@@ -198,6 +206,7 @@ CANDIDATE_KEYS = frozenset(
         "local_only",
         "publication",
         "result",
+        "group",
         "plan",
         "runner",
         "assets",
@@ -209,7 +218,9 @@ CANDIDATE_KEYS = frozenset(
 CANDIDATE_PLAN_REFERENCE_KEYS = frozenset(
     {"path", "file_sha256", "content_sha256"}
 )
-CANDIDATE_ASSET_KEYS = frozenset({"core_id", "path", "sha256", "size", "result"})
+CANDIDATE_ASSET_KEYS = frozenset(
+    {"core_id", "path", "sha256", "size", "core_group", "result"}
+)
 CANDIDATE_RESULT_REFERENCE_KEYS = frozenset(
     {"path", "file_sha256", "content_sha256"}
 )
@@ -258,8 +269,9 @@ def runner_selector_for_contract(value: object) -> str:
 
     if not runner_evidence_is_well_formed(value):
         raise PipelineError("release runner evidence is invalid")
+    identity = base_runner_evidence(value)
     for selector, expected in RUNNER_EVIDENCE_BY_SELECTOR.items():
-        if value == expected:
+        if identity == expected:
             return selector
     raise PipelineError("release runner evidence has no public selector")
 
@@ -273,7 +285,7 @@ def exact_runner_for_selector(value: object, selector: object) -> bool:
         expected = runner_contract_for_selector(selector)
     except PipelineError:
         return False
-    return value == expected
+    return base_runner_evidence(value) == expected
 
 
 def is_sha1(value: object) -> bool:

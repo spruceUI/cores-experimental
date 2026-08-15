@@ -6,9 +6,8 @@ import dataclasses
 import shlex
 import unittest
 
-from scripts import core_pipeline as _pipeline  # noqa: F401  (sets sys.path)
-from core_pipeline_lib.contracts import c_asm
-from core_pipeline_lib.contracts.c_only import (
+from scripts.core_pipeline_lib.contracts import c_asm
+from scripts.core_pipeline_lib.contracts.c_only import (
     c_only_compile_invocation_sha256,
     c_only_compile_pair_sha256,
     c_only_link_object_sha256,
@@ -192,7 +191,7 @@ class ForcedIncludeOperandTests(unittest.TestCase):
     """
 
     def test_c_only_accepts_forced_include(self) -> None:
-        from core_pipeline_lib.contracts.c_only import c_only_compile_invocation
+        from scripts.core_pipeline_lib.contracts.c_only import c_only_compile_invocation
 
         line = (
             f"{CC} -I. -include deps/vorbis/rename.h -isystem deps/inc "
@@ -220,7 +219,7 @@ class ForcedIncludeOperandTests(unittest.TestCase):
         )
 
     def test_dangling_file_operand_flag_is_rejected(self) -> None:
-        from core_pipeline_lib.contracts.c_only import c_only_compile_invocation
+        from scripts.core_pipeline_lib.contracts.c_only import c_only_compile_invocation
 
         # -include immediately followed by another option is malformed.
         line = f"{CC} -include -O2 -c -o src/a.o src/a.c"

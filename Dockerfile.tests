@@ -1,0 +1,27 @@
+# Test-only Python environment. This is deliberately separate from the three
+# identity-locked compiler images: adding a host-side schema validator must not
+# change any core build recipe or toolchain digest.
+FROM python:3.13.11-slim-trixie@sha256:2b9c9803c6a287cafa0a8c917211dddd23dcd2016f049690ee5219f5d3f1636e
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONHASHSEED=0 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# The track tests exercise the contained Git-ancestry verifier.  Keep the
+# executable in this test image rather than weakening that security test just
+# because the slim Python base omits Git.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git=1:2.47.3-0+deb13u1 \
+    && test "$(git --version)" = "git version 2.47.3" \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements-test.txt /tmp/requirements-test.txt
+RUN python3 -m pip install --no-cache-dir --requirement /tmp/requirements-test.txt && \
+    python3 -c "import importlib.metadata as m; assert m.version('jsonschema') == '4.19.2'"
+
+WORKDIR /workspace
+
+# Mount the checkout read-only at /workspace. The default command exercises the
+# required track inventory schema validation without copying mutable source or
+# local evidence into the image.
+CMD ["python3", "-m", "unittest", "tests.test_core_tracks", "-v"]

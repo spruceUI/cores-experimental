@@ -6,6 +6,7 @@ from pathlib import Path
 import shlex
 from types import ModuleType
 
+from scripts import core_pipeline as pipeline
 from core_pipeline_lib.contracts import (
     atari800,
     c_only,

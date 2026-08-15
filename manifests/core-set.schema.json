@@ -101,9 +101,37 @@
         "validation_scope": {"const": "static-build-only"},
         "package": {"$ref": "#/$defs/storedFile"},
         "metadata": {"$ref": "#/$defs/storedFile"},
+        "chipset_tuning": {
+          "$ref": "golden-start.schema.json#/$defs/tuningCandidate"
+        },
+        "reproduction": {
+          "$ref": "golden-start.schema.json#/$defs/tunedReproduction"
+        },
+        "source_candidate": {
+          "$ref": "golden-start.schema.json#/$defs/sourceCandidate"
+        },
+        "output_reproduction": {
+          "$ref": "golden-start.schema.json#/$defs/outputReproduction"
+        },
+        "host_reproduction": {
+          "$ref": "golden-start.schema.json#/$defs/hostReproduction"
+        },
         "targets": {"type": "object", "minProperties": 1},
         "selection_sha256": {"$ref": "#/$defs/sha256"}
-      }
+      },
+      "dependentRequired": {
+        "chipset_tuning": ["reproduction"],
+        "reproduction": ["chipset_tuning"],
+        "source_candidate": ["output_reproduction"],
+        "output_reproduction": ["source_candidate"]
+      },
+      "allOf": [
+        {
+          "not": {
+            "required": ["chipset_tuning", "source_candidate"]
+          }
+        }
+      ]
     }
   }
 }

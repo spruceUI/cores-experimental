@@ -13,7 +13,7 @@ from pathlib import Path
 import unittest
 from unittest import mock
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from scripts import profile_registry as registry
 from core_pipeline_lib.records import compatibility as compatibility_records
 
@@ -501,13 +501,13 @@ class HandyCoreEvidenceTests(unittest.TestCase):
                 copied_report["errors"],
             )
 
-    def test_historical_reproduction_rejects_recomputed_record_tampering(
+    def test_historical_reproduction_separates_log_identity_from_record_tampering(
         self,
     ) -> None:
         _, pin, _, _ = load_core_documents(CORE_ID, PIN_NAME)
         expected_targets = pin["cores"][CORE_ID]["selection"]["targets"]
         mutations = {
-            "log": "historical build differs",
+            "log": None,
             "build": "historical build differs",
             "recipe": "historical recipe differs",
             "source": "historical source differs",
@@ -551,6 +551,13 @@ class HandyCoreEvidenceTests(unittest.TestCase):
                     evidence,
                     pipeline.e2e_content_sha256,
                 )
+                if expected_error is None:
+                    pipeline._validate_compatibility_e2e_run(
+                        run_root / "e2e-record.json",
+                        CORE_ID,
+                        expected_targets,
+                    )
+                    continue
                 with self.assertRaisesRegex(
                     pipeline.PipelineError,
                     expected_error,
@@ -560,6 +567,69 @@ class HandyCoreEvidenceTests(unittest.TestCase):
                         CORE_ID,
                         expected_targets,
                     )
+
+    def test_compatibility_consumes_digest_bound_snapshots_after_path_swap(
+        self,
+    ) -> None:
+        _, pin, _, _ = load_core_documents(CORE_ID, PIN_NAME)
+        expected_targets = pin["cores"][CORE_ID]["selection"]["targets"]
+        for asset in ("build-record", "build-log", "package"):
+            with self.subTest(asset=asset), copied_e2e_run(
+                REPRODUCTION_RUN,
+                prefix=f"compat-snapshot-handy-{asset}-",
+                content_hasher=pipeline.e2e_content_sha256,
+            ) as (run_root, evidence):
+                record_path = run_root / CORE_ID / "arm64" / "build-record.json"
+                record = load_document(record_path)
+                targets = {
+                    "build-record": (record_path, b"{}"),
+                    "build-log": (
+                        record_path.parent / record["build"]["log"],
+                        b"tampered build log\n",
+                    ),
+                    "package": (
+                        run_root / evidence["packages"][0]["path"],
+                        b"not a zip archive",
+                    ),
+                }
+                target_path, replacement_bytes = targets[asset]
+                target_reads: list[Path] = []
+                target_hashes: list[Path] = []
+                original_read_bytes = Path.read_bytes
+                original_sha256_file = compatibility_records.sha256_file
+
+                def swap_after_read(path: Path) -> bytes:
+                    snapshot = original_read_bytes(path)
+                    if path == target_path:
+                        target_reads.append(path)
+                        target_path.write_bytes(replacement_bytes)
+                    return snapshot
+
+                def swap_after_hash(path: Path) -> str:
+                    digest = original_sha256_file(path)
+                    if path == target_path:
+                        target_hashes.append(path)
+                        target_path.write_bytes(replacement_bytes)
+                    return digest
+
+                with mock.patch.object(
+                    Path,
+                    "read_bytes",
+                    autospec=True,
+                    side_effect=swap_after_read,
+                ), mock.patch.object(
+                    compatibility_records,
+                    "sha256_file",
+                    side_effect=swap_after_hash,
+                ):
+                    pipeline._validate_compatibility_e2e_run(
+                        run_root / "e2e-record.json",
+                        CORE_ID,
+                        expected_targets,
+                    )
+
+                self.assertEqual([target_path], target_reads)
+                self.assertEqual([], target_hashes)
 
 
 if __name__ == "__main__":

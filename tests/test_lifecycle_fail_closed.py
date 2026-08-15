@@ -9,7 +9,7 @@ import tempfile
 import unittest
 from unittest import mock
 
-from scripts import core_pipeline as pipeline
+from .cores.support import pipeline
 
 
 CORE_ID = "handy"
@@ -180,7 +180,7 @@ class LifecycleFailClosedTests(unittest.TestCase):
                 pipeline.PipelineError,
                 "release asset path must not traverse a symlink",
             ):
-                pipeline.validate_local_release(
+                pipeline._validate_local_release(
                     release_root,
                     pin,
                     pin_file_sha256,

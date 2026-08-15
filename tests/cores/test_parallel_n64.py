@@ -6,7 +6,7 @@ import copy
 import dataclasses
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from core_pipeline_lib.contracts import parallel_n64
 from core_pipeline_lib.contracts.c_asm import c_asm_log_proves_contract
 

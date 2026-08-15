@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 
 from .model import AppendUniqueAction, ParserConfig, ParserHandlers
+from .inventory import CORE_TRACK_GROUP_TAG_CHOICES
 
 
 def register_release_parsers(
@@ -14,6 +15,36 @@ def register_release_parsers(
     config: ParserConfig,
 ) -> None:
     """Register deterministic plan, matrix, worker-result, and seal commands."""
+
+    source_graph = subparsers.add_parser(
+        "prepare-release-source-graph",
+        help="prepare exact full-history Git ancestry for one release group",
+    )
+    source_graph.add_argument(
+        "--group-tag",
+        choices=CORE_TRACK_GROUP_TAG_CHOICES,
+        required=True,
+        help="exact track group whose validated pins determine the graph",
+    )
+    source_graph.add_argument(
+        "--core",
+        help=(
+            "optional exact plan-row core scope; workers use this to prepare "
+            "only that core's complete ancestry graph"
+        ),
+    )
+    source_graph.set_defaults(handler=handlers.prepare_release_source_graph)
+
+    overlay = subparsers.add_parser(
+        "convert-release-overlay",
+        help="convert one run-bound sealed candidate after repository reconstruction",
+    )
+    overlay.add_argument("--candidate-dir", type=config.path_value, required=True)
+    overlay.add_argument("--output-dir", type=config.path_value, required=True)
+    overlay.add_argument("--expected-repository-head", required=True)
+    overlay.add_argument("--coordinator-run-id", required=True)
+    overlay.add_argument("--coordinator-run-attempt", type=int, required=True)
+    overlay.set_defaults(handler=handlers.convert_release_overlay)
 
     plan = subparsers.add_parser(
         "plan-release",
@@ -31,6 +62,14 @@ def register_release_parsers(
         choices=config.release_scope_choices,
         help="deterministic catalog/workflow release scope",
     )
+    selector.add_argument(
+        "--group-tag",
+        choices=CORE_TRACK_GROUP_TAG_CHOICES,
+        help=(
+            "exact full-roster <track>-<stable|test>:<chipset> selector; "
+            "mutually exclusive with legacy --core/--scope"
+        ),
+    )
     plan.add_argument("--output", type=config.path_value, required=True)
     plan.set_defaults(handler=handlers.plan_release)
 
@@ -47,6 +86,11 @@ def register_release_parsers(
     )
     result.add_argument("--plan", type=config.path_value, required=True)
     result.add_argument("--core", required=True)
+    result.add_argument(
+        "--group-tag",
+        choices=CORE_TRACK_GROUP_TAG_CHOICES,
+        help="exact track-group selector bound by the release plan",
+    )
     result.add_argument("--e2e-record", type=config.path_value, required=True)
     result.add_argument("--output-dir", type=config.path_value, required=True)
     result.set_defaults(handler=handlers.record_release_result)

@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 from unittest import mock
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from core_pipeline_lib.contracts import tgbdual
 from core_pipeline_lib.contracts.registry import core_log_contract_for
 from tests.core_contract_helpers import build_mixed_language_log_fixture

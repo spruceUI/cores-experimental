@@ -5,7 +5,7 @@ from __future__ import annotations
 import dataclasses
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from core_pipeline_lib.contracts import fake08
 from core_pipeline_lib.contracts.mixed_language import (
     mixed_language_log_proves_contract,

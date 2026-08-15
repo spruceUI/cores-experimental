@@ -88,6 +88,35 @@ class PipelineBlacklistIntegrationTests(unittest.TestCase):
                 ):
                     pipeline.validate_catalog(changed)
 
+    def test_catalog_blacklist_validation_uses_one_digest_bound_snapshot(self) -> None:
+        reference = self.catalog["commit_blacklist"]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / reference["path"]
+            path.parent.mkdir(parents=True)
+            original = (ROOT / reference["path"]).read_bytes()
+            path.write_bytes(original)
+            replacement = b'{"replacement":true}\n'
+            real_parser = admission.parse_commit_blacklist_bytes
+
+            def swap_before_parse(raw: bytes, label: str | Path):
+                path.write_bytes(replacement)
+                return real_parser(raw, label)
+
+            with mock.patch.object(
+                admission,
+                "parse_commit_blacklist_bytes",
+                side_effect=swap_before_parse,
+            ):
+                blacklist, loaded_path = admission.load_catalog_commit_blacklist(
+                    self.catalog,
+                    root,
+                )
+
+            self.assertEqual(path, loaded_path)
+            self.assertEqual(reference["content_sha256"], blacklist.content_sha256)
+            self.assertEqual(replacement, path.read_bytes())
+
     def test_exact_active_identity_blocks_while_each_near_miss_is_eligible(self) -> None:
         with self.policy_patch():
             with self.assertRaisesRegex(
@@ -221,6 +250,7 @@ class PipelineBlacklistIntegrationTests(unittest.TestCase):
                                 **self.source,
                                 "resolved_url": self.source["url"],
                                 "resolved_commit": self.source["commit"],
+                                "submodules": [],
                             }
                         }
                     }
@@ -281,7 +311,12 @@ class PipelineBlacklistIntegrationTests(unittest.TestCase):
                 "targets": {
                     "arm64": {
                         "golden_record": {
-                            "source": {"commit": self.source["commit"]}
+                            "source": {
+                                **self.source,
+                                "resolved_url": self.source["url"],
+                                "resolved_commit": self.source["commit"],
+                                "submodules": [],
+                            }
                         }
                     }
                 },
@@ -364,7 +399,7 @@ class PipelineBlacklistIntegrationTests(unittest.TestCase):
                     "kind": pipeline.CHANNEL_KINDS[channel],
                     "path": str(target.relative_to(ROOT)),
                     "id": "blocked-target",
-                    "file_sha256": "a" * 64,
+                    "file_sha256": pipeline.sha256_file(target),
                     "content_sha256": "b" * 64,
                 }
                 with self.subTest(channel=channel), mock.patch.object(
@@ -378,11 +413,15 @@ class PipelineBlacklistIntegrationTests(unittest.TestCase):
                 ), mock.patch.object(
                     pipeline, "manifest_lock", return_value=nullcontext()
                 ), mock.patch.object(
-                    pipeline, "derive_channel_target", return_value=derived
+                    pipeline, "_derive_channel_target", return_value=derived
                 ), mock.patch.object(
                     pipeline,
-                    "require_channel_target_sources_eligible",
+                    "_require_channel_target_sources_eligible",
                     side_effect=pipeline.PipelineError("actively blacklisted"),
+                ), mock.patch.object(
+                    pipeline,
+                    "require_active_core_golden",
+                    return_value=None,
                 ):
                     with self.assertRaisesRegex(
                         pipeline.PipelineError, "actively blacklisted"

@@ -11,8 +11,19 @@ shared standard.
 from __future__ import annotations
 
 import re
+import shlex
 
-from .c_only import COnlyLogContract, c_only_log_proves_contract
+from .c_only import (
+    COnlyLogContract,
+    c_only_compile_invocation,
+    c_only_link_command,
+    c_only_log_proves_contract,
+)
+from .compiler import (
+    TARGET_COMPILERS,
+    TARGET_CXX_COMPILERS,
+    line_may_name_target_compiler,
+)
 
 
 LOWRESNX_CORE_ID = "lowresnx"
@@ -38,6 +49,33 @@ LOWRESNX_EXPECTED_LINK_OPTIONS = (
     "-Wl,--version-script=./link.T",
     "-Wl,-no-undefined",
     "-lm",
+)
+LOWRESNX_FORBIDDEN_DIAGNOSTIC_MARKERS = (
+    "warning:",
+    "error:",
+    "fatal:",
+    "note:",
+    "undefined reference",
+    "dubious ownership",
+    "cannot find",
+    "no such file or directory",
+    "internal compiler error",
+    "permission denied",
+    "command not found",
+    "collect2: ld returned",
+    "file format not recognized",
+    "segmentation fault",
+    "core dumped",
+    "killed",
+    "aborted",
+    "terminated",
+    "bus error",
+    "illegal instruction",
+    "broken pipe",
+    "floating point exception",
+)
+LOWRESNX_MAKE_FAILURE_RE = re.compile(
+    r"^g?make(?:\[\d+\])?: \*\*\*", re.IGNORECASE | re.MULTILINE
 )
 LOWRESNX_SEMANTIC_PATH_ALIASES = (
     ("../../core/", "core/"),
@@ -194,6 +232,58 @@ def lowresnx_c_only_contract() -> COnlyLogContract:
     )
 
 
+def _lowresnx_compile_link_span_is_exact(
+    build_log_text: str,
+    arch: str,
+    contract: COnlyLogContract,
+) -> bool:
+    """Require only exact compile/link commands inside the build span."""
+
+    expected_compilers = TARGET_COMPILERS.get(arch)
+    expected_cxx_compilers = TARGET_CXX_COMPILERS.get(arch)
+    if expected_compilers is None or expected_cxx_compilers is None:
+        return False
+    expected_c_compilers = expected_compilers - expected_cxx_compilers
+    compile_positions: list[int] = []
+    link_positions: list[int] = []
+    for position, line in enumerate(build_log_text.splitlines()):
+        if not line_may_name_target_compiler(line, expected_compilers):
+            continue
+        try:
+            tokens = shlex.split(line)
+        except ValueError:
+            return False
+        if not tokens or tokens[0] not in expected_c_compilers:
+            continue
+        if "-c" in tokens:
+            if (
+                c_only_compile_invocation(
+                    tokens,
+                    expected_c_compilers,
+                    contract.semantic_path_aliases,
+                    contract.sha_pinned_object_names,
+                )
+                is not None
+            ):
+                compile_positions.append(position)
+            continue
+        if (
+            c_only_link_command(tokens, expected_c_compilers, contract)
+            is not None
+        ):
+            link_positions.append(position)
+    if (
+        len(compile_positions) != LOWRESNX_EXPECTED_COMPILE_COUNT
+        or len(link_positions) != 1
+    ):
+        return False
+    link_position = link_positions[0]
+    command_positions = tuple(sorted((*compile_positions, link_position)))
+    return command_positions == tuple(
+        range(min(compile_positions), link_position + 1)
+    )
+
+
 def lowresnx_log_proves_contract(
     build_log_text: str,
     core_id: object,
@@ -201,13 +291,32 @@ def lowresnx_log_proves_contract(
     source_commit: object,
     source_tree: object,
 ) -> bool:
-    """Prove LowRes NX's exact compile and link commands for one architecture."""
+    """Prove LowRes NX's exact zero-diagnostic C build envelope."""
 
-    return c_only_log_proves_contract(
-        build_log_text,
-        core_id,
-        arch,
-        source_commit,
-        source_tree,
-        lowresnx_c_only_contract(),
+    if not isinstance(build_log_text, str):
+        return False
+    lowered_log = build_log_text.casefold()
+    if (
+        any(
+            marker in lowered_log
+            for marker in LOWRESNX_FORBIDDEN_DIAGNOSTIC_MARKERS
+        )
+        or LOWRESNX_MAKE_FAILURE_RE.search(build_log_text) is not None
+    ):
+        return False
+    contract = lowresnx_c_only_contract()
+    return bool(
+        c_only_log_proves_contract(
+            build_log_text,
+            core_id,
+            arch,
+            source_commit,
+            source_tree,
+            contract,
+        )
+        and _lowresnx_compile_link_span_is_exact(
+            build_log_text,
+            arch,
+            contract,
+        )
     )

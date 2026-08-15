@@ -47,6 +47,11 @@ class ParserHandlers:
     """Entrypoint-owned command handlers bound by the CLI parser."""
 
     catalog_check: CommandHandler
+    core_source_candidate_rebase: CommandHandler
+    core_source_candidate_prepare: CommandHandler
+    core_track_inventory: CommandHandler
+    core_track_promote: CommandHandler
+    core_track_set_test: CommandHandler
     audit_workflows: CommandHandler
     import_golden: CommandHandler
     validate_golden: CommandHandler
@@ -54,6 +59,9 @@ class ParserHandlers:
     build_core: CommandHandler
     e2e: CommandHandler
     promote: CommandHandler
+    promote_host_reproduction: CommandHandler
+    promote_source_candidate: CommandHandler
+    promote_tuned_variant: CommandHandler
     derive_core_id: CommandHandler
     compose_core_golden: CommandHandler
     compose_pin_set: CommandHandler
@@ -62,6 +70,8 @@ class ParserHandlers:
     validate_release: CommandHandler
     update_channel: CommandHandler
     validate_channel: CommandHandler
+    prepare_release_source_graph: CommandHandler
+    convert_release_overlay: CommandHandler
     plan_release: CommandHandler
     release_matrix: CommandHandler
     record_release_result: CommandHandler
@@ -70,6 +80,11 @@ class ParserHandlers:
     def __post_init__(self) -> None:
         handler_names = (
             "catalog_check",
+            "core_source_candidate_rebase",
+            "core_source_candidate_prepare",
+            "core_track_inventory",
+            "core_track_promote",
+            "core_track_set_test",
             "audit_workflows",
             "import_golden",
             "validate_golden",
@@ -77,6 +92,9 @@ class ParserHandlers:
             "build_core",
             "e2e",
             "promote",
+            "promote_host_reproduction",
+            "promote_source_candidate",
+            "promote_tuned_variant",
             "derive_core_id",
             "compose_core_golden",
             "compose_pin_set",
@@ -85,6 +103,8 @@ class ParserHandlers:
             "validate_release",
             "update_channel",
             "validate_channel",
+            "prepare_release_source_graph",
+            "convert_release_overlay",
             "plan_release",
             "release_matrix",
             "record_release_result",

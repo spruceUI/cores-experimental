@@ -12,6 +12,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import unittest
+from unittest import mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,6 +26,26 @@ _spec.loader.exec_module(evidence_index)
 
 
 class EvidenceIndexTests(unittest.TestCase):
+    def test_compose_consumes_each_evidence_path_once(self) -> None:
+        core = evidence_index.catalog_cores()[0]
+        observed: set[Path] = set()
+        original = evidence_index._snapshot_bytes
+
+        def one_snapshot(path: Path):
+            resolved = path.resolve()
+            self.assertNotIn(resolved, observed)
+            observed.add(resolved)
+            return original(path)
+
+        with mock.patch.object(
+            evidence_index,
+            "_snapshot_bytes",
+            side_effect=one_snapshot,
+        ):
+            document = evidence_index.compose(core)
+        self.assertEqual(core, document["core_id"])
+        self.assertGreater(len(observed), 4)
+
     def test_every_catalog_core_has_a_current_index(self) -> None:
         cores = evidence_index.catalog_cores()
         self.assertEqual(len(cores), len(set(cores)))

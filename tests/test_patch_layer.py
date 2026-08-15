@@ -6,7 +6,7 @@ import copy
 from pathlib import Path
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 
 
 ROOT = Path(__file__).resolve().parents[1]

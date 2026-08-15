@@ -7,7 +7,7 @@ import json
 import unittest
 import zipfile
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from scripts import profile_registry as registry
 
 from .support import ROOT, file_sha256, load_core_documents, load_document

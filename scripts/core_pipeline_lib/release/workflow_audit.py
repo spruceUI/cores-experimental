@@ -24,10 +24,12 @@ MAX_PARALLEL = 8
 
 COORDINATOR_PATH = Path(".github/workflows/release-candidate.yml")
 WORKER_PATH = Path(".github/workflows/_build-one-core.yml")
+OVERLAY_PATH = Path(".github/workflows/release-overlay.yml")
 WORKER_REFERENCE = "./.github/workflows/_build-one-core.yml"
 EXPECTED_WORKFLOW_SHA256 = {
-    "coordinator": "f621bb5c002728c8f23aabf9ae426ca71a074c819fbdd3d4e398a8c605625df3",
-    "worker": "1ddb6293018f00de6e3974c92a1d2b99e23c4e7abcc6fa3210000d9a2e79fb85",
+    "coordinator": "4af8775081f9c5795334e88418c19605b44487a903e944b43a6952a52485faf5",
+    "worker": "b5d96f418eefe7ab84e69b43d71d648cd8894e2ea8b9ed8825fc610a20232191",
+    "overlay": "987f86fe57db98ba8e17fd5a07c36e6a25ff630b940f8998a453f0a2b26058ba",
 }
 
 APPROVED_ACTION_REVISIONS = {
@@ -52,11 +54,19 @@ EXPECTED_ACTION_COUNTS = {
             "actions/upload-artifact": 2,
         }
     ),
+    "overlay": Counter(
+        {
+            "actions/checkout": 1,
+            "actions/download-artifact": 1,
+            "actions/upload-artifact": 1,
+        }
+    ),
 }
 WORKER_INPUTS = frozenset(
     {
         "candidate_id",
         "core_id",
+        "group_tag",
         "plan_artifact_name",
         "result_artifact_prefix",
     }
@@ -84,6 +94,14 @@ COMMANDS = {
     ),
     "record-release-result": re.compile(
         r"(?<![A-Za-z0-9_.-])python3\s+scripts/core_pipeline\.py\s+record-release-result(?=\s|$)"
+    ),
+    "prepare-release-source-graph": re.compile(
+        r"(?<![A-Za-z0-9_.-])python3\s+scripts/core_pipeline\.py\s+"
+        r"prepare-release-source-graph(?=\s|$)"
+    ),
+    "convert-release-overlay": re.compile(
+        r"(?<![A-Za-z0-9_.-])python3\s+scripts/core_pipeline\.py\s+"
+        r"convert-release-overlay(?=\s|$)"
     ),
 }
 
@@ -330,15 +348,27 @@ def _audit_permissions_and_triggers(
     errors: list[str],
 ) -> None:
     permissions = _one_block(lines, "permissions", 0, errors, "permissions block")
-    if permissions is not None and _direct_mapping(permissions, 2) != {
-        "contents": "read"
-    }:
-        errors.append("permissions must be exactly contents: read")
+    expected_permissions = (
+        {"contents": "read", "actions": "read"}
+        if role == "overlay"
+        else {"contents": "read"}
+    )
+    if permissions is not None and _direct_mapping(
+        permissions, 2
+    ) != expected_permissions:
+        errors.append(
+            "permissions must be exactly "
+            + ", ".join(
+                f"{name}: {value}" for name, value in expected_permissions.items()
+            )
+        )
     if len([line for line in lines if line.lstrip().startswith("permissions:")]) != 1:
         errors.append("job-level or duplicate permissions are forbidden")
 
     on_block = _one_block(lines, "on", 0, errors, "on block")
-    expected_trigger = "workflow_dispatch" if role == "coordinator" else "workflow_call"
+    expected_trigger = (
+        "workflow_call" if role == "worker" else "workflow_dispatch"
+    )
     if on_block is not None:
         triggers = set(_direct_mapping(on_block, 2))
         if triggers != {expected_trigger}:
@@ -397,10 +427,12 @@ def _audit_coordinator_inputs(lines: list[str], errors: list[str]) -> None:
     inputs = _one_block(lines, "inputs", 4, errors, "workflow inputs block")
     if inputs is None:
         return
-    expected = frozenset({"candidate_label", "scope"})
+    expected = frozenset({"candidate_label", "group_tag"})
     names = set(_direct_mapping(inputs, 6))
     if names != expected:
-        errors.append("coordinator inputs must be exactly candidate_label and scope")
+        errors.append(
+            "coordinator inputs must be exactly candidate_label and group_tag"
+        )
 
     if "candidate_label" in names:
         candidate = _input_contract(lines, "candidate_label", errors)
@@ -409,22 +441,19 @@ def _audit_coordinator_inputs(lines: list[str], errors: list[str]) -> None:
         if set(candidate) - {"description", "required", "type"}:
             errors.append("candidate_label input has unsupported fields")
 
-    if "scope" in names:
-        scope = _input_contract(lines, "scope", errors)
+    if "group_tag" in names:
+        group = _input_contract(lines, "group_tag", errors)
         if (
-            scope.get("required") != "true"
-            or scope.get("type") != "choice"
-            or scope.get("default") != "canonical"
+            group.get("required") != "true"
+            or group.get("type") != "string"
+            or group.get("default") != "main-stable:universal"
         ):
-            errors.append("scope input must be a required choice defaulting to canonical")
-        if set(scope) - {"description", "required", "type", "default", "options"}:
-            errors.append("scope input has unsupported fields")
-        options = _one_block(lines, "options", 8, errors, "scope options")
-        if _sequence_values(options or [], 10) != [
-            "canonical",
-            "full-workflow-roster",
-        ]:
-            errors.append("scope choices must be canonical and full-workflow-roster")
+            errors.append(
+                "group_tag input must be a required string defaulting to "
+                "main-stable:universal"
+            )
+        if set(group) - {"description", "required", "type", "default"}:
+            errors.append("group_tag input has unsupported fields")
 
 
 def _audit_uses(
@@ -496,7 +525,7 @@ def _audit_action_safety(
         if options.get("persist-credentials") != "false":
             errors.append("checkout must set persist-credentials: false")
 
-    upload_count = 2
+    upload_count = 2 if role in {"coordinator", "worker"} else 1
     uploads = _require_action_options(
         lines, "actions/upload-artifact", count=upload_count, errors=errors
     )
@@ -545,27 +574,30 @@ def _audit_coordinator(text: str, record: dict[str, Any]) -> None:
         "RESULT_ARTIFACT_PREFIX": (
             "release-result-${{ github.run_id }}-${{ github.run_attempt }}"
         ),
+        "GROUP_TAG": "${{ inputs.group_tag }}",
     }:
         errors.append("plan environment bindings are not exact")
-    scope_environment = _one_block(
-        plan or [], "env", 8, errors, "plan-release environment"
-    )
-    if _direct_mapping(scope_environment or [], 10) != {
-        "RELEASE_SCOPE": "${{ inputs.scope }}"
-    }:
-        errors.append("plan-release scope binding is not exact")
     plan_outputs = _one_block(plan or [], "outputs", 4, errors, "plan outputs")
     if _direct_mapping(plan_outputs or [], 6) != {
         "candidate_id": "${{ steps.matrix.outputs.candidate_id }}",
         "matrix": "${{ steps.matrix.outputs.matrix }}",
         "plan_artifact_name": "${{ steps.matrix.outputs.plan_artifact_name }}",
         "result_artifact_prefix": "${{ steps.matrix.outputs.result_artifact_prefix }}",
+        "group_tag": "${{ steps.matrix.outputs.group_tag }}",
     }:
         errors.append("plan job outputs are not exact")
     if _command_count(plan_text, "plan-release") != 1:
         errors.append("plan job must invoke plan-release exactly once")
-    if not re.search(r'--scope\s+"\$RELEASE_SCOPE"(?=\s|$)', plan_text):
-        errors.append("plan-release must select the validated scope input")
+    if not re.search(r'--group-tag\s+"\$GROUP_TAG"(?=\s|$)', plan_text):
+        errors.append("plan-release must select the validated group input")
+    if _command_count(plan_text, "prepare-release-source-graph") != 1:
+        errors.append("plan job must prepare the release source graph exactly once")
+    prepare_position = plan_text.find(
+        "scripts/core_pipeline.py prepare-release-source-graph"
+    )
+    plan_position = plan_text.find("scripts/core_pipeline.py plan-release")
+    if prepare_position < 0 or plan_position < 0 or prepare_position >= plan_position:
+        errors.append("plan job must prepare the source graph before planning")
     if _command_count(plan_text, "release-matrix") != 1:
         errors.append("plan job must invoke release-matrix exactly once")
     if "$GITHUB_OUTPUT" not in plan_text:
@@ -597,6 +629,7 @@ def _audit_coordinator(text: str, record: dict[str, Any]) -> None:
         "core_id": "${{ matrix.core_id }}",
         "plan_artifact_name": "${{ needs.plan.outputs.plan_artifact_name }}",
         "result_artifact_prefix": "${{ needs.plan.outputs.result_artifact_prefix }}",
+        "group_tag": "${{ matrix.group_tag }}",
     }
     if _direct_mapping(worker_inputs or [], 6) != expected_worker_inputs:
         errors.append("reusable worker input bindings are not exact")
@@ -616,10 +649,19 @@ def _audit_coordinator(text: str, record: dict[str, Any]) -> None:
             ".local-e2e/release-candidates/"
             "${{ needs.plan.outputs.candidate_id }}/github-actions"
         ),
+        "GROUP_TAG": "${{ needs.plan.outputs.group_tag }}",
     }:
         errors.append("seal environment bindings are not exact")
+    if _command_count(seal_text, "prepare-release-source-graph") != 1:
+        errors.append("seal job must prepare the release source graph exactly once")
     if _command_count(seal_text, "seal-release") != 1:
         errors.append("seal job must invoke seal-release exactly once")
+    prepare_position = seal_text.find(
+        "scripts/core_pipeline.py prepare-release-source-graph"
+    )
+    seal_position = seal_text.find("scripts/core_pipeline.py seal-release")
+    if prepare_position < 0 or seal_position < 0 or prepare_position >= seal_position:
+        errors.append("seal job must prepare the source graph before sealing")
     if not re.search(r"--runner-profile\s+github-actions(?=\s|$)", seal_text):
         errors.append("seal-release must select the native github-actions runner")
     seal_needs = _one_block(seal or [], "needs", 4, errors, "seal dependencies")
@@ -675,6 +717,7 @@ def _audit_worker(text: str, record: dict[str, Any]) -> None:
     if _direct_mapping(build_environment or [], 6) != {
         "CANDIDATE_ID": "${{ inputs.candidate_id }}",
         "CORE_ID": "${{ inputs.core_id }}",
+        "GROUP_TAG": "${{ inputs.group_tag }}",
         "PLAN_PATH": ".local-e2e/release-plans/${{ inputs.candidate_id }}.json",
         "RESULT_PARENT": (
             ".local-e2e/release-results/${{ inputs.candidate_id }}/github-actions"
@@ -685,12 +728,42 @@ def _audit_worker(text: str, record: dict[str, Any]) -> None:
 
     if _command_count(build_text, "build-core") != 1:
         errors.append("worker must invoke build-core exactly once")
+    if _command_count(build_text, "prepare-release-source-graph") != 1:
+        errors.append("worker must prepare the release source graph exactly once")
+    if not re.search(
+        r'prepare-release-source-graph\s+--group-tag\s+"\$GROUP_TAG"\s+'
+        r'--core\s+"\$CORE_ID"(?=\s|$)',
+        build_text,
+    ):
+        errors.append(
+            "worker source graph must preserve the exact group tag and core"
+        )
     if not re.search(r"--runner-profile\s+github-actions(?=\s|$)", build_text):
         errors.append("build-core must select the native github-actions runner")
+    if len(re.findall(r'--group-tag\s+"\$GROUP_TAG"(?=\s|$)', build_text)) != 3:
+        errors.append("worker commands must all preserve the exact group tag")
     if _command_count(build_text, "record-release-result") != 1:
         errors.append("worker must invoke record-release-result exactly once")
     build_position = build_text.find("scripts/core_pipeline.py build-core")
     record_position = build_text.find("scripts/core_pipeline.py record-release-result")
+    prepare_position = build_text.find(
+        "scripts/core_pipeline.py prepare-release-source-graph"
+    )
+    membership_positions = (
+        build_text.find('jq -e --arg core "$CORE_ID"'),
+        build_text.find(".cores | any(.core_id == $core)"),
+        build_text.find('jq -e --arg group "$GROUP_TAG"'),
+        build_text.find('.scope == "track-group" and .group.group_tag == $group'),
+    )
+    if any(
+        position < 0 or position >= prepare_position
+        for position in membership_positions
+    ):
+        errors.append(
+            "worker source graph core scope must follow exact plan membership proof"
+        )
+    if prepare_position < 0 or build_position < 0 or prepare_position >= build_position:
+        errors.append("worker must prepare the source graph before building")
     if build_position < 0 or record_position < 0 or build_position >= record_position:
         errors.append("worker must build before recording its release result")
 
@@ -770,24 +843,144 @@ def _audit_worker(text: str, record: dict[str, Any]) -> None:
             errors.append(f"worker must not invoke coordinator command {command}")
 
 
+def _audit_overlay(text: str, record: dict[str, Any]) -> None:
+    """Audit the run/head/artifact-bound reconstruction workflow."""
+
+    errors = record["errors"]
+    lines = text.splitlines()
+    _audit_permissions_and_triggers(text, role="overlay", lines=lines, errors=errors)
+    inputs = _one_block(lines, "inputs", 4, errors, "overlay inputs block")
+    names = set(_direct_mapping(inputs or [], 6))
+    if names != {"coordinator_run_id"}:
+        errors.append("overlay input must be exactly coordinator_run_id")
+    elif _input_contract(lines, "coordinator_run_id", errors) != {
+        "description": "Exact successful release-candidate workflow run ID",
+        "required": "true",
+        "type": "string",
+    }:
+        errors.append("overlay coordinator_run_id must be an exact required string")
+
+    _audit_uses(text, role="overlay", record=record)
+    uploads, downloads = _audit_action_safety(
+        lines, role="overlay", errors=errors
+    )
+    jobs = _one_block(lines, "jobs", 0, errors, "jobs block")
+    if jobs is not None and set(_direct_mapping(jobs, 2)) != {"overlay"}:
+        errors.append("overlay workflow must contain exactly one overlay job")
+    overlay = _one_block(lines, "overlay", 2, errors, "overlay job")
+    overlay_environment = _one_block(
+        overlay or [], "env", 4, errors, "overlay environment"
+    )
+    if _direct_mapping(overlay_environment or [], 6) != {
+        "CANDIDATE_INPUT_ROOT": ".local-e2e/overlay-input",
+        "OVERLAY_OUTPUT_ROOT": ".local-e2e/overlays",
+    }:
+        errors.append("overlay job environment bindings are not exact")
+
+    checkout = _require_action_options(
+        lines, "actions/checkout", count=1, errors=[]
+    )
+    if len(checkout) != 1 or checkout[0] != {
+        "persist-credentials": "false",
+        "ref": "${{ steps.run.outputs.head_sha }}",
+    }:
+        errors.append("overlay checkout must use the exact verified coordinator head")
+    expected_download = {
+        "name": (
+            "release-candidate-${{ steps.run.outputs.run_id }}-"
+            "${{ steps.run.outputs.run_attempt }}"
+        ),
+        "run-id": "${{ steps.run.outputs.run_id }}",
+        "github-token": "${{ github.token }}",
+        "path": (
+            "${{ env.CANDIDATE_INPUT_ROOT }}/release-candidate-"
+            "${{ steps.run.outputs.run_id }}-${{ steps.run.outputs.run_attempt }}"
+        ),
+    }
+    if downloads != [expected_download]:
+        errors.append("overlay must download one exact run-attempt-qualified artifact")
+    expected_upload = {
+        "name": (
+            "release-overlay-${{ steps.run.outputs.run_id }}-"
+            "${{ steps.run.outputs.run_attempt }}-${{ github.run_id }}-"
+            "${{ github.run_attempt }}"
+        ),
+        "path": "${{ steps.convert.outputs.output_dir }}/",
+        "if-no-files-found": "error",
+        "include-hidden-files": "true",
+        "compression-level": "0",
+        "retention-days": "14",
+    }
+    if uploads != [expected_upload]:
+        errors.append("overlay artifact upload contract is not exact")
+
+    required_run_proofs = (
+        '"repos/$GITHUB_REPOSITORY/actions/runs/$REQUESTED_RUN_ID"',
+        ".repository.full_name == $repository",
+        ".head_repository.full_name == $repository",
+        '.path == ".github/workflows/release-candidate.yml"',
+        '.event == "workflow_dispatch"',
+        '.status == "completed"',
+        '.conclusion == "success"',
+        ".head_sha | test(\"^[0-9a-f]{40}$\")",
+        ".run_attempt | type == \"number\"",
+        'if [ "$GITHUB_SHA" != "$head_sha" ]; then',
+        'echo "overlay workflow commit must equal coordinator head" >&2',
+        "test \"$(git rev-parse HEAD)\" = \"$EXPECTED_HEAD\"",
+    )
+    if text.count("gh api") != 1 or any(
+        proof not in text for proof in required_run_proofs
+    ):
+        errors.append("overlay coordinator run metadata proof is not exact")
+    if any(forbidden in text for forbidden in ("gh run list", "pattern:", "find ")):
+        errors.append("overlay must not discover a floating run or artifact")
+    if _command_count(text, "prepare-release-source-graph") != 1:
+        errors.append("overlay must prepare the release source graph exactly once")
+    if _command_count(text, "convert-release-overlay") != 1:
+        errors.append("overlay must invoke trusted conversion exactly once")
+    if "scripts/release_overlay.py" in text:
+        errors.append("overlay must not invoke the untrusted standalone converter")
+    required_conversion_arguments = (
+        '--candidate-dir "$CANDIDATE_DIR"',
+        '--output-dir "$OUTPUT_DIR"',
+        '--expected-repository-head "$COORDINATOR_HEAD"',
+        '--coordinator-run-id "$COORDINATOR_RUN_ID"',
+        '--coordinator-run-attempt "$COORDINATOR_RUN_ATTEMPT"',
+    )
+    if any(argument not in text for argument in required_conversion_arguments):
+        errors.append("overlay conversion run/head bindings are not exact")
+    prepare_position = text.find(
+        "scripts/core_pipeline.py prepare-release-source-graph"
+    )
+    convert_position = text.find("scripts/core_pipeline.py convert-release-overlay")
+    if prepare_position < 0 or convert_position < 0 or prepare_position >= convert_position:
+        errors.append("overlay must prepare the source graph before reconstruction")
+
+
 def audit_release_workflows(repository_root: Path) -> dict[str, Any]:
     """Return a structured report without raising for workflow contract errors."""
 
     records: dict[str, dict[str, Any]] = {
         "coordinator": _record(COORDINATOR_PATH),
         "worker": _record(WORKER_PATH),
+        "overlay": _record(OVERLAY_PATH),
     }
     if not isinstance(repository_root, Path):
         message = "repository root must be a pathlib.Path"
         for record in records.values():
             record["errors"].append(message)
-        texts: dict[str, str | None] = {"coordinator": None, "worker": None}
+        texts: dict[str, str | None] = {
+            "coordinator": None,
+            "worker": None,
+            "overlay": None,
+        }
     else:
         texts = {
             role: _read_workflow(repository_root, relative_path, records[role])
             for role, relative_path in (
                 ("coordinator", COORDINATOR_PATH),
                 ("worker", WORKER_PATH),
+                ("overlay", OVERLAY_PATH),
             )
         }
 
@@ -804,6 +997,8 @@ def audit_release_workflows(repository_root: Path) -> dict[str, Any]:
         _audit_coordinator(texts["coordinator"], records["coordinator"])
     if texts["worker"] is not None:
         _audit_worker(texts["worker"], records["worker"])
+    if texts["overlay"] is not None:
+        _audit_overlay(texts["overlay"], records["overlay"])
 
     for record in records.values():
         record["status"] = "valid" if not record["errors"] else "invalid"
@@ -823,8 +1018,9 @@ def audit_release_workflows(repository_root: Path) -> dict[str, Any]:
         "publication": PUBLICATION,
         "coordinator": records["coordinator"],
         "worker": records["worker"],
+        "overlay": records["overlay"],
         "summary": {
-            "workflow_count": 2,
+            "workflow_count": 3,
             "valid_workflow_count": sum(
                 record["status"] == "valid" for record in records.values()
             ),
@@ -841,6 +1037,7 @@ __all__ = [
     "COORDINATOR_PATH",
     "EXPECTED_WORKFLOW_SHA256",
     "MAX_PARALLEL",
+    "OVERLAY_PATH",
     "SCHEMA_VERSION",
     "WORKER_PATH",
     "audit_release_workflows",

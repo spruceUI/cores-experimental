@@ -5,7 +5,7 @@ from pathlib import Path
 import shlex
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from scripts.core_pipeline_lib.contracts import crocods
 from scripts.core_pipeline_lib.contracts.cpc_common import (
     cpc_compile_command_pair,

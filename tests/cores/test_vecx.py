@@ -10,7 +10,7 @@ import unittest
 from unittest import mock
 import zipfile
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from scripts import profile_registry as registry
 from core_pipeline_lib.contracts import vecx
 from tests.test_contract_vecx import build_vecx_log_fixture

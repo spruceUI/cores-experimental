@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from scripts import profile_registry as registry
 
 from .support import (
@@ -163,13 +163,13 @@ class Stella2014CoreEvidenceTests(unittest.TestCase):
                     other_core_report["errors"],
                 )
 
-    def test_reproduction_rejects_recomputed_record_tampering(
+    def test_reproduction_separates_log_identity_from_record_tampering(
         self,
     ) -> None:
         _, pin, _, _ = load_core_documents(CORE_ID, PIN_NAME)
         expected_targets = pin["cores"][CORE_ID]["selection"]["targets"]
         mutations = {
-            "log": "historical build differs",
+            "log": None,
             "build": "historical build differs",
             "recipe": "historical recipe differs",
             "source": "historical source differs",
@@ -213,6 +213,13 @@ class Stella2014CoreEvidenceTests(unittest.TestCase):
                     evidence,
                     pipeline.e2e_content_sha256,
                 )
+                if expected_error is None:
+                    pipeline._validate_compatibility_e2e_run(
+                        run_root / "e2e-record.json",
+                        CORE_ID,
+                        expected_targets,
+                    )
+                    continue
                 with self.assertRaisesRegex(
                     pipeline.PipelineError,
                     expected_error,

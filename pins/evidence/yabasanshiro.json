@@ -1,56 +1,56 @@
 {
   "$schema": "../../manifests/evidence-index.schema.json",
   "compatibility": {
-    "content_sha256": "26ee3604317ecc7ead9b4d39de6975fc242dc88a53e8e25641d13ceb5ceabfdc",
-    "file_sha256": "6cab17bd361c1abcefc5c3df9f6e4eab7de4022826224664574badc5b2ad66f4"
+    "content_sha256": "530c59cddeaf69e20efcc6c56f2ca5b3dfc0f281b917e976c6fc38c5e1cb57a1",
+    "file_sha256": "2c7f12ea561b274204e2b327462688814b902370320675ef80e3255b8aa6f3ff"
   },
   "core_id": "yabasanshiro",
   "local_only_evidence": true,
   "package": {
-    "sha256": "d4a80f2ab3603d424160ed676eced5e740366bac72efaf673539a87d4122e6be",
-    "size": 747595
+    "sha256": "4e26aa19c73c8322bc22e0ba2204e620ee8e62d023374b404d5b07a4961285ed",
+    "size": 747047
   },
-  "pin_path": "pins/core-sets/yabasanshiro-f448097b69a6-a0644e7a1cb8.json",
+  "pin_path": "pins/core-sets/yabasanshiro-f448097b69a6-4de191f5227a.json",
   "publication": "disabled",
   "runs": {
     "reproduction": {
       "builds": {
         "arm64": {
-          "log_sha256": "dfe9f1ab0fc01f88be834e24a054226bbbad659a362f006c637a071bdd4d256c",
-          "log_size": 101012,
-          "record_sha256": "6739f58894fb594a030efc988e99113b5c5474bfb35caf1a09316edf44db2c7a",
+          "log_sha256": "18152d352696d72ca699078a3ddaa4570d17fa42ef00bcb4eb4f9b8cf023200c",
+          "log_size": 95432,
+          "record_sha256": "3b013ee4fc3cdfa2389c26b50fd5fb0bfc2b3254ff67c3b3790270b39f8b523b",
           "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "repository_head": "7145495ba2193bb523884a525be8d089570f6fd0"
         }
       },
-      "e2e_content_sha256": "d38b1a581fd47d3332e4d04c7a63d26a17543e00569467061cff51f98bd51897",
-      "e2e_file_sha256": "a6c2dfcdf5327c2ba49abc9da22eac57bb8dad414445da6dd56308b26d4d7b5c",
-      "run_id": "build-core-yabasanshiro-local-w3"
+      "e2e_content_sha256": "fa8d610d1fd2c981546740726786417f4b1666f0b0ae2a8a3148daa7472127c4",
+      "e2e_file_sha256": "f9ad1dfefbfd325cefd868b414c12f7aeb31350dbbbf7210b8c6eea742e457fe",
+      "run_id": "local-main-universal-yabasanshiro-successor-20260810-01"
     },
     "selected": {
       "builds": {
         "arm64": {
-          "log_sha256": "3f15853e33e16a3d1a73ab9f1a93f24c8febc1ba84399c7a6d43bce256d4a98d",
-          "log_size": 101012,
-          "record_sha256": "7b63b16344a34c2dbb924e339726b0b743aee1e54286a41b4374d6bcade2d1d9",
+          "log_sha256": "3bb34eb7505aada41964827764ecd0826931847f09ff40588b14fe0f6905de48",
+          "log_size": 95432,
+          "record_sha256": "23f7de0d39d83683d184c2c0aa3acc4ccd6181caa98270528e7986cb7358d431",
           "repository_dirty": true,
-          "repository_head": "522d210011c2908529a02a4c1a26263c17413306"
+          "repository_head": "7145495ba2193bb523884a525be8d089570f6fd0"
         }
       },
-      "e2e_content_sha256": "667ddca8cfda3f09ba86a99d5ae8cb6793925b36a86282d24dc504285fd5b932",
-      "e2e_file_sha256": "b7a00bd174c1e4202bcf47f353bdc09e54e9bc14be1fc9f2084beb71041ad965",
-      "run_id": "actions-sim-build-core-yabasanshiro-w3"
+      "e2e_content_sha256": "95de2b1e48b0f8eb2eade27685f15b24150f05af6b145abc9a9c78ecc5fae6f5",
+      "e2e_file_sha256": "81f67afd9f23f0ec0e6a30a12366106c7a5aa014dc0720aef2b39c90edb0582a",
+      "run_id": "actions-sim-main-universal-yabasanshiro-successor-20260810-01"
     }
   },
   "schema_version": 1,
-  "selection_sha256": "a0644e7a1cb82e1adfbd3d47b1e31797fe37d95841ce9d720fb831f651775582",
-  "semantic_id": "yabasanshiro-f448097b69a6-a0644e7a1cb8",
+  "selection_sha256": "4de191f5227a9bdbba5ef6cb1d47c54d20befc5f018106270671d07822d6f0a6",
+  "semantic_id": "yabasanshiro-f448097b69a6-4de191f5227a",
   "source_commit": "f448097b69a6037246a08e9dc09eabaa420d7893",
-  "source_set_path": "pins/source-sets/yabasanshiro-f448097b69a6-a0644e7a1cb8.json",
+  "source_set_path": "pins/source-sets/yabasanshiro-f448097b69a6-4de191f5227a.json",
   "targets": {
     "arm64": {
-      "artifact_sha256": "0c6d8ddf43d0830161466443971a960587e18437bf9a7fdc2de1c644bd70ea69",
-      "artifact_size": 2101952,
+      "artifact_sha256": "e6e413d07efbeb6dd3c0a08db430dbc180b9992b2af22618c8ffbbfdaf9290ec",
+      "artifact_size": 2073208,
       "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
       "toolchain_archive_sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
       "toolchain_archive_size": 502531978

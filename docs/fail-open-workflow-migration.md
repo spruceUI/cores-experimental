@@ -46,10 +46,10 @@ every future onboarding:
   toggles, `source_date_epoch` (committer date), URL case
   canonicalization, repo-pinned metadata for cores absent from
   libretro-super.
-- **Reproduction normalizations** (validation-layer only): CMake
-  progress/timing prefixes, GCC temp-file names, `make
-  --output-sync=recurse` for the portable-FFmpeg profile, parallel-make
-  line-multiset comparison.
+- **Deterministic output controls**: `make --output-sync=recurse` for the
+  portable-FFmpeg profile, independent content-addressed log validation, and
+  byte-equivalence approval keyed to the exact package and target artifact
+  hashes rather than cross-run transcript equality.
 - **String-valued `make_variables`** gated on reviewed per-core profiles
   (the reserved-`ARCH` workaround: name the non-reserved switches and
   prove byte-identity).

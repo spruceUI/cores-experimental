@@ -125,13 +125,32 @@ def manifest_lock(path: Path, repository_root: Path = REPOSITORY_ROOT):
             fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
 
 
-def load_json(path: Path) -> dict:
+def decode_json_object(raw: bytes, label: str | Path) -> dict:
+    """Decode one strict UTF-8 JSON object from an existing byte snapshot."""
+
     try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise PipelineError(f"cannot load JSON from {path}: {exc}") from exc
+        text = raw.decode("utf-8")
+        value = json.loads(text)
+    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+        raise PipelineError(f"cannot load JSON from {label}: {exc}") from exc
     if not isinstance(value, dict):
-        raise PipelineError(f"expected a JSON object in {path}")
+        raise PipelineError(f"expected a JSON object in {label}")
+    return value
+
+
+def load_json_with_sha256(path: Path) -> tuple[dict, str]:
+    """Parse and hash one JSON object from the same immutable byte snapshot."""
+
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise PipelineError(f"cannot load JSON from {path}: {exc}") from exc
+    value = decode_json_object(raw, path)
+    return value, sha256_bytes(raw)
+
+
+def load_json(path: Path) -> dict:
+    value, _file_sha256 = load_json_with_sha256(path)
     return value
 
 

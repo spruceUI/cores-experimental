@@ -9,7 +9,7 @@ import tempfile
 import unittest
 from unittest import mock
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from scripts.core_pipeline_lib.contracts import core_log_contract_for
 from scripts.core_pipeline_lib.contracts import mgba
 from tests.test_contract_mgba import build_mgba_log_fixture

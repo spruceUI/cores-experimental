@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 import copy
 import importlib.util
 import io
@@ -27,6 +28,56 @@ pipeline = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(pipeline)
 
 class CatalogTests(unittest.TestCase):
+    def test_json_object_and_file_digest_share_one_byte_snapshot(self) -> None:
+        raw = b'{"value":"first"}\n'
+        path = Path("record.json")
+        with mock.patch.object(
+            Path,
+            "read_bytes",
+            side_effect=[raw, b'{"value":"second"}\n'],
+        ) as read_bytes:
+            document, file_sha256 = pipeline.load_json_with_sha256(path)
+
+        self.assertEqual({"value": "first"}, document)
+        self.assertEqual(pipeline.sha256_bytes(raw), file_sha256)
+        read_bytes.assert_called_once_with()
+
+    def test_json_loader_rejects_utf16_and_utf32(self) -> None:
+        path = Path("record.json")
+        for encoding in ("utf-16", "utf-32"):
+            with self.subTest(encoding=encoding), mock.patch.object(
+                Path,
+                "read_bytes",
+                return_value='{"value":"wrong encoding"}'.encode(encoding),
+            ):
+                with self.assertRaisesRegex(
+                    pipeline.PipelineError, "cannot load JSON"
+                ):
+                    pipeline.load_json_with_sha256(path)
+
+    def test_validation_context_reuses_the_verified_byte_snapshot(self) -> None:
+        first = b'{"value":"first"}\n'
+        second = b'{"value":"second"}\n'
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "record.json"
+            path.write_bytes(first)
+            context = pipeline._PinValidationContext()
+            expected = pipeline.sha256_bytes(first)
+
+            self.assertEqual(
+                {"value": "first"},
+                pipeline.verified_json_object(
+                    path, expected, "fixture record", context
+                ),
+            )
+            path.write_bytes(second)
+            self.assertEqual(
+                {"value": "first"},
+                pipeline.verified_json_object(
+                    path, expected, "fixture record", context
+                ),
+            )
+
     def _legacy_recipe_without_pipeline_bundle(self, recipe: dict) -> dict:
         legacy_recipe = copy.deepcopy(recipe)
         pipeline_bundle = legacy_recipe.pop("pipeline_bundle")
@@ -173,6 +224,11 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual([], audit["active_aggregate_workflows"])
         self.assertEqual([], audit["invalid_catalog_workflows"])
         self.assertEqual("valid", audit["release_orchestration"]["status"])
+        for record in audit["workflows"].values():
+            self.assertEqual(
+                pipeline.sha256_file(ROOT / record["workflow"]),
+                record["file_sha256"],
+            )
         self.assertEqual(
             1,
             audit["release_orchestration"]["summary"][
@@ -1099,7 +1155,7 @@ class CatalogTests(unittest.TestCase):
                 pipeline, "git_version_log_proves_contract", return_value=True
             ), mock.patch.object(
                 pipeline,
-                "registered_core_log_contract_proves",
+                "_registered_core_log_contract_proves",
                 return_value=True,
             ):
                 self.assertEqual(
@@ -1278,6 +1334,11 @@ class CatalogTests(unittest.TestCase):
                     "size": 1,
                 },
             }
+            candidate_provenance = {
+                "candidate_id": "a" * 64,
+                "fixture": "exact authenticated golden provenance",
+            }
+            self.assertNotIn("source_candidate", record)
 
             def stored_fixture(current_record: dict) -> dict:
                 record_path.write_text(
@@ -1308,6 +1369,7 @@ class CatalogTests(unittest.TestCase):
                 e2e_path.write_text(json.dumps(evidence), encoding="utf-8")
                 relative = lambda path: str(path.relative_to(ROOT))
                 return {
+                    "source_candidate": copy.deepcopy(candidate_provenance),
                     "source": copy.deepcopy(current_record["source"]),
                     "recipe": copy.deepcopy(current_record["recipe"]),
                     "toolchain": copy.deepcopy(current_record["toolchain"]),
@@ -1321,9 +1383,18 @@ class CatalogTests(unittest.TestCase):
                         "build_records": {arch: record_sha},
                     },
                     "local_store": {
-                        "e2e_record": {"path": relative(e2e_path)},
-                        "package": {"path": relative(package_path)},
-                        "artifact": {"path": relative(artifact_path)},
+                        "e2e_record": {
+                            "path": relative(e2e_path),
+                            "sha256": pipeline.sha256_file(e2e_path),
+                        },
+                        "package": {
+                            "path": relative(package_path),
+                            "sha256": pipeline.sha256_file(package_path),
+                        },
+                        "artifact": {
+                            "path": relative(artifact_path),
+                            "sha256": pipeline.sha256_file(artifact_path),
+                        },
                         "build_records": {
                             arch: {
                                 "path": relative(record_path),
@@ -1339,10 +1410,37 @@ class CatalogTests(unittest.TestCase):
                             }
                         },
                         "recipe_snapshots": {
-                            arch: {"path": relative(recipe_path)}
+                            arch: {
+                                "path": relative(recipe_path),
+                                "sha256": pipeline.sha256_file(recipe_path),
+                            }
                         },
                     },
                 }
+
+            projected_records: list[dict] = []
+            snapshot_records: list[dict] = []
+
+            def project_candidate(
+                provenance: object,
+                **_kwargs: object,
+            ) -> None:
+                self.assertEqual(candidate_provenance, provenance)
+                projected_records.append(copy.deepcopy(record))
+                return None
+
+            def verify_candidate_snapshot(
+                _path: Path,
+                snapshot_record: dict,
+                _label: str,
+                **_kwargs: object,
+            ) -> list[str]:
+                self.assertEqual(
+                    candidate_provenance,
+                    snapshot_record.get("source_candidate"),
+                )
+                snapshot_records.append(copy.deepcopy(snapshot_record))
+                return []
 
             with mock.patch.object(
                 pipeline, "compile_log_proves_definitions", return_value=True
@@ -1350,10 +1448,16 @@ class CatalogTests(unittest.TestCase):
                 pipeline, "git_version_log_proves_contract", return_value=True
             ), mock.patch.object(
                 pipeline,
-                "registered_core_log_contract_proves",
+                "_registered_core_log_contract_proves",
                 return_value=True,
             ), mock.patch.object(
-                pipeline, "verify_recipe_snapshot", return_value=[]
+                pipeline,
+                "source_candidate_record_contract_projection",
+                side_effect=project_candidate,
+            ), mock.patch.object(
+                pipeline,
+                "_verify_recipe_snapshot",
+                side_effect=verify_candidate_snapshot,
             ), mock.patch.object(
                 pipeline,
                 "validate_artifact",
@@ -1380,6 +1484,9 @@ class CatalogTests(unittest.TestCase):
                         for error in changed_errors
                     )
                 )
+            self.assertGreaterEqual(len(projected_records), 2)
+            self.assertGreaterEqual(len(snapshot_records), 2)
+            self.assertNotIn("source_candidate", record)
 
             compatibility_snapshot = root / "compatibility-snapshot.json"
             compatibility_snapshot.write_text("{}\n", encoding="utf-8")
@@ -1410,6 +1517,9 @@ class CatalogTests(unittest.TestCase):
 
             def expected_target(current_record: dict) -> dict:
                 expected = copy.deepcopy(current_record)
+                expected["source_candidate"] = copy.deepcopy(
+                    candidate_provenance
+                )
                 expected["local_store"] = {
                     "recipe_snapshots": {
                         arch: {
@@ -1421,6 +1531,23 @@ class CatalogTests(unittest.TestCase):
                 }
                 return {"golden_record": expected}
 
+            historical_snapshot_records: list[dict] = []
+
+            def verify_candidate_historical_snapshot(
+                _path: Path,
+                snapshot_record: dict,
+                _label: str,
+                **_kwargs: object,
+            ) -> list[str]:
+                self.assertEqual(
+                    candidate_provenance,
+                    snapshot_record.get("source_candidate"),
+                )
+                historical_snapshot_records.append(
+                    copy.deepcopy(snapshot_record)
+                )
+                return []
+
             compatibility_log = "compatibility log fixture\n"
             with mock.patch.object(
                 pipeline, "pipeline_source_bundle_is_well_formed", return_value=True
@@ -1429,14 +1556,20 @@ class CatalogTests(unittest.TestCase):
                 "require_canonical_store_entry",
                 return_value=compatibility_snapshot,
             ), mock.patch.object(
-                pipeline, "verify_historical_recipe_snapshot", return_value=[]
+                pipeline,
+                "_verify_historical_recipe_snapshot",
+                side_effect=verify_candidate_historical_snapshot,
+            ), mock.patch.object(
+                pipeline,
+                "source_candidate_record_contract_projection",
+                side_effect=project_candidate,
             ), mock.patch.object(
                 pipeline, "compile_log_proves_definitions", return_value=True
             ), mock.patch.object(
                 pipeline, "git_version_log_proves_contract", return_value=True
             ), mock.patch.object(
                 pipeline,
-                "registered_core_log_contract_proves",
+                "_registered_core_log_contract_proves",
                 return_value=True,
             ):
                 pipeline._validate_canonical_compatibility_build_record(
@@ -1457,6 +1590,8 @@ class CatalogTests(unittest.TestCase):
                         expected_target(changed_compatibility),
                         compatibility_log,
                     )
+            self.assertGreaterEqual(len(historical_snapshot_records), 2)
+            self.assertNotIn("source_candidate", compatibility_record)
 
     def test_picodrive_build_record_rejects_cross_arch_profile_substitution(
         self,
@@ -1566,7 +1701,7 @@ class CatalogTests(unittest.TestCase):
                     return_value=True,
                 ), mock.patch.object(
                     pipeline,
-                    "registered_core_log_contract_proves",
+                "_registered_core_log_contract_proves",
                     return_value=True,
                 ):
                     self.assertEqual(
@@ -2415,73 +2550,30 @@ class CatalogTests(unittest.TestCase):
             )
         )
 
-    def test_reproduction_log_multiset_normalizes_cmake_progress(self) -> None:
-        # CMake's parallel "[ NN%]" progress counters are not reproducible; the
-        # reproduction check must treat identical build actions as equal while
-        # still distinguishing a genuinely different object.
-        selected = (
-            "[ 10%] Building CXX object dep/vixl/a.cc.o\n"
-            "[100%] Built target swanstation_libretro\n"
-        )
-        reproduced = (
-            "[ 11%] Building CXX object dep/vixl/a.cc.o\n"
-            "[ 98%] Built target swanstation_libretro\n"
-        )
+    def test_build_equivalence_excludes_only_run_local_log_identity(self) -> None:
+        selected = {
+            "driver": "direct-cmake",
+            "environment": "sanitized-v1",
+            "log": "build.log",
+            "log_sha256": "a" * 64,
+        }
+        reproduced = {**selected, "log_sha256": "b" * 64}
         self.assertEqual(
-            pipeline._reproduction_comparable_log_multiset(selected),
-            pipeline._reproduction_comparable_log_multiset(reproduced),
-        )
-        tampered = "[ 10%] Building CXX object dep/vixl/OTHER.cc.o\n"
-        self.assertNotEqual(
-            pipeline._reproduction_comparable_log_multiset(selected),
-            pipeline._reproduction_comparable_log_multiset(tampered),
+            pipeline._build_equivalence_identity(selected),
+            pipeline._build_equivalence_identity(reproduced),
         )
 
-    def test_reproduction_log_multiset_normalizes_cmake_step_timing(self) -> None:
-        # CMake's own wall-clock step timings vary run to run (arduous armhf hit
-        # this): "-- Configuring done (0.4s)" vs "(0.3s)" must compare equal,
-        # while a changed step name must not.
-        selected = (
-            "-- Configuring done (0.4s)\n-- Generating done (0.1s)\n"
-        )
-        reproduced = (
-            "-- Configuring done (0.3s)\n-- Generating done (0.2s)\n"
-        )
-        self.assertEqual(
-            pipeline._reproduction_comparable_log_multiset(selected),
-            pipeline._reproduction_comparable_log_multiset(reproduced),
-        )
-        tampered = "-- Configuring FAILED (0.4s)\n-- Generating done (0.1s)\n"
-        self.assertNotEqual(
-            pipeline._reproduction_comparable_log_multiset(selected),
-            pipeline._reproduction_comparable_log_multiset(tampered),
-        )
-
-    def test_reproduction_log_multiset_normalizes_gcc_temp_files(self) -> None:
-        # A verbose (-v) link echoes collect2 naming gcc's own random temp file,
-        # e.g. the LTO resolution "/tmp/ccgpIrkz.res" (np2kai hit this); the
-        # random stem must compare equal while the rest of the argv must not.
-        selected = (
-            " /usr/lib/gcc/collect2 -plugin-opt=-fresolution="
-            "/tmp/ccgpIrkz.res -o np2kai_libretro.so\n"
-        )
-        reproduced = (
-            " /usr/lib/gcc/collect2 -plugin-opt=-fresolution="
-            "/tmp/cccUrweF.res -o np2kai_libretro.so\n"
-        )
-        self.assertEqual(
-            pipeline._reproduction_comparable_log_multiset(selected),
-            pipeline._reproduction_comparable_log_multiset(reproduced),
-        )
-        # a different extension or surrounding argv is not collapsed
-        tampered = (
-            " /usr/lib/gcc/collect2 -plugin-opt=-fresolution="
-            "/tmp/cccUrweF.res -o other_libretro.so\n"
-        )
-        self.assertNotEqual(
-            pipeline._reproduction_comparable_log_multiset(selected),
-            pipeline._reproduction_comparable_log_multiset(tampered),
-        )
+        for field, value in (
+            ("driver", "direct-make"),
+            ("environment", "unsanitized"),
+            ("log", "other.log"),
+        ):
+            with self.subTest(field=field):
+                changed = {**reproduced, field: value}
+                self.assertNotEqual(
+                    pipeline._build_equivalence_identity(selected),
+                    pipeline._build_equivalence_identity(changed),
+                )
 
     def test_output_sync_makeflag_is_scoped_to_portable_ffmpeg(self) -> None:
         catalog = pipeline.load_catalog(ROOT / "manifests" / "core-builds.json")
@@ -2917,6 +3009,1127 @@ class CatalogTests(unittest.TestCase):
                 pipeline.PipelineError, "archive metadata mismatch"
             ):
                 pipeline.load_catalog_toolchain_lock(catalog)
+
+    def test_catalog_executes_the_digest_verified_validator_snapshot_after_swap(
+        self,
+    ) -> None:
+        catalog = pipeline.load_json(ROOT / "manifests" / "core-builds.json")
+        validator_relative = catalog["toolchain_lock_validator"]["path"]
+        validator_source = (ROOT / validator_relative).read_bytes()
+        replacement = b'raise RuntimeError("replacement validator executed")\n'
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for relative in (
+                "Dockerfile.arm64",
+                "Dockerfile.armhf",
+                "Dockerfile.rust",
+                catalog["toolchain_lock"]["path"],
+                validator_relative,
+            ):
+                destination = root / relative
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_bytes((ROOT / relative).read_bytes())
+
+            validator_path = root / validator_relative
+            captured_sources: list[bytes] = []
+            real_loader = pipeline.load_toolchain_archive_validator
+
+            def swap_before_execution(path: Path, source: bytes):
+                self.assertEqual(validator_path, path)
+                captured_sources.append(source)
+                path.write_bytes(replacement)
+                return real_loader(path, source)
+
+            with mock.patch.object(
+                pipeline, "ROOT", root
+            ), mock.patch.object(
+                pipeline,
+                "load_toolchain_archive_validator",
+                side_effect=swap_before_execution,
+            ):
+                document, lock_path, loaded_validator_path = (
+                    pipeline.load_catalog_toolchain_lock(catalog)
+                )
+
+            self.assertEqual("local-cache-v1", document["lock_id"])
+            self.assertEqual(root / catalog["toolchain_lock"]["path"], lock_path)
+            self.assertEqual(validator_path, loaded_validator_path)
+            self.assertEqual([validator_source], captured_sources)
+            self.assertEqual(replacement, validator_path.read_bytes())
+
+    def test_catalog_validates_the_digest_verified_toolchain_lock_snapshot_after_swap(
+        self,
+    ) -> None:
+        catalog = pipeline.load_json(ROOT / "manifests" / "core-builds.json")
+        validator_relative = catalog["toolchain_lock_validator"]["path"]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for relative in (
+                "Dockerfile.arm64",
+                "Dockerfile.armhf",
+                "Dockerfile.rust",
+                catalog["toolchain_lock"]["path"],
+                validator_relative,
+            ):
+                destination = root / relative
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_bytes((ROOT / relative).read_bytes())
+
+            lock_path = root / catalog["toolchain_lock"]["path"]
+            replacement = b'{"replacement":true}\n'
+            real_loader = pipeline.load_toolchain_archive_validator
+
+            def swap_before_validation(path: Path, source: bytes):
+                lock_path.write_bytes(replacement)
+                return real_loader(path, source)
+
+            with mock.patch.object(
+                pipeline, "ROOT", root
+            ), mock.patch.object(
+                pipeline,
+                "load_toolchain_archive_validator",
+                side_effect=swap_before_validation,
+            ):
+                document, loaded_lock_path, _validator_path = (
+                    pipeline.load_catalog_toolchain_lock(catalog)
+                )
+
+            self.assertEqual("local-cache-v1", document["lock_id"])
+            self.assertEqual(lock_path, loaded_lock_path)
+            self.assertEqual(replacement, lock_path.read_bytes())
+
+    def test_authoritative_pin_index_reuses_one_exact_catalog_snapshot(self) -> None:
+        catalog = {"cores": {"alpha": {}}}
+        catalog_digest = "a" * 64
+        admitted_catalogs: list[object] = []
+
+        def fake_index(_root, *, pin_validator):
+            for suffix in ("one", "two"):
+                pin_validator({}, Path(f"{suffix}.json"))
+            return {"admitted": {}}
+
+        def fake_report(_document, _path, *, catalog):
+            admitted_catalogs.append(catalog)
+            return {"status": "valid", "errors": []}
+
+        with mock.patch.object(
+            pipeline,
+            "load_catalog_with_sha256",
+            return_value=(catalog, catalog_digest),
+        ) as load_catalog, mock.patch.object(
+            pipeline,
+            "load_core_pin_index",
+            side_effect=fake_index,
+        ), mock.patch.object(
+            pipeline,
+            "_authoritative_core_track_pin_report",
+            side_effect=fake_report,
+        ), mock.patch.object(
+            pipeline,
+            "load_json_with_sha256",
+            return_value=(catalog, catalog_digest),
+        ) as final_read:
+            index = pipeline.load_authoritative_core_pin_index()
+
+        self.assertEqual({"admitted": {}}, index)
+        load_catalog.assert_called_once_with(pipeline.DEFAULT_CATALOG)
+        final_read.assert_called_once_with(pipeline.DEFAULT_CATALOG)
+        self.assertEqual(2, len(admitted_catalogs))
+        self.assertTrue(all(item is catalog for item in admitted_catalogs))
+
+    def test_public_authoritative_pin_report_binds_exact_path_bytes(self) -> None:
+        pin_path = (
+            ROOT
+            / "pins"
+            / "core-sets"
+            / "uzem-d4fe82c38bf3-34eca38274ae.json"
+        )
+        document = pipeline.load_json(pin_path)
+        forged = copy.deepcopy(document)
+        forged["created_at"] = "2099-01-01T00:00:00+00:00"
+        forged["content_sha256"] = pipeline.pin_set_content_sha256(forged)
+
+        report = pipeline.authoritative_core_track_pin_report(forged, pin_path)
+
+        self.assertEqual("invalid", report["status"])
+        self.assertIn(
+            "differs from exact path bytes",
+            "\n".join(report["errors"]),
+        )
+
+    def test_authoritative_pin_index_rejects_pin_path_swap(self) -> None:
+        catalog = {"cores": {"alpha": {}}}
+        pin_path = Path("alpha.json")
+        initial_pin = {"pin_id": "alpha-initial"}
+        replacement_pin = {"pin_id": "alpha-replacement"}
+
+        def fake_index(_root, *, pin_validator):
+            report = pin_validator(initial_pin, pin_path)
+            if report.get("status") != "valid":
+                raise pipeline.PipelineError("; ".join(report["errors"]))
+            return {"alpha": initial_pin}
+
+        with mock.patch.object(
+            pipeline,
+            "load_catalog_with_sha256",
+            return_value=(catalog, "c" * 64),
+        ), mock.patch.object(
+            pipeline,
+            "load_core_pin_index",
+            side_effect=fake_index,
+        ), mock.patch.object(
+            pipeline,
+            "load_json_with_sha256",
+            side_effect=[
+                (initial_pin, "a" * 64),
+                (replacement_pin, "b" * 64),
+            ],
+        ), mock.patch.object(
+            pipeline,
+            "_validate_pin_set_document",
+            return_value={"status": "valid", "errors": []},
+        ), mock.patch.object(
+            pipeline,
+            "require_individual_pin_identity",
+            return_value=("alpha", "alpha-initial"),
+        ), mock.patch.object(
+            pipeline,
+            "_require_pin_current_selection_authority",
+        ), self.assertRaisesRegex(
+            pipeline.PipelineError,
+            "authoritative core pin changed during admission",
+        ):
+            pipeline.load_authoritative_core_pin_index()
+
+    def test_authoritative_pin_index_rejects_catalog_swap(self) -> None:
+        catalog = {"cores": {"alpha": {}}}
+        with mock.patch.object(
+            pipeline,
+            "load_catalog_with_sha256",
+            return_value=(catalog, "a" * 64),
+        ), mock.patch.object(
+            pipeline,
+            "load_core_pin_index",
+            return_value={},
+        ), mock.patch.object(
+            pipeline,
+            "load_json_with_sha256",
+            return_value=({"cores": {"replacement": {}}}, "b" * 64),
+        ), self.assertRaisesRegex(
+            pipeline.PipelineError,
+            "catalog changed during authoritative core pin indexing",
+        ):
+            pipeline.load_authoritative_core_pin_index()
+
+    def test_core_track_set_test_rejects_pin_identity_drift_after_indexing(
+        self,
+    ) -> None:
+        pin_id = "handy-authoritative"
+        pin_path = ROOT / "pins" / "core-sets" / f"{pin_id}.json"
+        entry = {
+            "path": str(pin_path.relative_to(ROOT)),
+            "pin_id": pin_id,
+            "file_sha256": "a" * 64,
+            "content_sha256": "b" * 64,
+        }
+        args = argparse.Namespace(
+            catalog=pipeline.DEFAULT_CATALOG,
+            pin_id=pin_id,
+        )
+        cases = (
+            (
+                "file",
+                {"pin_id": pin_id, "content_sha256": "b" * 64},
+                "c" * 64,
+                "file identity changed",
+            ),
+            (
+                "content",
+                {"pin_id": pin_id, "content_sha256": "d" * 64},
+                "a" * 64,
+                "content identity changed",
+            ),
+        )
+        for label, document, file_sha256, error in cases:
+            with self.subTest(label=label), mock.patch.object(
+                pipeline, "manifest_lock", return_value=mock.MagicMock()
+            ), mock.patch.object(
+                pipeline, "load_catalog", return_value={"cores": {"handy": {}}}
+            ), mock.patch.object(
+                pipeline,
+                "load_authoritative_core_pin_index",
+                return_value={pin_id: entry},
+            ), mock.patch.object(
+                pipeline, "load_json", return_value={}
+            ), mock.patch.object(
+                pipeline,
+                "load_json_with_sha256",
+                return_value=(document, file_sha256),
+            ) as snapshot, mock.patch.object(
+                pipeline,
+                "_validate_pin_set_document",
+                side_effect=AssertionError("drifted pin was validated"),
+            ), mock.patch.object(
+                pipeline,
+                "set_core_track_test",
+                side_effect=AssertionError("track registry was mutated"),
+            ), mock.patch.object(
+                pipeline,
+                "atomic_write_json",
+                side_effect=AssertionError("track registry was written"),
+            ), self.assertRaisesRegex(pipeline.PipelineError, error):
+                pipeline.cmd_core_track_set_test(args)
+            snapshot.assert_called_once_with(pin_path)
+
+    def test_core_track_set_test_rechecks_pin_bytes_immediately_before_mutation(
+        self,
+    ) -> None:
+        local_root = ROOT / ".local-e2e"
+        local_root.mkdir(exist_ok=True)
+        pin_id = "handy-authoritative"
+        original = (
+            json.dumps(
+                {"pin_id": pin_id, "content_sha256": "b" * 64},
+                sort_keys=True,
+            )
+            + "\n"
+        ).encode("utf-8")
+        replacement = b'{"pin_id":"replacement"}\n'
+        with tempfile.TemporaryDirectory(dir=local_root) as directory:
+            pin_path = Path(directory) / f"{pin_id}.json"
+            pin_path.write_bytes(original)
+            entry = {
+                "path": str(pin_path.relative_to(ROOT)),
+                "pin_id": pin_id,
+                "file_sha256": pipeline.sha256_bytes(original),
+                "content_sha256": "b" * 64,
+            }
+            args = argparse.Namespace(
+                catalog=pipeline.DEFAULT_CATALOG,
+                pin_id=pin_id,
+                track="nightly",
+                core="handy",
+                chipset="a523",
+                tuning_profile="a523-cortex-a55-v1",
+                slice_time="2026-08-10T12:00:00Z",
+                expected_current_test="absent",
+                expected_current_assignment="absent",
+                expected_new_variant="a" * 64,
+                applicable_chipset=[],
+            )
+
+            def swap_before_mutation(*_args, **_kwargs) -> dict:
+                pin_path.write_bytes(replacement)
+                return {"registry": {}}
+
+            with mock.patch.object(
+                pipeline, "manifest_lock", return_value=mock.MagicMock()
+            ), mock.patch.object(
+                pipeline, "load_catalog", return_value={"cores": {"handy": {}}}
+            ), mock.patch.object(
+                pipeline,
+                "load_authoritative_core_pin_index",
+                return_value={pin_id: entry},
+            ), mock.patch.object(
+                pipeline, "load_json", return_value={}
+            ), mock.patch.object(
+                pipeline,
+                "_validate_pin_set_document",
+                return_value={"status": "valid", "errors": []},
+            ), mock.patch.object(
+                pipeline,
+                "load_core_track_source_registry_index",
+                return_value={},
+            ), mock.patch.object(
+                pipeline,
+                "core_track_source_ancestry_verifier",
+                return_value=lambda *_args: True,
+            ), mock.patch.object(
+                pipeline,
+                "set_core_track_test",
+                side_effect=swap_before_mutation,
+            ), mock.patch.object(
+                pipeline,
+                "atomic_write_json",
+                side_effect=AssertionError("track registry was written"),
+            ) as write, self.assertRaisesRegex(
+                pipeline.PipelineError,
+                "changed before track registry mutation",
+            ):
+                pipeline.cmd_core_track_set_test(args)
+
+            write.assert_not_called()
+            self.assertEqual(replacement, pin_path.read_bytes())
+
+    def test_core_track_transaction_removes_new_snapshot_after_registry_write_failure(
+        self,
+    ) -> None:
+        prior = {"content_sha256": "before", "tracks": {}}
+        prior_bytes = b'{"content_sha256":"before", "tracks":{}}\n'
+        updated = {"content_sha256": "after", "tracks": {}}
+        snapshot = {"model": "core-track-source-snapshot", "registry": prior}
+        snapshot_sha256 = pipeline.sha256_bytes(
+            pipeline._canonical_core_track_json_bytes(snapshot)
+        )
+        failure = pipeline.PipelineError("registry write failed")
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry_path = root / "core-tracks.json"
+            snapshot_path = root / "snapshots" / "before.json"
+            registry_path.write_bytes(prior_bytes)
+
+            with mock.patch.object(
+                pipeline, "DEFAULT_CORE_TRACKS", registry_path
+            ), mock.patch.object(
+                pipeline, "atomic_write_json", side_effect=failure
+            ), self.assertRaises(pipeline.PipelineError) as caught:
+                pipeline._commit_core_track_registry_transaction(
+                    prior_registry=prior,
+                    registry=updated,
+                    snapshot_path=snapshot_path,
+                    snapshot=snapshot,
+                    snapshot_file_sha256=snapshot_sha256,
+                    validator=lambda document: document,
+                )
+
+            self.assertIs(failure, caught.exception)
+            self.assertEqual(prior_bytes, registry_path.read_bytes())
+            self.assertFalse(snapshot_path.exists())
+
+    def test_core_track_transaction_commits_registry_and_snapshot(self) -> None:
+        prior = {"content_sha256": "before", "tracks": {}}
+        prior_bytes = b'{ "tracks": {}, "content_sha256": "before" }\n'
+        updated = {"content_sha256": "after", "tracks": {}}
+        snapshot = {"model": "core-track-source-snapshot", "registry": prior}
+        snapshot_bytes = pipeline._canonical_core_track_json_bytes(snapshot)
+        validated: list[object] = []
+
+        def validate(document: object) -> dict:
+            validated.append(document)
+            return updated
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry_path = root / "core-tracks.json"
+            snapshot_path = root / "snapshots" / "before.json"
+            registry_path.write_bytes(prior_bytes)
+            with mock.patch.object(
+                pipeline, "DEFAULT_CORE_TRACKS", registry_path
+            ):
+                pipeline._commit_core_track_registry_transaction(
+                    prior_registry=prior,
+                    registry=updated,
+                    snapshot_path=snapshot_path,
+                    snapshot=snapshot,
+                    snapshot_file_sha256=pipeline.sha256_bytes(snapshot_bytes),
+                    validator=validate,
+                )
+
+            self.assertEqual([updated], validated)
+            self.assertEqual(
+                pipeline._canonical_core_track_json_bytes(updated),
+                registry_path.read_bytes(),
+            )
+            self.assertEqual(snapshot_bytes, snapshot_path.read_bytes())
+
+    def test_core_track_transaction_removes_snapshot_when_create_mutates_then_raises(
+        self,
+    ) -> None:
+        prior = {"content_sha256": "before"}
+        prior_bytes = b'{"content_sha256" : "before"}\n'
+        updated = {"content_sha256": "after"}
+        snapshot = {"model": "core-track-source-snapshot", "registry": prior}
+        snapshot_bytes = pipeline._canonical_core_track_json_bytes(snapshot)
+        failure = KeyboardInterrupt("snapshot helper interrupted")
+
+        real_link = pipeline.os.link
+
+        def link_then_raise(source: Path, destination: Path) -> None:
+            real_link(source, destination)
+            raise failure
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry_path = root / "core-tracks.json"
+            snapshot_path = root / "snapshot.json"
+            registry_path.write_bytes(prior_bytes)
+            with mock.patch.object(
+                pipeline, "DEFAULT_CORE_TRACKS", registry_path
+            ), mock.patch.object(
+                pipeline.os, "link", side_effect=link_then_raise
+            ), mock.patch.object(
+                pipeline,
+                "atomic_write_json",
+                side_effect=AssertionError("registry write was reached"),
+            ) as write, self.assertRaises(KeyboardInterrupt) as caught:
+                pipeline._commit_core_track_registry_transaction(
+                    prior_registry=prior,
+                    registry=updated,
+                    snapshot_path=snapshot_path,
+                    snapshot=snapshot,
+                    snapshot_file_sha256=pipeline.sha256_bytes(snapshot_bytes),
+                    validator=lambda document: document,
+                )
+
+            self.assertIs(failure, caught.exception)
+            write.assert_not_called()
+            self.assertEqual(prior_bytes, registry_path.read_bytes())
+            self.assertFalse(snapshot_path.exists())
+
+    def test_core_track_transaction_preserves_foreign_snapshot_race_winner(
+        self,
+    ) -> None:
+        prior = {"content_sha256": "before"}
+        prior_bytes = b'{"content_sha256" : "before"}\n'
+        updated = {"content_sha256": "after"}
+        snapshot = {"model": "core-track-source-snapshot", "registry": prior}
+        snapshot_bytes = pipeline._canonical_core_track_json_bytes(snapshot)
+
+        def foreign_link_wins(_source: Path, destination: Path) -> None:
+            Path(destination).write_bytes(snapshot_bytes)
+            raise FileExistsError("foreign creator won the link race")
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry_path = root / "core-tracks.json"
+            snapshot_path = root / "snapshot.json"
+            registry_path.write_bytes(prior_bytes)
+            with mock.patch.object(
+                pipeline, "DEFAULT_CORE_TRACKS", registry_path
+            ), mock.patch.object(
+                pipeline.os, "link", side_effect=foreign_link_wins
+            ), self.assertRaisesRegex(
+                pipeline.PipelineError,
+                "refusing to replace existing core-track snapshot",
+            ):
+                pipeline._commit_core_track_registry_transaction(
+                    prior_registry=prior,
+                    registry=updated,
+                    snapshot_path=snapshot_path,
+                    snapshot=snapshot,
+                    snapshot_file_sha256=pipeline.sha256_bytes(snapshot_bytes),
+                    validator=lambda document: document,
+                )
+
+            self.assertEqual(prior_bytes, registry_path.read_bytes())
+            self.assertEqual(snapshot_bytes, snapshot_path.read_bytes())
+
+    def test_core_track_snapshot_create_cleans_temp_on_prelink_fsync_failure(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            snapshot_path = Path(directory) / "snapshots" / "snapshot.json"
+            ownership: dict[str, object] = {}
+            with mock.patch.object(
+                pipeline.os,
+                "fsync",
+                side_effect=OSError("snapshot fsync failed"),
+            ), self.assertRaisesRegex(OSError, "snapshot fsync failed"):
+                pipeline._atomic_create_core_track_snapshot(
+                    snapshot_path,
+                    b'{"snapshot":true}\n',
+                    ownership,
+                )
+
+            self.assertFalse(snapshot_path.exists())
+            self.assertEqual([], list(snapshot_path.parent.iterdir()))
+
+    def test_core_track_registry_restore_cleans_temp_on_prereplace_fsync_failure(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            registry_path = Path(directory) / "core-tracks.json"
+            prior_bytes = b'{"content_sha256":"prior"}\n'
+            registry_path.write_bytes(prior_bytes)
+            with mock.patch.object(
+                pipeline.os,
+                "fsync",
+                side_effect=OSError("registry fsync failed"),
+            ), self.assertRaisesRegex(OSError, "registry fsync failed"):
+                pipeline._atomic_restore_core_track_bytes(
+                    registry_path,
+                    b'{"content_sha256":"restored"}\n',
+                )
+
+            self.assertEqual(prior_bytes, registry_path.read_bytes())
+            self.assertEqual([registry_path], list(registry_path.parent.iterdir()))
+
+    def test_core_track_transaction_rolls_back_no_snapshot_on_base_exception(
+        self,
+    ) -> None:
+        prior = {"content_sha256": "before", "tracks": {}}
+        prior_bytes = b'{ "tracks": {}, "content_sha256": "before" }\n'
+        updated = {"content_sha256": "after", "tracks": {}}
+        failure = KeyboardInterrupt("post-write validation interrupted")
+
+        def fail_validation(_document: object) -> dict:
+            raise failure
+
+        with tempfile.TemporaryDirectory() as directory:
+            registry_path = Path(directory) / "core-tracks.json"
+            registry_path.write_bytes(prior_bytes)
+            with mock.patch.object(
+                pipeline, "DEFAULT_CORE_TRACKS", registry_path
+            ), self.assertRaises(KeyboardInterrupt) as caught:
+                pipeline._commit_core_track_registry_transaction(
+                    prior_registry=prior,
+                    registry=updated,
+                    snapshot_path=None,
+                    snapshot=None,
+                    snapshot_file_sha256=None,
+                    validator=fail_validation,
+                )
+
+            self.assertIs(failure, caught.exception)
+            self.assertEqual(prior_bytes, registry_path.read_bytes())
+
+    def test_core_track_transaction_preserves_preexisting_valid_snapshot(
+        self,
+    ) -> None:
+        prior = {"content_sha256": "before"}
+        prior_bytes = b'{"content_sha256" : "before"}\n'
+        updated = {"content_sha256": "after"}
+        snapshot = {"model": "core-track-source-snapshot", "registry": prior}
+        snapshot_bytes = pipeline._canonical_core_track_json_bytes(snapshot)
+        snapshot_sha256 = pipeline.sha256_bytes(snapshot_bytes)
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry_path = root / "core-tracks.json"
+            snapshot_path = root / "snapshots" / "before.json"
+            registry_path.write_bytes(prior_bytes)
+            snapshot_path.parent.mkdir()
+            snapshot_path.write_bytes(snapshot_bytes)
+
+            with mock.patch.object(
+                pipeline, "DEFAULT_CORE_TRACKS", registry_path
+            ), mock.patch.object(
+                pipeline,
+                "atomic_create_json",
+                side_effect=AssertionError("preexisting snapshot was replaced"),
+            ) as create, self.assertRaisesRegex(
+                pipeline.PipelineError,
+                "changed during post-write validation",
+            ):
+                pipeline._commit_core_track_registry_transaction(
+                    prior_registry=prior,
+                    registry=updated,
+                    snapshot_path=snapshot_path,
+                    snapshot=snapshot,
+                    snapshot_file_sha256=snapshot_sha256,
+                    validator=lambda _document: {"unexpected": True},
+                )
+
+            create.assert_not_called()
+            self.assertEqual(prior_bytes, registry_path.read_bytes())
+            self.assertEqual(snapshot_bytes, snapshot_path.read_bytes())
+
+    def test_core_track_transaction_preserves_changed_preexisting_snapshot(
+        self,
+    ) -> None:
+        prior = {"content_sha256": "before"}
+        prior_bytes = b'{"content_sha256" : "before"}\n'
+        updated = {"content_sha256": "after"}
+        snapshot = {"model": "core-track-source-snapshot", "registry": prior}
+        snapshot_bytes = pipeline._canonical_core_track_json_bytes(snapshot)
+        foreign_snapshot_bytes = b'{"foreign":true}\n'
+        failure = KeyboardInterrupt("validator interrupted")
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry_path = root / "core-tracks.json"
+            snapshot_path = root / "snapshot.json"
+            registry_path.write_bytes(prior_bytes)
+            snapshot_path.write_bytes(snapshot_bytes)
+
+            def mutate_snapshot_then_raise(_document: object) -> dict:
+                snapshot_path.write_bytes(foreign_snapshot_bytes)
+                raise failure
+
+            with mock.patch.object(
+                pipeline, "DEFAULT_CORE_TRACKS", registry_path
+            ), self.assertRaisesRegex(
+                pipeline.PipelineError,
+                "rollback incomplete[\\s\\S]*preexisting snapshot changed",
+            ) as caught:
+                pipeline._commit_core_track_registry_transaction(
+                    prior_registry=prior,
+                    registry=updated,
+                    snapshot_path=snapshot_path,
+                    snapshot=snapshot,
+                    snapshot_file_sha256=pipeline.sha256_bytes(snapshot_bytes),
+                    validator=mutate_snapshot_then_raise,
+                )
+
+            self.assertIs(failure, caught.exception.__cause__)
+            self.assertEqual(prior_bytes, registry_path.read_bytes())
+            self.assertEqual(foreign_snapshot_bytes, snapshot_path.read_bytes())
+
+    def test_core_track_transaction_restores_partial_registry_and_removes_owned_snapshot(
+        self,
+    ) -> None:
+        prior = {"content_sha256": "before"}
+        prior_bytes = b'{ "content_sha256": "before" }\n'
+        updated = {"content_sha256": "after"}
+        snapshot = {"model": "core-track-source-snapshot", "registry": prior}
+        snapshot_bytes = pipeline._canonical_core_track_json_bytes(snapshot)
+        failure = KeyboardInterrupt("registry helper interrupted")
+
+        def mutate_then_raise(path: Path, _document: object) -> None:
+            path.write_bytes(b'{"content_sha256":"partial"')
+            raise failure
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry_path = root / "core-tracks.json"
+            snapshot_path = root / "snapshot.json"
+            registry_path.write_bytes(prior_bytes)
+            with mock.patch.object(
+                pipeline, "DEFAULT_CORE_TRACKS", registry_path
+            ), mock.patch.object(
+                pipeline, "atomic_write_json", side_effect=mutate_then_raise
+            ), self.assertRaises(KeyboardInterrupt) as caught:
+                pipeline._commit_core_track_registry_transaction(
+                    prior_registry=prior,
+                    registry=updated,
+                    snapshot_path=snapshot_path,
+                    snapshot=snapshot,
+                    snapshot_file_sha256=pipeline.sha256_bytes(snapshot_bytes),
+                    validator=lambda document: document,
+                )
+
+            self.assertIs(failure, caught.exception)
+            self.assertEqual(prior_bytes, registry_path.read_bytes())
+            self.assertFalse(snapshot_path.exists())
+
+    def test_core_track_transaction_fails_closed_when_restore_acknowledgement_fails(
+        self,
+    ) -> None:
+        prior = {"content_sha256": "before"}
+        prior_bytes = b'{ "content_sha256": "before" }\n'
+        updated = {"content_sha256": "after"}
+        snapshot = {"model": "core-track-source-snapshot", "registry": prior}
+        snapshot_sha256 = pipeline.sha256_bytes(
+            pipeline._canonical_core_track_json_bytes(snapshot)
+        )
+        failure = KeyboardInterrupt("registry helper interrupted")
+        real_restore = pipeline._atomic_restore_core_track_bytes
+
+        def mutate_then_raise(path: Path, _document: object) -> None:
+            path.write_bytes(b'{"content_sha256":"partial"')
+            raise failure
+
+        def restore_then_raise(path: Path, raw: bytes) -> None:
+            real_restore(path, raw)
+            raise OSError("durability acknowledgement failed")
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry_path = root / "core-tracks.json"
+            snapshot_path = root / "snapshot.json"
+            registry_path.write_bytes(prior_bytes)
+            with mock.patch.object(
+                pipeline, "DEFAULT_CORE_TRACKS", registry_path
+            ), mock.patch.object(
+                pipeline, "atomic_write_json", side_effect=mutate_then_raise
+            ), mock.patch.object(
+                pipeline,
+                "_atomic_restore_core_track_bytes",
+                side_effect=restore_then_raise,
+            ), self.assertRaisesRegex(
+                pipeline.PipelineError,
+                "rollback incomplete[\\s\\S]*durability was not acknowledged",
+            ) as caught:
+                pipeline._commit_core_track_registry_transaction(
+                    prior_registry=prior,
+                    registry=updated,
+                    snapshot_path=snapshot_path,
+                    snapshot=snapshot,
+                    snapshot_file_sha256=snapshot_sha256,
+                    validator=lambda document: document,
+                )
+
+            self.assertIs(failure, caught.exception.__cause__)
+            self.assertEqual(prior_bytes, registry_path.read_bytes())
+            self.assertTrue(snapshot_path.exists())
+
+    def test_core_track_transaction_fails_closed_and_keeps_snapshot_when_restore_fails(
+        self,
+    ) -> None:
+        prior = {"content_sha256": "before"}
+        prior_bytes = b'{"content_sha256":"before"}\n'
+        updated = {"content_sha256": "after"}
+        snapshot = {"model": "core-track-source-snapshot", "registry": prior}
+        snapshot_sha256 = pipeline.sha256_bytes(
+            pipeline._canonical_core_track_json_bytes(snapshot)
+        )
+        failure = KeyboardInterrupt("registry helper interrupted")
+        partial_registry_bytes = b'{"content_sha256":"partial"'
+
+        def mutate_then_raise(path: Path, _document: object) -> None:
+            path.write_bytes(partial_registry_bytes)
+            raise failure
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry_path = root / "core-tracks.json"
+            snapshot_path = root / "snapshot.json"
+            registry_path.write_bytes(prior_bytes)
+            with mock.patch.object(
+                pipeline, "DEFAULT_CORE_TRACKS", registry_path
+            ), mock.patch.object(
+                pipeline, "atomic_write_json", side_effect=mutate_then_raise
+            ), mock.patch.object(
+                pipeline,
+                "_atomic_restore_core_track_bytes",
+                side_effect=OSError("restore failed"),
+            ), self.assertRaisesRegex(
+                pipeline.PipelineError,
+                "rollback incomplete[\\s\\S]*registry bytes could not be "
+                "restored exactly",
+            ) as caught:
+                pipeline._commit_core_track_registry_transaction(
+                    prior_registry=prior,
+                    registry=updated,
+                    snapshot_path=snapshot_path,
+                    snapshot=snapshot,
+                    snapshot_file_sha256=snapshot_sha256,
+                    validator=lambda document: document,
+                )
+
+            self.assertIs(failure, caught.exception.__cause__)
+            self.assertEqual(partial_registry_bytes, registry_path.read_bytes())
+            self.assertTrue(snapshot_path.exists())
+
+    def test_core_track_transaction_fails_closed_when_owned_snapshot_unlink_fails(
+        self,
+    ) -> None:
+        prior = {"content_sha256": "before"}
+        prior_bytes = b'{"content_sha256":"before"}\n'
+        updated = {"content_sha256": "after"}
+        snapshot = {"model": "core-track-source-snapshot", "registry": prior}
+        snapshot_sha256 = pipeline.sha256_bytes(
+            pipeline._canonical_core_track_json_bytes(snapshot)
+        )
+        failure = pipeline.PipelineError("registry write failed")
+        real_unlink = Path.unlink
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry_path = root / "core-tracks.json"
+            snapshot_path = root / "snapshot.json"
+            registry_path.write_bytes(prior_bytes)
+
+            def fail_owned_snapshot_unlink(
+                path: Path, *args, **kwargs
+            ) -> None:
+                if path == snapshot_path:
+                    raise OSError("unlink failed")
+                real_unlink(path, *args, **kwargs)
+
+            with mock.patch.object(
+                pipeline, "DEFAULT_CORE_TRACKS", registry_path
+            ), mock.patch.object(
+                pipeline, "atomic_write_json", side_effect=failure
+            ), mock.patch.object(
+                Path, "unlink", autospec=True,
+                side_effect=fail_owned_snapshot_unlink,
+            ), self.assertRaisesRegex(
+                pipeline.PipelineError,
+                "rollback incomplete[\\s\\S]*removal did not complete durably",
+            ) as caught:
+                pipeline._commit_core_track_registry_transaction(
+                    prior_registry=prior,
+                    registry=updated,
+                    snapshot_path=snapshot_path,
+                    snapshot=snapshot,
+                    snapshot_file_sha256=snapshot_sha256,
+                    validator=lambda document: document,
+                )
+
+            self.assertIs(failure, caught.exception.__cause__)
+            self.assertEqual(prior_bytes, registry_path.read_bytes())
+            self.assertTrue(snapshot_path.exists())
+
+    def test_core_track_transaction_surfaces_unacknowledged_snapshot_unlink(
+        self,
+    ) -> None:
+        prior = {"content_sha256": "before"}
+        prior_bytes = b'{"content_sha256":"before"}\n'
+        updated = {"content_sha256": "after"}
+        snapshot = {"model": "core-track-source-snapshot", "registry": prior}
+        snapshot_sha256 = pipeline.sha256_bytes(
+            pipeline._canonical_core_track_json_bytes(snapshot)
+        )
+        failure = pipeline.PipelineError("registry write failed")
+
+        def unlink_then_raise(path: Path) -> None:
+            path.unlink()
+            raise OSError("directory durability acknowledgement failed")
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry_path = root / "core-tracks.json"
+            snapshot_path = root / "snapshot.json"
+            registry_path.write_bytes(prior_bytes)
+            with mock.patch.object(
+                pipeline, "DEFAULT_CORE_TRACKS", registry_path
+            ), mock.patch.object(
+                pipeline, "atomic_write_json", side_effect=failure
+            ), mock.patch.object(
+                pipeline,
+                "_durably_remove_owned_core_track_snapshot",
+                side_effect=unlink_then_raise,
+            ), self.assertRaisesRegex(
+                pipeline.PipelineError,
+                "rollback incomplete[\\s\\S]*removal did not complete durably",
+            ) as caught:
+                pipeline._commit_core_track_registry_transaction(
+                    prior_registry=prior,
+                    registry=updated,
+                    snapshot_path=snapshot_path,
+                    snapshot=snapshot,
+                    snapshot_file_sha256=snapshot_sha256,
+                    validator=lambda document: document,
+                )
+
+            self.assertIs(failure, caught.exception.__cause__)
+            self.assertEqual(prior_bytes, registry_path.read_bytes())
+            self.assertFalse(snapshot_path.exists())
+
+    def test_core_track_set_test_emits_slice_and_parent_snapshot_contract(
+        self,
+    ) -> None:
+        local_root = ROOT / ".local-e2e"
+        local_root.mkdir(exist_ok=True)
+        pin_id = "handy-authoritative"
+        pin_file_sha256 = "a" * 64
+        pin_content_sha256 = "b" * 64
+        registry = {"content_sha256": "c" * 64}
+        version_slice = {
+            "model": "immutable-track-version-slice-v1",
+            "track": "nightly",
+            "slice_time": "2026-08-10T12:00:00Z",
+            "content_sha256": "d" * 64,
+        }
+        comparison_basis = {
+            "model": "immutable-track-slice-comparison-basis-v1",
+            "track": "nightly",
+            "slice_time": "2026-08-10T12:00:00Z",
+            "content_sha256": "e" * 64,
+        }
+        branch_basis_snapshot = {
+            "model": "immutable-spruce-branch-basis-snapshot-v1",
+            "content_sha256": "6" * 64,
+        }
+        with tempfile.TemporaryDirectory(dir=local_root) as directory:
+            snapshot_path = Path(directory) / "parent.json"
+            snapshot_relative = str(snapshot_path.relative_to(ROOT))
+            events: list[str] = []
+            result = {
+                "registry": registry,
+                "snapshot": {"snapshot": "parent"},
+                "snapshot_path": snapshot_relative,
+                "snapshot_file_sha256": "f" * 64,
+                "previous_variant_id": None,
+                "variant_id": "1" * 64,
+                "previous_assignment_content_sha256": None,
+                "parent_variant_id": "2" * 64,
+                "parent_selection_content_sha256": "3" * 64,
+                "parent_registry_content_sha256": "4" * 64,
+                "version_slice": version_slice,
+                "slice_comparison_basis": comparison_basis,
+                "slice_branch_basis_registry_content_sha256": "7" * 64,
+                "slice_branch_basis_snapshot": branch_basis_snapshot,
+                "assignment_content_sha256": "5" * 64,
+                "source_order_parent_binding": {"model": "binding-v1"},
+                "source_order_outlier": None,
+                "edge_deferred_by_admission": None,
+            }
+            args = argparse.Namespace(
+                catalog=pipeline.DEFAULT_CATALOG,
+                track="nightly",
+                core="handy",
+                chipset="a523",
+                pin_id=pin_id,
+                tuning_profile="a523-cortex-a55-v1",
+                slice_time="2026-08-10T12:00:00Z",
+                expected_current_test="absent",
+                expected_current_assignment="absent",
+                expected_new_variant="1" * 64,
+                expected_parent_variant="2" * 64,
+                expected_parent_registry="4" * 64,
+                outlier_authorized_at=None,
+                outlier_authorized_by=None,
+                outlier_reason=None,
+                applicable_chipset=[],
+            )
+
+            def commit_transaction(**kwargs) -> None:
+                self.assertEqual(registry, kwargs["prior_registry"])
+                self.assertEqual(registry, kwargs["registry"])
+                self.assertEqual(snapshot_path, kwargs["snapshot_path"])
+                self.assertEqual(result["snapshot"], kwargs["snapshot"])
+                self.assertEqual(
+                    result["snapshot_file_sha256"],
+                    kwargs["snapshot_file_sha256"],
+                )
+                self.assertTrue(callable(kwargs["validator"]))
+                events.append("transaction")
+
+            output = io.StringIO()
+            with mock.patch.object(
+                pipeline, "manifest_lock", return_value=mock.MagicMock()
+            ), mock.patch.object(
+                pipeline, "load_catalog", return_value={"cores": {"handy": {}}}
+            ), mock.patch.object(
+                pipeline,
+                "load_authoritative_core_pin_index",
+                return_value={
+                    pin_id: {
+                        "path": f"pins/core-sets/{pin_id}.json",
+                        "file_sha256": pin_file_sha256,
+                        "content_sha256": pin_content_sha256,
+                    }
+                },
+            ), mock.patch.object(
+                pipeline,
+                "load_json_with_sha256",
+                return_value=(
+                    {"pin_id": pin_id, "content_sha256": pin_content_sha256},
+                    pin_file_sha256,
+                ),
+            ), mock.patch.object(
+                pipeline, "load_json", return_value=registry
+            ), mock.patch.object(
+                pipeline,
+                "_validate_pin_set_document",
+                return_value={"status": "valid", "errors": []},
+            ), mock.patch.object(
+                pipeline,
+                "load_core_track_source_registry_index",
+                return_value={},
+            ), mock.patch.object(
+                pipeline,
+                "core_track_source_ancestry_verifier",
+                return_value=lambda *_args: True,
+            ), mock.patch.object(
+                pipeline, "set_core_track_test", return_value=result
+            ) as setter, mock.patch.object(
+                pipeline, "sha256_file", return_value=pin_file_sha256
+            ), mock.patch.object(
+                pipeline,
+                "_commit_core_track_registry_transaction",
+                side_effect=commit_transaction,
+            ), mock.patch("sys.stdout", new=output):
+                self.assertEqual(0, pipeline.cmd_core_track_set_test(args))
+
+            self.assertEqual(["transaction"], events)
+            self.assertEqual(
+                "2026-08-10T12:00:00Z",
+                setter.call_args.kwargs["slice_time"],
+            )
+            self.assertEqual(
+                "4" * 64,
+                setter.call_args.kwargs["expected_parent_registry"],
+            )
+            self.assertEqual(
+                "absent",
+                setter.call_args.kwargs["expected_current_assignment"],
+            )
+            emitted = json.loads(output.getvalue())
+            self.assertEqual(version_slice, emitted["version_slice"])
+            self.assertEqual(
+                comparison_basis, emitted["slice_comparison_basis"]
+            )
+            self.assertEqual(
+                "7" * 64,
+                emitted["slice_branch_basis_registry_content_sha256"],
+            )
+            self.assertEqual(
+                branch_basis_snapshot,
+                emitted["slice_branch_basis_snapshot"],
+            )
+            self.assertEqual(
+                "5" * 64, emitted["assignment_content_sha256"]
+            )
+            self.assertIsNone(
+                emitted["previous_assignment_content_sha256"]
+            )
+            self.assertEqual(snapshot_relative, emitted["source_registry_snapshot_path"])
+            self.assertEqual("f" * 64, emitted["source_registry_snapshot_file_sha256"])
+
+    def test_core_track_promote_uses_transaction_and_emits_stable_payload(
+        self,
+    ) -> None:
+        prior_registry = {"content_sha256": "1" * 64}
+        promoted_registry = {"content_sha256": "2" * 64}
+        snapshot = {"model": "core-track-source-registry-snapshot-v1"}
+        snapshot_relative = (
+            ".local-e2e/core-track-transaction-test/source.json"
+        )
+        result = {
+            "registry": promoted_registry,
+            "snapshot": snapshot,
+            "snapshot_path": snapshot_relative,
+            "snapshot_file_sha256": "3" * 64,
+            "stable_cell": {
+                "approved_test_variant_id": "4" * 64,
+                "source_registry_content_sha256": "1" * 64,
+            },
+            "previous_stable_variant_id": None,
+        }
+        args = argparse.Namespace(
+            catalog=pipeline.DEFAULT_CATALOG,
+            track="nightly",
+            core="handy",
+            chipset="a523",
+            approved_at="2026-08-10T12:00:00Z",
+            approved_by="local-reviewer",
+            reason="focused transaction test",
+            expected_test_variant="4" * 64,
+            expected_current_stable="absent",
+        )
+        output = io.StringIO()
+        with mock.patch.object(
+            pipeline, "manifest_lock", return_value=mock.MagicMock()
+        ), mock.patch.object(
+            pipeline, "load_catalog", return_value={"cores": {"handy": {}}}
+        ), mock.patch.object(
+            pipeline, "load_authoritative_core_pin_index", return_value={}
+        ), mock.patch.object(
+            pipeline, "load_json", return_value=prior_registry
+        ), mock.patch.object(
+            pipeline, "load_core_track_source_registry_index", return_value={}
+        ), mock.patch.object(
+            pipeline,
+            "core_track_source_ancestry_verifier",
+            return_value=lambda *_args: True,
+        ), mock.patch.object(
+            pipeline, "promote_core_track_test", return_value=result
+        ), mock.patch.object(
+            pipeline, "validate_core_tracks", return_value=promoted_registry
+        ), mock.patch.object(
+            pipeline, "_commit_core_track_registry_transaction"
+        ) as transaction, mock.patch("sys.stdout", new=output):
+            self.assertEqual(0, pipeline.cmd_core_track_promote(args))
+            transaction_validator_result = transaction.call_args.kwargs[
+                "validator"
+            ](promoted_registry)
+
+        transaction.assert_called_once()
+        transaction_args = transaction.call_args.kwargs
+        self.assertEqual(prior_registry, transaction_args["prior_registry"])
+        self.assertEqual(promoted_registry, transaction_args["registry"])
+        self.assertEqual(ROOT / snapshot_relative, transaction_args["snapshot_path"])
+        self.assertEqual(snapshot, transaction_args["snapshot"])
+        self.assertEqual("3" * 64, transaction_args["snapshot_file_sha256"])
+        self.assertEqual(promoted_registry, transaction_validator_result)
+        emitted = json.loads(output.getvalue())
+        self.assertEqual("stable", emitted["status"])
+        self.assertEqual("4" * 64, emitted["variant_id"])
+        self.assertEqual("1" * 64, emitted["source_registry_content_sha256"])
+        self.assertEqual(snapshot_relative, emitted["source_registry_snapshot_path"])
+        self.assertEqual("disabled", emitted["publication"])
 
     def test_recipe_snapshots_branch_without_changing_the_v1_file_contract(self) -> None:
         catalog = pipeline.load_catalog(ROOT / "manifests" / "core-builds.json")
@@ -3363,12 +4576,12 @@ class CatalogTests(unittest.TestCase):
                 pipeline, "validate_artifact", return_value=expected_artifact
             ), mock.patch.object(
                 pipeline,
-                "registered_core_log_contract_proves",
+                "_registered_core_log_contract_proves",
                 return_value=True,
             ):
                 self.assertEqual(
                     (artifact, metadata, log),
-                    pipeline.validate_build_record_identity(
+                    pipeline._validate_build_record_identity(
                         record_document, record_path, catalog_path, catalog
                     ),
                 )
@@ -4055,6 +5268,36 @@ class ArtifactValidationTests(unittest.TestCase):
             ):
                 return pipeline.validate_artifact(artifact, arch)
 
+    def test_byte_validator_isolated_from_original_path_replacement(self) -> None:
+        original_bytes = b"original artifact bytes"
+        replacement_bytes = b"replacement artifact bytes"
+        with tempfile.TemporaryDirectory() as directory:
+            original_path = Path(directory) / "fixture_libretro.so"
+            original_path.write_bytes(original_bytes)
+            snapshot = original_path.read_bytes()
+            original_path.write_bytes(replacement_bytes)
+
+            def inspect_snapshot(path: Path, arch: str) -> dict:
+                self.assertEqual("arm64", arch)
+                self.assertNotEqual(original_path, path)
+                observed = path.read_bytes()
+                return {
+                    "status": "valid",
+                    "errors": [],
+                    "sha256": pipeline.sha256_bytes(observed),
+                    "size": len(observed),
+                }
+
+            with mock.patch.object(
+                pipeline, "validate_artifact", side_effect=inspect_snapshot
+            ):
+                result = pipeline._validate_artifact_bytes(snapshot, "arm64")
+
+        self.assertEqual(
+            pipeline.sha256_bytes(original_bytes), result["sha256"]
+        )
+        self.assertEqual(len(original_bytes), result["size"])
+
     def test_accepts_aarch64_shared_object_contract(self) -> None:
         result = self.validate_with_header(
             "arm64", self.fake_header(elf_class="ELF64", machine="AArch64", flags="0x0")
@@ -4612,7 +5855,7 @@ class PinSetAndReleaseTests(unittest.TestCase):
                 "validate_golden_document",
                 return_value={"status": "valid", "errors": []},
             ), mock.patch.object(
-                pipeline, "verify_local_store", return_value=[]
+                pipeline, "_verify_local_store", return_value=[]
             ):
                 report = pipeline.validate_pin_set_document(
                     lineage["child"],
@@ -4644,11 +5887,11 @@ class PinSetAndReleaseTests(unittest.TestCase):
                 "validate_golden_document",
                 return_value={"status": "valid", "errors": []},
             ), mock.patch.object(
-                pipeline, "verify_local_store", return_value=[]
+                pipeline, "_verify_local_store", return_value=[]
             ), mock.patch.object(
                 pipeline,
-                "verify_pinned_package",
-                wraps=pipeline.verify_pinned_package,
+                "_verify_pinned_package",
+                wraps=pipeline._verify_pinned_package,
             ) as package_proof:
                 first = pipeline.validate_pin_set_document(
                     lineage["child"],
@@ -4671,7 +5914,7 @@ class PinSetAndReleaseTests(unittest.TestCase):
     def test_package_cache_identity_covers_embedded_record_paths(self) -> None:
         selection = self.make_selection()
         context = pipeline._PinValidationContext()
-        valid = pipeline.validate_pin_set_document(
+        valid = pipeline._validate_pin_set_document(
             self.make_pin(copy.deepcopy(selection), "cache-source"),
             verify_store=True,
             _validation_context=context,
@@ -4686,7 +5929,7 @@ class PinSetAndReleaseTests(unittest.TestCase):
             selection["selection_sha256"],
             pipeline.selection_content_sha256(changed),
         )
-        report = pipeline.validate_pin_set_document(
+        report = pipeline._validate_pin_set_document(
             self.make_pin(changed, "cache-collision"),
             verify_store=True,
             _validation_context=context,
@@ -4882,7 +6125,7 @@ class PinSetAndReleaseTests(unittest.TestCase):
     def test_lineage_context_rejects_repeated_immutable_identity(self) -> None:
         document = self.make_pin(self.make_selection(), "repeated-pin")
         identity = (document["pin_id"], document["content_sha256"])
-        report = pipeline.validate_pin_set_document(
+        report = pipeline._validate_pin_set_document(
             document,
             verify_sources=True,
             _lineage_identities=frozenset({identity}),
@@ -5036,7 +6279,19 @@ class PinSetAndReleaseTests(unittest.TestCase):
                 "validate_pin_set_document",
                 return_value={"status": "valid", "errors": []},
             ), mock.patch.object(
+                pipeline,
+                "_validate_pin_set_document",
+                return_value={"status": "valid", "errors": []},
+            ), mock.patch.object(
                 pipeline, "require_pin_sources_eligible", return_value=None
+            ), mock.patch.object(
+                pipeline,
+                "_require_public_ordinary_catalog",
+                return_value=pipeline.sha256_file(pipeline.DEFAULT_CATALOG),
+            ), mock.patch.object(
+                pipeline,
+                "_require_pin_current_selection_authority",
+                return_value=None,
             ):
                 manifest = pipeline.promote_local_release(pin_path, release_path)
                 package = pin["cores"]["fixture"]["selection"]["package"]
@@ -5060,8 +6315,454 @@ class PinSetAndReleaseTests(unittest.TestCase):
                 )
                 self.assertEqual("disabled", manifest["publication"])
 
+    def test_release_rechecks_the_catalog_snapshot_after_source_authority(
+        self,
+    ) -> None:
+        pipeline.DEFAULT_PIN_SET_DIR.mkdir(parents=True, exist_ok=True)
+        pipeline.DEFAULT_RELEASES.mkdir(parents=True, exist_ok=True)
+        canonical_catalog = pipeline.load_json(pipeline.DEFAULT_CATALOG)
+        real_sha256_file = pipeline.sha256_file
+        digest_a = "a" * 64
+        digest_b = "b" * 64
+        events: list[str] = []
+
+        with tempfile.TemporaryDirectory(
+            dir=pipeline.DEFAULT_PIN_SET_DIR
+        ) as pin_dir, tempfile.TemporaryDirectory(
+            dir=pipeline.DEFAULT_RELEASES
+        ) as release_parent:
+            selection = self.make_selection()
+            semantic_id = pipeline.individual_core_semantic_id(
+                "fixture", selection
+            )
+            pin_path = Path(pin_dir) / f"{semantic_id}.json"
+            pin = self.make_pin(selection, semantic_id)
+            pin["sources"] = [
+                {
+                    "path": (
+                        f".local-e2e/nightlies/{semantic_id}/golden.json"
+                    ),
+                    "pin_id": "fixture-golden",
+                    "file_sha256": "c" * 64,
+                    "content_sha256": "d" * 64,
+                }
+            ]
+            pin["content_sha256"] = pipeline.pin_set_content_sha256(pin)
+            pipeline.atomic_create_json(pin_path, pin)
+            release_path = Path(release_parent) / semantic_id
+
+            def capture_catalog(
+                _path: Path,
+                document: dict,
+                **_kwargs: object,
+            ) -> str:
+                events.append("catalog-snapshot-a")
+                self.assertEqual(canonical_catalog, document)
+                return digest_a
+
+            def authorize_pin(
+                _pin: dict,
+                *,
+                operation: str,
+                catalog: dict | None = None,
+            ) -> None:
+                events.append("source-authority-a")
+                self.assertEqual("local release promotion", operation)
+                self.assertEqual(canonical_catalog, catalog)
+
+            def drifted_sha256(path: Path) -> str:
+                if path.resolve() == pipeline.DEFAULT_CATALOG.resolve():
+                    events.append("catalog-recheck-b")
+                    return digest_b
+                return real_sha256_file(path)
+
+            with mock.patch.object(
+                pipeline, "DEFAULT_PIN_SET_DIR", Path(pin_dir)
+            ), mock.patch.object(
+                pipeline, "DEFAULT_RELEASES", Path(release_parent)
+            ), mock.patch.object(
+                pipeline,
+                "validate_pin_set_document",
+                return_value={"status": "valid", "errors": []},
+            ), mock.patch.object(
+                pipeline,
+                "_require_public_ordinary_catalog",
+                side_effect=capture_catalog,
+            ), mock.patch.object(
+                pipeline,
+                "_require_pin_current_selection_authority",
+                side_effect=authorize_pin,
+            ), mock.patch.object(
+                pipeline, "require_pin_sources_eligible", return_value=None
+            ), mock.patch.object(
+                pipeline, "sha256_file", side_effect=drifted_sha256
+            ), self.assertRaisesRegex(
+                pipeline.PipelineError,
+                "canonical catalog changed before release promotion",
+            ):
+                pipeline.promote_local_release(pin_path, release_path)
+
+            self.assertEqual(
+                [
+                    "catalog-snapshot-a",
+                    "source-authority-a",
+                    "catalog-recheck-b",
+                ],
+                events,
+            )
+            self.assertFalse(release_path.exists())
+
+    def test_validate_release_reports_the_validated_pin_snapshot_digest(self) -> None:
+        original = b'{"pin_id":"original"}\n'
+        replacement = b'{"pin_id":"replacement"}\n'
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            pin_path = root / "pin.json"
+            pin_path.write_bytes(original)
+            release_path = root / "release"
+
+            def validate_and_replace(document: dict, **_kwargs) -> dict:
+                self.assertEqual({"pin_id": "original"}, document)
+                pin_path.write_bytes(replacement)
+                return {"status": "valid", "errors": []}
+
+            with mock.patch.object(
+                pipeline,
+                "validate_pin_set_document",
+                side_effect=validate_and_replace,
+            ), mock.patch.object(
+                pipeline,
+                "validate_local_release",
+                return_value={"status": "valid", "errors": []},
+            ) as validate_release, mock.patch.object(
+                pipeline,
+                "sha256_file",
+                side_effect=AssertionError("validated pin path was rehashed"),
+            ) as rehash, mock.patch("sys.stdout", new=io.StringIO()):
+                result = pipeline.cmd_validate_release(
+                    argparse.Namespace(
+                        pin_set=pin_path,
+                        release=release_path,
+                        verify_store=False,
+                    )
+                )
+
+            self.assertEqual(0, result)
+            validate_release.assert_called_once_with(
+                release_path,
+                {"pin_id": "original"},
+                pipeline.sha256_bytes(original),
+            )
+            rehash.assert_not_called()
+            self.assertEqual(replacement, pin_path.read_bytes())
+
 
 class ChannelPointerTests(unittest.TestCase):
+    def test_validate_local_release_uses_bound_manifest_without_reopening(
+        self,
+    ) -> None:
+        local_root = ROOT / ".local-e2e"
+        local_root.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=local_root) as directory:
+            releases = Path(directory) / "releases"
+            release_root = releases / "release-one"
+            release_root.mkdir(parents=True)
+            pin = {
+                "pin_id": "pin-one",
+                "content_sha256": "a" * 64,
+                "scope": [],
+                "cores": {},
+            }
+            pin_file_sha256 = "b" * 64
+            manifest = {
+                "schema_version": 1,
+                "release_id": "release-one",
+                "local_only": True,
+                "publication": "disabled",
+                "pin": {
+                    "pin_id": pin["pin_id"],
+                    "content_sha256": pin["content_sha256"],
+                    "file_sha256": pin_file_sha256,
+                },
+                "assets": [],
+            }
+            manifest["content_sha256"] = pipeline.release_content_sha256(
+                manifest
+            )
+            # The directory inventory still requires this path, but its bytes
+            # must not replace the already-bound manifest snapshot.
+            (release_root / "release-manifest.json").write_bytes(b"not JSON")
+
+            with mock.patch.object(
+                pipeline, "DEFAULT_RELEASES", releases
+            ), mock.patch.object(
+                pipeline,
+                "load_json_with_sha256",
+                side_effect=AssertionError("release manifest reopened"),
+            ) as reopen:
+                report = pipeline._validate_local_release(
+                    release_root,
+                    pin,
+                    pin_file_sha256,
+                    manifest_document=manifest,
+                )
+
+            self.assertEqual({"status": "valid", "errors": []}, report)
+            reopen.assert_not_called()
+
+    def test_release_channel_derivation_keeps_one_manifest_snapshot_through_aba(
+        self,
+    ) -> None:
+        local_root = ROOT / ".local-e2e"
+        local_root.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=local_root) as directory:
+            root = Path(directory)
+            releases = root / "releases"
+            target = releases / "release-one" / "release-manifest.json"
+            target.parent.mkdir(parents=True)
+            pin_path = root / "pins" / "pin-one.json"
+            pin_path.parent.mkdir()
+            pin_path.write_text("{}\n", encoding="utf-8")
+            pin = {"pin_id": "pin-one", "content_sha256": "c" * 64}
+            original = {
+                "release_id": "release-one",
+                "content_sha256": "a" * 64,
+                "pin": {"file_sha256": "b" * 64},
+            }
+            replacement = {
+                "release_id": "release-two",
+                "content_sha256": "d" * 64,
+                "pin": {"file_sha256": "e" * 64},
+            }
+            original_bytes = (
+                json.dumps(original, sort_keys=True) + "\n"
+            ).encode()
+            replacement_bytes = (
+                json.dumps(replacement, sort_keys=True) + "\n"
+            ).encode()
+            target.write_bytes(original_bytes)
+            bound_documents: list[dict | None] = []
+
+            def swap_to_replacement(
+                manifest: dict,
+                _validation_context: object | None = None,
+            ) -> tuple[dict, Path]:
+                self.assertEqual(original, manifest)
+                target.write_bytes(replacement_bytes)
+                return pin, pin_path
+
+            def validate_bound_manifest(
+                _release_root: Path,
+                _pin: dict,
+                _pin_file_sha256: str,
+                expected_release_id: str | None = None,
+                *,
+                manifest_document: dict | None = None,
+            ) -> dict:
+                self.assertEqual("release-one", expected_release_id)
+                self.assertEqual(replacement_bytes, target.read_bytes())
+                bound_documents.append(manifest_document)
+                target.write_bytes(original_bytes)
+                return {
+                    "status": (
+                        "valid" if manifest_document == original else "invalid"
+                    ),
+                    "errors": (
+                        []
+                        if manifest_document == original
+                        else ["release manifest was reopened"]
+                    ),
+                }
+
+            real_snapshot_json_file = pipeline.snapshot_json_file
+            with mock.patch.object(
+                pipeline, "DEFAULT_RELEASES", releases
+            ), mock.patch.object(
+                pipeline,
+                "snapshot_json_file",
+                wraps=real_snapshot_json_file,
+            ) as snapshot, mock.patch.object(
+                pipeline,
+                "load_json_with_sha256",
+                side_effect=AssertionError("release manifest reopened"),
+            ) as reopen, mock.patch.object(
+                pipeline,
+                "load_json",
+                side_effect=AssertionError("release manifest reopened"),
+            ) as legacy_reopen, mock.patch.object(
+                pipeline,
+                "_resolve_release_pin",
+                side_effect=swap_to_replacement,
+            ), mock.patch.object(
+                pipeline,
+                "_validate_pin_set_document",
+                return_value={"status": "valid", "errors": []},
+            ), mock.patch.object(
+                pipeline,
+                "_require_pin_current_selection_authority",
+                return_value=None,
+            ), mock.patch.object(
+                pipeline,
+                "_validate_local_release",
+                side_effect=validate_bound_manifest,
+            ):
+                derived = pipeline.derive_channel_target("release", target)
+
+            self.assertEqual("release-one", derived["id"])
+            self.assertEqual(
+                pipeline.sha256_bytes(original_bytes), derived["file_sha256"]
+            )
+            self.assertEqual([original], bound_documents)
+            self.assertEqual(original_bytes, target.read_bytes())
+            snapshot.assert_called_once()
+            reopen.assert_not_called()
+            legacy_reopen.assert_not_called()
+
+    def test_current_channel_pointer_rejects_utf16_and_utf32(self) -> None:
+        local_root = ROOT / ".local-e2e"
+        local_root.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=local_root) as directory:
+            channels = Path(directory) / "channels"
+            channels.mkdir()
+            pointer_path = channels / "nightly.handy.json"
+            target = (
+                ROOT
+                / ".local-e2e"
+                / "nightlies"
+                / "missing"
+                / "golden.json"
+            )
+            with mock.patch.object(
+                pipeline, "DEFAULT_CHANNELS", channels
+            ), mock.patch.object(
+                pipeline,
+                "load_json",
+                return_value={"cores": {"handy": {}}},
+            ), mock.patch.object(
+                pipeline,
+                "_require_public_ordinary_catalog",
+                return_value=pipeline.sha256_file(pipeline.DEFAULT_CATALOG),
+            ), mock.patch.object(
+                pipeline,
+                "derive_channel_target",
+                side_effect=AssertionError("invalid pointer was accepted"),
+            ) as derive:
+                for encoding in ("utf-16", "utf-32"):
+                    with self.subTest(encoding=encoding):
+                        encoded = json.dumps({"channel": "nightly"}).encode(
+                            encoding
+                        )
+                        pointer_path.write_bytes(encoded)
+                        with self.assertRaisesRegex(
+                            pipeline.PipelineError,
+                            "current channel pointer is not valid JSON",
+                        ):
+                            pipeline.update_channel(
+                                "nightly",
+                                target,
+                                core_id="handy",
+                                expect_current=pipeline.sha256_bytes(encoded),
+                            )
+                        self.assertEqual(encoded, pointer_path.read_bytes())
+
+            derive.assert_not_called()
+
+    def test_validate_channel_reports_the_validated_pointer_snapshot_digest(
+        self,
+    ) -> None:
+        local_root = ROOT / ".local-e2e"
+        local_root.mkdir(exist_ok=True)
+        original = b'{"channel":"nightly","marker":"original"}\n'
+        replacement = b'{"channel":"nightly","marker":"replacement"}\n'
+        with tempfile.TemporaryDirectory(dir=local_root) as directory:
+            channels = Path(directory) / "channels"
+            channels.mkdir()
+            pointer_path = channels / "nightly.handy.json"
+            pointer_path.write_bytes(original)
+
+            def validate_and_replace(document: dict, **_kwargs) -> dict:
+                self.assertEqual(
+                    {"channel": "nightly", "marker": "original"}, document
+                )
+                pointer_path.write_bytes(replacement)
+                return {"status": "valid", "errors": []}
+
+            output = io.StringIO()
+            with mock.patch.object(
+                pipeline, "DEFAULT_CHANNELS", channels
+            ), mock.patch.object(
+                pipeline,
+                "validate_channel_pointer_document",
+                side_effect=validate_and_replace,
+            ), mock.patch.object(
+                pipeline,
+                "sha256_file",
+                side_effect=AssertionError("validated pointer path was rehashed"),
+            ) as rehash, mock.patch("sys.stdout", new=output):
+                result = pipeline.cmd_validate_channel(
+                    argparse.Namespace(channel="nightly", core="handy")
+                )
+
+            report = json.loads(output.getvalue())
+            self.assertEqual(0, result)
+            self.assertEqual(
+                pipeline.sha256_bytes(original), report["pointer_file_sha256"]
+            )
+            rehash.assert_not_called()
+            self.assertEqual(replacement, pointer_path.read_bytes())
+
+    def test_release_pin_resolution_hashes_and_parses_one_captured_snapshot(
+        self,
+    ) -> None:
+        local_root = ROOT / ".local-e2e"
+        local_root.mkdir(exist_ok=True)
+        source_pin_path = (
+            ROOT
+            / "pins"
+            / "core-sets"
+            / "handy-bc55d462f0b2-c82a2178b4f0.json"
+        )
+        source_bytes = source_pin_path.read_bytes()
+        source_pin = json.loads(source_bytes)
+        with tempfile.TemporaryDirectory(dir=local_root) as directory:
+            pins = Path(directory) / "pins"
+            pins.mkdir()
+            candidate = pins / source_pin_path.name
+            candidate.write_bytes(source_bytes)
+            manifest = {
+                "pin": {
+                    "pin_id": source_pin["pin_id"],
+                    "file_sha256": pipeline.sha256_bytes(source_bytes),
+                    "content_sha256": source_pin["content_sha256"],
+                }
+            }
+            context = pipeline._PinValidationContext()
+
+            with mock.patch.object(
+                pipeline, "DEFAULT_PIN_SET_DIR", pins
+            ), mock.patch.object(
+                Path,
+                "read_bytes",
+                side_effect=[source_bytes, b'{"pin_id":"replacement"}\n'],
+            ) as read_bytes, mock.patch.object(
+                pipeline,
+                "sha256_file",
+                side_effect=AssertionError("pin hashed before parsing"),
+            ) as separate_hash, mock.patch.object(
+                pipeline,
+                "load_json",
+                side_effect=AssertionError("pin reopened after hashing"),
+            ) as reopen:
+                resolved, resolved_path = pipeline._resolve_release_pin(
+                    manifest, context
+                )
+
+            self.assertEqual(source_pin, resolved)
+            self.assertEqual(candidate, resolved_path)
+            read_bytes.assert_called_once_with()
+            separate_hash.assert_not_called()
+            reopen.assert_not_called()
+
     def test_release_pin_resolution_uses_only_flat_canonical_singletons(
         self,
     ) -> None:
@@ -5158,6 +6859,8 @@ class ChannelPointerTests(unittest.TestCase):
         return rendered
 
     def nightly_validation_patches(self):
+        canonical_catalog = pipeline.load_catalog(pipeline.DEFAULT_CATALOG)
+
         def complete(document: dict, core_id: str) -> dict | None:
             build_goldens = document.get("build_goldens")
             if not isinstance(build_goldens, dict):
@@ -5179,16 +6882,40 @@ class ChannelPointerTests(unittest.TestCase):
                 },
             }
 
+        @contextmanager
+        def complete_and_authorize():
+            with (
+                mock.patch.object(
+                    pipeline, "complete_core_bundle", side_effect=complete
+                ) as complete_mock,
+                mock.patch.object(
+                    pipeline,
+                    "_require_current_selection_source_authority",
+                    return_value=None,
+                ),
+                mock.patch.object(
+                    pipeline,
+                    "load_catalog",
+                    return_value=canonical_catalog,
+                ),
+                mock.patch.object(
+                    pipeline,
+                    "_require_public_ordinary_catalog",
+                    return_value=pipeline.sha256_file(
+                        pipeline.DEFAULT_CATALOG
+                    ),
+                ),
+            ):
+                yield complete_mock
+
         return (
             mock.patch.object(
                 pipeline,
                 "validate_golden_document",
                 side_effect=lambda _document: {"status": "valid", "errors": []},
             ),
-            mock.patch.object(pipeline, "verify_local_store", return_value=[]),
-            mock.patch.object(
-                pipeline, "complete_core_bundle", side_effect=complete
-            ),
+            mock.patch.object(pipeline, "_verify_local_store", return_value=[]),
+            complete_and_authorize(),
         )
 
     def make_individual_nightly_target(
@@ -5258,6 +6985,10 @@ class ChannelPointerTests(unittest.TestCase):
                 return_value={"status": "valid", "errors": []},
             ), mock.patch.object(
                 pipeline, "complete_core_bundle", return_value=selection
+            ), mock.patch.object(
+                pipeline,
+                "_require_catalog_bound_source_candidate_selection",
+                return_value=None,
             ), mock.patch.object(
                 pipeline, "verify_local_store", return_value=[]
             ):
@@ -5355,12 +7086,16 @@ class ChannelPointerTests(unittest.TestCase):
                 "validate_golden_document",
                 return_value={"status": "valid", "errors": []},
             ), mock.patch.object(
-                pipeline, "verify_local_store", return_value=[]
+                pipeline, "_verify_local_store", return_value=[]
             ), mock.patch.object(
                 pipeline, "complete_core_bundle", side_effect=complete
             ), mock.patch.object(
                 pipeline,
-                "require_channel_target_sources_eligible",
+                "_require_current_selection_source_authority",
+                return_value=None,
+            ), mock.patch.object(
+                pipeline,
+                "_require_channel_target_sources_eligible",
                 return_value=None,
             ):
                 handy_created = pipeline.update_channel(
@@ -5408,6 +7143,10 @@ class ChannelPointerTests(unittest.TestCase):
     def test_individual_channel_rejects_malformed_catalog_core_map(self) -> None:
         with mock.patch.object(
             pipeline, "load_json", return_value={"cores": None}
+        ), mock.patch.object(
+            pipeline,
+            "_require_public_ordinary_catalog",
+            return_value=pipeline.sha256_file(pipeline.DEFAULT_CATALOG),
         ), self.assertRaisesRegex(
             pipeline.PipelineError, "catalog cores must be an object"
         ):
@@ -5446,7 +7185,7 @@ class ChannelPointerTests(unittest.TestCase):
                         "validate_golden_document",
                         return_value={"status": "valid", "errors": []},
                     ), mock.patch.object(
-                        pipeline, "verify_local_store", return_value=[]
+                        pipeline, "_verify_local_store", return_value=[]
                     ), self.assertRaisesRegex(
                         pipeline.PipelineError,
                         "individual nightly channel target must contain exactly its core",
@@ -5553,6 +7292,54 @@ class ChannelPointerTests(unittest.TestCase):
                     {"nightly.handy.json"},
                     {path.name for path in channels.iterdir()},
                 )
+
+    def test_channel_update_returns_the_exact_rendered_pointer_digest_without_reopen(
+        self,
+    ) -> None:
+        local_root = ROOT / ".local-e2e"
+        local_root.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=local_root) as directory:
+            root = Path(directory)
+            channels = root / "channels"
+            nightlies = root / "nightlies"
+            semantic_id = self.nightly_semantic_id("1" * 64)
+            target_path = nightlies / semantic_id / "golden.json"
+            self.make_nightly_target(target_path)
+            pointer_path = channels / "nightly.handy.json"
+            real_sha256_file = pipeline.sha256_file
+
+            def reject_pointer_reopen(path: Path) -> str:
+                if path == pointer_path:
+                    raise AssertionError("written channel pointer was reopened")
+                return real_sha256_file(path)
+
+            validation, store, complete = self.nightly_validation_patches()
+            with mock.patch.object(
+                pipeline, "DEFAULT_CHANNELS", channels
+            ), mock.patch.object(
+                pipeline, "DEFAULT_NIGHTLIES", nightlies
+            ), validation, store, complete, mock.patch.object(
+                pipeline,
+                "sha256_file",
+                side_effect=reject_pointer_reopen,
+            ):
+                result = pipeline.update_channel(
+                    "nightly",
+                    target_path,
+                    core_id="handy",
+                    expect_absent=True,
+                )
+
+            pointer_bytes = pointer_path.read_bytes()
+            pointer_document = json.loads(pointer_bytes)
+            expected_bytes = (
+                json.dumps(pointer_document, indent=2, sort_keys=True) + "\n"
+            ).encode("utf-8")
+            self.assertEqual(expected_bytes, pointer_bytes)
+            self.assertEqual(
+                pipeline.sha256_bytes(expected_bytes),
+                result["pointer_file_sha256"],
+            )
 
     def test_channel_compare_and_swap_is_exact_and_same_target_is_noop(self) -> None:
         local_root = ROOT / ".local-e2e"
@@ -5805,7 +7592,7 @@ class ChannelPointerTests(unittest.TestCase):
                 pipeline, "DEFAULT_PIN_SET_DIR", pins
             ), mock.patch.object(
                 pipeline,
-                "validate_pin_set_document",
+                "_validate_pin_set_document",
                 return_value={"status": "valid", "errors": []},
             ):
                 with self.assertRaisesRegex(pipeline.PipelineError, "filename must match"):
@@ -5829,14 +7616,14 @@ class ChannelPointerTests(unittest.TestCase):
             with mock.patch.object(
                 pipeline, "DEFAULT_RELEASES", releases
             ), mock.patch.object(
-                pipeline, "resolve_release_pin", return_value=({}, pin_path)
+                pipeline, "_resolve_release_pin", return_value=({}, pin_path)
             ), mock.patch.object(
                 pipeline,
-                "validate_pin_set_document",
+                "_validate_pin_set_document",
                 return_value={"status": "valid", "errors": []},
             ), mock.patch.object(
                 pipeline,
-                "validate_local_release",
+                "_validate_local_release",
                 return_value={"status": "valid", "errors": []},
             ):
                 with self.assertRaisesRegex(pipeline.PipelineError, "directory must match"):
@@ -5962,9 +7749,9 @@ class ChannelPointerTests(unittest.TestCase):
             ), mock.patch.object(
                 pipeline, "DEFAULT_RELEASES", releases
             ), mock.patch.object(
-                pipeline, "derive_channel_target", side_effect=fake_derive
+                pipeline, "_derive_channel_target", side_effect=fake_derive
             ), mock.patch.object(
-                pipeline, "require_channel_target_sources_eligible", return_value=None
+                pipeline, "_require_channel_target_sources_eligible", return_value=None
             ):
                 results = {
                     channel: pipeline.update_channel(
@@ -6147,7 +7934,7 @@ class GoldenPromotionTests(unittest.TestCase):
             with mock.patch.object(
                 pipeline, "validate_artifact", return_value=expected_artifact
             ), mock.patch.object(
-                pipeline, "registered_core_log_contract_proves", return_value=True
+                pipeline, "_registered_core_log_contract_proves", return_value=True
             ):
                 paths = pipeline.validate_build_record_identity(
                     document, record, catalog_path, catalog
@@ -6573,11 +8360,23 @@ class GoldenPromotionTests(unittest.TestCase):
             with mock.patch.object(
                 pipeline, "validate_artifact", return_value=expected_artifact
             ), mock.patch.object(
-                pipeline, "registered_core_log_contract_proves", return_value=True
+                pipeline, "_registered_core_log_contract_proves", return_value=True
             ):
                 pipeline.validate_build_record_identity(
                     document, record, catalog_path, catalog
                 )
+
+                with mock.patch.object(
+                    pipeline,
+                    "load_json_with_sha256",
+                    return_value=({}, document["recipe"]["catalog_sha256"]),
+                ), self.assertRaisesRegex(
+                    pipeline.PipelineError,
+                    "catalog differs from canonical disk bytes",
+                ):
+                    pipeline.validate_build_record_identity(
+                        document, record, catalog_path, catalog
+                    )
 
                 changed = copy.deepcopy(document)
                 changed["build"]["compile_definitions"] = []
@@ -6650,6 +8449,87 @@ class GoldenPromotionTests(unittest.TestCase):
         golden = {"build_goldens": {"mgba": {"arm64": {"promotion_state": "build_golden"}}}}
         with self.assertRaisesRegex(pipeline.PipelineError, "immutable build golden"):
             pipeline.require_empty_golden_slot(golden, "mgba", "arm64")
+
+    def test_promotion_policy_uses_the_exact_e2e_bound_record_snapshot(self) -> None:
+        local_root = ROOT / ".local-e2e"
+        local_root.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=local_root) as directory:
+            root = Path(directory)
+            runs = root / "runs"
+            nightlies = root / "nightlies"
+            store = root / "store"
+            runs.mkdir()
+            nightlies.mkdir()
+            record_path = runs / "build-record.json"
+            e2e_path = runs / "e2e-record.json"
+            golden_path = nightlies / "bound-candidate-fixture" / "golden.json"
+            golden_path.parent.mkdir()
+            for path in (record_path, e2e_path, golden_path):
+                path.write_text("{}\n", encoding="utf-8")
+
+            catalog = {"cores": {"bound-core": {}}}
+            golden = {"core_id": "bound-core", "build_goldens": {}}
+            bound_source = {
+                "url": "https://example.invalid/bound.git",
+                "resolved_commit": "b" * 40,
+            }
+            bound_record = {
+                "core_id": "bound-core",
+                "architecture": "arm64",
+                "source": bound_source,
+            }
+            bound_records = {
+                "arm64": (bound_record, record_path, "a" * 64),
+            }
+
+            def load_only_golden(path: Path) -> dict:
+                self.assertEqual(golden_path, path)
+                return golden
+
+            with mock.patch.object(
+                pipeline, "DEFAULT_RUNS", runs
+            ), mock.patch.object(
+                pipeline, "DEFAULT_NIGHTLIES", nightlies
+            ), mock.patch.object(
+                pipeline, "load_catalog", return_value=catalog
+            ), mock.patch.object(
+                pipeline, "load_json", side_effect=load_only_golden
+            ), mock.patch.object(
+                pipeline,
+                "validate_golden_document",
+                return_value={"status": "valid", "errors": []},
+            ), mock.patch.object(
+                pipeline,
+                "validate_e2e_evidence",
+                return_value=(
+                    {"run_id": "bound"},
+                    "c" * 64,
+                    bound_records,
+                    runs / "package.zip",
+                    {"sha256": "d" * 64},
+                ),
+            ), mock.patch.object(
+                pipeline,
+                "require_source_commits_eligible",
+            ) as source_policy, mock.patch.object(
+                pipeline,
+                "require_active_core_golden",
+                side_effect=pipeline.PipelineError("bound active policy"),
+            ) as active_policy:
+                with self.assertRaisesRegex(
+                    pipeline.PipelineError, "bound active policy"
+                ):
+                    pipeline._promote_build_record_locked(
+                        golden_path,
+                        record_path,
+                        e2e_path,
+                        store_root=store,
+                    )
+
+            source_policy.assert_called_once_with(
+                catalog, [("bound-core", bound_source)]
+            )
+            active_policy.assert_called_once_with(golden, "bound-core")
 
     def test_failed_e2e_record_cannot_bind_a_promotion(self) -> None:
         local_root = ROOT / ".local-e2e"

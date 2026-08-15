@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import copy
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from core_pipeline_lib.contracts import km_parallel_n64_xtreme_amped_turbo as km
 
 from .support import ROOT, load_document
@@ -31,6 +32,10 @@ class KmParallelN64ManifestTests(unittest.TestCase):
             ["WITH_DYNAREC=arm", "FORCE_GLES=1", "NOSSE=1"],
             build["make_args"],
         )
+        self.assertEqual(
+            km.KM_PARALLEL_N64_SOURCE_DATE_EPOCH,
+            build["source_date_epoch"],
+        )
         # upstream's product name is staged under the core's canonical
         # artifact name — the km_duckswanstation rebrand rule
         self.assertEqual("parallel_n64_libretro.so", build["output_path"])
@@ -40,6 +45,47 @@ class KmParallelN64ManifestTests(unittest.TestCase):
         )
         # metadata is repo-pinned: no km_* entries exist in libretro-super
         self.assertIn("repo_path", self.spec["metadata"])
+
+    def test_spec_guard_pins_the_timestamped_source_and_recipe(self) -> None:
+        self.assertTrue(
+            km.km_parallel_n64_spec_is_well_formed(self.spec)
+        )
+        without_epoch = copy.deepcopy(self.spec)
+        del without_epoch["build"]["source_date_epoch"]
+        self.assertFalse(
+            km.km_parallel_n64_spec_is_well_formed(without_epoch)
+        )
+        drifted_epoch = copy.deepcopy(self.spec)
+        drifted_epoch["build"]["source_date_epoch"] += 1
+        self.assertFalse(
+            km.km_parallel_n64_spec_is_well_formed(drifted_epoch)
+        )
+        drifted_source = copy.deepcopy(self.spec)
+        drifted_source["source"]["tree"] = "0" * 40
+        self.assertFalse(
+            km.km_parallel_n64_spec_is_well_formed(drifted_source)
+        )
+
+    def test_catalog_guard_fails_closed_without_the_epoch(self) -> None:
+        mutated_catalog = copy.deepcopy(self.catalog)
+        del mutated_catalog["cores"][CORE_ID]["build"]["source_date_epoch"]
+        with self.assertRaisesRegex(
+            pipeline.PipelineError,
+            "must preserve its exact timestamped direct-make",
+        ):
+            pipeline.validate_catalog(mutated_catalog)
+
+    def test_driver_exports_and_proves_the_pinned_source_epoch(self) -> None:
+        script = pipeline.container_build_script(
+            CORE_ID,
+            "armhf",
+            self.spec,
+            self.catalog["resolver"],
+        )
+        epoch = km.KM_PARALLEL_N64_SOURCE_DATE_EPOCH
+        self.assertIn(f"export SOURCE_DATE_EPOCH={epoch}", script)
+        self.assertIn("git -C /tmp/core-source show -s --format=%ct HEAD", script)
+        self.assertIn(f'test "$actual_source_date_epoch" = {epoch}', script)
 
     def test_the_five_buildability_overlays_are_pinned(self) -> None:
         overlays = self.spec["build"]["overlays"]

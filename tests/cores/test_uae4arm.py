@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from core_pipeline_lib.contracts import uae4arm
 
 from .support import evidence_handles, ROOT, load_document

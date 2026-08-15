@@ -6,7 +6,7 @@ import copy
 import unittest
 import zipfile
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from scripts import profile_registry as registry
 from core_pipeline_lib.contracts import core_2048
 
@@ -41,8 +41,75 @@ CAVEAT_TOKENS = (
     "ra32-a30-v1",
     "all device views remain ineligible",
 )
+TUNED_CONTRACT_FIXTURE = ROOT / "tests/fixtures/2048-a523-tuned-contract.log"
+TUNED_CONTRACT_FIXTURE_SHA256 = (
+    "560c2413778cc0d074a56161cee1efbba90ebe2327541c3d761e6e42bc42b27c"
+)
+
 
 class Core2048LifecycleTests(unittest.TestCase):
+    def test_typed_tuning_composes_with_exact_compile_link_contract(self) -> None:
+        self.assertEqual(
+            TUNED_CONTRACT_FIXTURE_SHA256,
+            file_sha256(TUNED_CONTRACT_FIXTURE),
+        )
+        log = TUNED_CONTRACT_FIXTURE.read_text(encoding="utf-8")
+        tuning = pipeline.resolve_tuning_candidate_selection(
+            "a523-cortex-a55-v1"
+        )["profile"]
+        self.assertTrue(
+            pipeline.chipset_tuning_log_proves_contract(log, tuning, "arm64")
+        )
+        self.assertFalse(
+            pipeline._registered_core_log_contract_proves(
+                log,
+                CORE_ID,
+                "arm64",
+                SOURCE_COMMIT,
+                SOURCE_TREE,
+            )
+        )
+        self.assertTrue(
+            pipeline._registered_core_log_contract_proves(
+                log,
+                CORE_ID,
+                "arm64",
+                SOURCE_COMMIT,
+                SOURCE_TREE,
+                tuning=tuning,
+            )
+        )
+
+        first_compile = next(
+            line
+            for line in log.splitlines()
+            if line.startswith("aarch64-linux-gnu-gcc -mcpu=") and " -c " in line
+        )
+        mutations = {
+            "compile-count": log.replace(first_compile + "\n", "", 1),
+            "version": log.replace("c90437d", "0000000"),
+            "link": log.replace("-Wl,--no-undefined", "-Wl,--version-script=x", 1),
+            "diagnostic": log + "fatal: synthetic failure\n",
+            "conflicting-machine": log.replace(
+                "-mcpu=cortex-a55", "-mcpu=cortex-a53", 1
+            ),
+            "duplicate-machine": log.replace(
+                "-mcpu=cortex-a55", "-mcpu=cortex-a55 -mcpu=cortex-a55", 1
+            ),
+        }
+        for label, changed in mutations.items():
+            with self.subTest(label=label):
+                self.assertFalse(
+                    pipeline._registered_core_log_contract_proves(
+                        changed,
+                        CORE_ID,
+                        "arm64",
+                        SOURCE_COMMIT,
+                        SOURCE_TREE,
+                        tuning=tuning,
+                    )
+                )
+
     def test_compatibility_retains_reviewed_caveat_tokens(self) -> None:
         _, _, _, compatibility = load_core_documents(CORE_ID, PIN_NAME)
         caveats = "\n".join(compatibility["caveats"])

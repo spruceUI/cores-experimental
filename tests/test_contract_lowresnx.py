@@ -8,7 +8,7 @@ from pathlib import Path
 import unittest
 from unittest import mock
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from scripts import profile_registry as registry
 from core_pipeline_lib.contracts import lowresnx
 from core_pipeline_lib.contracts.registry import core_log_contract_for
@@ -71,6 +71,7 @@ class LowResNXContractTests(unittest.TestCase):
         self.assertEqual("lowresnx-c-only-v1", contract.contract_id)
         self.assertEqual("lowresnx_log_proves_contract", contract.proof_name)
         self.assertEqual("core-arch-source", contract.proof_kind)
+        self.assertIn("zero-diagnostic contract", contract.failure_message)
         self.assertEqual(
             frozenset({lowresnx.LOWRESNX_CORE_ID}), contract.core_ids
         )
@@ -184,6 +185,33 @@ class LowResNXContractTests(unittest.TestCase):
                     self.assertTrue(
                         pipeline.registered_core_log_contract_proves(*arguments)
                     )
+                    markers = pipeline.git_version_log_markers(spec)
+                    permuted_log = (
+                        "\n".join(
+                            [
+                                *markers,
+                                *reversed(fixture["compile_lines"]),
+                                fixture["link_line"],
+                            ]
+                        )
+                        + "\n"
+                    )
+                    framed_log = (
+                        "CORE_PIPELINE_TEST_PREFIX|lowresnx\n"
+                        + fixture["log"]
+                        + "cp lowresnx_libretro.so dist/lowresnx_libretro.so\n"
+                        + "CORE_PIPELINE_TEST_SUCCESS|lowresnx\n"
+                    )
+                    self.assertTrue(
+                        lowresnx.lowresnx_log_proves_contract(
+                            permuted_log, *arguments[1:]
+                        )
+                    )
+                    self.assertTrue(
+                        lowresnx.lowresnx_log_proves_contract(
+                            framed_log, *arguments[1:]
+                        )
+                    )
                     self.assertFalse(
                         lowresnx.lowresnx_log_proves_contract(
                             fixture["log"],
@@ -193,15 +221,65 @@ class LowResNXContractTests(unittest.TestCase):
                             spec["source"]["tree"],
                         )
                     )
-                    self.assertFalse(
-                        lowresnx.lowresnx_log_proves_contract(
-                            fixture["log"] + "fatal: synthetic failure\n",
-                            lowresnx.LOWRESNX_CORE_ID,
-                            architecture,
-                            spec["source"]["commit"],
-                            spec["source"]["tree"],
+
+                    def assert_rejected(log_text: str) -> None:
+                        mutated_arguments = (log_text, *arguments[1:])
+                        self.assertFalse(
+                            lowresnx.lowresnx_log_proves_contract(
+                                *mutated_arguments
+                            )
                         )
+                        self.assertFalse(
+                            pipeline.registered_core_log_contract_proves(
+                                *mutated_arguments
+                            )
+                        )
+
+                    for diagnostic in (
+                        "synthetic.c:1: warning: unreviewed warning",
+                        "synthetic.c:1: note: unreviewed note",
+                        "synthetic.c:1: error: unreviewed error",
+                        "fatal: synthetic failure",
+                        "undefined reference to synthetic_symbol",
+                        "aarch64-linux-gnu-ld: cannot find -lsynthetic",
+                        "collect2: ld returned 1 exit status",
+                        "make: *** [lowresnx_libretro.so] Error 1",
+                    ):
+                        with self.subTest(
+                            architecture=architecture,
+                            diagnostic=diagnostic,
+                        ):
+                            assert_rejected(fixture["log"] + diagnostic + "\n")
+
+                    lines = fixture["log"].splitlines()
+                    first_compile = lines.index(fixture["compile_lines"][0])
+                    link_position = lines.index(fixture["link_line"])
+
+                    gap_lines = list(lines)
+                    gap_lines.insert(first_compile + 1, "UNREVIEWED BUILD OUTPUT")
+                    assert_rejected("\n".join(gap_lines) + "\n")
+
+                    moved_trailer_lines = [
+                        *lines[:link_position],
+                        "cp lowresnx_libretro.so dist/lowresnx_libretro.so",
+                        *lines[link_position:],
+                    ]
+                    assert_rejected("\n".join(moved_trailer_lines) + "\n")
+
+                    compile_after_link_lines = list(lines)
+                    moved_compile = compile_after_link_lines.pop(first_compile)
+                    moved_link_position = compile_after_link_lines.index(
+                        fixture["link_line"]
                     )
+                    compile_after_link_lines.insert(
+                        moved_link_position + 1, moved_compile
+                    )
+                    assert_rejected("\n".join(compile_after_link_lines) + "\n")
+
+                    warning_after_trailer = (
+                        framed_log + "synthetic.c:1: warning: moved warning\n"
+                    )
+                    assert_rejected(warning_after_trailer)
 
     def test_workspace_control_logs_prove_contract_when_available(self) -> None:
         identity = lowresnx.LOWRESNX_NATIVE_GIT_VERSION_SPEC_IDENTITY

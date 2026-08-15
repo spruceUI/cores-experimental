@@ -24,6 +24,15 @@ the two builds will not reconcile).
 
 ## 0. Prerequisites
 
+- Install the exact host-side validation dependencies before running focused
+  or full tests:
+
+  ```bash
+  python3 -m pip install --requirement requirements-test.txt
+  ```
+
+  Draft 2020-12 inventory schema validation is mandatory and does not skip
+  when `jsonschema` is absent.
 - The pinned Docker toolchain images are loaded: `cores-arm64` and `cores-armhf`
   (they carry libretro-super at `/libretro-super`, with the per-core recipe in
   `/libretro-super/rules.d/core-rules.sh`).
@@ -47,7 +56,8 @@ python3 scripts/core_pipeline.py audit-workflows
 4. Exploratory build → **classify** the core (pick the proof engine).
 5. Extract the exact constants (counts + sha256 set) from the build log.
 6. Author the contract module.
-7. Wire it in (registry + 3 points in `core_pipeline.py`).
+7. Wire it in through the contract registry; `core_pipeline.py` does not
+   change.
 8. Build `sim` + `local` (identical pipeline state).
 9. Verify reproducibility (add `source_date_epoch` if it embeds a timestamp).
 10. Run the promote chain (golden → pin-set → lifecycle).
@@ -122,6 +132,23 @@ python3 scripts/promote_core.py compose-source-lock --core <core>
 `catalog-check` will now fail with *"catalog cores lack compatibility or pending
 state"* — expected; the compatibility manifest is written by the promote chain
 (step 10). Do not hand-write it.
+
+Once the immutable pin exists, admit it with `core-track-set-test`; do not
+hand-edit `main.test`. A portable/default build uses `universal-v1` and an
+explicit architecture-compatible fallback list. The command replaces the
+matching deferred state only when the pin is manually assigned to the reviewed
+version channel. Fresh admission requires the pin's hardened selected/local
+host-reproduction proof and a canonical UTC-second slice. The slice is
+assignment/tranche identity, not build variant identity; use the inventory
+row's direct `current_assignment_content_sha256` for its compare-and-swap.
+A Nightly or Edge assignment CASes and records both its current effective
+parent variant and parent registry, then satisfies assignment-time
+`main <= nightly <= edge` by Git ancestry or an exact authorized outlier. The
+captured parent includes its slice and history, so later parent movement does
+not retroactively change that child. Edge TEST additionally requires the latest
+reviewed upstream head captured by the registry. ABI presence is not device
+runtime evidence. Keep stable maps empty until a user approves the exact test
+variant. See [`core-track-groups.md`](core-track-groups.md).
 
 ### Special catalog shapes
 
@@ -342,23 +369,29 @@ Add `tests/cores/test_<core>.py` (copy a sibling): catalog identity, the
 compatibility, `*_log_proves_contract` over the real run logs, and at least one
 negative control (tamper a count / member sha).
 
-Then bump the counts that shift by exactly one onboarded core — all in ONE
-file, `tests/expected_counts.py` (the scoreboard literals live only there):
+Update every numeric migration-scoreboard value that actually changed in the
+one owning file, `tests/expected_counts.py`. Read the real values from
+`audit-workflows`; do not compute them by applying an assumed delta.
 
-- `tests/test_core_contract_registry.py` — add `"<core>"` to the id set, bump
-  `len(CORE_LOG_CONTRACTS)`, add the `(contract_id, proof_name)` mapping entry.
-- `tests/test_core_pipeline.py` — add `"<core>"` to the canonical id list and
-  bump the `audit_workflows` counts: `catalog_core_count`,
-  `catalog_workflow_count`, `shared_pipeline_workflows` (+1); read the
-  real values from `audit-workflows` rather than computing deltas.
-- `tests/test_full_release_repository.py` — the roster summary string.
+Then update only the explicit membership assertions that name the new core:
+
+- `tests/test_core_contract_registry.py` — for a core with a registered log
+  contract, add `"<core>"` to the ID set and add its
+  `(contract_id, proof_name)` mapping. Its numeric count comes from
+  `tests/expected_counts.py`.
+- `tests/test_core_pipeline.py` — add `"<core>"` to the canonical catalog ID
+  set. Its workflow/count assertions also read `tests/expected_counts.py`.
+- `tests/test_full_release_repository.py` has no per-core count literal to
+  edit; keep it in the focused run because it proves the derived full-roster
+  summary against `tests/expected_counts.py`.
 
 Run focused, then the full suite:
 
 ```bash
-python3 -m pytest tests/cores/test_<core>.py tests/test_core_contract_registry.py \
+python3 -B -m pytest --import-mode=importlib \
+  tests/cores/test_<core>.py tests/test_core_contract_registry.py \
   tests/test_core_pipeline.py tests/test_full_release_repository.py tests/test_device_sets.py -q
-python3 -m pytest tests/ -q -p no:cacheprovider
+python3 -B -m pytest --import-mode=importlib -p no:cacheprovider tests/ -q
 ```
 
 ## 13. Commit

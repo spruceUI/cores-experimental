@@ -7,7 +7,7 @@ from collections import Counter
 import unittest
 import zipfile
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from scripts import profile_registry as registry
 from core_pipeline_lib.contracts import mednafen_ngp
 
@@ -288,7 +288,7 @@ class MednafenNgpCoreEvidenceTests(unittest.TestCase):
             same_run_report["errors"],
         )
 
-    def test_reproduction_rejects_recomputed_log_tampering(self) -> None:
+    def test_reproduction_rejects_log_that_fails_its_own_contract(self) -> None:
         _, _, compatibility_path, compatibility = load_core_documents(
             CORE_ID, PIN_NAME
         )
@@ -322,9 +322,8 @@ class MednafenNgpCoreEvidenceTests(unittest.TestCase):
                 repository_root=ROOT,
             )
             self.assertEqual("invalid", report["status"])
-            self.assertIn(
-                "individual core reproduction E2E validation failed: "
-                f"{CORE_ID}/arm64 compatibility build: historical build differs",
+            self.assertTrue(
+                any("build log does not prove" in error for error in report["errors"]),
                 report["errors"],
             )
 

@@ -5,12 +5,14 @@ from __future__ import annotations
 import copy
 import json
 from pathlib import Path
+import shlex
 import unittest
 from unittest import mock
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from scripts import profile_registry as registry
-from core_pipeline_lib.contracts import core_2048
+from core_pipeline_lib.contracts import c_only, core_2048
+from core_pipeline_lib.contracts.command_line import ordered_command_argv_sha256
 from core_pipeline_lib.contracts.registry import core_log_contract_for
 from core_pipeline_lib.foundation import sha256_file
 from tests.core_contract_helpers import build_c_only_log_fixture
@@ -57,6 +59,8 @@ class Core2048ContractTests(unittest.TestCase):
         self.assertEqual("core-2048-c-only-v1", contract.contract_id)
         self.assertEqual("core_2048_log_proves_contract", contract.proof_name)
         self.assertEqual("core-arch-source", contract.proof_kind)
+        self.assertIn("source framing", contract.failure_message)
+        self.assertIn("successful lifecycle", contract.failure_message)
         self.assertEqual(
             frozenset({core_2048.CORE_2048_ID}), contract.core_ids
         )
@@ -142,12 +146,59 @@ class Core2048ContractTests(unittest.TestCase):
                     pipeline, ROOT, core_2048.CORE_2048_ID, architecture
                 )
                 spec = fixture["spec"]
+                compile_lines = fixture["compile_lines"]
+                link_line = fixture["link_line"]
+
+                def framed_log(
+                    commands: list[str],
+                    *,
+                    prefix: tuple[str, ...] = (),
+                    trailer: tuple[str, ...] = (
+                        core_2048.CORE_2048_SUCCESS_TRAILER
+                    ),
+                ) -> str:
+                    return (
+                        "\n".join(
+                            [
+                                *prefix,
+                                "PLATFORM: Linux",
+                                "=== 2048",
+                                "Fetching 2048...",
+                                *core_2048.CORE_2048_SUCCESS_MARKER,
+                                core_2048.CORE_2048_SOURCE_HEAD_MARKER,
+                                core_2048.CORE_2048_NATIVE_VERSION_MARKER,
+                                (
+                                    "make -f Makefile.libretro platform=unix "
+                                    "-j24 clean"
+                                ),
+                                "rm -f 2048_libretro.so",
+                                *commands,
+                                *trailer,
+                            ]
+                        )
+                        + "\n"
+                    )
+
+                log = framed_log(
+                    [*compile_lines, link_line],
+                    prefix=(
+                        "CORE_PIPELINE_CHIPSET_TUNING|synthetic-universal-v1",
+                    ),
+                )
                 arguments = (
-                    fixture["log"],
+                    log,
                     core_2048.CORE_2048_ID,
                     architecture,
                     spec["source"]["commit"],
                     spec["source"]["tree"],
+                )
+                raw_compile_invocation_sha256 = (
+                    c_only.c_only_raw_compile_invocation_sha256(
+                        tuple(shlex.split(line)) for line in compile_lines
+                    )
+                )
+                link_invocation_sha256 = ordered_command_argv_sha256(
+                    shlex.split(link_line)
                 )
                 with mock.patch.object(
                     core_2048,
@@ -164,6 +215,12 @@ class Core2048ContractTests(unittest.TestCase):
                     core_2048,
                     "CORE_2048_EXPECTED_RAW_LINK_OBJECT_SHA256",
                     fixture["raw_link_object_sha256"],
+                ), mock.patch.dict(
+                    core_2048.CORE_2048_EXPECTED_RAW_COMPILE_INVOCATION_SHA256,
+                    {architecture: raw_compile_invocation_sha256},
+                ), mock.patch.dict(
+                    core_2048.CORE_2048_EXPECTED_LINK_INVOCATION_SHA256,
+                    {architecture: link_invocation_sha256},
                 ):
                     self.assertTrue(
                         core_2048.core_2048_log_proves_contract(*arguments)
@@ -171,24 +228,226 @@ class Core2048ContractTests(unittest.TestCase):
                     self.assertTrue(
                         pipeline.registered_core_log_contract_proves(*arguments)
                     )
+
+                    reversed_log = framed_log(
+                        [*reversed(compile_lines), link_line]
+                    )
+                    self.assertTrue(
+                        core_2048.core_2048_log_proves_contract(
+                            reversed_log, *arguments[1:]
+                        )
+                    )
+                    self.assertTrue(
+                        pipeline.registered_core_log_contract_proves(
+                            reversed_log, *arguments[1:]
+                        )
+                    )
+
                     self.assertFalse(
                         core_2048.core_2048_log_proves_contract(
-                            fixture["log"],
+                            log,
                             "stella2014",
                             architecture,
                             spec["source"]["commit"],
                             spec["source"]["tree"],
                         )
                     )
-                    self.assertFalse(
-                        core_2048.core_2048_log_proves_contract(
-                            fixture["log"] + "fatal: synthetic failure\n",
+
+                    def assert_rejected(log_text: str) -> None:
+                        mutated_arguments = (log_text, *arguments[1:])
+                        self.assertFalse(
+                            core_2048.core_2048_log_proves_contract(
+                                *mutated_arguments
+                            )
+                        )
+                        self.assertFalse(
+                            pipeline.registered_core_log_contract_proves(
+                                *mutated_arguments
+                            )
+                        )
+
+                    for changed_source in (
+                        ("0" * 40, spec["source"]["tree"]),
+                        (spec["source"]["commit"], "0" * 40),
+                    ):
+                        changed_arguments = (
+                            log,
                             core_2048.CORE_2048_ID,
                             architecture,
-                            spec["source"]["commit"],
-                            spec["source"]["tree"],
+                            *changed_source,
                         )
+                        self.assertFalse(
+                            core_2048.core_2048_log_proves_contract(
+                                *changed_arguments
+                            )
+                        )
+                        self.assertFalse(
+                            pipeline.registered_core_log_contract_proves(
+                                *changed_arguments
+                            )
+                        )
+
+                    copy_line = core_2048.CORE_2048_SUCCESS_TRAILER[0]
+                    for diagnostic in (
+                        "synthetic.c:1: warning: unreviewed warning",
+                        "synthetic.c:1: note: unreviewed note",
+                        "synthetic.c:1: error: unreviewed error",
+                        "fatal: synthetic failure",
+                        "undefined reference to synthetic_symbol",
+                        "aarch64-linux-gnu-ld: cannot find -lsynthetic",
+                        "collect2: ld returned 1 exit status",
+                        "make: *** [2048_libretro.so] Error 1",
+                        "tool: command not found",
+                        "linker command failed with exit code 1",
+                        "Killed",
+                    ):
+                        with self.subTest(
+                            architecture=architecture,
+                            diagnostic=diagnostic,
+                        ):
+                            assert_rejected(
+                                log.replace(
+                                    copy_line,
+                                    diagnostic + "\n" + copy_line,
+                                    1,
+                                )
+                            )
+
+                    mutations = {
+                        "opaque-gap": log.replace(
+                            compile_lines[0],
+                            compile_lines[0] + "\nUNREVIEWED BUILD OUTPUT",
+                            1,
+                        ),
+                        "make-gap": log.replace(
+                            compile_lines[0],
+                            compile_lines[0] + "\nmake synthetic-step",
+                            1,
+                        ),
+                        "compile-after-link": framed_log(
+                            [*compile_lines[1:], link_line, compile_lines[0]]
+                        ),
+                        "link-before-compiles-complete": framed_log(
+                            [compile_lines[0], link_line, *compile_lines[1:]]
+                        ),
+                        "missing-compile": framed_log(
+                            [*compile_lines[1:], link_line]
+                        ),
+                        "duplicate-compile": framed_log(
+                            [compile_lines[0], *compile_lines, link_line]
+                        ),
+                        "altered-compile": framed_log(
+                            [
+                                compile_lines[0].replace(
+                                    " -O2 ", " -O3 ", 1
+                                ),
+                                *compile_lines[1:],
+                                link_line,
+                            ]
+                        ),
+                        "missing-link": framed_log([*compile_lines]),
+                        "duplicate-link": framed_log(
+                            [*compile_lines, link_line, link_line]
+                        ),
+                        "altered-link": framed_log(
+                            [
+                                *compile_lines,
+                                link_line.replace(
+                                    "2048_libretro.so", "other.so", 1
+                                ),
+                            ]
+                        ),
+                        "reordered-link-flags": framed_log(
+                            [
+                                *compile_lines,
+                                link_line.replace(
+                                    "-fPIC -shared", "-shared -fPIC", 1
+                                ),
+                            ]
+                        ),
+                        "reordered-link-objects": framed_log(
+                            [
+                                *compile_lines,
+                                link_line.replace(
+                                    "./src/unit_015.o ./src/unit_014.o",
+                                    "./src/unit_014.o ./src/unit_015.o",
+                                    1,
+                                ),
+                            ]
+                        ),
+                        "extra-compiler-command": log.replace(
+                            link_line,
+                            (
+                                f"{fixture['c_compiler']} -E synthetic.c\n"
+                                + link_line
+                            ),
+                            1,
+                        ),
+                        "missing-source-marker": log.replace(
+                            core_2048.CORE_2048_SOURCE_HEAD_MARKER + "\n",
+                            "",
+                            1,
+                        ),
+                        "duplicate-source-marker": log.replace(
+                            core_2048.CORE_2048_SOURCE_HEAD_MARKER,
+                            (
+                                core_2048.CORE_2048_SOURCE_HEAD_MARKER
+                                + "\n"
+                                + core_2048.CORE_2048_SOURCE_HEAD_MARKER
+                            ),
+                            1,
+                        ),
+                        "altered-source-marker": log.replace(
+                            core_2048.CORE_2048_SOURCE_HEAD_MARKER,
+                            "HEAD is now at c90437d altered subject",
+                            1,
+                        ),
+                        "missing-native-marker": log.replace(
+                            core_2048.CORE_2048_NATIVE_VERSION_MARKER + "\n",
+                            "",
+                            1,
+                        ),
+                        "duplicate-native-marker": log.replace(
+                            core_2048.CORE_2048_NATIVE_VERSION_MARKER,
+                            (
+                                core_2048.CORE_2048_NATIVE_VERSION_MARKER
+                                + "\n"
+                                + core_2048.CORE_2048_NATIVE_VERSION_MARKER
+                            ),
+                            1,
+                        ),
+                        "altered-native-marker": log.replace(
+                            core_2048.CORE_2048_NATIVE_VERSION_MARKER,
+                            'CORE_PIPELINE_NATIVE_GIT_VERSION|" deadbee"|file',
+                            1,
+                        ),
+                        "arbitrary-trailing-output": (
+                            log + "UNREVIEWED TRAILING OUTPUT\n"
+                        ),
+                    }
+
+                    lines = log.splitlines()
+                    trailer_width = len(core_2048.CORE_2048_SUCCESS_TRAILER)
+                    body = lines[:-trailer_width]
+                    trailer = lines[-trailer_width:]
+                    link_position = body.index(link_line)
+                    mutations["trailer-before-link"] = (
+                        "\n".join(
+                            [
+                                *body[:link_position],
+                                *trailer,
+                                *body[link_position:],
+                            ]
+                        )
+                        + "\n"
                     )
+
+                    for label, mutation in mutations.items():
+                        with self.subTest(
+                            architecture=architecture,
+                            mutation=label,
+                        ):
+                            assert_rejected(mutation)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/spruce-release-roster.schema.json",
+  "title": "Tracked Spruce release logical core-name roster",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "roster_model",
+    "correlation_model",
+    "release",
+    "cataloged_core_ids",
+    "alias_core_ids",
+    "uncataloged_core_ids",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {"const": "./spruce-release-roster.schema.json"},
+    "schema_version": {"const": 1},
+    "roster_model": {"const": "spruce-release-git-tree-v1"},
+    "correlation_model": {
+      "const": "logical-core-name-correlation-only-v1",
+      "description": "Correlates logical core names only; it does not assert source, recipe, artifact, or shipped-byte identity."
+    },
+    "release": {
+      "type": "object",
+      "required": ["repository", "ref", "version", "commit", "tree"],
+      "properties": {
+        "repository": {"const": "https://github.com/spruceUI/spruceOS.git"},
+        "ref": {"type": "string", "pattern": "^refs/tags/v[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "commit": {"$ref": "#/$defs/sha1"},
+        "tree": {"$ref": "#/$defs/sha1"}
+      },
+      "additionalProperties": false
+    },
+    "cataloged_core_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/coreId"}
+    },
+    "alias_core_ids": {
+      "type": "object",
+      "propertyNames": {"$ref": "#/$defs/coreId"},
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {"$ref": "#/$defs/shippedCoreId"}
+      }
+    },
+    "uncataloged_core_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/shippedCoreId"}
+    },
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "coreId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "shippedCoreId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$"}
+  }
+}

@@ -1,5 +1,10 @@
 # Pipeline overview and reference
 
+For ordered `main`/`nightly`/`edge` build-pin/deferred selections,
+track-local stable approval, typed chipset profiles, and the empty `universal`
+fallback, see [Core tracks, stability, and chipset
+selection](core-track-groups.md).
+
 Moved from the repository README, which keeps only the purpose summary
 and the device x core compatibility matrix. This document reads top-down
 from light to heavy: where things stand, then the concepts, then the
@@ -22,7 +27,8 @@ deeper on each area.
 | `patches/` | Reviewed per-core build overlays, sha-pinned pre- and post-image |
 | `metadata/` | Repo-pinned `.info` files for cores absent from libretro-super |
 | `toolchain-inputs/` | Pinned docker build context for the three toolchain images (see its README) |
-| `Dockerfile.*` | The three locked toolchain images (`.base` files are historical records) |
+| `Dockerfile.arm64`, `Dockerfile.armhf`, `Dockerfile.rust` | The three locked compiler images (`.base` files are historical records) |
+| `Dockerfile.tests`, `requirements-test.txt` | Separate version-locked host/test environment for mandatory JSON Schema validation; never a core compiler image |
 | `.github/workflows/` | 98 read-only per-core dispatchers plus the release orchestration pair |
 | `tests/` | The suite; migration scoreboard literals live in `tests/expected_counts.py` |
 | `docs/` | Architecture, operations, and onboarding runbooks |
@@ -327,7 +333,7 @@ python3 scripts/profile_registry.py report \
   --source-set pins/source-sets/2048-c90437d3c391-e1ff15dd7d6a.json
 python3 scripts/profile_registry.py report \
   --source-set pins/source-sets/81-fa7094910d04-8504f7df5dd8.json
-python3 -m unittest discover -s tests -v
+python3 -B -m pytest --import-mode=importlib -p no:cacheprovider tests/ -q
 ```
 
 Run one complete core through the shared build/package path used by migrated
@@ -360,6 +366,23 @@ definitions with no conflicting redefinition or undefine before a build can pass
 or be promoted. Arbitrary compiler or linker flags are not accepted. This is
 fail-closed command-line build-log evidence, not a kernel-level compiler
 execution trace or proof against source-level macro changes.
+
+Registry-owned chipset tuning uses the same sanitized compiler boundary but a
+closed mapping from typed properties to machine arguments. A new tuned pin is
+bootstrapped with two separate `e2e --tuning-profile PROFILE` runs and
+`promote-tuned-variant`: each log must prove the contract independently, while
+artifact, metadata, and complete one-ABI package bytes must match exactly.
+Different valid log hashes are permitted. The promoted recipe snapshots the
+exact tuning registry and both E2E proof sides. `core-track-set-test` then
+admits a hardened host-reproduction-bearing pin under direct-cell, complete
+assignment, and new-variant CAS without changing stable approval. Its required
+UTC-second slice is immutable assignment/tranche identity but is excluded from
+build variant identity. Nightly and Edge additionally CAS and capture both the
+current effective parent variant and parent registry, including the parent's
+slice/history, for assignment-time ordering. Later parent movement leaves that
+child binding intact. The command also supports an untuned `universal-v1` pin
+with explicit fallback applicability and corresponding ABI coverage. See
+[Core tracks, stability, and chipset selection](core-track-groups.md).
 
 An optional per-core `build.source_date_epoch` is an exact integer recipe input.
 The runner first clears any inherited value, exports it only for the declaring
@@ -549,9 +572,9 @@ attempt-qualified for safe failed-job reruns.
 
 Planning, worker results, and sealing are publication-disabled. A future
 separate, explicitly approved publish workflow may consume a sealed candidate
-without rebuilding it. Release-plan schema v2 binds the coordinator and worker
-identities, while its target model and the v1 result/candidate schemas remain
-architecture-keyed and static-build-only. A second execution profile for the
+without rebuilding it. Release-plan schema v3 binds the coordinator and worker
+identities plus an explicit nullable track-group contract, while its target
+model and the v2 result/candidate schemas remain architecture-keyed and
+static-build-only. A second execution profile for the
 same architecture needs a later execution-profile-keyed schema revision and
 cannot be represented by duplicating an architecture target.
-

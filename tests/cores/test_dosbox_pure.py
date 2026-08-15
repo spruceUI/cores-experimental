@@ -6,7 +6,7 @@ import dataclasses
 import hashlib
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from core_pipeline_lib.contracts import dosbox_pure
 from core_pipeline_lib.contracts.command_line import (
     command_line_is_lexically_safe,

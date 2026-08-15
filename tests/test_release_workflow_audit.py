@@ -10,6 +10,7 @@ from scripts.core_pipeline_lib.release.workflow_audit import (
     COORDINATOR_PATH,
     EXPECTED_WORKFLOW_SHA256,
     MAX_PARALLEL,
+    OVERLAY_PATH,
     WORKER_PATH,
     audit_release_workflows,
 )
@@ -18,8 +19,10 @@ from scripts.core_pipeline_lib.release.workflow_audit import (
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 COORDINATOR_WORKFLOW_BYTES = (REPOSITORY_ROOT / COORDINATOR_PATH).read_bytes()
 WORKER_WORKFLOW_BYTES = (REPOSITORY_ROOT / WORKER_PATH).read_bytes()
+OVERLAY_WORKFLOW_BYTES = (REPOSITORY_ROOT / OVERLAY_PATH).read_bytes()
 COORDINATOR_WORKFLOW = COORDINATOR_WORKFLOW_BYTES.decode("utf-8")
 WORKER_WORKFLOW = WORKER_WORKFLOW_BYTES.decode("utf-8")
+OVERLAY_WORKFLOW = OVERLAY_WORKFLOW_BYTES.decode("utf-8")
 
 
 def replace_once(text: str, old: str, new: str) -> str:
@@ -33,6 +36,7 @@ class ReleaseWorkflowAuditTests(unittest.TestCase):
         self,
         coordinator: str = COORDINATOR_WORKFLOW,
         worker: str = WORKER_WORKFLOW,
+        overlay: str = OVERLAY_WORKFLOW,
     ) -> dict:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -40,6 +44,7 @@ class ReleaseWorkflowAuditTests(unittest.TestCase):
             workflow_root.mkdir(parents=True)
             (root / COORDINATOR_PATH).write_text(coordinator, encoding="utf-8")
             (root / WORKER_PATH).write_text(worker, encoding="utf-8")
+            (root / OVERLAY_PATH).write_text(overlay, encoding="utf-8")
             return audit_release_workflows(root)
 
     def assert_invalid(
@@ -47,9 +52,10 @@ class ReleaseWorkflowAuditTests(unittest.TestCase):
         *,
         coordinator: str = COORDINATOR_WORKFLOW,
         worker: str = WORKER_WORKFLOW,
+        overlay: str = OVERLAY_WORKFLOW,
         error: str,
     ) -> None:
-        report = self.audit_texts(coordinator, worker)
+        report = self.audit_texts(coordinator, worker, overlay)
         self.assertEqual("invalid", report["status"])
         self.assertTrue(
             any(error in item for item in report["errors"]),
@@ -62,13 +68,17 @@ class ReleaseWorkflowAuditTests(unittest.TestCase):
         role: str,
         workflow: str,
     ) -> dict:
-        original = (
-            COORDINATOR_WORKFLOW if role == "coordinator" else WORKER_WORKFLOW
-        )
+        originals = {
+            "coordinator": COORDINATOR_WORKFLOW,
+            "worker": WORKER_WORKFLOW,
+            "overlay": OVERLAY_WORKFLOW,
+        }
+        original = originals[role]
         self.assertNotEqual(original, workflow)
         report = self.audit_texts(
             coordinator=workflow if role == "coordinator" else COORDINATOR_WORKFLOW,
             worker=workflow if role == "worker" else WORKER_WORKFLOW,
+            overlay=workflow if role == "overlay" else OVERLAY_WORKFLOW,
         )
         self.assertEqual("invalid", report["status"])
         self.assertEqual("invalid", report[role]["status"])
@@ -89,8 +99,8 @@ class ReleaseWorkflowAuditTests(unittest.TestCase):
         self.assertEqual([], report["errors"])
         self.assertEqual(
             {
-                "workflow_count": 2,
-                "valid_workflow_count": 2,
+                "workflow_count": 3,
+                "valid_workflow_count": 3,
                 "error_count": 0,
                 "unique_reusable_workflow_count": 1,
                 "max_parallel": 4,
@@ -99,6 +109,7 @@ class ReleaseWorkflowAuditTests(unittest.TestCase):
         )
         self.assertEqual(COORDINATOR_PATH.as_posix(), report["coordinator"]["path"])
         self.assertEqual(WORKER_PATH.as_posix(), report["worker"]["path"])
+        self.assertEqual(OVERLAY_PATH.as_posix(), report["overlay"]["path"])
         self.assertEqual(
             hashlib.sha256(COORDINATOR_WORKFLOW_BYTES).hexdigest(),
             report["coordinator"]["file_sha256"],
@@ -114,6 +125,10 @@ class ReleaseWorkflowAuditTests(unittest.TestCase):
         self.assertEqual(
             EXPECTED_WORKFLOW_SHA256["worker"],
             hashlib.sha256(WORKER_WORKFLOW_BYTES).hexdigest(),
+        )
+        self.assertEqual(
+            EXPECTED_WORKFLOW_SHA256["overlay"],
+            hashlib.sha256(OVERLAY_WORKFLOW_BYTES).hexdigest(),
         )
 
     def test_missing_symlink_nonregular_and_invalid_utf8_fail_closed(self) -> None:
@@ -238,8 +253,12 @@ class ReleaseWorkflowAuditTests(unittest.TestCase):
             ),
             "core-argument-drift": replace_once(
                 WORKER_WORKFLOW,
-                '          --core "$CORE_ID"\n          --run-id "$RUN_ID"',
-                '          --core gambatte\n          --run-id "$RUN_ID"',
+                '          --runner-profile github-actions\n'
+                '          --core "$CORE_ID"\n'
+                '          --group-tag "$GROUP_TAG"',
+                '          --runner-profile github-actions\n'
+                '          --core gambatte\n'
+                '          --group-tag "$GROUP_TAG"',
             ),
             "zero-action-revision": replace_once(
                 WORKER_WORKFLOW,
@@ -362,12 +381,12 @@ class ReleaseWorkflowAuditTests(unittest.TestCase):
                 ),
                 "must include hidden files",
             ),
-            "scope": (
+            "group-default": (
                 COORDINATOR_WORKFLOW.replace(
-                    "          - full-workflow-roster",
-                    "          - unrestricted",
+                    "default: main-stable:universal",
+                    "default: edge-test:a523",
                 ),
-                "scope choices",
+                "group_tag input",
             ),
         }
         for label, (coordinator, error) in cases.items():
@@ -425,15 +444,126 @@ class ReleaseWorkflowAuditTests(unittest.TestCase):
             with self.subTest(label=label):
                 self.assert_invalid(worker=worker, error=error)
 
+    def test_source_graph_preparation_is_required_before_every_release_stage(
+        self,
+    ) -> None:
+        cases = (
+            (
+                "coordinator-plan",
+                "coordinator",
+                COORDINATOR_WORKFLOW.replace(
+                    "          python3 scripts/core_pipeline.py prepare-release-source-graph\n"
+                    "          --group-tag \"$GROUP_TAG\"\n\n",
+                    "",
+                    1,
+                ),
+            ),
+            (
+                "coordinator-seal",
+                "coordinator",
+                COORDINATOR_WORKFLOW.replace(
+                    "          python3 scripts/core_pipeline.py prepare-release-source-graph\n"
+                    "          --group-tag \"$GROUP_TAG\"\n\n",
+                    "",
+                    1,
+                ).replace(
+                    "          python3 scripts/core_pipeline.py prepare-release-source-graph\n"
+                    "          --group-tag \"$GROUP_TAG\"\n\n",
+                    "",
+                    1,
+                ),
+            ),
+            (
+                "worker",
+                "worker",
+                WORKER_WORKFLOW.replace(
+                    "          python3 scripts/core_pipeline.py prepare-release-source-graph\n"
+                    "          --group-tag \"$GROUP_TAG\"\n"
+                    "          --core \"$CORE_ID\"\n\n",
+                    "",
+                    1,
+                ),
+            ),
+            (
+                "worker-unscoped",
+                "worker",
+                WORKER_WORKFLOW.replace(
+                    "          --core \"$CORE_ID\"\n",
+                    "",
+                    1,
+                ),
+            ),
+            (
+                "worker-unbound-core",
+                "worker",
+                WORKER_WORKFLOW.replace(
+                    "            '.cores | any(.core_id == $core)' \"$PLAN_PATH\" >/dev/null\n",
+                    "",
+                    1,
+                ),
+            ),
+        )
+        for label, role, workflow in cases:
+            with self.subTest(label=label):
+                report = self.assert_changed_contract_invalid(
+                    role=role, workflow=workflow
+                )
+                self.assertTrue(
+                    any("source graph" in error for error in report["errors"]),
+                    report["errors"],
+                )
+
+    def test_overlay_run_head_attempt_and_exact_artifact_are_fail_closed(self) -> None:
+        mutations = {
+            "floating-run": OVERLAY_WORKFLOW.replace(
+                '"repos/$GITHUB_REPOSITORY/actions/runs/$REQUESTED_RUN_ID"',
+                '"repos/$GITHUB_REPOSITORY/actions/runs/latest"',
+            ),
+            "wrong-workflow": OVERLAY_WORKFLOW.replace(
+                '.path == ".github/workflows/release-candidate.yml"',
+                '.path == ".github/workflows/other.yml"',
+            ),
+            "current-head": OVERLAY_WORKFLOW.replace(
+                "          ref: ${{ steps.run.outputs.head_sha }}\n", ""
+            ),
+            "dispatch-workflow-head-not-bound": OVERLAY_WORKFLOW.replace(
+                '          if [ "$GITHUB_SHA" != "$head_sha" ]; then\n'
+                '            echo "overlay workflow commit must equal coordinator head" >&2\n'
+                "            exit 1\n"
+                "          fi\n",
+                "",
+            ),
+            "wildcard-artifact": OVERLAY_WORKFLOW.replace(
+                "          name: release-candidate-${{ steps.run.outputs.run_id }}-"
+                "${{ steps.run.outputs.run_attempt }}",
+                "          pattern: release-candidate-*",
+            ),
+            "standalone-converter": OVERLAY_WORKFLOW.replace(
+                "python3 scripts/core_pipeline.py convert-release-overlay",
+                "python3 scripts/release_overlay.py",
+            ),
+            "no-source-graph": OVERLAY_WORKFLOW.replace(
+                "          python3 scripts/core_pipeline.py prepare-release-source-graph \\\n"
+                "            --group-tag \"$group_tag\"\n\n",
+                "",
+            ),
+        }
+        for label, workflow in mutations.items():
+            with self.subTest(label=label):
+                report = self.assert_changed_contract_invalid(
+                    role="overlay", workflow=workflow
+                )
+                self.assertEqual("invalid", report["overlay"]["status"])
+
     def test_malformed_contract_and_non_path_root_return_reports(self) -> None:
         report = self.audit_texts("not: the reviewed workflow\n", "also: invalid\n")
         self.assertEqual("invalid", report["status"])
         self.assertGreater(report["summary"]["error_count"], 0)
-        self.assertEqual(2, report["summary"]["workflow_count"])
+        self.assertEqual(3, report["summary"]["workflow_count"])
 
         wrong_root = audit_release_workflows("not-a-path")  # type: ignore[arg-type]
         self.assertEqual("invalid", wrong_root["status"])
-        self.assertEqual(2, wrong_root["summary"]["error_count"])
+        self.assertEqual(3, wrong_root["summary"]["error_count"])
 
 
 if __name__ == "__main__":

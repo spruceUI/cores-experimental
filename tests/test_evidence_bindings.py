@@ -31,9 +31,7 @@ import unittest
 import zipfile
 from pathlib import Path
 
-from scripts import core_pipeline as pipeline
-
-from .cores.support import ROOT, file_sha256, load_document
+from .cores.support import ROOT, file_sha256, load_document, pipeline
 
 _spec = importlib.util.spec_from_file_location(
     "evidence_index", ROOT / "scripts" / "evidence_index.py"

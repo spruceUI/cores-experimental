@@ -7,6 +7,7 @@ from pathlib import Path
 import shlex
 import unittest
 
+from .core_contract_helpers import pipeline
 from scripts.core_pipeline_lib.contracts import mixed_language, vemulator
 from scripts.core_pipeline_lib.contracts.command_line import (
     ordered_command_argv_sha256,
@@ -141,7 +142,11 @@ CXX_OPTIONS = (
 
 
 def build_vemulator_log_fixture(
-    architecture: str, *, source_marker: bool = True
+    architecture: str,
+    *,
+    source_marker: bool = True,
+    jobs: str = "24",
+    jobs_marker: str | None = None,
 ) -> str:
     """Build a portable exact log without requiring ignored evidence."""
 
@@ -187,6 +192,11 @@ def build_vemulator_log_fixture(
     return (
         "\n".join(
             (
+                *(
+                    ()
+                    if jobs_marker is None
+                    else (f"CORE_PIPELINE_JOBS|{jobs_marker}",)
+                ),
                 *vemulator.VEMULATOR_FETCH_PREFIX,
                 *vemulator.VEMULATOR_SUCCESS_MARKER,
                 *markers,
@@ -206,9 +216,9 @@ def build_vemulator_log_fixture(
                 "=== VEmulator",
                 "Building vemulator...",
                 'cd "/libretro-super/libretro-vemulator"',
-                f'{make} -f Makefile platform="unix" -j24  clean',
+                f'{make} -f Makefile platform="unix" -j{jobs}  clean',
                 vemulator.VEMULATOR_CLEAN_COMMAND,
-                f'{make} -f Makefile platform="unix" -j24 '
+                f'{make} -f Makefile platform="unix" -j{jobs} '
                 f'CC="{c_compiler}" CXX="{cxx_compiler}" ',
                 *compile_and_diagnostics,
                 " ".join(
@@ -244,10 +254,19 @@ class VemulatorContractTests(unittest.TestCase):
         )
 
     def assert_active_rejects(self, log: str, architecture: str) -> None:
+        arguments = self.contract_arguments(log, architecture)
         self.assertFalse(
-            vemulator.vemulator_log_proves_contract(
-                *self.contract_arguments(log, architecture)
-            )
+            vemulator.vemulator_log_proves_contract(*arguments)
+        )
+        self.assertFalse(
+            pipeline.registered_core_log_contract_proves(*arguments)
+        )
+
+    def assert_active_accepts(self, log: str, architecture: str) -> None:
+        arguments = self.contract_arguments(log, architecture)
+        self.assertTrue(vemulator.vemulator_log_proves_contract(*arguments))
+        self.assertTrue(
+            pipeline.registered_core_log_contract_proves(*arguments)
         )
 
     def test_exact_identity_spec_and_golden_predicates_are_core_owned(self) -> None:
@@ -266,6 +285,19 @@ class VemulatorContractTests(unittest.TestCase):
         )
         self.assertEqual("0.1", identity["native_runtime_version"])
         self.assertEqual("main.cpp", identity["native_runtime_version_source"])
+        self.assertEqual(
+            {
+                "arm64": (
+                    "c3def28da3661441df0168c83520f8aca"
+                    "ca4363e258d3d4bb48a2fdb6e55d049"
+                ),
+                "armhf": (
+                    "86248f147656e3289e9c229f27a2ca9b"
+                    "67e61f590c4a164214f11975844ea4c4"
+                ),
+            },
+            vemulator.VEMULATOR_EXPECTED_RAW_COMPILE_INVOCATION_SHA256,
+        )
         self.assertNotIn("git_version", spec["build"])
 
         def changed(path: tuple[str, ...], value: object) -> dict:
@@ -374,6 +406,7 @@ class VemulatorContractTests(unittest.TestCase):
                     "compat_posix_string.o", "compat_other.o", 1
                 ),
                 "changed-option": log.replace(" -Wall ", " -Wextra ", 1),
+                "attached-output": log.replace(" -o ", " -o", 1),
                 "injected-version": log.replace(
                     " -Wall ", " -DGIT_VERSION=7fade95 -Wall ", 1
                 ),
@@ -405,6 +438,31 @@ class VemulatorContractTests(unittest.TestCase):
             for label, mutation in mutations.items():
                 with self.subTest(architecture=architecture, mutation=label):
                     self.assert_active_rejects(mutation, architecture)
+
+            lines = log.splitlines()
+            compile_positions = tuple(
+                index for index, line in enumerate(lines) if " -c " in line
+            )
+            link_position = lines.index(link)
+            diagnostics = [
+                line
+                for block, _owner in vemulator.VEMULATOR_EXPECTED_DIAGNOSTICS[
+                    architecture
+                ]
+                for line in block.splitlines()
+            ]
+            lines[compile_positions[0] : link_position] = [
+                *reversed([lines[index] for index in compile_positions]),
+                *diagnostics,
+            ]
+            permuted_log = "\n".join(lines) + "\n"
+            arguments = self.contract_arguments(permuted_log, architecture)
+            self.assertTrue(
+                vemulator.vemulator_log_proves_contract(*arguments)
+            )
+            self.assertTrue(
+                pipeline.registered_core_log_contract_proves(*arguments)
+            )
 
     def test_fetch_setup_jobs_and_artifact_framing_fail_closed(self) -> None:
         for architecture in COMPILERS:
@@ -504,6 +562,60 @@ class VemulatorContractTests(unittest.TestCase):
                 ),
                 "one consistent positive scheduler width is non-semantic",
             )
+
+    def test_runner_jobs_marker_is_optional_legacy_or_exact_and_bound(self) -> None:
+        for architecture in COMPILERS:
+            legacy = build_vemulator_log_fixture(architecture)
+            self.assert_active_accepts(legacy, architecture)
+
+            current = build_vemulator_log_fixture(
+                architecture,
+                jobs="8",
+                jobs_marker="8",
+            )
+            self.assert_active_accepts(current, architecture)
+
+            marker = "CORE_PIPELINE_JOBS|8"
+            first_line = vemulator.VEMULATOR_FETCH_PREFIX[0]
+            _c, _cxx, _strip, make = (
+                vemulator.VEMULATOR_COMPILER_TOOLCHAINS[architecture]
+            )
+            build_invocation = (
+                f'{make} -f Makefile platform="unix" -j8 '
+                f'CC="{COMPILERS[architecture][0]}" '
+                f'CXX="{COMPILERS[architecture][1]}" '
+            )
+            without_marker = current.removeprefix(marker + "\n")
+            mutations = {
+                "missing-value": current.replace(marker, "CORE_PIPELINE_JOBS|", 1),
+                "duplicate": current.replace(
+                    marker + "\n", marker + "\n" + marker + "\n", 1
+                ),
+                "malformed": current.replace(marker, "CORE_PIPELINE_JOBS|eight", 1),
+                "zero": current.replace(marker, "CORE_PIPELINE_JOBS|0", 1),
+                "negative": current.replace(marker, "CORE_PIPELINE_JOBS|-8", 1),
+                "leading-zero": current.replace(marker, "CORE_PIPELINE_JOBS|08", 1),
+                "clean-mismatch": current.replace("-j8  clean", "-j7  clean", 1),
+                "build-mismatch": current.replace("-j8 CC=", "-j7 CC=", 1),
+                "after-platform": current.replace(
+                    marker + "\n" + first_line,
+                    first_line + "\n" + marker,
+                    1,
+                ),
+                "post-build": without_marker.replace(
+                    build_invocation + "\n",
+                    build_invocation + "\n" + marker + "\n",
+                    1,
+                ),
+                "unrelated-pipeline-marker": current.replace(
+                    marker + "\n",
+                    marker + "\nCORE_PIPELINE_THREADS|8\n",
+                    1,
+                ),
+            }
+            for label, mutation in mutations.items():
+                with self.subTest(architecture=architecture, mutation=label):
+                    self.assert_active_rejects(mutation, architecture)
 
     def test_diagnostics_are_exact_owned_and_parallel_position_tolerant(self) -> None:
         arm64 = build_vemulator_log_fixture("arm64")

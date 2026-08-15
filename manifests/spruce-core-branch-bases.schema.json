@@ -1,0 +1,326 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/spruce-core-branch-bases.schema.json",
+  "title": "Exact artifact-only Spruce branch core bases",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "basis_model",
+    "provenance_model",
+    "catalog",
+    "release_roster",
+    "bases",
+    "cross_branch_core_identity",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {"const": "./spruce-core-branch-bases.schema.json"},
+    "schema_version": {"const": 1},
+    "basis_model": {"const": "spruce-git-branch-artifact-basis-v1"},
+    "provenance_model": {
+      "const": "artifact-only-no-source-recipe-toolchain-provenance-v1",
+      "description": "These exact branch bytes do not establish source, submodule, recipe, toolchain, or reproducible-build provenance."
+    },
+    "catalog": {
+      "type": "object",
+      "required": ["path", "file_sha256", "semantic_sha256"],
+      "properties": {
+        "path": {"const": "manifests/core-builds.json"},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "semantic_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "release_roster": {
+      "type": "object",
+      "required": ["path", "file_sha256", "content_sha256"],
+      "properties": {
+        "path": {"const": "manifests/spruce-release-roster.json"},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "bases": {
+      "type": "object",
+      "required": ["spruce-development", "spruce-main"],
+      "properties": {
+        "spruce-development": {"$ref": "#/$defs/basis"},
+        "spruce-main": {"$ref": "#/$defs/basis"}
+      },
+      "additionalProperties": false
+    },
+    "cross_branch_core_identity": {
+      "type": "object",
+      "required": [
+        "basis_ids",
+        "core_trees_identical",
+        "artifact_bytes_identical",
+        "core_trees",
+        "artifact_identity_set_sha256"
+      ],
+      "properties": {
+        "basis_ids": {
+          "const": ["spruce-development", "spruce-main"]
+        },
+        "core_trees_identical": {"const": true},
+        "artifact_bytes_identical": {"const": true},
+        "core_trees": {"$ref": "#/$defs/coreTrees"},
+        "artifact_identity_set_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "coreId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "shippedCoreId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$"},
+    "coreTrees": {
+      "type": "object",
+      "required": ["arm64", "armhf"],
+      "properties": {
+        "arm64": {
+          "type": "object",
+          "required": ["path", "tree"],
+          "properties": {
+            "path": {"const": "RetroArch/.retroarch/cores64"},
+            "tree": {"const": "db1ab83ccd170a124a172a3b0192838d5d4ae905"}
+          },
+          "additionalProperties": false
+        },
+        "armhf": {
+          "type": "object",
+          "required": ["path", "tree"],
+          "properties": {
+            "path": {"const": "RetroArch/.retroarch/cores"},
+            "tree": {"const": "fe73cd4bca2ce0130bd95b35805b01ebf5d5c336"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "branch": {
+      "type": "object",
+      "required": ["repository", "ref", "commit", "tree"],
+      "properties": {
+        "repository": {"const": "https://github.com/spruceUI/spruceOS.git"},
+        "ref": {"enum": ["refs/heads/main", "refs/heads/Development"]},
+        "commit": {"$ref": "#/$defs/sha1"},
+        "tree": {"$ref": "#/$defs/sha1"}
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "kind",
+        "source_commits",
+        "submodule_commits",
+        "build_recipes",
+        "toolchains",
+        "reproducible_builds"
+      ],
+      "properties": {
+        "kind": {"const": "artifact-only"},
+        "source_commits": {"const": "not-established"},
+        "submodule_commits": {"const": "not-established"},
+        "build_recipes": {"const": "not-established"},
+        "toolchains": {"const": "not-established"},
+        "reproducible_builds": {"const": "not-established"}
+      },
+      "additionalProperties": false
+    },
+    "correlation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["status", "catalog_core_id"],
+          "properties": {
+            "status": {"enum": ["catalog_exact", "catalog_alias"]},
+            "catalog_core_id": {"$ref": "#/$defs/coreId"}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["status", "catalog_core_id"],
+          "properties": {
+            "status": {"const": "uncataloged"},
+            "catalog_core_id": {"type": "null"}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "gitBlob": {
+      "type": "object",
+      "required": ["mode", "object_type", "blob", "size"],
+      "properties": {
+        "mode": {"enum": ["100644", "100755"]},
+        "object_type": {"const": "blob"},
+        "blob": {"$ref": "#/$defs/sha1"},
+        "size": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "elf": {
+      "type": "object",
+      "required": [
+        "class",
+        "data",
+        "version",
+        "osabi",
+        "abi_version",
+        "type",
+        "machine",
+        "flags",
+        "float_abi"
+      ],
+      "properties": {
+        "class": {"enum": ["ELF32", "ELF64"]},
+        "data": {"enum": ["little-endian", "big-endian"]},
+        "version": {"const": 1},
+        "osabi": {"type": "integer", "minimum": 0, "maximum": 255},
+        "abi_version": {"type": "integer", "minimum": 0, "maximum": 255},
+        "type": {"const": "DYN"},
+        "machine": {"type": "string", "minLength": 1},
+        "flags": {"type": "string", "pattern": "^0x[0-9a-f]{8}$"},
+        "float_abi": {"enum": ["hard", "soft", "not-applicable"]}
+      },
+      "additionalProperties": false
+    },
+    "artifact": {
+      "type": "object",
+      "required": [
+        "path",
+        "architecture",
+        "shipped_core_id",
+        "catalog_correlation",
+        "git",
+        "sha256",
+        "elf",
+        "architecture_validation"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^RetroArch/\\.retroarch/cores(64)?/[a-z0-9][a-z0-9_-]*_libretro\\.so$"
+        },
+        "architecture": {"enum": ["arm64", "armhf"]},
+        "shipped_core_id": {"$ref": "#/$defs/shippedCoreId"},
+        "catalog_correlation": {"$ref": "#/$defs/correlation"},
+        "git": {"$ref": "#/$defs/gitBlob"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "elf": {"$ref": "#/$defs/elf"},
+        "architecture_validation": {"enum": ["valid", "invalid"]}
+      },
+      "additionalProperties": false
+    },
+    "catalogCell": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["core_id", "architecture", "status"],
+          "properties": {
+            "core_id": {"$ref": "#/$defs/coreId"},
+            "architecture": {"enum": ["arm64", "armhf"]},
+            "status": {"const": "not_shipped"}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "core_id",
+            "architecture",
+            "status",
+            "artifact_path",
+            "artifact_sha256"
+          ],
+          "properties": {
+            "core_id": {"$ref": "#/$defs/coreId"},
+            "architecture": {"enum": ["arm64", "armhf"]},
+            "status": {"enum": ["valid", "invalid"]},
+            "artifact_path": {
+              "type": "string",
+              "pattern": "^RetroArch/\\.retroarch/cores(64)?/[a-z0-9][a-z0-9_-]*_libretro\\.so$"
+            },
+            "artifact_sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "artifact_count",
+        "shipped_core_name_count",
+        "catalog_core_count",
+        "catalog_cell_count",
+        "valid_catalog_cell_count",
+        "not_shipped_catalog_cell_count",
+        "invalid_catalog_cell_count",
+        "alias_artifact_count",
+        "uncataloged_artifact_count",
+        "artifact_identity_set_sha256"
+      ],
+      "properties": {
+        "artifact_count": {"const": 184},
+        "shipped_core_name_count": {"const": 104},
+        "catalog_core_count": {"const": 98},
+        "catalog_cell_count": {"const": 196},
+        "valid_catalog_cell_count": {"const": 174},
+        "not_shipped_catalog_cell_count": {"const": 21},
+        "invalid_catalog_cell_count": {"const": 1},
+        "alias_artifact_count": {"const": 2},
+        "uncataloged_artifact_count": {"const": 7},
+        "artifact_identity_set_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "basis": {
+      "type": "object",
+      "required": [
+        "basis_id",
+        "track",
+        "branch",
+        "core_trees",
+        "provenance",
+        "artifacts",
+        "catalog_cells",
+        "summary",
+        "content_sha256"
+      ],
+      "properties": {
+        "basis_id": {"enum": ["spruce-development", "spruce-main"]},
+        "track": {"enum": ["main", "nightly"]},
+        "branch": {"$ref": "#/$defs/branch"},
+        "core_trees": {"$ref": "#/$defs/coreTrees"},
+        "provenance": {"$ref": "#/$defs/provenance"},
+        "artifacts": {
+          "type": "array",
+          "minItems": 184,
+          "maxItems": 184,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/artifact"}
+        },
+        "catalog_cells": {
+          "type": "array",
+          "minItems": 196,
+          "maxItems": 196,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/catalogCell"}
+        },
+        "summary": {"$ref": "#/$defs/summary"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

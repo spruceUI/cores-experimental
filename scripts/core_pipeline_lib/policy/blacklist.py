@@ -321,16 +321,12 @@ def parse_commit_blacklist(document: dict[str, Any]) -> CommitBlacklist:
     )
 
 
-def load_commit_blacklist(path: Path) -> CommitBlacklist:
-    """Load strict UTF-8 JSON from ``path`` and validate the complete policy."""
+def parse_commit_blacklist_bytes(raw: bytes, label: str | Path) -> CommitBlacklist:
+    """Validate a blacklist from one caller-owned strict byte snapshot."""
 
-    try:
-        raw = path.read_bytes()
-    except OSError as exc:
-        raise CommitBlacklistError(f"cannot read commit blacklist {path}: {exc}") from exc
     if len(raw) > MAX_POLICY_BYTES:
         raise CommitBlacklistError(
-            f"commit blacklist exceeds {MAX_POLICY_BYTES} bytes: {path}"
+            f"commit blacklist exceeds {MAX_POLICY_BYTES} bytes: {label}"
         )
     try:
         text = raw.decode("utf-8")
@@ -340,8 +336,20 @@ def load_commit_blacklist(path: Path) -> CommitBlacklist:
             parse_constant=_reject_json_constant,
         )
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise CommitBlacklistError(f"invalid commit blacklist JSON {path}: {exc}") from exc
+        raise CommitBlacklistError(
+            f"invalid commit blacklist JSON {label}: {exc}"
+        ) from exc
     return parse_commit_blacklist(document)
+
+
+def load_commit_blacklist(path: Path) -> CommitBlacklist:
+    """Load strict UTF-8 JSON from ``path`` and validate the complete policy."""
+
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise CommitBlacklistError(f"cannot read commit blacklist {path}: {exc}") from exc
+    return parse_commit_blacklist_bytes(raw, path)
 
 
 def report_commit_policy(

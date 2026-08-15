@@ -7,7 +7,7 @@ import unittest
 from unittest import mock
 import zipfile
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from scripts import profile_registry as registry
 from core_pipeline_lib.contracts import mednafen_pce_fast
 from core_pipeline_lib.records import compatibility as compatibility_records
@@ -381,7 +381,7 @@ class MednafenPceFastCoreEvidenceTests(unittest.TestCase):
         _, pin, _, _ = load_core_documents(CORE_ID, PIN_NAME)
         expected_targets = pin["cores"][CORE_ID]["selection"]["targets"]
         mutations = {
-            "log": "historical build differs",
+            "log": "build log does not prove",
             "build": "historical build differs",
             "recipe": "historical recipe differs",
             "source": "historical source differs",

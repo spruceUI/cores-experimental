@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/chipset-tunings.schema.json",
+  "title": "Cores-spruce typed chipset tuning profiles",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_version",
+    "compiler_argument_mapping_version",
+    "chipsets",
+    "profiles",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {"const": "./chipset-tunings.schema.json"},
+    "schema_version": {"const": 1},
+    "compiler_argument_mapping_version": {"const": "gcc-machine-flags-v1"},
+    "chipsets": {
+      "type": "object",
+      "required": ["universal", "h700", "a133p", "a33", "a523", "rk3566", "rk3326", "ssd202d"],
+      "properties": {
+        "universal": {"$ref": "#/$defs/universalChipset"},
+        "h700": {"$ref": "#/$defs/arm64Chipset"},
+        "a133p": {"$ref": "#/$defs/arm64Chipset"},
+        "a33": {"$ref": "#/$defs/armhfChipset"},
+        "a523": {"$ref": "#/$defs/arm64Chipset"},
+        "rk3566": {"$ref": "#/$defs/arm64Chipset"},
+        "rk3326": {"$ref": "#/$defs/arm64Chipset"},
+        "ssd202d": {"$ref": "#/$defs/armhfChipset"}
+      },
+      "additionalProperties": false
+    },
+    "profiles": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {"pattern": "^[a-z0-9][a-z0-9-]*-v[0-9]+$"},
+      "additionalProperties": {"$ref": "#/$defs/profile"}
+    },
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "universalChipset": {
+      "type": "object",
+      "required": ["architecture", "fallback"],
+      "properties": {
+        "architecture": {"const": "any"},
+        "fallback": {"const": null}
+      },
+      "additionalProperties": false
+    },
+    "arm64Chipset": {
+      "type": "object",
+      "required": ["architecture", "fallback"],
+      "properties": {
+        "architecture": {"const": "arm64"},
+        "fallback": {"const": "universal"}
+      },
+      "additionalProperties": false
+    },
+    "armhfChipset": {
+      "type": "object",
+      "required": ["architecture", "fallback"],
+      "properties": {
+        "architecture": {"const": "armhf"},
+        "fallback": {"const": "universal"}
+      },
+      "additionalProperties": false
+    },
+    "properties": {
+      "type": "object",
+      "properties": {
+        "cpu_target": {"enum": ["cortex-a7", "cortex-a35", "cortex-a53", "cortex-a55"]},
+        "tune_target": {"enum": ["cortex-a7", "cortex-a35", "cortex-a53", "cortex-a55"]},
+        "fpu": {"const": "neon-vfpv4"},
+        "float_abi": {"const": "hard"}
+      },
+      "additionalProperties": false
+    },
+    "profile": {
+      "type": "object",
+      "required": ["extends", "chipset", "architecture", "properties"],
+      "properties": {
+        "extends": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*-v[0-9]+$"}
+          ]
+        },
+        "chipset": {"enum": ["universal", "h700", "a133p", "a33", "a523", "rk3566", "rk3326", "ssd202d"]},
+        "architecture": {"enum": ["any", "arm64", "armhf"]},
+        "properties": {"$ref": "#/$defs/properties"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

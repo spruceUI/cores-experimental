@@ -220,10 +220,11 @@ class PerCoreLifecycleTests(unittest.TestCase):
                     json.dumps(manifest),
                     encoding="utf-8",
                 )
-                report = pipeline.validate_local_release(
+                report = pipeline._validate_local_release(
                     release_root,
                     pin,
                     "b" * 64,
+                    manifest_document=manifest,
                 )
                 self.assertEqual("invalid", report["status"])
                 self.assertTrue(
@@ -329,7 +330,6 @@ class PerCoreLifecycleTests(unittest.TestCase):
             semantic_id = "handy-aaaaaaaaaaaa-bbbbbbbbbbbb"
             source_path = nightlies / semantic_id / "golden.json"
             source_path.parent.mkdir(parents=True)
-            source_path.write_text("{}\n", encoding="utf-8")
             output_path = pins / f"{semantic_id}.json"
             source = {
                 "schema_version": 2,
@@ -338,6 +338,10 @@ class PerCoreLifecycleTests(unittest.TestCase):
                 "cores": {"handy": {}},
                 "build_goldens": {"handy": {}},
             }
+            source_path.write_text(
+                json.dumps(source, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
             selection = {
                 "selection_sha256": "b" * 64,
                 "targets": {
@@ -351,7 +355,7 @@ class PerCoreLifecycleTests(unittest.TestCase):
             ), mock.patch.object(
                 pipeline, "DEFAULT_PIN_SET_DIR", pins
             ), mock.patch.object(
-                pipeline, "load_json", side_effect=[{"cores": {}}, source]
+                pipeline, "load_json", return_value={"cores": {}}
             ), mock.patch.object(
                 pipeline,
                 "validate_golden_document",
@@ -367,10 +371,14 @@ class PerCoreLifecycleTests(unittest.TestCase):
             ), mock.patch.object(
                 pipeline, "complete_core_bundle", return_value=selection
             ), mock.patch.object(
+                pipeline,
+                "_require_catalog_bound_source_candidate_selection",
+                return_value=None,
+            ), mock.patch.object(
                 pipeline, "require_pin_sources_eligible"
             ), mock.patch.object(
                 pipeline,
-                "validate_pin_set_document",
+                "_validate_pin_set_document",
                 return_value={"status": "valid", "errors": []},
             ):
                 document = pipeline.compose_pin_set(

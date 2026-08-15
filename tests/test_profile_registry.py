@@ -11,6 +11,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -45,6 +46,37 @@ class ProfileRegistryTests(unittest.TestCase):
         self.source_set = registry.composed_source_set(FREECHAF_SEMANTIC_ID)
         self.execution = load(EXECUTION_PATH)
         self.runtime = load(RUNTIME_PATH)
+
+    def test_strict_json_snapshot_rejects_utf16_and_utf32(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "document.json"
+            for encoding in ("utf-16", "utf-32"):
+                with self.subTest(encoding=encoding):
+                    path.write_bytes(json.dumps({"value": 1}).encode(encoding))
+                    with self.assertRaises(registry.RegistryError):
+                        registry.strict_json_file_with_sha256(path)
+
+    def test_source_report_reuses_one_evidence_pin_snapshot(self) -> None:
+        pin_path = (
+            ROOT / self.source_set["evidence_pin"]["path"]
+        ).resolve()
+        original = registry.strict_json_file_with_sha256
+        observed_pin_reads = 0
+
+        def recording_snapshot(path: Path):
+            nonlocal observed_pin_reads
+            if path.resolve() == pin_path:
+                observed_pin_reads += 1
+            return original(path)
+
+        with mock.patch.object(
+            registry,
+            "strict_json_file_with_sha256",
+            side_effect=recording_snapshot,
+        ):
+            report = registry._source_set_report_data(source_set=self.source_set)
+        self.assertEqual(FREECHAF_SEMANTIC_ID, report["source_set_id"])
+        self.assertEqual(1, observed_pin_reads)
 
     def test_new_schemas_are_valid_json_and_patterns_are_string_typed(self) -> None:
         schema_names = {
