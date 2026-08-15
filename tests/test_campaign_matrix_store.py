@@ -10,7 +10,6 @@ from unittest.mock import patch
 from scripts.core_pipeline_lib.campaign.matrix_materialize import (
     MATRIX_STATE_RELATIVE,
     materialize_matrix_v2,
-    normalize_matrix_v2,
 )
 from scripts.core_pipeline_lib.campaign.matrix_model import render_matrix_v1
 from scripts.core_pipeline_lib.campaign.matrix_store import (
@@ -21,10 +20,9 @@ from scripts.core_pipeline_lib.campaign.matrix_store import (
 from scripts.core_pipeline_lib.campaign.store import CampaignStore
 from scripts.core_pipeline_lib.errors import PipelineError
 from tests.test_campaign_matrix_materialize import (
-    CORE_SPEC_SET,
-    PHASE_FREEZE,
-    _fixture_document,
-    _seal,
+    _immutable_full_fixture,
+    _immutable_small_fixture,
+    _start_small_matrix_universe,
 )
 
 
@@ -33,14 +31,23 @@ MODULE_PATH = ROOT / "scripts/core_pipeline_lib/campaign/matrix_store.py"
 
 
 class CampaignMatrixStoreTests(unittest.TestCase):
+    _SMALL_CLOSURE_TESTS = frozenset(
+        {
+            "test_invalid_closure_creates_no_storage_state",
+            "test_load_rejects_missing_or_tampered_cell_bytes",
+            "test_restage_is_idempotent_and_preserves_the_root_locator",
+        }
+    )
+    _SMALL_STORED_TESTS = frozenset(
+        {
+            "test_load_rejects_missing_or_tampered_cell_bytes",
+            "test_restage_is_idempotent_and_preserves_the_root_locator",
+        }
+    )
+
     @classmethod
     def setUpClass(cls) -> None:
-        cls.raw = _seal(_fixture_document())
-        cls.closure = normalize_matrix_v2(
-            cls.raw,
-            phase_freeze=PHASE_FREEZE,
-            core_spec_set=CORE_SPEC_SET,
-        )
+        cls.raw, cls.closure = _immutable_full_fixture()
         cls.temporary = tempfile.TemporaryDirectory()
         cls.repository_root = Path(cls.temporary.name)
         cls.store = CampaignStore(cls.repository_root, MATRIX_STATE_RELATIVE)
@@ -61,6 +68,33 @@ class CampaignMatrixStoreTests(unittest.TestCase):
     @classmethod
     def tearDownClass(cls) -> None:
         cls.temporary.cleanup()
+
+    def setUp(self) -> None:
+        # The dependency-order/load owner keeps the one real full-store closure.
+        if self._testMethodName not in self._SMALL_CLOSURE_TESTS:
+            return
+        _start_small_matrix_universe(self)
+        self.raw, self.closure = _immutable_small_fixture()
+        if self._testMethodName not in self._SMALL_STORED_TESTS:
+            return
+
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.repository_root = Path(temporary.name)
+        self.store = CampaignStore(self.repository_root, MATRIX_STATE_RELATIVE)
+        self.publication_order = []
+        original = self.store.create_or_verify
+
+        def recording_create_or_verify(*, reference, raw):
+            self.publication_order.append(reference.kind)
+            return original(reference=reference, raw=raw)
+
+        with patch.object(
+            self.store,
+            "create_or_verify",
+            side_effect=recording_create_or_verify,
+        ):
+            self.first_store = stage_normalized_matrix(self.store, self.closure)
 
     def test_stage_is_dependency_ordered_and_loads_exact_closure(self) -> None:
         stored = self.first_store

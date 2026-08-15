@@ -27,23 +27,88 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PYTHON = sys.executable
+CORE_ID_RE = re.compile(r"^[a-z0-9][a-z0-9_]*$")
+SEMANTIC_ID_RE = re.compile(
+    r"^(?P<core>[a-z0-9][a-z0-9_]*)-[0-9a-f]{12}-[0-9a-f]{12}$"
+)
+
+
+def _reject_duplicates(pairs: list[tuple[str, object]]) -> dict[str, object]:
+    document: dict[str, object] = {}
+    for key, value in pairs:
+        if key in document:
+            raise ValueError(f"duplicate JSON key: {key}")
+        document[key] = value
+    return document
+
+
+def _load_discovery_document(path: Path, label: str) -> dict[str, object]:
+    if path.is_symlink() or not path.is_file():
+        raise SystemExit(f"error: {label} is not a regular file: {path}")
+    try:
+        raw = path.read_bytes()
+        document = json.loads(
+            raw.decode("utf-8"), object_pairs_hook=_reject_duplicates
+        )
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+        raise SystemExit(f"error: cannot load {label}: {path}: {exc}") from exc
+    if not isinstance(document, dict):
+        raise SystemExit(f"error: {label} must be a JSON object: {path}")
+    return document
 
 
 def discover_sid(core: str) -> str:
-    matches = sorted((ROOT / "pins" / "core-sets").glob(f"{core}-*.json"))
-    matches = [m for m in matches if m.stem.rsplit("-", 2)[0] == core]
-    if len(matches) != 1:
+    if CORE_ID_RE.fullmatch(core) is None:
+        raise SystemExit(f"error: invalid core id: {core!r}")
+
+    compatibility_path = ROOT / "manifests" / "compatibility" / f"{core}.json"
+    compatibility = _load_discovery_document(
+        compatibility_path, f"compatibility for {core!r}"
+    )
+    if compatibility.get("core_id") != core:
+        raise SystemExit(f"error: compatibility core differs for {core!r}")
+    pin_relative = compatibility.get("golden_source")
+    if not isinstance(pin_relative, str):
+        raise SystemExit(f"error: compatibility pin is invalid for {core!r}")
+    semantic_id = Path(pin_relative).stem
+    match = SEMANTIC_ID_RE.fullmatch(semantic_id)
+    expected_pin = f"pins/core-sets/{semantic_id}.json"
+    if (
+        match is None
+        or match.group("core") != core
+        or pin_relative != expected_pin
+    ):
         raise SystemExit(
-            f"error: expected exactly one pin-set for {core!r}, found "
-            f"{[m.name for m in matches]}"
+            f"error: compatibility pin path is not canonical for {core!r}"
         )
-    return matches[0].stem
+
+    evidence_path = ROOT / "pins" / "evidence" / f"{core}.json"
+    evidence = _load_discovery_document(
+        evidence_path, f"evidence index for {core!r}"
+    )
+    if (
+        evidence.get("core_id") != core
+        or evidence.get("semantic_id") != semantic_id
+        or evidence.get("pin_path") != expected_pin
+    ):
+        raise SystemExit(
+            f"error: evidence index disagrees with compatibility for {core!r}"
+        )
+
+    pin_path = ROOT / expected_pin
+    if pin_path.is_symlink() or not pin_path.is_file():
+        raise SystemExit(
+            f"error: canonical promoted pin is not a regular file for {core!r}: "
+            f"{expected_pin}"
+        )
+    return semantic_id
 
 
 def run_step(label: str, argv: list[str]) -> tuple[str, bool, str]:

@@ -4,9 +4,11 @@ import ast
 from collections import Counter
 import copy
 from dataclasses import FrozenInstanceError, replace
+from functools import cache
 from pathlib import Path
-import tempfile
+from types import MappingProxyType
 import unittest
+from unittest.mock import patch
 
 from scripts.core_pipeline_lib.campaign.legacy_matrix_v2 import (
     decode_matrix_v2,
@@ -16,6 +18,7 @@ from scripts.core_pipeline_lib.campaign.legacy_matrix_v2 import (
 )
 from scripts.core_pipeline_lib.campaign.matrix_materialize import (
     MATRIX_STATE_RELATIVE,
+    NormalizedMatrixV1,
     derive_legacy_summary,
     materialize_matrix_v2,
     matrix_object_reference,
@@ -34,7 +37,6 @@ from scripts.core_pipeline_lib.campaign.matrix_model import (
     render_matrix_v1,
 )
 from scripts.core_pipeline_lib.campaign.model import EvidenceRef
-from scripts.core_pipeline_lib.campaign.store import CampaignStore
 from scripts.core_pipeline_lib.errors import PipelineError
 from scripts.core_pipeline_lib.foundation import sha256_bytes
 
@@ -52,6 +54,10 @@ BASE_EXCLUSIONS = frozenset(
     (core_id, ordinal)
     for core_id in CORE_IDS[:4]
     for ordinal in range(27)
+)
+SMALL_CORE_IDS = (CORE_IDS[0],)
+SMALL_EXCLUSIONS = frozenset(
+    (SMALL_CORE_IDS[0], ordinal) for ordinal in range(4)
 )
 
 
@@ -174,8 +180,11 @@ def _fixture_document(
     *,
     exclusions: frozenset[tuple[str, int]] = BASE_EXCLUSIONS,
     captured_at: str = "2026-08-14T21:00:00Z",
+    core_ids: tuple[str, ...] | None = None,
 ) -> dict[str, object]:
-    ordered = legacy_coordinate_order(CORE_IDS)
+    if core_ids is None:
+        core_ids = CORE_IDS
+    ordered = legacy_coordinate_order(core_ids)
     supported: list[dict[str, object]] = []
     unsupported: list[dict[str, object]] = []
     for identity, coordinate in enumerate(ordered, start=1):
@@ -193,7 +202,7 @@ def _fixture_document(
             "chipset/ABI projections; partition by catalog target support"
         ),
         "architecture_order": ["arm64", "armhf"],
-        "catalog_core_count": 98,
+        "catalog_core_count": len(core_ids),
         "chipset_order": [
             "universal",
             "a133p",
@@ -206,7 +215,7 @@ def _fixture_document(
         ],
         "core_order": "ascending-core-id",
         "core_order_content_sha256": sha256_bytes(
-            matrix_v2_canonical_bytes(list(CORE_IDS))
+            matrix_v2_canonical_bytes(list(core_ids))
         ),
         "potential_coordinate_count": len(ordered),
         "projection_count": PROJECTION_COUNT,
@@ -255,21 +264,99 @@ def _fixture_document(
     }
 
 
+@cache
+def _immutable_full_fixture() -> tuple[bytes, NormalizedMatrixV1]:
+    raw = _seal(_fixture_document())
+    closure = normalize_matrix_v2(
+        raw,
+        phase_freeze=PHASE_FREEZE,
+        core_spec_set=CORE_SPEC_SET,
+    )
+    return raw, closure
+
+
+@cache
+def _immutable_small_fixture() -> tuple[bytes, NormalizedMatrixV1]:
+    """Return immutable inputs for exact non-owner boundary coverage."""
+
+    raw = _seal(
+        _fixture_document(
+            exclusions=SMALL_EXCLUSIONS,
+            core_ids=SMALL_CORE_IDS,
+        )
+    )
+    closure = normalize_matrix_v2(
+        raw,
+        phase_freeze=PHASE_FREEZE,
+        core_spec_set=CORE_SPEC_SET,
+    )
+    return raw, closure
+
+
+def _start_small_matrix_universe(test_case: unittest.TestCase) -> None:
+    """Keep non-owner tests exact without repeating the full 98-core cost."""
+
+    values = (
+        (
+            "scripts.core_pipeline_lib.campaign.matrix_model."
+            "EXPECTED_CORE_COUNT",
+            1,
+        ),
+        (
+            "scripts.core_pipeline_lib.campaign.matrix_model."
+            "EXPECTED_UNIVERSE_CELL_COUNT",
+            27,
+        ),
+        (
+            "scripts.core_pipeline_lib.campaign.matrix_materialize."
+            "EXPECTED_CORE_COUNT",
+            1,
+        ),
+        (
+            "scripts.core_pipeline_lib.campaign.matrix_materialize."
+            "EXPECTED_UNIVERSE_CELL_COUNT",
+            27,
+        ),
+        (
+            "scripts.core_pipeline_lib.campaign.matrix_store."
+            "EXPECTED_CORE_COUNT",
+            1,
+        ),
+        (
+            "scripts.core_pipeline_lib.campaign.matrix_store."
+            "EXPECTED_UNIVERSE_CELL_COUNT",
+            27,
+        ),
+    )
+    for target, value in values:
+        patcher = patch(target, value)
+        patcher.start()
+        test_case.addCleanup(patcher.stop)
+
+
 class CampaignMatrixMaterializeTests(unittest.TestCase):
+    _FULL_MATRIX_OWNER = (
+        "test_normalization_closes_all_links_and_round_trips_exact_bytes"
+    )
+
     @classmethod
     def setUpClass(cls) -> None:
-        cls.document = _fixture_document()
-        cls.raw = _seal(cls.document)
-        cls.closure = normalize_matrix_v2(
-            cls.raw,
-            phase_freeze=PHASE_FREEZE,
-            core_spec_set=CORE_SPEC_SET,
-        )
+        cls.raw, cls.closure = _immutable_full_fixture()
+        cls.document = decode_matrix_v2(cls.raw)
+
+    def setUp(self) -> None:
+        # Staging guards this named owner as the always-running full closure.
+        if self._testMethodName == self._FULL_MATRIX_OWNER:
+            return
+        _start_small_matrix_universe(self)
+        self.raw, self.closure = _immutable_small_fixture()
+        self.document = decode_matrix_v2(self.raw)
 
     def test_normalization_closes_all_links_and_round_trips_exact_bytes(self) -> None:
         closure = self.closure
         validate_normalized_matrix(closure)
-        self.assertEqual(self.raw, materialize_matrix_v2(closure))
+        materialized = materialize_matrix_v2(closure)
+        self.assertEqual(self.raw, materialized)
         self.assertEqual(98, len(closure.shards))
         self.assertEqual(2_646, len(closure.cells))
         self.assertEqual(2_538, closure.root.supported_cell_count)
@@ -320,7 +407,7 @@ class CampaignMatrixMaterializeTests(unittest.TestCase):
         with self.assertRaises(FrozenInstanceError):
             closure.cells = ()  # type: ignore[misc]
 
-        regenerated = decode_matrix_v2(materialize_matrix_v2(closure))
+        regenerated = decode_matrix_v2(materialized)
         self.assertEqual(
             self.document["summary"], derive_legacy_summary(closure.cells)
         )
@@ -328,45 +415,43 @@ class CampaignMatrixMaterializeTests(unittest.TestCase):
 
     def test_root_reference_recursively_resolves_exact_store_bytes(self) -> None:
         closure = self.closure
-        with tempfile.TemporaryDirectory() as temporary:
-            store = CampaignStore(Path(temporary), MATRIX_STATE_RELATIVE)
-            for cell in closure.cells:
-                raw = render_matrix_v1(cell)
-                store.create_or_verify(
-                    reference=matrix_object_reference(cell),
-                    raw=raw,
-                )
-            for shard in closure.shards:
-                raw = render_matrix_v1(shard)
-                store.create_or_verify(
-                    reference=matrix_object_reference(shard),
-                    raw=raw,
-                )
-            store.create_or_verify(
-                reference=closure.root_reference,
-                raw=render_matrix_v1(closure.root),
-            )
+        objects = tuple(
+            (matrix_object_reference(value), render_matrix_v1(value))
+            for value in (*closure.cells, *closure.shards, closure.root)
+        )
+        self.assertEqual(
+            len(closure.cells) + len(closure.shards) + 1,
+            len(objects),
+        )
+        self.assertEqual(len(objects), len({reference for reference, _raw in objects}))
+        object_bytes = MappingProxyType(dict(objects))
+        visited: set[EvidenceRef] = set()
 
-            loaded_root = decode_matrix_v1(store.read_exact(closure.root_reference))
-            self.assertEqual(closure.root, loaded_root)
-            loaded_cell_count = 0
-            for expected_shard, shard_link in zip(
-                closure.shards, closure.root.shards
-            ):
-                loaded_shard = decode_matrix_v1(
-                    store.read_exact(shard_link.reference)
+        def read_exact(reference: EvidenceRef) -> bytes:
+            raw = object_bytes[reference]
+            self.assertEqual(reference.size, len(raw))
+            self.assertEqual(reference.file_sha256, sha256_bytes(raw))
+            self.assertEqual(reference, matrix_object_reference(decode_matrix_v1(raw)))
+            visited.add(reference)
+            return raw
+
+        loaded_root = decode_matrix_v1(read_exact(closure.root_reference))
+        self.assertEqual(closure.root, loaded_root)
+        loaded_cell_count = 0
+        for expected_shard, shard_link in zip(
+            closure.shards, loaded_root.shards
+        ):
+            loaded_shard = decode_matrix_v1(read_exact(shard_link.reference))
+            self.assertEqual(expected_shard, loaded_shard)
+            for cell_link in loaded_shard.cells:
+                loaded_cell = decode_matrix_v1(read_exact(cell_link.reference))
+                self.assertEqual(
+                    cell_link.content_sha256,
+                    loaded_cell.content_sha256,
                 )
-                self.assertEqual(expected_shard, loaded_shard)
-                for cell_link in expected_shard.cells:
-                    loaded_cell = decode_matrix_v1(
-                        store.read_exact(cell_link.reference)
-                    )
-                    self.assertEqual(
-                        cell_link.content_sha256,
-                        loaded_cell.content_sha256,
-                    )
-                    loaded_cell_count += 1
-            self.assertEqual(2_646, loaded_cell_count)
+                loaded_cell_count += 1
+        self.assertEqual(len(closure.cells), loaded_cell_count)
+        self.assertEqual(set(object_bytes), visited)
 
     def test_normalization_rejects_stale_summary_even_after_outer_reseal(self) -> None:
         document = decode_matrix_v2(self.raw)
@@ -510,7 +595,11 @@ class CampaignMatrixMaterializeTests(unittest.TestCase):
                     )
 
     def test_authority_only_metadata_change_reuses_every_cell_and_shard(self) -> None:
-        document = _fixture_document(captured_at="2026-08-14T22:00:00Z")
+        document = _fixture_document(
+            exclusions=SMALL_EXCLUSIONS,
+            captured_at="2026-08-14T22:00:00Z",
+            core_ids=SMALL_CORE_IDS,
+        )
         raw = _seal(document)
         after = normalize_matrix_v2(
             raw,
@@ -525,9 +614,16 @@ class CampaignMatrixMaterializeTests(unittest.TestCase):
 
     def test_one_support_flip_changes_one_cell_one_shard_and_one_root(self) -> None:
         exclusions = frozenset(
-            item for item in BASE_EXCLUSIONS if item != (CORE_IDS[0], 0)
+            item
+            for item in SMALL_EXCLUSIONS
+            if item != (SMALL_CORE_IDS[0], 0)
         )
-        raw = _seal(_fixture_document(exclusions=exclusions))
+        raw = _seal(
+            _fixture_document(
+                exclusions=exclusions,
+                core_ids=SMALL_CORE_IDS,
+            )
+        )
         after = normalize_matrix_v2(
             raw,
             phase_freeze=PHASE_FREEZE,
@@ -550,8 +646,14 @@ class CampaignMatrixMaterializeTests(unittest.TestCase):
         self.assertEqual(before_cell.coordinate, after_cell.coordinate)
         self.assertEqual(EXCLUSION_PARTITION, before_cell.partition)
         self.assertEqual(SUPPORTED_PARTITION, after_cell.partition)
-        self.assertEqual(2_539, after.root.supported_cell_count)
-        self.assertEqual(107, after.root.unsupported_exclusion_count)
+        self.assertEqual(
+            self.closure.root.supported_cell_count + 1,
+            after.root.supported_cell_count,
+        )
+        self.assertEqual(
+            self.closure.root.unsupported_exclusion_count - 1,
+            after.root.unsupported_exclusion_count,
+        )
         self.assertNotEqual(self.closure.root, after.root)
         self.assertNotEqual(self.closure.root_reference, after.root_reference)
         self.assertEqual(raw, materialize_matrix_v2(after))
