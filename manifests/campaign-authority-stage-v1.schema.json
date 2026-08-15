@@ -1,0 +1,464 @@
+{
+  "$comment": "Structural schema for the pointer-free combined H5/H6 authority staging plan. Mandatory Python decoding additionally authenticates every digest and canonical CAS mapping, requires the exact semantically used copy graph, replays the owning H5 transition, cross-binds H5/H6 authorities, validates both complete normalized matrix closures and their exact changed shards, reproduces legacy bytes, authenticates immutable H3 ancestry, and requires cumulative local evidence-tier H4 facts before staging.",
+  "$defs": {
+    "authorityCopy": {
+      "additionalProperties": false,
+      "properties": {
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "name": {
+          "$ref": "#/$defs/identifier"
+        },
+        "source": {
+          "$ref": "#/$defs/evidenceRef"
+        },
+        "source_mode": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "maximum": 511,
+              "minimum": 0,
+              "type": "integer"
+            }
+          ]
+        },
+        "stored": {
+          "$ref": "#/$defs/evidenceRef"
+        }
+      },
+      "required": [
+        "name",
+        "source",
+        "source_mode",
+        "stored",
+        "content_sha256"
+      ],
+      "type": "object"
+    },
+    "coreId": {
+      "pattern": "^[a-z0-9][a-z0-9_]*$",
+      "type": "string"
+    },
+    "evidenceKind": {
+      "enum": [
+        "artifact",
+        "audit-checkpoint",
+        "check-log",
+        "engine-bundle",
+        "matrix-cas",
+        "matrix-cell",
+        "matrix-pointer",
+        "matrix-root",
+        "matrix-shard",
+        "matrix-snapshot",
+        "phase-freeze",
+        "phase-freeze-cas",
+        "pin-directory",
+        "pipeline-bundle",
+        "repository-snapshot",
+        "state-root",
+        "track-registry",
+        "track-snapshot-directory",
+        "transition-plan",
+        "transition-spec",
+        "validation-receipt"
+      ]
+    },
+    "evidenceRef": {
+      "additionalProperties": false,
+      "properties": {
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "file_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "kind": {
+          "$ref": "#/$defs/evidenceKind"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "size": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "target_content_sha256": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/sha256"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "path",
+        "file_sha256",
+        "target_content_sha256",
+        "size",
+        "content_sha256"
+      ],
+      "type": "object"
+    },
+    "identifier": {
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$",
+      "type": "string"
+    },
+    "legacyMatrixStage": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_object": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/evidenceRef"
+            },
+            {
+              "properties": {
+                "kind": {
+                  "const": "matrix-snapshot"
+                }
+              }
+            }
+          ]
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "predecessor_pointer": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/evidenceRef"
+            },
+            {
+              "properties": {
+                "kind": {
+                  "const": "matrix-pointer"
+                }
+              }
+            }
+          ]
+        },
+        "raw_alias": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/evidenceRef"
+            },
+            {
+              "properties": {
+                "kind": {
+                  "const": "matrix-cas"
+                }
+              }
+            }
+          ]
+        },
+        "semantic_alias": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/evidenceRef"
+            },
+            {
+              "properties": {
+                "kind": {
+                  "const": "matrix-snapshot"
+                }
+              }
+            }
+          ]
+        },
+        "successor_pointer": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/evidenceRef"
+            },
+            {
+              "properties": {
+                "kind": {
+                  "const": "matrix-pointer"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "predecessor_pointer",
+        "successor_pointer",
+        "canonical_object",
+        "semantic_alias",
+        "raw_alias",
+        "content_sha256"
+      ],
+      "type": "object"
+    },
+    "matrixCellRef": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/evidenceRef"
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "matrix-cell"
+            }
+          }
+        }
+      ]
+    },
+    "matrixCoreDelta": {
+      "additionalProperties": false,
+      "properties": {
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "core_id": {
+          "$ref": "#/$defs/coreId"
+        },
+        "predecessor_cells": {
+          "items": {
+            "$ref": "#/$defs/matrixCellRef"
+          },
+          "maxItems": 27,
+          "minItems": 27,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "predecessor_shard": {
+          "$ref": "#/$defs/matrixShardRef"
+        },
+        "successor_cells": {
+          "items": {
+            "$ref": "#/$defs/matrixCellRef"
+          },
+          "maxItems": 27,
+          "minItems": 27,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "successor_shard": {
+          "$ref": "#/$defs/matrixShardRef"
+        }
+      },
+      "required": [
+        "core_id",
+        "predecessor_cells",
+        "successor_cells",
+        "predecessor_shard",
+        "successor_shard",
+        "content_sha256"
+      ],
+      "type": "object"
+    },
+    "matrixShardRef": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/evidenceRef"
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "matrix-shard"
+            }
+          }
+        }
+      ]
+    },
+    "relativePath": {
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)(?!.*\\\\).+$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utcSecond": {
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+      "type": "string"
+    }
+  },
+  "$id": "https://spruceui.local/schemas/campaign-authority-stage-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "campaign_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "captured_at": {
+      "$ref": "#/$defs/utcSecond"
+    },
+    "content_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "copies": {
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/authorityCopy"
+          },
+          {
+            "properties": {
+              "name": {
+                "pattern": "^(?:phase\\.(?:engine-bundle|intent|predecessor|authority\\.(?:catalog|commit-blacklist|core-spec-set|host-execution|instrumentation|recipe-auxiliaries|schemas|spruce-branch-bases|spruce-release-roster|telemetry-schema|toolchain-lock|tracks|tunings|workflows)|source\\.[0-9a-f]{24})|matrix\\.member\\.[a-z0-9][a-z0-9._-]{0,127})$"
+              }
+            }
+          }
+        ]
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "current_state_root": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/evidenceRef"
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "state-root"
+            }
+          }
+        }
+      ]
+    },
+    "format": {
+      "const": "spruce-campaign-authority-stage-v1"
+    },
+    "legacy_matrix": {
+      "$ref": "#/$defs/legacyMatrixStage"
+    },
+    "local_only": {
+      "const": true
+    },
+    "matrix_changes": {
+      "items": {
+        "$ref": "#/$defs/matrixCoreDelta"
+      },
+      "maxItems": 98,
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "matrix_replay": {
+      "$ref": "#/$defs/authorityCopy"
+    },
+    "phase_plan": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/evidenceRef"
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "transition-plan"
+            }
+          }
+        }
+      ]
+    },
+    "phase_successor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/evidenceRef"
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "phase-freeze-cas"
+            }
+          }
+        }
+      ]
+    },
+    "predecessor_matrix_root": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/evidenceRef"
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "matrix-root"
+            }
+          }
+        }
+      ]
+    },
+    "process_tier": {
+      "const": "evidence"
+    },
+    "publication": {
+      "const": "disabled"
+    },
+    "required_checks": {
+      "const": [
+        "authority-stage.copies",
+        "authority-stage.matrix-delta",
+        "authority-stage.phase-freeze",
+        "authority-stage.pointer-preserved",
+        "authority-stage.schema",
+        "publication.disabled"
+      ]
+    },
+    "schema": {
+      "$ref": "#/$defs/authorityCopy"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "successor_matrix_root": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/evidenceRef"
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "matrix-root"
+            }
+          }
+        }
+      ]
+    },
+    "transition_id": {
+      "$ref": "#/$defs/identifier"
+    }
+  },
+  "required": [
+    "schema_version",
+    "format",
+    "campaign_id",
+    "transition_id",
+    "captured_at",
+    "schema",
+    "matrix_replay",
+    "copies",
+    "current_state_root",
+    "phase_plan",
+    "phase_successor",
+    "predecessor_matrix_root",
+    "successor_matrix_root",
+    "matrix_changes",
+    "legacy_matrix",
+    "required_checks",
+    "process_tier",
+    "local_only",
+    "publication",
+    "content_sha256"
+  ],
+  "title": "Spruce combined campaign authority stage v1",
+  "type": "object"
+}

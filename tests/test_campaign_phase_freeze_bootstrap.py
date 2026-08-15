@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import ast
-import copy
+from dataclasses import replace
 from pathlib import Path
 import unittest
 from unittest import mock
@@ -23,6 +23,7 @@ from scripts.core_pipeline_lib.campaign.phase_freeze_bootstrap import (
     LEGACY_PREDECESSOR_FILE_SHA256,
     LEGACY_PREDECESSOR_PATH,
     LEGACY_PREDECESSOR_SIZE,
+    capture_repository_phase_freeze_sources,
     collect_repository_phase_freeze_bootstrap,
     plan_repository_phase_freeze_bootstrap,
 )
@@ -34,7 +35,6 @@ from scripts.core_pipeline_lib.campaign.transition_registry import (
 )
 from scripts.core_pipeline_lib.errors import PipelineError
 from scripts.core_pipeline_lib.source_bundle import (
-    pipeline_bundle_content_sha256,
     pipeline_source_bundle_is_well_formed,
 )
 
@@ -51,6 +51,36 @@ CAPTURED_AT = "2026-08-15T02:00:00Z"
 
 
 class CampaignPhaseFreezeBootstrapTests(unittest.TestCase):
+    def test_public_source_capture_reuses_the_complete_descriptor_policy(
+        self,
+    ) -> None:
+        captured = capture_repository_phase_freeze_sources(repository_root=ROOT)
+        planned = plan_repository_phase_freeze_bootstrap(
+            repository_root=ROOT,
+            captured_at=CAPTURED_AT,
+        )
+        self.assertEqual(captured.members, planned.source_members)
+        self.assertEqual(
+            tuple(item.path for item in captured.members),
+            tuple(sorted(item.path for item in captured.members)),
+        )
+        self.assertTrue(
+            any(
+                item.path.startswith(".github/workflows/")
+                for item in captured.members
+            )
+        )
+        self.assertTrue(
+            any(
+                item.path.startswith("scripts/core_pipeline_lib/")
+                for item in captured.members
+            )
+        )
+        with self.assertRaisesRegex(PipelineError, "absolute Path"):
+            capture_repository_phase_freeze_sources(
+                repository_root=Path("relative")
+            )
+
     def test_collector_hydrates_the_exact_registered_repository_authorities(
         self,
     ) -> None:
@@ -163,6 +193,42 @@ class CampaignPhaseFreezeBootstrapTests(unittest.TestCase):
         self.assertTrue(first.result.phase_freeze.local_only)
         validate_phase_freeze(first.result, request=first.request)
 
+        member_paths = tuple(member.path for member in first.source_members)
+        self.assertEqual(tuple(sorted(member_paths)), member_paths)
+        self.assertEqual(len(member_paths), len(set(member_paths)))
+        self.assertIn(bootstrap.HOST_EXECUTION_SCHEMA_PATH, member_paths)
+        members = {member.path: member for member in first.source_members}
+        for member in first.source_members:
+            self.assertEqual((ROOT / member.path).read_bytes(), member.raw)
+            self.assertEqual(
+                0o755
+                if member.path == "scripts/core_pipeline.py"
+                else 0o644,
+                member.mode,
+            )
+
+        engine = decode_identity_object(
+            first.request.engine_bundle_raw,
+            label="planned bootstrap engine",
+        )
+        for path, digest in engine["files"].items():
+            self.assertEqual(digest, bootstrap.sha256_bytes(members[path].raw))
+        by_name = {item.name: item for item in first.request.inputs}
+        for role in ("instrumentation", "recipe-auxiliaries", "workflows"):
+            document = decode_identity_object(
+                by_name[role].raw,
+                label=f"planned {role} file set",
+            )
+            for path, identity in document["files"].items():
+                self.assertEqual(identity["size"], len(members[path].raw))
+                self.assertEqual(
+                    identity["file_sha256"],
+                    bootstrap.sha256_bytes(members[path].raw),
+                )
+        for role, item in by_name.items():
+            if role not in {"instrumentation", "recipe-auxiliaries", "workflows"}:
+                self.assertEqual(item.raw, members[item.reference.path].raw)
+
     def test_legacy_predecessor_is_authenticated_without_decoding(self) -> None:
         original = bootstrap.CampaignStore.read_snapshot
 
@@ -186,24 +252,51 @@ class CampaignPhaseFreezeBootstrapTests(unittest.TestCase):
                     captured_at=CAPTURED_AT,
                 )
 
-    def test_unstable_live_engine_bundle_fails_closed_without_a_manifest(self) -> None:
-        first = bootstrap.pipeline_source_bundle()
-        second = copy.deepcopy(first)
-        files = second["files"]
-        self.assertIsInstance(files, dict)
-        files["scripts/core_pipeline.py"] = "f" * 64
-        second["content_sha256"] = pipeline_bundle_content_sha256(files)
-        self.assertTrue(pipeline_source_bundle_is_well_formed(second))
+    def test_planner_rejects_byte_drift_and_same_byte_capture_aba(self) -> None:
+        reader = bootstrap.CampaignStore(ROOT, CAMPAIGN_STATE_RELATIVE)
+        stable = bootstrap._capture_repository_sources(reader, ROOT)
+        source_index = next(
+            index
+            for index, member in enumerate(stable.members)
+            if member.path == "scripts/core_pipeline_lib/source_bundle.py"
+        )
+
+        changed_members = list(stable.members)
+        changed = changed_members[source_index]
+        changed_members[source_index] = replace(
+            changed,
+            raw=changed.raw + b"\n",
+            size=changed.size + 1,
+        )
+        byte_drift = replace(stable, members=tuple(changed_members))
         with mock.patch.object(
             bootstrap,
-            "pipeline_source_bundle",
-            side_effect=(first, second),
+            "_capture_repository_sources",
+            side_effect=(stable, byte_drift),
         ):
             with self.assertRaisesRegex(
                 PipelineError,
-                "engine bundle is unstable",
+                "repository authorities moved during capture",
             ):
-                collect_repository_phase_freeze_bootstrap(
+                plan_repository_phase_freeze_bootstrap(
+                    repository_root=ROOT,
+                    captured_at=CAPTURED_AT,
+                )
+
+        changed_members = list(stable.members)
+        changed = changed_members[source_index]
+        changed_members[source_index] = replace(changed, inode=changed.inode + 1)
+        same_byte_aba = replace(stable, members=tuple(changed_members))
+        with mock.patch.object(
+            bootstrap,
+            "_capture_repository_sources",
+            side_effect=(stable, same_byte_aba),
+        ):
+            with self.assertRaisesRegex(
+                PipelineError,
+                "repository authorities moved during capture",
+            ):
+                plan_repository_phase_freeze_bootstrap(
                     repository_root=ROOT,
                     captured_at=CAPTURED_AT,
                 )

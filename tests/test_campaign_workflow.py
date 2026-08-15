@@ -579,6 +579,56 @@ class CampaignWorkflowTests(unittest.TestCase):
                 state_root_ref=root_ref,
             )
 
+    def test_historical_loader_is_pointer_free_reader_pure_and_retention_exact(
+        self,
+    ) -> None:
+        staged_ref = self.stage()
+        _result, root_ref = workflow.commit_transition(
+            self.fixture.store,
+            staged_receipt_ref=staged_ref,
+            clock=self.clock,
+        )
+        first = workflow.load_historical_transition(
+            self.fixture.store,
+            state_root_ref=root_ref,
+        )
+        content = {
+            reference: self.fixture.store.read_exact(reference)
+            for reference in first.required_objects
+        }
+        reads: list[EvidenceRef] = []
+
+        class Reader:
+            def read_exact(self, reference: EvidenceRef) -> bytes:
+                reads.append(reference)
+                return content[reference]
+
+            def read_pointer(self, _reference: EvidenceRef):
+                raise AssertionError("historical loader read a mutable pointer")
+
+        with mock.patch.object(
+            self.fixture.store,
+            "read_exact",
+            side_effect=AssertionError("historical loader bypassed its reader"),
+        ):
+            second = workflow.load_historical_transition(
+                self.fixture.store,
+                reader=Reader(),
+                state_root_ref=root_ref,
+            )
+
+        self.assertEqual(first, second)
+        self.assertEqual(root_ref, first.state_root_ref)
+        self.assertEqual(staged_ref, first.staged_receipt_ref)
+        self.assertEqual(first.state_root.receipt, first.post_commit_receipt_ref)
+        self.assertIn(first.check_receipt_ref, first.required_objects)
+        self.assertIn(first.process_receipt_ref, first.required_objects)
+        self.assertNotIn(first.current_pointer_ref, first.required_objects)
+        self.assertEqual(15, len(first.required_objects))
+        self.assertEqual(set(first.required_objects), set(reads))
+        with self.assertRaises(PipelineError):
+            replace(first, required_objects=(object(),))  # type: ignore[arg-type]
+
     def test_historical_verify_uses_input_cas_and_rejects_cas_tamper(self) -> None:
         staged_ref = self.stage()
         _result, root_ref = workflow.commit_transition(

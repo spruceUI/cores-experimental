@@ -33,6 +33,7 @@ from ..immutable_evidence import (
     selection_content_sha256,
 )
 from ..tracks import (
+    canonical_group_tag,
     core_track_inventory_content_sha256,
     core_track_test_assignment_content_sha256,
     core_tracks_content_sha256,
@@ -691,7 +692,9 @@ def _validated_inventory_row(
         "content_sha256"
     ):
         raise PipelineError("inventory and track registry identities differ")
-    expected_tag = f"{coordinate.track}-test-{coordinate.chipset}"
+    expected_tag = canonical_group_tag(
+        coordinate.track, "test", coordinate.chipset
+    )
     if document.get("group_tag") != expected_tag:
         raise PipelineError("inventory group does not match the matrix coordinate")
     rows = _require_list(document.get("cores"), label="inventory cores")
@@ -1110,6 +1113,33 @@ def _canonical_producer_coordinate(
                     architecture=architecture,
                 )
     raise PipelineError("admitted build identity has no canonical producer")
+
+
+def canonical_track_inventory_producer_v1(
+    inventory: object,
+    *,
+    coordinate: MatrixCoordinateV1,
+    track_registry: object,
+) -> MatrixCoordinateV1:
+    """Return the projector's canonical producer for one admitted inventory row."""
+
+    if type(coordinate) is not MatrixCoordinateV1:
+        raise PipelineError("producer coordinate must be exact")
+    registry = _require_mapping(track_registry, label="track registry")
+    if registry.get("content_sha256") != core_tracks_content_sha256(registry):
+        raise PipelineError("track registry identity is stale")
+    row, admitted = _validated_inventory_row(
+        inventory,
+        coordinate=coordinate,
+        track_registry=registry,
+    )
+    if not admitted:
+        raise PipelineError("deferred inventory row has no producer")
+    return _canonical_producer_coordinate(
+        registry,
+        row=row,
+        architecture=coordinate.architecture,
+    )
 
 
 def _variant_cell_authority(
@@ -3166,6 +3196,7 @@ __all__ = [
     "HydratedArtifactV1",
     "PipelineBundleIdentityV1",
     "TrackCellEvidenceV1",
+    "canonical_track_inventory_producer_v1",
     "project_matrix_root_refresh_v1",
     "project_track_inventory_cell_v1",
     "splice_matrix_core_refresh_v1",

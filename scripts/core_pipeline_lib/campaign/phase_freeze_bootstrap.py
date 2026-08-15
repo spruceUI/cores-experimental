@@ -17,9 +17,7 @@ needed nor accepted as an implicit build step.
 from __future__ import annotations
 
 from dataclasses import dataclass
-import os
 from pathlib import Path, PurePosixPath
-import stat
 from typing import Callable, Final, Mapping
 
 from ..chipsets import chipset_tunings_content_sha256, validate_chipset_tunings
@@ -29,8 +27,16 @@ from ..foundation import sha256_bytes
 from ..immutable_evidence import toolchain_lock_content_sha256
 from ..policy.blacklist import parse_commit_blacklist_bytes
 from ..source_bundle import (
+    PIPELINE_LAUNCHER_MODE,
+    PIPELINE_LAUNCHER_RELATIVE,
+    PIPELINE_PACKAGE_ROOT_RELATIVE,
     REPOSITORY_ROOT,
-    pipeline_source_bundle,
+    REPOSITORY_SOURCE_MODE,
+    RepositorySourceCapture,
+    RepositorySourceFileSet,
+    RepositorySourceMember,
+    capture_repository_sources,
+    pipeline_source_bundle_from_members,
     pipeline_source_bundle_is_well_formed,
 )
 from ..spruce_branch_bases import (
@@ -106,6 +112,20 @@ _INSTRUMENTATION_PATHS: Final = (
     "scripts/host_build_tool_wrapper.sh",
     "scripts/host_build_unit_runner.c",
 )
+_DIRECT_AUTHORITY_PATHS: Final = (
+    BLACKLIST_PATH,
+    BRANCH_BASES_PATH,
+    CATALOG_PATH,
+    CORE_SPEC_SET_PATH,
+    HOST_EXECUTION_PATH,
+    HOST_EXECUTION_SCHEMA_PATH,
+    PHASE_FREEZE_SCHEMA_PATH,
+    RELEASE_ROSTER_PATH,
+    TELEMETRY_SCHEMA_PATH,
+    TOOLCHAIN_LOCK_PATH,
+    TRACKS_PATH,
+    TUNINGS_PATH,
+)
 _FILE_SET_FORMAT: Final = "spruce-repository-file-set-v1"
 
 
@@ -118,12 +138,23 @@ class PlannedRepositoryPhaseFreezeBootstrap:
 
     request: TransitionRequest
     result: PlannedPhaseFreeze
+    source_members: tuple[RepositorySourceMember, ...]
 
     def __post_init__(self) -> None:
         if type(self.request) is not TransitionRequest:
             raise PipelineError("repository bootstrap request is invalid")
         if type(self.result) is not PlannedPhaseFreeze:
             raise PipelineError("repository bootstrap result is invalid")
+        if type(self.source_members) is not tuple or any(
+            type(item) is not RepositorySourceMember for item in self.source_members
+        ):
+            raise PipelineError("repository bootstrap source members are invalid")
+        paths = tuple(item.path for item in self.source_members)
+        if paths != tuple(sorted(paths)) or len(paths) != len(set(paths)):
+            raise PipelineError(
+                "repository bootstrap source members must be sorted and unique"
+            )
+        _validate_source_member_closure(self.request, self.source_members)
         validate_phase_freeze(self.result, request=self.request)
 
 
@@ -152,13 +183,107 @@ def _require_relative_path(value: object, *, label: str) -> str:
 
 
 def _read_document(
-    reader: CampaignStore,
+    sources: Mapping[str, RepositorySourceMember],
     path: str,
     *,
     label: str,
 ) -> tuple[bytes, dict[str, object]]:
-    raw = reader.read_snapshot(path)
+    raw = _source_raw(sources, path, label=label)
     return raw, decode_identity_object(raw, label=label)
+
+
+def _source_raw(
+    sources: Mapping[str, RepositorySourceMember],
+    path: str,
+    *,
+    label: str,
+) -> bytes:
+    member = sources.get(path)
+    if type(member) is not RepositorySourceMember:
+        raise PipelineError(f"{label} is absent from the repository source capture")
+    return member.raw
+
+
+def _validate_source_member_closure(
+    request: TransitionRequest,
+    members: tuple[RepositorySourceMember, ...],
+) -> None:
+    sources = {member.path: member for member in members}
+    bound_paths = {HOST_EXECUTION_SCHEMA_PATH}
+    for member in members:
+        expected_mode = (
+            PIPELINE_LAUNCHER_MODE
+            if member.path == PIPELINE_LAUNCHER_RELATIVE
+            else REPOSITORY_SOURCE_MODE
+        )
+        if member.mode != expected_mode:
+            raise PipelineError(
+                f"repository bootstrap source member mode is invalid: {member.path}"
+            )
+
+    synthetic_roles = {"instrumentation", "recipe-auxiliaries", "workflows"}
+    by_name = {item.name: item for item in request.inputs}
+    if set(by_name) != set(INPUT_ROLE_NAMES):
+        raise PipelineError("repository bootstrap source roles are incomplete")
+    for name, item in by_name.items():
+        if name not in synthetic_roles:
+            member = sources.get(item.reference.path)
+            if member is None or member.raw != item.raw:
+                raise PipelineError(
+                    f"repository bootstrap source closure is stale for {name}"
+                )
+            bound_paths.add(member.path)
+            continue
+        document = decode_identity_object(
+            item.raw,
+            label=f"repository bootstrap {name} file set",
+        )
+        files = document.get("files")
+        if type(files) is not dict or not files:
+            raise PipelineError(
+                f"repository bootstrap {name} file-set closure is invalid"
+            )
+        for path, identity in files.items():
+            member = sources.get(path) if type(path) is str else None
+            if (
+                member is None
+                or type(identity) is not dict
+                or identity.get("file_sha256") != sha256_bytes(member.raw)
+                or identity.get("size") != len(member.raw)
+            ):
+                raise PipelineError(
+                    f"repository bootstrap {name} member closure is stale"
+                )
+            bound_paths.add(member.path)
+
+    engine = decode_identity_object(
+        request.engine_bundle_raw,
+        label="repository bootstrap engine bundle",
+    )
+    if not pipeline_source_bundle_is_well_formed(engine):
+        raise PipelineError("repository bootstrap engine bundle is invalid")
+    engine_files = engine.get("files")
+    assert type(engine_files) is dict
+    for path, digest in engine_files.items():
+        member = sources.get(path) if type(path) is str else None
+        if member is None or digest != sha256_bytes(member.raw):
+            raise PipelineError("repository bootstrap engine member closure is stale")
+        bound_paths.add(member.path)
+
+    host_schema = sources.get(HOST_EXECUTION_SCHEMA_PATH)
+    host_input = by_name["host-execution"]
+    host_document = decode_identity_object(
+        host_input.raw,
+        label="repository bootstrap host execution",
+    )
+    if (
+        host_schema is None
+        or host_document.get("schema_file_sha256")
+        != sha256_bytes(host_schema.raw)
+    ):
+        raise PipelineError("repository bootstrap host schema closure is stale")
+    if bound_paths != set(sources):
+        raise PipelineError("repository bootstrap source closure has unbound members")
 
 
 def _reference(
@@ -197,7 +322,7 @@ def _semantic_without_content(document: Mapping[str, object]) -> str:
 
 
 def _file_set_input(
-    reader: CampaignStore,
+    sources: Mapping[str, RepositorySourceMember],
     *,
     role: str,
     paths: tuple[str, ...],
@@ -207,7 +332,11 @@ def _file_set_input(
     files: dict[str, object] = {}
     for path in paths:
         _require_relative_path(path, label=f"{role} file-set path")
-        raw = reader.read_snapshot(path)
+        raw = _source_raw(
+            sources,
+            path,
+            label=f"{role} file-set member",
+        )
         files[path] = {
             "file_sha256": sha256_bytes(raw),
             "size": len(raw),
@@ -310,35 +439,74 @@ def _catalog_reference_paths(catalog: Mapping[str, object]) -> tuple[str, ...]:
     return tuple(sorted(paths))
 
 
-def _workflow_paths(repository_root: Path) -> tuple[str, ...]:
-    directory = repository_root / WORKFLOW_ROOT
-    try:
-        directory_stat = os.lstat(directory)
-    except OSError as exc:
-        raise PipelineError(f"workflow authority root is unavailable: {exc}") from exc
-    if not stat.S_ISDIR(directory_stat.st_mode) or stat.S_ISLNK(
-        directory_stat.st_mode
-    ):
-        raise PipelineError("workflow authority root must be a real directory")
-    paths: list[str] = []
-    try:
-        entries = tuple(os.scandir(directory))
-    except OSError as exc:
-        raise PipelineError(f"cannot enumerate workflow authority: {exc}") from exc
-    for entry in entries:
-        if not entry.name.endswith((".yml", ".yaml")):
-            continue
-        try:
-            entry_stat = entry.stat(follow_symlinks=False)
-        except OSError as exc:
-            raise PipelineError(f"cannot inspect workflow authority: {exc}") from exc
-        if not stat.S_ISREG(entry_stat.st_mode) or entry.is_symlink():
-            raise PipelineError("workflow authority entries must be regular files")
-        paths.append(f"{WORKFLOW_ROOT}/{entry.name}")
-    result = tuple(sorted(paths))
-    if not result or len(result) != len(set(result)):
+def _workflow_paths(
+    sources: Mapping[str, RepositorySourceMember],
+) -> tuple[str, ...]:
+    prefix = f"{WORKFLOW_ROOT}/"
+    paths = tuple(
+        sorted(
+            path
+            for path in sources
+            if path.startswith(prefix) and path.endswith((".yaml", ".yml"))
+        )
+    )
+    if not paths or len(paths) != len(set(paths)):
         raise PipelineError("workflow authority set is empty or duplicated")
-    return result
+    return paths
+
+
+def _capture_repository_sources(
+    reader: CampaignStore,
+    repository_root: Path,
+) -> RepositorySourceCapture:
+    """Capture every physical authority and engine member in one window."""
+
+    discovery_raw = reader.read_snapshot(CATALOG_PATH)
+    discovery = decode_identity_object(
+        discovery_raw,
+        label="phase-freeze core catalog discovery",
+    )
+    exact_paths = set(_DIRECT_AUTHORITY_PATHS)
+    exact_paths.update(_INSTRUMENTATION_PATHS)
+    exact_paths.update(_catalog_reference_paths(discovery))
+    exact_modes = {path: REPOSITORY_SOURCE_MODE for path in exact_paths}
+    if (
+        PIPELINE_LAUNCHER_RELATIVE in exact_modes
+        and exact_modes[PIPELINE_LAUNCHER_RELATIVE] != PIPELINE_LAUNCHER_MODE
+    ):
+        raise PipelineError(
+            "pipeline launcher conflicts with a repository authority mode"
+        )
+    exact_modes[PIPELINE_LAUNCHER_RELATIVE] = PIPELINE_LAUNCHER_MODE
+    capture = capture_repository_sources(
+        repository_root=repository_root,
+        exact_file_modes=exact_modes,
+        file_sets=(
+            RepositorySourceFileSet(
+                root=WORKFLOW_ROOT,
+                suffixes=(".yaml", ".yml"),
+                recursive=False,
+                mode=REPOSITORY_SOURCE_MODE,
+                label="workflow authority",
+            ),
+            RepositorySourceFileSet(
+                root=PIPELINE_PACKAGE_ROOT_RELATIVE,
+                suffixes=(".py",),
+                recursive=True,
+                mode=REPOSITORY_SOURCE_MODE,
+                label="pipeline package entry",
+            ),
+        ),
+    )
+    sources = {member.path: member for member in capture.members}
+    captured_catalog = _source_raw(
+        sources,
+        CATALOG_PATH,
+        label="phase-freeze core catalog",
+    )
+    if captured_catalog != discovery_raw:
+        raise PipelineError("core catalog moved during repository source discovery")
+    return capture
 
 
 def _direct_input(
@@ -362,15 +530,19 @@ def _direct_input(
 
 
 def _authority_inputs(
-    reader: CampaignStore,
-    repository_root: Path,
+    source_capture: RepositorySourceCapture,
 ) -> tuple[AuthenticatedInput, ...]:
+    sources = {member.path: member for member in source_capture.members}
     catalog_raw, catalog = _read_document(
-        reader, CATALOG_PATH, label="phase-freeze core catalog"
+        sources, CATALOG_PATH, label="phase-freeze core catalog"
     )
     catalog_semantic = canonical_json_sha256(catalog)
 
-    core_spec_raw = reader.read_snapshot(CORE_SPEC_SET_PATH)
+    core_spec_raw = _source_raw(
+        sources,
+        CORE_SPEC_SET_PATH,
+        label="tracked CoreSpec set",
+    )
     core_spec_set = decode_core_spec_set(core_spec_raw)
     if render_core_spec_set(core_spec_set) != core_spec_raw:
         raise PipelineError("tracked CoreSpec set bytes are not canonical")
@@ -384,7 +556,7 @@ def _authority_inputs(
         raise PipelineError("tracked CoreSpec set does not bind the live catalog")
 
     blacklist_raw, _blacklist_document = _read_document(
-        reader, BLACKLIST_PATH, label="phase-freeze commit blacklist"
+        sources, BLACKLIST_PATH, label="phase-freeze commit blacklist"
     )
     try:
         blacklist = parse_commit_blacklist_bytes(
@@ -394,7 +566,7 @@ def _authority_inputs(
         raise PipelineError(f"commit blacklist authority is invalid: {exc}") from exc
 
     host_raw, host = _read_document(
-        reader, HOST_EXECUTION_PATH, label="phase-freeze host execution"
+        sources, HOST_EXECUTION_PATH, label="phase-freeze host execution"
     )
     host_semantic = _declared_semantic(
         host,
@@ -402,7 +574,7 @@ def _authority_inputs(
         label="host execution authority",
     )
     host_schema_raw, _host_schema = _read_document(
-        reader,
+        sources,
         HOST_EXECUTION_SCHEMA_PATH,
         label="host execution schema",
     )
@@ -410,17 +582,17 @@ def _authority_inputs(
         raise PipelineError("host execution schema binding is stale")
 
     schema_raw, schema = _read_document(
-        reader, PHASE_FREEZE_SCHEMA_PATH, label="phase-freeze schema"
+        sources, PHASE_FREEZE_SCHEMA_PATH, label="phase-freeze schema"
     )
     telemetry_raw, telemetry_schema = _read_document(
-        reader, TELEMETRY_SCHEMA_PATH, label="host telemetry schema"
+        sources, TELEMETRY_SCHEMA_PATH, label="host telemetry schema"
     )
 
     branch_raw, branch_bases = _read_document(
-        reader, BRANCH_BASES_PATH, label="Spruce branch bases"
+        sources, BRANCH_BASES_PATH, label="Spruce branch bases"
     )
     roster_raw, roster = _read_document(
-        reader, RELEASE_ROSTER_PATH, label="Spruce release roster"
+        sources, RELEASE_ROSTER_PATH, label="Spruce release roster"
     )
     roster_errors = spruce_release_roster_errors(roster, catalog=catalog)
     if roster_errors:
@@ -437,7 +609,7 @@ def _authority_inputs(
     )
 
     toolchain_raw, toolchain = _read_document(
-        reader, TOOLCHAIN_LOCK_PATH, label="toolchain lock"
+        sources, TOOLCHAIN_LOCK_PATH, label="toolchain lock"
     )
     toolchain_semantic = _declared_semantic(
         toolchain,
@@ -446,7 +618,7 @@ def _authority_inputs(
     )
 
     tracks_raw, tracks = _read_document(
-        reader, TRACKS_PATH, label="core track registry"
+        sources, TRACKS_PATH, label="core track registry"
     )
     tracks_semantic = _declared_semantic(
         tracks,
@@ -455,7 +627,7 @@ def _authority_inputs(
     )
 
     tunings_raw, tunings = _read_document(
-        reader, TUNINGS_PATH, label="chipset tuning registry"
+        sources, TUNINGS_PATH, label="chipset tuning registry"
     )
     tunings = validate_chipset_tunings(tunings)
     tunings_semantic = _declared_semantic(
@@ -494,12 +666,12 @@ def _authority_inputs(
             semantic_sha256=host_semantic,
         ),
         "instrumentation": _file_set_input(
-            reader,
+            sources,
             role="instrumentation",
             paths=_INSTRUMENTATION_PATHS,
         ),
         "recipe-auxiliaries": _file_set_input(
-            reader,
+            sources,
             role="recipe-auxiliaries",
             paths=_catalog_reference_paths(catalog),
         ),
@@ -561,9 +733,9 @@ def _authority_inputs(
             semantic_sha256=tunings_semantic,
         ),
         "workflows": _file_set_input(
-            reader,
+            sources,
             role="workflows",
-            paths=_workflow_paths(repository_root),
+            paths=_workflow_paths(sources),
         ),
     }
     if tuple(sorted(by_name)) != INPUT_ROLE_NAMES:
@@ -587,28 +759,34 @@ def _legacy_predecessor(reader: CampaignStore) -> tuple[EvidenceRef, bytes]:
     return reference, raw
 
 
-def _engine_bundle() -> tuple[dict[str, object], bytes]:
-    first = pipeline_source_bundle()
-    second = pipeline_source_bundle()
-    if first != second or not pipeline_source_bundle_is_well_formed(first):
-        raise PipelineError("live phase-freeze engine bundle is unstable or invalid")
-    raw = rendered_json_bytes(first)
-    return first, raw
+def _engine_bundle(
+    source_capture: RepositorySourceCapture,
+) -> tuple[dict[str, object], bytes]:
+    document = pipeline_source_bundle_from_members(source_capture.members)
+    if not pipeline_source_bundle_is_well_formed(document):
+        raise PipelineError("live phase-freeze engine bundle is invalid")
+    raw = rendered_json_bytes(document)
+    return document, raw
 
 
-def collect_repository_phase_freeze_bootstrap(
+@dataclass(frozen=True, slots=True, kw_only=True)
+class _CollectedRepositoryPhaseFreezeBootstrap:
+    request: TransitionRequest
+    source_capture: RepositorySourceCapture
+
+
+def _collect_repository_phase_freeze_bootstrap(
     *,
     repository_root: Path,
     captured_at: str,
-    transition_id: str = DEFAULT_TRANSITION_ID,
-    reason: str = DEFAULT_REASON,
-) -> TransitionRequest:
-    """Hydrate one exact registered bootstrap request without mutating state."""
-
+    transition_id: str,
+    reason: str,
+) -> _CollectedRepositoryPhaseFreezeBootstrap:
     root = _require_repository_root(repository_root)
     reader = CampaignStore(root, CAMPAIGN_STATE_RELATIVE)
     definition = definition_for(BOOTSTRAP_KIND)
-    inputs = _authority_inputs(reader, root)
+    source_capture = _capture_repository_sources(reader, root)
+    inputs = _authority_inputs(source_capture)
     predecessor, predecessor_raw = _legacy_predecessor(reader)
     intent = TransitionIntentV1(
         transition_id=transition_id,
@@ -630,7 +808,7 @@ def collect_repository_phase_freeze_bootstrap(
         raw=spec_raw,
         semantic_sha256=intent.content_sha256,
     )
-    engine_document, engine_raw = _engine_bundle()
+    engine_document, engine_raw = _engine_bundle(source_capture)
     engine_semantic = engine_document.get("content_sha256")
     if type(engine_semantic) is not str:
         raise PipelineError("phase-freeze engine bundle has no semantic identity")
@@ -642,13 +820,55 @@ def collect_repository_phase_freeze_bootstrap(
         raw=engine_raw,
         semantic_sha256=engine_semantic,
     )
-    return TransitionRequest(
-        spec_ref=spec_ref,
-        spec_raw=spec_raw,
-        engine_bundle_ref=engine_ref,
-        engine_bundle_raw=engine_raw,
-        predecessor_raw=predecessor_raw,
-        inputs=inputs,
+    return _CollectedRepositoryPhaseFreezeBootstrap(
+        request=TransitionRequest(
+            spec_ref=spec_ref,
+            spec_raw=spec_raw,
+            engine_bundle_ref=engine_ref,
+            engine_bundle_raw=engine_raw,
+            predecessor_raw=predecessor_raw,
+            inputs=inputs,
+        ),
+        source_capture=source_capture,
+    )
+
+
+def collect_repository_phase_freeze_bootstrap(
+    *,
+    repository_root: Path,
+    captured_at: str,
+    transition_id: str = DEFAULT_TRANSITION_ID,
+    reason: str = DEFAULT_REASON,
+) -> TransitionRequest:
+    """Hydrate one exact registered bootstrap request without mutating state."""
+
+    return _collect_repository_phase_freeze_bootstrap(
+        repository_root=repository_root,
+        captured_at=captured_at,
+        transition_id=transition_id,
+        reason=reason,
+    ).request
+
+
+def capture_repository_phase_freeze_sources(
+    *,
+    repository_root: Path,
+) -> RepositorySourceCapture:
+    """Capture the bootstrap's complete source policy without selecting a root.
+
+    This is the shared read-only descriptor boundary for historical/live
+    provenance comparisons.  Unlike the repository bootstrap planner it does
+    not require ``repository_root`` to be the source tree that loaded this
+    module; it performs no planning and reads no legacy predecessor.
+    """
+
+    if not isinstance(repository_root, Path) or not repository_root.is_absolute():
+        raise PipelineError(
+            "phase-freeze source capture root must be an absolute Path"
+        )
+    return _capture_repository_sources(
+        CampaignStore(repository_root, CAMPAIGN_STATE_RELATIVE),
+        repository_root,
     )
 
 
@@ -667,13 +887,17 @@ def plan_repository_phase_freeze_bootstrap(
         "transition_id": transition_id,
         "reason": reason,
     }
-    first = collect_repository_phase_freeze_bootstrap(**arguments)
-    second = collect_repository_phase_freeze_bootstrap(**arguments)
+    first = _collect_repository_phase_freeze_bootstrap(**arguments)
+    second = _collect_repository_phase_freeze_bootstrap(**arguments)
     if first != second:
         raise PipelineError("phase-freeze repository authorities moved during capture")
-    result = plan_phase_freeze(first)
-    validate_phase_freeze(result, request=first)
-    return PlannedRepositoryPhaseFreezeBootstrap(request=first, result=result)
+    result = plan_phase_freeze(first.request)
+    validate_phase_freeze(result, request=first.request)
+    return PlannedRepositoryPhaseFreezeBootstrap(
+        request=first.request,
+        result=result,
+        source_members=first.source_capture.members,
+    )
 
 
 __all__ = [
@@ -685,6 +909,7 @@ __all__ = [
     "LEGACY_PREDECESSOR_PATH",
     "LEGACY_PREDECESSOR_SIZE",
     "PlannedRepositoryPhaseFreezeBootstrap",
+    "capture_repository_phase_freeze_sources",
     "collect_repository_phase_freeze_bootstrap",
     "plan_repository_phase_freeze_bootstrap",
 ]

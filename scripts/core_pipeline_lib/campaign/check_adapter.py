@@ -11,6 +11,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 from dataclasses import dataclass, replace
 import hashlib
+from typing import Protocol
 
 from ..checks import (
     CapturedStructuredOutput,
@@ -34,6 +35,12 @@ from .store import CampaignStore
 
 
 _ArtifactKey = tuple[str, int]
+
+
+class CheckEvidenceReader(Protocol):
+    """Read-only surface for validating H4 evidence under an outer view."""
+
+    def read_exact(self, reference: EvidenceRef) -> bytes: ...
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -341,6 +348,7 @@ def store_reference_envelope(
 def validate_stored_check_receipt(
     *,
     store: CampaignStore,
+    reader: CheckEvidenceReader | None = None,
     receipt_ref: EvidenceRef,
     artifact_refs: tuple[EvidenceRef, ...],
     expected_subject: str,
@@ -350,6 +358,9 @@ def validate_stored_check_receipt(
     """Read and authenticate one exact stored local receipt and artifact closure."""
 
     exact_store = _require_store(store)
+    exact_reader = exact_store if reader is None else reader
+    if not callable(getattr(exact_reader, "read_exact", None)):
+        raise PipelineError("stored check evidence reader is invalid")
     exact_tier = _require_local_tier(expected_tier)
     exact_subject = _require_subject(expected_subject)
     exact_ids = _require_expected_check_ids(expected_check_ids, tier=exact_tier)
@@ -359,7 +370,7 @@ def validate_stored_check_receipt(
         or receipt_ref.target_content_sha256 is not None
     ):
         raise PipelineError("stored process receipt must be a raw check-log ref")
-    receipt_raw = exact_store.read_exact(receipt_ref)
+    receipt_raw = exact_reader.read_exact(receipt_ref)
     if receipt_ref != exact_store.reference_for(
         kind="check-log",
         raw=receipt_raw,
@@ -390,7 +401,7 @@ def validate_stored_check_receipt(
 
     content_by_key: dict[_ArtifactKey, bytes] = {}
     for reference in artifact_refs:
-        raw = exact_store.read_exact(reference)
+        raw = exact_reader.read_exact(reference)
         canonical = exact_store.reference_for(
             kind="artifact",
             raw=raw,
@@ -407,6 +418,7 @@ def validate_stored_check_receipt(
 
 
 __all__ = [
+    "CheckEvidenceReader",
     "StoredCheckReceipt",
     "run_and_store_check_receipt",
     "store_reference_envelope",
