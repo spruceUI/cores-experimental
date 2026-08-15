@@ -89,6 +89,10 @@ delegates are not permitted, wire values are stable strings rather than
   cannot silently preserve an old recipe identity. Generation rejects a
   missing, uncontained, or symlink-traversed package tree rather than degrading
   to a launcher-only identity.
+- `campaign/` owns declarative authority plans, immutable staging, pointer-last
+  commit/verification, and exact receipt chains; `checks/` owns stable check
+  IDs, isolated execution, and structured artifacts, while the campaign binds
+  one byte-opaque check-log reference rather than reinterpreting check output.
 - `records/` owns tracked record composition. Individual compatibility
   documents live at `manifests/compatibility/<core_id>.json` and bind exactly
   one immutable one-core pin. Each document binds the selected and reproduction

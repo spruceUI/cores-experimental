@@ -1,7 +1,8 @@
 # Build harness consolidation
 
-Status: complete local-only long-horizon migration. H0-H7 and the first H3
-production transition are complete. Publication remains disabled.
+Status: complete local-only long-horizon migration. H0-H7, the first H3
+production transition, and the post-Gambatte generation-two authority
+transition are complete. Publication remains disabled.
 
 ## Purpose
 
@@ -378,7 +379,9 @@ Independent review exhaustively approved all 277 target/factory routes, all
 private-injection rejection paths, the final import graph, and the absence of a
 reverse launcher dependency or cycle.
 
-## First production transition
+## Production transitions
+
+### Generation-one pilot
 
 The sealed post-Gambatte Phase-1 freeze is semantic/raw
 `0c57e20111a6c704c1481993f60fcce0b58cf1c52b00cbd4b969aab18fb7de1c`
@@ -403,3 +406,69 @@ the matrix-specific H3 records or reviving historical executable generators.
 H6 persists a normalized immutable view and reproduces the legacy bytes; it
 does not rewrite historical evidence, select new authority, or enable
 publication.
+
+The H3 matrix at semantic/raw SHA-256 `a9194ec841924410fcb544ff28fd0c5cf97e6bbf507c08aeda24ecb93cee412d`
+/ `7a402f0295c49a339aeaf458662beb9f6165e0dee4ff056f62ee9b981c211381`,
+the H6 root at raw/semantic/reference SHA-256
+`a678088790bb1fa65a9f8421361191e7836fd2892a25dae745368dd2e5bc753a`
+/ `3a5f769f2fab18cb1177c59728b2dc12084dd0ba4f5be11ca929b69a93b9e94d`
+/ `a2054e8f56e9f3c0d54768e7d6f5229a66490bff7a62fde5c0d41f0e3a52d5e2`,
+and the StateRoot at raw/semantic SHA-256
+`136ec08e6f0efeca53718217298d1ad6d36eb7e0b0e4a41079a1902240399612`
+/ `ec7c4915240f4e7944fbe112abeb07d4f9b031ac5166aee2bdabb0e1d5e95415`
+are now immutable predecessor/generation-one evidence.
+
+### Post-Gambatte generation-two closeout
+
+The repaired combined authority plan is raw/semantic/reference SHA-256
+`80a9193c2cf608fd99840a47f64227fecb31134b9505b33ad0583f05266c0582`
+/ `24ec2b6d636d2dcf7cdaab92209aa628d4b827520303363dd343a42363a8f8af`
+/ `22bb9e4c38ea3a4dadace79a15251076e0e01b063eb8a250b836d718a738221d`.
+Its accepted H4 receipt passed all ten required checks. The byte-opaque check-log is
+raw/reference SHA-256
+`700ee85b28f27f12ad96215761279ad98b288c038ec0a83be6fca4f78408a2bd`
+/ `2aa05b15fd63c7ea562d5193382ea7ae4ac88431d9545eb2a727bde2af4e4fb4`;
+the full-static check passed 1,897 tests with the two expected
+environment-gated skips and produced JSON/JUnit SHA-256
+`8c137f54b0e8de09845a899a26a0866b90749134ed61f935984a080646bbdc29`
+/ `e0243cb1d620c1b251e84da15771c47bab3b9ac1098c7219b82479f44afed089`.
+
+The deeply reloadable staged receipt was published last at
+raw/semantic/reference SHA-256
+`48654d504c3878a6776c797343ddf51dc5d4caa92cd23834f40cea020d464fb9`
+/ `b2c97a1420fbddadd4ea6d21f7f261bcf01e8c0602aa7d009d37a79b1b093050`
+/ `c880630b41511e92d2ba74939e304274f46b6957763f0015799b8b66a931b7f7`.
+The H5 PhaseFreeze successor is raw/semantic SHA-256
+`099c57183bd780d94a1d59666e89f8770e4dfca73ab011a41b49016240ee7502`
+/ `8b22a58f85e4bfe75214e3e00f7437caa07a5e0d376bd5055717af72b39a1cac`;
+the refreshed normalized H6 root is raw/semantic SHA-256
+`c9e45411c33a9de6cc47ae3d2052b5d2282439a4b1cd5873285b0667e590a271`
+/ `8f3c8faac63d4a01ce2fbceb7639107ef0385d6ede2f4d9071f68007c5cebcf4`.
+
+After independent staged reauthentication, one commit created the pre-commit
+receipt at raw/semantic/reference SHA-256
+`321f53a33068a5c597b5bd61d82ec96e98a48df48cb8a804e08fe89e485fd18f`
+/ `d05598394fa343aeb5905f7040eaee01a67439ca11d573a39123f14d28c34a4b`
+/ `c2d0859503a2deb4e81ce3c0d73a7c1f2d5a553675346f3ea938a40c4fdd32ef`,
+then the post-commit receipt at raw/semantic/reference SHA-256
+`950468c4448225eda53f1b9b74c4034440e3fea08f7b063bfc8653a20ba93a22`
+/ `bd63eae6e11e10a71389cada3ab6427bf0167709a81d88c8d79a3e88beaa1d14`
+/ `a086da74d84972f0ff2d68a3c5dc8d8ec3d4a6affbbe6a2c760898f98618540f`.
+The live legacy pointer is the exact raw/semantic successor
+`d7931f38f64a0592638ba2f00d312088f1836be391dc361e8f0d8e6d6f031ab9`
+/ `5c57d8cef907ee25d5ea526e95a83d2299a0a7428d50971c985cae6f09d590d9`.
+The resulting generation-two StateRoot was deeply verified at
+raw/semantic/reference SHA-256
+`bb90d97971e275867408d5a2c4427159779e4cd9bcc93bfdd49460298123ba9d`
+/ `156956ac39723f13166d0c84359f213eec73d3640554349173dcececf9df4ee6`
+/ `c79042e266f503207c4cd95426394154dde8a6fb0420fa73ec7eb2813434959f`.
+
+The closed snapshot has Main effective TEST 12 / deferred 86; Nightly
+effective TEST 12 / deferred 86 with 11 direct TEST assignments; Edge TEST 11
+/ deferred 87; and Stable zero. Its normalized coordinates are 315 admitted,
+2,223 deferred, and 108 unsupported. The remaining 86 cores need fresh
+hardened proof, ranked `freechaf`, `mednafen_lynx`, then `mednafen_ngp`.
+Stable promotion and publication remain separate authorization gates, and
+publication remains disabled. The authority-source checkpoint was `7a95aa8`;
+this generation-two evidence and its closeout documentation remain local-only
+and unpushed.
