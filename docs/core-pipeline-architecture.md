@@ -236,9 +236,11 @@ The proof is part of selection and semantic identity and transitively binds
 each E2E's immutable profile/schema/tool/telemetry CAS graph without treating
 observational values as package equivalence.
 
-Track admission remains a separate policy mutation. `core-track-set-test`
-deep-validates the authoritative proof-bearing pin, current registry, current
-direct TEST variant and assignment digests, reviewed new variant, and required
+Track admission remains a separate policy mutation. Read-only
+`core-track-plan-test` and mutating `core-track-set-test` share one complete
+in-memory transition engine: the planner derives and validates the exact CAS
+contract, while the setter additionally enforces the reviewed full source
+registry, direct TEST variant and assignment digests, new variant, and required
 version slice before one atomic write. Fresh TEST/STABLE admission requires a
 non-null hardened `host_reproduction` proof; frozen legacy pins remain readable
 but are not newly admissible. For Nightly or Edge the setter CASes both the

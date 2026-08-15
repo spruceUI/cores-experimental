@@ -1,7 +1,7 @@
 {
   "$schema": "./core-tracks.schema.json",
   "applicability_scope": "architecture-only",
-  "content_sha256": "ea53356c485d029943e8eaa2a727693f247f2cf71eaa25a0def54a8f5b3235a3",
+  "content_sha256": "89769b9f68607cfeef48cc7d26deb3e284b5418d25b265221e38dce0ea390f05",
   "historical_release_correlation": {
     "roster_content_sha256": "a11c4c1663a12c85bd8b82a93471f7525c71223f5bae7c1ce6422f2aeb31814b",
     "roster_path": "manifests/spruce-release-roster.json"
@@ -2184,7 +2184,14 @@
   },
   "tracks": {
     "edge": {
-      "deferred": {},
+      "deferred": {
+        "gambatte": {
+          "universal": {
+            "reason": "no-reviewed-version-channel-build-pin",
+            "state": "deferred"
+          }
+        }
+      },
       "extends": "nightly",
       "spruce_branch_basis": {
         "basis_content_sha256": "cd0889b722b8f55aa9daa4888a5212b0fbd74c0b73d99a81d1b6479911dd9d86",
@@ -2583,12 +2590,6 @@
             "state": "deferred"
           }
         },
-        "gambatte": {
-          "universal": {
-            "reason": "no-reviewed-version-channel-build-pin",
-            "state": "deferred"
-          }
-        },
         "gearboy": {
           "universal": {
             "reason": "no-reviewed-version-channel-build-pin",
@@ -2974,6 +2975,27 @@
               "content_sha256": "23f43186f50cb840f5cbf3acf06ac09c207a67ede7a52016f4f240de8b2c50d2",
               "model": "manual-track-version-slice-v1",
               "slice_time": "2026-08-12T19:59:12Z",
+              "track": "main"
+            }
+          }
+        },
+        "gambatte": {
+          "universal": {
+            "applicable_chipsets": [
+              "a133p",
+              "a33",
+              "a523",
+              "h700",
+              "rk3326",
+              "rk3566",
+              "ssd202d"
+            ],
+            "build_pin_id": "gambatte-dfc165599f3f-e141e6b01b6b",
+            "tuning_profile": "universal-v1",
+            "version_slice": {
+              "content_sha256": "0e1113fd4809f0ac445914dbdc816cde999a30f4c42414b17f8ff7c7621f5b9c",
+              "model": "manual-track-version-slice-v1",
+              "slice_time": "2026-08-15T00:30:00Z",
               "track": "main"
             }
           }
@@ -21002,6 +21024,21 @@
         "content_sha256": "49eb19c64e780a3de46759b7eca36e1d94a7973a60ccf9d831004c84beba2543",
         "model": "spruce-track-comparison-basis-projection-v1",
         "slice_time": "2026-08-11T13:40:21Z",
+        "spruce_branch_registry_content_sha256": "c9a4abe291688e8e615b90f028e20dd5f2831e95cd560d63ea18e667c234fe7d",
+        "track": "main"
+      },
+      "0e1113fd4809f0ac445914dbdc816cde999a30f4c42414b17f8ff7c7621f5b9c": {
+        "basis_content_sha256": "ebecc53c11767b51eaf54424efa15ccd3d009dc264b08d9958862bf616ef3bf9",
+        "basis_id": "spruce-main",
+        "branch": {
+          "commit": "de480d2b2c2d5e3b692eb7dc6c3bae6692395fb1",
+          "ref": "refs/heads/main",
+          "repository": "https://github.com/spruceUI/spruceOS.git",
+          "tree": "f57693ecbded5cf6a550a6a2af4b651685b381c0"
+        },
+        "content_sha256": "2b1a32bd19c5743ac5fabf4c071408ac821848a4ab4d7d1ed49803b047ea0b24",
+        "model": "spruce-track-comparison-basis-projection-v1",
+        "slice_time": "2026-08-15T00:30:00Z",
         "spruce_branch_registry_content_sha256": "c9a4abe291688e8e615b90f028e20dd5f2831e95cd560d63ea18e667c234fe7d",
         "track": "main"
       },

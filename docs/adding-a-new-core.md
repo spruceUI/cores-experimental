@@ -133,9 +133,10 @@ python3 scripts/promote_core.py compose-source-lock --core <core>
 state"* — expected; the compatibility manifest is written by the promote chain
 (step 10). Do not hand-write it.
 
-Once the immutable pin exists, admit it with `core-track-set-test`; do not
+Once the immutable pin exists, run read-only `core-track-plan-test`, review its
+exact setter arguments, and admit it with `core-track-set-test`; do not
 hand-edit `main.test`. A portable/default build uses `universal-v1` and an
-explicit architecture-compatible fallback list. The command replaces the
+explicit architecture-compatible fallback list. The setter replaces the
 matching deferred state only when the pin is manually assigned to the reviewed
 version channel. Fresh admission requires the pin's hardened selected/local
 host-reproduction proof and a canonical UTC-second slice. The slice is

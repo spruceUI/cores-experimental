@@ -42,7 +42,8 @@ arbitrary self-contained manifest from another directory.
 
 The following commands read `--catalog`:
 
-- `catalog-check`, `core-track-inventory`, `core-track-set-test`,
+- `catalog-check`, `core-track-inventory`, `core-track-plan-test`,
+  `core-track-set-test`,
   `audit-workflows`, `build`, `build-core`, `e2e`, `promote`,
   `promote-host-reproduction`, `promote-source-candidate`,
   `promote-tuned-variant`,
@@ -252,6 +253,30 @@ revalidates that CAS lineage against the snapshot. Approval metadata requires a
 real, canonical UTC-second timestamp and non-whitespace approver and reason.
 Its output and effects remain local-only and publication-disabled.
 
+### `core-track-plan-test`
+
+Deep-validate and predict one complete track-local TEST transition without
+acquiring the manifest lock, creating a snapshot, or writing the registry.
+
+```text
+core-track-plan-test --track TRACK --core CORE --chipset CHIPSET
+  --pin-id PIN --tuning-profile PROFILE
+  --slice-time YYYY-MM-DDTHH:MM:SSZ
+  [--applicable-chipset CHIPSET]...
+  [--outlier-authorized-at YYYY-MM-DDTHH:MM:SSZ
+   --outlier-authorized-by NAME --outlier-reason TEXT]
+```
+
+The planner uses the setter's full in-memory transition engine. It validates
+the authoritative pin and every registry dependency, derives the exact source
+registry, direct-cell, direct-assignment, new-variant, and child-parent CAS
+values, and validates the predicted complete registry. Its JSON
+`set_test_arguments` object is the reviewed input to `core-track-set-test`;
+optional parent and outlier fields are `null` when they must be omitted. Any
+intervening source-registry or target-cell change causes the later setter to
+fail closed. The predicted registry digest is informational until the setter
+successfully enforces those CAS values.
+
 ### `core-track-set-test`
 
 Atomically admit one authoritative immutable pin into one exact track-local
@@ -262,6 +287,7 @@ core-track-set-test --track TRACK --core CORE --chipset CHIPSET
   --pin-id PIN --tuning-profile PROFILE
   --slice-time YYYY-MM-DDTHH:MM:SSZ
   [--applicable-chipset CHIPSET]...
+  --expected-source-registry SHA256
   --expected-current-test absent|SHA256
   --expected-current-assignment absent|SHA256
   --expected-new-variant SHA256
@@ -270,7 +296,10 @@ core-track-set-test --track TRACK --core CORE --chipset CHIPSET
    --outlier-authorized-by NAME --outlier-reason TEXT]
 ```
 
-The two current arguments and the new variant are compare-and-swap assertions.
+The source registry, two current arguments, and new variant are
+compare-and-swap assertions. `--expected-source-registry` binds the complete
+reviewed input registry before any transition logic runs; obtain it from
+`core-track-plan-test`, including for Main.
 `--expected-current-test` addresses only the build-variant identity in the
 direct TEST cell, not an inherited cell. `--expected-current-assignment`
 addresses the complete direct assignment, including its immutable version
@@ -607,7 +636,7 @@ golden, core selection, pin, and semantic ID. It is create-only: neither the
 input candidate nor an existing output path is overwritten. Grouped, tuned,
 source-candidate, legacy five-field, mixed-mode, role-swapped, or output-drifted
 evidence is rejected. This is the ordinary path for producing a pin eligible
-for fresh `core-track-set-test` admission.
+for fresh `core-track-plan-test` review and `core-track-set-test` admission.
 
 **External data:** the canonical catalog and blacklist, both complete hardened
 run trees, the source golden, and writable local store/nightly/pin directories.
@@ -659,7 +688,8 @@ deep-validates both stored E2E sides, derives the semantic ID, and creates the
 canonical golden and parentless pin without overwriting either path. Grouped
 records, a projected universal package, `universal-v1`, source/ABI/profile
 drift, or a legacy partial package are rejected. This does not edit a track;
-use `core-track-set-test` with the returned pin and reviewed variant identity.
+run `core-track-plan-test`, then use its exact CAS output with
+`core-track-set-test`.
 Fresh hardened pairs also layer the selector-neutral `host_reproduction` proof
 into the promoted record and pin; mixed hardened/legacy evidence fails closed.
 

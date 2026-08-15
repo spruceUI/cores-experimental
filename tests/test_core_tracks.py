@@ -35,6 +35,7 @@ from scripts.core_pipeline_lib.tracks import (
     load_core_pin_index,
     load_core_track_source_registry_index,
     local_git_source_ancestry_verifier,
+    plan_core_track_test,
     promote_core_track_test,
     resolve_core_track_cell,
     set_core_track_test,
@@ -218,7 +219,7 @@ class CoreTrackTests(unittest.TestCase):
             self._basis_errors_patcher.start()
             self._edge_latest_errors_patcher.start()
         self.assertEqual(
-            "ea53356c485d029943e8eaa2a727693f247f2cf71eaa25a0def54a8f5b3235a3",
+            "89769b9f68607cfeef48cc7d26deb3e284b5418d25b265221e38dce0ea390f05",
             validated["content_sha256"],
         )
 
@@ -1309,6 +1310,7 @@ class CoreTrackTests(unittest.TestCase):
             tuning_profile=UNIVERSAL_TUNING_PROFILE,
             slice_time="2026-08-10T10:00:00Z",
             applicable_chipsets=["h700", "rk3566"],
+            expected_source_registry=document["content_sha256"],
             expected_current_test="absent",
             expected_current_assignment="absent",
             expected_new_variant=variant,
@@ -1335,12 +1337,14 @@ class CoreTrackTests(unittest.TestCase):
                 tuning_profile=UNIVERSAL_TUNING_PROFILE,
                 slice_time="2026-08-10T10:30:00Z",
                 applicable_chipsets=["h700", "rk3566"],
+                expected_source_registry=first["registry"]["content_sha256"],
                 expected_current_test=variant,
                 expected_current_assignment="f" * 64,
                 expected_new_variant=variant,
                 expected_parent_variant=None,
                 expected_parent_registry=None,
             )
+
         second = set_core_track_test(
             first["registry"],
             repository_root=ROOT,
@@ -1358,6 +1362,7 @@ class CoreTrackTests(unittest.TestCase):
             tuning_profile=UNIVERSAL_TUNING_PROFILE,
             slice_time="2026-08-10T10:30:00Z",
             applicable_chipsets=["h700", "rk3566"],
+            expected_source_registry=first["registry"]["content_sha256"],
             expected_current_test=variant,
             expected_current_assignment=first["assignment_content_sha256"],
             expected_new_variant=variant,
@@ -1414,6 +1419,7 @@ class CoreTrackTests(unittest.TestCase):
                 tuning_profile=UNIVERSAL_TUNING_PROFILE,
                 slice_time="2026-08-10T11:00:00Z",
                 applicable_chipsets=["h700", "rk3566"],
+                expected_source_registry=second["registry"]["content_sha256"],
                 expected_current_test=variant,
                 expected_current_assignment=first[
                     "assignment_content_sha256"
@@ -1421,6 +1427,63 @@ class CoreTrackTests(unittest.TestCase):
                 expected_new_variant=variant,
                 expected_parent_variant=None,
                 expected_parent_registry=None,
+            )
+
+    def test_test_admission_plan_is_deterministic_and_setter_exact(self) -> None:
+        document = self._track_document()
+        original = copy.deepcopy(document)
+        proposal = {
+            "repository_root": ROOT,
+            "catalog": self.catalog,
+            "pin_index": self.pin_index,
+            "tunings": self.tunings,
+            "main_release_roster": self.release_roster,
+            "spruce_branch_bases": self.branch_bases,
+            "source_registry_index": self.source_registry_index,
+            "source_ancestry_verifier": None,
+            "track": "main",
+            "core_id": "alpha",
+            "chipset": "universal",
+            "pin_id": "alpha-universal",
+            "tuning_profile": UNIVERSAL_TUNING_PROFILE,
+            "slice_time": self._slice_time("main"),
+            "applicable_chipsets": ["h700", "rk3566"],
+        }
+
+        first = plan_core_track_test(document, **proposal)
+        second = plan_core_track_test(document, **proposal)
+
+        self.assertEqual(first, second)
+        self.assertEqual(original, document)
+        self.assertEqual(
+            {
+                "expected_source_registry": document["content_sha256"],
+                "expected_current_test": "absent",
+                "expected_current_assignment": "absent",
+                "expected_new_variant": first["variant_id"],
+                "expected_parent_variant": None,
+                "expected_parent_registry": None,
+            },
+            first["expectations"],
+        )
+        applied = set_core_track_test(
+            document,
+            **proposal,
+            **first["expectations"],
+        )
+        self.assertEqual(first, applied)
+
+        stale_expectations = {
+            **first["expectations"],
+            "expected_source_registry": "f" * 64,
+        }
+        with self.assertRaisesRegex(
+            PipelineError, "source track registry changed since admission review"
+        ):
+            set_core_track_test(
+                document,
+                **proposal,
+                **stale_expectations,
             )
 
     def test_version_slice_and_host_reproduction_admission_fail_closed(self) -> None:
@@ -1510,6 +1573,7 @@ class CoreTrackTests(unittest.TestCase):
                 tuning_profile=UNIVERSAL_TUNING_PROFILE,
                 slice_time=self._slice_time("main"),
                 applicable_chipsets=["h700", "rk3566"],
+                expected_source_registry=empty["content_sha256"],
                 expected_current_test="absent",
                 expected_current_assignment="absent",
                 expected_new_variant=variant,
@@ -1771,6 +1835,7 @@ class CoreTrackTests(unittest.TestCase):
             pin_id="alpha-diverged",
             tuning_profile="h700-cortex-a53-v1",
             slice_time=self._slice_time("nightly"),
+            expected_source_registry=document["content_sha256"],
             expected_current_test="absent",
             expected_current_assignment="absent",
             expected_new_variant=diverged_variant,
@@ -1807,6 +1872,7 @@ class CoreTrackTests(unittest.TestCase):
             pin_id="alpha-diverged",
             tuning_profile="h700-cortex-a53-v1",
             slice_time=self._slice_time("edge"),
+            expected_source_registry=edge_source["content_sha256"],
             expected_current_test="absent",
             expected_current_assignment="absent",
             expected_new_variant=diverged_variant,
@@ -1834,6 +1900,7 @@ class CoreTrackTests(unittest.TestCase):
             pin_id="alpha-h700",
             tuning_profile="h700-cortex-a53-v1",
             slice_time="2026-08-10T11:30:00Z",
+            expected_source_registry=edge["registry"]["content_sha256"],
             expected_current_test=diverged_variant,
             expected_current_assignment=nightly[
                 "assignment_content_sha256"
@@ -2086,6 +2153,35 @@ class CoreTrackTests(unittest.TestCase):
             tunings=self.tunings,
         )
         stable_before = copy.deepcopy(document["tracks"]["nightly"]["stable"])
+        planned = plan_core_track_test(
+            document,
+            repository_root=ROOT,
+            catalog=self.catalog,
+            pin_index=self.pin_index,
+            tunings=self.tunings,
+            main_release_roster=self.release_roster,
+            spruce_branch_bases=self.branch_bases,
+            source_registry_index=self.source_registry_index,
+            source_ancestry_verifier=lambda *_args: True,
+            track="nightly",
+            core_id="alpha",
+            chipset="h700",
+            pin_id="alpha-h700",
+            tuning_profile="h700-cortex-a53-v1",
+            slice_time=self._slice_time("nightly"),
+        )
+        self.assertEqual(
+            document["content_sha256"],
+            planned["expectations"]["expected_source_registry"],
+        )
+        self.assertEqual(
+            parent_variant,
+            planned["expectations"]["expected_parent_variant"],
+        )
+        self.assertEqual(
+            document["content_sha256"],
+            planned["expectations"]["expected_parent_registry"],
+        )
         result = set_core_track_test(
             document,
             repository_root=ROOT,
@@ -2102,12 +2198,14 @@ class CoreTrackTests(unittest.TestCase):
             pin_id="alpha-h700",
             tuning_profile="h700-cortex-a53-v1",
             slice_time=self._slice_time("nightly"),
+            expected_source_registry=document["content_sha256"],
             expected_current_test="absent",
             expected_current_assignment="absent",
             expected_new_variant=new_variant,
             expected_parent_variant=parent_variant,
             expected_parent_registry=document["content_sha256"],
         )
+        self.assertEqual(planned, result)
         self._index_setter_snapshot(result)
         self.assertEqual(new_variant, result["variant_id"])
         self.assertIsNone(result["previous_variant_id"])
@@ -2150,6 +2248,7 @@ class CoreTrackTests(unittest.TestCase):
             "chipset": "h700",
             "pin_id": "alpha-h700",
             "tuning_profile": "h700-cortex-a53-v1",
+            "expected_source_registry": document["content_sha256"],
             "expected_current_test": "absent",
             "expected_current_assignment": "absent",
             "expected_new_variant": new_variant,
@@ -2188,6 +2287,7 @@ class CoreTrackTests(unittest.TestCase):
                 pin_id="alpha-h700",
                 tuning_profile="h700-cortex-a53-v1",
                 slice_time=self._slice_time("nightly"),
+                expected_source_registry=document["content_sha256"],
                 expected_current_test="absent",
                 expected_current_assignment="absent",
                 expected_new_variant=new_variant,
@@ -2196,6 +2296,11 @@ class CoreTrackTests(unittest.TestCase):
             )
 
         for label, changes, error in (
+            (
+                "source registry CAS",
+                {"expected_source_registry": "f" * 64},
+                "source track registry changed",
+            ),
             (
                 "current CAS",
                 {"expected_current_test": "f" * 64},
@@ -2218,6 +2323,7 @@ class CoreTrackTests(unittest.TestCase):
                 "chipset": "h700",
                 "pin_id": "alpha-h700",
                 "tuning_profile": "h700-cortex-a53-v1",
+                "expected_source_registry": document["content_sha256"],
                 "expected_current_test": "absent",
                 "expected_current_assignment": "absent",
                 "expected_new_variant": new_variant,
@@ -2261,6 +2367,7 @@ class CoreTrackTests(unittest.TestCase):
                 pin_id="alpha-h700",
                 tuning_profile="h700-cortex-a53-v1",
                 slice_time=self._slice_time("nightly"),
+                expected_source_registry=document["content_sha256"],
                 expected_current_test="absent",
                 expected_current_assignment="absent",
                 expected_new_variant=new_variant,
@@ -2318,6 +2425,7 @@ class CoreTrackTests(unittest.TestCase):
             pin_id="alpha-diverged",
             tuning_profile="h700-cortex-a53-v1",
             slice_time=self._slice_time("nightly"),
+            expected_source_registry=document["content_sha256"],
             expected_current_test="absent",
             expected_current_assignment="absent",
             expected_new_variant=diverged_variant,
@@ -2358,6 +2466,7 @@ class CoreTrackTests(unittest.TestCase):
             pin_id="alpha-h700",
             tuning_profile="h700-cortex-a53-v1",
             slice_time="2026-08-10T11:30:00Z",
+            expected_source_registry=admitted["registry"]["content_sha256"],
             expected_current_test=diverged_variant,
             expected_current_assignment=admitted[
                 "assignment_content_sha256"
@@ -2416,6 +2525,7 @@ class CoreTrackTests(unittest.TestCase):
             pin_id="alpha-universal-dual",
             tuning_profile=UNIVERSAL_TUNING_PROFILE,
             slice_time=self._slice_time("edge"),
+            expected_source_registry=document["content_sha256"],
             expected_current_test="absent",
             expected_current_assignment="absent",
             expected_new_variant=new_variant,
@@ -2475,6 +2585,7 @@ class CoreTrackTests(unittest.TestCase):
                     pin_id="alpha-universal-dual",
                     tuning_profile=profile,
                     slice_time=self._slice_time("edge"),
+                    expected_source_registry=document["content_sha256"],
                     expected_current_test="absent",
                     expected_current_assignment="absent",
                     expected_new_variant=new_variant,
@@ -3591,6 +3702,7 @@ class CoreTrackTests(unittest.TestCase):
             tuning_profile=UNIVERSAL_TUNING_PROFILE,
             slice_time=self._slice_time("main"),
             applicable_chipsets=["h700", "rk3566"],
+            expected_source_registry=document["content_sha256"],
             expected_current_test="absent",
             expected_current_assignment="absent",
             expected_new_variant=new_variant,
@@ -3660,6 +3772,7 @@ class CoreTrackTests(unittest.TestCase):
             tuning_profile=UNIVERSAL_TUNING_PROFILE,
             slice_time=self._slice_time("main"),
             applicable_chipsets=["h700", "rk3566"],
+            expected_source_registry=document["content_sha256"],
             expected_current_test="absent",
             expected_current_assignment="absent",
             expected_new_variant=stale_variant,
@@ -3705,6 +3818,7 @@ class CoreTrackTests(unittest.TestCase):
             tuning_profile=UNIVERSAL_TUNING_PROFILE,
             slice_time="2026-08-10T10:30:00Z",
             applicable_chipsets=["h700", "rk3566"],
+            expected_source_registry=stale["registry"]["content_sha256"],
             expected_current_test=stale_variant,
             expected_current_assignment=stale[
                 "assignment_content_sha256"
@@ -3864,14 +3978,14 @@ class CoreTrackTests(unittest.TestCase):
             chipset_tunings_content_sha256(tunings), tunings["content_sha256"]
         )
         self.assertEqual(
-            "ea53356c485d029943e8eaa2a727693f247f2cf71eaa25a0def54a8f5b3235a3",
+            "89769b9f68607cfeef48cc7d26deb3e284b5418d25b265221e38dce0ea390f05",
             tracks["content_sha256"],
         )
         self.assertEqual(
             core_tracks_content_sha256(tracks), tracks["content_sha256"]
         )
         self.assertEqual(
-            33, len(tracks["version_policy"]["slice_comparison_bases"])
+            34, len(tracks["version_policy"]["slice_comparison_bases"])
         )
         self.assertEqual(
             1,
@@ -3881,6 +3995,7 @@ class CoreTrackTests(unittest.TestCase):
         self.assertEqual([], tracks["source_order_outliers"])
         admitted = {
             "2048",
+            "gambatte",
             "handy",
             "lowresnx",
             "potator",
@@ -3895,8 +4010,8 @@ class CoreTrackTests(unittest.TestCase):
         self.assertEqual(
             {
                 "main": admitted,
-                "nightly": admitted,
-                "edge": admitted,
+                "nightly": admitted - {"gambatte"},
+                "edge": admitted - {"gambatte"},
             },
             {
                 track: set(tracks["tracks"][track]["test"])
@@ -3909,37 +4024,47 @@ class CoreTrackTests(unittest.TestCase):
                 for track in track_model.CORE_TRACKS
             )
         )
-        self.assertEqual(87, len(tracks["tracks"]["main"]["deferred"]))
+        self.assertEqual(86, len(tracks["tracks"]["main"]["deferred"]))
         self.assertEqual({}, tracks["tracks"]["nightly"]["deferred"])
-        self.assertEqual({}, tracks["tracks"]["edge"]["deferred"])
+        self.assertEqual(
+            {
+                "gambatte": {
+                    "universal": {
+                        "state": "deferred",
+                        "reason": "no-reviewed-version-channel-build-pin",
+                    }
+                }
+            },
+            tracks["tracks"]["edge"]["deferred"],
+        )
 
         cases = {
             "main-stable:h700": {
                 "content_sha256": (
-                    "e92b79d04b82132556ff116fc97677f4b06e9adbcd8b65e355b24106b9085a33"
+                    "b7b2e7432808d9caeb1c33bc1b9059935f3fb25a18a30fe8691b34547db55c4e"
                 ),
             },
             "main-stable:a523": {
                 "content_sha256": (
-                    "d8bcdee76e8d1cf5ad7b66c86c527796ff6aad0e7fb62786b8ee34d9de87de95"
+                    "f9c82af7ff996f72797b23e2bae4c67bde7ac12dc550f3be499d8a2dc9c2bcfd"
                 ),
             },
             "main-stable:a33": {
                 "content_sha256": (
-                    "964b8eaec65b92a3743798eb3278f48e6747a096f0b721de22a1ee4250bfadfe"
+                    "fe5b6207563379c688197f70c4c6dfdc792a002c9a018886b660036ed38f9210"
                 ),
             },
             "main-stable:ssd202d": {
                 "content_sha256": (
-                    "0b63495e915609ef21414061404b3c1f05713ec31624153fe5ce5d2723acbb93"
+                    "44bab56bcef58a518ebc133b4874b1281bfef2c94e07b9d9fa4ec9ae5abd9787"
                 ),
             },
         }
         expected_summary = {
-            "selected_core_count": 11,
+            "selected_core_count": 12,
             "stable_core_count": 0,
-            "unstable_core_count": 11,
-            "deferred_core_count": 87,
+            "unstable_core_count": 12,
+            "deferred_core_count": 86,
             "unsupported_core_count": 0,
             "universal_fallback_count": 98,
         }
@@ -3986,7 +4111,7 @@ class CoreTrackTests(unittest.TestCase):
                     sorted(admitted),
                     [row["core_id"] for row in inventory["cores"]],
                 )
-                self.assertEqual(87, len(inventory["deferred_cores"]))
+                self.assertEqual(86, len(inventory["deferred_cores"]))
                 self.assertTrue(
                     all(
                         row["reason"]
@@ -4008,7 +4133,7 @@ class CoreTrackTests(unittest.TestCase):
             source_registry_index=self.live_source_registries,
         )
         self.assertEqual(
-            "7ef73eeb6261fdfddbbffb271c2dcd17d31336b4b45bad3b2fee4620e57af6b3",
+            "cbb59172aee2d9c92c81349c4d3671903edf04bfb92167847876fd6a1c584dbb",
             universal["content_sha256"],
         )
         self.assertEqual("deferred", universal["inventory_state"])
@@ -4024,7 +4149,7 @@ class CoreTrackTests(unittest.TestCase):
             sorted(admitted),
             [row["core_id"] for row in universal["cores"]],
         )
-        self.assertEqual(87, len(universal["deferred_cores"]))
+        self.assertEqual(86, len(universal["deferred_cores"]))
 
     def test_live_registries_match_the_published_json_schemas(self) -> None:
         for stem in (

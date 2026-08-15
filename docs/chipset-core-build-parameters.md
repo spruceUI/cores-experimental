@@ -114,9 +114,9 @@ These runs do not admit a result into a track. The simulated-Actions run is the
 selected side and the native-local run is the independent reproduction. Their
 artifact, metadata, package, normalized build semantics, and hardened resource
 class must match, while valid log transcripts, timings, and resource counters
-may differ. Then use
-`promote-tuned-variant`, followed by `core-track-set-test` compare-and-swap
-admission. A later `core-track-promote` is the separate STABLE approval step.
+may differ. Then use `promote-tuned-variant`, followed by read-only
+`core-track-plan-test` and `core-track-set-test` compare-and-swap admission.
+A later `core-track-promote` is the separate STABLE approval step.
 Universal and H700 controls do not use `--tuning-profile`. A universal control
 omits both tuning and architecture selectors and builds the core's complete
 catalog target set. For a dual-ABI core, an H700/ARM64 diagnostic uses

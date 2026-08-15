@@ -51,6 +51,7 @@ class ParserHandlers:
     core_source_candidate_prepare: CommandHandler
     core_track_inventory: CommandHandler
     core_track_promote: CommandHandler
+    core_track_plan_test: CommandHandler
     core_track_set_test: CommandHandler
     audit_workflows: CommandHandler
     import_golden: CommandHandler
@@ -84,6 +85,7 @@ class ParserHandlers:
             "core_source_candidate_prepare",
             "core_track_inventory",
             "core_track_promote",
+            "core_track_plan_test",
             "core_track_set_test",
             "audit_workflows",
             "import_golden",

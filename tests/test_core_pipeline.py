@@ -3312,6 +3312,7 @@ class CatalogTests(unittest.TestCase):
                 chipset="a523",
                 tuning_profile="a523-cortex-a55-v1",
                 slice_time="2026-08-10T12:00:00Z",
+                expected_source_registry="c" * 64,
                 expected_current_test="absent",
                 expected_current_assignment="absent",
                 expected_new_variant="a" * 64,
@@ -3944,6 +3945,7 @@ class CatalogTests(unittest.TestCase):
                 "source_order_parent_binding": {"model": "binding-v1"},
                 "source_order_outlier": None,
                 "edge_deferred_by_admission": None,
+                "source_registry_content_sha256": "c" * 64,
             }
             args = argparse.Namespace(
                 catalog=pipeline.DEFAULT_CATALOG,
@@ -3953,6 +3955,7 @@ class CatalogTests(unittest.TestCase):
                 pin_id=pin_id,
                 tuning_profile="a523-cortex-a55-v1",
                 slice_time="2026-08-10T12:00:00Z",
+                expected_source_registry="c" * 64,
                 expected_current_test="absent",
                 expected_current_assignment="absent",
                 expected_new_variant="1" * 64,
@@ -4029,6 +4032,10 @@ class CatalogTests(unittest.TestCase):
                 setter.call_args.kwargs["slice_time"],
             )
             self.assertEqual(
+                "c" * 64,
+                setter.call_args.kwargs["expected_source_registry"],
+            )
+            self.assertEqual(
                 "4" * 64,
                 setter.call_args.kwargs["expected_parent_registry"],
             )
@@ -4057,6 +4064,122 @@ class CatalogTests(unittest.TestCase):
             )
             self.assertEqual(snapshot_relative, emitted["source_registry_snapshot_path"])
             self.assertEqual("f" * 64, emitted["source_registry_snapshot_file_sha256"])
+            self.assertEqual(
+                "c" * 64, emitted["source_registry_content_sha256"]
+            )
+
+    def test_core_track_plan_test_emits_exact_setter_cas_without_writes(
+        self,
+    ) -> None:
+        pin_id = "gambatte-authoritative"
+        pin_file_sha256 = "a" * 64
+        pin_content_sha256 = "b" * 64
+        source_registry_sha256 = "c" * 64
+        predicted_registry_sha256 = "d" * 64
+        variant_id = "e" * 64
+        assignment_sha256 = "f" * 64
+        registry = {"content_sha256": source_registry_sha256}
+        expectations = {
+            "expected_source_registry": source_registry_sha256,
+            "expected_current_test": "absent",
+            "expected_current_assignment": "absent",
+            "expected_new_variant": variant_id,
+            "expected_parent_variant": None,
+            "expected_parent_registry": None,
+        }
+        result = {
+            "registry": {"content_sha256": predicted_registry_sha256},
+            "cell": {
+                "build_pin_id": pin_id,
+                "tuning_profile": "universal-v1",
+                "applicable_chipsets": ["a33", "a523"],
+            },
+            "version_slice": {"slice_time": "2026-08-15T00:30:00Z"},
+            "source_order_outlier": None,
+            "source_registry_content_sha256": source_registry_sha256,
+            "variant_id": variant_id,
+            "assignment_content_sha256": assignment_sha256,
+            "edge_deferred_by_admission": None,
+            "expectations": expectations,
+        }
+        args = argparse.Namespace(
+            catalog=pipeline.DEFAULT_CATALOG,
+            track="main",
+            core="gambatte",
+            chipset="universal",
+            pin_id=pin_id,
+            tuning_profile="universal-v1",
+            slice_time="2026-08-15T00:30:00Z",
+            applicable_chipset=["a33", "a523"],
+            outlier_authorized_at=None,
+            outlier_authorized_by=None,
+            outlier_reason=None,
+        )
+        output = io.StringIO()
+        with mock.patch.object(
+            pipeline,
+            "manifest_lock",
+            side_effect=AssertionError("read-only planner acquired a write lock"),
+        ), mock.patch.object(
+            pipeline, "load_catalog", return_value={"cores": {"gambatte": {}}}
+        ), mock.patch.object(
+            pipeline,
+            "load_authoritative_core_pin_index",
+            return_value={
+                pin_id: {
+                    "path": f"pins/core-sets/{pin_id}.json",
+                    "file_sha256": pin_file_sha256,
+                    "content_sha256": pin_content_sha256,
+                }
+            },
+        ), mock.patch.object(
+            pipeline,
+            "load_json_with_sha256",
+            return_value=(
+                {"pin_id": pin_id, "content_sha256": pin_content_sha256},
+                pin_file_sha256,
+            ),
+        ), mock.patch.object(
+            pipeline, "load_json", return_value=registry
+        ), mock.patch.object(
+            pipeline,
+            "_validate_pin_set_document",
+            return_value={"status": "valid", "errors": []},
+        ), mock.patch.object(
+            pipeline, "load_core_track_source_registry_index", return_value={}
+        ), mock.patch.object(
+            pipeline,
+            "core_track_source_ancestry_verifier",
+            return_value=lambda *_args: True,
+        ), mock.patch.object(
+            pipeline, "plan_core_track_test", return_value=result
+        ) as planner, mock.patch.object(
+            pipeline, "sha256_file", return_value=pin_file_sha256
+        ), mock.patch.object(
+            pipeline,
+            "_commit_core_track_registry_transaction",
+            side_effect=AssertionError("read-only planner attempted a commit"),
+        ), mock.patch("sys.stdout", new=output):
+            self.assertEqual(0, pipeline.cmd_core_track_plan_test(args))
+
+        self.assertNotIn(
+            "expected_source_registry", planner.call_args.kwargs
+        )
+        emitted = json.loads(output.getvalue())
+        self.assertEqual("planned", emitted["status"])
+        self.assertEqual("disabled", emitted["mutation"])
+        self.assertEqual(
+            predicted_registry_sha256,
+            emitted["predicted_track_registry_content_sha256"],
+        )
+        self.assertEqual(
+            expectations["expected_source_registry"],
+            emitted["set_test_arguments"]["expected_source_registry"],
+        )
+        self.assertEqual(
+            ["a33", "a523"],
+            emitted["set_test_arguments"]["applicable_chipset"],
+        )
 
     def test_core_track_promote_uses_transaction_and_emits_stable_payload(
         self,

@@ -244,14 +244,24 @@ python3 scripts/core_pipeline.py promote-tuned-variant \
 The source golden must be an empty active one-core candidate. Promotion stores
 both proofs, snapshots the tuning registry in the historical recipe, verifies
 the complete store, and creates the semantic one-core golden and pin. It does
-not edit track policy. Admit the reviewed pin with direct-cell, new-variant,
-and parent CAS:
+not edit track policy. First run the read-only planner with the proposed pin,
+profile, slice, and applicability. Review its `set_test_arguments`; the
+planner and setter share the complete transition engine. Then admit the pin
+with the emitted source-registry, direct-cell, new-variant, and parent CAS:
+
+```bash
+python3 scripts/core_pipeline.py core-track-plan-test \
+  --track nightly --core mgba --chipset a523 \
+  --pin-id <promoted-pin-id> --tuning-profile a523-cortex-a55-v1 \
+  --slice-time 2026-08-10T12:00:00Z
+```
 
 ```bash
 python3 scripts/core_pipeline.py core-track-set-test \
   --track nightly --core mgba --chipset a523 \
   --pin-id <promoted-pin-id> --tuning-profile a523-cortex-a55-v1 \
   --slice-time 2026-08-10T12:00:00Z \
+  --expected-source-registry <reviewed-source-registry-content-sha256> \
   --expected-current-test absent \
   --expected-current-assignment absent \
   --expected-parent-variant <reviewed-main-variant-id> \

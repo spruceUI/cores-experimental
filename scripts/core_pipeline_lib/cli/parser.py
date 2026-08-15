@@ -30,6 +30,46 @@ class _StoreOnceAction(argparse.Action):
         setattr(namespace, self.dest, values)
 
 
+def _register_core_track_test_proposal(
+    parser: argparse.ArgumentParser,
+) -> None:
+    """Register the proposal shared by TEST planning and application."""
+
+    parser.add_argument("--track", choices=CORE_TRACKS, required=True)
+    parser.add_argument("--core", required=True)
+    parser.add_argument("--chipset", choices=CHIPSETS, required=True)
+    parser.add_argument("--pin-id", required=True)
+    parser.add_argument("--tuning-profile", required=True)
+    parser.add_argument(
+        "--slice-time",
+        required=True,
+        metavar="YYYY-MM-DDTHH:MM:SSZ",
+        help="immutable UTC version-slice time for this exact track assignment",
+    )
+    parser.add_argument(
+        "--applicable-chipset",
+        action=AppendUniqueAction,
+        choices=REAL_CHIPSETS,
+        help=(
+            "explicit fallback applicability; repeat in sorted order for a "
+            "universal cell, omit for an exact tuned cell"
+        ),
+    )
+    parser.add_argument(
+        "--outlier-authorized-at",
+        metavar="YYYY-MM-DDTHH:MM:SSZ",
+        help="exact source-order outlier authorization timestamp",
+    )
+    parser.add_argument(
+        "--outlier-authorized-by",
+        help="source-order outlier authorizer; requires the complete outlier tuple",
+    )
+    parser.add_argument(
+        "--outlier-reason",
+        help="source-order outlier reason; requires the complete outlier tuple",
+    )
+
+
 def build_parser(
     *, handlers: ParserHandlers, config: ParserConfig
 ) -> argparse.ArgumentParser:
@@ -91,29 +131,23 @@ def build_parser(
         handlers=handlers,
     )
 
+    plan_test = subparsers.add_parser(
+        "core-track-plan-test",
+        help="validate and predict one exact TEST admission without writing it",
+    )
+    _register_core_track_test_proposal(plan_test)
+    plan_test.set_defaults(handler=handlers.core_track_plan_test)
+
     set_test = subparsers.add_parser(
         "core-track-set-test",
         help="atomically admit one authoritative pin into one exact TEST cell",
     )
-    set_test.add_argument("--track", choices=CORE_TRACKS, required=True)
-    set_test.add_argument("--core", required=True)
-    set_test.add_argument("--chipset", choices=CHIPSETS, required=True)
-    set_test.add_argument("--pin-id", required=True)
-    set_test.add_argument("--tuning-profile", required=True)
+    _register_core_track_test_proposal(set_test)
     set_test.add_argument(
-        "--slice-time",
+        "--expected-source-registry",
         required=True,
-        metavar="YYYY-MM-DDTHH:MM:SSZ",
-        help="immutable UTC version-slice time for this exact track assignment",
-    )
-    set_test.add_argument(
-        "--applicable-chipset",
-        action=AppendUniqueAction,
-        choices=REAL_CHIPSETS,
-        help=(
-            "explicit fallback applicability; repeat in sorted order for a "
-            "universal cell, omit for an exact tuned cell"
-        ),
+        metavar="SHA256",
+        help="CAS expectation for the complete source track registry",
     )
     set_test.add_argument(
         "--expected-current-test",
@@ -150,19 +184,6 @@ def build_parser(
             "reviewed parent registry CAS; required for nightly/edge and "
             "forbidden for main"
         ),
-    )
-    set_test.add_argument(
-        "--outlier-authorized-at",
-        metavar="YYYY-MM-DDTHH:MM:SSZ",
-        help="exact source-order outlier authorization timestamp",
-    )
-    set_test.add_argument(
-        "--outlier-authorized-by",
-        help="source-order outlier authorizer; requires the complete outlier tuple",
-    )
-    set_test.add_argument(
-        "--outlier-reason",
-        help="source-order outlier reason; requires the complete outlier tuple",
     )
     set_test.set_defaults(handler=handlers.core_track_set_test)
 
