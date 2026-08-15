@@ -373,9 +373,11 @@ bootstrapped with two separate `e2e --tuning-profile PROFILE` runs and
 `promote-tuned-variant`: each log must prove the contract independently, while
 artifact, metadata, and complete one-ABI package bytes must match exactly.
 Different valid log hashes are permitted. The promoted recipe snapshots the
-exact tuning registry and both E2E proof sides. `core-track-set-test` then
-admits a hardened host-reproduction-bearing pin under direct-cell, complete
-assignment, and new-variant CAS without changing stable approval. Its required
+exact tuning registry and both E2E proof sides. Read-only
+`core-track-plan-test` derives the complete reviewed CAS contract, and
+`core-track-set-test` then admits a hardened host-reproduction-bearing pin
+under full source-registry, direct-cell, complete-assignment, and new-variant
+CAS without changing stable approval. Its required
 UTC-second slice is immutable assignment/tranche identity but is excluded from
 build variant identity. Nightly and Edge additionally CAS and capture both the
 current effective parent variant and parent registry, including the parent's

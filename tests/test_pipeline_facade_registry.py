@@ -164,7 +164,7 @@ class PipelineFacadeRegistryTests(unittest.TestCase):
                 expected.add(public_name)
 
         self.assertEqual(expected, set(pipeline._FACADE_REGISTRY))
-        self.assertEqual(277, len(expected))
+        self.assertEqual(278, len(expected))
         self.assertEqual(
             Counter(
                 {
@@ -180,7 +180,7 @@ class PipelineFacadeRegistryTests(unittest.TestCase):
                     "_pin_lifecycle": 26,
                     "_release_lifecycle": 24,
                     "_cli_catalog_build": 9,
-                    "_cli_track_commands": 9,
+                    "_cli_track_commands": 10,
                     "_cli_promotion_commands": 12,
                     "_cli_full_release_commands": 7,
                 }

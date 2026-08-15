@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Mapping, Sequence
 import copy
+from dataclasses import dataclass
 import datetime as dt
 import hashlib
 import json
@@ -4024,7 +4025,17 @@ def promote_core_track_test(
     }
 
 
-def set_core_track_test(
+@dataclass(frozen=True, slots=True)
+class _CoreTrackTestExpectations:
+    source_registry: str
+    current_test: str
+    current_assignment: str
+    new_variant: str
+    parent_variant: str | None
+    parent_registry: str | None
+
+
+def _evaluate_core_track_test(
     document: object,
     *,
     repository_root: Path,
@@ -4041,17 +4052,13 @@ def set_core_track_test(
     pin_id: str,
     tuning_profile: str,
     slice_time: str,
-    expected_current_test: str,
-    expected_current_assignment: str,
-    expected_new_variant: str,
-    expected_parent_variant: str | None,
-    expected_parent_registry: str | None,
+    expectations: _CoreTrackTestExpectations | None,
     applicable_chipsets: Sequence[str] | None = None,
     outlier_authorized_at: str | None = None,
     outlier_authorized_by: str | None = None,
     outlier_reason: str | None = None,
 ) -> dict[str, Any]:
-    """CAS one authoritative pin into one exact track-local TEST cell."""
+    """Evaluate one complete TEST transition, optionally enforcing its CAS."""
 
     canonical_group_tag(track, "test", chipset)
     if not isinstance(repository_root, Path):
@@ -4059,32 +4066,57 @@ def set_core_track_test(
     canonical_slice_time = _canonical_utc_approval_timestamp(slice_time)
     if canonical_slice_time is None:
         raise PipelineError("core-track TEST slice time is invalid")
-    if (
-        not isinstance(expected_current_test, str)
-        or (
-            expected_current_test != EXPECTED_TEST_ABSENT
-            and SHA256_RE.fullmatch(expected_current_test) is None
-        )
-    ):
-        raise PipelineError(
-            "expected current TEST must be 'absent' or an exact variant identity"
-        )
-    if (
-        not isinstance(expected_current_assignment, str)
-        or (
-            expected_current_assignment != EXPECTED_ASSIGNMENT_ABSENT
-            and SHA256_RE.fullmatch(expected_current_assignment) is None
-        )
-    ):
-        raise PipelineError(
-            "expected current TEST assignment must be 'absent' or an exact "
-            "assignment identity"
-        )
-    if (
-        not isinstance(expected_new_variant, str)
-        or SHA256_RE.fullmatch(expected_new_variant) is None
-    ):
-        raise PipelineError("expected new TEST variant is invalid")
+    planning = expectations is None
+    expected_source_registry = (
+        None if expectations is None else expectations.source_registry
+    )
+    expected_current_test = (
+        None if expectations is None else expectations.current_test
+    )
+    expected_current_assignment = (
+        None if expectations is None else expectations.current_assignment
+    )
+    expected_new_variant = (
+        None if expectations is None else expectations.new_variant
+    )
+    expected_parent_variant = (
+        None if expectations is None else expectations.parent_variant
+    )
+    expected_parent_registry = (
+        None if expectations is None else expectations.parent_registry
+    )
+    if not planning:
+        if (
+            not isinstance(expected_source_registry, str)
+            or SHA256_RE.fullmatch(expected_source_registry) is None
+        ):
+            raise PipelineError("expected source registry is invalid")
+        if (
+            not isinstance(expected_current_test, str)
+            or (
+                expected_current_test != EXPECTED_TEST_ABSENT
+                and SHA256_RE.fullmatch(expected_current_test) is None
+            )
+        ):
+            raise PipelineError(
+                "expected current TEST must be 'absent' or an exact variant identity"
+            )
+        if (
+            not isinstance(expected_current_assignment, str)
+            or (
+                expected_current_assignment != EXPECTED_ASSIGNMENT_ABSENT
+                and SHA256_RE.fullmatch(expected_current_assignment) is None
+            )
+        ):
+            raise PipelineError(
+                "expected current TEST assignment must be 'absent' or an exact "
+                "assignment identity"
+            )
+        if (
+            not isinstance(expected_new_variant, str)
+            or SHA256_RE.fullmatch(expected_new_variant) is None
+        ):
+            raise PipelineError("expected new TEST variant is invalid")
     outlier_values = (
         outlier_authorized_at,
         outlier_authorized_by,
@@ -4102,14 +4134,14 @@ def set_core_track_test(
         if any(value is not None for value in outlier_values):
             raise PipelineError("main TEST admission cannot authorize a source outlier")
     else:
-        if (
+        if not planning and (
             not isinstance(expected_parent_variant, str)
             or SHA256_RE.fullmatch(expected_parent_variant) is None
         ):
             raise PipelineError(
                 "child-track TEST admission requires an exact expected parent variant"
             )
-        if (
+        if not planning and (
             not isinstance(expected_parent_registry, str)
             or SHA256_RE.fullmatch(expected_parent_registry) is None
         ):
@@ -4162,7 +4194,15 @@ def set_core_track_test(
         source_registry_index=source_registry_index,
         source_ancestry_verifier=source_ancestry_verifier,
     )
-    if track != "main" and source["content_sha256"] != expected_parent_registry:
+    if planning:
+        expected_source_registry = source["content_sha256"]
+    elif source["content_sha256"] != expected_source_registry:
+        raise PipelineError(
+            "source track registry changed since admission review"
+        )
+    if planning and track != "main":
+        expected_parent_registry = source["content_sha256"]
+    elif track != "main" and source["content_sha256"] != expected_parent_registry:
         raise PipelineError(
             "effective parent registry changed since admission review"
         )
@@ -4225,7 +4265,9 @@ def set_core_track_test(
             pin_index=pin_index,
             tunings=validated_tunings,
         )
-        if parent_variant != expected_parent_variant:
+        if planning:
+            expected_parent_variant = parent_variant
+        elif parent_variant != expected_parent_variant:
             raise PipelineError(
                 "effective parent TEST variant changed since admission review"
             )
@@ -4286,7 +4328,18 @@ def set_core_track_test(
             chipset=chipset,
         )
     )
-    if existing is None and expected_current_test != EXPECTED_TEST_ABSENT:
+    if planning:
+        expected_current_test = (
+            current_variant
+            if current_variant is not None
+            else EXPECTED_TEST_ABSENT
+        )
+        expected_current_assignment = (
+            current_assignment_content_sha256
+            if current_assignment_content_sha256 is not None
+            else EXPECTED_ASSIGNMENT_ABSENT
+        )
+    elif existing is None and expected_current_test != EXPECTED_TEST_ABSENT:
         raise PipelineError(
             "track-local TEST cell changed since review: expected "
             f"{expected_current_test}, found absent"
@@ -4369,7 +4422,9 @@ def set_core_track_test(
         pin_index=pin_index,
         tunings=validated_tunings,
     )
-    if new_variant != expected_new_variant:
+    if planning:
+        expected_new_variant = new_variant
+    elif new_variant != expected_new_variant:
         raise PipelineError("new core track TEST variant changed since review")
     deferred_before = _effective_deferred_cells_unchecked(
         source["tracks"], track
@@ -4595,6 +4650,10 @@ def set_core_track_test(
             source["content_sha256"] if track != "main" else None
         ),
     )
+    assert isinstance(expected_source_registry, str)
+    assert isinstance(expected_current_test, str)
+    assert isinstance(expected_current_assignment, str)
+    assert isinstance(expected_new_variant, str)
     return {
         "registry": validated,
         "cell": copy.deepcopy(new_cell),
@@ -4642,4 +4701,122 @@ def set_core_track_test(
             edge_deferred_by_admission
         ),
         "variant_id": new_variant,
+        "source_registry_content_sha256": source["content_sha256"],
+        "expectations": {
+            "expected_source_registry": expected_source_registry,
+            "expected_current_test": expected_current_test,
+            "expected_current_assignment": expected_current_assignment,
+            "expected_new_variant": expected_new_variant,
+            "expected_parent_variant": expected_parent_variant,
+            "expected_parent_registry": expected_parent_registry,
+        },
     }
+
+
+def plan_core_track_test(
+    document: object,
+    *,
+    repository_root: Path,
+    catalog: Mapping[str, Any],
+    pin_index: Mapping[str, Mapping[str, Any]],
+    tunings: object,
+    main_release_roster: object,
+    spruce_branch_bases: object,
+    source_registry_index: Mapping[str, Mapping[str, Any]],
+    source_ancestry_verifier: Callable[[str, str, str, str], bool] | None,
+    track: str,
+    core_id: str,
+    chipset: str,
+    pin_id: str,
+    tuning_profile: str,
+    slice_time: str,
+    applicable_chipsets: Sequence[str] | None = None,
+    outlier_authorized_at: str | None = None,
+    outlier_authorized_by: str | None = None,
+    outlier_reason: str | None = None,
+) -> dict[str, Any]:
+    """Plan and validate one TEST transition without enforcing or writing it."""
+
+    return _evaluate_core_track_test(
+        document,
+        repository_root=repository_root,
+        catalog=catalog,
+        pin_index=pin_index,
+        tunings=tunings,
+        main_release_roster=main_release_roster,
+        spruce_branch_bases=spruce_branch_bases,
+        source_registry_index=source_registry_index,
+        source_ancestry_verifier=source_ancestry_verifier,
+        track=track,
+        core_id=core_id,
+        chipset=chipset,
+        pin_id=pin_id,
+        tuning_profile=tuning_profile,
+        slice_time=slice_time,
+        expectations=None,
+        applicable_chipsets=applicable_chipsets,
+        outlier_authorized_at=outlier_authorized_at,
+        outlier_authorized_by=outlier_authorized_by,
+        outlier_reason=outlier_reason,
+    )
+
+
+def set_core_track_test(
+    document: object,
+    *,
+    repository_root: Path,
+    catalog: Mapping[str, Any],
+    pin_index: Mapping[str, Mapping[str, Any]],
+    tunings: object,
+    main_release_roster: object,
+    spruce_branch_bases: object,
+    source_registry_index: Mapping[str, Mapping[str, Any]],
+    source_ancestry_verifier: Callable[[str, str, str, str], bool] | None,
+    track: str,
+    core_id: str,
+    chipset: str,
+    pin_id: str,
+    tuning_profile: str,
+    slice_time: str,
+    expected_source_registry: str,
+    expected_current_test: str,
+    expected_current_assignment: str,
+    expected_new_variant: str,
+    expected_parent_variant: str | None,
+    expected_parent_registry: str | None,
+    applicable_chipsets: Sequence[str] | None = None,
+    outlier_authorized_at: str | None = None,
+    outlier_authorized_by: str | None = None,
+    outlier_reason: str | None = None,
+) -> dict[str, Any]:
+    """CAS one authoritative pin into one exact track-local TEST cell."""
+
+    return _evaluate_core_track_test(
+        document,
+        repository_root=repository_root,
+        catalog=catalog,
+        pin_index=pin_index,
+        tunings=tunings,
+        main_release_roster=main_release_roster,
+        spruce_branch_bases=spruce_branch_bases,
+        source_registry_index=source_registry_index,
+        source_ancestry_verifier=source_ancestry_verifier,
+        track=track,
+        core_id=core_id,
+        chipset=chipset,
+        pin_id=pin_id,
+        tuning_profile=tuning_profile,
+        slice_time=slice_time,
+        expectations=_CoreTrackTestExpectations(
+            source_registry=expected_source_registry,
+            current_test=expected_current_test,
+            current_assignment=expected_current_assignment,
+            new_variant=expected_new_variant,
+            parent_variant=expected_parent_variant,
+            parent_registry=expected_parent_registry,
+        ),
+        applicable_chipsets=applicable_chipsets,
+        outlier_authorized_at=outlier_authorized_at,
+        outlier_authorized_by=outlier_authorized_by,
+        outlier_reason=outlier_reason,
+    )

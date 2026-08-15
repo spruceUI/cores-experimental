@@ -63,6 +63,7 @@ from core_pipeline_lib.tracks import (  # noqa: E402
     load_core_track_source_registry_index,
     local_git_source_ancestry_verifier,
     parse_group_tag,
+    plan_core_track_test,
     promote_core_track_test,
     set_core_track_test,
     validate_core_tracks,
@@ -1488,7 +1489,8 @@ _install_facade_group(
         'cmd_core_track_inventory _canonical_core_track_json_bytes '
         '_atomic_create_core_track_snapshot _atomic_restore_core_track_bytes '
         '_durably_remove_owned_core_track_snapshot _rollback_core_track_registry_transaction '
-        '_commit_core_track_registry_transaction cmd_core_track_promote cmd_core_track_set_test'
+        '_commit_core_track_registry_transaction cmd_core_track_promote '
+        'cmd_core_track_plan_test cmd_core_track_set_test'
     ).split(),
 )
 
@@ -1527,6 +1529,7 @@ def build_parser() -> argparse.ArgumentParser:
         core_source_candidate_prepare=globals()['cmd_core_source_candidate_prepare'],
         core_track_inventory=globals()['cmd_core_track_inventory'],
         core_track_promote=globals()['cmd_core_track_promote'],
+        core_track_plan_test=globals()['cmd_core_track_plan_test'],
         core_track_set_test=globals()['cmd_core_track_set_test'],
         audit_workflows=globals()['cmd_audit'],
         import_golden=globals()['cmd_import_golden'],

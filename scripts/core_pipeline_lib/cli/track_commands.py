@@ -85,6 +85,7 @@ _REQUIRED_BINDINGS = frozenset(
         'load_json_with_sha256',
         'manifest_lock',
         'os',
+        'plan_core_track_test',
         'promote_core_track_test',
         'safe_child',
         'set_core_track_test',
@@ -603,28 +604,210 @@ def cmd_core_track_promote(args: argparse.Namespace, *, services: TrackCommandSe
     )
     return 0
 
-def cmd_core_track_set_test(args: argparse.Namespace, *, services: TrackCommandServices) -> int:
-    """CAS one authoritative tuned pin into one exact track-local TEST cell."""
+def _core_track_test_context(
+    args: argparse.Namespace,
+    *,
+    command: str,
+    services: TrackCommandServices,
+) -> dict[str, Any]:
+    """Load and deeply validate the immutable inputs shared by plan and set."""
+
     DEFAULT_CATALOG = services['DEFAULT_CATALOG']
     DEFAULT_CHIPSET_TUNINGS = services['DEFAULT_CHIPSET_TUNINGS']
     DEFAULT_CORE_TRACKS = services['DEFAULT_CORE_TRACKS']
     DEFAULT_SPRUCE_BRANCH_BASES = services['DEFAULT_SPRUCE_BRANCH_BASES']
     DEFAULT_SPRUCE_RELEASE_ROSTER = services['DEFAULT_SPRUCE_RELEASE_ROSTER']
     Mapping = services['Mapping']
-    OSError = services['OSError']
     PipelineError = services['PipelineError']
     ROOT = services['ROOT']
-    _commit_core_track_registry_transaction = services['_commit_core_track_registry_transaction']
     _validate_pin_set_document = services['_validate_pin_set_document']
     core_track_source_ancestry_verifier = services['core_track_source_ancestry_verifier']
-    getattr = services['getattr']
     isinstance = services['isinstance']
-    json = services['json']
     load_authoritative_core_pin_index = services['load_authoritative_core_pin_index']
     load_catalog = services['load_catalog']
     load_core_track_source_registry_index = services['load_core_track_source_registry_index']
     load_json = services['load_json']
     load_json_with_sha256 = services['load_json_with_sha256']
+    safe_child = services['safe_child']
+
+    if args.catalog.resolve() != DEFAULT_CATALOG.resolve():
+        raise PipelineError(f"{command} requires the canonical core catalog")
+    catalog = load_catalog(args.catalog)
+    pin_index = load_authoritative_core_pin_index()
+    tunings = load_json(DEFAULT_CHIPSET_TUNINGS)
+    target_pin_entry = pin_index.get(args.pin_id)
+    if not isinstance(target_pin_entry, Mapping):
+        raise PipelineError("core-track TEST pin is not authoritative")
+    target_pin_path = safe_child(
+        ROOT,
+        target_pin_entry.get("path", ""),
+        "core-track TEST pin",
+    )
+    target_pin, target_pin_file_sha256 = load_json_with_sha256(
+        target_pin_path
+    )
+    if target_pin_file_sha256 != target_pin_entry.get("file_sha256"):
+        raise PipelineError(
+            "core-track TEST pin file identity changed after authoritative indexing"
+        )
+    if target_pin.get("content_sha256") != target_pin_entry.get(
+        "content_sha256"
+    ):
+        raise PipelineError(
+            "core-track TEST pin content identity changed after authoritative indexing"
+        )
+    target_pin_report = _validate_pin_set_document(
+        target_pin,
+        verify_store=True,
+        verify_sources=True,
+        document_path=target_pin_path,
+        historical_recipe_proofs=True,
+    )
+    if target_pin_report.get("status") != "valid":
+        raise PipelineError(
+            "core-track TEST pin lacks complete authoritative evidence:\n- "
+            + "\n- ".join(target_pin_report.get("errors", []))
+        )
+    return {
+        "catalog": catalog,
+        "pin_index": pin_index,
+        "tunings": tunings,
+        "target_pin_path": target_pin_path,
+        "target_pin_file_sha256": target_pin_file_sha256,
+        "prior_registry": load_json(DEFAULT_CORE_TRACKS),
+        "main_release_roster": load_json(DEFAULT_SPRUCE_RELEASE_ROSTER),
+        "spruce_branch_bases": load_json(DEFAULT_SPRUCE_BRANCH_BASES),
+        "source_registry_index": load_core_track_source_registry_index(ROOT),
+        "source_ancestry_verifier": core_track_source_ancestry_verifier(),
+    }
+
+
+def _core_track_test_transition_kwargs(
+    args: argparse.Namespace,
+    context: Mapping[str, Any],
+    *,
+    services: TrackCommandServices,
+) -> dict[str, Any]:
+    """Project common CLI proposal fields onto the pure transition engine."""
+
+    ROOT = services['ROOT']
+    getattr = services['getattr']
+
+    return {
+        "repository_root": ROOT,
+        "catalog": context["catalog"],
+        "pin_index": context["pin_index"],
+        "tunings": context["tunings"],
+        "main_release_roster": context["main_release_roster"],
+        "spruce_branch_bases": context["spruce_branch_bases"],
+        "source_registry_index": context["source_registry_index"],
+        "source_ancestry_verifier": context["source_ancestry_verifier"],
+        "track": args.track,
+        "core_id": args.core,
+        "chipset": args.chipset,
+        "pin_id": args.pin_id,
+        "tuning_profile": args.tuning_profile,
+        "slice_time": args.slice_time,
+        "outlier_authorized_at": getattr(
+            args, "outlier_authorized_at", None
+        ),
+        "outlier_authorized_by": getattr(
+            args, "outlier_authorized_by", None
+        ),
+        "outlier_reason": getattr(args, "outlier_reason", None),
+        "applicable_chipsets": args.applicable_chipset,
+    }
+
+
+def cmd_core_track_plan_test(
+    args: argparse.Namespace, *, services: TrackCommandServices
+) -> int:
+    """Validate and predict one exact TEST transition without writing state."""
+
+    OSError = services['OSError']
+    PipelineError = services['PipelineError']
+    json = services['json']
+    plan_core_track_test = services['plan_core_track_test']
+    print = services['print']
+    sha256_file = services['sha256_file']
+
+    context = _core_track_test_context(
+        args,
+        command="core-track-plan-test",
+        services=services,
+    )
+    result = plan_core_track_test(
+        context["prior_registry"],
+        **_core_track_test_transition_kwargs(args, context, services=services),
+    )
+    try:
+        current_target_pin_sha256 = sha256_file(context["target_pin_path"])
+    except OSError as exc:
+        raise PipelineError("core-track TEST pin changed during planning") from exc
+    if current_target_pin_sha256 != context["target_pin_file_sha256"]:
+        raise PipelineError("core-track TEST pin changed during planning")
+    outlier = result["source_order_outlier"]
+    set_test_arguments = {
+        "track": args.track,
+        "core": args.core,
+        "chipset": args.chipset,
+        "pin_id": args.pin_id,
+        "tuning_profile": args.tuning_profile,
+        "slice_time": result["version_slice"]["slice_time"],
+        "applicable_chipset": result["cell"]["applicable_chipsets"],
+        **result["expectations"],
+        "outlier_authorized_at": (
+            outlier["authorized_at"] if outlier is not None else None
+        ),
+        "outlier_authorized_by": (
+            outlier["authorized_by"] if outlier is not None else None
+        ),
+        "outlier_reason": (
+            outlier["reason"] if outlier is not None else None
+        ),
+    }
+    print(
+        json.dumps(
+            {
+                "status": "planned",
+                "mutation": "disabled",
+                "publication": "disabled",
+                "track": args.track,
+                "core_id": args.core,
+                "chipset": args.chipset,
+                "source_registry_content_sha256": result[
+                    "source_registry_content_sha256"
+                ],
+                "variant_id": result["variant_id"],
+                "assignment_content_sha256": result[
+                    "assignment_content_sha256"
+                ],
+                "edge_deferred_by_admission": result[
+                    "edge_deferred_by_admission"
+                ],
+                "predicted_track_registry_content_sha256": result[
+                    "registry"
+                ]["content_sha256"],
+                "set_test_arguments": set_test_arguments,
+            },
+            indent=2,
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def cmd_core_track_set_test(args: argparse.Namespace, *, services: TrackCommandServices) -> int:
+    """CAS one authoritative tuned pin into one exact track-local TEST cell."""
+    DEFAULT_CORE_TRACKS = services['DEFAULT_CORE_TRACKS']
+    OSError = services['OSError']
+    PipelineError = services['PipelineError']
+    ROOT = services['ROOT']
+    _commit_core_track_registry_transaction = services['_commit_core_track_registry_transaction']
+    core_track_source_ancestry_verifier = services['core_track_source_ancestry_verifier']
+    getattr = services['getattr']
+    json = services['json']
+    load_core_track_source_registry_index = services['load_core_track_source_registry_index']
     manifest_lock = services['manifest_lock']
     print = services['print']
     safe_child = services['safe_child']
@@ -632,65 +815,18 @@ def cmd_core_track_set_test(args: argparse.Namespace, *, services: TrackCommandS
     sha256_file = services['sha256_file']
     validate_core_tracks = services['validate_core_tracks']
 
-
-    if args.catalog.resolve() != DEFAULT_CATALOG.resolve():
-        raise PipelineError("core-track-set-test requires the canonical core catalog")
     with manifest_lock(DEFAULT_CORE_TRACKS):
-        catalog = load_catalog(args.catalog)
-        pin_index = load_authoritative_core_pin_index()
-        tunings = load_json(DEFAULT_CHIPSET_TUNINGS)
-        target_pin_entry = pin_index.get(args.pin_id)
-        if not isinstance(target_pin_entry, Mapping):
-            raise PipelineError("core-track TEST pin is not authoritative")
-        target_pin_path = safe_child(
-            ROOT,
-            target_pin_entry.get("path", ""),
-            "core-track TEST pin",
+        context = _core_track_test_context(
+            args,
+            command="core-track-set-test",
+            services=services,
         )
-        target_pin, target_pin_file_sha256 = load_json_with_sha256(
-            target_pin_path
-        )
-        if target_pin_file_sha256 != target_pin_entry.get("file_sha256"):
-            raise PipelineError(
-                "core-track TEST pin file identity changed after authoritative indexing"
-            )
-        if target_pin.get("content_sha256") != target_pin_entry.get(
-            "content_sha256"
-        ):
-            raise PipelineError(
-                "core-track TEST pin content identity changed after authoritative indexing"
-            )
-        target_pin_report = _validate_pin_set_document(
-            target_pin,
-            verify_store=True,
-            verify_sources=True,
-            document_path=target_pin_path,
-            historical_recipe_proofs=True,
-        )
-        if target_pin_report.get("status") != "valid":
-            raise PipelineError(
-                "core-track TEST pin lacks complete authoritative evidence:\n- "
-                + "\n- ".join(target_pin_report.get("errors", []))
-            )
-        prior_registry = load_json(DEFAULT_CORE_TRACKS)
-        main_release_roster = load_json(DEFAULT_SPRUCE_RELEASE_ROSTER)
-        spruce_branch_bases = load_json(DEFAULT_SPRUCE_BRANCH_BASES)
         result = set_core_track_test(
-            prior_registry,
-            repository_root=ROOT,
-            catalog=catalog,
-            pin_index=pin_index,
-            tunings=tunings,
-            main_release_roster=main_release_roster,
-            spruce_branch_bases=spruce_branch_bases,
-            source_registry_index=load_core_track_source_registry_index(ROOT),
-            source_ancestry_verifier=core_track_source_ancestry_verifier(),
-            track=args.track,
-            core_id=args.core,
-            chipset=args.chipset,
-            pin_id=args.pin_id,
-            tuning_profile=args.tuning_profile,
-            slice_time=args.slice_time,
+            context["prior_registry"],
+            **_core_track_test_transition_kwargs(
+                args, context, services=services
+            ),
+            expected_source_registry=args.expected_source_registry,
             expected_current_test=args.expected_current_test,
             expected_current_assignment=args.expected_current_assignment,
             expected_new_variant=args.expected_new_variant,
@@ -698,18 +834,16 @@ def cmd_core_track_set_test(args: argparse.Namespace, *, services: TrackCommandS
             expected_parent_registry=getattr(
                 args, "expected_parent_registry", None
             ),
-            outlier_authorized_at=getattr(args, "outlier_authorized_at", None),
-            outlier_authorized_by=getattr(args, "outlier_authorized_by", None),
-            outlier_reason=getattr(args, "outlier_reason", None),
-            applicable_chipsets=args.applicable_chipset,
         )
         try:
-            current_target_pin_sha256 = sha256_file(target_pin_path)
+            current_target_pin_sha256 = sha256_file(
+                context["target_pin_path"]
+            )
         except OSError as exc:
             raise PipelineError(
                 "core-track TEST pin changed before track registry mutation"
             ) from exc
-        if current_target_pin_sha256 != target_pin_file_sha256:
+        if current_target_pin_sha256 != context["target_pin_file_sha256"]:
             raise PipelineError(
                 "core-track TEST pin changed before track registry mutation"
             )
@@ -721,18 +855,18 @@ def cmd_core_track_set_test(args: argparse.Namespace, *, services: TrackCommandS
                 "core-track parent registry snapshot",
             )
         _commit_core_track_registry_transaction(
-            prior_registry=prior_registry,
+            prior_registry=context["prior_registry"],
             registry=result["registry"],
             snapshot_path=snapshot_path,
             snapshot=result["snapshot"],
             snapshot_file_sha256=result["snapshot_file_sha256"],
             validator=lambda on_disk: validate_core_tracks(
                 on_disk,
-                catalog=catalog,
-                pin_index=pin_index,
-                tunings=tunings,
-                main_release_roster=main_release_roster,
-                spruce_branch_bases=spruce_branch_bases,
+                catalog=context["catalog"],
+                pin_index=context["pin_index"],
+                tunings=context["tunings"],
+                main_release_roster=context["main_release_roster"],
+                spruce_branch_bases=context["spruce_branch_bases"],
                 source_registry_index=load_core_track_source_registry_index(
                     ROOT
                 ),
@@ -746,6 +880,9 @@ def cmd_core_track_set_test(args: argparse.Namespace, *, services: TrackCommandS
                 "track": args.track,
                 "core_id": args.core,
                 "chipset": args.chipset,
+                "source_registry_content_sha256": result[
+                    "source_registry_content_sha256"
+                ],
                 "previous_variant_id": result["previous_variant_id"],
                 "variant_id": result["variant_id"],
                 "previous_assignment_content_sha256": result[

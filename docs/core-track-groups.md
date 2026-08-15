@@ -339,14 +339,26 @@ deep-validates the result, and creates an immutable one-core one-ABI golden and
 pin. A projected universal package, grouped reproduction record, changed
 registry, or tuned `direct-cargo` recipe is not eligible.
 
-Admit the reviewed pin to one exact track-local TEST cell with direct-cell,
-new-variant, and parent CAS:
+Plan the reviewed pin first. `core-track-plan-test` is read-only and returns
+the exact source-registry, direct-cell, assignment, new-variant, and parent CAS
+values for the setter:
+
+```bash
+python3 -B scripts/core_pipeline.py core-track-plan-test \
+  --track nightly --core mgba --chipset a523 \
+  --pin-id <promoted-pin-id> --tuning-profile a523-cortex-a55-v1 \
+  --slice-time 2026-08-10T12:00:00Z
+```
+
+Admit the reviewed pin to one exact track-local TEST cell with the planner's
+CAS output:
 
 ```bash
 python3 -B scripts/core_pipeline.py core-track-set-test \
   --track nightly --core mgba --chipset a523 \
   --pin-id <promoted-pin-id> --tuning-profile a523-cortex-a55-v1 \
   --slice-time 2026-08-10T12:00:00Z \
+  --expected-source-registry <reviewed-source-registry-content-sha256> \
   --expected-current-test absent \
   --expected-current-assignment absent \
   --expected-parent-variant <reviewed-main-variant-id> \
@@ -365,6 +377,7 @@ python3 -B scripts/core_pipeline.py core-track-set-test \
   --pin-id <portable-pin-id> --tuning-profile universal-v1 \
   --slice-time 2026-08-10T12:00:00Z \
   --applicable-chipset a33 --applicable-chipset a523 \
+  --expected-source-registry <reviewed-source-registry-content-sha256> \
   --expected-current-test absent \
   --expected-current-assignment absent \
   --expected-parent-variant <reviewed-nightly-variant-id> \
@@ -373,6 +386,8 @@ python3 -B scripts/core_pipeline.py core-track-set-test \
 ```
 
 Use the current direct TEST variant instead of `absent` when replacing a cell.
+Always take `--expected-source-registry` from the matching read-only plan; it
+binds the complete reviewed input registry even for Main.
 The inventory row's direct-coordinate
 `current_assignment_content_sha256` is the durable source for
 `--expected-current-assignment`; use `absent` only when it is `null`.
