@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import tempfile
 import unittest
 from unittest import mock
 from pathlib import Path
@@ -23,6 +24,13 @@ _spec = importlib.util.spec_from_file_location(
 assert _spec is not None and _spec.loader is not None
 evidence_index = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(evidence_index)
+
+_verify_spec = importlib.util.spec_from_file_location(
+    "verify_core", ROOT / "scripts" / "verify_core.py"
+)
+assert _verify_spec is not None and _verify_spec.loader is not None
+verify_core = importlib.util.module_from_spec(_verify_spec)
+_verify_spec.loader.exec_module(verify_core)
 
 
 class EvidenceIndexTests(unittest.TestCase):
@@ -65,7 +73,7 @@ class EvidenceIndexTests(unittest.TestCase):
         # Spot-check the derivation contract on one core: the index's
         # semantic_id and package sha must match the pin the compatibility
         # document names.
-        core = evidence_index.catalog_cores()[0]
+        core = "2048"
         index = json.loads(
             evidence_index.index_path(core).read_text(encoding="utf-8")
         )
@@ -83,6 +91,86 @@ class EvidenceIndexTests(unittest.TestCase):
             index["package"]["sha256"],
         )
         self.assertEqual(compatibility["source_commit"], index["source_commit"])
+
+        pin_matches = sorted((ROOT / "pins" / "core-sets").glob(f"{core}-*.json"))
+        self.assertGreater(len(pin_matches), 1)
+        self.assertEqual(index["semantic_id"], verify_core.discover_sid(core))
+
+        semantic_id = "sample-0123456789ab-abcdef012345"
+        canonical_pin = f"pins/core-sets/{semantic_id}.json"
+        valid_compatibility = {
+            "core_id": "sample",
+            "golden_source": canonical_pin,
+        }
+        valid_index = {
+            "core_id": "sample",
+            "semantic_id": semantic_id,
+            "pin_path": canonical_pin,
+        }
+
+        def write_json(path: Path, document: object) -> None:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(document), encoding="utf-8")
+
+        cases = {
+            "missing-compatibility": (None, valid_index, True),
+            "malformed-compatibility": ("{", valid_index, True),
+            "compatibility-core-disagreement": (
+                {**valid_compatibility, "core_id": "different"},
+                valid_index,
+                True,
+            ),
+            "noncanonical-compatibility-pin": (
+                {**valid_compatibility, "golden_source": f"./{canonical_pin}"},
+                valid_index,
+                True,
+            ),
+            "missing-evidence-index": (valid_compatibility, None, True),
+            "malformed-evidence-index": (valid_compatibility, "[", True),
+            "evidence-core-disagreement": (
+                valid_compatibility,
+                {**valid_index, "core_id": "different"},
+                True,
+            ),
+            "evidence-semantic-disagreement": (
+                valid_compatibility,
+                {**valid_index, "semantic_id": "sample-111111111111-222222222222"},
+                True,
+            ),
+            "evidence-path-disagreement": (
+                valid_compatibility,
+                {
+                    **valid_index,
+                    "pin_path": "pins/core-sets/sample-111111111111-222222222222.json",
+                },
+                True,
+            ),
+            "missing-canonical-pin": (valid_compatibility, valid_index, False),
+        }
+        for label, (compatibility_fixture, index_fixture, create_pin) in cases.items():
+            with self.subTest(label=label), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                compatibility_fixture_path = (
+                    root / "manifests" / "compatibility" / "sample.json"
+                )
+                evidence_fixture_path = root / "pins" / "evidence" / "sample.json"
+                if isinstance(compatibility_fixture, str):
+                    compatibility_fixture_path.parent.mkdir(parents=True)
+                    compatibility_fixture_path.write_text(
+                        compatibility_fixture, encoding="utf-8"
+                    )
+                elif compatibility_fixture is not None:
+                    write_json(compatibility_fixture_path, compatibility_fixture)
+                if isinstance(index_fixture, str):
+                    evidence_fixture_path.parent.mkdir(parents=True)
+                    evidence_fixture_path.write_text(index_fixture, encoding="utf-8")
+                elif index_fixture is not None:
+                    write_json(evidence_fixture_path, index_fixture)
+                if create_pin:
+                    write_json(root / canonical_pin, {})
+                with mock.patch.object(verify_core, "ROOT", root):
+                    with self.assertRaises(SystemExit):
+                        verify_core.discover_sid("sample")
 
 
 if __name__ == "__main__":

@@ -35,6 +35,7 @@ EXPECTED_WORKFLOW_PARAMETERS = {
     "check_transition": ("store", "process_receipt_ref", "clock"),
     "stage_transition": ("store", "process_receipt_ref", "clock"),
     "commit_transition": ("store", "staged_receipt_ref", "clock"),
+    "load_historical_transition": ("store", "reader", "state_root_ref"),
     "verify_transition": ("store", "state_root_ref"),
 }
 
