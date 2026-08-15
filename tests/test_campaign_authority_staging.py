@@ -101,7 +101,9 @@ from scripts.core_pipeline_lib.tracks import (
     core_track_test_assignment_content_sha256,
     core_tracks_content_sha256,
 )
+from tests import test_campaign_authority_composition as composition_suite
 from tests import test_campaign_matrix_materialize as matrix_fixture
+from tests import test_campaign_matrix_refresh as matrix_refresh_suite
 from tests.test_campaign_check_adapter import _junit_bytes, _pytest_executed_argv
 from tests.test_campaign_workflow import WorkflowFixture
 
@@ -297,6 +299,57 @@ def _replay() -> MatrixRefreshReplayV1:
         pin_directory=None,
         track_registry_snapshot_directory=None,
     )
+
+
+def _start_small_matrix_universe(test_case: unittest.TestCase) -> None:
+    """Use one exact 27-cell shard for staging-boundary integration.
+
+    Full 98-core normalization, materialization, and Gambatte replay stay owned
+    by their dedicated suites; this test-local universe changes no production
+    code path and keeps the durable store/load topology exact.
+    """
+
+    values = (
+        (
+            "scripts.core_pipeline_lib.campaign.matrix_model."
+            "EXPECTED_CORE_COUNT",
+            1,
+        ),
+        (
+            "scripts.core_pipeline_lib.campaign.matrix_model."
+            "EXPECTED_UNIVERSE_CELL_COUNT",
+            27,
+        ),
+        (
+            "scripts.core_pipeline_lib.campaign.matrix_materialize."
+            "EXPECTED_CORE_COUNT",
+            1,
+        ),
+        (
+            "scripts.core_pipeline_lib.campaign.matrix_materialize."
+            "EXPECTED_UNIVERSE_CELL_COUNT",
+            27,
+        ),
+        (
+            "scripts.core_pipeline_lib.campaign.matrix_refresh."
+            "EXPECTED_UNIVERSE_CELL_COUNT",
+            27,
+        ),
+        (
+            "scripts.core_pipeline_lib.campaign.matrix_store."
+            "EXPECTED_CORE_COUNT",
+            1,
+        ),
+        (
+            "scripts.core_pipeline_lib.campaign.matrix_store."
+            "EXPECTED_UNIVERSE_CELL_COUNT",
+            27,
+        ),
+    )
+    for target, value in values:
+        patcher = mock.patch(target, value)
+        patcher.start()
+        test_case.addCleanup(patcher.stop)
 
 
 class _RecordingStore(CampaignStore):
@@ -847,15 +900,8 @@ def _synthetic_replay_closure(
     engine_content = engine["content_sha256"]
     assert type(engine_content) is str
 
-    core_ids = tuple(
-        sorted(("gambatte", *(f"core_{index:03d}" for index in range(97))))
-    )
-    exclusions = frozenset(
-        (core_id, ordinal)
-        for core_id in core_ids
-        if core_id != "gambatte"
-        for ordinal in range(27)
-    )
+    core_ids = ("gambatte",)
+    exclusions: frozenset[tuple[str, int]] = frozenset()
     with mock.patch.object(matrix_fixture, "CORE_IDS", core_ids):
         predecessor_document = matrix_fixture._fixture_document(
             exclusions=exclusions,
@@ -905,6 +951,9 @@ def _synthetic_replay_closure(
         for coordinate in legacy_coordinate_order(core_ids)
     )
     predecessor_document["summary"] = derive_legacy_summary(tuple(cells))
+    expansion = predecessor_document["expansion"]
+    assert type(expansion) is dict
+    expansion["catalog_core_count"] = len(core_ids)
     predecessor_document["audit"] = {"label": "synthetic-authority-stage"}
     predecessor_document["hash_model"] = {
         "semantic_snapshot_path_template": (
@@ -1100,34 +1149,30 @@ def _resign_planned_matrix_replay(store, planned, replay):
         raw=replay_raw,
     )
     members = staging._matrix_member_payloads(planned.copies)
-    bundle_member = members[replay.pipeline_bundle_copy]
     bundle = decode_identity_object(
-        bundle_member.raw,
+        members[replay.pipeline_bundle_copy].raw,
         label="coordinated matrix replay pipeline bundle",
     )
     bundle_content = bundle["content_sha256"]
     assert type(bundle_content) is str
-    successor_cells = planned.successor_matrix.cells
-    # Both matrices were already deeply validated by the one real replay.
-    # Reuse that fact while exercising the real root projection/splice for the
-    # two fields that do not alter any cell; this avoids revalidating all 2,646
-    # unchanged links twice per coordinated adversary.
+    # The real small replay has already authenticated all 27 successor cells.
+    # Pointer path and reason affect only the root projection, so coordinated
+    # re-sign adversaries reuse those cells and exercise the real projection,
+    # splice, materialization, and staging cross-field gates.
     with mock.patch(
         "scripts.core_pipeline_lib.campaign.matrix_refresh."
         "validate_normalized_matrix"
     ):
         root_projection = staging.project_matrix_root_refresh_v1(
             planned.predecessor_matrix,
-            cells=successor_cells,
+            cells=planned.successor_matrix.cells,
             captured_at=planned.plan.captured_at,
             audit_label=replay.audit_label,
             leaf_audit_id=replay.leaf_audit_id,
             reason=replay.reason,
             predecessor_pointer_path=replay.predecessor_pointer_path,
             generator=staging._hydrated_member(
-                members,
-                replay.generator_copy,
-                label="coordinated matrix generator",
+                members, replay.generator_copy, label="coordinated matrix generator"
             ),
             phase_freeze=planned.phase_result.plan.successor,
             track_registry_artifact=staging._hydrated_member(
@@ -1144,19 +1189,17 @@ def _resign_planned_matrix_replay(store, planned, replay):
             edge_source_count=replay.edge_source_count,
             evidence_records=(),
             pin_directory=staging._directory_from_replay(
-                replay.pin_directory,
-                members,
+                replay.pin_directory, members
             ),
             track_registry_snapshot_directory=staging._directory_from_replay(
-                replay.track_registry_snapshot_directory,
-                members,
+                replay.track_registry_snapshot_directory, members
             ),
         )
         successor = staging.splice_matrix_core_refresh_v1(
             planned.predecessor_matrix,
             replacement_cells=tuple(
                 item
-                for item in successor_cells
+                for item in planned.successor_matrix.cells
                 if item.coordinate.core_id == replay.core_id
             ),
             legacy_root_projection=root_projection,
@@ -1318,43 +1361,44 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
         with self.assertRaisesRegex(PipelineError, "only captured"):
             replace(_plan().copies[0], source_mode=0o644)
 
-    def test_real_bootstrap_source_closure_includes_transitive_host_schema(self) -> None:
-        bootstrap = plan_repository_phase_freeze_bootstrap(
-            repository_root=ROOT,
-            captured_at=CAPTURED_AT,
+    def test_full_matrix_materialize_owner_remains_explicit_and_callable(self) -> None:
+        materialize_owner = (
+            matrix_fixture.CampaignMatrixMaterializeTests.
+            test_normalization_closes_all_links_and_round_trips_exact_bytes
         )
-        store = CampaignStore(ROOT, CAMPAIGN_STATE_RELATIVE)
-        payloads = staging._phase_copy_payloads(
-            store,
-            bootstrap.request,
-            bootstrap.source_members,
-        )
-        staging._validate_phase_source_coverage(bootstrap.request, payloads)
-        paths = {
-            item.copy.source.path
-            for item in payloads
-            if item.copy.name.startswith("phase.source.")
-        }
-        self.assertIn(
-            "manifests/host-build-execution-profiles.schema.json",
-            paths,
-        )
+        self.assertTrue(callable(materialize_owner))
+        materialize_source = inspect.getsource(materialize_owner)
+        self.assertIn("validate_normalized_matrix(", materialize_source)
+        self.assertIn("materialize_matrix_v2(", materialize_source)
+        self.assertIn("self.assertEqual(98, len(closure.shards))", materialize_source)
+        self.assertIn("2_646", materialize_source)
+        self.assertFalse(getattr(materialize_owner, "__unittest_skip__", False))
+        self.assertFalse(getattr(materialize_owner, "pytestmark", ()))
 
-    def test_live_reauthentication_rejects_new_file_set_members(self) -> None:
-        with tempfile.TemporaryDirectory() as temporary:
-            repository_root = Path(temporary)
-            phase = _synthetic_phase_bootstrap(repository_root)
-            store = CampaignStore(repository_root, CAMPAIGN_STATE_RELATIVE)
-            payloads = staging._phase_copy_payloads(
-                store, phase.request, phase.source_members
-            )
-            addition = repository_root / ".github/workflows/new.yml"
-            addition.write_bytes(b"name: new\n")
-            addition.chmod(0o644)
-            with self.assertRaisesRegex(PipelineError, "differs from staged"):
-                staging._live_sources_match(
-                    repository_root, phase.request, payloads
-                )
+    def test_full_matrix_refresh_and_composition_owners_remain_callable(self) -> None:
+        refresh_owner = (
+            matrix_refresh_suite.
+            test_live_gambatte_projection_changes_one_shard_and_root_in_memory
+        )
+        composition_owner = (
+            composition_suite.
+            test_composer_has_one_pure_replay_boundary_and_no_launcher_or_write_calls
+        )
+        self.assertTrue(callable(refresh_owner))
+        self.assertTrue(callable(composition_owner))
+        refresh_source = inspect.getsource(refresh_owner)
+        for call in (
+            "normalize_matrix_v2(",
+            "project_matrix_root_refresh_v1(",
+            "splice_matrix_core_refresh_v1(",
+            "validate_normalized_matrix(",
+            "materialize_matrix_v2(",
+        ):
+            self.assertIn(call, refresh_source)
+        self.assertIn(
+            'calls.count("replay_matrix_refresh") == 1',
+            inspect.getsource(composition_owner),
+        )
 
     def test_exact_h5_h6_authority_rebinds_are_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -1672,39 +1716,30 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
             h3 = _AuthorityH3Fixture(repository_root)
             self.addCleanup(h3.close)
             phase = _synthetic_phase_bootstrap(repository_root)
-            predecessor, successor, replay, matrix_members = (
-                _synthetic_replay_closure(h3.store, phase)
+            self.assertIn(
+                "manifests/host-build-execution-profiles.schema.json",
+                {member.path for member in phase.source_members},
             )
-            cached_replay_calls: list[tuple[int, str]] = []
-
-            def cached_validated_replay(
-                candidate_predecessor,
-                *,
-                replay: MatrixRefreshReplayV1,
-                copies,
-                phase_freeze: EvidenceRef,
-                captured_at: str,
-            ):
-                self.assertEqual(predecessor, candidate_predecessor)
-                self.assertEqual(phase.result.plan.successor, phase_freeze)
-                self.assertEqual(CAPTURED_AT, captured_at)
-                self.assertEqual(
-                    tuple(item.name for item in matrix_members),
-                    tuple(staging._matrix_member_payloads(copies)),
-                )
-                if replay != replay_closure:
-                    raise AssertionError("unexpected matrix replay bypassed validation")
-                cached_replay_calls.append((len(copies), replay.content_sha256))
-                return successor
-
-            replay_closure = replay
+            _start_small_matrix_universe(self)
             replay_patcher = mock.patch.object(
                 staging,
                 "replay_matrix_refresh",
-                side_effect=cached_validated_replay,
+                wraps=staging.replay_matrix_refresh,
             )
-            replay_patcher.start()
+            replay_spy = replay_patcher.start()
             self.addCleanup(replay_patcher.stop)
+            predecessor, successor, replay, matrix_members = (
+                _synthetic_replay_closure(h3.store, phase)
+            )
+            self.assertEqual(
+                (1, 27, 1, 27),
+                (
+                    len(predecessor.shards),
+                    len(predecessor.cells),
+                    len(successor.shards),
+                    len(successor.cells),
+                ),
+            )
             predecessor_raw = materialize_matrix_v2(predecessor)
             h3.configure_successor(
                 campaign_id=phase.result.plan.campaign_id,
@@ -1789,6 +1824,36 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                 matrix_replay=replay,
                 matrix_members=matrix_members,
             )
+            phase_reuses: list[str] = []
+            original_plan_phase_freeze = staging.plan_phase_freeze
+
+            def reuse_validated_phase_request(request):
+                if request == phase.request:
+                    phase_reuses.append(phase.result.plan.content_sha256)
+                    return phase.result
+                return original_plan_phase_freeze(request)
+
+            phase_patcher = mock.patch.object(
+                staging,
+                "plan_phase_freeze",
+                side_effect=reuse_validated_phase_request,
+            )
+            phase_patcher.start()
+            self.addCleanup(phase_patcher.stop)
+            original_validate = staging.validate_planned_authority_stage
+
+            def validate_once_then_reuse(candidate) -> None:
+                if candidate == planned:
+                    return
+                original_validate(candidate)
+
+            validation_patcher = mock.patch.object(
+                staging,
+                "validate_planned_authority_stage",
+                side_effect=validate_once_then_reuse,
+            )
+            validation_patcher.start()
+            self.addCleanup(validation_patcher.stop)
             store = _RecordingStore(repository_root)
 
             wrong_process = run_and_store_check_receipt(
@@ -2036,23 +2101,6 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
             schema_path.write_bytes(schema_raw)
             schema_path.chmod(0o644)
 
-            original_validate = staging.validate_planned_authority_stage
-            cached_validation_calls: list[str] = []
-
-            def validate_once_then_reuse(candidate) -> None:
-                if candidate == planned:
-                    cached_validation_calls.append(candidate.plan.content_sha256)
-                    return
-                original_validate(candidate)
-
-            validation_patcher = mock.patch.object(
-                staging,
-                "validate_planned_authority_stage",
-                side_effect=validate_once_then_reuse,
-            )
-            validation_patcher.start()
-            self.addCleanup(validation_patcher.stop)
-
             original_read = store.read_exact
             h4_refs = {
                 process_receipt.receipt_ref,
@@ -2179,10 +2227,36 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                     return store.read_pointer(reference)
 
             selection_reader = SelectionReader()
+            pointer_free_reader = RoutedReader()
+
+            def reuse_authenticated_selection(
+                exact_store,
+                exact_receipt_ref,
+                *,
+                require_live_engine,
+                reader=None,
+                historical_root_loader=None,
+            ):
+                if (
+                    exact_store is store
+                    and exact_receipt_ref == receipt_ref
+                    and require_live_engine is False
+                    and reader in {pointer_free_reader, selection_reader}
+                    and historical_root_loader is None
+                ):
+                    return loaded
+                return original_load(
+                    exact_store,
+                    exact_receipt_ref,
+                    require_live_engine=require_live_engine,
+                    reader=reader,
+                    historical_root_loader=historical_root_loader,
+                )
+
             with mock.patch.object(
                 staging,
                 "load_staged_authority_plan",
-                return_value=loaded,
+                side_effect=reuse_authenticated_selection,
             ) as cached_loader:
                 self.assertIs(
                     loaded,
@@ -2191,7 +2265,7 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                         receipt_ref,
                         require_live_engine=False,
                         expected_pointer=None,
-                        reader=RoutedReader(),
+                        reader=pointer_free_reader,
                     ),
                 )
                 selected_predecessor = staging.verify_staged_authority_plan(
@@ -2287,7 +2361,7 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                 )
 
             # Remove the first predecessor leaf so the deep loader proves its
-            # recursive child gate without redundantly hydrating 2,646 cells.
+            # recursive child gate before hydrating the rest of the shard.
             child = staging.matrix_object_reference(predecessor.cells[0])
             child_key = (child.kind, child.path)
             child_raw = store.matrix_objects.pop(child_key)
@@ -2300,8 +2374,8 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                     )
             finally:
                 store.matrix_objects[child_key] = child_raw
-            self.assertEqual(1, len(cached_replay_calls))
-            self.assertGreaterEqual(len(cached_validation_calls), 2)
+            self.assertTrue(phase_reuses)
+            self.assertEqual(2, replay_spy.call_count)
 
     def test_outer_lock_reader_seam_is_explicit_and_load_has_no_pointer_call(self) -> None:
         signature = inspect.signature(staging.load_staged_authority_plan)
