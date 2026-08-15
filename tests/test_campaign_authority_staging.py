@@ -1099,13 +1099,69 @@ def _resign_planned_matrix_replay(store, planned, replay):
         source=replay_source,
         raw=replay_raw,
     )
-    successor = staging.replay_matrix_refresh(
-        planned.predecessor_matrix,
-        replay=replay,
-        copies=planned.copies,
-        phase_freeze=planned.phase_result.plan.successor,
-        captured_at=planned.plan.captured_at,
+    members = staging._matrix_member_payloads(planned.copies)
+    bundle_member = members[replay.pipeline_bundle_copy]
+    bundle = decode_identity_object(
+        bundle_member.raw,
+        label="coordinated matrix replay pipeline bundle",
     )
+    bundle_content = bundle["content_sha256"]
+    assert type(bundle_content) is str
+    successor_cells = planned.successor_matrix.cells
+    # Both matrices were already deeply validated by the one real replay.
+    # Reuse that fact while exercising the real root projection/splice for the
+    # two fields that do not alter any cell; this avoids revalidating all 2,646
+    # unchanged links twice per coordinated adversary.
+    with mock.patch(
+        "scripts.core_pipeline_lib.campaign.matrix_refresh."
+        "validate_normalized_matrix"
+    ):
+        root_projection = staging.project_matrix_root_refresh_v1(
+            planned.predecessor_matrix,
+            cells=successor_cells,
+            captured_at=planned.plan.captured_at,
+            audit_label=replay.audit_label,
+            leaf_audit_id=replay.leaf_audit_id,
+            reason=replay.reason,
+            predecessor_pointer_path=replay.predecessor_pointer_path,
+            generator=staging._hydrated_member(
+                members,
+                replay.generator_copy,
+                label="coordinated matrix generator",
+            ),
+            phase_freeze=planned.phase_result.plan.successor,
+            track_registry_artifact=staging._hydrated_member(
+                members,
+                replay.track_registry_copy,
+                label="coordinated track registry",
+            ),
+            pipeline_bundle=staging.PipelineBundleIdentityV1(
+                schema_version=bundle["schema_version"],  # type: ignore[arg-type]
+                file_count=len(bundle["files"]),  # type: ignore[arg-type]
+                content_sha256=bundle_content,
+            ),
+            authoritative_suite_summary=replay.authoritative_suite_summary,
+            edge_source_count=replay.edge_source_count,
+            evidence_records=(),
+            pin_directory=staging._directory_from_replay(
+                replay.pin_directory,
+                members,
+            ),
+            track_registry_snapshot_directory=staging._directory_from_replay(
+                replay.track_registry_snapshot_directory,
+                members,
+            ),
+        )
+        successor = staging.splice_matrix_core_refresh_v1(
+            planned.predecessor_matrix,
+            replacement_cells=tuple(
+                item
+                for item in successor_cells
+                if item.coordinate.core_id == replay.core_id
+            ),
+            legacy_root_projection=root_projection,
+            phase_freeze=planned.phase_result.plan.successor,
+        )
     legacy_raw = materialize_matrix_v2(successor)
     legacy = staging._legacy_stage(
         store,
@@ -1300,124 +1356,266 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                     repository_root, phase.request, payloads
                 )
 
-    def test_real_replay_rejects_a_coordinated_h6_authority_rebind(self) -> None:
+    def test_exact_h5_h6_authority_rebinds_are_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
-            repository_root = Path(temporary)
-            phase = _synthetic_phase_bootstrap(repository_root)
-            store = CampaignStore(repository_root, CAMPAIGN_STATE_RELATIVE)
-            predecessor, successor, replay, members = _synthetic_replay_closure(
-                store, phase
-            )
-            by_name = {item.name: item for item in members}
-            alternate_registry = decode_identity_object(
-                by_name["tracks"].raw,
-                label="alternate synthetic tracks",
-            )
-            tracks = alternate_registry["tracks"]
-            assert type(tracks) is dict
-            for track_name in ("main", "nightly", "edge"):
-                track = tracks[track_name]
-                assert type(track) is dict
-                deferred = track["deferred"]
-                assert type(deferred) is dict
-                core = deferred["gambatte"]
-                assert type(core) is dict
-                cell = core["universal"]
-                assert type(cell) is dict
-                cell["reason"] = "coordinated-but-unfrozen-authority-rebind"
-            alternate_registry["content_sha256"] = core_tracks_content_sha256(
-                alternate_registry
-            )
-            alternate_tracks_raw = rendered_json_bytes(alternate_registry)
-            alternate_tracks = AuthenticatedInput(
-                name="tracks",
-                reference=EvidenceRef(
-                    kind=by_name["tracks"].reference.kind,
-                    path=by_name["tracks"].reference.path,
-                    file_sha256=sha256_bytes(alternate_tracks_raw),
-                    target_content_sha256=alternate_registry[  # type: ignore[arg-type]
-                        "content_sha256"
-                    ],
-                    size=len(alternate_tracks_raw),
-                ),
-                raw=alternate_tracks_raw,
+            store = CampaignStore(Path(temporary), CAMPAIGN_STATE_RELATIVE)
+            replay = _replay()
+            roles = (
+                "catalog",
+                "commit-blacklist",
+                "core-spec-set",
+                "host-execution",
+                "spruce-branch-bases",
+                "spruce-release-roster",
+                "telemetry-schema",
+                "toolchain-lock",
+                "tracks",
+                "tunings",
             )
             authorities = {
-                item.name: item.reference
-                for item in phase.result.phase_freeze.authorities
-            }
-            authorities["tracks"] = alternate_tracks.reference
-            coordinate_by_inventory = {
-                row.inventory_copy: row.coordinate for row in replay.cells
-            }
-            alternate_members: list[AuthenticatedInput] = []
-            for member in members:
-                if member.name == "tracks":
-                    alternate_members.append(alternate_tracks)
-                    continue
-                coordinate = coordinate_by_inventory.get(member.name)
-                if coordinate is None:
-                    alternate_members.append(member)
-                    continue
-                inventory = _synthetic_inventory(
-                    coordinate=coordinate,
-                    registry=alternate_registry,
-                    authorities=authorities,
+                name: _reference(
+                    "artifact", f"manifests/{name}.json", 60_000 + index
                 )
-                raw = rendered_json_bytes(inventory)
-                alternate_members.append(
-                    AuthenticatedInput(
-                        name=member.name,
-                        reference=EvidenceRef(
-                            kind="artifact",
-                            path=member.reference.path,
-                            file_sha256=sha256_bytes(raw),
-                            target_content_sha256=inventory[  # type: ignore[arg-type]
-                                "content_sha256"
-                            ],
-                            size=len(raw),
-                        ),
-                        raw=raw,
-                    )
+                for index, name in enumerate(roles)
+            }
+
+            def source(path: str, raw: bytes, *, target: str | None = None):
+                return EvidenceRef(
+                    kind="artifact",
+                    path=path,
+                    file_sha256=sha256_bytes(raw),
+                    target_content_sha256=target,
+                    size=len(raw),
                 )
-            alternate_payloads = tuple(
+
+            generator_raw = b"synthetic generator\n"
+            generator_source = source("scripts/generator.py", generator_raw)
+            tracks_raw = b'{"tracks":"frozen"}\n'
+            tracks_source = source(
+                authorities["tracks"].path,
+                tracks_raw,
+                target=authorities["tracks"].target_content_sha256,
+            )
+
+            def phase_source_payload(reference: EvidenceRef, raw: bytes):
+                return staging._copy_payload(
+                    store,
+                    name=(
+                        "phase.source."
+                        f"{sha256_bytes(reference.path.encode('utf-8'))[:24]}"
+                    ),
+                    source=reference,
+                    raw=raw,
+                    stored_kind="repository-snapshot",
+                    source_mode=0o644,
+                )
+
+            inventory_document = {
+                "catalog_content_sha256": authorities[
+                    "catalog"
+                ].target_content_sha256,
+                "track_registry_content_sha256": authorities[
+                    "tracks"
+                ].target_content_sha256,
+                "tuning_registry_content_sha256": authorities[
+                    "tunings"
+                ].target_content_sha256,
+            }
+            inventory_raw = matrix_v2_canonical_bytes(inventory_document)
+            payloads = [
+                phase_source_payload(generator_source, generator_raw),
+                phase_source_payload(tracks_source, tracks_raw),
                 staging._copy_payload(
                     store,
-                    name=f"matrix.member.{item.name}",
-                    source=item.reference,
-                    raw=item.raw,
+                    name="matrix.member.matrix.generator",
+                    source=generator_source,
+                    raw=generator_raw,
+                ),
+                staging._copy_payload(
+                    store,
+                    name="matrix.member.matrix.tracks",
+                    source=tracks_source,
+                    raw=tracks_raw,
+                ),
+            ]
+            for ordinal in range(27):
+                inventory_source = source(
+                    f"campaign/evidence/inventory-{ordinal:02d}.json",
+                    inventory_raw,
                 )
-                for item in sorted(alternate_members, key=lambda item: item.name)
-            )
-            alternate_successor = staging.replay_matrix_refresh(
-                predecessor,
-                replay=replay,
-                copies=alternate_payloads,
-                phase_freeze=phase.result.plan.successor,
-                captured_at=CAPTURED_AT,
-            )
-            self.assertNotEqual(successor, alternate_successor)
-            all_copies = tuple(
-                sorted(
-                    (
-                        *staging._phase_copy_payloads(
-                            store, phase.request, phase.source_members
-                        ),
-                        *alternate_payloads,
-                    ),
-                    key=lambda item: item.copy.name,
+                payloads.append(
+                    staging._copy_payload(
+                        store,
+                        name=f"matrix.member.inventory.{ordinal:02d}",
+                        source=inventory_source,
+                        raw=inventory_raw,
+                    )
+                )
+            copies = tuple(sorted(payloads, key=lambda item: item.copy.name))
+
+            root_roles = {
+                "catalog": "catalog",
+                "commit_blacklist": "commit-blacklist",
+                "branch_bases": "spruce-branch-bases",
+                "release_roster": "spruce-release-roster",
+                "host_execution_profiles": "host-execution",
+                "host_telemetry_schema": "telemetry-schema",
+                "toolchain_lock": "toolchain-lock",
+                "tracks": "tracks",
+                "tunings": "tunings",
+            }
+
+            def legacy_root(
+                replacements: dict[str, EvidenceRef] | None = None,
+            ) -> str:
+                selected = dict(authorities)
+                selected.update(replacements or {})
+                inputs = {}
+                for root_name, role in root_roles.items():
+                    reference = selected[role]
+                    inputs[root_name] = {
+                        "path": reference.path,
+                        "file_sha256": reference.file_sha256,
+                        "content_sha256": reference.target_content_sha256,
+                    }
+                return matrix_v2_canonical_bytes({"inputs": inputs}).decode("utf-8")
+
+            class TinyPhase:
+                pass
+
+            class TinyRoot:
+                def __init__(
+                    self,
+                    *,
+                    core_spec_set: EvidenceRef,
+                    legacy_root_json: str,
+                ) -> None:
+                    self.core_spec_set = core_spec_set
+                    self.legacy_root_json = legacy_root_json
+
+            class TinyMatrix:
+                def __init__(self, root: TinyRoot) -> None:
+                    self.root = root
+
+            predecessor = TinyMatrix(
+                TinyRoot(
+                    core_spec_set=authorities["core-spec-set"],
+                    legacy_root_json=legacy_root(),
                 )
             )
-            with self.assertRaisesRegex(
-                PipelineError, "captured H5 source|inventor.*H5|legacy input"
+            successor = TinyMatrix(
+                TinyRoot(
+                    core_spec_set=authorities["core-spec-set"],
+                    legacy_root_json=legacy_root(),
+                )
+            )
+
+            def replace_copy(name: str, replacement):
+                return tuple(
+                    replacement if item.copy.name == name else item
+                    for item in copies
+                )
+
+            with (
+                mock.patch.object(staging, "PlannedPhaseFreeze", TinyPhase),
+                mock.patch.object(staging, "NormalizedMatrixV1", TinyMatrix),
+                mock.patch.object(staging, "validate_normalized_matrix"),
+                mock.patch.object(
+                    staging,
+                    "_phase_authority_references",
+                    return_value=authorities,
+                ),
             ):
-                staging.validate_h5_h6_authority_bindings(
-                    phase_result=phase.result,
-                    predecessor_matrix=predecessor,
-                    successor_matrix=alternate_successor,
-                    matrix_replay=replay,
-                    copies=all_copies,
+                arguments = {
+                    "phase_result": TinyPhase(),
+                    "predecessor_matrix": predecessor,
+                    "successor_matrix": successor,
+                    "matrix_replay": replay,
+                    "copies": copies,
+                }
+                staging.validate_h5_h6_authority_bindings(**arguments)
+
+                alternate_tracks_raw = b'{"tracks":"coordinated-rebind"}\n'
+                alternate_tracks_source = source(
+                    tracks_source.path,
+                    alternate_tracks_raw,
+                    target=_digest(70_000),
                 )
+                alternate_tracks = staging._copy_payload(
+                    store,
+                    name="matrix.member.matrix.tracks",
+                    source=alternate_tracks_source,
+                    raw=alternate_tracks_raw,
+                )
+                with self.assertRaisesRegex(PipelineError, "captured H5 source"):
+                    staging.validate_h5_h6_authority_bindings(
+                        **{
+                            **arguments,
+                            "copies": replace_copy(
+                                "matrix.member.matrix.tracks", alternate_tracks
+                            ),
+                        }
+                    )
+
+                alternate_inventory_raw = matrix_v2_canonical_bytes(
+                    {
+                        **inventory_document,
+                        "track_registry_content_sha256": _digest(70_001),
+                    }
+                )
+                alternate_inventory = staging._copy_payload(
+                    store,
+                    name="matrix.member.inventory.00",
+                    source=source(
+                        "campaign/evidence/inventory-00.json",
+                        alternate_inventory_raw,
+                    ),
+                    raw=alternate_inventory_raw,
+                )
+                with self.assertRaisesRegex(PipelineError, "inventor.*H5"):
+                    staging.validate_h5_h6_authority_bindings(
+                        **{
+                            **arguments,
+                            "copies": replace_copy(
+                                "matrix.member.inventory.00", alternate_inventory
+                            ),
+                        }
+                    )
+
+                alternate_authority = _reference(
+                    "artifact", "manifests/rebound-tracks.json", 70_002
+                )
+                alternate_successor = TinyMatrix(
+                    TinyRoot(
+                        core_spec_set=authorities["core-spec-set"],
+                        legacy_root_json=legacy_root(
+                            {"tracks": alternate_authority}
+                        ),
+                    )
+                )
+                with self.assertRaisesRegex(PipelineError, "legacy input differs"):
+                    staging.validate_h5_h6_authority_bindings(
+                        **{
+                            **arguments,
+                            "successor_matrix": alternate_successor,
+                        }
+                    )
+
+                alternate_core_spec = TinyMatrix(
+                    TinyRoot(
+                        core_spec_set=_reference(
+                            "artifact", "manifests/rebound-spec.json", 70_003
+                        ),
+                        legacy_root_json=legacy_root(),
+                    )
+                )
+                with self.assertRaisesRegex(PipelineError, "CoreSpec authority"):
+                    staging.validate_h5_h6_authority_bindings(
+                        **{
+                            **arguments,
+                            "successor_matrix": alternate_core_spec,
+                        }
+                    )
 
     def test_h4_suite_summary_requires_receipt_stdout_and_reporter_agreement(self) -> None:
         report = canonical_json_bytes(
@@ -1477,6 +1675,36 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
             predecessor, successor, replay, matrix_members = (
                 _synthetic_replay_closure(h3.store, phase)
             )
+            cached_replay_calls: list[tuple[int, str]] = []
+
+            def cached_validated_replay(
+                candidate_predecessor,
+                *,
+                replay: MatrixRefreshReplayV1,
+                copies,
+                phase_freeze: EvidenceRef,
+                captured_at: str,
+            ):
+                self.assertEqual(predecessor, candidate_predecessor)
+                self.assertEqual(phase.result.plan.successor, phase_freeze)
+                self.assertEqual(CAPTURED_AT, captured_at)
+                self.assertEqual(
+                    tuple(item.name for item in matrix_members),
+                    tuple(staging._matrix_member_payloads(copies)),
+                )
+                if replay != replay_closure:
+                    raise AssertionError("unexpected matrix replay bypassed validation")
+                cached_replay_calls.append((len(copies), replay.content_sha256))
+                return successor
+
+            replay_closure = replay
+            replay_patcher = mock.patch.object(
+                staging,
+                "replay_matrix_refresh",
+                side_effect=cached_validated_replay,
+            )
+            replay_patcher.start()
+            self.addCleanup(replay_patcher.stop)
             predecessor_raw = materialize_matrix_v2(predecessor)
             h3.configure_successor(
                 campaign_id=phase.result.plan.campaign_id,
@@ -1808,21 +2036,22 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
             schema_path.write_bytes(schema_raw)
             schema_path.chmod(0o644)
 
-            store.publications.clear()
-            receipt_ref = staging.stage_authority_plan(
-                store,
-                planned,
-                process_receipt=process_receipt,
-                clock=lambda: "2026-08-15T04:05:00Z",
+            original_validate = staging.validate_planned_authority_stage
+            cached_validation_calls: list[str] = []
+
+            def validate_once_then_reuse(candidate) -> None:
+                if candidate == planned:
+                    cached_validation_calls.append(candidate.plan.content_sha256)
+                    return
+                original_validate(candidate)
+
+            validation_patcher = mock.patch.object(
+                staging,
+                "validate_planned_authority_stage",
+                side_effect=validate_once_then_reuse,
             )
-            self.assertEqual(receipt_ref, store.publications[-1])
-            self.assertEqual("validation-receipt", receipt_ref.kind)
-            self.assertTrue(
-                all(
-                    item.kind != "validation-receipt"
-                    for item in store.publications[:-1]
-                )
-            )
+            validation_patcher.start()
+            self.addCleanup(validation_patcher.stop)
 
             original_read = store.read_exact
             h4_refs = {
@@ -1842,22 +2071,58 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                     raise AssertionError("H4 evidence bypassed the injected reader")
                 return original_read(reference)
 
-            with mock.patch.object(store, "read_exact", side_effect=reject_h4_bypass):
-                pointer_free = staging.verify_staged_authority_plan(
+            original_load = staging.load_staged_authority_plan
+            captured_loads = []
+
+            def capture_real_deep_load(
+                exact_store,
+                staged_receipt_ref,
+                *,
+                require_live_engine,
+            ):
+                with mock.patch.object(
+                    exact_store,
+                    "read_exact",
+                    side_effect=reject_h4_bypass,
+                ):
+                    result = original_load(
+                        exact_store,
+                        staged_receipt_ref,
+                        require_live_engine=require_live_engine,
+                        reader=RoutedReader(),
+                        historical_root_loader=lambda reader, reference: (
+                            workflow.load_historical_transition(
+                                h3.store,
+                                reader=reader,
+                                state_root_ref=reference,
+                            )
+                        ),
+                    )
+                captured_loads.append(result)
+                return result
+
+            store.publications.clear()
+            with mock.patch.object(
+                staging,
+                "load_staged_authority_plan",
+                side_effect=capture_real_deep_load,
+            ):
+                receipt_ref = staging.stage_authority_plan(
                     store,
-                    receipt_ref,
-                    require_live_engine=False,
-                    expected_pointer=None,
-                    reader=RoutedReader(),
-                    historical_root_loader=lambda reader, reference: (
-                        workflow.load_historical_transition(
-                            h3.store,
-                            reader=reader,
-                            state_root_ref=reference,
-                        )
-                    ),
+                    planned,
+                    process_receipt=process_receipt,
+                    clock=lambda: "2026-08-15T04:05:00Z",
                 )
-            loaded = pointer_free
+            self.assertEqual(receipt_ref, store.publications[-1])
+            self.assertEqual("validation-receipt", receipt_ref.kind)
+            self.assertTrue(
+                all(
+                    item.kind != "validation-receipt"
+                    for item in store.publications[:-1]
+                )
+            )
+            self.assertEqual(1, len(captured_loads))
+            loaded = captured_loads[0]
             self.assertEqual(planned.plan, loaded.planned.plan)
             self.assertEqual(pointer, loaded.predecessor_pointer)
             self.assertEqual(planned.legacy_raw, loaded.successor_raw)
@@ -1905,15 +2170,6 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                         alias_historical
                     ),
                 )
-            self.assertIs(
-                loaded,
-                staging.verify_staged_authority_pointer(
-                    loaded,
-                    expected_pointer=None,
-                    reader=RoutedReader(),
-                ),
-            )
-
             class SelectionReader(RoutedReader):
                 def __init__(self) -> None:
                     self.pointer_reads: list[EvidenceRef] = []
@@ -1923,26 +2179,43 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                     return store.read_pointer(reference)
 
             selection_reader = SelectionReader()
-            selected_predecessor = staging.verify_staged_authority_pointer(
-                loaded,
-                expected_pointer="predecessor",
-                reader=selection_reader,
-            )
-            self.assertEqual(receipt_ref, selected_predecessor.receipt_reference)
-            self.assertEqual(
-                [loaded.predecessor_pointer], selection_reader.pointer_reads
-            )
-            selection_reader.pointer_reads.clear()
-            with self.assertRaisesRegex(
-                PipelineError, "planned predecessor|evidence bytes"
-            ):
-                staging.verify_staged_authority_pointer(
+            with mock.patch.object(
+                staging,
+                "load_staged_authority_plan",
+                return_value=loaded,
+            ) as cached_loader:
+                self.assertIs(
                     loaded,
-                    expected_pointer="successor",
+                    staging.verify_staged_authority_plan(
+                        store,
+                        receipt_ref,
+                        require_live_engine=False,
+                        expected_pointer=None,
+                        reader=RoutedReader(),
+                    ),
+                )
+                selected_predecessor = staging.verify_staged_authority_plan(
+                    store,
+                    receipt_ref,
+                    require_live_engine=False,
+                    expected_pointer="predecessor",
                     reader=selection_reader,
                 )
+                with self.assertRaisesRegex(
+                    PipelineError, "planned predecessor|evidence bytes"
+                ):
+                    staging.verify_staged_authority_plan(
+                        store,
+                        receipt_ref,
+                        require_live_engine=False,
+                        expected_pointer="successor",
+                        reader=selection_reader,
+                    )
+            self.assertEqual(3, cached_loader.call_count)
+            self.assertEqual(receipt_ref, selected_predecessor.receipt_reference)
             self.assertEqual(
-                [loaded.successor_pointer], selection_reader.pointer_reads
+                [loaded.predecessor_pointer, loaded.successor_pointer],
+                selection_reader.pointer_reads,
             )
 
             class FailingH4Reader(RoutedReader):
@@ -2013,7 +2286,9 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                     reader=FailingH4Reader(copy_target, corrupt=True),
                 )
 
-            child = staging.matrix_object_reference(successor.cells[0])
+            # Remove the first predecessor leaf so the deep loader proves its
+            # recursive child gate without redundantly hydrating 2,646 cells.
+            child = staging.matrix_object_reference(predecessor.cells[0])
             child_key = (child.kind, child.path)
             child_raw = store.matrix_objects.pop(child_key)
             try:
@@ -2025,6 +2300,8 @@ class CampaignAuthorityStagingTests(unittest.TestCase):
                     )
             finally:
                 store.matrix_objects[child_key] = child_raw
+            self.assertEqual(1, len(cached_replay_calls))
+            self.assertGreaterEqual(len(cached_validation_calls), 2)
 
     def test_outer_lock_reader_seam_is_explicit_and_load_has_no_pointer_call(self) -> None:
         signature = inspect.signature(staging.load_staged_authority_plan)
