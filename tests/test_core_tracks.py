@@ -6,12 +6,14 @@ import json
 from pathlib import Path
 import subprocess
 import tempfile
+import threading
 import unittest
 from unittest import mock
 
 from jsonschema import Draft202012Validator
 
-from .cores.support import pipeline
+from .cores import support as core_test_support
+from .cores.support import load_live_authoritative_core_pin_index, pipeline
 from scripts.core_pipeline_lib import tracks as track_model
 from scripts.core_pipeline_lib.chipsets import (
     CHIPSETS,
@@ -102,7 +104,10 @@ class CoreTrackTests(unittest.TestCase):
         cls.live_branch_bases = _read_json(
             ROOT / "manifests/spruce-core-branch-bases.json"
         )
-        cls.live_pins = pipeline.load_authoritative_core_pin_index()
+        cls.live_pins = load_live_authoritative_core_pin_index(
+            repository_root=ROOT,
+            loader=pipeline.load_authoritative_core_pin_index,
+        )
         cls.live_source_registries = load_core_track_source_registry_index(ROOT)
 
     def setUp(self) -> None:
@@ -202,6 +207,94 @@ class CoreTrackTests(unittest.TestCase):
 
     def test_live_registry_validates_with_unmocked_comparison_and_edge_policy(self) -> None:
         """Walk every live dependency through the real policy adapters."""
+
+        cached_loader = mock.Mock(
+            side_effect=AssertionError("same-root cache reuse called the loader")
+        )
+        detached_pins = load_live_authoritative_core_pin_index(
+            repository_root=ROOT,
+            loader=cached_loader,
+        )
+        cached_loader.assert_not_called()
+        self.assertEqual(self.live_pins, detached_pins)
+        self.assertIsNot(self.live_pins, detached_pins)
+        first_pin_id = next(iter(detached_pins))
+        detached_pins[first_pin_id]["path"] = "tampered-test-copy.json"
+        self.assertNotEqual(self.live_pins, detached_pins)
+        self.assertEqual(
+            self.live_pins,
+            load_live_authoritative_core_pin_index(
+                repository_root=ROOT,
+                loader=cached_loader,
+            ),
+        )
+        with self.assertRaisesRegex(
+            ValueError, "bound to a different repository root"
+        ):
+            load_live_authoritative_core_pin_index(
+                repository_root=ROOT.parent,
+                loader=cached_loader,
+            )
+        cached_loader.assert_not_called()
+
+        with (
+            mock.patch.object(
+                core_test_support, "_LIVE_AUTHORITY_CACHE_ROOT", None
+            ),
+            mock.patch.object(core_test_support, "_LIVE_AUTHORITY_CACHE", None),
+        ):
+            failing_loader = mock.Mock(
+                side_effect=RuntimeError("synthetic authority load failure")
+            )
+            with self.assertRaisesRegex(RuntimeError, "synthetic authority"):
+                load_live_authoritative_core_pin_index(
+                    repository_root=ROOT,
+                    loader=failing_loader,
+                )
+            self.assertIsNone(core_test_support._LIVE_AUTHORITY_CACHE_ROOT)
+            self.assertIsNone(core_test_support._LIVE_AUTHORITY_CACHE)
+
+            loader_call_count = 0
+            loader_call_lock = threading.Lock()
+            concurrent_loader_entry = threading.Event()
+            concurrent_source = {"synthetic-pin": {"path": "synthetic-pin.json"}}
+
+            def slow_loader() -> dict[str, dict[str, str]]:
+                nonlocal loader_call_count
+                with loader_call_lock:
+                    loader_call_count += 1
+                    if loader_call_count == 2:
+                        concurrent_loader_entry.set()
+                concurrent_loader_entry.wait(timeout=0.2)
+                return concurrent_source
+
+            worker_start = threading.Barrier(3)
+            worker_results: list[dict[str, dict[str, object]]] = []
+            worker_errors: list[BaseException] = []
+
+            def load_worker() -> None:
+                worker_start.wait()
+                try:
+                    worker_results.append(
+                        load_live_authoritative_core_pin_index(
+                            repository_root=ROOT,
+                            loader=slow_loader,
+                        )
+                    )
+                except BaseException as exc:
+                    worker_errors.append(exc)
+
+            workers = [threading.Thread(target=load_worker) for _ in range(2)]
+            for worker in workers:
+                worker.start()
+            worker_start.wait()
+            for worker in workers:
+                worker.join(timeout=5)
+            self.assertTrue(all(not worker.is_alive() for worker in workers))
+            self.assertEqual([], worker_errors)
+            self.assertEqual(1, loader_call_count)
+            self.assertEqual([concurrent_source, concurrent_source], worker_results)
+            self.assertIsNot(worker_results[0], worker_results[1])
 
         self._edge_latest_errors_patcher.stop()
         self._basis_errors_patcher.stop()

@@ -7,15 +7,22 @@ from contextlib import nullcontext
 import importlib.util
 import json
 from pathlib import Path
+import sys
 import tempfile
 import unittest
 from unittest import mock
 import zipfile
 
+ROOT = Path(__file__).resolve().parents[1]
+if __package__:
+    from .cores.support import load_live_authoritative_core_pin_index
+else:
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    from cores.support import load_live_authoritative_core_pin_index
 from scripts.core_pipeline_lib.chipsets import chipset_tunings_content_sha256
 
 
-ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
     "core_pipeline_tuned_bootstrap",
     ROOT / "scripts" / "core_pipeline.py",
@@ -105,7 +112,10 @@ class TunedBootstrapTests(unittest.TestCase):
         tuning = pipeline.resolve_tuning_candidate_selection(
             "a523-cortex-a55-v1"
         )
-        pin_index = pipeline.load_authoritative_core_pin_index()
+        pin_index = load_live_authoritative_core_pin_index(
+            repository_root=ROOT,
+            loader=pipeline.load_authoritative_core_pin_index,
+        )
         pin_entry = next(
             entry for entry in pin_index.values() if entry["core_id"] == "frodo"
         )
