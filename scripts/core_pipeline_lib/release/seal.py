@@ -11,7 +11,7 @@ import tempfile
 from typing import Any
 
 from ..errors import PipelineError
-from ..foundation import atomic_create_json, load_json, sha256_file
+from ..foundation import atomic_create_json, load_json, load_json_with_sha256, sha256_file
 from ..runtime import runner_evidence_is_well_formed
 from .model import (
     CANDIDATE_ASSET_KEYS,
@@ -38,6 +38,11 @@ from .model import (
 )
 from .plan import validate_release_plan
 from .result import validate_core_result
+from .eligibility import (
+    core_group_marker,
+    core_group_marker_shape_errors,
+)
+from .plan import plan_group_shape_errors
 
 
 def asset_set_content_sha256(assets: object) -> str:
@@ -74,6 +79,7 @@ def release_candidate_content_sha256(document: Mapping[str, Any]) -> str:
         "local_only": document.get("local_only"),
         "publication": document.get("publication"),
         "result": document.get("result"),
+        "group": document.get("group"),
         "plan": document.get("plan"),
         "runner": document.get("runner"),
         "assets": document.get("assets"),
@@ -116,6 +122,11 @@ def _asset_errors(value: object, label: str) -> list[str]:
         errors.append(f"{label}.sha256 is invalid")
     if not is_positive_int(value.get("size")):
         errors.append(f"{label}.size is invalid")
+    core_group = value.get("core_group")
+    if core_group is not None:
+        errors.extend(
+            core_group_marker_shape_errors(core_group, f"{label}.core_group")
+        )
     errors.extend(
         _digest_reference_errors(
             value.get("result"),
@@ -160,6 +171,9 @@ def release_candidate_shape_errors(
         errors.append("release candidate publication must be disabled")
     if document.get("result") != "sealed":
         errors.append("release candidate result must be sealed")
+    group = document.get("group")
+    if group is not None:
+        errors.extend(plan_group_shape_errors(group))
     errors.extend(
         _digest_reference_errors(
             document.get("plan"),
@@ -179,6 +193,7 @@ def release_candidate_shape_errors(
 
     assets = document.get("assets")
     core_ids: list[str] = []
+    asset_groups: list[object] = []
     asset_bytes = 0
     if not isinstance(assets, list) or not assets:
         errors.append("release candidate assets must be a nonempty list")
@@ -188,12 +203,37 @@ def release_candidate_shape_errors(
             if isinstance(asset, dict):
                 if isinstance(asset.get("core_id"), str):
                     core_ids.append(asset["core_id"])
+                asset_groups.append(asset.get("core_group"))
                 if type(asset.get("size")) is int:
                     asset_bytes += asset["size"]
         if core_ids != sorted(core_ids) or len(core_ids) != len(set(core_ids)):
             errors.append(
                 "release candidate assets must have unique sorted core_id values"
             )
+    if group is None:
+        if any(marker is not None for marker in asset_groups):
+            errors.append("release candidate legacy assets must not contain groups")
+    elif isinstance(group, dict):
+        markers = [marker for marker in asset_groups if isinstance(marker, dict)]
+        if len(markers) != len(asset_groups):
+            errors.append("release candidate group assets must all contain markers")
+        elif any(marker.get("group_tag") != group.get("group_tag") for marker in markers):
+            errors.append("release candidate asset group tags are inconsistent")
+        else:
+            expected_counts = {
+                "stable_core_count": sum(
+                    marker.get("selected_state") == "stable" for marker in markers
+                ),
+                "unstable_fallback_core_count": sum(
+                    marker.get("selected_state") == "unstable_fallback"
+                    for marker in markers
+                ),
+                "test_core_count": sum(
+                    marker.get("selected_state") == "test" for marker in markers
+                ),
+            }
+            if any(group.get(field) != count for field, count in expected_counts.items()):
+                errors.append("release candidate group inventory counts are inconsistent")
     if document.get("asset_set_sha256") != asset_set_content_sha256(assets):
         errors.append("release candidate asset_set_sha256 is invalid")
 
@@ -224,8 +264,18 @@ def release_candidate_shape_errors(
             expected_packages = {
                 row["core_id"]: row["package"] for row in validated_plan["cores"]
             }
+            expected_groups = {
+                row["core_id"]: (
+                    core_group_marker(row["core_group"])
+                    if row["core_group"] is not None
+                    else None
+                )
+                for row in validated_plan["cores"]
+            }
             if document.get("candidate_id") != validated_plan["candidate_id"]:
                 errors.append("release candidate candidate_id does not match plan")
+            if group != validated_plan["group"]:
+                errors.append("release candidate group does not match plan")
             if core_ids != expected_core_ids:
                 errors.append("release candidate asset set does not exactly match plan")
             if isinstance(assets, list):
@@ -243,6 +293,10 @@ def release_candidate_shape_errors(
                     ):
                         errors.append(
                             f"release candidate asset {core_id} differs from plan"
+                        )
+                    if asset.get("core_group") != expected_groups.get(core_id):
+                        errors.append(
+                            f"release candidate asset {core_id} group differs from plan"
                         )
             if isinstance(plan_reference, dict):
                 if plan_reference.get("content_sha256") != validated_plan[
@@ -331,6 +385,11 @@ def construct_release_candidate(
                 "path": f"assets/{package['name']}",
                 "sha256": package["sha256"],
                 "size": package["size"],
+                "core_group": (
+                    core_group_marker(result["core_group"])
+                    if result["core_group"] is not None
+                    else None
+                ),
                 "result": {
                     "path": f"results/{core_id}/result.json",
                     "file_sha256": result_file_sha256_by_core[core_id],
@@ -346,6 +405,7 @@ def construct_release_candidate(
         "local_only": True,
         "publication": PUBLICATION,
         "result": "sealed",
+        "group": copy.deepcopy(validated_plan["group"]),
         "plan": {
             "path": "plan.json",
             "file_sha256": plan_file_sha256,
@@ -401,9 +461,10 @@ def _load_bound_plan(
         raise PipelineError("release plan path must be a Path")
     _require_regular_file(plan_path, "release plan")
     validated_plan = validate_release_plan(plan)
-    if load_json(plan_path) != validated_plan:
+    stored_plan, plan_file_sha256 = load_json_with_sha256(plan_path)
+    if stored_plan != validated_plan:
         raise PipelineError("release plan file does not match supplied plan document")
-    return validated_plan, sha256_file(plan_path)
+    return validated_plan, plan_file_sha256
 
 
 def _validated_result_tree(
@@ -443,7 +504,7 @@ def _validated_result_tree(
         package_path = entries[package_name]
         _require_regular_file(result_path, f"{core_id} release result record")
         _require_regular_file(package_path, f"{core_id} release result package")
-        result = load_json(result_path)
+        result, result_file_sha256 = load_json_with_sha256(result_path)
         if result.get("core_id") != core_id:
             raise PipelineError(
                 f"{core_id}: release result directory identity is invalid"
@@ -470,7 +531,7 @@ def _validated_result_tree(
         results.append(result)
         result_paths[core_id] = result_path
         package_paths[core_id] = package_path
-        result_file_hashes[core_id] = sha256_file(result_path)
+        result_file_hashes[core_id] = result_file_sha256
     return results, result_paths, package_paths, result_file_hashes
 
 
@@ -496,11 +557,10 @@ def validate_sealed_candidate_directory(
     _require_regular_file(plan_path, "sealed candidate plan")
     if load_json(candidate_path) != dict(candidate):
         raise PipelineError("sealed candidate record differs from supplied document")
-    stored_plan = load_json(plan_path)
+    stored_plan, plan_file_sha256 = load_json_with_sha256(plan_path)
     validated_plan = validate_release_plan(plan if plan is not None else stored_plan)
     if stored_plan != validated_plan:
         raise PipelineError("sealed candidate plan bytes contain a different plan")
-    plan_file_sha256 = sha256_file(plan_path)
     validated_candidate = validate_release_candidate(
         candidate,
         plan=validated_plan,
@@ -542,9 +602,9 @@ def validate_sealed_candidate_directory(
         result_path = one_result_entries["result.json"]
         _require_regular_file(result_path, f"{core_id} sealed result")
         result_reference = asset["result"]
-        if sha256_file(result_path) != result_reference["file_sha256"]:
+        result, result_file_sha256 = load_json_with_sha256(result_path)
+        if result_file_sha256 != result_reference["file_sha256"]:
             raise PipelineError(f"{core_id}: sealed result file identity is invalid")
-        result = load_json(result_path)
         if result.get("content_sha256") != result_reference["content_sha256"]:
             raise PipelineError(f"{core_id}: sealed result content identity is invalid")
         validate_core_result(

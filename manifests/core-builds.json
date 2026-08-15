@@ -1534,6 +1534,7 @@
         "platforms": {
           "armhf": "unix"
         },
+        "source_date_epoch": 1671482574,
         "source_dir": "km_parallel_n64_xtreme_amped_turbo"
       },
       "metadata": {
@@ -3437,10 +3438,13 @@
       "build": {
         "artifact_name": "yabasanshiro_libretro.so",
         "driver": "direct-make",
+        "make_args": [
+          "FORCE_GLES=1"
+        ],
         "make_subdir": "yabause/src/libretro",
         "output_path": "yabause/src/libretro/yabasanshiro_libretro.so",
         "platforms": {
-          "arm64": "arm64_cortex_a53_gles3"
+          "arm64": "arm64"
         },
         "source_dir": "yabasanshiro"
       },

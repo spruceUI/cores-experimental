@@ -4,8 +4,12 @@ from __future__ import annotations
 
 import argparse
 
-from .model import ParserConfig, ParserHandlers
+from ..chipsets import CHIPSETS, REAL_CHIPSETS
+from ..tracks import CORE_TRACKS
+from .inventory import CORE_TRACK_GROUP_TAG_CHOICES, register_inventory_parser
+from .model import AppendUniqueAction, ParserConfig, ParserHandlers
 from .release import register_release_parsers
+from .track_promotion import register_track_promotion_parser
 
 
 RUN_ID_HELP = "new individual-core run identity"
@@ -46,6 +50,121 @@ def build_parser(
         "catalog-check", help="validate the individual-core build catalog"
     )
     catalog.set_defaults(handler=handlers.catalog_check)
+
+    source_rebase = subparsers.add_parser(
+        "core-source-candidate-rebase",
+        help=(
+            "create a core-scoped proof rebasing a stale frozen source "
+            "snapshot to the current canonical recipe"
+        ),
+    )
+    source_rebase.add_argument("--core", action=_StoreOnceAction, required=True)
+    source_rebase.add_argument(
+        "--snapshot", type=config.path_value, required=True
+    )
+    source_rebase.set_defaults(handler=handlers.core_source_candidate_rebase)
+
+    source_prepare = subparsers.add_parser(
+        "core-source-candidate-prepare",
+        help=(
+            "create an ignored one-core catalog for an exact frozen, "
+            "not-yet-pinned source"
+        ),
+    )
+    source_prepare.add_argument("--core", action=_StoreOnceAction, required=True)
+    source_prepare.add_argument(
+        "--snapshot", type=config.path_value, required=True
+    )
+    source_prepare.add_argument(
+        "--catalog-rebase",
+        type=config.path_value,
+        help="required exact catalog-rebase proof when the snapshot catalog is stale",
+    )
+    source_prepare.set_defaults(handler=handlers.core_source_candidate_prepare)
+
+    register_inventory_parser(
+        subparsers,
+        handlers=handlers,
+    )
+    register_track_promotion_parser(
+        subparsers,
+        handlers=handlers,
+    )
+
+    set_test = subparsers.add_parser(
+        "core-track-set-test",
+        help="atomically admit one authoritative pin into one exact TEST cell",
+    )
+    set_test.add_argument("--track", choices=CORE_TRACKS, required=True)
+    set_test.add_argument("--core", required=True)
+    set_test.add_argument("--chipset", choices=CHIPSETS, required=True)
+    set_test.add_argument("--pin-id", required=True)
+    set_test.add_argument("--tuning-profile", required=True)
+    set_test.add_argument(
+        "--slice-time",
+        required=True,
+        metavar="YYYY-MM-DDTHH:MM:SSZ",
+        help="immutable UTC version-slice time for this exact track assignment",
+    )
+    set_test.add_argument(
+        "--applicable-chipset",
+        action=AppendUniqueAction,
+        choices=REAL_CHIPSETS,
+        help=(
+            "explicit fallback applicability; repeat in sorted order for a "
+            "universal cell, omit for an exact tuned cell"
+        ),
+    )
+    set_test.add_argument(
+        "--expected-current-test",
+        required=True,
+        metavar="absent|SHA256",
+        help="two-sided CAS expectation for the exact track-local TEST cell",
+    )
+    set_test.add_argument(
+        "--expected-current-assignment",
+        required=True,
+        metavar="absent|SHA256",
+        help=(
+            "CAS expectation for the complete direct assignment, including "
+            "its immutable version slice"
+        ),
+    )
+    set_test.add_argument(
+        "--expected-new-variant",
+        required=True,
+        help="reviewed 64-hex variant identity for the admitted pin/profile",
+    )
+    set_test.add_argument(
+        "--expected-parent-variant",
+        metavar="SHA256",
+        help=(
+            "reviewed parent-track variant CAS; required for nightly/edge "
+            "and forbidden for main"
+        ),
+    )
+    set_test.add_argument(
+        "--expected-parent-registry",
+        metavar="SHA256",
+        help=(
+            "reviewed parent registry CAS; required for nightly/edge and "
+            "forbidden for main"
+        ),
+    )
+    set_test.add_argument(
+        "--outlier-authorized-at",
+        metavar="YYYY-MM-DDTHH:MM:SSZ",
+        help="exact source-order outlier authorization timestamp",
+    )
+    set_test.add_argument(
+        "--outlier-authorized-by",
+        help="source-order outlier authorizer; requires the complete outlier tuple",
+    )
+    set_test.add_argument(
+        "--outlier-reason",
+        help="source-order outlier reason; requires the complete outlier tuple",
+    )
+    set_test.set_defaults(handler=handlers.core_track_set_test)
 
     audit = subparsers.add_parser(
         "audit-workflows", help="audit core and release Actions workflows"
@@ -108,6 +227,14 @@ def build_parser(
         required=True,
         help="one catalog core; builds its complete declared target set",
     )
+    build_core.add_argument(
+        "--group-tag",
+        choices=CORE_TRACK_GROUP_TAG_CHOICES,
+        help=(
+            "optional pinned <track>-<stable|test>:<chipset> selection; "
+            "builds only its resolved architecture set"
+        ),
+    )
     build_core.add_argument("--run-id", help=RUN_ID_HELP)
     build_core.add_argument(
         "--output-root", type=config.path_value, default=config.default_runs
@@ -128,11 +255,28 @@ def build_parser(
         required=True,
         help="exactly one catalog core; this option may not be repeated",
     )
-    e2e.add_argument(
+    e2e_scope = e2e.add_mutually_exclusive_group()
+    e2e_scope.add_argument(
+        "--group-tag",
+        choices=CORE_TRACK_GROUP_TAG_CHOICES,
+        help=(
+            "optional pinned <track>-<stable|test>:<chipset> selection; "
+            "cannot be combined with --arch"
+        ),
+    )
+    e2e_scope.add_argument(
         "--arch",
         action="append",
         choices=list(config.arch_choices),
         help="diagnostic target for this core; repeat only for unique targets",
+    )
+    e2e_scope.add_argument(
+        "--tuning-profile",
+        action=_StoreOnceAction,
+        help=(
+            "build exactly one ABI using a current non-universal typed tuning "
+            "profile; candidate evidence is promotable only by promote-tuned-variant"
+        ),
     )
     e2e.add_argument("--run-id", help=RUN_ID_HELP)
     e2e.add_argument(
@@ -154,6 +298,69 @@ def build_parser(
     promote.add_argument("--record", type=config.path_value, required=True)
     promote.add_argument("--e2e-record", type=config.path_value, required=True)
     promote.set_defaults(handler=handlers.promote)
+
+    promote_host_reproduction = subparsers.add_parser(
+        "promote-host-reproduction",
+        help=(
+            "create an immutable golden and pin from hardened simulated-Actions "
+            "and native-local E2Es"
+        ),
+    )
+    promote_host_reproduction.add_argument(
+        "--core", action=_StoreOnceAction, required=True
+    )
+    promote_host_reproduction.add_argument(
+        "--source-golden", type=config.path_value, required=True
+    )
+    promote_host_reproduction.add_argument(
+        "--selected-e2e", type=config.path_value, required=True
+    )
+    promote_host_reproduction.add_argument(
+        "--reproduction-e2e", type=config.path_value, required=True
+    )
+    promote_host_reproduction.set_defaults(
+        handler=handlers.promote_host_reproduction
+    )
+
+    promote_source_candidate = subparsers.add_parser(
+        "promote-source-candidate",
+        help=(
+            "create an immutable golden and pin from two independent untuned "
+            "E2Es built with one authenticated source-candidate catalog"
+        ),
+    )
+    promote_source_candidate.add_argument(
+        "--core", action=_StoreOnceAction, required=True
+    )
+    promote_source_candidate.add_argument(
+        "--source-golden", type=config.path_value, required=True
+    )
+    promote_source_candidate.add_argument(
+        "--selected-e2e", type=config.path_value, required=True
+    )
+    promote_source_candidate.add_argument(
+        "--reproduction-e2e", type=config.path_value, required=True
+    )
+    promote_source_candidate.set_defaults(
+        handler=handlers.promote_source_candidate
+    )
+
+    promote_tuned = subparsers.add_parser(
+        "promote-tuned-variant",
+        help="promote two independent one-ABI tuned E2Es into a golden and pin",
+    )
+    promote_tuned.add_argument("--core", required=True)
+    promote_tuned.add_argument("--tuning-profile", required=True)
+    promote_tuned.add_argument(
+        "--source-golden", type=config.path_value, required=True
+    )
+    promote_tuned.add_argument(
+        "--selected-e2e", type=config.path_value, required=True
+    )
+    promote_tuned.add_argument(
+        "--reproduction-e2e", type=config.path_value, required=True
+    )
+    promote_tuned.set_defaults(handler=handlers.promote_tuned_variant)
 
     derive_id = subparsers.add_parser(
         "derive-core-id",

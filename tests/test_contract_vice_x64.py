@@ -10,7 +10,7 @@ import shlex
 import unittest
 from unittest import mock
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from core_pipeline_lib.contracts import mixed_language, vice_x64
 from core_pipeline_lib.contracts.command_line import (
     ordered_command_argv_sha256,

@@ -1,0 +1,63 @@
+{
+  "$schema": "host-build-execution-profiles.schema.json",
+  "schema_file_sha256": "b192a1a71e651544bb3c0d265c2b437e102f01a011b8239b9774d40cac487f19",
+  "schema_version": 1,
+  "registry_id": "host-build-execution-profiles-v1",
+  "local_only": true,
+  "publication": "disabled",
+  "selector_profiles": {
+    "local": "local-host-8c-4g-v1",
+    "github-actions-sim": "github-actions-sim-host-8c-4g-v1"
+  },
+  "resource_classes": {
+    "host-8c-4g-noswap-v1": {
+      "jobs": 8,
+      "cpu_quota": 8,
+      "memory_bytes": 4294967296,
+      "memory_swap_bytes": 4294967296,
+      "pids_limit": 1024,
+      "matrix_parallelism": 1,
+      "pair_execution": "selected-then-reproduction-sequential",
+      "telemetry_contract": "host-build-telemetry-v1",
+      "admissible_build_drivers": [
+        "libretro-super"
+      ],
+      "cache": {
+        "classification": "cold",
+        "scope": "pipeline-source-build-and-compiler-state",
+        "identity": "fresh-container-network-clone-no-restored-compiler-cache-v1",
+        "container_filesystem": "fresh",
+        "source": "fresh-network-clone",
+        "compiler": "disabled",
+        "image_layers": "preloaded-content-addressed-image",
+        "host_page_cache": "uncontrolled"
+      },
+      "content_sha256": "d8b542367d078beda650a173f4c386750220a89989a084be3d7652c38d61c413"
+    }
+  },
+  "profiles": {
+    "local-host-8c-4g-v1": {
+      "runner_selector": "local",
+      "runner": {
+        "profile": "local",
+        "mode": "native",
+        "backend": "local-docker"
+      },
+      "execution_label": "host-local",
+      "resource_class": "host-8c-4g-noswap-v1",
+      "content_sha256": "36b190d027c6b10c927e4510d9f28f685ffdd5efc48b0a218aa7a9a71afb23eb"
+    },
+    "github-actions-sim-host-8c-4g-v1": {
+      "runner_selector": "github-actions-sim",
+      "runner": {
+        "profile": "github-actions",
+        "mode": "simulated",
+        "backend": "local-docker"
+      },
+      "execution_label": "local-gha-sim",
+      "resource_class": "host-8c-4g-noswap-v1",
+      "content_sha256": "49bc4b186857f29513325619103a435b52bd6150d83b6809445bae86d6a78dc8"
+    }
+  },
+  "content_sha256": "b2c844403c6972e56ad349e32bdcd1cd70551c1a81f1260fcce5dd222d47a933"
+}

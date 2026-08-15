@@ -1,0 +1,261 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/campaign-matrix-v1.schema.json",
+  "$comment": "Structural schema for strict no-float normalized matrix cell, shard, and root objects. Mandatory Python decoding additionally rejects duplicate keys and floats, authenticates every semantic digest, validates canonical legacy-v2 JSON strings, enforces ordinal/coordinate correspondence, requires resolvable raw-addressed child references, and requires the exact 98 x 27 partition. Legacy finite floats are allowed only inside authenticated string payloads; summary is derived and is not root authority.",
+  "title": "Spruce normalized campaign matrix objects v1",
+  "oneOf": [
+    {"$ref": "#/$defs/cell"},
+    {"$ref": "#/$defs/shard"},
+    {"$ref": "#/$defs/root"}
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+    },
+    "coreId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]*$"
+    },
+    "utcSecond": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)(?!.*\\\\).+$"
+    },
+    "partition": {
+      "enum": ["supported", "unsupported-exclusion"]
+    },
+    "coordinate": {
+      "type": "object",
+      "required": ["core_id", "track", "chipset", "architecture", "marker"],
+      "properties": {
+        "core_id": {"$ref": "#/$defs/coreId"},
+        "track": {"enum": ["main", "nightly", "edge"]},
+        "chipset": {
+          "enum": [
+            "universal",
+            "a133p",
+            "a33",
+            "a523",
+            "h700",
+            "rk3326",
+            "rk3566",
+            "ssd202d"
+          ]
+        },
+        "architecture": {"enum": ["arm64", "armhf"]},
+        "marker": {"const": "test"}
+      },
+      "additionalProperties": false
+    },
+    "evidenceRef": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "kind",
+        "path",
+        "file_sha256",
+        "target_content_sha256",
+        "size",
+        "content_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {
+          "enum": [
+            "artifact",
+            "matrix-cell",
+            "matrix-root",
+            "matrix-shard",
+            "phase-freeze",
+            "phase-freeze-cas"
+          ]
+        },
+        "path": {"$ref": "#/$defs/relativePath"},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "target_content_sha256": {"$ref": "#/$defs/sha256"},
+        "size": {"type": "integer", "minimum": 0},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "legacyMatrixIdentity": {
+      "type": "object",
+      "required": [
+        "format",
+        "semantic_sha256",
+        "file_sha256",
+        "size",
+        "lines"
+      ],
+      "properties": {
+        "format": {"const": "spruce-host-core-campaign-matrix-v2"},
+        "semantic_sha256": {"$ref": "#/$defs/sha256"},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "size": {"type": "integer", "minimum": 1},
+        "lines": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "cellLink": {
+      "type": "object",
+      "required": ["universe_ordinal", "partition", "reference"],
+      "properties": {
+        "universe_ordinal": {"type": "integer", "minimum": 0, "maximum": 26},
+        "partition": {"$ref": "#/$defs/partition"},
+        "reference": {
+          "allOf": [
+            {"$ref": "#/$defs/evidenceRef"},
+            {"properties": {"kind": {"const": "matrix-cell"}}}
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "shardLink": {
+      "type": "object",
+      "required": [
+        "core_id",
+        "supported_cell_count",
+        "unsupported_exclusion_count",
+        "reference"
+      ],
+      "properties": {
+        "core_id": {"$ref": "#/$defs/coreId"},
+        "supported_cell_count": {"type": "integer", "minimum": 0, "maximum": 27},
+        "unsupported_exclusion_count": {"type": "integer", "minimum": 0, "maximum": 27},
+        "reference": {
+          "allOf": [
+            {"$ref": "#/$defs/evidenceRef"},
+            {"properties": {"kind": {"const": "matrix-shard"}}}
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "cell": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "format",
+        "universe_ordinal",
+        "coordinate",
+        "partition",
+        "legacy_payload_json",
+        "local_only",
+        "publication",
+        "content_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "format": {"const": "spruce-campaign-matrix-cell-v1"},
+        "universe_ordinal": {"type": "integer", "minimum": 0, "maximum": 26},
+        "coordinate": {"$ref": "#/$defs/coordinate"},
+        "partition": {"$ref": "#/$defs/partition"},
+        "legacy_payload_json": {"type": "string", "minLength": 2},
+        "local_only": {"const": true},
+        "publication": {"const": "disabled"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "shard": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "format",
+        "core_id",
+        "universe_cell_count",
+        "supported_cell_count",
+        "unsupported_exclusion_count",
+        "cells",
+        "local_only",
+        "publication",
+        "content_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "format": {"const": "spruce-campaign-matrix-shard-v1"},
+        "core_id": {"$ref": "#/$defs/coreId"},
+        "universe_cell_count": {"const": 27},
+        "supported_cell_count": {"type": "integer", "minimum": 0, "maximum": 27},
+        "unsupported_exclusion_count": {"type": "integer", "minimum": 0, "maximum": 27},
+        "cells": {
+          "type": "array",
+          "minItems": 27,
+          "maxItems": 27,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/cellLink"}
+        },
+        "local_only": {"const": true},
+        "publication": {"const": "disabled"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "root": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "format",
+        "campaign_id",
+        "captured_at",
+        "phase_freeze",
+        "core_spec_set",
+        "legacy_matrix",
+        "legacy_root_json",
+        "core_count",
+        "universe_cell_count",
+        "supported_cell_count",
+        "unsupported_exclusion_count",
+        "shards",
+        "local_only",
+        "publication",
+        "content_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "format": {"const": "spruce-campaign-matrix-root-v1"},
+        "campaign_id": {"$ref": "#/$defs/identifier"},
+        "captured_at": {"$ref": "#/$defs/utcSecond"},
+        "phase_freeze": {
+          "allOf": [
+            {"$ref": "#/$defs/evidenceRef"},
+            {"properties": {"kind": {"enum": ["phase-freeze", "phase-freeze-cas"]}}}
+          ]
+        },
+        "core_spec_set": {
+          "allOf": [
+            {"$ref": "#/$defs/evidenceRef"},
+            {"properties": {"kind": {"const": "artifact"}}}
+          ]
+        },
+        "legacy_matrix": {"$ref": "#/$defs/legacyMatrixIdentity"},
+        "legacy_root_json": {"type": "string", "minLength": 2},
+        "core_count": {"const": 98},
+        "universe_cell_count": {"const": 2646},
+        "supported_cell_count": {"type": "integer", "minimum": 0, "maximum": 2646},
+        "unsupported_exclusion_count": {"type": "integer", "minimum": 0, "maximum": 2646},
+        "shards": {
+          "type": "array",
+          "minItems": 98,
+          "maxItems": 98,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/shardLink"}
+        },
+        "local_only": {"const": true},
+        "publication": {"const": "disabled"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

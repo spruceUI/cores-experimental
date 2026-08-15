@@ -11,6 +11,7 @@ import shutil
 import tempfile
 from typing import Any
 
+from scripts import core_pipeline as pipeline
 from scripts import profile_registry as registry
 from scripts.core_pipeline_lib.records import source as records_source
 

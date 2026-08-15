@@ -1,13 +1,16 @@
-"""Exact YabaSanshiro generic-GLES3 direct-make contract.
+"""Exact YabaSanshiro portable AArch64/GLES3 direct-make contract.
 
 YabaSanshiro shipped as three device-tuned vendor builds: the plain and
 ``_a133p`` artifacts link the PowerVR userspace directly (libIMGegl,
 libsrv_um, ...) and ``_smartpros`` links the Mali blob (libmali.so.0). The
-2026-07-23 variant probe replaced all three with ONE generic build: the
-upstream ``arm64_cortex_a53_gles3`` platform links only the VERSIONED
-``libGLESv2.so.2``, which the fleet capture records present on every probed
-arm64 device family, so vendor-specific duplicates add nothing loader
-evidence can see. GPU rendering correctness stays a per-device runtime gate.
+2026-07-23 variant probe replaced all three with ONE generic build that links
+only the VERSIONED ``libGLESv2.so.2``, which the fleet capture records present
+on every probed arm64 device family, so vendor-specific duplicates add nothing
+loader evidence can see. The recipe uses upstream's portable ``arm64`` platform
+and its documented ``FORCE_GLES=1`` switch: this retains the AArch64 dynarec
+and GLES3 renderer without the Cortex-A53/CRC machine flags added by
+``arm64_cortex_a53_gles3``. GPU rendering correctness stays a per-device
+runtime gate.
 
 The libretro-super driver cannot deliver this platform: its build script
 hardcodes ``platform="unix"`` on the make command line, which overrides any
@@ -35,7 +38,8 @@ YABASANSHIRO_SPEC_IDENTITY = {
     "output_path": "yabause/src/libretro/yabasanshiro_libretro.so",
     "artifact_name": YABASANSHIRO_BUILD_ARTIFACT_NAME,
     "make_subdir": "yabause/src/libretro",
-    "platforms": {"arm64": "arm64_cortex_a53_gles3"},
+    "make_args": ["FORCE_GLES=1"],
+    "platforms": {"arm64": "arm64"},
     "metadata_source_path": (
         "/libretro-super/dist/info/yabasanshiro_libretro.info"
     ),
@@ -73,6 +77,7 @@ def yabasanshiro_spec_is_well_formed(spec: object) -> bool:
                 "output_path": identity["output_path"],
                 "artifact_name": identity["artifact_name"],
                 "make_subdir": identity["make_subdir"],
+                "make_args": identity["make_args"],
                 "platforms": identity["platforms"],
             },
             "metadata": {
@@ -87,7 +92,13 @@ def yabasanshiro_spec_is_well_formed(spec: object) -> bool:
 from .c_asm import CAsmLogContract, c_asm_log_proves_contract
 
 
-YABASANSHIRO_LOG_CONTRACT_ID = "yabasanshiro-c-asm-v1"
+# Frozen from the portable-arm64 probe at
+# .local-e2e/runs/campaign-20260810-yabasanshiro-portable-probe-01
+# (build.log sha256 75de0daf5e23ae877bf9deaf96748cf6466f7c1bb2c1e37ebdc74061f783b7d3).
+# Counts, compile pairs, link objects, raw link objects, and link options are
+# unchanged from v1; the compile argv digest changes because the portable
+# platform removes the Cortex-A53/CRC machine-selection arguments.
+YABASANSHIRO_LOG_CONTRACT_ID = "yabasanshiro-c-asm-v2"
 YABASANSHIRO_EXPECTED_C_COMPILE_COUNT = {"arm64": 83}
 YABASANSHIRO_EXPECTED_CXX_COMPILE_COUNT = {"arm64": 6}
 YABASANSHIRO_EXPECTED_ASM_COMPILE_COUNT = {"arm64": 1}
@@ -98,7 +109,7 @@ YABASANSHIRO_EXPECTED_COMPILE_PAIR_SHA256 = {
 }
 YABASANSHIRO_EXPECTED_COMPILE_INVOCATION_SHA256 = {
     "arm64": (
-        "d8493fd752b532541f3817eb834e86f4c2a26035f67934d6be16c756af79b69d"
+        "9eeaa491a8aefb59e9d351c5cc7e59b649d361e8c9a6393cdbd548c79b40280d"
     ),
 }
 YABASANSHIRO_EXPECTED_LINK_OBJECT_SHA256 = {

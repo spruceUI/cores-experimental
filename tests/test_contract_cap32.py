@@ -4,7 +4,7 @@ from pathlib import Path
 import shlex
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from scripts.core_pipeline_lib.contracts import cap32
 from scripts.core_pipeline_lib.errors import PipelineError
 

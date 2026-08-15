@@ -46,6 +46,9 @@ def repository_services() -> ReleaseRepositoryServices:
         validate_compatibility=valid,
         profile_report=lambda source_set: {},
         core_spec_sha256=lambda spec: "0" * 64,
+        group_execution_spec=lambda **kwargs: {},
+        load_core_pin_index=lambda: {},
+        resolve_core_group_build_selection=lambda **kwargs: {},
     )
 
 
@@ -54,10 +57,12 @@ class FullReleaseWorkerTests(unittest.TestCase):
         self,
         root: Path,
         *,
+        candidate_id: str = "candidate-v1",
+        runner_selector: str = "local",
         repository_head: str | None = None,
         repository_dirty: bool = False,
     ) -> tuple[dict, Path, Path, Path, object]:
-        plan = release_plan(("alpha",))
+        plan = release_plan(("alpha",), candidate_id=candidate_id)
         plan_path = write_plan_fixture(root, plan)
         row = plan_core(plan, "alpha")
         run_root = root / "run"
@@ -98,11 +103,11 @@ class FullReleaseWorkerTests(unittest.TestCase):
         package_path.write_bytes(package_bytes("alpha"))
         evidence = {
             "schema_version": 2,
-            "run_id": "alpha-local-run-v1",
+            "run_id": f"alpha-{runner_selector}-run-v1",
             "local_only": True,
             "publication": "disabled",
             "result": "passed",
-            "runner": runner_contract_for_selector("local"),
+            "runner": runner_contract_for_selector(runner_selector),
             "builds": builds,
             "packages": [
                 {
@@ -143,16 +148,18 @@ class FullReleaseWorkerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             plan, plan_path, e2e_path, _, validate_e2e = self.worker_fixture(root)
-            output = root / "result"
+            results_root = root / "results"
+            output = results_root / plan["candidate_id"] / "local" / "alpha"
             with mock.patch.object(
                 release_worker,
-                "validate_plan_against_repository",
+                "validate_plan_core_against_repository",
                 return_value=plan,
             ):
                 result, selector = record_validated_release_result(
                     plan_path=plan_path,
                     core_id="alpha",
                     e2e_path=e2e_path,
+                    results_root=results_root,
                     output_dir=output,
                     repository_root=root,
                     catalog_path=root / "catalog.json",
@@ -160,6 +167,7 @@ class FullReleaseWorkerTests(unittest.TestCase):
                     worker_services=ReleaseWorkerServices(
                         active_e2e_scope=active_promotion_e2e_scope,
                         validate_e2e=validate_e2e,
+                        validate_group_e2e=validate_e2e,
                     ),
                 )
             self.assertEqual(selector, "local")
@@ -179,16 +187,18 @@ class FullReleaseWorkerTests(unittest.TestCase):
                 result[0]["run_id"] = "changed-during-validation-v1"
                 return tuple(result)
 
-            output = root / "result"
+            results_root = root / "results"
+            output = results_root / plan["candidate_id"] / "local" / "alpha"
             with mock.patch.object(
                 release_worker,
-                "validate_plan_against_repository",
+                "validate_plan_core_against_repository",
                 return_value=plan,
             ), self.assertRaisesRegex(PipelineError, "changed during validation"):
                 record_validated_release_result(
                     plan_path=plan_path,
                     core_id="alpha",
                     e2e_path=e2e_path,
+                    results_root=results_root,
                     output_dir=output,
                     repository_root=root,
                     catalog_path=root / "catalog.json",
@@ -196,6 +206,7 @@ class FullReleaseWorkerTests(unittest.TestCase):
                     worker_services=ReleaseWorkerServices(
                         active_e2e_scope=active_promotion_e2e_scope,
                         validate_e2e=changed_validate,
+                        validate_group_e2e=changed_validate,
                     ),
                 )
             self.assertFalse(output.exists())
@@ -211,17 +222,19 @@ class FullReleaseWorkerTests(unittest.TestCase):
                     repository_head="f" * 40 if case == "wrong-head" else None,
                     repository_dirty=case == "dirty",
                 )
-                output = root / "result"
+                results_root = root / "results"
+                output = results_root / plan["candidate_id"] / "local" / "alpha"
                 expected = "head differs from plan" if case == "wrong-head" else "dirty"
                 with mock.patch.object(
                     release_worker,
-                    "validate_plan_against_repository",
+                    "validate_plan_core_against_repository",
                     return_value=plan,
                 ), self.assertRaisesRegex(PipelineError, expected):
                     record_validated_release_result(
                         plan_path=plan_path,
                         core_id="alpha",
                         e2e_path=e2e_path,
+                        results_root=results_root,
                         output_dir=output,
                         repository_root=root,
                         catalog_path=root / "catalog.json",
@@ -229,9 +242,84 @@ class FullReleaseWorkerTests(unittest.TestCase):
                         worker_services=ReleaseWorkerServices(
                             active_e2e_scope=active_promotion_e2e_scope,
                             validate_e2e=validate_e2e,
+                            validate_group_e2e=validate_e2e,
                         ),
                     )
                 self.assertFalse(output.exists())
+
+    def test_runner_swap_cannot_stage_at_the_preflight_coordinate(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            plan, plan_path, e2e_path, _, validate_e2e = self.worker_fixture(
+                root,
+                runner_selector="github-actions",
+            )
+            results_root = root / "results"
+            # Model an output authorized while the E2E still selected local,
+            # followed by a swap to the deeply validated Actions evidence.
+            stale_output = (
+                results_root / plan["candidate_id"] / "local" / "alpha"
+            )
+            with mock.patch.object(
+                release_worker,
+                "validate_plan_core_against_repository",
+                return_value=plan,
+            ), mock.patch.object(release_worker, "write_core_result") as writer:
+                with self.assertRaisesRegex(PipelineError, "deeply validated"):
+                    record_validated_release_result(
+                        plan_path=plan_path,
+                        core_id="alpha",
+                        e2e_path=e2e_path,
+                        results_root=results_root,
+                        output_dir=stale_output,
+                        repository_root=root,
+                        catalog_path=root / "catalog.json",
+                        repository_services=repository_services(),
+                        worker_services=ReleaseWorkerServices(
+                            active_e2e_scope=active_promotion_e2e_scope,
+                            validate_e2e=validate_e2e,
+                            validate_group_e2e=validate_e2e,
+                        ),
+                    )
+            writer.assert_not_called()
+            self.assertFalse(stale_output.exists())
+
+    def test_plan_candidate_swap_cannot_stage_at_the_preflight_coordinate(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            plan, plan_path, e2e_path, _, validate_e2e = self.worker_fixture(
+                root,
+                candidate_id="candidate-b",
+            )
+            results_root = root / "results"
+            # Model candidate-a authorizing the destination before the plan is
+            # replaced by the candidate-b document validated below.
+            stale_output = results_root / "candidate-a" / "local" / "alpha"
+            with mock.patch.object(
+                release_worker,
+                "validate_plan_core_against_repository",
+                return_value=plan,
+            ), mock.patch.object(release_worker, "write_core_result") as writer:
+                with self.assertRaisesRegex(PipelineError, "deeply validated"):
+                    record_validated_release_result(
+                        plan_path=plan_path,
+                        core_id="alpha",
+                        e2e_path=e2e_path,
+                        results_root=results_root,
+                        output_dir=stale_output,
+                        repository_root=root,
+                        catalog_path=root / "catalog.json",
+                        repository_services=repository_services(),
+                        worker_services=ReleaseWorkerServices(
+                            active_e2e_scope=active_promotion_e2e_scope,
+                            validate_e2e=validate_e2e,
+                            validate_group_e2e=validate_e2e,
+                        ),
+                    )
+            writer.assert_not_called()
+            self.assertFalse(stale_output.exists())
 
 
 if __name__ == "__main__":

@@ -140,7 +140,7 @@ CORE_LOG_CONTRACTS = (
         ),
     ),
     CoreLogContract(
-        contract_id="yabasanshiro-c-asm-v1",
+        contract_id="yabasanshiro-c-asm-v2",
         core_ids=frozenset({"yabasanshiro"}),
         proof_name="yabasanshiro_log_proves_contract",
         proof_kind="core-arch-source",
@@ -415,8 +415,8 @@ CORE_LOG_CONTRACTS = (
         proof_name="sameduck_log_proves_contract",
         proof_kind="core-arch-source",
         failure_message=(
-            "build log does not prove SameDuck's exact C compile argv and "
-            "ordered C link"
+            "build log does not prove SameDuck's exact C compile argv, "
+            "ordered C link, and reviewed diagnostic contract"
         ),
     ),
     CoreLogContract(
@@ -831,9 +831,9 @@ CORE_LOG_CONTRACTS = (
         proof_name="core_2048_log_proves_contract",
         proof_kind="core-arch-source",
         failure_message=(
-            "build log does not prove 2048's exact C-scoped native version, "
-            "16-command C compile argv, ordered C link, and zero-diagnostic "
-            "contract"
+            "build log does not prove 2048's exact source framing, C-scoped "
+            "native version, 16-command C compile argv, ordered C link, "
+            "zero-diagnostic contract, and successful lifecycle"
         ),
     ),
     CoreLogContract(

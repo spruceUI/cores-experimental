@@ -1,0 +1,100 @@
+{
+  "$schema": "./chipset-tunings.schema.json",
+  "schema_version": 1,
+  "compiler_argument_mapping_version": "gcc-machine-flags-v1",
+  "chipsets": {
+    "universal": {
+      "architecture": "any",
+      "fallback": null
+    },
+    "h700": {
+      "architecture": "arm64",
+      "fallback": "universal"
+    },
+    "a133p": {
+      "architecture": "arm64",
+      "fallback": "universal"
+    },
+    "a33": {
+      "architecture": "armhf",
+      "fallback": "universal"
+    },
+    "a523": {
+      "architecture": "arm64",
+      "fallback": "universal"
+    },
+    "rk3566": {
+      "architecture": "arm64",
+      "fallback": "universal"
+    },
+    "rk3326": {
+      "architecture": "arm64",
+      "fallback": "universal"
+    },
+    "ssd202d": {
+      "architecture": "armhf",
+      "fallback": "universal"
+    }
+  },
+  "profiles": {
+    "a133p-cortex-a53-v1": {
+      "extends": "universal-v1",
+      "chipset": "a133p",
+      "architecture": "arm64",
+      "properties": {
+        "cpu_target": "cortex-a53"
+      }
+    },
+    "a33-cortex-a7-v1": {
+      "extends": "universal-v1",
+      "chipset": "a33",
+      "architecture": "armhf",
+      "properties": {
+        "cpu_target": "cortex-a7",
+        "float_abi": "hard",
+        "fpu": "neon-vfpv4"
+      }
+    },
+    "a523-cortex-a55-v1": {
+      "extends": "universal-v1",
+      "chipset": "a523",
+      "architecture": "arm64",
+      "properties": {
+        "cpu_target": "cortex-a55"
+      }
+    },
+    "rk3326-cortex-a35-v1": {
+      "extends": "universal-v1",
+      "chipset": "rk3326",
+      "architecture": "arm64",
+      "properties": {
+        "cpu_target": "cortex-a35"
+      }
+    },
+    "rk3566-cortex-a55-v1": {
+      "extends": "universal-v1",
+      "chipset": "rk3566",
+      "architecture": "arm64",
+      "properties": {
+        "cpu_target": "cortex-a55"
+      }
+    },
+    "ssd202d-cortex-a7-v1": {
+      "extends": "universal-v1",
+      "chipset": "ssd202d",
+      "architecture": "armhf",
+      "properties": {
+        "cpu_target": "cortex-a7",
+        "float_abi": "hard",
+        "fpu": "neon-vfpv4"
+      }
+    },
+    "universal-v1": {
+      "extends": null,
+      "chipset": "universal",
+      "architecture": "any",
+      "properties": {}
+    }
+  },
+  "content_sha256": "bfd465e63575b83a2ac6667c9c7aa864d169684cda7c360a2eb1e72d804eee00"
+}

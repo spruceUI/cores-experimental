@@ -2,6 +2,9 @@
 
 from .eligibility import (
     canonical_release_rows,
+    core_group_marker,
+    core_group_marker_shape_errors,
+    core_group_selection_shape_errors,
     normalize_release_rows,
     release_core_row_shape_errors,
     validate_release_core_row,
@@ -63,6 +66,12 @@ from .seal import (
     validate_release_candidate,
     validate_sealed_candidate_directory,
 )
+from .source_graph import (
+    prepare_release_source_graph,
+    source_commit_fetch_argv,
+    source_ref_fetch_argv,
+    validated_source_graph_requirements,
+)
 from .worker import (
     ReleaseWorkerServices,
     normalize_deep_e2e_facts,
@@ -94,6 +103,9 @@ __all__ = [
     "construct_core_result",
     "construct_release_candidate",
     "construct_release_plan",
+    "core_group_marker",
+    "core_group_marker_shape_errors",
+    "core_group_selection_shape_errors",
     "core_result_content_sha256",
     "core_result_shape_errors",
     "document_file_sha256",
@@ -103,6 +115,7 @@ __all__ = [
     "normalized_e2e_fact_errors",
     "orchestration_shape_errors",
     "plan_core",
+    "prepare_release_source_graph",
     "project_actions_matrix",
     "release_candidate_content_sha256",
     "release_candidate_shape_errors",
@@ -117,11 +130,14 @@ __all__ = [
     "runner_selector_for_contract",
     "seal_release_candidate",
     "semantic_sha256",
+    "source_commit_fetch_argv",
+    "source_ref_fetch_argv",
     "validate_core_result",
     "validate_release_candidate",
     "validate_release_core_row",
     "validate_release_plan",
     "validate_sealed_candidate_directory",
+    "validated_source_graph_requirements",
     "workflow_audit_content_sha256",
     "workflow_audit_shape_errors",
     "write_core_result",

@@ -34,7 +34,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
-from typing import Any
+from typing import Any, NamedTuple
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -43,6 +43,10 @@ if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
 
 from core_pipeline_lib.errors import PipelineError  # noqa: E402
+from core_pipeline_lib.foundation import (  # noqa: E402
+    decode_json_object,
+    manifest_lock,
+)
 from core_pipeline_lib.records import source as records_source  # noqa: E402
 
 # Captured device provider ceilings (device-runtime-contracts.json). Used only
@@ -57,6 +61,44 @@ class PromoteCoreError(Exception):
     """Raised for missing or inconsistent promotion inputs."""
 
 
+class PipelineCommandError(PromoteCoreError):
+    """A pipeline command failed after emitting captured process output."""
+
+    def __init__(self, message: str, *, stdout: str, stderr: str) -> None:
+        super().__init__(message)
+        self.stdout = stdout
+        self.stderr = stderr
+
+
+class _OrdinaryLifecycleSnapshot(NamedTuple):
+    """One operation's exact pin, catalog, golden, and E2E authority."""
+
+    source_set: dict[str, Any]
+    semantic_pin: tuple[str, dict[str, Any], str, dict[str, Any]]
+    catalog: dict[str, Any]
+    evidence_files: tuple[tuple[Path, str, str], ...]
+
+
+def _exact_file_digest(path: Path, label: str) -> str:
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise PromoteCoreError(f"cannot read {label}: {exc}") from exc
+    if path.is_symlink() or not path.is_file():
+        raise PromoteCoreError(f"{label} is not a regular file: {path}")
+    return hashlib.sha256(raw).hexdigest()
+
+
+def _require_lifecycle_snapshot_unchanged(
+    snapshot: _OrdinaryLifecycleSnapshot,
+) -> None:
+    """Recheck all captured authority immediately before returning/writing."""
+
+    for path, expected_sha256, label in snapshot.evidence_files:
+        if _exact_file_digest(path, label) != expected_sha256:
+            raise PromoteCoreError(f"{label} changed during lifecycle composition")
+
+
 def _load(path: Path) -> dict[str, Any]:
     try:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -64,6 +106,19 @@ def _load(path: Path) -> dict[str, Any]:
         raise PromoteCoreError(f"missing input: {path}") from exc
     except json.JSONDecodeError as exc:
         raise PromoteCoreError(f"invalid JSON in {path}: {exc}") from exc
+
+
+def _load_with_sha256(path: Path) -> tuple[dict[str, Any], str]:
+    """Load and hash one exact JSON snapshot from the same bytes."""
+
+    try:
+        raw = path.read_bytes()
+        document = decode_json_object(raw, path)
+    except (OSError, PipelineError) as exc:
+        raise PromoteCoreError(f"cannot load exact input {path}: {exc}") from exc
+    if path.is_symlink() or not path.is_file():
+        raise PromoteCoreError(f"input is not a regular file: {path}")
+    return document, hashlib.sha256(raw).hexdigest()
 
 
 def _sha256_file(path: Path) -> str:
@@ -92,15 +147,191 @@ def max_glibcxx(version_requirements: list[str]) -> tuple[str | None, tuple[int,
     return best_value, best_key
 
 
-def compose_source_set(semantic_id: str) -> dict[str, Any]:
-    """Compose the source-set (records.source is the single composer)."""
+def _require_ordinary_selection(
+    core_id: str,
+    selection: dict[str, Any],
+    *,
+    operation: str,
+) -> None:
+    """Keep the canonical lifecycle writer out of candidate lanes."""
+
+    if "source_candidate" in selection or "output_reproduction" in selection:
+        raise PromoteCoreError(
+            f"{operation} refuses source-candidate/output-reproduction evidence"
+        )
+    targets = selection.get("targets")
+    if not isinstance(targets, dict) or not targets:
+        raise PromoteCoreError(f"{operation} has no selected targets for {core_id}")
+    for architecture, raw_target in targets.items():
+        golden_record = (
+            raw_target.get("golden_record")
+            if isinstance(raw_target, dict)
+            else None
+        )
+        if not isinstance(golden_record, dict):
+            raise PromoteCoreError(
+                f"{operation} has a malformed selected golden for "
+                f"{core_id}/{architecture}"
+            )
+        if (
+            "source_candidate" in golden_record
+            or "output_reproduction" in golden_record
+        ):
+            raise PromoteCoreError(
+                f"{operation} refuses source-candidate/output-reproduction "
+                f"evidence for {core_id}/{architecture}"
+            )
+
+
+def _validation_pipeline():
+    """Return the launcher module that owns deep historical evidence proof."""
+
+    import core_pipeline as pipeline
+
+    if pipeline.ROOT.resolve() != ROOT.resolve():
+        raise PromoteCoreError(
+            "canonical lifecycle validation root differs from the writer root"
+        )
+    return pipeline
+
+
+def _require_deep_ordinary_pin_evidence(
+    semantic_id: str,
+    semantic_pin: tuple[str, dict[str, Any], str, dict[str, Any]],
+    catalog: dict[str, Any],
+    catalog_file_sha256: str,
+) -> None:
+    """Bind the semantic pin to raw historical E2E/store/recipe bytes."""
+
+    _core_id, pin, pin_file_sha256, _selection = semantic_pin
+    pin_path = ROOT / "pins" / "core-sets" / f"{semantic_id}.json"
+    pipeline = _validation_pipeline()
+    authenticated_catalog, authenticated_catalog_file_sha256 = (
+        pipeline.load_catalog_with_sha256(
+            ROOT / "manifests" / "core-builds.json"
+        )
+    )
+    if (
+        authenticated_catalog != catalog
+        or authenticated_catalog_file_sha256 != catalog_file_sha256
+    ):
+        raise PromoteCoreError(
+            "canonical catalog changed before lifecycle evidence validation"
+        )
+    report = pipeline._validate_pin_set_document(
+        pin,
+        verify_store=True,
+        verify_sources=True,
+        document_path=pin_path,
+        historical_recipe_proofs=True,
+    )
+    errors = report.get("errors") if isinstance(report, dict) else None
+    if (
+        not isinstance(report, dict)
+        or report.get("status") != "valid"
+        or not isinstance(errors, list)
+        or errors
+    ):
+        details = (
+            "; ".join(str(error) for error in errors)
+            if isinstance(errors, list) and errors
+            else "validator returned no exact valid report"
+        )
+        raise PromoteCoreError(
+            "canonical lifecycle pin lacks complete historical evidence: "
+            + details
+        )
+    final_pin, final_pin_file_sha256 = records_source._load_with_sha256(pin_path)
+    final_catalog, final_catalog_file_sha256 = records_source._load_with_sha256(
+        ROOT / "manifests" / "core-builds.json"
+    )
+    if final_pin != pin or final_pin_file_sha256 != pin_file_sha256:
+        raise PromoteCoreError(
+            "canonical lifecycle pin changed during deep validation"
+        )
+    if (
+        final_catalog != catalog
+        or final_catalog_file_sha256 != catalog_file_sha256
+    ):
+        raise PromoteCoreError(
+            "canonical catalog changed during lifecycle composition"
+        )
+
+
+def _ordinary_source_set_snapshot(
+    semantic_id: str,
+    *,
+    operation: str,
+) -> _OrdinaryLifecycleSnapshot:
+    """Read one semantic pin, reject candidates, and compose canonically."""
 
     try:
-        return records_source.compose_source_set(
-            semantic_id, repository_root=ROOT
+        semantic_pin = records_source.load_semantic_pin(
+            semantic_id,
+            repository_root=ROOT,
+        )
+        core_id, pin, pin_file_sha256, selection = semantic_pin
+        _require_ordinary_selection(
+            core_id,
+            selection,
+            operation=operation,
+        )
+        catalog, catalog_file_sha256 = records_source._load_with_sha256(
+            ROOT / "manifests" / "core-builds.json"
+        )
+        source_set = records_source._compose_source_set_from_semantic_pin(
+            semantic_id,
+            semantic_pin,
+            repository_root=ROOT,
+            catalog=catalog,
+        )
+        golden_path = ROOT / pin["sources"][0]["path"]
+        golden_file_sha256 = _exact_file_digest(
+            golden_path, "canonical semantic golden"
+        )
+        _require_deep_ordinary_pin_evidence(
+            semantic_id,
+            semantic_pin,
+            catalog,
+            catalog_file_sha256,
         )
     except PipelineError as exc:
         raise PromoteCoreError(str(exc)) from exc
+    snapshot = _OrdinaryLifecycleSnapshot(
+        source_set=source_set,
+        semantic_pin=semantic_pin,
+        catalog=catalog,
+        evidence_files=(
+            (
+                ROOT / "manifests" / "core-builds.json",
+                catalog_file_sha256,
+                "canonical catalog",
+            ),
+            (
+                ROOT / "pins" / "core-sets" / f"{semantic_id}.json",
+                pin_file_sha256,
+                "canonical semantic pin",
+            ),
+            (
+                golden_path,
+                golden_file_sha256,
+                "canonical semantic golden",
+            ),
+        ),
+    )
+    _require_lifecycle_snapshot_unchanged(snapshot)
+    return snapshot
+
+
+def compose_source_set(semantic_id: str) -> dict[str, Any]:
+    """Compose one canonical, ordinary source-set from its exact pin."""
+
+    snapshot = _ordinary_source_set_snapshot(
+        semantic_id,
+        operation="canonical source-set composition",
+    )
+    _require_lifecycle_snapshot_unchanged(snapshot)
+    return snapshot.source_set
 
 
 def compose_source_lock(core_id: str) -> dict[str, Any]:
@@ -145,28 +376,148 @@ def _device_caveat(targets: dict[str, Any]) -> str:
     )
 
 
-def compose_compatibility(
+def _compose_compatibility_from_snapshot(
+    snapshot: _OrdinaryLifecycleSnapshot,
     core_id: str,
     semantic_id: str,
     selected_run: str,
     reproduction_run: str,
     extra_caveats: list[str] | None = None,
-) -> dict[str, Any]:
-    """Compose the compatibility manifest from the golden and e2e records."""
+) -> tuple[dict[str, Any], _OrdinaryLifecycleSnapshot]:
+    """Compose compatibility from one shared, exact lifecycle snapshot."""
 
-    golden = _load(ROOT / ".local-e2e" / "nightlies" / semantic_id / "golden.json")
+    source_set = snapshot.source_set
+    semantic_pin = snapshot.semantic_pin
+    catalog = snapshot.catalog
+    selected_core, pin, _pin_file_sha256, selection = semantic_pin
+    if selected_core != core_id or set(source_set.get("sources", {})) != {core_id}:
+        raise PromoteCoreError(
+            "compatibility core differs from its exact semantic pin"
+        )
+    source_reference = pin["sources"][0]
+    golden_path = ROOT / source_reference["path"]
+    golden, golden_file_sha256 = _load_with_sha256(golden_path)
+    if (
+        golden_file_sha256 != source_reference["file_sha256"]
+        or golden.get("content_sha256") != source_reference["content_sha256"]
+        or golden.get("pin_id") != semantic_id
+        or golden.get("core_id") != core_id
+    ):
+        raise PromoteCoreError(
+            "compatibility golden differs from its exact semantic pin"
+        )
     build_goldens = golden.get("build_goldens", {}).get(core_id)
     if not isinstance(build_goldens, dict):
         raise PromoteCoreError(f"golden has no build_goldens for {core_id}")
-    source_commit = golden.get("cores", {}).get(core_id, {}).get("source", {}).get("commit")
-    if not source_commit:
-        # Fall back to the semantic-id/source-lock commit when the golden omits it.
-        source_commit = compose_source_set(semantic_id)["sources"][core_id]["commit"]
+    selected_targets = selection["targets"]
+    expected_goldens = {
+        architecture: target.get("golden_record")
+        for architecture, target in selected_targets.items()
+        if isinstance(target, dict)
+    }
+    if build_goldens != expected_goldens:
+        raise PromoteCoreError(
+            "compatibility golden records differ from their exact semantic pin"
+        )
+    for architecture, golden_record in build_goldens.items():
+        if (
+            not isinstance(golden_record, dict)
+            or "source_candidate" in golden_record
+            or "output_reproduction" in golden_record
+        ):
+            raise PromoteCoreError(
+                "canonical compatibility composition refuses "
+                "source-candidate/output-reproduction evidence for "
+                f"{core_id}/{architecture}"
+            )
+    try:
+        records_source.require_selected_source_identity(
+            core_id,
+            {
+                architecture: {"golden_record": record}
+                for architecture, record in build_goldens.items()
+            },
+            records_source.compose_source_lock(
+                core_id,
+                repository_root=ROOT,
+                catalog=catalog,
+            )["source"],
+            label="compatibility golden",
+        )
+    except PipelineError as exc:
+        raise PromoteCoreError(str(exc)) from exc
+    source_commit = source_set["sources"][core_id]["commit"]
 
-    selected = _load(ROOT / ".local-e2e" / "runs" / selected_run / "e2e-record.json")
-    reproduction = _load(ROOT / ".local-e2e" / "runs" / reproduction_run / "e2e-record.json")
-    package_sha = selected["packages"][0]["sha256"]
-    reproducible = reproduction["packages"][0]["sha256"] == package_sha
+    selected_e2e = selection.get("e2e")
+    selected_package = selection.get("package")
+    if (
+        not isinstance(selected_e2e, dict)
+        or selected_e2e.get("run_id") != selected_run
+        or not isinstance(selected_package, dict)
+    ):
+        raise PromoteCoreError(
+            "selected compatibility run differs from its exact semantic pin"
+        )
+
+    selected_e2e_path = (
+        ROOT / ".local-e2e" / "runs" / selected_run / "e2e-record.json"
+    )
+    reproduction_e2e_path = (
+        ROOT
+        / ".local-e2e"
+        / "runs"
+        / reproduction_run
+        / "e2e-record.json"
+    )
+    snapshot = _OrdinaryLifecycleSnapshot(
+        source_set=snapshot.source_set,
+        semantic_pin=snapshot.semantic_pin,
+        catalog=snapshot.catalog,
+        evidence_files=snapshot.evidence_files
+        + (
+            (
+                selected_e2e_path,
+                _exact_file_digest(
+                    selected_e2e_path, "selected compatibility E2E"
+                ),
+                "selected compatibility E2E",
+            ),
+            (
+                reproduction_e2e_path,
+                _exact_file_digest(
+                    reproduction_e2e_path,
+                    "reproduction compatibility E2E",
+                ),
+                "reproduction compatibility E2E",
+            ),
+        ),
+    )
+    pipeline = _validation_pipeline()
+    try:
+        selected = pipeline._validate_compatibility_e2e_run(
+            selected_e2e_path,
+            core_id,
+            selected_targets,
+        )
+        reproduction = pipeline._validate_compatibility_e2e_run(
+            reproduction_e2e_path,
+            core_id,
+            selected_targets,
+        )
+    except PipelineError as exc:
+        raise PromoteCoreError(
+            f"compatibility E2E evidence is invalid: {exc}"
+        ) from exc
+    if (
+        selected.get("content_sha256") != selected_e2e.get("content_sha256")
+        or selected.get("package_sha256") != selected_e2e.get("package_sha256")
+        or selected.get("package_sha256") != selected_package.get("sha256")
+    ):
+        raise PromoteCoreError(
+            "selected compatibility evidence differs from its exact semantic pin"
+        )
+    package_sha = selected["package_sha256"]
+    reproducible = reproduction.get("package_sha256") == package_sha
 
     targets: dict[str, Any] = {}
     for arch in ("arm64", "armhf"):
@@ -189,8 +540,11 @@ def compose_compatibility(
             "The publication-disabled simulated-Actions build-core run and the "
             "independent native-local build-core run "
             + ("reproduced" if reproducible else "did not reproduce")
-            + f" the {core_id}_libretro.zip package, resolver metadata, both ABI "
-            "artifacts, and both active-marker build logs byte for byte. Execution "
+            + f" the exact {core_id}_libretro.zip package bytes. The selected and "
+            "reproduction build logs remain separate content-addressed execution "
+            "evidence; each must independently satisfy the applicable build and "
+            "core-owned log contracts, and transcript byte equality is not "
+            "required. Execution "
             "was local; both builds cloned the pinned source over the network, so "
             "no offline source cache is proven."
         ),
@@ -223,6 +577,42 @@ def compose_compatibility(
         "targets": targets,
     }
     document["content_sha256"] = content_sha256(document)
+    report = pipeline.validate_core_compatibility_document(
+        document,
+        repository_root=ROOT,
+        verify_pin=True,
+    )
+    if report.get("status") != "valid":
+        raise PromoteCoreError(
+            "composed compatibility failed deep validation:\n- "
+            + "\n- ".join(report.get("errors", []))
+        )
+    _require_lifecycle_snapshot_unchanged(snapshot)
+    return document, snapshot
+
+
+def compose_compatibility(
+    core_id: str,
+    semantic_id: str,
+    selected_run: str,
+    reproduction_run: str,
+    extra_caveats: list[str] | None = None,
+) -> dict[str, Any]:
+    """Compose compatibility from one exact ordinary pin and its evidence."""
+
+    snapshot = _ordinary_source_set_snapshot(
+        semantic_id,
+        operation="canonical compatibility composition",
+    )
+    document, snapshot = _compose_compatibility_from_snapshot(
+        snapshot,
+        core_id,
+        semantic_id,
+        selected_run,
+        reproduction_run,
+        extra_caveats,
+    )
+    _require_lifecycle_snapshot_unchanged(snapshot)
     return document
 
 
@@ -239,10 +629,102 @@ def _pipeline(*args: str) -> str:
     command = [sys.executable, str(ROOT / "scripts" / "core_pipeline.py"), *args]
     result = subprocess.run(command, capture_output=True, text=True)
     if result.returncode != 0:
-        raise PromoteCoreError(
-            f"`{' '.join(args)}` failed:\n{result.stdout}\n{result.stderr}"
+        raise PipelineCommandError(
+            f"`{' '.join(args)}` failed:\n{result.stdout}\n{result.stderr}",
+            stdout=result.stdout,
+            stderr=result.stderr,
         )
     return result.stdout
+
+
+def _decode_pipeline_json(output: str, args: tuple[str, ...]) -> dict[str, Any]:
+    """Require one strict UTF-8 JSON object from captured command output."""
+
+    try:
+        return decode_json_object(
+            output.encode("utf-8"), f"core_pipeline.py {' '.join(args)} output"
+        )
+    except (PipelineError, UnicodeEncodeError) as exc:
+        raise PromoteCoreError(
+            f"`{' '.join(args)}` did not return a UTF-8 JSON object"
+        ) from exc
+
+
+def _pipeline_json(*args: str) -> dict[str, Any]:
+    """Run one pipeline command and require one strict JSON object result."""
+
+    return _decode_pipeline_json(_pipeline(*args), args)
+
+
+def _pipeline_report(*args: str) -> dict[str, Any]:
+    """Parse a structured report even when its command reports invalid state."""
+
+    try:
+        output = _pipeline(*args)
+    except PipelineCommandError as exc:
+        output = exc.stdout
+    return _decode_pipeline_json(output, args)
+
+
+def _pointer_snapshot(pointer: Path) -> tuple[bytes, dict[str, Any], str] | None:
+    """Capture, parse, and hash an existing pointer from the same bytes."""
+
+    try:
+        raw = pointer.read_bytes()
+    except FileNotFoundError:
+        return None
+    except OSError as exc:
+        raise PromoteCoreError(f"cannot read channel pointer {pointer}: {exc}") from exc
+    if pointer.is_symlink() or not pointer.is_file():
+        raise PromoteCoreError(f"channel pointer is not a regular file: {pointer}")
+    try:
+        document = decode_json_object(raw, pointer)
+    except PipelineError as exc:
+        raise PromoteCoreError(f"invalid channel pointer {pointer}: {exc}") from exc
+    return raw, document, hashlib.sha256(raw).hexdigest()
+
+
+def _remove_exact_pointer(pointer: Path, raw: bytes, digest: str) -> None:
+    """Remove only the exact stale pointer rejected by the pipeline CAS."""
+
+    with manifest_lock(pointer, ROOT):
+        snapshot = _pointer_snapshot(pointer)
+        if snapshot is None or snapshot[0] != raw or snapshot[2] != digest:
+            raise PromoteCoreError(
+                f"channel pointer changed after compare-and-swap failure: {pointer}"
+            )
+        try:
+            pointer.unlink()
+        except OSError as exc:
+            raise PromoteCoreError(
+                f"cannot remove stale channel pointer {pointer}: {exc}"
+            ) from exc
+
+
+def _require_pointer_result(
+    result: dict[str, Any],
+    *,
+    channel: str,
+    core: str,
+    semantic_id: str,
+) -> tuple[str, dict[str, Any]]:
+    """Return the digest and target bound by an update-channel result."""
+
+    digest = result.get("pointer_file_sha256")
+    target = result.get("target")
+    if (
+        result.get("status") not in {"created", "updated", "unchanged"}
+        or result.get("channel") != channel
+        or not isinstance(digest, str)
+        or len(digest) != 64
+        or any(character not in "0123456789abcdef" for character in digest)
+        or not isinstance(target, dict)
+        or target.get("id") != semantic_id
+    ):
+        raise PromoteCoreError(
+            f"update-channel returned an invalid {channel}.{core} pointer result"
+        )
+    return digest, target
 
 
 def _write_evidence_index(core: str) -> None:
@@ -267,8 +749,9 @@ def finish_promotion(core: str, semantic_id: str) -> None:
     the previous release bytes and all three channel pointers; the repair is
     mandatory follow-up work, so the promote chain finishes it. The
     compare-and-swap path is tried first; a pointer whose current target no
-    longer deep-validates (stale or dangling after a refresh) is removed and
-    re-created with --expect-absent.
+    longer deep-validates (stale or dangling after a refresh) is removed only
+    if its exact rejected bytes are still current, then re-created with
+    --expect-absent.
     """
 
     pin = f"pins/core-sets/{semantic_id}.json"
@@ -284,24 +767,78 @@ def finish_promotion(core: str, semantic_id: str) -> None:
     }
     for channel, target in channel_targets.items():
         pointer = ROOT / ".local-e2e" / "channels" / f"{channel}.{core}.json"
-        swapped = False
-        if pointer.exists():
-            current = json.loads(pointer.read_text(encoding="utf-8"))
-            if current.get("target", {}).get("id") == semantic_id:
-                swapped = True
-            else:
-                digest = hashlib.sha256(pointer.read_bytes()).hexdigest()
-                try:
-                    _pipeline("update-channel", "--channel", channel,
-                              "--core", core, "--target", target,
-                              "--expect-current", digest)
-                    swapped = True
-                except PromoteCoreError:
-                    pointer.unlink()
-        if not swapped:
-            _pipeline("update-channel", "--channel", channel, "--core", core,
-                      "--target", target, "--expect-absent")
-        _pipeline("validate-channel", "--channel", channel, "--core", core)
+        snapshot = _pointer_snapshot(pointer)
+        if snapshot is None:
+            update_result = _pipeline_json(
+                "update-channel", "--channel", channel, "--core", core,
+                "--target", target, "--expect-absent",
+            )
+        else:
+            raw, _current, digest = snapshot
+            current_proven_invalid = False
+            try:
+                current_report = _pipeline_report(
+                    "validate-channel", "--channel", channel, "--core", core
+                )
+            except PromoteCoreError:
+                # An unavailable/unstructured validation result is not proof
+                # that a current pointer may be discarded.
+                current_report = None
+            if isinstance(current_report, dict):
+                report_matches_snapshot = (
+                    current_report.get("channel") == channel
+                    and current_report.get("core_id") == core
+                    and current_report.get("pointer_file_sha256") == digest
+                )
+                current_proven_invalid = (
+                    report_matches_snapshot
+                    and current_report.get("status") == "invalid"
+                )
+            try:
+                # Even an apparently current semantic ID goes through the
+                # pipeline's byte-exact compare-and-swap and deep validation.
+                update_result = _pipeline_json(
+                    "update-channel", "--channel", channel, "--core", core,
+                    "--target", target, "--expect-current", digest,
+                )
+            except PromoteCoreError:
+                if not current_proven_invalid:
+                    raise
+                _remove_exact_pointer(pointer, raw, digest)
+                update_result = _pipeline_json(
+                    "update-channel", "--channel", channel, "--core", core,
+                    "--target", target, "--expect-absent",
+                )
+        accepted_digest, accepted_target = _require_pointer_result(
+            update_result,
+            channel=channel,
+            core=core,
+            semantic_id=semantic_id,
+        )
+        validation = _pipeline_json(
+            "validate-channel", "--channel", channel, "--core", core
+        )
+        if (
+            validation.get("status") != "valid"
+            or validation.get("channel") != channel
+            or validation.get("core_id") != core
+            or validation.get("pointer_file_sha256") != accepted_digest
+        ):
+            raise PromoteCoreError(
+                f"validated {channel}.{core} pointer does not match the "
+                "update-channel result"
+            )
+        final_snapshot = _pointer_snapshot(pointer)
+        if (
+            final_snapshot is None
+            or final_snapshot[2] != accepted_digest
+            or final_snapshot[1].get("channel") != channel
+            or final_snapshot[1].get("core_id") != core
+            or final_snapshot[1].get("target") != accepted_target
+        ):
+            raise PromoteCoreError(
+                f"channel pointer changed after validation: {pointer}"
+            )
         print(f"channel {channel} -> {semantic_id}")
 
 
@@ -479,9 +1016,19 @@ def _run_promotion_chain(
               "--verify-store", "--verify-sources")
     print("pin-set valid")
 
-    compatibility = compose_compatibility(
-        core, semantic_id, selected_run, reproduction_run, caveats
+    lifecycle_snapshot = _ordinary_source_set_snapshot(
+        semantic_id,
+        operation="canonical compatibility composition",
     )
+    compatibility, lifecycle_snapshot = _compose_compatibility_from_snapshot(
+        lifecycle_snapshot,
+        core,
+        semantic_id,
+        selected_run,
+        reproduction_run,
+        caveats,
+    )
+    _require_lifecycle_snapshot_unchanged(lifecycle_snapshot)
     _write_create_only(compatibility_path, compatibility)
     print(f"wrote manifests/compatibility/{core}.json")
     _pipeline("catalog-check")
@@ -591,11 +1138,22 @@ def main(argv: list[str] | None = None) -> int:
             print(f"wave complete: {len(args.core)} cores")
             return 0
         if args.command == "compose-lifecycle":
-            source_set = compose_source_set(args.semantic_id)
-            compatibility = compose_compatibility(
-                args.core, args.semantic_id, args.selected_run,
-                args.reproduction_run, args.caveat,
+            lifecycle_snapshot = _ordinary_source_set_snapshot(
+                args.semantic_id,
+                operation="canonical lifecycle composition",
             )
+            compatibility, lifecycle_snapshot = (
+                _compose_compatibility_from_snapshot(
+                    lifecycle_snapshot,
+                    args.core,
+                    args.semantic_id,
+                    args.selected_run,
+                    args.reproduction_run,
+                    args.caveat,
+                )
+            )
+            source_set = lifecycle_snapshot.source_set
+            _require_lifecycle_snapshot_unchanged(lifecycle_snapshot)
             if args.print:
                 print(json.dumps({"source_set": source_set, "compatibility": compatibility}, indent=2))
                 return 0

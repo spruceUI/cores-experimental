@@ -8,7 +8,7 @@ import unittest
 from unittest import mock
 import zipfile
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from scripts import profile_registry as registry
 from core_pipeline_lib.contracts import vice_xvic
 from core_pipeline_lib.records import compatibility as compatibility_records
@@ -255,7 +255,7 @@ class ViceXvicCoreEvidenceTests(unittest.TestCase):
             write_document(record_path, record)
             refresh_copied_e2e(run_root, evidence, pipeline.e2e_content_sha256)
             with self.assertRaisesRegex(
-                pipeline.PipelineError, "historical build differs"
+                pipeline.PipelineError, "build log does not prove"
             ):
                 pipeline._validate_compatibility_e2e_run(
                     run_root / "e2e-record.json", CORE_ID, expected_targets

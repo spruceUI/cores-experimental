@@ -1,0 +1,674 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/host-build-telemetry.schema.json",
+  "title": "Spruce local host-build telemetry sidecar",
+  "type": "object",
+  "required": [
+    "$schema", "schema", "schema_version", "telemetry_contract", "run_id",
+    "local_only", "publication", "runner", "execution_profile", "cache",
+    "phases", "builds", "packages", "result", "content_sha256"
+  ],
+  "properties": {
+    "$schema": {"const": "../../../manifests/host-build-telemetry.schema.json"},
+    "schema": {"$ref": "#/$defs/storedSchema"},
+    "schema_version": {"const": 1},
+    "telemetry_contract": {"const": "host-build-telemetry-v1"},
+    "run_id": {"type": "string", "minLength": 1},
+    "local_only": {"const": true},
+    "publication": {"const": "disabled"},
+    "runner": {"$ref": "#/$defs/runner"},
+    "execution_profile": {"$ref": "#/$defs/executionProfile"},
+    "cache": {"$ref": "#/$defs/cache"},
+    "phases": {"$ref": "#/$defs/runPhases"},
+    "builds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/build"}
+    },
+    "packages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/package"}
+    },
+    "result": {"enum": ["passed", "failed"]},
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "uint": {"type": "integer", "minimum": 0},
+    "storedFile": {
+      "type": "object",
+      "required": ["path", "file_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "file_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "storedSchema": {
+      "allOf": [
+        {"$ref": "#/$defs/storedFile"},
+        {
+          "properties": {
+            "path": {
+              "pattern": "^\\.local-e2e/store/schemas/sha256/[0-9a-f]{2}/[0-9a-f]{64}$"
+            }
+          }
+        }
+      ]
+    },
+    "runner": {
+      "type": "object",
+      "required": ["selector", "profile", "mode", "backend", "execution_label"],
+      "properties": {
+        "selector": {"enum": ["local", "github-actions-sim"]},
+        "profile": {"enum": ["local", "github-actions"]},
+        "mode": {"enum": ["native", "simulated"]},
+        "backend": {"const": "local-docker"},
+        "execution_label": {"enum": ["host-local", "local-gha-sim"]}
+      },
+      "additionalProperties": false
+    },
+    "resources": {
+      "type": "object",
+      "required": [
+        "jobs", "cpu_quota", "memory_bytes", "memory_swap_bytes", "pids_limit",
+        "matrix_parallelism", "pair_execution"
+      ],
+      "properties": {
+        "jobs": {"const": 8},
+        "cpu_quota": {"const": 8},
+        "memory_bytes": {"const": 4294967296},
+        "memory_swap_bytes": {"const": 4294967296},
+        "pids_limit": {"const": 1024},
+        "matrix_parallelism": {"const": 1},
+        "pair_execution": {"const": "selected-then-reproduction-sequential"}
+      },
+      "additionalProperties": false
+    },
+    "profileSchema": {
+      "allOf": [
+        {"$ref": "#/$defs/storedFile"},
+        {
+          "properties": {
+            "path": {
+              "pattern": "^\\.local-e2e/store/schemas/sha256/[0-9a-f]{2}/[0-9a-f]{64}$"
+            }
+          }
+        }
+      ]
+    },
+    "executionProfile": {
+      "type": "object",
+      "required": [
+        "path", "file_sha256", "content_sha256", "schema", "profile_id",
+        "profile_content_sha256", "resource_class_id",
+        "resource_class_content_sha256", "resources"
+      ],
+      "properties": {
+        "path": {
+          "pattern": "^\\.local-e2e/store/host-execution-profiles/sha256/[0-9a-f]{2}/[0-9a-f]{64}$"
+        },
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "schema": {"$ref": "#/$defs/profileSchema"},
+        "profile_id": {
+          "enum": ["local-host-8c-4g-v1", "github-actions-sim-host-8c-4g-v1"]
+        },
+        "profile_content_sha256": {"$ref": "#/$defs/sha256"},
+        "resource_class_id": {"const": "host-8c-4g-noswap-v1"},
+        "resource_class_content_sha256": {"$ref": "#/$defs/sha256"},
+        "resources": {"$ref": "#/$defs/resources"}
+      },
+      "additionalProperties": false
+    },
+    "cache": {
+      "type": "object",
+      "required": [
+        "classification", "scope", "identity", "container_filesystem", "source",
+        "compiler", "image_layers", "host_page_cache"
+      ],
+      "properties": {
+        "classification": {"const": "cold"},
+        "scope": {"const": "pipeline-source-build-and-compiler-state"},
+        "identity": {"const": "fresh-container-network-clone-no-restored-compiler-cache-v1"},
+        "container_filesystem": {"const": "fresh"},
+        "source": {"const": "fresh-network-clone"},
+        "compiler": {"const": "disabled"},
+        "image_layers": {"const": "preloaded-content-addressed-image"},
+        "host_page_cache": {"const": "uncontrolled"}
+      },
+      "additionalProperties": false
+    },
+    "measuredDuration": {
+      "type": "object",
+      "required": ["status", "clock", "duration_ns"],
+      "properties": {
+        "status": {"const": "measured"},
+        "clock": {"const": "CLOCK_MONOTONIC"},
+        "duration_ns": {"$ref": "#/$defs/uint"}
+      },
+      "additionalProperties": false
+    },
+    "notApplicable": {
+      "type": "object",
+      "required": ["status", "reason"],
+      "properties": {
+        "status": {"const": "not_applicable"},
+        "reason": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "runPhases": {
+      "type": "object",
+      "required": ["queue", "package"],
+      "properties": {
+        "queue": {"$ref": "#/$defs/notApplicable"},
+        "package": {"$ref": "#/$defs/measuredDuration"}
+      },
+      "additionalProperties": false
+    },
+    "measuredBounds": {
+      "type": "object",
+      "required": [
+        "status", "clock", "started_monotonic_ns", "finished_monotonic_ns",
+        "duration_ns"
+      ],
+      "properties": {
+        "status": {"const": "measured"},
+        "clock": {"const": "CLOCK_MONOTONIC"},
+        "started_monotonic_ns": {"$ref": "#/$defs/uint"},
+        "finished_monotonic_ns": {"$ref": "#/$defs/uint"},
+        "duration_ns": {"$ref": "#/$defs/uint"}
+      },
+      "additionalProperties": false
+    },
+    "unavailable": {
+      "type": "object",
+      "required": ["status", "reason"],
+      "properties": {
+        "status": {"const": "unavailable"},
+        "reason": {
+          "enum": [
+            "build-failed-before-source-hydration-phase",
+            "build-failed-before-build-command-phase",
+            "no-compile-or-link-units-observed-before-build-failure",
+            "build-failed-before-link-unit-observed"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "storedBuildRecord": {
+      "allOf": [
+        {"$ref": "#/$defs/storedFile"},
+        {
+          "properties": {
+            "path": {
+              "pattern": "^\\.local-e2e/store/build-records/sha256/[0-9a-f]{2}/[0-9a-f]{64}$"
+            }
+          }
+        }
+      ]
+    },
+    "nullableStoredOutput": {
+      "type": "object",
+      "required": ["path", "sha256", "size"],
+      "properties": {
+        "path": {"type": ["string", "null"]},
+        "sha256": {
+          "anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]
+        },
+        "size": {
+          "anyOf": [{"$ref": "#/$defs/uint"}, {"type": "null"}]
+        }
+      },
+      "additionalProperties": false
+    },
+    "storedLog": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "pattern": "^\\.local-e2e/store/logs/sha256/[0-9a-f]{2}/[0-9a-f]{64}$"
+        },
+        "sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "bindings": {
+      "type": "object",
+      "required": [
+        "build_record", "source", "recipe", "toolchain", "abi", "tuning",
+        "outputs"
+      ],
+      "properties": {
+        "build_record": {"$ref": "#/$defs/storedBuildRecord"},
+        "source": {"type": "object"},
+        "recipe": {"type": "object"},
+        "toolchain": {"type": "object"},
+        "abi": {
+          "type": "object",
+          "required": ["architecture", "elf_class", "machine", "interpreter"],
+          "properties": {
+            "architecture": {"type": "string", "minLength": 1},
+            "elf_class": {"type": ["string", "null"]},
+            "machine": {"type": ["string", "null"]},
+            "interpreter": {"type": ["string", "null"]}
+          },
+          "additionalProperties": false
+        },
+        "tuning": {"type": ["object", "null"]},
+        "outputs": {
+          "type": "object",
+          "required": ["artifact", "metadata", "build_log"],
+          "properties": {
+            "artifact": {"$ref": "#/$defs/nullableStoredOutput"},
+            "metadata": {"$ref": "#/$defs/nullableStoredOutput"},
+            "build_log": {"$ref": "#/$defs/storedLog"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "hostTool": {
+      "allOf": [
+        {"$ref": "#/$defs/storedFile"},
+        {
+          "properties": {
+            "path": {
+              "pattern": "^\\.local-e2e/store/host-build-tools/sha256/[0-9a-f]{2}/[0-9a-f]{64}$"
+            }
+          }
+        }
+      ]
+    },
+    "instrumentation": {
+      "type": "object",
+      "required": ["contract", "bootstrap"],
+      "properties": {
+        "contract": {
+          "type": "object",
+          "required": [
+            "schema_version", "tool_wrapper", "unit_runner_source",
+            "unit_runner_compile"
+          ],
+          "properties": {
+            "schema_version": {"const": 1},
+            "tool_wrapper": {"$ref": "#/$defs/hostTool"},
+            "unit_runner_source": {"$ref": "#/$defs/hostTool"},
+            "unit_runner_compile": {
+              "type": "object",
+              "required": ["compiler_command", "arguments"],
+              "properties": {
+                "compiler_command": {"const": "cc"},
+                "arguments": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {"type": "string", "minLength": 1}
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "bootstrap": {
+          "type": "object",
+          "required": [
+            "compiler_resolved_path", "compiler_version", "compile_argv",
+            "unit_runner_binary_sha256"
+          ],
+          "properties": {
+            "compiler_resolved_path": {"type": "string", "pattern": "^/"},
+            "compiler_version": {"type": "string", "minLength": 1},
+            "compile_argv": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"type": "string", "minLength": 1}
+            },
+            "unit_runner_binary_sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "buildPhases": {
+      "type": "object",
+      "required": [
+        "orchestration", "source_hydration", "configure", "build_command",
+        "compile", "link", "validation"
+      ],
+      "properties": {
+        "orchestration": {"$ref": "#/$defs/measuredDuration"},
+        "source_hydration": {
+          "oneOf": [
+            {"$ref": "#/$defs/measuredBounds"},
+            {"$ref": "#/$defs/unavailable"}
+          ]
+        },
+        "configure": {"$ref": "#/$defs/notApplicable"},
+        "build_command": {
+          "oneOf": [
+            {"$ref": "#/$defs/measuredBounds"},
+            {"$ref": "#/$defs/unavailable"}
+          ]
+        },
+        "compile": {
+          "oneOf": [
+            {"$ref": "#/$defs/measuredBounds"},
+            {"$ref": "#/$defs/unavailable"}
+          ]
+        },
+        "link": {
+          "oneOf": [
+            {"$ref": "#/$defs/measuredBounds"},
+            {"$ref": "#/$defs/unavailable"}
+          ]
+        },
+        "validation": {"$ref": "#/$defs/measuredDuration"}
+      },
+      "additionalProperties": false
+    },
+    "hostConfig": {
+      "type": "object",
+      "required": [
+        "AutoRemove", "NanoCpus", "Memory", "MemorySwap", "PidsLimit",
+        "CgroupnsMode"
+      ],
+      "properties": {
+        "AutoRemove": {"const": false},
+        "NanoCpus": {"const": 8000000000},
+        "Memory": {"const": 4294967296},
+        "MemorySwap": {"const": 4294967296},
+        "PidsLimit": {"const": 1024},
+        "CgroupnsMode": {"const": "private"}
+      },
+      "additionalProperties": false
+    },
+    "container": {
+      "type": "object",
+      "required": [
+        "container_id", "requested_host_config", "state", "execution_duration_ns"
+      ],
+      "properties": {
+        "container_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "requested_host_config": {"$ref": "#/$defs/hostConfig"},
+        "state": {
+          "type": "object",
+          "required": [
+            "status", "oom_killed", "dead", "exit_code", "error",
+            "started_at", "finished_at"
+          ],
+          "properties": {
+            "status": {"const": "exited"},
+            "oom_killed": {"type": "boolean"},
+            "dead": {"const": false},
+            "exit_code": {"type": "integer", "minimum": 0, "maximum": 255},
+            "error": {"type": "string"},
+            "started_at": {"type": "string"},
+            "finished_at": {"type": "string"}
+          },
+          "additionalProperties": false
+        },
+        "execution_duration_ns": {"$ref": "#/$defs/uint"}
+      },
+      "additionalProperties": false
+    },
+    "counterMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/uint"}
+    },
+    "ioStat": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/counterMap"}
+    },
+    "resourceSnapshot": {
+      "type": "object",
+      "required": [
+        "cpu_max", "cpu_stat", "effective_cpuset", "effective_cpuset_count",
+        "memory_current_bytes", "memory_max_bytes", "memory_peak_bytes",
+        "memory_events", "memory_events_local", "swap_current_bytes",
+        "swap_max_bytes", "swap_peak_bytes", "swap_events", "io_stat",
+        "pids_current", "pids_max", "pids_peak"
+      ],
+      "properties": {
+        "cpu_max": {
+          "type": "object",
+          "required": ["quota_us", "period_us"],
+          "properties": {
+            "quota_us": {"const": 800000},
+            "period_us": {"const": 100000}
+          },
+          "additionalProperties": false
+        },
+        "cpu_stat": {"$ref": "#/$defs/counterMap"},
+        "effective_cpuset": {"type": "string", "minLength": 1},
+        "effective_cpuset_count": {"type": "integer", "minimum": 8},
+        "memory_current_bytes": {"$ref": "#/$defs/uint"},
+        "memory_max_bytes": {"const": 4294967296},
+        "memory_peak_bytes": {"$ref": "#/$defs/uint"},
+        "memory_events": {"$ref": "#/$defs/counterMap"},
+        "memory_events_local": {"$ref": "#/$defs/counterMap"},
+        "swap_current_bytes": {"const": 0},
+        "swap_max_bytes": {"const": 0},
+        "swap_peak_bytes": {"const": 0},
+        "swap_events": {"$ref": "#/$defs/counterMap"},
+        "io_stat": {"$ref": "#/$defs/ioStat"},
+        "pids_current": {"$ref": "#/$defs/uint"},
+        "pids_max": {"const": 1024},
+        "pids_peak": {"$ref": "#/$defs/uint"}
+      },
+      "additionalProperties": false
+    },
+    "resourceEvidence": {
+      "type": "object",
+      "required": ["start", "end", "delta", "oom_observed"],
+      "properties": {
+        "start": {"$ref": "#/$defs/resourceSnapshot"},
+        "end": {"$ref": "#/$defs/resourceSnapshot"},
+        "delta": {
+          "type": "object",
+          "required": ["cpu_stat", "memory_events_local", "swap_events", "io_stat"],
+          "properties": {
+            "cpu_stat": {"$ref": "#/$defs/counterMap"},
+            "memory_events_local": {"$ref": "#/$defs/counterMap"},
+            "swap_events": {"$ref": "#/$defs/counterMap"},
+            "io_stat": {"$ref": "#/$defs/counterMap"}
+          },
+          "additionalProperties": false
+        },
+        "oom_observed": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "unit": {
+      "type": "object",
+      "required": [
+        "kind", "source_path", "compiler", "command_sha256", "language",
+        "target_abi", "result", "exit_code", "signal", "started_monotonic_ns",
+        "finished_monotonic_ns", "elapsed_ns", "user_cpu_us", "system_cpu_us",
+        "max_rss_bytes"
+      ],
+      "properties": {
+        "kind": {"enum": ["compile", "link"]},
+        "source_path": {"type": ["string", "null"]},
+        "compiler": {"type": "string", "minLength": 1},
+        "command_sha256": {"$ref": "#/$defs/sha256"},
+        "language": {"enum": ["c", "c++", "assembly", "rust", "link"]},
+        "target_abi": {"type": "string", "minLength": 1},
+        "result": {"enum": ["passed", "failed"]},
+        "exit_code": {"type": "integer", "minimum": 0, "maximum": 255},
+        "signal": {"type": "integer", "minimum": 0, "maximum": 255},
+        "started_monotonic_ns": {"$ref": "#/$defs/uint"},
+        "finished_monotonic_ns": {"$ref": "#/$defs/uint"},
+        "elapsed_ns": {"$ref": "#/$defs/uint"},
+        "user_cpu_us": {"$ref": "#/$defs/uint"},
+        "system_cpu_us": {"$ref": "#/$defs/uint"},
+        "max_rss_bytes": {"$ref": "#/$defs/uint"}
+      },
+      "additionalProperties": false
+    },
+    "phaseBounds": {
+      "type": "object",
+      "required": ["compile"],
+      "properties": {
+        "compile": {
+          "type": "object",
+          "required": ["started_monotonic_ns", "finished_monotonic_ns", "duration_ns"],
+          "properties": {
+            "started_monotonic_ns": {"$ref": "#/$defs/uint"},
+            "finished_monotonic_ns": {"$ref": "#/$defs/uint"},
+            "duration_ns": {"$ref": "#/$defs/uint"}
+          },
+          "additionalProperties": false
+        },
+        "link": {
+          "type": "object",
+          "required": ["started_monotonic_ns", "finished_monotonic_ns", "duration_ns"],
+          "properties": {
+            "started_monotonic_ns": {"$ref": "#/$defs/uint"},
+            "finished_monotonic_ns": {"$ref": "#/$defs/uint"},
+            "duration_ns": {"$ref": "#/$defs/uint"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "unitEvidence": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "configured_jobs", "nproc_observation_count", "nproc_observations",
+            "counts", "units", "compile_cpu_aggregate", "longest_compile_units",
+            "phase_bounds", "estimated_critical_path_ns"
+          ],
+          "properties": {
+            "configured_jobs": {"const": 8},
+            "nproc_observation_count": {"$ref": "#/$defs/uint"},
+            "nproc_observations": {
+              "type": "array", "minItems": 1, "items": {"const": "8"}
+            },
+            "counts": {
+              "type": "object",
+              "required": ["c", "c++", "assembly", "rust", "link"],
+              "properties": {
+                "c": {"$ref": "#/$defs/uint"},
+                "c++": {"$ref": "#/$defs/uint"},
+                "assembly": {"$ref": "#/$defs/uint"},
+                "rust": {"$ref": "#/$defs/uint"},
+                "link": {"$ref": "#/$defs/uint"}
+              },
+              "additionalProperties": false
+            },
+            "units": {
+              "type": "array", "minItems": 1, "items": {"$ref": "#/$defs/unit"}
+            },
+            "compile_cpu_aggregate": {
+              "type": "object",
+              "required": ["method", "p50_us", "p95_us", "max_us", "total_us"],
+              "properties": {
+                "method": {"const": "nearest-rank-v1"},
+                "p50_us": {"$ref": "#/$defs/uint"},
+                "p95_us": {"$ref": "#/$defs/uint"},
+                "max_us": {"$ref": "#/$defs/uint"},
+                "total_us": {"$ref": "#/$defs/uint"}
+              },
+              "additionalProperties": false
+            },
+            "longest_compile_units": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["source_path", "elapsed_ns", "cpu_us"],
+                "properties": {
+                  "source_path": {"type": "string", "minLength": 1},
+                  "elapsed_ns": {"$ref": "#/$defs/uint"},
+                  "cpu_us": {"$ref": "#/$defs/uint"}
+                },
+                "additionalProperties": false
+              }
+            },
+            "phase_bounds": {"$ref": "#/$defs/phaseBounds"},
+            "estimated_critical_path_ns": {"$ref": "#/$defs/uint"}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "status", "reason", "configured_jobs", "nproc_observation_count",
+            "nproc_observations"
+          ],
+          "properties": {
+            "status": {"const": "unavailable"},
+            "reason": {"const": "no-compile-or-link-units-observed-before-build-failure"},
+            "configured_jobs": {"const": 8},
+            "nproc_observation_count": {"$ref": "#/$defs/uint"},
+            "nproc_observations": {"type": "array", "items": {"const": "8"}}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "build": {
+      "type": "object",
+      "required": [
+        "core_id", "architecture", "driver", "result", "bindings",
+        "instrumentation", "phases", "container", "resources", "units"
+      ],
+      "properties": {
+        "core_id": {"type": "string", "minLength": 1},
+        "architecture": {"type": "string", "minLength": 1},
+        "driver": {"const": "libretro-super"},
+        "result": {"enum": ["passed", "failed"]},
+        "bindings": {"$ref": "#/$defs/bindings"},
+        "instrumentation": {"$ref": "#/$defs/instrumentation"},
+        "phases": {"$ref": "#/$defs/buildPhases"},
+        "container": {"$ref": "#/$defs/container"},
+        "resources": {"$ref": "#/$defs/resourceEvidence"},
+        "units": {"$ref": "#/$defs/unitEvidence"}
+      },
+      "additionalProperties": false
+    },
+    "package": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["core_id", "result", "path", "sha256", "size"],
+          "properties": {
+            "core_id": {"type": "string", "minLength": 1},
+            "result": {"const": "packaged"},
+            "path": {"type": "string", "minLength": 1},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "size": {"$ref": "#/$defs/uint"},
+            "core_group": {"type": "object"},
+            "tuning_candidate": {"type": "object"}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["core_id", "result", "reason"],
+          "properties": {
+            "core_id": {"type": "string", "minLength": 1},
+            "result": {"const": "not_packaged"},
+            "reason": {"type": "string", "minLength": 1},
+            "path": {"type": "string", "minLength": 1},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "size": {"$ref": "#/$defs/uint"},
+            "core_group": {"type": "object"},
+            "tuning_candidate": {"type": "object"}
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

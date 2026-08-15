@@ -9,6 +9,7 @@ from typing import Any
 
 from ..errors import PipelineError
 from ..foundation import atomic_create_json
+from ..tracks import parse_group_tag
 from .eligibility import normalize_release_rows, release_core_row_shape_errors
 from .model import (
     CONTENT_REFERENCE_KEYS,
@@ -36,6 +37,61 @@ from .model import (
 )
 
 
+PLAN_GROUP_KEYS = frozenset(
+    {
+        "group_tag",
+        "inventory_state",
+        "track_registry",
+        "tuning_registry",
+        "release_roster",
+        "spruce_branch_bases",
+        "stable_core_count",
+        "unstable_fallback_core_count",
+        "test_core_count",
+    }
+)
+
+
+def plan_group_shape_errors(value: object) -> list[str]:
+    """Validate the exact manifest identities and state counts for one group."""
+
+    errors = exact_key_errors(value, PLAN_GROUP_KEYS, "release plan group")
+    if errors:
+        return errors
+    assert isinstance(value, dict)
+    try:
+        parse_group_tag(value.get("group_tag"))
+    except PipelineError:
+        errors.append("release plan group.group_tag is invalid")
+    if value.get("inventory_state") not in {"stable", "unstable"}:
+        errors.append("release plan group.inventory_state is invalid")
+    expected_paths = {
+        "track_registry": "manifests/core-tracks.json",
+        "tuning_registry": "manifests/chipset-tunings.json",
+        "release_roster": "manifests/spruce-release-roster.json",
+        "spruce_branch_bases": "manifests/spruce-core-branch-bases.json",
+    }
+    for field, expected_path in expected_paths.items():
+        errors.extend(
+            _reference_errors(
+                value.get(field),
+                CONTENT_REFERENCE_KEYS,
+                f"release plan group.{field}",
+            )
+        )
+        reference = value.get(field)
+        if isinstance(reference, dict) and reference.get("path") != expected_path:
+            errors.append(f"release plan group.{field}.path is not canonical")
+    for field in (
+        "stable_core_count",
+        "unstable_fallback_core_count",
+        "test_core_count",
+    ):
+        if not is_nonnegative_int(value.get(field)):
+            errors.append(f"release plan group.{field} is invalid")
+    return errors
+
+
 def release_plan_content_sha256(document: Mapping[str, Any]) -> str:
     """Hash every semantic plan field while excluding schema routing/digest."""
 
@@ -46,6 +102,7 @@ def release_plan_content_sha256(document: Mapping[str, Any]) -> str:
         "validation_scope": document.get("validation_scope"),
         "local_only": document.get("local_only"),
         "publication": document.get("publication"),
+        "group": document.get("group"),
         "repository": document.get("repository"),
         "cores": document.get("cores"),
         "summary": document.get("summary"),
@@ -216,12 +273,18 @@ def release_plan_shape_errors(document: object) -> list[str]:
         errors.append("release plan must be local-only")
     if document.get("publication") != PUBLICATION:
         errors.append("release plan publication must be disabled")
+    group = document.get("group")
+    if document.get("scope") == "track-group":
+        errors.extend(plan_group_shape_errors(group))
+    elif group is not None:
+        errors.append("release plan group is only valid for track-group scope")
     errors.extend(repository_facts_shape_errors(document.get("repository")))
 
     cores = document.get("cores")
     core_ids: list[str] = []
     target_count = 0
     package_bytes = 0
+    selected_states: list[str] = []
     if not isinstance(cores, list) or not cores:
         errors.append("release plan cores must be a nonempty list")
     else:
@@ -239,8 +302,44 @@ def release_plan_shape_errors(document: object) -> list[str]:
                 package = row.get("package")
                 if isinstance(package, dict) and type(package.get("size")) is int:
                     package_bytes += package["size"]
+                core_group = row.get("core_group")
+                if isinstance(core_group, dict) and isinstance(
+                    core_group.get("selected_state"), str
+                ):
+                    selected_states.append(core_group["selected_state"])
         if core_ids != sorted(core_ids) or len(core_ids) != len(set(core_ids)):
             errors.append("release plan cores must have unique sorted core_id values")
+    if document.get("scope") == "track-group":
+        if len(selected_states) != len(core_ids):
+            errors.append("track-group plan cores must all preserve group selections")
+        if isinstance(group, dict):
+            group_tag = group.get("group_tag")
+            if any(
+                isinstance(row, dict)
+                and isinstance(row.get("core_group"), dict)
+                and row["core_group"].get("group_tag") != group_tag
+                for row in cores or ()
+            ):
+                errors.append("track-group plan core selectors differ from plan group")
+            expected_counts = {
+                "stable_core_count": selected_states.count("stable"),
+                "unstable_fallback_core_count": selected_states.count(
+                    "unstable_fallback"
+                ),
+                "test_core_count": selected_states.count("test"),
+            }
+            for field, expected in expected_counts.items():
+                if group.get(field) != expected:
+                    errors.append(f"release plan group.{field} is inconsistent")
+            expected_state = (
+                "stable"
+                if expected_counts["stable_core_count"] == len(core_ids)
+                else "unstable"
+            )
+            if group.get("inventory_state") != expected_state:
+                errors.append("release plan group.inventory_state is inconsistent")
+    elif selected_states:
+        errors.append("legacy release plan cores must not contain group selections")
 
     summary = document.get("summary")
     summary_errors = exact_key_errors(
@@ -282,6 +381,7 @@ def construct_release_plan(
     scope: str,
     repository: Mapping[str, Any],
     cores: Sequence[Mapping[str, Any]],
+    group: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Construct a deterministic plan from validated, normalized facts.
 
@@ -293,6 +393,10 @@ def construct_release_plan(
         raise PipelineError("release candidate_id is invalid")
     if scope not in RELEASE_SCOPES:
         raise PipelineError("release scope is invalid")
+    if (scope == "track-group") != (group is not None):
+        raise PipelineError(
+            "track-group scope requires one exact group; legacy scopes forbid it"
+        )
     repository_copy = copy.deepcopy(dict(repository))
     repository_errors = repository_facts_shape_errors(repository_copy)
     raise_shape_errors(repository_errors, "release repository facts")
@@ -305,6 +409,7 @@ def construct_release_plan(
         "validation_scope": VALIDATION_SCOPE,
         "local_only": True,
         "publication": PUBLICATION,
+        "group": copy.deepcopy(dict(group)) if group is not None else None,
         "repository": repository_copy,
         "cores": rows,
         "summary": {

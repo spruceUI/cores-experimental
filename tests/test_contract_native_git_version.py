@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from core_pipeline_lib.contracts import quicknes
 from core_pipeline_lib.contracts import mgba
 

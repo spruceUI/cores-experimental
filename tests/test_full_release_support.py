@@ -134,6 +134,7 @@ def release_row(core_id: str) -> dict[str, Any]:
             "size": len(package),
         },
         "targets": targets,
+        "core_group": None,
     }
 
 

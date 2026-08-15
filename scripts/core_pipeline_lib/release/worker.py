@@ -16,12 +16,14 @@ from typing import Any
 
 from ..errors import PipelineError
 from ..foundation import load_json, safe_child
+from ..runtime import base_runner_evidence
 from .model import runner_selector_for_contract
 from .repository import (
     ReleaseRepositoryServices,
-    validate_plan_against_repository,
+    validate_plan_core_against_repository,
 )
 from .result import write_core_result
+from .plan import plan_core
 
 
 DeepE2EResult = tuple[
@@ -43,6 +45,7 @@ class ReleaseWorkerServices:
     validate_e2e: Callable[
         [Path, Path, Path, dict[str, Any]], DeepE2EResult
     ]
+    validate_group_e2e: Callable[..., DeepE2EResult]
 
     def __post_init__(self) -> None:
         for name in self.__dataclass_fields__:
@@ -97,7 +100,7 @@ def normalize_deep_e2e_facts(
         "run_id": evidence.get("run_id"),
         "file_sha256": evidence_file_sha256,
         "content_sha256": evidence.get("content_sha256"),
-        "runner": copy.deepcopy(evidence.get("runner")),
+        "runner": copy.deepcopy(base_runner_evidence(evidence.get("runner"))),
         "package": {
             "name": package_path.name,
             "sha256": package_record.get("sha256"),
@@ -136,11 +139,13 @@ def record_validated_release_result(
     plan_path: Path,
     core_id: str,
     e2e_path: Path,
+    results_root: Path,
     output_dir: Path,
     repository_root: Path,
     catalog_path: Path,
     repository_services: ReleaseRepositoryServices,
     worker_services: ReleaseWorkerServices,
+    expected_group_tag: str | None = None,
 ) -> tuple[dict[str, Any], str]:
     """Validate current tracked state and one fresh E2E run, then stage it."""
 
@@ -148,12 +153,22 @@ def record_validated_release_result(
         raise PipelineError("release worker plan must be a regular non-symlink file")
     if not isinstance(e2e_path, Path) or e2e_path.is_symlink() or not e2e_path.is_file():
         raise PipelineError("release worker E2E record must be a regular non-symlink file")
-    plan = validate_plan_against_repository(
+    plan = validate_plan_core_against_repository(
         load_json(plan_path),
+        core_id=core_id,
         repository_root=repository_root,
         catalog_path=catalog_path,
         services=repository_services,
     )
+    row = plan_core(plan, core_id)
+    core_group = row["core_group"]
+    planned_group_tag = (
+        plan["group"]["group_tag"] if isinstance(plan.get("group"), dict) else None
+    )
+    if expected_group_tag != planned_group_tag:
+        raise PipelineError("release worker group tag does not match the plan")
+    if (core_group is None) != (planned_group_tag is None):
+        raise PipelineError("release worker plan group binding is inconsistent")
     catalog = repository_services.load_catalog(catalog_path)
     initial_evidence = load_json(e2e_path)
     selected_record = _selected_record_path(
@@ -168,11 +183,21 @@ def record_validated_release_result(
         bound_records,
         package_path,
         package_record,
-    ) = worker_services.validate_e2e(
-        e2e_path,
-        selected_record,
-        catalog_path,
-        catalog,
+    ) = (
+        worker_services.validate_e2e(
+            e2e_path,
+            selected_record,
+            catalog_path,
+            catalog,
+        )
+        if core_group is None
+        else worker_services.validate_group_e2e(
+            e2e_path,
+            selected_record,
+            catalog_path,
+            catalog,
+            core_group,
+        )
     )
     if evidence != initial_evidence:
         raise PipelineError("release worker E2E record changed during validation")
@@ -188,6 +213,16 @@ def record_validated_release_result(
         package_record=package_record,
     )
     runner_selector = runner_selector_for_contract(facts["runner"])
+    if not isinstance(results_root, Path):
+        raise PipelineError("release worker results root must be a Path")
+    expected_output_dir = (
+        results_root / plan["candidate_id"] / runner_selector / core_id
+    )
+    if output_dir != expected_output_dir:
+        raise PipelineError(
+            "release worker output does not match the deeply validated "
+            "plan candidate, runner, and core"
+        )
     result = write_core_result(
         plan=plan,
         plan_path=plan_path,

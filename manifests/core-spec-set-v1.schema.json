@@ -1,0 +1,270 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/core-spec-set-v1.schema.json",
+  "$comment": "Structural schema for strict no-float CoreSpec identities. Mandatory Python decoding additionally authenticates nested digests and enforces sorted unique core IDs plus their exact code-owned proof bindings.",
+  "title": "Spruce strict CoreSpec identity set v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "format",
+    "catalog",
+    "catalog_schema",
+    "core_count",
+    "driver_counts",
+    "cores",
+    "local_only",
+    "publication",
+    "content_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "format": {
+      "const": "spruce-core-spec-set-v1"
+    },
+    "catalog": {
+      "$ref": "#/$defs/catalogEvidence"
+    },
+    "catalog_schema": {
+      "$ref": "#/$defs/catalogSchemaEvidence"
+    },
+    "core_count": {
+      "const": 98
+    },
+    "driver_counts": {
+      "type": "object",
+      "required": [
+        "direct-cargo",
+        "direct-cmake",
+        "direct-make",
+        "libretro-super"
+      ],
+      "properties": {
+        "direct-cargo": {
+          "const": 1
+        },
+        "direct-cmake": {
+          "const": 8
+        },
+        "direct-make": {
+          "const": 4
+        },
+        "libretro-super": {
+          "const": 85
+        }
+      },
+      "additionalProperties": false
+    },
+    "cores": {
+      "type": "array",
+      "minItems": 98,
+      "maxItems": 98,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/coreSpecIdentity"
+      }
+    },
+    "local_only": {
+      "const": true
+    },
+    "publication": {
+      "const": "disabled"
+    },
+    "content_sha256": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "catalogEvidence": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "kind",
+        "path",
+        "file_sha256",
+        "target_content_sha256",
+        "size",
+        "content_sha256"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "artifact"
+        },
+        "path": {
+          "const": "manifests/core-builds.json"
+        },
+        "file_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "target_content_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "additionalProperties": false
+    },
+    "catalogSchemaEvidence": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "kind",
+        "path",
+        "file_sha256",
+        "target_content_sha256",
+        "size",
+        "content_sha256"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "artifact"
+        },
+        "path": {
+          "const": "manifests/core-builds.schema.json"
+        },
+        "file_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "target_content_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "additionalProperties": false
+    },
+    "registeredProofBinding": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "binding_kind",
+        "binding_id",
+        "proof_kind"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "binding_kind": {
+          "const": "registered-log-contract"
+        },
+        "binding_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*-v[1-9][0-9]*$"
+        },
+        "proof_kind": {
+          "enum": [
+            "core-arch",
+            "core-arch-source"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "legacyProofBinding": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "binding_kind",
+        "binding_id",
+        "proof_kind"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "binding_kind": {
+          "const": "legacy-validator"
+        },
+        "binding_id": {
+          "enum": [
+            "ardens",
+            "arduous",
+            "easyrpg",
+            "ffmpeg",
+            "flycast",
+            "km_duckswanstation_xtreme_amped",
+            "squirreljme",
+            "swanstation",
+            "tic80"
+          ]
+        },
+        "proof_kind": {
+          "const": "legacy-validator"
+        }
+      },
+      "additionalProperties": false
+    },
+    "coreSpecIdentity": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "core_id",
+        "driver",
+        "legacy_catalog_spec_sha256",
+        "strict_spec_sha256",
+        "proof_binding",
+        "content_sha256"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "core_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_]*$"
+        },
+        "driver": {
+          "enum": [
+            "direct-cargo",
+            "direct-cmake",
+            "direct-make",
+            "libretro-super"
+          ]
+        },
+        "legacy_catalog_spec_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "strict_spec_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "proof_binding": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/registeredProofBinding"
+            },
+            {
+              "$ref": "#/$defs/legacyProofBinding"
+            }
+          ]
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

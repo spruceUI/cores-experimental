@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://spruceui.local/schemas/full-release-core-result.schema.json",
+  "$comment": "Structural interoperability schema only. Mandatory Python worker-result validation owns all plan-bound and cross-field semantics.",
   "title": "Cores-spruce validated local full-release core result",
   "type": "object",
   "required": [
@@ -12,6 +13,7 @@
     "local_only",
     "publication",
     "result",
+    "core_group",
     "plan",
     "runner",
     "e2e",
@@ -23,13 +25,19 @@
     "$schema": {
       "const": "../../manifests/full-release-core-result.schema.json"
     },
-    "schema_version": {"const": 1},
+    "schema_version": {"const": 2},
     "candidate_id": {"$ref": "#/$defs/identifier"},
     "core_id": {"$ref": "#/$defs/coreId"},
     "validation_scope": {"const": "static-build-only"},
     "local_only": {"const": true},
     "publication": {"const": "disabled"},
     "result": {"const": "passed"},
+    "core_group": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "./full-release-plan.schema.json#/$defs/coreGroup"}
+      ]
+    },
     "plan": {"$ref": "#/$defs/digestReference"},
     "runner": {"$ref": "#/$defs/runner"},
     "e2e": {"$ref": "#/$defs/e2e"},

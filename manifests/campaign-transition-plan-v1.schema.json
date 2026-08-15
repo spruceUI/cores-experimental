@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/campaign-transition-plan-v1.schema.json",
+  "$comment": "Structural schema for strict no-float resolved campaign plans. Mandatory Python decoding additionally rejects duplicate keys, floats, non-canonical scalar aliases, unsorted identity arrays, invalid exact deltas, and invalid semantic digests.",
+  "title": "Spruce resolved campaign transition plan v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "format",
+    "transition_id",
+    "campaign_id",
+    "kind",
+    "handler_id",
+    "captured_at",
+    "reason",
+    "intent",
+    "engine_bundle",
+    "predecessor",
+    "inputs",
+    "successor",
+    "delta",
+    "required_checks",
+    "process_tier",
+    "local_only",
+    "publication",
+    "content_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "format": {"const": "spruce-campaign-transition-plan-v1"},
+    "transition_id": {"$ref": "#/$defs/identifier"},
+    "campaign_id": {"$ref": "#/$defs/identifier"},
+    "kind": {"$ref": "#/$defs/identifier"},
+    "handler_id": {"$ref": "#/$defs/identifier"},
+    "captured_at": {"$ref": "#/$defs/utcSecond"},
+    "reason": {"type": "string", "minLength": 1},
+    "intent": {"$ref": "#/$defs/evidenceRef"},
+    "engine_bundle": {"$ref": "#/$defs/evidenceRef"},
+    "predecessor": {"$ref": "#/$defs/evidenceRef"},
+    "inputs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/namedEvidenceRef"}
+    },
+    "successor": {"$ref": "#/$defs/evidenceRef"},
+    "delta": {"$ref": "#/$defs/transitionDelta"},
+    "required_checks": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/identifier"}
+    },
+    "process_tier": {"enum": ["quick", "static", "evidence", "rebuild"]},
+    "local_only": {"const": true},
+    "publication": {"const": "disabled"},
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "utcSecond": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "jsonPointer": {
+      "type": "string",
+      "pattern": "^(?:/(?:[^~/]|~[01])*)*$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)(?!.*\\\\).+$"
+    },
+    "evidenceKind": {
+      "enum": [
+        "artifact",
+        "audit-checkpoint",
+        "check-log",
+        "engine-bundle",
+        "matrix-cas",
+        "matrix-pointer",
+        "matrix-snapshot",
+        "phase-freeze",
+        "phase-freeze-cas",
+        "pin-directory",
+        "pipeline-bundle",
+        "repository-snapshot",
+        "state-root",
+        "track-registry",
+        "track-snapshot-directory",
+        "transition-plan",
+        "transition-spec",
+        "validation-receipt"
+      ]
+    },
+    "evidenceRef": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "kind",
+        "path",
+        "file_sha256",
+        "target_content_sha256",
+        "size",
+        "content_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"$ref": "#/$defs/evidenceKind"},
+        "path": {"$ref": "#/$defs/relativePath"},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "target_content_sha256": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/sha256"}
+          ]
+        },
+        "size": {"type": "integer", "minimum": 0},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "namedEvidenceRef": {
+      "type": "object",
+      "required": ["name", "reference", "content_sha256"],
+      "properties": {
+        "name": {"$ref": "#/$defs/identifier"},
+        "reference": {"$ref": "#/$defs/evidenceRef"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "transitionDelta": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "allowed_changes",
+        "required_changes",
+        "changed_pointers",
+        "preserved_projection_sha256",
+        "content_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "allowed_changes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/jsonPointer"}
+        },
+        "required_changes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/jsonPointer"}
+        },
+        "changed_pointers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/jsonPointer"}
+        },
+        "preserved_projection_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -5,7 +5,7 @@ from __future__ import annotations
 import copy
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 
 from .support import ROOT, load_document
 

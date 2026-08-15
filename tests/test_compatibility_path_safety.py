@@ -32,6 +32,10 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _sha256_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
+
+
 def _write_json(path: Path, document: object) -> None:
     path.write_text(json.dumps(document), encoding="utf-8")
 
@@ -191,13 +195,13 @@ def compatibility_evidence() -> Iterator[SimpleNamespace]:
 
 
 def _validate_e2e(fixture: SimpleNamespace, e2e_path: Path | None = None) -> dict:
-    def validate_artifact(path: Path, architecture: str) -> dict:
+    def validate_artifact(artifact_bytes: bytes, architecture: str) -> dict:
         if architecture != ARCHITECTURE:
             raise AssertionError(architecture)
         return {
             **fixture.artifact,
-            "sha256": _sha256(path),
-            "size": path.stat().st_size,
+            "sha256": _sha256_bytes(artifact_bytes),
+            "size": len(artifact_bytes),
         }
 
     return compatibility.validate_core_e2e_run(
@@ -231,6 +235,98 @@ class CompatibilityPathSafetyTests(unittest.TestCase):
         with compatibility_evidence() as fixture:
             report = _validate_e2e(fixture)
         self.assertEqual("run-one", report["run_id"])
+
+    def test_legacy_runner_rejects_host_execution_recipe(self) -> None:
+        with compatibility_evidence() as fixture:
+            record = json.loads(fixture.record_path.read_text(encoding="utf-8"))
+            record["recipe"] = {"host_execution": {}}
+            _write_json(fixture.record_path, record)
+            evidence = json.loads(fixture.e2e_path.read_text(encoding="utf-8"))
+            evidence["builds"][0]["record_sha256"] = _sha256(fixture.record_path)
+            evidence["runner"] = {
+                "profile": "local",
+                "mode": "native",
+                "backend": "local-docker",
+                "local_only": True,
+                "publication": "disabled",
+            }
+            _write_json(fixture.e2e_path, evidence)
+            with self.assertRaisesRegex(PipelineError, "hardened runner evidence differ"):
+                _validate_e2e(fixture)
+
+    def test_hardened_runner_rejects_recipe_without_host_execution(self) -> None:
+        digest = "a" * 64
+        schema_digest = "b" * 64
+        telemetry_digest = "c" * 64
+        with compatibility_evidence() as fixture:
+            evidence = json.loads(fixture.e2e_path.read_text(encoding="utf-8"))
+            evidence["runner"] = {
+                "schema_version": 2,
+                "profile": "local",
+                "mode": "native",
+                "backend": "local-docker",
+                "local_only": True,
+                "publication": "disabled",
+                "execution_profile": {
+                    "path": f".local-e2e/store/host-execution-profiles/sha256/aa/{digest}",
+                    "file_sha256": digest,
+                    "content_sha256": digest,
+                    "schema": {
+                        "path": f".local-e2e/store/schemas/sha256/bb/{schema_digest}",
+                        "file_sha256": schema_digest,
+                    },
+                    "profile_id": "local-host-8c-4g-v1",
+                    "profile_content_sha256": digest,
+                    "resource_class_id": "host-8c-4g-noswap-v1",
+                    "resource_class_content_sha256": digest,
+                    "execution_label": "host-local",
+                },
+                "telemetry": {
+                    "path": f".local-e2e/store/host-build-telemetry/sha256/cc/{telemetry_digest}",
+                    "file_sha256": telemetry_digest,
+                    "content_sha256": telemetry_digest,
+                },
+            }
+            _write_json(fixture.e2e_path, evidence)
+            with self.assertRaisesRegex(PipelineError, "hardened runner evidence differ"):
+                _validate_e2e(fixture)
+
+    def test_artifact_semantics_use_snapshot_if_original_path_is_swapped(
+        self,
+    ) -> None:
+        with compatibility_evidence() as fixture:
+            replacement = b"different artifact bytes"
+
+            def validate_artifact(
+                artifact_bytes: bytes, architecture: str
+            ) -> dict:
+                self.assertEqual(ARCHITECTURE, architecture)
+                fixture.artifact_path.write_bytes(replacement)
+                return {
+                    **fixture.artifact,
+                    "sha256": _sha256_bytes(artifact_bytes),
+                    "size": len(artifact_bytes),
+                }
+
+            report = compatibility.validate_core_e2e_run(
+                fixture.e2e_path,
+                CORE_ID,
+                repository_root=fixture.root,
+                runs_root=fixture.runs_root,
+                expected_targets={ARCHITECTURE},
+                package_directories={ARCHITECTURE: "lib64"},
+                expected_build_records={ARCHITECTURE: {}},
+                artifact_validator=validate_artifact,
+                build_record_validator=lambda *_: None,
+                content_hasher=lambda _: E2E_CONTENT_SHA256,
+                runner_validator=lambda _: True,
+            )
+
+            self.assertEqual(
+                fixture.artifact["sha256"],
+                report["targets"][ARCHITECTURE]["artifact_sha256"],
+            )
+            self.assertEqual(replacement, fixture.artifact_path.read_bytes())
 
     def test_each_evidence_file_rejects_a_symlink_to_in_root_bytes(self) -> None:
         cases = {

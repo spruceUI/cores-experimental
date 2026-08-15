@@ -5,8 +5,10 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 from scripts.core_pipeline_lib.errors import PipelineError
+import scripts.core_pipeline_lib.release.seal as release_seal_module
 from scripts.core_pipeline_lib.release import (
     asset_set_sha256,
     construct_core_result,
@@ -36,6 +38,48 @@ def write_json(path: Path, value: object) -> None:
 
 
 class FullReleaseSealTests(unittest.TestCase):
+    def test_deep_validation_never_rehashes_a_parsed_json_path(self) -> None:
+        plan = release_plan(("alpha",))
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            plan_path = write_plan_fixture(root, plan)
+            write_result_set(
+                root,
+                plan=plan,
+                plan_path=plan_path,
+                runner_selector="local",
+                core_ids=("alpha",),
+            )
+            output = root / "candidate"
+            candidate = seal_release_candidate(
+                plan=plan,
+                plan_path=plan_path,
+                results_root=root / "results",
+                output_dir=output,
+                runner_selector="local",
+            )
+            real_sha256_file = release_seal_module.sha256_file
+
+            def reject_json_rehash(path: Path) -> str:
+                if path.suffix == ".json":
+                    raise AssertionError(f"JSON path was rehashed after parsing: {path}")
+                return real_sha256_file(path)
+
+            with mock.patch.object(
+                release_seal_module,
+                "sha256_file",
+                side_effect=reject_json_rehash,
+            ):
+                self.assertEqual(
+                    candidate,
+                    validate_sealed_candidate_directory(
+                        candidate=candidate,
+                        output_dir=output,
+                        plan=plan,
+                        runner_selector="local",
+                    ),
+                )
+
     def test_complete_fan_in_seals_deterministically_and_deeply_validates(self) -> None:
         plan = release_plan()
         with tempfile.TemporaryDirectory() as directory:

@@ -1,0 +1,29 @@
+{
+  "campaign_id": "host-core-build-20260810",
+  "captured_at": "2026-08-14T19:05:35Z",
+  "content_sha256": "034ba44be0b3c81598870c03882c82fe69ced5ec965fc0810ada147b12cf15cd",
+  "kind": "matrix-authority-refresh-v1",
+  "local_only": true,
+  "phase_freeze": {
+    "content_sha256": "1be12710bb1e0e12c28fc3e0833c479836b50f15894e01d243ab8e72e414e203",
+    "file_sha256": "6bdeb20ef855ceb47e2825726edb7280953e60f883f2e45d716c6c0c03d2f70f",
+    "kind": "phase-freeze",
+    "path": ".local-e2e/campaigns/host-core-build-20260810/freezes/phase1/0c57e20111a6c704c1481993f60fcce0b58cf1c52b00cbd4b969aab18fb7de1c.json",
+    "schema_version": 1,
+    "size": 281849,
+    "target_content_sha256": "0c57e20111a6c704c1481993f60fcce0b58cf1c52b00cbd4b969aab18fb7de1c"
+  },
+  "predecessor": {
+    "content_sha256": "aa37cae60626e7f9df3a208e0c290a50a8d4b27369698b27f845f4cb69242faa",
+    "file_sha256": "2dac212759e6c55b0351019c5d3a7471a6256fdf8eb25b0df51e36183e545940",
+    "kind": "matrix-pointer",
+    "path": ".local-e2e/campaigns/host-core-build-20260810/campaign-matrix.json",
+    "schema_version": 1,
+    "size": 40426561,
+    "target_content_sha256": "9119385c8d6b57fb4800ad1bc9248ecef2071f54af9e5c8faa5534969dbd8601"
+  },
+  "publication": "disabled",
+  "reason": "rebind the exact 9119/2dac post-VEmulator matrix to the sealed post-Gambatte contract authority; no track admission changed, so preserve all 2538 supported cells, all 108 exclusions, complete VEmulator and 2048 projections, summaries, and global totals byte-semantically",
+  "schema_version": 1,
+  "transition_id": "post-gambatte-authority-v1"
+}

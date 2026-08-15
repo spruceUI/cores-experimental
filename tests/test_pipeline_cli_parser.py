@@ -16,6 +16,7 @@ from scripts.core_pipeline_lib.cli import (
     ParserHandlers,
     build_parser as build_extracted_parser,
 )
+from scripts.core_pipeline_lib.cli.inventory import CORE_TRACK_GROUP_TAG_CHOICES
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,6 +31,11 @@ SPEC.loader.exec_module(pipeline)
 
 COMMANDS = {
     "catalog-check",
+    "core-source-candidate-rebase",
+    "core-source-candidate-prepare",
+    "core-track-inventory",
+    "core-track-promote",
+    "core-track-set-test",
     "audit-workflows",
     "import-golden",
     "validate-golden",
@@ -37,6 +43,9 @@ COMMANDS = {
     "build-core",
     "e2e",
     "promote",
+    "promote-host-reproduction",
+    "promote-source-candidate",
+    "promote-tuned-variant",
     "derive-core-id",
     "compose-core-golden",
     "compose-pin-set",
@@ -45,6 +54,8 @@ COMMANDS = {
     "validate-release",
     "update-channel",
     "validate-channel",
+    "prepare-release-source-graph",
+    "convert-release-overlay",
     "plan-release",
     "release-matrix",
     "record-release-result",
@@ -53,6 +64,36 @@ COMMANDS = {
 
 EXPECTED_DESTINATIONS = {
     "catalog-check": set(),
+    "core-source-candidate-rebase": {"core", "snapshot"},
+    "core-source-candidate-prepare": {"core", "snapshot", "catalog_rebase"},
+    "core-track-inventory": {"group_tag", "core"},
+    "core-track-promote": {
+        "track",
+        "core",
+        "chipset",
+        "approved_by",
+        "reason",
+        "expected_test_variant",
+        "expected_current_stable",
+        "approved_at",
+    },
+    "core-track-set-test": {
+        "track",
+        "core",
+        "chipset",
+        "pin_id",
+        "tuning_profile",
+        "slice_time",
+        "applicable_chipset",
+        "expected_current_test",
+        "expected_current_assignment",
+        "expected_new_variant",
+        "expected_parent_variant",
+        "expected_parent_registry",
+        "outlier_authorized_at",
+        "outlier_authorized_by",
+        "outlier_reason",
+    },
     "audit-workflows": {"output"},
     "import-golden": {"core", "spruceos", "output", "allow_missing"},
     "validate-golden": {
@@ -62,16 +103,43 @@ EXPECTED_DESTINATIONS = {
         "verify_store",
     },
     "build": {"core", "arch", "output"},
-    "build-core": {"runner_profile", "core", "run_id", "output_root"},
+    "build-core": {
+        "runner_profile",
+        "core",
+        "group_tag",
+        "run_id",
+        "output_root",
+    },
     "e2e": {
         "runner_profile",
         "core",
+        "group_tag",
+        "tuning_profile",
         "arch",
         "run_id",
         "output_root",
         "fail_fast",
     },
     "promote": {"golden", "record", "e2e_record"},
+    "promote-host-reproduction": {
+        "core",
+        "source_golden",
+        "selected_e2e",
+        "reproduction_e2e",
+    },
+    "promote-source-candidate": {
+        "core",
+        "source_golden",
+        "selected_e2e",
+        "reproduction_e2e",
+    },
+    "promote-tuned-variant": {
+        "core",
+        "tuning_profile",
+        "source_golden",
+        "selected_e2e",
+        "reproduction_e2e",
+    },
     "derive-core-id": {"core", "source_golden"},
     "compose-core-golden": {"core", "source_golden", "output"},
     "compose-pin-set": {
@@ -91,9 +159,23 @@ EXPECTED_DESTINATIONS = {
         "expect_current",
     },
     "validate-channel": {"channel", "core"},
-    "plan-release": {"candidate_id", "core", "scope", "output"},
+    "prepare-release-source-graph": {"group_tag", "core"},
+    "convert-release-overlay": {
+        "candidate_dir",
+        "output_dir",
+        "expected_repository_head",
+        "coordinator_run_id",
+        "coordinator_run_attempt",
+    },
+    "plan-release": {"candidate_id", "core", "scope", "group_tag", "output"},
     "release-matrix": {"plan"},
-    "record-release-result": {"plan", "core", "e2e_record", "output_dir"},
+    "record-release-result": {
+        "plan",
+        "core",
+        "group_tag",
+        "e2e_record",
+        "output_dir",
+    },
     "seal-release": {
         "plan",
         "results_root",
@@ -104,6 +186,29 @@ EXPECTED_DESTINATIONS = {
 
 EXPECTED_REQUIRED = {
     "catalog-check": set(),
+    "core-source-candidate-rebase": {"core", "snapshot"},
+    "core-source-candidate-prepare": {"core", "snapshot"},
+    "core-track-inventory": {"group_tag"},
+    "core-track-promote": {
+        "track",
+        "core",
+        "chipset",
+        "approved_by",
+        "reason",
+        "expected_test_variant",
+        "expected_current_stable",
+    },
+    "core-track-set-test": {
+        "track",
+        "core",
+        "chipset",
+        "pin_id",
+        "tuning_profile",
+        "slice_time",
+        "expected_current_test",
+        "expected_current_assignment",
+        "expected_new_variant",
+    },
     "audit-workflows": set(),
     "import-golden": {"core", "output"},
     "validate-golden": {"golden"},
@@ -111,6 +216,25 @@ EXPECTED_REQUIRED = {
     "build-core": {"core"},
     "e2e": {"core"},
     "promote": {"golden", "record", "e2e_record"},
+    "promote-host-reproduction": {
+        "core",
+        "source_golden",
+        "selected_e2e",
+        "reproduction_e2e",
+    },
+    "promote-source-candidate": {
+        "core",
+        "source_golden",
+        "selected_e2e",
+        "reproduction_e2e",
+    },
+    "promote-tuned-variant": {
+        "core",
+        "tuning_profile",
+        "source_golden",
+        "selected_e2e",
+        "reproduction_e2e",
+    },
     "derive-core-id": {"core", "source_golden"},
     "compose-core-golden": {"core", "source_golden", "output"},
     "compose-pin-set": {"pin_id", "core", "source_golden", "output"},
@@ -119,6 +243,14 @@ EXPECTED_REQUIRED = {
     "validate-release": {"pin_set", "release"},
     "update-channel": {"channel", "core", "target"},
     "validate-channel": {"channel", "core"},
+    "prepare-release-source-graph": {"group_tag"},
+    "convert-release-overlay": {
+        "candidate_dir",
+        "output_dir",
+        "expected_repository_head",
+        "coordinator_run_id",
+        "coordinator_run_attempt",
+    },
     "plan-release": {"candidate_id", "output"},
     "release-matrix": {"plan"},
     "record-release-result": {"plan", "core", "e2e_record", "output_dir"},
@@ -134,6 +266,11 @@ EXPECTED_REQUIRED = {
 def parser_handlers() -> ParserHandlers:
     return ParserHandlers(
         catalog_check=pipeline.cmd_catalog_check,
+        core_source_candidate_rebase=pipeline.cmd_core_source_candidate_rebase,
+        core_source_candidate_prepare=pipeline.cmd_core_source_candidate_prepare,
+        core_track_inventory=pipeline.cmd_core_track_inventory,
+        core_track_promote=pipeline.cmd_core_track_promote,
+        core_track_set_test=pipeline.cmd_core_track_set_test,
         audit_workflows=pipeline.cmd_audit,
         import_golden=pipeline.cmd_import_golden,
         validate_golden=pipeline.cmd_validate_golden,
@@ -141,6 +278,9 @@ def parser_handlers() -> ParserHandlers:
         build_core=pipeline.cmd_build_core,
         e2e=pipeline.cmd_e2e,
         promote=pipeline.cmd_promote,
+        promote_host_reproduction=pipeline.cmd_promote_host_reproduction,
+        promote_source_candidate=pipeline.cmd_promote_source_candidate,
+        promote_tuned_variant=pipeline.cmd_promote_tuned_variant,
         derive_core_id=pipeline.cmd_derive_core_id,
         compose_core_golden=pipeline.cmd_compose_core_golden,
         compose_pin_set=pipeline.cmd_compose_pin_set,
@@ -149,6 +289,8 @@ def parser_handlers() -> ParserHandlers:
         validate_release=pipeline.cmd_validate_release,
         update_channel=pipeline.cmd_update_channel,
         validate_channel=pipeline.cmd_validate_channel,
+        prepare_release_source_graph=pipeline.cmd_prepare_release_source_graph,
+        convert_release_overlay=pipeline.cmd_convert_release_overlay,
         plan_release=pipeline.cmd_plan_release,
         release_matrix=pipeline.cmd_release_matrix,
         record_release_result=pipeline.cmd_record_release_result,
@@ -281,6 +423,15 @@ class PipelineCliParserTests(unittest.TestCase):
         commands = subcommand_parsers(self.extracted)
         expected_handlers = {
             "catalog-check": pipeline.cmd_catalog_check,
+            "core-source-candidate-rebase": (
+                pipeline.cmd_core_source_candidate_rebase
+            ),
+            "core-source-candidate-prepare": (
+                pipeline.cmd_core_source_candidate_prepare
+            ),
+            "core-track-inventory": pipeline.cmd_core_track_inventory,
+            "core-track-promote": pipeline.cmd_core_track_promote,
+            "core-track-set-test": pipeline.cmd_core_track_set_test,
             "audit-workflows": pipeline.cmd_audit,
             "import-golden": pipeline.cmd_import_golden,
             "validate-golden": pipeline.cmd_validate_golden,
@@ -288,6 +439,11 @@ class PipelineCliParserTests(unittest.TestCase):
             "build-core": pipeline.cmd_build_core,
             "e2e": pipeline.cmd_e2e,
             "promote": pipeline.cmd_promote,
+            "promote-host-reproduction": (
+                pipeline.cmd_promote_host_reproduction
+            ),
+            "promote-source-candidate": pipeline.cmd_promote_source_candidate,
+            "promote-tuned-variant": pipeline.cmd_promote_tuned_variant,
             "derive-core-id": pipeline.cmd_derive_core_id,
             "compose-core-golden": pipeline.cmd_compose_core_golden,
             "compose-pin-set": pipeline.cmd_compose_pin_set,
@@ -296,6 +452,8 @@ class PipelineCliParserTests(unittest.TestCase):
             "validate-release": pipeline.cmd_validate_release,
             "update-channel": pipeline.cmd_update_channel,
             "validate-channel": pipeline.cmd_validate_channel,
+            "prepare-release-source-graph": pipeline.cmd_prepare_release_source_graph,
+            "convert-release-overlay": pipeline.cmd_convert_release_overlay,
             "plan-release": pipeline.cmd_plan_release,
             "release-matrix": pipeline.cmd_release_matrix,
             "record-release-result": pipeline.cmd_record_release_result,
@@ -361,7 +519,7 @@ class PipelineCliParserTests(unittest.TestCase):
         self.assertEqual(1, len(plan_groups))
         self.assertTrue(plan_groups[0].required)
         self.assertEqual(
-            {"core", "scope"},
+            {"core", "scope", "group_tag"},
             {action.dest for action in plan_groups[0]._group_actions},
         )
         plan_actions = {
@@ -371,6 +529,22 @@ class PipelineCliParserTests(unittest.TestCase):
             ("canonical", "full-workflow-roster"),
             tuple(plan_actions["scope"].choices),
         )
+        inventory_actions = {
+            action.dest: action
+            for action in commands["core-track-inventory"]._actions
+        }
+        self.assertEqual(
+            CORE_TRACK_GROUP_TAG_CHOICES,
+            tuple(inventory_actions["group_tag"].choices),
+        )
+        set_test_actions = {
+            action.dest: action
+            for action in commands["core-track-set-test"]._actions
+        }
+        self.assertEqual(
+            "SHA256", set_test_actions["expected_parent_variant"].metavar
+        )
+        self.assertFalse(set_test_actions["expected_parent_variant"].required)
         seal_actions = {
             action.dest: action for action in commands["seal-release"]._actions
         }
@@ -383,6 +557,62 @@ class PipelineCliParserTests(unittest.TestCase):
     def test_every_command_parses_to_the_same_namespace_and_handler(self) -> None:
         samples = {
             "catalog-check": [],
+            "core-track-inventory": [
+                "--group-tag",
+                "main-stable:h700",
+                "--core",
+                "2048",
+                "--core",
+                "gambatte",
+            ],
+            "core-track-promote": [
+                "--track",
+                "nightly",
+                "--core",
+                "mgba",
+                "--chipset",
+                "a523",
+                "--approved-by",
+                "operator",
+                "--reason",
+                "reviewed runtime candidate",
+                "--expected-test-variant",
+                "a" * 64,
+                "--expected-current-stable",
+                "absent",
+                "--approved-at",
+                "2026-08-09T12:00:00Z",
+            ],
+            "core-track-set-test": [
+                "--track",
+                "nightly",
+                "--core",
+                "mgba",
+                "--chipset",
+                "a523",
+                "--pin-id",
+                "mgba-tuned-v1",
+                "--tuning-profile",
+                "a523-arm64-v1",
+                "--slice-time",
+                "2026-08-10T12:00:00Z",
+                "--applicable-chipset",
+                "a523",
+                "--expected-current-test",
+                "absent",
+                "--expected-current-assignment",
+                "absent",
+                "--expected-new-variant",
+                "b" * 64,
+                "--expected-parent-variant",
+                "a" * 64,
+                "--outlier-authorized-at",
+                "2026-08-10T12:00:00Z",
+                "--outlier-authorized-by",
+                "operator",
+                "--outlier-reason",
+                "reviewed source-order exception",
+            ],
             "audit-workflows": ["--output", "./audit.json"],
             "import-golden": [
                 "--core",
@@ -434,6 +664,38 @@ class PipelineCliParserTests(unittest.TestCase):
                 "./build-record.json",
                 "--e2e-record",
                 "./e2e-record.json",
+            ],
+            "promote-host-reproduction": [
+                "--core",
+                "handy",
+                "--source-golden",
+                "./golden.json",
+                "--selected-e2e",
+                "./selected/e2e-record.json",
+                "--reproduction-e2e",
+                "./reproduction/e2e-record.json",
+            ],
+            "promote-source-candidate": [
+                "--core",
+                "handy",
+                "--source-golden",
+                "./golden.json",
+                "--selected-e2e",
+                "./selected-e2e.json",
+                "--reproduction-e2e",
+                "./reproduction-e2e.json",
+            ],
+            "promote-tuned-variant": [
+                "--core",
+                "handy",
+                "--tuning-profile",
+                "a523-arm64-v1",
+                "--source-golden",
+                "./golden.json",
+                "--selected-e2e",
+                "./selected-e2e.json",
+                "--reproduction-e2e",
+                "./reproduction-e2e.json",
             ],
             "derive-core-id": [
                 "--core",
@@ -488,6 +750,22 @@ class PipelineCliParserTests(unittest.TestCase):
                 "--expect-absent",
             ],
             "validate-channel": ["--channel", "release", "--core", "handy"],
+            "prepare-release-source-graph": [
+                "--group-tag",
+                "main-stable:universal",
+            ],
+            "convert-release-overlay": [
+                "--candidate-dir",
+                "./candidate",
+                "--output-dir",
+                "./overlay",
+                "--expected-repository-head",
+                "a" * 40,
+                "--coordinator-run-id",
+                "123",
+                "--coordinator-run-attempt",
+                "2",
+            ],
             "plan-release": [
                 "--candidate-id",
                 "release-canary-v1",
@@ -651,6 +929,73 @@ class PipelineCliParserTests(unittest.TestCase):
             self.assertEqual("handy", parsed.core)
             self.assertEqual(["arm64", "armhf"], parsed.arch)
 
+    def test_core_track_inventory_requires_exact_tag_and_unique_cores(self) -> None:
+        rejected = (
+            ["core-track-inventory"],
+            [
+                "core-track-inventory",
+                "--group-tag",
+                "stable:h700",
+            ],
+            [
+                "core-track-inventory",
+                "--group-tag",
+                "main-test:universal",
+                "--core",
+                "mgba",
+                "--core",
+                "mgba",
+            ],
+        )
+        for parser in (self.reference, self.extracted):
+            for argv in rejected:
+                with self.subTest(parser=parser.prog, argv=argv), mock.patch(
+                    "sys.stderr", new=io.StringIO()
+                ), self.assertRaises(SystemExit):
+                    parser.parse_args(argv)
+
+            for group_tag in CORE_TRACK_GROUP_TAG_CHOICES:
+                with self.subTest(parser=parser.prog, group_tag=group_tag):
+                    parsed = parser.parse_args(
+                        ["core-track-inventory", "--group-tag", group_tag]
+                    )
+                    self.assertEqual(group_tag, parsed.group_tag)
+                    self.assertIsNone(parsed.core)
+                    self.assertIs(
+                        pipeline.cmd_core_track_inventory,
+                        parsed.handler,
+                    )
+
+    def test_core_track_set_test_ordering_inputs_are_parser_optional(self) -> None:
+        minimal = [
+            "core-track-set-test",
+            "--track",
+            "main",
+            "--core",
+            "mgba",
+            "--chipset",
+            "a523",
+            "--pin-id",
+            "mgba-tuned-v1",
+            "--tuning-profile",
+            "a523-arm64-v1",
+            "--slice-time",
+            "2026-08-10T12:00:00Z",
+            "--expected-current-test",
+            "absent",
+            "--expected-current-assignment",
+            "absent",
+            "--expected-new-variant",
+            "b" * 64,
+        ]
+        for parser in (self.reference, self.extracted):
+            with self.subTest(parser=parser.prog):
+                parsed = parser.parse_args(minimal)
+                self.assertIsNone(parsed.expected_parent_variant)
+                self.assertIsNone(parsed.outlier_authorized_at)
+                self.assertIsNone(parsed.outlier_authorized_by)
+                self.assertIsNone(parsed.outlier_reason)
+
     def test_release_plan_requires_one_selector_and_unique_explicit_cores(self) -> None:
         rejected = (
             [
@@ -813,6 +1158,7 @@ class PipelineCliParserTests(unittest.TestCase):
                 "catalog": Path("catalog.json"),
                 "runner_profile": "github-actions-sim",
                 "core": "handy",
+                "group_tag": None,
                 "arch": None,
                 "run_id": "actions-sim-handy-single",
                 "output_root": Path("runs"),
@@ -871,6 +1217,15 @@ class PipelineCliParserTests(unittest.TestCase):
         with self.assertRaisesRegex(TypeError, "handler must be callable"):
             ParserHandlers(
                 catalog_check=None,  # type: ignore[arg-type]
+                core_source_candidate_rebase=(
+                    pipeline.cmd_core_source_candidate_rebase
+                ),
+                core_source_candidate_prepare=(
+                    pipeline.cmd_core_source_candidate_prepare
+                ),
+                core_track_inventory=pipeline.cmd_core_track_inventory,
+                core_track_promote=pipeline.cmd_core_track_promote,
+                core_track_set_test=pipeline.cmd_core_track_set_test,
                 audit_workflows=pipeline.cmd_audit,
                 import_golden=pipeline.cmd_import_golden,
                 validate_golden=pipeline.cmd_validate_golden,
@@ -878,6 +1233,11 @@ class PipelineCliParserTests(unittest.TestCase):
                 build_core=pipeline.cmd_build_core,
                 e2e=pipeline.cmd_e2e,
                 promote=pipeline.cmd_promote,
+                promote_host_reproduction=(
+                    pipeline.cmd_promote_host_reproduction
+                ),
+                promote_source_candidate=pipeline.cmd_promote_source_candidate,
+                promote_tuned_variant=pipeline.cmd_promote_tuned_variant,
                 derive_core_id=pipeline.cmd_derive_core_id,
                 compose_core_golden=pipeline.cmd_compose_core_golden,
                 compose_pin_set=pipeline.cmd_compose_pin_set,
@@ -886,6 +1246,8 @@ class PipelineCliParserTests(unittest.TestCase):
                 validate_release=pipeline.cmd_validate_release,
                 update_channel=pipeline.cmd_update_channel,
                 validate_channel=pipeline.cmd_validate_channel,
+                prepare_release_source_graph=pipeline.cmd_prepare_release_source_graph,
+                convert_release_overlay=pipeline.cmd_convert_release_overlay,
                 plan_release=pipeline.cmd_plan_release,
                 release_matrix=pipeline.cmd_release_matrix,
                 record_release_result=pipeline.cmd_record_release_result,

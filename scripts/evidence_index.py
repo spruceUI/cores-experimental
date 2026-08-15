@@ -31,19 +31,29 @@ ROOT = Path(__file__).resolve().parents[1]
 INDEX_DIR = ROOT / "pins" / "evidence"
 
 
-def _sha256_file(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+def _snapshot_bytes(path: Path) -> tuple[bytes, str]:
+    raw = path.read_bytes()
+    return raw, hashlib.sha256(raw).hexdigest()
+
+
+def _snapshot_json(path: Path) -> tuple[dict[str, Any], str]:
+    raw, digest = _snapshot_bytes(path)
+    value = json.loads(raw.decode("utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError(f"expected a JSON object: {path}")
+    return value, digest
 
 
 def _load(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
+    value, _file_sha256 = _snapshot_json(path)
+    return value
 
 
 def compose(core: str) -> dict[str, Any]:
     compatibility_path = ROOT / "manifests" / "compatibility" / f"{core}.json"
-    compatibility = _load(compatibility_path)
+    compatibility, compatibility_file_sha256 = _snapshot_json(compatibility_path)
     pin_path = ROOT / compatibility["golden_source"]
-    pin = _load(pin_path)
+    pin, _pin_file_sha256 = _snapshot_json(pin_path)
     semantic_id = pin["pin_id"]
 
     selection = pin["cores"][core]["selection"]
@@ -51,36 +61,39 @@ def compose(core: str) -> dict[str, Any]:
     reproduction_run = Path(compatibility["reproduction_run"]).parts[-2]
 
     runs: dict[str, Any] = {}
+    run_documents: dict[str, dict[str, Any]] = {}
+    selected_records: dict[str, dict[str, Any]] = {}
     for role, run_id in (("selected", selected_run), ("reproduction", reproduction_run)):
         e2e_path = ROOT / ".local-e2e" / "runs" / run_id / "e2e-record.json"
-        e2e = _load(e2e_path)
+        e2e, e2e_file_sha256 = _snapshot_json(e2e_path)
+        run_documents[role] = e2e
         builds = {}
         for build in e2e["builds"]:
             record_path = ROOT / build["record"]
-            record = _load(record_path)
+            record, record_file_sha256 = _snapshot_json(record_path)
             log_path = record_path.parent / record["build"]["log"]
+            log_bytes, log_file_sha256 = _snapshot_bytes(log_path)
+            if role == "selected":
+                selected_records[build["architecture"]] = record
             builds[build["architecture"]] = {
-                "record_sha256": _sha256_file(record_path),
-                "log_sha256": _sha256_file(log_path),
-                "log_size": log_path.stat().st_size,
+                "record_sha256": record_file_sha256,
+                "log_sha256": log_file_sha256,
+                "log_size": len(log_bytes),
                 "repository_head": record["recipe"]["repository_head"],
                 "repository_dirty": record["recipe"]["repository_dirty"],
             }
         runs[role] = {
             "run_id": run_id,
-            "e2e_file_sha256": _sha256_file(e2e_path),
+            "e2e_file_sha256": e2e_file_sha256,
             "e2e_content_sha256": e2e["content_sha256"],
             "builds": builds,
         }
 
     targets: dict[str, Any] = {}
-    selected_e2e = _load(
-        ROOT / ".local-e2e" / "runs" / selected_run / "e2e-record.json"
-    )
+    selected_e2e = run_documents["selected"]
     for build in selected_e2e["builds"]:
         architecture = build["architecture"]
-        record_path = ROOT / build["record"]
-        record = _load(record_path)
+        record = selected_records[architecture]
         toolchain = record["toolchain"]
         archive = toolchain["archive_provenance"]["archive"]
         targets[architecture] = {
@@ -106,7 +119,7 @@ def compose(core: str) -> dict[str, Any]:
             "size": package.get("size"),
         },
         "compatibility": {
-            "file_sha256": _sha256_file(compatibility_path),
+            "file_sha256": compatibility_file_sha256,
             "content_sha256": compatibility["content_sha256"],
         },
         "runs": runs,

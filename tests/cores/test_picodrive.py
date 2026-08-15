@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 
 from .support import ROOT, file_sha256, load_document
 

@@ -9,7 +9,7 @@ import shlex
 import unittest
 from unittest import mock
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from core_pipeline_lib.contracts import mednafen_lynx, mixed_language
 from core_pipeline_lib.contracts.command_line import ordered_command_argv_sha256
 from core_pipeline_lib.contracts.compiler import (

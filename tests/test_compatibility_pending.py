@@ -10,7 +10,7 @@ from types import SimpleNamespace
 import unittest
 from unittest import mock
 
-from scripts import core_pipeline as pipeline
+from .cores.support import pipeline
 from core_pipeline_lib.errors import PipelineError
 from core_pipeline_lib.records import compatibility_pending as pending
 

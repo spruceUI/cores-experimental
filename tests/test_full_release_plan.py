@@ -40,7 +40,7 @@ class FullReleasePlanTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual([row["core_id"] for row in first["cores"]], ["alpha", "beta"])
         self.assertEqual(first["content_sha256"], release_plan_content_sha256(first))
-        self.assertEqual(first["schema_version"], 2)
+        self.assertEqual(first["schema_version"], 3)
         self.assertTrue(first["local_only"])
         self.assertEqual(first["publication"], "disabled")
 

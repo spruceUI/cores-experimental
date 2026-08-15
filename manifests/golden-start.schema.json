@@ -610,6 +610,11 @@
         "build": {"$ref": "#/$defs/buildContract"},
         "artifact": {"$ref": "#/$defs/validatedFile"},
         "metadata": {"$ref": "#/$defs/validatedFile"},
+        "tuning_candidate": {"$ref": "#/$defs/tuningCandidate"},
+        "reproduction": {"$ref": "#/$defs/tunedReproduction"},
+        "source_candidate": {"$ref": "#/$defs/sourceCandidate"},
+        "output_reproduction": {"$ref": "#/$defs/outputReproduction"},
+        "host_reproduction": {"$ref": "#/$defs/hostReproduction"},
         "e2e": {
           "type": "object",
           "required": [
@@ -654,6 +659,19 @@
           "additionalProperties": false
         }
       },
+      "dependentRequired": {
+        "tuning_candidate": ["reproduction"],
+        "reproduction": ["tuning_candidate"],
+        "source_candidate": ["output_reproduction"],
+        "output_reproduction": ["source_candidate"]
+      },
+      "allOf": [
+        {
+          "not": {
+            "required": ["tuning_candidate", "source_candidate"]
+          }
+        }
+      ],
       "dependentSchemas": {
         "build": {
           "if": {
@@ -3397,6 +3415,295 @@
         },
         "preimage_sha256": {"$ref": "#/$defs/sha256"},
         "postimage_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "tuningCandidate": {
+      "type": "object",
+      "required": ["schema_version", "validation_scope", "registry", "profile"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "validation_scope": {"const": "registry-owned-one-abi-tuning-v1"},
+        "registry": {
+          "type": "object",
+          "required": ["path", "file_sha256", "content_sha256"],
+          "properties": {
+            "path": {"const": "manifests/chipset-tunings.json"},
+            "file_sha256": {"$ref": "#/$defs/sha256"},
+            "content_sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false
+        },
+        "profile": {
+          "type": "object",
+          "required": [
+            "profile_id", "chipset", "architecture", "properties",
+            "compiler_argument_mapping_version", "compiler_arguments",
+            "content_sha256"
+          ],
+          "properties": {
+            "profile_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*-v[0-9]+$"},
+            "chipset": {"enum": ["a133p", "a33", "a523", "h700", "rk3326", "rk3566", "ssd202d"]},
+            "architecture": {"enum": ["arm64", "armhf"]},
+            "properties": {"type": "object"},
+            "compiler_argument_mapping_version": {"const": "gcc-machine-flags-v1"},
+            "compiler_arguments": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"type": "string", "pattern": "^-m(cpu|tune|fpu|float-abi)=[A-Za-z0-9._+-]+$"}
+            },
+            "content_sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "tunedReproduction": {
+      "type": "object",
+      "required": ["schema_version", "validation_scope", "selected", "reproduction", "equivalent_outputs"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "validation_scope": {"const": "dual-independent-e2e-byte-equivalence-v1"},
+        "selected": {"$ref": "#/$defs/tunedReproductionSide"},
+        "reproduction": {"$ref": "#/$defs/tunedReproductionSide"},
+        "equivalent_outputs": {"$ref": "#/$defs/tunedEquivalentOutputs"}
+      },
+      "additionalProperties": false
+    },
+    "tunedReproductionSide": {
+      "type": "object",
+      "required": ["run_id", "content_sha256", "e2e_record", "build_record", "build_log", "recipe_snapshot"],
+      "properties": {
+        "run_id": {"type": "string", "minLength": 1},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "e2e_record": {"$ref": "#/$defs/storedFile"},
+        "build_record": {"$ref": "#/$defs/storedFile"},
+        "build_log": {"$ref": "#/$defs/storedFile"},
+        "recipe_snapshot": {"$ref": "#/$defs/storedFile"}
+      },
+      "additionalProperties": false
+    },
+    "tunedEquivalentOutputs": {
+      "type": "object",
+      "required": ["artifact", "metadata", "package"],
+      "properties": {
+        "artifact": {"$ref": "#/$defs/hashAndSize"},
+        "metadata": {"$ref": "#/$defs/hashAndSize"},
+        "package": {
+          "type": "object",
+          "required": ["name", "sha256", "size"],
+          "properties": {
+            "name": {"type": "string", "pattern": "^[a-z0-9_]+_libretro\\.zip$"},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "size": {"type": "integer", "minimum": 1}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "sourceCandidate": {
+      "type": "object",
+      "required": [
+        "schema_version", "validation_scope", "local_only", "publication",
+        "core_id", "generator", "snapshot", "base_catalog", "mirror",
+        "selection", "execution", "candidate_id"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "validation_scope": {"const": "immutable-edge-source-candidate-catalog-v1"},
+        "local_only": {"const": true},
+        "publication": {"const": "disabled"},
+        "core_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+        "generator": {
+          "type": "object",
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": {"const": "scripts/core_pipeline_lib/source_candidate.py"},
+            "sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false
+        },
+        "snapshot": {
+          "type": "object",
+          "required": [
+            "path", "file_sha256", "content_sha256", "snapshot_id",
+            "captured_at", "catalog"
+          ],
+          "properties": {
+            "path": {"type": "string", "pattern": "^\\.local-e2e/source-probes/"},
+            "file_sha256": {"$ref": "#/$defs/sha256"},
+            "content_sha256": {"$ref": "#/$defs/sha256"},
+            "snapshot_id": {"type": "string", "minLength": 1},
+            "captured_at": {"type": "string", "format": "date-time"},
+            "catalog": {
+              "type": "object",
+              "required": ["path", "file_sha256"],
+              "properties": {
+                "path": {"const": "manifests/core-builds.json"},
+                "file_sha256": {"$ref": "#/$defs/sha256"}
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "base_catalog": {
+          "type": "object",
+          "required": ["path", "file_sha256", "core_spec_sha256"],
+          "properties": {
+            "path": {"const": "manifests/core-builds.json"},
+            "file_sha256": {"$ref": "#/$defs/sha256"},
+            "core_spec_sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false
+        },
+        "mirror": {
+          "type": "object",
+          "required": ["path", "origin_url", "frozen_local_ref"],
+          "properties": {
+            "path": {"type": "string", "pattern": "^\\.local-e2e/source-repositories/"},
+            "origin_url": {"type": "string", "minLength": 1},
+            "frozen_local_ref": {"type": "string", "pattern": "^refs/spruce-edge-refs/[0-9a-f]{64}$"}
+          },
+          "additionalProperties": false
+        },
+        "selection": {
+          "type": "object",
+          "required": [
+            "url", "requested_ref", "commit", "tree", "commit_epoch",
+            "top_level_gitlinks"
+          ],
+          "properties": {
+            "url": {"type": "string", "minLength": 1},
+            "requested_ref": {"type": "string", "pattern": "^refs/heads/"},
+            "commit": {"$ref": "#/$defs/sha1"},
+            "tree": {"$ref": "#/$defs/sha1"},
+            "commit_epoch": {"type": "integer", "minimum": 1},
+            "top_level_gitlinks": {"type": "array"}
+          }
+        },
+        "execution": {
+          "type": "object",
+          "required": ["core_spec_sha256", "source_date_epoch_derivation"],
+          "properties": {
+            "core_spec_sha256": {"$ref": "#/$defs/sha256"},
+            "source_date_epoch_derivation": {"enum": ["absent", "candidate-commit-epoch"]}
+          },
+          "additionalProperties": false
+        },
+        "catalog_rebase": {
+          "type": "object",
+          "required": ["path", "file_sha256", "content_sha256"],
+          "properties": {
+            "path": {"type": "string", "pattern": "^\\.local-e2e/source-probes/catalog-rebases/"},
+            "file_sha256": {"$ref": "#/$defs/sha256"},
+            "content_sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false
+        },
+        "candidate_id": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "outputReproduction": {
+      "type": "object",
+      "required": ["schema_version", "validation_scope", "selected", "reproduction", "equivalent_outputs"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "validation_scope": {"const": "dual-independent-untuned-e2e-byte-equivalence-v1"},
+        "selected": {"$ref": "#/$defs/outputReproductionSide"},
+        "reproduction": {"$ref": "#/$defs/outputReproductionSide"},
+        "equivalent_outputs": {"$ref": "#/$defs/outputEquivalentOutputs"}
+      },
+      "additionalProperties": false
+    },
+    "hostReproduction": {
+      "type": "object",
+      "required": [
+        "schema_version", "validation_scope", "selected", "reproduction",
+        "equivalent_builds", "equivalent_outputs", "content_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "validation_scope": {"const": "dual-hardened-host-e2e-equivalence-v1"},
+        "selected": {"$ref": "#/$defs/hostReproductionSide"},
+        "reproduction": {"$ref": "#/$defs/hostReproductionSide"},
+        "equivalent_builds": {
+          "type": "object",
+          "minProperties": 1,
+          "properties": {
+            "arm64": {"$ref": "#/$defs/sha256"},
+            "armhf": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false
+        },
+        "equivalent_outputs": {"$ref": "#/$defs/outputEquivalentOutputs"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "hostReproductionSide": {
+      "type": "object",
+      "required": ["run_id", "content_sha256", "e2e_record"],
+      "properties": {
+        "run_id": {"type": "string", "minLength": 1},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "e2e_record": {"$ref": "#/$defs/storedFile"}
+      },
+      "additionalProperties": false
+    },
+    "outputReproductionSide": {
+      "type": "object",
+      "required": [
+        "run_id", "content_sha256", "e2e_record", "build_records",
+        "build_logs", "recipe_snapshots"
+      ],
+      "properties": {
+        "run_id": {"type": "string", "minLength": 1},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "e2e_record": {"$ref": "#/$defs/storedFile"},
+        "build_records": {"$ref": "#/$defs/targetEvidenceFiles"},
+        "build_logs": {"$ref": "#/$defs/targetEvidenceFiles"},
+        "recipe_snapshots": {"$ref": "#/$defs/targetEvidenceFiles"}
+      },
+      "additionalProperties": false
+    },
+    "outputEquivalentOutputs": {
+      "type": "object",
+      "required": ["artifacts", "metadata", "package"],
+      "properties": {
+        "artifacts": {
+          "type": "object",
+          "minProperties": 1,
+          "properties": {
+            "arm64": {"$ref": "#/$defs/hashAndSize"},
+            "armhf": {"$ref": "#/$defs/hashAndSize"}
+          },
+          "additionalProperties": false
+        },
+        "metadata": {"$ref": "#/$defs/hashAndSize"},
+        "package": {
+          "type": "object",
+          "required": ["name", "sha256", "size"],
+          "properties": {
+            "name": {"type": "string", "pattern": "^[a-z0-9_]+_libretro\\.zip$"},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "size": {"type": "integer", "minimum": 1}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "hashAndSize": {
+      "type": "object",
+      "required": ["sha256", "size"],
+      "properties": {
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "size": {"type": "integer", "minimum": 1}
       },
       "additionalProperties": false
     },

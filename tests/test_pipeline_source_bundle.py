@@ -2,22 +2,16 @@
 
 from __future__ import annotations
 
-import importlib.util
 import json
 from pathlib import Path
-import sys
 import tempfile
 import unittest
 from unittest import mock
 
+from .core_contract_helpers import pipeline
+import core_pipeline_lib.source_bundle as source_bundle
 
 ROOT = Path(__file__).resolve().parents[1]
-MODULE_PATH = ROOT / "scripts" / "core_pipeline.py"
-SPEC = importlib.util.spec_from_file_location("core_pipeline_source_bundle", MODULE_PATH)
-assert SPEC and SPEC.loader
-pipeline = importlib.util.module_from_spec(SPEC)
-SPEC.loader.exec_module(pipeline)
-source_bundle = sys.modules[pipeline.pipeline_source_bundle.__module__]
 
 
 class PipelineSourceBundleTests(unittest.TestCase):

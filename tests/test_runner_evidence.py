@@ -2,20 +2,15 @@
 
 from __future__ import annotations
 
-import importlib.util
 import json
 from pathlib import Path
 import unittest
 
 from scripts.core_pipeline_lib.runtime import runner_evidence_is_well_formed
+from .core_contract_helpers import pipeline
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MODULE_PATH = ROOT / "scripts" / "core_pipeline.py"
-SPEC = importlib.util.spec_from_file_location("core_pipeline_runner_evidence", MODULE_PATH)
-assert SPEC and SPEC.loader
-pipeline = importlib.util.module_from_spec(SPEC)
-SPEC.loader.exec_module(pipeline)
 
 
 class RunnerEvidenceTests(unittest.TestCase):
@@ -89,6 +84,30 @@ class RunnerEvidenceTests(unittest.TestCase):
         changed["runner"]["mode"] = "native"
         self.assertNotEqual(digest, pipeline.e2e_content_sha256(changed))
         self.assertFalse(runner_evidence_is_well_formed(changed["runner"]))
+
+    def test_historical_legacy_runner_does_not_depend_on_original_run_records(self) -> None:
+        evidence = {
+            "schema_version": 2,
+            "runner": {
+                "profile": "local",
+                "mode": "native",
+                "backend": "local-docker",
+                "local_only": True,
+                "publication": "disabled",
+            },
+            "builds": [
+                {
+                    "record": ".local-e2e/runs/historical-missing/arm64/build-record.json",
+                    "record_sha256": "a" * 64,
+                }
+            ],
+        }
+        self.assertIsNone(
+            pipeline.validate_bound_host_telemetry(
+                evidence,
+                ROOT / ".local-e2e" / "store" / "e2e" / "historical.json",
+            )
+        )
 
 
 if __name__ == "__main__":

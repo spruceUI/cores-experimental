@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/core-track-source-snapshot.schema.json",
+  "title": "Immutable source registry for one core-track stable approval",
+  "type": "object",
+  "required": ["$schema", "schema_version", "source_registry"],
+  "properties": {
+    "$schema": {
+      "const": "../../manifests/core-track-source-snapshot.schema.json"
+    },
+    "schema_version": {"const": 1},
+    "source_registry": {"$ref": "./core-tracks.schema.json"}
+  },
+  "additionalProperties": false
+}

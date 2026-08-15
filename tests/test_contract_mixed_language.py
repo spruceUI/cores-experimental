@@ -4,9 +4,9 @@ from dataclasses import replace
 import shlex
 import unittest
 
-from scripts import core_pipeline as pipeline  # Inserts scripts/ on sys.path.
-from core_pipeline_lib.contracts import mixed_language
-from core_pipeline_lib.contracts.command_line import (
+from scripts.core_pipeline_lib.errors import PipelineError
+from scripts.core_pipeline_lib.contracts import mixed_language
+from scripts.core_pipeline_lib.contracts.command_line import (
     ordered_command_argv_sha256,
 )
 
@@ -92,6 +92,13 @@ class MixedLanguageContractHelperTests(unittest.TestCase):
                     )
                 )
             },
+            expected_raw_compile_invocation_sha256={
+                "arm64": (
+                    mixed_language.mixed_language_raw_compile_invocation_sha256(
+                        tuple(shlex.split(line)) for line in compile_lines
+                    )
+                )
+            },
             expected_link_object_sha256=link_sha256,
             expected_raw_link_object_sha256=raw_link_sha256,
         )
@@ -121,6 +128,74 @@ class MixedLanguageContractHelperTests(unittest.TestCase):
                         changed, *arguments
                     )
                 )
+
+    def test_optional_raw_compile_hash_is_exact_and_order_independent(
+        self,
+    ) -> None:
+        contract, log = self._contract_and_log()
+        self.assertEqual(
+            {
+                "arm64": (
+                    "3104548ca934f10ef950ad48575f3f256"
+                    "00230b4f1a45fb544719e14dd636f9c"
+                )
+            },
+            contract.expected_raw_compile_invocation_sha256,
+        )
+        arguments = (
+            contract.core_id,
+            "arm64",
+            contract.source_commit,
+            contract.source_tree,
+            contract,
+        )
+
+        compile_reordered = log.splitlines()
+        compile_reordered[:2] = reversed(compile_reordered[:2])
+        self.assertTrue(
+            mixed_language.mixed_language_log_proves_contract(
+                "\n".join(compile_reordered) + "\n", *arguments
+            )
+        )
+
+        split_output = log.replace("-oc/unit.o", "-o c/unit.o", 1)
+        self.assertFalse(
+            mixed_language.mixed_language_log_proves_contract(
+                split_output, *arguments
+            )
+        )
+        legacy_contract = replace(
+            contract,
+            expected_raw_compile_invocation_sha256=None,
+        )
+        self.assertTrue(
+            mixed_language.mixed_language_log_proves_contract(
+                split_output,
+                legacy_contract.core_id,
+                "arm64",
+                legacy_contract.source_commit,
+                legacy_contract.source_tree,
+                legacy_contract,
+            )
+        )
+        missing_arch_contract = replace(
+            contract,
+            expected_raw_compile_invocation_sha256={
+                "armhf": contract.expected_raw_compile_invocation_sha256[
+                    "arm64"
+                ]
+            },
+        )
+        self.assertFalse(
+            mixed_language.mixed_language_log_proves_contract(
+                log,
+                missing_arch_contract.core_id,
+                "arm64",
+                missing_arch_contract.source_commit,
+                missing_arch_contract.source_tree,
+                missing_arch_contract,
+            )
+        )
 
     def test_optional_ordered_link_hash_rejects_object_reordering(self) -> None:
         contract, log = self._contract_and_log()
@@ -197,7 +272,7 @@ class MixedLanguageContractHelperTests(unittest.TestCase):
                 contract,
             )
         )
-        with self.assertRaises(pipeline.PipelineError):
+        with self.assertRaises(PipelineError):
             mixed_language.mixed_language_log_proves_contract(
                 log,
                 contract.core_id,

@@ -3,7 +3,6 @@ from __future__ import annotations
 from pathlib import Path
 import unittest
 
-from scripts import core_pipeline as pipeline
 from scripts.core_pipeline_lib.contracts import bluemsx
 from scripts.core_pipeline_lib.contracts import fmsx
 from scripts.core_pipeline_lib.contracts import freeintv
@@ -27,6 +26,7 @@ from scripts.core_pipeline_lib.contracts import uzem
 from scripts.core_pipeline_lib.contracts import vemulator
 from scripts.core_pipeline_lib.contracts import vice_x64
 from scripts.core_pipeline_lib.contracts import vice_xvic
+from tests.core_contract_helpers import pipeline
 
 
 ROOT = Path(__file__).resolve().parents[1]

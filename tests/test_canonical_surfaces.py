@@ -12,7 +12,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts import core_pipeline as pipeline
+from .cores.support import pipeline
 from scripts import profile_registry as registry
 from scripts.core_pipeline_lib.records import compatibility_pending as pending
 from scripts.core_pipeline_lib.errors import PipelineError
@@ -41,11 +41,35 @@ class CanonicalSurfaceTests(unittest.TestCase):
         self.assertEqual(set(catalog["cores"]), set(canonical))
 
         expected = {f"{sid}.json" for sid in canonical.values()}
-        for directory in ("pins/core-sets",):
-            stray = {
-                path.name for path in (ROOT / directory).glob("*.json")
-            } - expected
-            self.assertEqual(set(), stray, f"superseded files in {directory}")
+        self.assertEqual(len(canonical), len(expected))
+        pin_paths = {
+            path.name: path
+            for path in (ROOT / "pins/core-sets").glob("*.json")
+        }
+        self.assertLessEqual(expected, set(pin_paths))
+
+        # Immutable historical and proof-bearing pins may coexist with the
+        # one pin selected by canonical compatibility.  They remain admitted
+        # only when the full frozen-recipe/store/source validator proves their
+        # bytes and they retain the exact parentless one-core semantic identity.
+        for pin_name in sorted(set(pin_paths) - expected):
+            path = pin_paths[pin_name]
+            with self.subTest(extra_pin=pin_name):
+                document = json.loads(path.read_text(encoding="utf-8"))
+                core_id, semantic_id = pipeline.require_individual_pin_identity(
+                    document,
+                    pin_path=path,
+                )
+                self.assertIn(core_id, catalog["cores"])
+                self.assertEqual(f"{semantic_id}.json", pin_name)
+                report = pipeline._validate_historical_pin_set_document(
+                    document,
+                    verify_store=True,
+                    verify_sources=True,
+                    document_path=path,
+                )
+                self.assertEqual("valid", report.get("status"), report)
+                self.assertEqual([], report.get("errors"), report)
 
     def test_duplicate_canonical_compatibility_is_rejected(self) -> None:
         source = ROOT / "manifests/compatibility/vecx.json"

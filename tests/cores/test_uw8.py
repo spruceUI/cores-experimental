@@ -5,7 +5,7 @@ from __future__ import annotations
 import dataclasses
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .support import pipeline
 from core_pipeline_lib.contracts import uw8
 from core_pipeline_lib.contracts.c_only import c_only_log_proves_contract
 

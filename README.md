@@ -16,6 +16,65 @@ migration status, golden tiers, build and validation walkthroughs, the
 toolchain archive lock, release paths); the other documents in
 [docs/](docs/) are focused runbooks.
 
+Ordered `main`, `nightly`, and `edge` policies, track-local stable
+promotion, typed chipset tuning, and the zero-tuning `universal` fallback are
+documented in [docs/core-track-groups.md](docs/core-track-groups.md). `main`
+is the manually selected Spruce stable/Main version level, `nightly` is the
+manually selected Spruce Development version level, and `edge` is an exact
+upstream branch tip captured and reviewed at admission. Their exact source
+commits and trees remain pinned and normally satisfy
+`main <= nightly <= edge` by Git ancestry or equality when each direct child
+TEST assignment is created. Nightly and Edge record a content-addressed copy of
+the parent TEST identity reviewed by that assignment. Later parent movement
+does not rewrite or invalidate the child; even a direct child equal to its
+parent is an intentional temporal freeze. The immutable Spruce branch artifact
+bases are comparison evidence only, and the Spruce v4.3.0 roster is retained
+only as historical logical-name correlation; neither is selection authority or
+build provenance.
+
+The composable chipset table, all 98 established core recipe parameters, and a
+strictly separated set of untested optimization experiments are documented in
+[docs/chipset-core-build-parameters.md](docs/chipset-core-build-parameters.md).
+The manifest and pipeline validators remain authoritative.
+
+Every effective universal state is build-pinned XOR deferred. The initial v3
+registry deliberately defers all 98 cores until a reproducible build pin
+satisfies the ordered track policy. An exact recorded outlier authorization is
+the only exception to repository/ancestry ordering; it never permits the same
+commit to be paired with a different tree. Deferred groups remain visible in
+read-only inventories but stop `build-core`, `e2e`, and release planning before
+a run directory, plan, or matrix is created. It is local-only and
+publication-disabled; an inventory alone is not a device compatibility or
+release claim.
+
+Once admitted, a group tag is a pinned-output reproduction gate with an exact
+selected URL/ref/commit/tree/submodule identity, exact artifact/metadata
+hashes, and registry-owned tuning. Track revisions may differ from the catalog
+default when they use the same repository and remain compatible with the
+current normalized build/output contract. The full-release path additionally
+requires every selected row to retain a complete, hash-pinned package;
+projected chipset packages fail during planning.
+
+Legacy golden, pin, and release promotion still rejects grouped records.
+A separate two-E2E candidate gate can create a new immutable one-ABI tuned pin
+when both independently validated logs produce exact artifact, metadata, and
+package bytes; log transcripts themselves may differ. Track TEST admission
+atomically CASes the direct cell and new variant; a child assignment also CASes
+and captures its current effective parent. The same admission command accepts
+an existing untuned `universal-v1` pin only with explicit real-chipset
+applicability and complete ABI coverage; neither form changes stable approval.
+
+Host-side tests have one canonical dependency lock at
+`requirements-test.txt`; install it before running the suite so Draft 2020-12
+inventory schema validation is a required gate:
+
+```bash
+python3 -m pip install --requirement requirements-test.txt
+```
+
+`Dockerfile.tests` provides the same version-locked validator in an isolated
+test-only image. It does not alter or derive any core compiler image.
+
 ## Supported devices
 
 | Arch | Devices |
@@ -140,4 +199,3 @@ Evidence-backed per-device eligibility for every canonical core:
 
 </details>
 <!-- device-matrix:end -->
-

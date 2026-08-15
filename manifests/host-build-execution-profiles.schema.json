@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spruceui.local/schemas/host-build-execution-profiles.schema.json",
+  "title": "Cores-spruce local host build execution profiles",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schema_file_sha256",
+    "schema_version",
+    "registry_id",
+    "local_only",
+    "publication",
+    "selector_profiles",
+    "resource_classes",
+    "profiles",
+    "content_sha256"
+  ],
+  "properties": {
+    "$schema": {"const": "host-build-execution-profiles.schema.json"},
+    "schema_file_sha256": {"$ref": "#/$defs/sha256"},
+    "schema_version": {"const": 1},
+    "registry_id": {"const": "host-build-execution-profiles-v1"},
+    "local_only": {"const": true},
+    "publication": {"const": "disabled"},
+    "selector_profiles": {
+      "type": "object",
+      "required": ["local", "github-actions-sim"],
+      "properties": {
+        "local": {"const": "local-host-8c-4g-v1"},
+        "github-actions-sim": {"const": "github-actions-sim-host-8c-4g-v1"}
+      },
+      "additionalProperties": false
+    },
+    "resource_classes": {
+      "type": "object",
+      "required": ["host-8c-4g-noswap-v1"],
+      "properties": {
+        "host-8c-4g-noswap-v1": {"$ref": "#/$defs/resourceClass"}
+      },
+      "additionalProperties": false
+    },
+    "profiles": {
+      "type": "object",
+      "required": [
+        "local-host-8c-4g-v1",
+        "github-actions-sim-host-8c-4g-v1"
+      ],
+      "properties": {
+        "local-host-8c-4g-v1": {"$ref": "#/$defs/localProfile"},
+        "github-actions-sim-host-8c-4g-v1": {"$ref": "#/$defs/simulatedProfile"}
+      },
+      "additionalProperties": false
+    },
+    "content_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "cache": {
+      "type": "object",
+      "required": [
+        "classification",
+        "scope",
+        "identity",
+        "container_filesystem",
+        "source",
+        "compiler",
+        "image_layers",
+        "host_page_cache"
+      ],
+      "properties": {
+        "classification": {"const": "cold"},
+        "scope": {"const": "pipeline-source-build-and-compiler-state"},
+        "identity": {"const": "fresh-container-network-clone-no-restored-compiler-cache-v1"},
+        "container_filesystem": {"const": "fresh"},
+        "source": {"const": "fresh-network-clone"},
+        "compiler": {"const": "disabled"},
+        "image_layers": {"const": "preloaded-content-addressed-image"},
+        "host_page_cache": {"const": "uncontrolled"}
+      },
+      "additionalProperties": false
+    },
+    "resourceClass": {
+      "type": "object",
+      "required": [
+        "jobs",
+        "cpu_quota",
+        "memory_bytes",
+        "memory_swap_bytes",
+        "pids_limit",
+        "matrix_parallelism",
+        "pair_execution",
+        "telemetry_contract",
+        "admissible_build_drivers",
+        "cache",
+        "content_sha256"
+      ],
+      "properties": {
+        "jobs": {"const": 8},
+        "cpu_quota": {"const": 8},
+        "memory_bytes": {"const": 4294967296},
+        "memory_swap_bytes": {"const": 4294967296},
+        "pids_limit": {"const": 1024},
+        "matrix_parallelism": {"const": 1},
+        "pair_execution": {"const": "selected-then-reproduction-sequential"},
+        "telemetry_contract": {"const": "host-build-telemetry-v1"},
+        "admissible_build_drivers": {
+          "const": ["libretro-super"]
+        },
+        "cache": {"$ref": "#/$defs/cache"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "runner": {
+      "type": "object",
+      "required": ["profile", "mode", "backend"],
+      "properties": {
+        "profile": {"enum": ["local", "github-actions"]},
+        "mode": {"enum": ["native", "simulated"]},
+        "backend": {"const": "local-docker"}
+      },
+      "additionalProperties": false
+    },
+    "localProfile": {
+      "type": "object",
+      "required": [
+        "runner_selector",
+        "runner",
+        "execution_label",
+        "resource_class",
+        "content_sha256"
+      ],
+      "properties": {
+        "runner_selector": {"const": "local"},
+        "runner": {
+          "allOf": [
+            {"$ref": "#/$defs/runner"},
+            {
+              "properties": {
+                "profile": {"const": "local"},
+                "mode": {"const": "native"}
+              }
+            }
+          ]
+        },
+        "execution_label": {"const": "host-local"},
+        "resource_class": {"const": "host-8c-4g-noswap-v1"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "simulatedProfile": {
+      "type": "object",
+      "required": [
+        "runner_selector",
+        "runner",
+        "execution_label",
+        "resource_class",
+        "content_sha256"
+      ],
+      "properties": {
+        "runner_selector": {"const": "github-actions-sim"},
+        "runner": {
+          "allOf": [
+            {"$ref": "#/$defs/runner"},
+            {
+              "properties": {
+                "profile": {"const": "github-actions"},
+                "mode": {"const": "simulated"}
+              }
+            }
+          ]
+        },
+        "execution_label": {"const": "local-gha-sim"},
+        "resource_class": {"const": "host-8c-4g-noswap-v1"},
+        "content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

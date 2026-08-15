@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://spruceui.local/schemas/full-release-plan.schema.json",
+  "$comment": "Structural interoperability schema only. Mandatory Python release-plan validation and repository reconstruction own all cross-field semantics.",
   "title": "Cores-spruce deterministic local full-release plan",
   "type": "object",
   "required": [
@@ -11,6 +12,7 @@
     "validation_scope",
     "local_only",
     "publication",
+    "group",
     "repository",
     "cores",
     "summary",
@@ -18,14 +20,20 @@
   ],
   "properties": {
     "$schema": {"const": "../../manifests/full-release-plan.schema.json"},
-    "schema_version": {"const": 2},
+    "schema_version": {"const": 3},
     "candidate_id": {"$ref": "#/$defs/identifier"},
     "scope": {
-      "enum": ["explicit", "canonical", "full-workflow-roster"]
+      "enum": ["explicit", "canonical", "full-workflow-roster", "track-group"]
     },
     "validation_scope": {"const": "static-build-only"},
     "local_only": {"const": true},
     "publication": {"const": "disabled"},
+    "group": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/group"}
+      ]
+    },
     "repository": {"$ref": "#/$defs/repository"},
     "cores": {
       "type": "array",
@@ -146,6 +154,177 @@
         "catalog_workflow_count": {"type": "integer", "minimum": 0},
         "shared_pipeline_workflows": {"type": "integer", "minimum": 0},
         "unmigrated_workflow_count": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "groupTag": {
+      "type": "string",
+      "pattern": "^(main|nightly|edge)-(stable|test):(universal|h700|a133p|a33|a523|rk3566|rk3326|ssd202d)$"
+    },
+    "group": {
+      "type": "object",
+      "required": [
+        "group_tag",
+        "inventory_state",
+        "track_registry",
+        "tuning_registry",
+        "release_roster",
+        "spruce_branch_bases",
+        "stable_core_count",
+        "unstable_fallback_core_count",
+        "test_core_count"
+      ],
+      "properties": {
+        "group_tag": {"$ref": "#/$defs/groupTag"},
+        "inventory_state": {"enum": ["stable", "unstable"]},
+        "track_registry": {"$ref": "#/$defs/contentReference"},
+        "tuning_registry": {"$ref": "#/$defs/contentReference"},
+        "release_roster": {"$ref": "#/$defs/contentReference"},
+        "spruce_branch_bases": {"$ref": "#/$defs/contentReference"},
+        "stable_core_count": {"type": "integer", "minimum": 0},
+        "unstable_fallback_core_count": {"type": "integer", "minimum": 0},
+        "test_core_count": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "spruceBranchBasis": {
+      "type": "object",
+      "required": ["basis_id", "basis_content_sha256"],
+      "properties": {
+        "basis_id": {"enum": ["spruce-main", "spruce-development"]},
+        "basis_content_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "artifactIdentity": {
+      "type": "object",
+      "required": ["sha256", "size"],
+      "properties": {
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "size": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "coreGroup": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "validation_scope",
+        "group_tag",
+        "inventory_content_sha256",
+        "track_registry_content_sha256",
+        "tuning_registry_content_sha256",
+        "spruce_branch_basis",
+        "core_id",
+        "variant_id",
+        "requested_marker",
+        "requested_chipset",
+        "selected_chipset",
+        "selected_state",
+        "stability",
+        "resolution",
+        "test_origin_track",
+        "pin",
+        "source_commit",
+        "execution_source",
+        "recipe_compatibility",
+        "selected_architectures",
+        "tuning",
+        "expected_outputs"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "validation_scope": {"const": "pinned-output-reproduction-v1"},
+        "group_tag": {"$ref": "#/$defs/groupTag"},
+        "inventory_content_sha256": {"$ref": "#/$defs/sha256"},
+        "track_registry_content_sha256": {"$ref": "#/$defs/sha256"},
+        "tuning_registry_content_sha256": {"$ref": "#/$defs/sha256"},
+        "spruce_branch_basis": {"$ref": "#/$defs/spruceBranchBasis"},
+        "core_id": {"$ref": "#/$defs/coreId"},
+        "variant_id": {"$ref": "#/$defs/sha256"},
+        "requested_marker": {"enum": ["stable", "test"]},
+        "requested_chipset": {"enum": ["universal", "h700", "a133p", "a33", "a523", "rk3566", "rk3326", "ssd202d"]},
+        "selected_chipset": {"enum": ["universal", "h700", "a133p", "a33", "a523", "rk3566", "rk3326", "ssd202d"]},
+        "selected_state": {"enum": ["stable", "unstable_fallback", "test"]},
+        "stability": {"enum": ["stable", "unstable"]},
+        "resolution": {"enum": ["exact_stable", "universal_stable_fallback", "exact_test_unstable_fallback", "universal_test_unstable_fallback", "exact_test", "universal_test_fallback"]},
+        "test_origin_track": {"enum": ["main", "nightly", "edge"]},
+        "pin": {"$ref": "#/$defs/pin"},
+        "source_commit": {"$ref": "#/$defs/sha1"},
+        "execution_source": {"$ref": "#/$defs/source"},
+        "recipe_compatibility": {
+          "type": "object",
+          "required": ["model", "selected_pin_core_spec_sha256", "execution_core_spec_sha256", "core_spec_identity_match"],
+          "properties": {
+            "model": {"const": "source-normalized-build-contract-v1"},
+            "selected_pin_core_spec_sha256": {"$ref": "#/$defs/sha256"},
+            "execution_core_spec_sha256": {"$ref": "#/$defs/sha256"},
+            "core_spec_identity_match": {"type": "boolean"}
+          },
+          "additionalProperties": false
+        },
+        "selected_architectures": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["arm64", "armhf"]}
+        },
+        "tuning": {
+          "type": "object",
+          "required": ["profile_id", "content_sha256", "properties", "compiler_argument_mapping_version", "compiler_arguments"],
+          "properties": {
+            "profile_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+            "content_sha256": {"$ref": "#/$defs/sha256"},
+            "properties": {"type": "object"},
+            "compiler_argument_mapping_version": {"type": "string", "minLength": 1},
+            "compiler_arguments": {"type": "array", "items": {"type": "string", "minLength": 1}}
+          },
+          "additionalProperties": false
+        },
+        "expected_outputs": {
+          "type": "object",
+          "required": ["targets", "metadata", "package"],
+          "properties": {
+            "targets": {
+              "type": "object",
+              "minProperties": 1,
+              "propertyNames": {"enum": ["arm64", "armhf"]},
+              "additionalProperties": {
+                "type": "object",
+                "required": ["artifact"],
+                "properties": {"artifact": {"$ref": "#/$defs/artifactIdentity"}},
+                "additionalProperties": false
+              }
+            },
+            "metadata": {"$ref": "#/$defs/artifactIdentity"},
+            "package": {
+              "type": "object",
+              "required": ["comparison", "name", "sha256", "size"],
+              "properties": {
+                "comparison": {"const": "exact"},
+                "name": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*_libretro\\.zip$"},
+                "sha256": {"$ref": "#/$defs/sha256"},
+                "size": {"type": "integer", "minimum": 1}
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "approval": {
+          "type": "object",
+          "required": ["approved_test_variant_id", "approved_test_origin_track", "approved_at", "approved_by", "reason", "previous_stable_variant_id", "source_registry_content_sha256"],
+          "properties": {
+            "approved_test_variant_id": {"$ref": "#/$defs/sha256"},
+            "approved_test_origin_track": {"enum": ["main", "nightly", "edge"]},
+            "approved_at": {"type": "string", "minLength": 1},
+            "approved_by": {"type": "string", "minLength": 1},
+            "reason": {"type": "string", "minLength": 1},
+            "previous_stable_variant_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]},
+            "source_registry_content_sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false
+        }
       },
       "additionalProperties": false
     },
@@ -288,7 +467,8 @@
         "source_set",
         "compatibility",
         "package",
-        "targets"
+        "targets",
+        "core_group"
       ],
       "properties": {
         "core_id": {"$ref": "#/$defs/coreId"},
@@ -299,6 +479,12 @@
         "source_set": {"$ref": "#/$defs/sourceSet"},
         "compatibility": {"$ref": "#/$defs/compatibility"},
         "package": {"$ref": "#/$defs/package"},
+        "core_group": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/coreGroup"}
+          ]
+        },
         "targets": {
           "type": "array",
           "minItems": 1,

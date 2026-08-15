@@ -1,0 +1,28 @@
+CORE_PIPELINE_CHIPSET_TUNING|{"compiler_argument_mapping_version":"gcc-machine-flags-v1","compiler_arguments":["-mcpu=cortex-a55"],"content_sha256":"17a199894e6ebb170943dbce5fac6ba98d0ade5422add67b8dbd7aa1c6b451a4","profile_id":"a523-cortex-a55-v1"}
+PLATFORM: Linux
+=== 2048
+Fetching 2048...
+1 core(s) successfully processed:
+	2048
+HEAD is now at c90437d Allow continuing after 2048 (#67)
+CORE_PIPELINE_NATIVE_GIT_VERSION|" c90437d"|file
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro.o libretro.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -ogame_noncairo.o game_noncairo.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -ogame_shared.o game_shared.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro-common/compat/compat_posix_string.o libretro-common/compat/compat_posix_string.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro-common/compat/compat_snprintf.o libretro-common/compat/compat_snprintf.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro-common/compat/compat_strcasestr.o libretro-common/compat/compat_strcasestr.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro-common/compat/compat_strl.o libretro-common/compat/compat_strl.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro-common/compat/fopen_utf8.o libretro-common/compat/fopen_utf8.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro-common/encodings/encoding_utf.o libretro-common/encodings/encoding_utf.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro-common/file/file_path.o libretro-common/file/file_path.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro-common/file/file_path_io.o libretro-common/file/file_path_io.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro-common/streams/file_stream.o libretro-common/streams/file_stream.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro-common/streams/file_stream_transforms.o libretro-common/streams/file_stream_transforms.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro-common/string/stdstring.o libretro-common/string/stdstring.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro-common/time/rtime.o libretro-common/time/rtime.c
+aarch64-linux-gnu-gcc -mcpu=cortex-a55 -DGIT_VERSION=\"" c90437d"\" -O2 -DNDEBUG -fPIC -I./libretro-common/include -c -olibretro-common/vfs/vfs_implementation.o libretro-common/vfs/vfs_implementation.c
+aarch64-linux-gnu-gcc -fPIC -shared -Wl,--no-undefined -o 2048_libretro.so ./libretro.o ./game_noncairo.o ./game_shared.o ./libretro-common/compat/compat_posix_string.o ./libretro-common/compat/compat_snprintf.o ./libretro-common/compat/compat_strcasestr.o ./libretro-common/compat/compat_strl.o ./libretro-common/compat/fopen_utf8.o ./libretro-common/encodings/encoding_utf.o ./libretro-common/file/file_path.o ./libretro-common/file/file_path_io.o ./libretro-common/streams/file_stream.o ./libretro-common/streams/file_stream_transforms.o ./libretro-common/string/stdstring.o ./libretro-common/time/rtime.o ./libretro-common/vfs/vfs_implementation.o -lm
+cp "2048_libretro.so" "/libretro-super/dist/unix/2048_libretro.so"
+1 core(s) successfully processed:
+	2048

@@ -26,16 +26,25 @@ publishes, fetches, or mutates release state.
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
+import io
 import json
 from pathlib import Path
 import shutil
 import sys
-from typing import Any
+from typing import Any, Callable, Mapping
 import zipfile
 
+if __package__:
+    from .core_pipeline_lib.errors import PipelineError
+    from .core_pipeline_lib.release import validate_sealed_candidate_directory
+else:
+    from core_pipeline_lib.errors import PipelineError
+    from core_pipeline_lib.release import validate_sealed_candidate_directory
 
-SCHEMA_VERSION = 1
+
+SCHEMA_VERSION = 2
 PUBLICATION = "disabled"
 
 CORES_PREFIX = "cores/"
@@ -65,7 +74,14 @@ def _sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _load_candidate(candidate_dir: Path) -> dict[str, Any]:
+def _load_candidate(
+    candidate_dir: Path,
+    *,
+    trusted_plan_validator: Callable[[Mapping[str, Any]], Mapping[str, Any]],
+    expected_repository_head: str,
+    expected_coordinator_run_id: str,
+    expected_coordinator_run_attempt: int,
+) -> tuple[dict[str, Any], dict[str, Any]]:
     candidate_path = candidate_dir / "candidate.json"
     try:
         with candidate_path.open("r", encoding="utf-8") as handle:
@@ -77,17 +93,63 @@ def _load_candidate(candidate_dir: Path) -> dict[str, Any]:
     if not isinstance(candidate, dict):
         raise OverlayError("candidate manifest must be a JSON object")
 
+    plan_path = candidate_dir / "plan.json"
+    try:
+        with plan_path.open("r", encoding="utf-8") as handle:
+            plan = json.load(handle)
+    except FileNotFoundError as exc:
+        raise OverlayError(f"missing candidate plan: {plan_path}") from exc
+    except json.JSONDecodeError as exc:
+        raise OverlayError(f"invalid JSON in {plan_path}: {exc}") from exc
+    if not isinstance(plan, dict):
+        raise OverlayError("candidate plan must be a JSON object")
+    if not callable(trusted_plan_validator):
+        raise OverlayError("trusted release-plan validator is required")
+    if (
+        not isinstance(expected_repository_head, str)
+        or len(expected_repository_head) != 40
+        or any(character not in "0123456789abcdef" for character in expected_repository_head)
+    ):
+        raise OverlayError("expected repository head must be an exact Git commit")
+    if (
+        not isinstance(expected_coordinator_run_id, str)
+        or not expected_coordinator_run_id.isdecimal()
+        or int(expected_coordinator_run_id) < 1
+        or type(expected_coordinator_run_attempt) is not int
+        or expected_coordinator_run_attempt < 1
+    ):
+        raise OverlayError("expected coordinator run identity is invalid")
+
+    try:
+        candidate = validate_sealed_candidate_directory(
+            candidate=candidate,
+            output_dir=candidate_dir,
+            plan=plan,
+        )
+        trusted_plan = trusted_plan_validator(copy.deepcopy(plan))
+    except PipelineError as exc:
+        raise OverlayError(f"invalid sealed candidate directory: {exc}") from exc
+    if not isinstance(trusted_plan, Mapping) or dict(trusted_plan) != plan:
+        raise OverlayError("trusted repository validation returned a different plan")
+    if plan.get("repository", {}).get("head") != expected_repository_head:
+        raise OverlayError("release plan repository head differs from coordinator run")
+
     if candidate.get("result") != "sealed":
         raise OverlayError("candidate is not sealed")
     if candidate.get("publication") != PUBLICATION:
         raise OverlayError("candidate publication must be disabled")
     if candidate.get("local_only") is not True:
         raise OverlayError("candidate must be local-only")
-    if candidate.get("schema_version") != 1:
+    if candidate.get("schema_version") != 2:
         raise OverlayError("unsupported candidate schema_version")
     candidate_id = candidate.get("candidate_id")
     if not isinstance(candidate_id, str) or not candidate_id:
         raise OverlayError("candidate_id must be a non-empty string")
+    run_suffix = (
+        f"-{expected_coordinator_run_id}-{expected_coordinator_run_attempt}"
+    )
+    if not candidate_id.endswith(run_suffix) or candidate_id == run_suffix[1:]:
+        raise OverlayError("candidate_id is not bound to the coordinator run")
     runner = candidate.get("runner")
     if not isinstance(runner, dict) or not isinstance(runner.get("profile"), str):
         raise OverlayError("candidate runner profile is missing")
@@ -98,13 +160,54 @@ def _load_candidate(candidate_dir: Path) -> dict[str, Any]:
     summary = candidate.get("summary")
     if not isinstance(summary, dict) or summary.get("asset_count") != len(assets):
         raise OverlayError("candidate summary asset_count does not match assets")
-    return candidate
+    group = candidate.get("group")
+    if group is not None:
+        if not isinstance(group, dict) or not isinstance(group.get("group_tag"), str):
+            raise OverlayError("candidate group identity is invalid")
+        markers = [
+            asset.get("core_group") if isinstance(asset, dict) else None
+            for asset in assets
+        ]
+        if any(
+            not isinstance(marker, dict)
+            or marker.get("group_tag") != group["group_tag"]
+            for marker in markers
+        ):
+            raise OverlayError("candidate group asset inventory is inconsistent")
+        states = [marker.get("selected_state") for marker in markers]
+        if any(
+            state not in {"stable", "unstable_fallback", "test"}
+            for state in states
+        ):
+            raise OverlayError("candidate group asset state is invalid")
+        expected_counts = {
+            "stable_core_count": states.count("stable"),
+            "unstable_fallback_core_count": states.count("unstable_fallback"),
+            "test_core_count": states.count("test"),
+        }
+        if any(group.get(field) != count for field, count in expected_counts.items()):
+            raise OverlayError("candidate group inventory counts are inconsistent")
+        expected_inventory_state = (
+            "stable"
+            if expected_counts["stable_core_count"] == len(markers)
+            else "unstable"
+        )
+        if group.get("inventory_state") != expected_inventory_state:
+            raise OverlayError("candidate group inventory state is inconsistent")
+    elif any(
+        isinstance(asset, dict) and asset.get("core_group") is not None
+        for asset in assets
+    ):
+        raise OverlayError("legacy candidate assets must not contain group markers")
+    return candidate, plan
 
 
 def _verify_assets(
     candidate_dir: Path, assets: list[Any]
-) -> list[tuple[str, Path]]:
-    verified: list[tuple[str, Path]] = []
+) -> list[tuple[str, bytes, dict[str, Any] | None]]:
+    """Snapshot each approved package once and bind the immutable bytes."""
+
+    verified: list[tuple[str, bytes, dict[str, Any] | None]] = []
     seen_cores: set[str] = set()
     for asset in assets:
         if not isinstance(asset, dict):
@@ -121,29 +224,37 @@ def _verify_assets(
         asset_path = candidate_dir / expected_path
         if not asset_path.is_file():
             raise OverlayError(f"missing asset package: {asset_path}")
-        size = asset_path.stat().st_size
-        if asset.get("size") != size:
+        try:
+            package_bytes = asset_path.read_bytes()
+        except OSError as exc:
+            raise OverlayError(f"cannot snapshot asset package: {asset_path}") from exc
+        if asset.get("size") != len(package_bytes):
             raise OverlayError(f"asset size drift for {core_id}")
-        if asset.get("sha256") != _sha256_file(asset_path):
+        if asset.get("sha256") != hashlib.sha256(package_bytes).hexdigest():
             raise OverlayError(f"asset sha256 drift for {core_id}")
-        verified.append((core_id, asset_path))
+        marker = asset.get("core_group")
+        if marker is not None and not isinstance(marker, dict):
+            raise OverlayError(f"asset group marker for {core_id} is invalid")
+        verified.append((core_id, package_bytes, marker))
     return verified
 
 
 def _plan_members(
-    assets: list[tuple[str, Path]]
-) -> dict[str, tuple[str, Path, str]]:
-    """Map each overlay destination to (core_id, package path, member name)."""
+    assets: list[tuple[str, bytes, dict[str, Any] | None]]
+) -> dict[str, tuple[str, bytes, str, dict[str, Any] | None]]:
+    """Map destinations to core, package, member, and inventory marker."""
 
-    destinations: dict[str, tuple[str, Path, str]] = {}
-    for core_id, asset_path in assets:
+    destinations: dict[
+        str, tuple[str, bytes, str, dict[str, Any] | None]
+    ] = {}
+    for core_id, package_bytes, marker in assets:
         allowed = {
             f"{CORES_PREFIX}{core_id}_libretro.so": f"{DEVICE_CORES_DIR}/{core_id}_libretro.so",
             f"{CORES64_PREFIX}{core_id}_libretro.so": f"{DEVICE_CORES64_DIR}/{core_id}_libretro.so",
             f"{core_id}_libretro.info": f"{DEVICE_INFO_DIR}/{core_id}_libretro.info",
         }
         try:
-            with zipfile.ZipFile(asset_path) as archive:
+            with zipfile.ZipFile(io.BytesIO(package_bytes)) as archive:
                 names = archive.namelist()
         except zipfile.BadZipFile as exc:
             raise OverlayError(f"asset package for {core_id} is not a ZIP") from exc
@@ -158,7 +269,7 @@ def _plan_members(
                 )
             if destination in destinations:
                 raise OverlayError(f"duplicate overlay destination: {destination}")
-            destinations[destination] = (core_id, asset_path, name)
+            destinations[destination] = (core_id, package_bytes, name, marker)
             if name.endswith("_libretro.so"):
                 staged_so = True
         if not staged_so:
@@ -173,9 +284,23 @@ def _add_zip_entry(archive: zipfile.ZipFile, name: str, data: bytes) -> None:
     archive.writestr(entry, data)
 
 
-def build_overlay(candidate_dir: Path, output_dir: Path) -> dict[str, Any]:
+def build_overlay(
+    candidate_dir: Path,
+    output_dir: Path,
+    *,
+    trusted_plan_validator: Callable[[Mapping[str, Any]], Mapping[str, Any]],
+    expected_repository_head: str,
+    expected_coordinator_run_id: str,
+    expected_coordinator_run_attempt: int,
+) -> dict[str, Any]:
     candidate_dir = candidate_dir.resolve()
-    candidate = _load_candidate(candidate_dir)
+    candidate, _plan = _load_candidate(
+        candidate_dir,
+        trusted_plan_validator=trusted_plan_validator,
+        expected_repository_head=expected_repository_head,
+        expected_coordinator_run_id=expected_coordinator_run_id,
+        expected_coordinator_run_attempt=expected_coordinator_run_attempt,
+    )
     assets = _verify_assets(candidate_dir, candidate["assets"])
     destinations = _plan_members(assets)
 
@@ -196,8 +321,8 @@ def build_overlay(candidate_dir: Path, output_dir: Path) -> dict[str, Any]:
         members: list[dict[str, Any]] = []
         with zipfile.ZipFile(overlay_path, "w") as archive:
             for destination in sorted(destinations):
-                core_id, asset_path, member = destinations[destination]
-                with zipfile.ZipFile(asset_path) as package:
+                core_id, package_bytes, member, marker = destinations[destination]
+                with zipfile.ZipFile(io.BytesIO(package_bytes)) as package:
                     data = package.read(member)
                 _add_zip_entry(archive, destination, data)
                 members.append(
@@ -206,6 +331,7 @@ def build_overlay(candidate_dir: Path, output_dir: Path) -> dict[str, Any]:
                         "sha256": hashlib.sha256(data).hexdigest(),
                         "size": len(data),
                         "source_core_id": core_id,
+                        "core_group": marker,
                     }
                 )
 
@@ -218,6 +344,7 @@ def build_overlay(candidate_dir: Path, output_dir: Path) -> dict[str, Any]:
                 "candidate_content_sha256": candidate.get("content_sha256"),
                 "asset_set_sha256": candidate.get("asset_set_sha256"),
                 "runner_profile": candidate["runner"]["profile"],
+                "group": candidate.get("group"),
             },
             "overlay": {
                 "path": overlay_name,
@@ -232,6 +359,19 @@ def build_overlay(candidate_dir: Path, output_dir: Path) -> dict[str, Any]:
             },
             "summary": {
                 "core_count": len(assets),
+                "stable_core_count": sum(
+                    marker is not None and marker.get("selected_state") == "stable"
+                    for _, _, marker in assets
+                ),
+                "unstable_fallback_core_count": sum(
+                    marker is not None
+                    and marker.get("selected_state") == "unstable_fallback"
+                    for _, _, marker in assets
+                ),
+                "test_core_count": sum(
+                    marker is not None and marker.get("selected_state") == "test"
+                    for _, _, marker in assets
+                ),
                 "cores_armhf": sum(
                     1
                     for path in destinations
@@ -277,26 +417,14 @@ def main(argv: list[str] | None = None) -> int:
         type=Path,
         help="create-only output directory for the overlay archive",
     )
-    args = parser.parse_args(argv)
-    try:
-        manifest = build_overlay(args.candidate_dir, args.output_dir)
-    except OverlayError as exc:
-        print(f"error: {exc}", file=sys.stderr)
-        return 1
+    parser.parse_args(argv)
     print(
-        json.dumps(
-            {
-                "status": "ok",
-                "candidate_id": manifest["source"]["candidate_id"],
-                "overlay": str(args.output_dir / manifest["overlay"]["path"]),
-                "sha256": manifest["overlay"]["sha256"],
-                "member_count": manifest["overlay"]["member_count"],
-                "yabasanshiro_variants": manifest["yabasanshiro_variants"]["applied"],
-            },
-            sort_keys=True,
-        )
+        "error: standalone overlay conversion is disabled; use "
+        "scripts/core_pipeline.py convert-release-overlay so the sealed plan "
+        "is rebound to the trusted repository checkout and coordinator run",
+        file=sys.stderr,
     )
-    return 0
+    return 1
 
 
 if __name__ == "__main__":

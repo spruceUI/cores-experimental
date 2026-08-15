@@ -364,7 +364,9 @@ def _reject_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     return result
 
 
-def strict_json_file(path: Path) -> dict[str, Any]:
+def strict_json_file_with_sha256(path: Path) -> tuple[dict[str, Any], str]:
+    """Decode and hash one strict UTF-8 JSON object from one byte snapshot."""
+
     try:
         raw = path.read_bytes()
     except OSError as exc:
@@ -372,11 +374,17 @@ def strict_json_file(path: Path) -> dict[str, Any]:
     if len(raw) > MAX_JSON_SIZE:
         raise RegistryError(f"JSON file exceeds {MAX_JSON_SIZE} bytes: {path}")
     try:
-        value = json.loads(raw, object_pairs_hook=_reject_duplicates)
+        text = raw.decode("utf-8")
+        value = json.loads(text, object_pairs_hook=_reject_duplicates)
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise RegistryError(f"invalid JSON file {path}: {exc}") from exc
     if not isinstance(value, dict):
         raise RegistryError(f"JSON document must be an object: {path}")
+    return value, hashlib.sha256(raw).hexdigest()
+
+
+def strict_json_file(path: Path) -> dict[str, Any]:
+    value, _file_sha256 = strict_json_file_with_sha256(path)
     return value
 
 
@@ -670,6 +678,7 @@ def validate_source_set(
     *,
     repo_root: Path = ROOT,
     verify_files: bool = True,
+    _evidence_pin_snapshot: tuple[dict[str, Any], str] | None = None,
 ) -> None:
     label = "source set"
     _exact_keys(
@@ -720,9 +729,13 @@ def validate_source_set(
     _validate_content_digest(document, label)
     if verify_files:
         pin_path = _safe_repo_file(repo_root, evidence["path"], "source evidence pin")
-        if sha256_file(pin_path) != evidence["file_sha256"]:
+        pin, pin_file_sha256 = (
+            _evidence_pin_snapshot
+            if _evidence_pin_snapshot is not None
+            else strict_json_file_with_sha256(pin_path)
+        )
+        if pin_file_sha256 != evidence["file_sha256"]:
             raise RegistryError("source evidence pin file digest differs")
-        pin = strict_json_file(pin_path)
         if (
             pin.get("pin_id") != evidence["pin_id"]
             or pin.get("content_sha256") != evidence["content_sha256"]
@@ -780,9 +793,9 @@ def _validate_build_identity(identity: Any, profile_id: str, architecture: str, 
     if (value["compiler"], value["sysroot"]) != expected_compiler_sysroot.get(profile_id):
         raise RegistryError(f"execution profile {profile_id} compiler/sysroot identity differs")
     lock_path = _safe_repo_file(repo_root, value["toolchain_lock_path"], "toolchain lock")
-    if sha256_file(lock_path) != value["toolchain_lock_file_sha256"]:
+    lock, lock_file_sha256 = strict_json_file_with_sha256(lock_path)
+    if lock_file_sha256 != value["toolchain_lock_file_sha256"]:
         raise RegistryError(f"execution profile {profile_id} toolchain lock file differs")
-    lock = strict_json_file(lock_path)
     if lock.get("content_sha256") != _toolchain_lock_content_sha256(lock):
         raise RegistryError(f"execution profile {profile_id} toolchain lock content differs")
     entry = _object(_object(lock.get("toolchains"), "toolchain lock.toolchains").get(architecture), f"toolchain {architecture}")
@@ -1184,8 +1197,29 @@ def verify_catalog_source_mirror(
     *,
     source_set: dict[str, Any],
     repo_root: Path = ROOT,
+    _evidence_pin_snapshot: tuple[dict[str, Any], str] | None = None,
 ) -> dict[str, int]:
-    validate_source_set(source_set, repo_root=repo_root)
+    evidence = _object(source_set.get("evidence_pin"), "source set.evidence_pin")
+    evidence_path = _string(
+        evidence.get("path"),
+        "source set.evidence_pin.path",
+        CORE_SET_PATH_RE,
+    )
+    pin_path = _safe_repo_file(
+        repo_root,
+        evidence_path,
+        "source evidence pin",
+    )
+    pin_snapshot = (
+        _evidence_pin_snapshot
+        if _evidence_pin_snapshot is not None
+        else strict_json_file_with_sha256(pin_path)
+    )
+    validate_source_set(
+        source_set,
+        repo_root=repo_root,
+        _evidence_pin_snapshot=pin_snapshot,
+    )
     catalog = strict_json_file(repo_root / CATALOG_PATH.relative_to(ROOT))
     cores = _object(catalog.get("cores"), "build catalog.cores")
     source_references = _object(source_set["sources"], "source set.sources")
@@ -1195,8 +1229,7 @@ def verify_catalog_source_mirror(
             "source set cores are missing from the build catalog: "
             f"{sorted(missing_catalog_cores)}"
         )
-    evidence = source_set["evidence_pin"]
-    pin = strict_json_file(_safe_repo_file(repo_root, evidence["path"], "source evidence pin"))
+    pin, _pin_file_sha256 = pin_snapshot
     pin_cores = _object(pin.get("cores"), "source evidence pin.cores")
     if set(pin_cores) != set(source_references):
         raise RegistryError("source set coverage differs from its evidence pin")
@@ -1307,15 +1340,35 @@ def _source_set_report_data(
 ) -> dict[str, Any]:
     execution_profiles = strict_json_file(repo_root / EXECUTION_PROFILES_PATH.relative_to(ROOT))
     runtime_contracts = strict_json_file(repo_root / RUNTIME_CONTRACTS_PATH.relative_to(ROOT))
-    validate_source_set(source_set, repo_root=repo_root)
+    evidence = _object(source_set.get("evidence_pin"), "source set.evidence_pin")
+    evidence_path = _string(
+        evidence.get("path"),
+        "source set.evidence_pin.path",
+        CORE_SET_PATH_RE,
+    )
+    pin_path = _safe_repo_file(
+        repo_root,
+        evidence_path,
+        "source evidence pin",
+    )
+    pin_snapshot = strict_json_file_with_sha256(pin_path)
+    validate_source_set(
+        source_set,
+        repo_root=repo_root,
+        _evidence_pin_snapshot=pin_snapshot,
+    )
     validate_execution_profiles(execution_profiles, repo_root=repo_root)
     validate_runtime_contracts(
         runtime_contracts,
         execution_profiles=execution_profiles,
         repo_root=repo_root,
     )
-    mirror = verify_catalog_source_mirror(repo_root=repo_root, source_set=source_set)
-    pin = strict_json_file(_safe_repo_file(repo_root, source_set["evidence_pin"]["path"], "source evidence pin"))
+    mirror = verify_catalog_source_mirror(
+        repo_root=repo_root,
+        source_set=source_set,
+        _evidence_pin_snapshot=pin_snapshot,
+    )
+    pin, _pin_file_sha256 = pin_snapshot
     cells = _build_evidence_cells(source_set, pin, execution_profiles)
     # One evidence cell per PINNED target: dual-ABI cores map two, the
     # single-ABI cores exactly one.
@@ -1385,7 +1438,6 @@ def report_data(
     if source_set_path != records_source.source_set_coordinate(semantic_id):
         raise RegistryError("source set path is not a canonical coordinate")
     source_set = composed_source_set(semantic_id, repo_root=repo_root)
-    validate_source_set(source_set, repo_root=repo_root)
     return _source_set_report_data(
         source_set=source_set,
         repo_root=repo_root,

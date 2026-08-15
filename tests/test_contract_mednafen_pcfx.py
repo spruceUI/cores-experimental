@@ -10,7 +10,7 @@ import tempfile
 import unittest
 from unittest import mock
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from core_pipeline_lib.contracts import mednafen_pcfx, mixed_language
 from core_pipeline_lib.contracts.mednafen_pcfx import (
     mednafen_pcfx_combined_golden_build_contract_is_well_formed,

@@ -21,7 +21,18 @@ def actions_matrix_for_plan(plan: Mapping[str, Any]) -> dict[str, list[dict[str,
     """
 
     validated = validate_release_plan(plan)
-    rows = [{"core_id": row["core_id"]} for row in validated["cores"]]
+    group = validated["group"]
+    rows = [
+        {
+            "core_id": row["core_id"],
+            **(
+                {"group_tag": group["group_tag"]}
+                if isinstance(group, dict)
+                else {}
+            ),
+        }
+        for row in validated["cores"]
+    ]
     if len(rows) > MAX_ACTIONS_MATRIX_JOBS:
         raise PipelineError(
             "release plan exceeds the GitHub Actions matrix ceiling of "

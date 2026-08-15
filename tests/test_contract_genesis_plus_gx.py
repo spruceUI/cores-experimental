@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import unittest
 
-from scripts import core_pipeline as pipeline
+from .core_contract_helpers import pipeline
 from core_pipeline_lib.contracts import genesis_plus_gx as contract_module
 
 from .cores.support import ROOT, evidence_handles

@@ -1,11 +1,11 @@
 """Exact REminiscence (libretro Flashback) mixed-language build-log contract.
 
 reminiscence is a mixed C/C++ libretro-super core built from the source root
-with no ``../../`` object prefixes and no CMake. Its 41 translation units
-(30 C++, 11 C) are each compiled once with a commit-derived ``-DGIT_VERSION``
-token and linked by the C++ driver; the per-architecture compile invocation
-sha256 pins that exact token and the link references precisely the compiled
-object set.
+with no ``../../`` object prefixes and no CMake. Its 41 translation units are
+each compiled once: all 30 C++ commands carry the commit-derived
+``-DGIT_VERSION`` token, while the 11 C commands are hash-bound to its absence.
+The C++ driver links the exact compiled object set, and the per-architecture
+compile invocation sha256 pins those command-level details.
 """
 
 from __future__ import annotations

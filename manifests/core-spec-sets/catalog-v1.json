@@ -1,0 +1,1406 @@
+{
+  "catalog": {
+    "content_sha256": "d42b36464d0912be1ad3f4fb0bdb7aacf33ea518ab6b1fbac8c1bcffc0c05ee3",
+    "file_sha256": "a9ba3ee4e34e38367786164bd4da61b00ac459a76f0ca7a239a23be82c582964",
+    "kind": "artifact",
+    "path": "manifests/core-builds.json",
+    "schema_version": 1,
+    "size": 124854,
+    "target_content_sha256": "45551ccb96efc00224b1b24d2f1978dad3fd7eb022a2aee089b085519b222bf9"
+  },
+  "catalog_schema": {
+    "content_sha256": "ab1a77c54f0db8f3c6de006e174b4ca6d289989cea8085bbdb249f3544882a88",
+    "file_sha256": "4289b6f3a443907a766ce419515a33f34fd86074f9659cc1724ca978f8d04343",
+    "kind": "artifact",
+    "path": "manifests/core-builds.schema.json",
+    "schema_version": 1,
+    "size": 28681,
+    "target_content_sha256": "4eb4f5025f64e1a847ebfb1b88f492cd111eb14d1ebe3cc042b63f85905dd88e"
+  },
+  "content_sha256": "382e8d5bb1d890fb71d3c453e2e79969fcea3e8f2904b18368cc995a4b8c5d1b",
+  "core_count": 98,
+  "cores": [
+    {
+      "content_sha256": "6788be125f517dfeb1ebea2a5e0411712458d55eac8f543beaf92bb4b8eb73e4",
+      "core_id": "2048",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "e4f9b1d0479df20c5b9b6a20e95cb7abd3dcd948aecb0b24e8cc6642477208eb",
+      "proof_binding": {
+        "binding_id": "core-2048-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "e4f9b1d0479df20c5b9b6a20e95cb7abd3dcd948aecb0b24e8cc6642477208eb"
+    },
+    {
+      "content_sha256": "486693fefb2fde94115cef829fdad411af959b4c33ef92d327e28622b22bdf25",
+      "core_id": "81",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "d1af31c2523ee34bbae7c989539250ff1e9fce7d3279e66b4a522e8375dc6e11",
+      "proof_binding": {
+        "binding_id": "core-81-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "d1af31c2523ee34bbae7c989539250ff1e9fce7d3279e66b4a522e8375dc6e11"
+    },
+    {
+      "content_sha256": "fd6f592f49a15b73b2d326909585d665c52cfafa9ab8d74c813c28940d144840",
+      "core_id": "a5200",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "7e97fa4a3b1678be01db86b6d93cb8a031953b15363b963172067424f1031e10",
+      "proof_binding": {
+        "binding_id": "a5200-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "7e97fa4a3b1678be01db86b6d93cb8a031953b15363b963172067424f1031e10"
+    },
+    {
+      "content_sha256": "eb7e42756cce1de3bf953b10e1a2535ae167267166157940f3af00dde6a6c2a6",
+      "core_id": "ardens",
+      "driver": "direct-cmake",
+      "legacy_catalog_spec_sha256": "8f25dcd8123a9613f43cb87bcb5c805abf4d9ce3d76aa5e3617530d111ea2f04",
+      "proof_binding": {
+        "binding_id": "ardens",
+        "binding_kind": "legacy-validator",
+        "proof_kind": "legacy-validator",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "8f25dcd8123a9613f43cb87bcb5c805abf4d9ce3d76aa5e3617530d111ea2f04"
+    },
+    {
+      "content_sha256": "0883a787ce002bad501aa6b54fa70fa0466a9d11d84e74c2434d0ee8b0d6bbfe",
+      "core_id": "arduous",
+      "driver": "direct-cmake",
+      "legacy_catalog_spec_sha256": "95a3bccc7c2c712217486c68a25b98b360758f81b0426a45bafa7268bc843a5e",
+      "proof_binding": {
+        "binding_id": "arduous",
+        "binding_kind": "legacy-validator",
+        "proof_kind": "legacy-validator",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "95a3bccc7c2c712217486c68a25b98b360758f81b0426a45bafa7268bc843a5e"
+    },
+    {
+      "content_sha256": "b32df6e03fa017326c7e07074c1823bc8c8244f7415944a384c371fb89150979",
+      "core_id": "atari800",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "714c0d5c3ac0d7563a2f1e20e2a2fd9fe8f2790d33bf36995b92557b7eb0d0de",
+      "proof_binding": {
+        "binding_id": "atari800-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "714c0d5c3ac0d7563a2f1e20e2a2fd9fe8f2790d33bf36995b92557b7eb0d0de"
+    },
+    {
+      "content_sha256": "c7be7784d3f7ec1b13e29eab8ce715fc7c7237449d732d147c2c0dfb4f977aef",
+      "core_id": "bk",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "68f077d2b35b7a8a1ffb668a388b2b880c40335250d2c5a2c729fd9e712a7f9b",
+      "proof_binding": {
+        "binding_id": "bk-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "68f077d2b35b7a8a1ffb668a388b2b880c40335250d2c5a2c729fd9e712a7f9b"
+    },
+    {
+      "content_sha256": "738982208690c342779aa4a07629b32cf385006f35147bdfcf443ee2d34830af",
+      "core_id": "bluemsx",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "4e7eceb00b599dde521189fff912b92714668561c97b25dd2dea38b810d6afd8",
+      "proof_binding": {
+        "binding_id": "bluemsx-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "4e7eceb00b599dde521189fff912b92714668561c97b25dd2dea38b810d6afd8"
+    },
+    {
+      "content_sha256": "fba70dbcba7209d07d176a47d0447ab6c204482c6842bb331ff07ee2d204f15e",
+      "core_id": "cap32",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "656e6b099425741d90e6cc0a87b7bd682e6e07ff2ea2b5ec70396e41d1b9b961",
+      "proof_binding": {
+        "binding_id": "cap32-make-trace-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "656e6b099425741d90e6cc0a87b7bd682e6e07ff2ea2b5ec70396e41d1b9b961"
+    },
+    {
+      "content_sha256": "0c9c7e0acdb8ac0f3e8d3bf70c567aedaef19957d679015ffd9a59cd9b0e9ee9",
+      "core_id": "chailove",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "2a6034318339bac3efebf9aed4feaf82acdee14095a53d999d1fcb715d5bdeb7",
+      "proof_binding": {
+        "binding_id": "chailove-c-asm-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "2a6034318339bac3efebf9aed4feaf82acdee14095a53d999d1fcb715d5bdeb7"
+    },
+    {
+      "content_sha256": "8f1f3bd37d8d1276ade7fd05d3c7a3818b1d7eb33c724891f23ed9c56cd7e612",
+      "core_id": "chimerasnes",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "6cd34190f3f6a811e99ddea86c3abacb9625199778649046e345e146c7285db5",
+      "proof_binding": {
+        "binding_id": "chimerasnes-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "6cd34190f3f6a811e99ddea86c3abacb9625199778649046e345e146c7285db5"
+    },
+    {
+      "content_sha256": "2dad6780970add06e60233fa503a91c21f3aebf3f713b382ca56c9222f4ebc23",
+      "core_id": "crocods",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "da5d1d99213e74e996eb62b4693d75b527d9c02e9560407e6ad3fa4101324575",
+      "proof_binding": {
+        "binding_id": "crocods-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "da5d1d99213e74e996eb62b4693d75b527d9c02e9560407e6ad3fa4101324575"
+    },
+    {
+      "content_sha256": "a176a9dc283df6f421d16687d3968f212dc0a4944d7df29c91c49811c9d20ae7",
+      "core_id": "daphne",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "ee5d8d6a619c161eb9516dcea65b9d3b6bb8275d91dfafcb854531ea7030710b",
+      "proof_binding": {
+        "binding_id": "daphne-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "ee5d8d6a619c161eb9516dcea65b9d3b6bb8275d91dfafcb854531ea7030710b"
+    },
+    {
+      "content_sha256": "77e699a547222b721920c6c78622c1265a64b263da097e5243d3fd39ec68496a",
+      "core_id": "dosbox_pure",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "5c2e416def84105eeea036d43cedcea1688c66e796f970a6b325b034d5c5bae0",
+      "proof_binding": {
+        "binding_id": "dosbox-pure-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "5c2e416def84105eeea036d43cedcea1688c66e796f970a6b325b034d5c5bae0"
+    },
+    {
+      "content_sha256": "7ee5cf06c41116262c93b8af80336cef8e340b2ee4ebd29ff05700d9a462b25a",
+      "core_id": "easyrpg",
+      "driver": "direct-cmake",
+      "legacy_catalog_spec_sha256": "e122d2aa8338cc40596a0c3bd4d2ebf9978dfae1cd88fc344f85b54603a3abe7",
+      "proof_binding": {
+        "binding_id": "easyrpg",
+        "binding_kind": "legacy-validator",
+        "proof_kind": "legacy-validator",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "e122d2aa8338cc40596a0c3bd4d2ebf9978dfae1cd88fc344f85b54603a3abe7"
+    },
+    {
+      "content_sha256": "daa681aaf3d1883d90dc5613f46eb078a9b6318b1239a722c76748063f78095c",
+      "core_id": "ecwolf",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "7888e876b79b8d0eb9c9373b6809ab4b9b02493534a56e15ad4c7825c6eaa95b",
+      "proof_binding": {
+        "binding_id": "ecwolf-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "7888e876b79b8d0eb9c9373b6809ab4b9b02493534a56e15ad4c7825c6eaa95b"
+    },
+    {
+      "content_sha256": "c330a6b596a38c4d109eae50d2826e3e6c70e7cb254bc896242fcafaf10cfe68",
+      "core_id": "fake08",
+      "driver": "direct-make",
+      "legacy_catalog_spec_sha256": "520e78d4510d907e260ebcd2660251c2a58497a97842483f514219780c933d5f",
+      "proof_binding": {
+        "binding_id": "fake08-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "520e78d4510d907e260ebcd2660251c2a58497a97842483f514219780c933d5f"
+    },
+    {
+      "content_sha256": "4adfc8187921d1796f0d9da9da9a76da76005e88d19c42a1262b0577bf0e5bce",
+      "core_id": "fbalpha2012",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "abd3cb4ededdcd8c44d47671fa4aa5fba6d8b3193313648b2b2edd53e4356736",
+      "proof_binding": {
+        "binding_id": "fbalpha2012-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "abd3cb4ededdcd8c44d47671fa4aa5fba6d8b3193313648b2b2edd53e4356736"
+    },
+    {
+      "content_sha256": "ab14b5d4d3b4bccaa368d3251ba5d39407c6de483fce9495668a47955759c0f8",
+      "core_id": "fbneo",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "a55d0e4f5508d4a7ac56d4d953e8958ad55773881f48bc9086e5241fd663c05d",
+      "proof_binding": {
+        "binding_id": "fbneo-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "a55d0e4f5508d4a7ac56d4d953e8958ad55773881f48bc9086e5241fd663c05d"
+    },
+    {
+      "content_sha256": "2ef7eb7ee6a20200e04e99dc745d40b5ba485d9e21a4995338b2e7dc62b74496",
+      "core_id": "fceumm",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "911f1a9d4f7612b6e6a552b4aa7b84d3a41baa1011f41de18a777418a4916e71",
+      "proof_binding": {
+        "binding_id": "fceumm-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "911f1a9d4f7612b6e6a552b4aa7b84d3a41baa1011f41de18a777418a4916e71"
+    },
+    {
+      "content_sha256": "d71cc2c41056850a8034707755e272e648552f8928234695c19de14daf49950e",
+      "core_id": "ffmpeg",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "f0573ff1bc2d5c9690386f5bf53d151b89a24616ef14dcadfcd6a2aeda776764",
+      "proof_binding": {
+        "binding_id": "ffmpeg",
+        "binding_kind": "legacy-validator",
+        "proof_kind": "legacy-validator",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "f0573ff1bc2d5c9690386f5bf53d151b89a24616ef14dcadfcd6a2aeda776764"
+    },
+    {
+      "content_sha256": "c360d13f6fa14f1f1719f2cb5ec046908af2ff04fc181f8a7dbfbd7d1e6648a1",
+      "core_id": "flycast",
+      "driver": "direct-cmake",
+      "legacy_catalog_spec_sha256": "d537ae721b3747682041c7bc59842d0adef4d0e1ce29b3a415a0897659d621e5",
+      "proof_binding": {
+        "binding_id": "flycast",
+        "binding_kind": "legacy-validator",
+        "proof_kind": "legacy-validator",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "d537ae721b3747682041c7bc59842d0adef4d0e1ce29b3a415a0897659d621e5"
+    },
+    {
+      "content_sha256": "96cd545e94daffe8874888defc7311b4fcea99333d01aa5180221e02c8217f0e",
+      "core_id": "fmsx",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "50835aecd3468db226fc4962a3d123cd81a4e2c730c216724cb8c6916ab9ecd3",
+      "proof_binding": {
+        "binding_id": "fmsx-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "50835aecd3468db226fc4962a3d123cd81a4e2c730c216724cb8c6916ab9ecd3"
+    },
+    {
+      "content_sha256": "b05554f131967a1b1bff9693f827eec26955fd0194c7985bfcbed7f129daddef",
+      "core_id": "freechaf",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "90af179130c4696cbbf8443549c04221b0c22f0ae5097012405bf093a671d9a1",
+      "proof_binding": {
+        "binding_id": "freechaf-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "90af179130c4696cbbf8443549c04221b0c22f0ae5097012405bf093a671d9a1"
+    },
+    {
+      "content_sha256": "eb0d833bc45510bf81720a48f6ec64531d7933cd3ce1977c6e3dcba1bbd1fcb4",
+      "core_id": "freeintv",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "be44e69a24a2acc3cfac870a83da0eaccfdec61dd98b823ba7f53ada7f372f09",
+      "proof_binding": {
+        "binding_id": "freeintv-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "be44e69a24a2acc3cfac870a83da0eaccfdec61dd98b823ba7f53ada7f372f09"
+    },
+    {
+      "content_sha256": "34a92d88261e456abc529688ebf901b76d91844d62374cb55c3847a4b9628df9",
+      "core_id": "frodo",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "4f5bc93577a81d3d16b7af4b773cad3b1c64bffc4fbe7e8d7253c61c8c1d06bb",
+      "proof_binding": {
+        "binding_id": "frodo-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "4f5bc93577a81d3d16b7af4b773cad3b1c64bffc4fbe7e8d7253c61c8c1d06bb"
+    },
+    {
+      "content_sha256": "aa556efea64c08db3ff691e1bc1de71247b76860793505a405c8c349472e8f2d",
+      "core_id": "fuse",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "1c820f4cc70287c48cc41df9c1a6900ff28af9669ae737a023ff8219c08c6a85",
+      "proof_binding": {
+        "binding_id": "fuse-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "1c820f4cc70287c48cc41df9c1a6900ff28af9669ae737a023ff8219c08c6a85"
+    },
+    {
+      "content_sha256": "e2c584117fd33f26bbe3ce9732334b8596f375a4061a00af8245b6b988a75141",
+      "core_id": "gambatte",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "0884974adfa4849f96e63533809575bde179e2f0f5d42c5419985078133def73",
+      "proof_binding": {
+        "binding_id": "gambatte-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "0884974adfa4849f96e63533809575bde179e2f0f5d42c5419985078133def73"
+    },
+    {
+      "content_sha256": "3c361660feae835dec216c92caad39e94eadb3e19717412583bd44110687e1f3",
+      "core_id": "gearboy",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "c988a12d325c45ad880e2c0463a4ed16d3e18204dbe728308591a138b00fb2b2",
+      "proof_binding": {
+        "binding_id": "gearboy-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "c988a12d325c45ad880e2c0463a4ed16d3e18204dbe728308591a138b00fb2b2"
+    },
+    {
+      "content_sha256": "ed60652d54943d7c4020fc534d65fb69062f1606cd3944cde5525c5c738f1089",
+      "core_id": "gearcoleco",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "ce2bfe37e2aa0ecebe88eabdf9e371eb8a71af30033914a5e7395229ba53f226",
+      "proof_binding": {
+        "binding_id": "gearcoleco-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "ce2bfe37e2aa0ecebe88eabdf9e371eb8a71af30033914a5e7395229ba53f226"
+    },
+    {
+      "content_sha256": "3d667f543286f09bb86107aa021e7126d67858f60fad7522c07abf2d7234f9e6",
+      "core_id": "gearsystem",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "4281bd37eecae3264c7782aa76df447517a179ef8c166d66c40f6aeefa5b59ac",
+      "proof_binding": {
+        "binding_id": "gearsystem-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "4281bd37eecae3264c7782aa76df447517a179ef8c166d66c40f6aeefa5b59ac"
+    },
+    {
+      "content_sha256": "cb2e333c0420d621cbd5ed04a92ad8dd0009e39d9a13238f40c2b61419bbb951",
+      "core_id": "genesis_plus_gx",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "e1e2496d6621e22b08b052085b9c2c967ceff500be7540851032a57b53bb6894",
+      "proof_binding": {
+        "binding_id": "genesis-plus-gx-c-link-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "e1e2496d6621e22b08b052085b9c2c967ceff500be7540851032a57b53bb6894"
+    },
+    {
+      "content_sha256": "1fd28b9751c61da1ec5fda0f0f97d616244b81079b896db71829a1581704db85",
+      "core_id": "genesis_plus_gx_wide",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "516a50c921e9efef8868670286d47325a9bbae213b30c71260c4c9e3f7dc3851",
+      "proof_binding": {
+        "binding_id": "genesis-plus-gx-wide-c-link-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "516a50c921e9efef8868670286d47325a9bbae213b30c71260c4c9e3f7dc3851"
+    },
+    {
+      "content_sha256": "f45dc9d7a4ae2dbbba40178227d8c63d73ca7b1fe75ff9e6c3e404f1a94b2d28",
+      "core_id": "gme",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "5b28225ceb4785a58c01a2a91d3986111b1086ad383a6d9a4340f472f14c27ea",
+      "proof_binding": {
+        "binding_id": "gme-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "5b28225ceb4785a58c01a2a91d3986111b1086ad383a6d9a4340f472f14c27ea"
+    },
+    {
+      "content_sha256": "dd1adac3acd38ef90308e82a6de34af27a0bcb36a53fc7e40007faeb3216867a",
+      "core_id": "gpsp",
+      "driver": "direct-make",
+      "legacy_catalog_spec_sha256": "08fcfb5c176235dcdc7a51ae9b8e7927e25941aef896ec82d7de2a8ee16e98ac",
+      "proof_binding": {
+        "binding_id": "gpsp-c-asm-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "08fcfb5c176235dcdc7a51ae9b8e7927e25941aef896ec82d7de2a8ee16e98ac"
+    },
+    {
+      "content_sha256": "d974a8c4358bb3ddc42d1595cc9c034a4466a5f3feba8f7ace8884142125c379",
+      "core_id": "gw",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "e4fbf443a4e2f3cfc2c23eaf7e30a8bda2eb9f981bf12c51baffbf7fdbe93ee8",
+      "proof_binding": {
+        "binding_id": "gw-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "e4fbf443a4e2f3cfc2c23eaf7e30a8bda2eb9f981bf12c51baffbf7fdbe93ee8"
+    },
+    {
+      "content_sha256": "7bf92d8d0d10e1e4d0b582670a577b47eeb8561e1563ddd28d79c58e2311aba8",
+      "core_id": "handy",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "9e1619633782ad72b1930dde1618fbd66fb422bca558fd2b12c9f3a80f3db3ac",
+      "proof_binding": {
+        "binding_id": "handy-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "9e1619633782ad72b1930dde1618fbd66fb422bca558fd2b12c9f3a80f3db3ac"
+    },
+    {
+      "content_sha256": "700a440104ff41546e67bc35eff2fda08cc1c4164c8b2d1bf07466ed3a731b01",
+      "core_id": "hatari",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "121fc640797d8dc4d32e9283410a7ca7e4a499ea8ce11616421f2bf9307ef552",
+      "proof_binding": {
+        "binding_id": "hatari-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "121fc640797d8dc4d32e9283410a7ca7e4a499ea8ce11616421f2bf9307ef552"
+    },
+    {
+      "content_sha256": "8441ae6ca6e11cecfd8c2ed112052fcb218af03bb6bc040b079199e5894adc94",
+      "core_id": "km_duckswanstation_xtreme_amped",
+      "driver": "direct-cmake",
+      "legacy_catalog_spec_sha256": "528196742b0a9b20deee6676944914110cd2a8a389498e1e325319b6c02ef969",
+      "proof_binding": {
+        "binding_id": "km_duckswanstation_xtreme_amped",
+        "binding_kind": "legacy-validator",
+        "proof_kind": "legacy-validator",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "528196742b0a9b20deee6676944914110cd2a8a389498e1e325319b6c02ef969"
+    },
+    {
+      "content_sha256": "7bd27cd525ba623075460861abb8477b66c2cdffe64688266bf0b099ef25e421",
+      "core_id": "km_parallel_n64_xtreme_amped_turbo",
+      "driver": "direct-make",
+      "legacy_catalog_spec_sha256": "4e6e170bbabd25c874aa51853bc4b900bb4769fb3861048d779469a2dd6ae34e",
+      "proof_binding": {
+        "binding_id": "km-parallel-n64-c-asm-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "4e6e170bbabd25c874aa51853bc4b900bb4769fb3861048d779469a2dd6ae34e"
+    },
+    {
+      "content_sha256": "cb0e5c99d38b9d311547bc7edc491e03cc9ba812cae5fba390d4744ba02af462",
+      "core_id": "libgametank",
+      "driver": "direct-cargo",
+      "legacy_catalog_spec_sha256": "1557aaf11d37d53e9ea6293c6db68863449006802b5b972693b8db0f07c8939f",
+      "proof_binding": {
+        "binding_id": "libgametank-cargo-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "1557aaf11d37d53e9ea6293c6db68863449006802b5b972693b8db0f07c8939f"
+    },
+    {
+      "content_sha256": "64b59c735d262a2dd3899c5b262dcb497ebfe2d69eefe951a4070e6fc5a3f9c7",
+      "core_id": "lowresnx",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "0969d490f5234e6b70a3b90766e8ce79aeea3eb3b0a3d44ff33f8b9a2459f13a",
+      "proof_binding": {
+        "binding_id": "lowresnx-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "0969d490f5234e6b70a3b90766e8ce79aeea3eb3b0a3d44ff33f8b9a2459f13a"
+    },
+    {
+      "content_sha256": "790de8b3739d02b5ccb044ee3e73912eb25617576f3a3237a1d69a2ab7f000ec",
+      "core_id": "lutro",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "32a722dc6ee06d880573ab770fb7271383ea21bb8df73b2df7ad3e7beace7c64",
+      "proof_binding": {
+        "binding_id": "lutro-c-only-archive-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "32a722dc6ee06d880573ab770fb7271383ea21bb8df73b2df7ad3e7beace7c64"
+    },
+    {
+      "content_sha256": "89443d995e74031632566175912460b1da14fff123375a195ea4cd9d766fd063",
+      "core_id": "mame2003_plus",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "1fe6588648a5b52cc172699edf6ae5591ff5e00a8d6349d4d4ad21ad9eb00da0",
+      "proof_binding": {
+        "binding_id": "mame2003-plus-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "1fe6588648a5b52cc172699edf6ae5591ff5e00a8d6349d4d4ad21ad9eb00da0"
+    },
+    {
+      "content_sha256": "a0b430489ca70292d31193b7ec58783e91294fe1ef1ff823a45eca4c66bfa390",
+      "core_id": "mednafen_lynx",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "5b8491e4f3fb48f6d9394209cd2c4d82a1a970a586ca380d6d3eec890bd5e11e",
+      "proof_binding": {
+        "binding_id": "mednafen-lynx-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "5b8491e4f3fb48f6d9394209cd2c4d82a1a970a586ca380d6d3eec890bd5e11e"
+    },
+    {
+      "content_sha256": "6105d7dd97cbaba64151496a66de6481e901ec2aa0bb7d542d11c9363d770995",
+      "core_id": "mednafen_ngp",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "effabaa894956069d22b53442465cddadeef0513936df6c03ef7a5ce5787f6fd",
+      "proof_binding": {
+        "binding_id": "mednafen-ngp-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "effabaa894956069d22b53442465cddadeef0513936df6c03ef7a5ce5787f6fd"
+    },
+    {
+      "content_sha256": "571de3d7f4c8ad6c392a8c4dc3fa3998aff8c60fde38e30a1763be604b6d51bf",
+      "core_id": "mednafen_pce_fast",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "ffbd49ad660d159552adde1d019e52aa97927ed5cd6b71d0ce076bd95262f016",
+      "proof_binding": {
+        "binding_id": "mednafen-pce-fast-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "ffbd49ad660d159552adde1d019e52aa97927ed5cd6b71d0ce076bd95262f016"
+    },
+    {
+      "content_sha256": "9ef3dd9fb62e11461b55aa31a1707cc6a6e2d21ae4cf0b209454e8d8147ecf7d",
+      "core_id": "mednafen_pcfx",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "f9f5fee6bea6e1606c1eaaaa71d174e190de91757bb2e1771320044d2dd91fdf",
+      "proof_binding": {
+        "binding_id": "mednafen-pcfx-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "f9f5fee6bea6e1606c1eaaaa71d174e190de91757bb2e1771320044d2dd91fdf"
+    },
+    {
+      "content_sha256": "8011b56f2e063edfc0db361f41828d648886ed2ac61d96847add2b7d8855b94b",
+      "core_id": "mednafen_supafaust",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "48c218e7d867513d3e078985b7f780c01bcd119aec43ad4dea3672ef592f74b3",
+      "proof_binding": {
+        "binding_id": "mednafen-supafaust-cxx-link-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "48c218e7d867513d3e078985b7f780c01bcd119aec43ad4dea3672ef592f74b3"
+    },
+    {
+      "content_sha256": "9f0d049929ce5b02206ad966836d1bf75e4c2d56dec3ab4f2bc12228fd61df2f",
+      "core_id": "mednafen_supergrafx",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "8afa6eb344b54a50e163a8d4067f49fb11818c2b6e06e313dd1b3c5ab1434009",
+      "proof_binding": {
+        "binding_id": "mednafen-supergrafx-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "8afa6eb344b54a50e163a8d4067f49fb11818c2b6e06e313dd1b3c5ab1434009"
+    },
+    {
+      "content_sha256": "c8330f5f6aa76c11640c79c05ae64144fb136e14bb7235f8d630e0602601ad7c",
+      "core_id": "mednafen_vb",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "af335f6f7cb06d874db47414d9bb0c322b8a118cf644e8db992c99726e3966ba",
+      "proof_binding": {
+        "binding_id": "mednafen-vb-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "af335f6f7cb06d874db47414d9bb0c322b8a118cf644e8db992c99726e3966ba"
+    },
+    {
+      "content_sha256": "2d753d5a00133decf3fe63f2fddfd3c2f036912efd55ea24ae780892673ac738",
+      "core_id": "mednafen_wswan",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "b89203093c19e10f9a3c6a22d7b27abbd0a430b39038fe6e8c78bb355b16958f",
+      "proof_binding": {
+        "binding_id": "mednafen-wswan-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "b89203093c19e10f9a3c6a22d7b27abbd0a430b39038fe6e8c78bb355b16958f"
+    },
+    {
+      "content_sha256": "25e235ee517b8cda44ea64129af6517ee58edb13912835d3e85e036000ab0f8b",
+      "core_id": "mgba",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "54e8ecd32216b4d9c9bf046e2fa367cb362fcc7ceb1fa3e16d879b3202744563",
+      "proof_binding": {
+        "binding_id": "mgba-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "54e8ecd32216b4d9c9bf046e2fa367cb362fcc7ceb1fa3e16d879b3202744563"
+    },
+    {
+      "content_sha256": "8f14599ebf0cf58e3f6994c76d11b7e6fc60b71413db5cd6db31b42c5c4861dd",
+      "core_id": "mu",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "230d3e5cf5f8cee82a8db7366c9bc391f39dab60a739a2884deccf9e06063f36",
+      "proof_binding": {
+        "binding_id": "mu-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "230d3e5cf5f8cee82a8db7366c9bc391f39dab60a739a2884deccf9e06063f36"
+    },
+    {
+      "content_sha256": "f220cbcdb0c84902ced6cdf73130b4444be25f0b1492eea9dd1388a20318aaf6",
+      "core_id": "mupen64plus_next",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "ea30495e86138194dbe48c4a0d471fc33dd526e8fc272bdc82605377d4e33f7c",
+      "proof_binding": {
+        "binding_id": "mupen64plus-next-c-asm-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "ea30495e86138194dbe48c4a0d471fc33dd526e8fc272bdc82605377d4e33f7c"
+    },
+    {
+      "content_sha256": "a494645752353de0aa20c0147ee0501caa4833411b30a0a8483c6b093ea05f0b",
+      "core_id": "neocd",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "c121c42f888870b32aa131286171999b08490dd9787eb70e606d7ea465107f7b",
+      "proof_binding": {
+        "binding_id": "neocd-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "c121c42f888870b32aa131286171999b08490dd9787eb70e606d7ea465107f7b"
+    },
+    {
+      "content_sha256": "9c7e7b187b1124f525b0595400c1ecf74d1b08778eed2bebae6a219e2135a7b2",
+      "core_id": "nestopia",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "49226d2018f7fe40b4e222027875003d60aaace2b93a15df3c5eafb951fd2cce",
+      "proof_binding": {
+        "binding_id": "nestopia-cxx-link-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "49226d2018f7fe40b4e222027875003d60aaace2b93a15df3c5eafb951fd2cce"
+    },
+    {
+      "content_sha256": "d2d60df16de11cd5cfdc44bdf7e9ddef410caa75e65309537087101ff58600f1",
+      "core_id": "np2kai",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "52f786580daab18cc922bbe782e07ac2315e43366c46abf7af4cd30b9262f906",
+      "proof_binding": {
+        "binding_id": "np2kai-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "52f786580daab18cc922bbe782e07ac2315e43366c46abf7af4cd30b9262f906"
+    },
+    {
+      "content_sha256": "13004a30637157020faffdc6d47a1ea2d6fd74c78784acee311f2706409d723b",
+      "core_id": "numero",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "a943d2019542eaf842c6cbde14f407a17410f88e8ff28590f6f3c51e8c8f088c",
+      "proof_binding": {
+        "binding_id": "numero-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "a943d2019542eaf842c6cbde14f407a17410f88e8ff28590f6f3c51e8c8f088c"
+    },
+    {
+      "content_sha256": "cd4837a26fba2dd07fca7f653c8c7c7ed573d771dbbdc58fe50454f54c85ebf3",
+      "core_id": "o2em",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "2f3a2f08ca532840219201b5fa3ee48baee99ed19759d2c51b7315c7e227ddba",
+      "proof_binding": {
+        "binding_id": "o2em-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "2f3a2f08ca532840219201b5fa3ee48baee99ed19759d2c51b7315c7e227ddba"
+    },
+    {
+      "content_sha256": "683f44f87567344841b3586c556c87f00c72285ad92014e5d51f3cbf10d7037c",
+      "core_id": "opera",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "29da7778c6af2433512b6c70fb0d7fb275b274792b67605ef0e3a708778ade77",
+      "proof_binding": {
+        "binding_id": "opera-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "29da7778c6af2433512b6c70fb0d7fb275b274792b67605ef0e3a708778ade77"
+    },
+    {
+      "content_sha256": "e0694b89b71b98d2103470114af9480afd5252a0b45033a0c514e3e84e604bad",
+      "core_id": "parallel_n64",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "45d19479fde1164ca85c38c544e3364d89b5a34bda7a5752a8edd1d2ac7fedb9",
+      "proof_binding": {
+        "binding_id": "parallel-n64-c-asm-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "45d19479fde1164ca85c38c544e3364d89b5a34bda7a5752a8edd1d2ac7fedb9"
+    },
+    {
+      "content_sha256": "36152b9e96cd74009dccbe810b3a8301b045c240114ad667665631969a5e1a5d",
+      "core_id": "pcsx_rearmed",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "0b9e522247071870ee1c6a9f266f8d24bb54f173debd618c677b538ed9bb66d8",
+      "proof_binding": {
+        "binding_id": "pcsx-rearmed-c-asm-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "0b9e522247071870ee1c6a9f266f8d24bb54f173debd618c677b538ed9bb66d8"
+    },
+    {
+      "content_sha256": "ede66158a6e7cbb545f646429e3afe825d4e017ad7ed81b262d50a5e78fcf4cf",
+      "core_id": "picodrive",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "e00b3c9850a97003fe2803f3761c5aa273d844fa67a6100d94739d2fb410c14a",
+      "proof_binding": {
+        "binding_id": "picodrive-source-root-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "e00b3c9850a97003fe2803f3761c5aa273d844fa67a6100d94739d2fb410c14a"
+    },
+    {
+      "content_sha256": "91939efae360c6483d1f39783924e10fcf2bee55113bc3e238cb58285235bd30",
+      "core_id": "pokemini",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "05ad414813e1dedbd6d0c1000b708ebfed65932bcdcedc067a2a33a7f350bd3f",
+      "proof_binding": {
+        "binding_id": "pokemini-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "05ad414813e1dedbd6d0c1000b708ebfed65932bcdcedc067a2a33a7f350bd3f"
+    },
+    {
+      "content_sha256": "3b2677c0c8d98b408c1278f88c2cee3956a54cdaf3daa7af8d175eb15dba54d2",
+      "core_id": "potator",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "e637204e66d3da5c6dbb06b01ffc799cd2fff49fd2b736ca25aef2b11a5f438d",
+      "proof_binding": {
+        "binding_id": "potator-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "e637204e66d3da5c6dbb06b01ffc799cd2fff49fd2b736ca25aef2b11a5f438d"
+    },
+    {
+      "content_sha256": "528c991593bb302a8d5a50bdd62461e766ddcf3521c4815210703cd51494ce7a",
+      "core_id": "prboom",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "41a0deb0c6d93e1dd95794f733d8434c195d9f6b49403670628ac334ddacff07",
+      "proof_binding": {
+        "binding_id": "prboom-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "41a0deb0c6d93e1dd95794f733d8434c195d9f6b49403670628ac334ddacff07"
+    },
+    {
+      "content_sha256": "2b40a57a092f2c9531d6c2e80535a5c26b4c15ed4a70c8c6de31149e453c79b4",
+      "core_id": "prosystem",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "c51540be15a197b85049ecb0f35be2108a5eb7fac51b569b9d53c976400b36e8",
+      "proof_binding": {
+        "binding_id": "prosystem-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "c51540be15a197b85049ecb0f35be2108a5eb7fac51b569b9d53c976400b36e8"
+    },
+    {
+      "content_sha256": "f16b4e4b31045f984e401f88d976bb80cae820bb7c1b470d881ccb45460d3d71",
+      "core_id": "puae2021",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "5bec2c14016e107f14bad13046e62206c15ed734a5c38c54e8c522c1bedc7581",
+      "proof_binding": {
+        "binding_id": "puae2021-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "5bec2c14016e107f14bad13046e62206c15ed734a5c38c54e8c522c1bedc7581"
+    },
+    {
+      "content_sha256": "1ba19e5c1e8762515428e2d3281a05f442fa9ba373d49e7e6097b32600733d41",
+      "core_id": "puzzlescript",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "a9cd1e15f37c19ca5b0f813154947a808fbeab1384d03f884dc6a5ef02595797",
+      "proof_binding": {
+        "binding_id": "puzzlescript-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "a9cd1e15f37c19ca5b0f813154947a808fbeab1384d03f884dc6a5ef02595797"
+    },
+    {
+      "content_sha256": "881fdb992d7479b2ca820d8301c7858806b950585aea24591a3a73a90910c285",
+      "core_id": "px68k",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "0e26231c63ec578c8c763555b40ed060a81372e029772adfbbf6f40b68a593cd",
+      "proof_binding": {
+        "binding_id": "px68k-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "0e26231c63ec578c8c763555b40ed060a81372e029772adfbbf6f40b68a593cd"
+    },
+    {
+      "content_sha256": "6d7ef5b8629b9ac0e6905a005f78e87d2c4668bce4fba5e9161160ebfb62a2ce",
+      "core_id": "quasi88",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "ceb57c01518b349c2eefe2699193440456bb4d1f3252fe140533df72f80349ff",
+      "proof_binding": {
+        "binding_id": "quasi88-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "ceb57c01518b349c2eefe2699193440456bb4d1f3252fe140533df72f80349ff"
+    },
+    {
+      "content_sha256": "002d34058dc80ed6e548b4cf61a3d5e6f925e4946f880844817a20d399718383",
+      "core_id": "quicknes",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "3a8aa953c97c10329cf3b7d84d0ab933738320a88d0df5e50974a76ed51beccb",
+      "proof_binding": {
+        "binding_id": "quicknes-cxx-link-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "3a8aa953c97c10329cf3b7d84d0ab933738320a88d0df5e50974a76ed51beccb"
+    },
+    {
+      "content_sha256": "1c783c97e61e802f67ea395e02bf1822db174c9ed77dcd647b9c022c80604056",
+      "core_id": "race",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "dda8e53b6dddeba17d7092da09c8a9bc2a7d2e33f47f8f1334795f55348d4b6e",
+      "proof_binding": {
+        "binding_id": "race-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "dda8e53b6dddeba17d7092da09c8a9bc2a7d2e33f47f8f1334795f55348d4b6e"
+    },
+    {
+      "content_sha256": "4711749b82e80bddfa1b7ed8c94bb7daa80ac004c4a54f687bf304f5ff49cfdb",
+      "core_id": "reminiscence",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "58a9dc91de112817d12b53eea6ff972f1034f1637904eb5491fdf45b930c3da0",
+      "proof_binding": {
+        "binding_id": "reminiscence-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "58a9dc91de112817d12b53eea6ff972f1034f1637904eb5491fdf45b930c3da0"
+    },
+    {
+      "content_sha256": "8b29e0a569f4d6d1cd5674a50944512674fb825f16b0ea606d966429f23bf2b3",
+      "core_id": "retro8",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "157f326718d82ab23ceca76b6d5a073d31512c2b4ff89b8d1be257dc1866479f",
+      "proof_binding": {
+        "binding_id": "retro8-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "157f326718d82ab23ceca76b6d5a073d31512c2b4ff89b8d1be257dc1866479f"
+    },
+    {
+      "content_sha256": "5a0a1fb5fef111711764814b68cff4517cecb7583b5d10662b80aa7820ca83cb",
+      "core_id": "sameduck",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "c72c1880eca814c698360020bd2c8d40529c3727456124cab607cb63355f03fe",
+      "proof_binding": {
+        "binding_id": "sameduck-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "c72c1880eca814c698360020bd2c8d40529c3727456124cab607cb63355f03fe"
+    },
+    {
+      "content_sha256": "0b68c673a5c093e4fea099fbd1e54b6c866f8d82a6822dc37c3cbc98584989e2",
+      "core_id": "snes9x",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "831b8cd0a0141556bdd930a58b99bf8fd9bc9c63c4719f1317716c214a10c2c8",
+      "proof_binding": {
+        "binding_id": "snes9x-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "831b8cd0a0141556bdd930a58b99bf8fd9bc9c63c4719f1317716c214a10c2c8"
+    },
+    {
+      "content_sha256": "27936ffbf637b3e4bc7edb8c0edf8fd889a410d10daba53a9ff3f401459d7e0e",
+      "core_id": "snes9x2002",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "be38c2d24bac610c9743bc227ae6d5948bd2bdcc4a4d8d326b91d200430179d1",
+      "proof_binding": {
+        "binding_id": "snes9x2002-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "be38c2d24bac610c9743bc227ae6d5948bd2bdcc4a4d8d326b91d200430179d1"
+    },
+    {
+      "content_sha256": "6c5f01945b102446ede223e335ba6ad4a9fbdb709c75e7e0dc903c332456a85f",
+      "core_id": "snes9x2005",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "2384a8a9b4c6d5efa2c3b5ced5c9d933d2984f396802d6283b81456b3bfd4f1d",
+      "proof_binding": {
+        "binding_id": "snes9x2005-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "2384a8a9b4c6d5efa2c3b5ced5c9d933d2984f396802d6283b81456b3bfd4f1d"
+    },
+    {
+      "content_sha256": "78e4a8ea343fbec313aca05e99e0021078883c2273c387d37b2be64faa878992",
+      "core_id": "snes9x2005_plus",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "cc9a4d637c0b0c1fbb90d571f56c58a39b3b8623373945b23f588ee0f5860ff7",
+      "proof_binding": {
+        "binding_id": "snes9x2005-plus-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "cc9a4d637c0b0c1fbb90d571f56c58a39b3b8623373945b23f588ee0f5860ff7"
+    },
+    {
+      "content_sha256": "aa5ab8e7c526dc4aea18aede764b53662bc0056e5d719880ea515124db85551e",
+      "core_id": "snes9x2010",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "0149c13ee8f890735596a236278a9fdf2b4b9ffbc6ca0914e2d10383b372f254",
+      "proof_binding": {
+        "binding_id": "snes9x2010-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "0149c13ee8f890735596a236278a9fdf2b4b9ffbc6ca0914e2d10383b372f254"
+    },
+    {
+      "content_sha256": "4adbc5f35d151f6a65bc5b606aba198fd5aaf93d7de6b15740855769ac06dcb3",
+      "core_id": "squirreljme",
+      "driver": "direct-cmake",
+      "legacy_catalog_spec_sha256": "606d9c2a3330460bf919c83c68d868b81d70bea0ca60833742dacb73b3c03f8e",
+      "proof_binding": {
+        "binding_id": "squirreljme",
+        "binding_kind": "legacy-validator",
+        "proof_kind": "legacy-validator",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "606d9c2a3330460bf919c83c68d868b81d70bea0ca60833742dacb73b3c03f8e"
+    },
+    {
+      "content_sha256": "3c7f36e7921087fb1bbdde14aa829bc4c9a8420f43634d1d676bc69b0a04591b",
+      "core_id": "stella2014",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "12758289730e5d9783bb70f997eb67651d24cbd09ba5d58af50cbaa910b94d7c",
+      "proof_binding": {
+        "binding_id": "stella2014-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "12758289730e5d9783bb70f997eb67651d24cbd09ba5d58af50cbaa910b94d7c"
+    },
+    {
+      "content_sha256": "51a26335ae880dcd34b31e90bf11809d749b62c661f940a482cdd83f3b808dc2",
+      "core_id": "swanstation",
+      "driver": "direct-cmake",
+      "legacy_catalog_spec_sha256": "e880984e36ae029dd36dc0543e4a4f197bf378258ae20a10af36ee053ee29d6e",
+      "proof_binding": {
+        "binding_id": "swanstation",
+        "binding_kind": "legacy-validator",
+        "proof_kind": "legacy-validator",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "e880984e36ae029dd36dc0543e4a4f197bf378258ae20a10af36ee053ee29d6e"
+    },
+    {
+      "content_sha256": "f2d8d262592aae293eb085143e43a83855bd84437f4289ed9b97193a10fd9726",
+      "core_id": "tgbdual",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "9861c5a3a549fe0c620b49bf9efd494504b69b11da6a2142d388fac2f94e6717",
+      "proof_binding": {
+        "binding_id": "tgbdual-cxx-link-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "9861c5a3a549fe0c620b49bf9efd494504b69b11da6a2142d388fac2f94e6717"
+    },
+    {
+      "content_sha256": "c652083e18a2627e8cb75c90d9c2dfb2725e5b5f33e4abd36261b659bf32b867",
+      "core_id": "theodore",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "268d8461f74803b40546e7e293303479a1ed628a2e3460a43d5b430b72e8780d",
+      "proof_binding": {
+        "binding_id": "theodore-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "268d8461f74803b40546e7e293303479a1ed628a2e3460a43d5b430b72e8780d"
+    },
+    {
+      "content_sha256": "9ebd1e08740e4d221ac9ce21097e454eca65baf423f8b6c0fe371e93194fa3fe",
+      "core_id": "tic80",
+      "driver": "direct-cmake",
+      "legacy_catalog_spec_sha256": "b0254f30c6b12566b6b5c1faa190a315814871fc9d1f0e01ccb705c9a5798383",
+      "proof_binding": {
+        "binding_id": "tic80",
+        "binding_kind": "legacy-validator",
+        "proof_kind": "legacy-validator",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "b0254f30c6b12566b6b5c1faa190a315814871fc9d1f0e01ccb705c9a5798383"
+    },
+    {
+      "content_sha256": "c4bfee76114281244adff414a2a7b01c9c3807707fcafe453a27acf0d041f2cd",
+      "core_id": "tyrquake",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "dd940f5144a2ba6d52b9e4ea5164446d3ca2f9b7377746ab1e3c221bdbc08955",
+      "proof_binding": {
+        "binding_id": "tyrquake-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "dd940f5144a2ba6d52b9e4ea5164446d3ca2f9b7377746ab1e3c221bdbc08955"
+    },
+    {
+      "content_sha256": "406cee6a2ac065360c193bc3ec998d28a3ac2c4f1ec5e0257bf626c099b3566c",
+      "core_id": "uae4arm",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "63912977458a58183adcf0c2e776e0a82820172d66712ba47b3f1c28d7bb9af1",
+      "proof_binding": {
+        "binding_id": "uae4arm-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "63912977458a58183adcf0c2e776e0a82820172d66712ba47b3f1c28d7bb9af1"
+    },
+    {
+      "content_sha256": "71e5267f29f9bce041ab74ef73242565d91bc3eeb9dc7b2cbfbb95f6343eacf1",
+      "core_id": "uw8",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "1a60f95cda1037a91f1e724f2037f76eea4b7c2368bd3a35660d31b82e702b5e",
+      "proof_binding": {
+        "binding_id": "uw8-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "1a60f95cda1037a91f1e724f2037f76eea4b7c2368bd3a35660d31b82e702b5e"
+    },
+    {
+      "content_sha256": "657388b084f83c0edd0ac3dba3733668812b8334de1ccfdf3778caef1a163777",
+      "core_id": "uzem",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "2d3dc42c493160df5f4b40fe2fcf7b87682247f846a8569229d6ecf108b758ba",
+      "proof_binding": {
+        "binding_id": "uzem-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "2d3dc42c493160df5f4b40fe2fcf7b87682247f846a8569229d6ecf108b758ba"
+    },
+    {
+      "content_sha256": "f9b66c0230f5563a532356a2b2ce87df4d1e52b196c505adf8dfe5edb4e40ab9",
+      "core_id": "vecx",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "14f732c45077f33996dbcb461d48d8b9664f0a2126a67244bdf5e738c7517695",
+      "proof_binding": {
+        "binding_id": "vecx-software-c-only-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "14f732c45077f33996dbcb461d48d8b9664f0a2126a67244bdf5e738c7517695"
+    },
+    {
+      "content_sha256": "9e96766b6368659ec3c735a69cccd28388ba053693dd90ad07311f04b5fd1f69",
+      "core_id": "vemulator",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "76c17ac019a933527837d4efe1cc355b7d27500da7497b8af81fe9f12a586b71",
+      "proof_binding": {
+        "binding_id": "vemulator-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "76c17ac019a933527837d4efe1cc355b7d27500da7497b8af81fe9f12a586b71"
+    },
+    {
+      "content_sha256": "28500bd44575bc7f1e5f4cb36c54b5a72c8b2591842a0e1329ff3165780cb62d",
+      "core_id": "vice_x64",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "bb9596b3125c4946b5cd67dd96285d52ec51736401bb1191daaf8c7c938bf38d",
+      "proof_binding": {
+        "binding_id": "vice-x64-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "bb9596b3125c4946b5cd67dd96285d52ec51736401bb1191daaf8c7c938bf38d"
+    },
+    {
+      "content_sha256": "95e33f05a47999ab1dd311a2a7f4301c110b589b73ba19d08e48b74a48ffaf10",
+      "core_id": "vice_xvic",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "77071ace425419398bafd5bf0aed105b0868aed29beab6596476dc6335852731",
+      "proof_binding": {
+        "binding_id": "vice-xvic-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "77071ace425419398bafd5bf0aed105b0868aed29beab6596476dc6335852731"
+    },
+    {
+      "content_sha256": "1c1b277b1fca0797674da098c06b321bd11c98489fd0e89475cd0a5fd14b3463",
+      "core_id": "x1",
+      "driver": "libretro-super",
+      "legacy_catalog_spec_sha256": "7e005d0088b42ff872ab0fdd47ce24e761d54ee911a244f25f3039ae7cf96bd6",
+      "proof_binding": {
+        "binding_id": "x1-mixed-language-v1",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "7e005d0088b42ff872ab0fdd47ce24e761d54ee911a244f25f3039ae7cf96bd6"
+    },
+    {
+      "content_sha256": "9f54751183ee1a1945d07e39e1fc9824c5d94d8bdd7cf31544e0c7d2648417fc",
+      "core_id": "yabasanshiro",
+      "driver": "direct-make",
+      "legacy_catalog_spec_sha256": "c7b85b4bc8fca42e832f5cdd1a8d5bf2a6535aee5997f93f9fed3e4be77bdc51",
+      "proof_binding": {
+        "binding_id": "yabasanshiro-c-asm-v2",
+        "binding_kind": "registered-log-contract",
+        "proof_kind": "core-arch-source",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "c7b85b4bc8fca42e832f5cdd1a8d5bf2a6535aee5997f93f9fed3e4be77bdc51"
+    }
+  ],
+  "driver_counts": {
+    "direct-cargo": 1,
+    "direct-cmake": 8,
+    "direct-make": 4,
+    "libretro-super": 85
+  },
+  "format": "spruce-core-spec-set-v1",
+  "local_only": true,
+  "publication": "disabled",
+  "schema_version": 1
+}

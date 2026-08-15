@@ -11,7 +11,7 @@ import tempfile
 from typing import Any
 
 from ..errors import PipelineError
-from ..foundation import atomic_create_json, load_json, sha256_file
+from ..foundation import atomic_create_json, load_json, load_json_with_sha256, sha256_file
 from ..runtime import runner_evidence_is_well_formed
 from .model import (
     CORE_RESULT_KEYS,
@@ -33,6 +33,7 @@ from .model import (
     semantic_sha256,
 )
 from .plan import plan_core, validate_release_plan
+from .eligibility import core_group_selection_shape_errors
 
 
 E2E_FACT_KEYS = frozenset(
@@ -51,6 +52,7 @@ def core_result_content_sha256(document: Mapping[str, Any]) -> str:
         "local_only": document.get("local_only"),
         "publication": document.get("publication"),
         "result": document.get("result"),
+        "core_group": document.get("core_group"),
         "plan": document.get("plan"),
         "runner": document.get("runner"),
         "e2e": document.get("e2e"),
@@ -138,6 +140,13 @@ def _result_shape_errors(document: object) -> list[str]:
         errors.append("release core result publication must be disabled")
     if document.get("result") != "passed":
         errors.append("release core result must be passed")
+    core_group = document.get("core_group")
+    if core_group is not None:
+        errors.extend(
+            core_group_selection_shape_errors(
+                core_group, "release core result core_group"
+            )
+        )
     errors.extend(
         _identity_errors(document.get("plan"), PLAN_IDENTITY_KEYS, "result plan")
     )
@@ -245,6 +254,8 @@ def core_result_shape_errors(
             errors.append("release core result plan file identity is invalid")
     if document.get("package") != row["package"]:
         errors.append("release core result package does not match plan")
+    if document.get("core_group") != row["core_group"]:
+        errors.append("release core result group selection does not match plan")
     if _result_target_projection(document) != _planned_target_projection(row):
         errors.append("release core result targets do not match plan")
     return errors
@@ -308,6 +319,7 @@ def construct_core_result(
         "local_only": True,
         "publication": PUBLICATION,
         "result": "passed",
+        "core_group": copy.deepcopy(row["core_group"]),
         "plan": {
             "file_sha256": plan_file_sha256,
             "content_sha256": validated_plan["content_sha256"],
@@ -346,9 +358,10 @@ def _load_exact_plan_file(
         raise PipelineError("release plan path must be a Path")
     _require_regular_nonsymlink(plan_path, "release plan")
     validated_plan = validate_release_plan(plan)
-    if load_json(plan_path) != validated_plan:
+    stored_plan, plan_file_sha256 = load_json_with_sha256(plan_path)
+    if stored_plan != validated_plan:
         raise PipelineError("release plan file does not match supplied plan document")
-    return validated_plan, sha256_file(plan_path)
+    return validated_plan, plan_file_sha256
 
 
 def write_core_result(

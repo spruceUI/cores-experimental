@@ -1,0 +1,90 @@
+PLATFORM: Linux
+ARCHITECTURE: x86_64
+TARGET: unix
+=== SameDuck
+Fetching sameduck...
+git clone "https://github.com/libretro/sameduck.git" "/libretro-super/libretro-sameduck"
+Cloning into '/libretro-super/libretro-sameduck'...
+cd "/libretro-super/libretro-sameduck"
+git checkout SameDuck-libretro
+Already on 'SameDuck-libretro'
+Your branch is up to date with 'origin/SameDuck-libretro'.
+1 core(s) successfully processed:
+	sameduck
+HEAD is now at f0286ee Merge pull request #4 from cscd98/webos-ci
+PLATFORM: Linux
+ARCHITECTURE: x86_64
+TARGET: unix
+CC = aarch64-linux-gnu-gcc
+CXX = aarch64-linux-gnu-g++
+CXX11 = aarch64-linux-gnu-g++
+CXX17 = aarch64-linux-gnu-g++
+STRIP = aarch64-linux-gnu-strip
+Compiler: CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++"
+=== x86 CPU detected... ===
+=== x86_64 CPU detected... ===
+unix
+unix
+=== SameDuck
+Building sameduck...
+cd "/libretro-super/libretro-sameduck/libretro"
+make -f Makefile platform="unix" -j24  clean
+rm -f ..//build/obj/Core/gb_libretro.c.o ..//build/obj/Core/apu_libretro.c.o ..//build/obj/Core/memory_libretro.c.o ..//build/obj/Core/timing_libretro.c.o ..//build/obj/Core/display_libretro.c.o ..//build/obj/Core/symbol_hash_libretro.c.o ..//build/obj/Core/camera_libretro.c.o ..//build/obj/Core/sm83_cpu_libretro.c.o ..//build/obj/Core/joypad_libretro.c.o ..//build/obj/Core/save_state_libretro.c.o ..//build/obj/Core/random_libretro.c.o ..//build/obj/Core/rumble_libretro.c.o ..//build/obj/libretro/libretro_libretro.c.o sameduck_libretro.so
+make -f Makefile platform="unix" -j24 CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" 
+aarch64-linux-gnu-gcc -c -o..//build/obj/Core/gb_libretro.c.o ..//Core/gb.c -Wall  -DGIT_VERSION=\"" f0286ee"\" -O2 -DNDEBUG -DGB_DISABLE_TIMEKEEPING -DGB_DISABLE_REWIND -DGB_DISABLE_DEBUGGER -DGB_DISABLE_CHEATS -DSAMEBOY_CORE_VERSION=\"0.13.6\" -D__LIBRETRO__ -fPIC -I../ -std=gnu11 -D_GNU_SOURCE -D_USE_MATH_DEFINES -fPIC -DGB_INTERNAL
+aarch64-linux-gnu-gcc -c -o..//build/obj/Core/apu_libretro.c.o ..//Core/apu.c -Wall  -DGIT_VERSION=\"" f0286ee"\" -O2 -DNDEBUG -DGB_DISABLE_TIMEKEEPING -DGB_DISABLE_REWIND -DGB_DISABLE_DEBUGGER -DGB_DISABLE_CHEATS -DSAMEBOY_CORE_VERSION=\"0.13.6\" -D__LIBRETRO__ -fPIC -I../ -std=gnu11 -D_GNU_SOURCE -D_USE_MATH_DEFINES -fPIC -DGB_INTERNAL
+aarch64-linux-gnu-gcc -c -o..//build/obj/Core/memory_libretro.c.o ..//Core/memory.c -Wall  -DGIT_VERSION=\"" f0286ee"\" -O2 -DNDEBUG -DGB_DISABLE_TIMEKEEPING -DGB_DISABLE_REWIND -DGB_DISABLE_DEBUGGER -DGB_DISABLE_CHEATS -DSAMEBOY_CORE_VERSION=\"0.13.6\" -D__LIBRETRO__ -fPIC -I../ -std=gnu11 -D_GNU_SOURCE -D_USE_MATH_DEFINES -fPIC -DGB_INTERNAL
+aarch64-linux-gnu-gcc -c -o..//build/obj/Core/timing_libretro.c.o ..//Core/timing.c -Wall  -DGIT_VERSION=\"" f0286ee"\" -O2 -DNDEBUG -DGB_DISABLE_TIMEKEEPING -DGB_DISABLE_REWIND -DGB_DISABLE_DEBUGGER -DGB_DISABLE_CHEATS -DSAMEBOY_CORE_VERSION=\"0.13.6\" -D__LIBRETRO__ -fPIC -I../ -std=gnu11 -D_GNU_SOURCE -D_USE_MATH_DEFINES -fPIC -DGB_INTERNAL
+aarch64-linux-gnu-gcc -c -o..//build/obj/Core/display_libretro.c.o ..//Core/display.c -Wall  -DGIT_VERSION=\"" f0286ee"\" -O2 -DNDEBUG -DGB_DISABLE_TIMEKEEPING -DGB_DISABLE_REWIND -DGB_DISABLE_DEBUGGER -DGB_DISABLE_CHEATS -DSAMEBOY_CORE_VERSION=\"0.13.6\" -D__LIBRETRO__ -fPIC -I../ -std=gnu11 -D_GNU_SOURCE -D_USE_MATH_DEFINES -fPIC -DGB_INTERNAL
+aarch64-linux-gnu-gcc -c -o..//build/obj/Core/symbol_hash_libretro.c.o ..//Core/symbol_hash.c -Wall  -DGIT_VERSION=\"" f0286ee"\" -O2 -DNDEBUG -DGB_DISABLE_TIMEKEEPING -DGB_DISABLE_REWIND -DGB_DISABLE_DEBUGGER -DGB_DISABLE_CHEATS -DSAMEBOY_CORE_VERSION=\"0.13.6\" -D__LIBRETRO__ -fPIC -I../ -std=gnu11 -D_GNU_SOURCE -D_USE_MATH_DEFINES -fPIC -DGB_INTERNAL
+aarch64-linux-gnu-gcc -c -o..//build/obj/Core/camera_libretro.c.o ..//Core/camera.c -Wall  -DGIT_VERSION=\"" f0286ee"\" -O2 -DNDEBUG -DGB_DISABLE_TIMEKEEPING -DGB_DISABLE_REWIND -DGB_DISABLE_DEBUGGER -DGB_DISABLE_CHEATS -DSAMEBOY_CORE_VERSION=\"0.13.6\" -D__LIBRETRO__ -fPIC -I../ -std=gnu11 -D_GNU_SOURCE -D_USE_MATH_DEFINES -fPIC -DGB_INTERNAL
+aarch64-linux-gnu-gcc -c -o..//build/obj/Core/sm83_cpu_libretro.c.o ..//Core/sm83_cpu.c -Wall  -DGIT_VERSION=\"" f0286ee"\" -O2 -DNDEBUG -DGB_DISABLE_TIMEKEEPING -DGB_DISABLE_REWIND -DGB_DISABLE_DEBUGGER -DGB_DISABLE_CHEATS -DSAMEBOY_CORE_VERSION=\"0.13.6\" -D__LIBRETRO__ -fPIC -I../ -std=gnu11 -D_GNU_SOURCE -D_USE_MATH_DEFINES -fPIC -DGB_INTERNAL
+aarch64-linux-gnu-gcc -c -o..//build/obj/Core/joypad_libretro.c.o ..//Core/joypad.c -Wall  -DGIT_VERSION=\"" f0286ee"\" -O2 -DNDEBUG -DGB_DISABLE_TIMEKEEPING -DGB_DISABLE_REWIND -DGB_DISABLE_DEBUGGER -DGB_DISABLE_CHEATS -DSAMEBOY_CORE_VERSION=\"0.13.6\" -D__LIBRETRO__ -fPIC -I../ -std=gnu11 -D_GNU_SOURCE -D_USE_MATH_DEFINES -fPIC -DGB_INTERNAL
+aarch64-linux-gnu-gcc -c -o..//build/obj/Core/save_state_libretro.c.o ..//Core/save_state.c -Wall  -DGIT_VERSION=\"" f0286ee"\" -O2 -DNDEBUG -DGB_DISABLE_TIMEKEEPING -DGB_DISABLE_REWIND -DGB_DISABLE_DEBUGGER -DGB_DISABLE_CHEATS -DSAMEBOY_CORE_VERSION=\"0.13.6\" -D__LIBRETRO__ -fPIC -I../ -std=gnu11 -D_GNU_SOURCE -D_USE_MATH_DEFINES -fPIC -DGB_INTERNAL
+aarch64-linux-gnu-gcc -c -o..//build/obj/Core/random_libretro.c.o ..//Core/random.c -Wall  -DGIT_VERSION=\"" f0286ee"\" -O2 -DNDEBUG -DGB_DISABLE_TIMEKEEPING -DGB_DISABLE_REWIND -DGB_DISABLE_DEBUGGER -DGB_DISABLE_CHEATS -DSAMEBOY_CORE_VERSION=\"0.13.6\" -D__LIBRETRO__ -fPIC -I../ -std=gnu11 -D_GNU_SOURCE -D_USE_MATH_DEFINES -fPIC -DGB_INTERNAL
+aarch64-linux-gnu-gcc -c -o..//build/obj/Core/rumble_libretro.c.o ..//Core/rumble.c -Wall  -DGIT_VERSION=\"" f0286ee"\" -O2 -DNDEBUG -DGB_DISABLE_TIMEKEEPING -DGB_DISABLE_REWIND -DGB_DISABLE_DEBUGGER -DGB_DISABLE_CHEATS -DSAMEBOY_CORE_VERSION=\"0.13.6\" -D__LIBRETRO__ -fPIC -I../ -std=gnu11 -D_GNU_SOURCE -D_USE_MATH_DEFINES -fPIC -DGB_INTERNAL
+aarch64-linux-gnu-gcc -c -o..//build/obj/libretro/libretro_libretro.c.o ..//libretro/libretro.c -Wall  -DGIT_VERSION=\"" f0286ee"\" -O2 -DNDEBUG -DGB_DISABLE_TIMEKEEPING -DGB_DISABLE_REWIND -DGB_DISABLE_DEBUGGER -DGB_DISABLE_CHEATS -DSAMEBOY_CORE_VERSION=\"0.13.6\" -D__LIBRETRO__ -fPIC -I../ -std=gnu11 -D_GNU_SOURCE -D_USE_MATH_DEFINES -fPIC -DGB_INTERNAL
+..//Core/gb.c: In function 'state_magic':
+..//Core/gb.c:24:35: warning: multi-character character constant [-Wmultichar]
+   24 |     if (sizeof(bool) == 1) return 'SAME';
+      |                                   ^~~~~~
+..//Core/gb.c:25:12: warning: multi-character character constant [-Wmultichar]
+   25 |     return 'S4ME';
+      |            ^~~~~~
+..//Core/apu.c: In function 'update_sample':
+..//Core/apu.c:102:18: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+  102 |             if (*(uint32_t *)&(gb->apu_output.current_sample[index]) != *(uint32_t *)&output) {
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..//Core/apu.c:102:74: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+  102 |             if (*(uint32_t *)&(gb->apu_output.current_sample[index]) != *(uint32_t *)&output) {
+      |                                                                          ^~~~~~~~~~~~~~~~~~~
+..//Core/apu.c:128:14: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+  128 |         if (*(uint32_t *)&(gb->apu_output.current_sample[index]) != *(uint32_t *)&output) {
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..//Core/apu.c:128:70: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+  128 |         if (*(uint32_t *)&(gb->apu_output.current_sample[index]) != *(uint32_t *)&output) {
+      |                                                                      ^~~~~~~~~~~~~~~~~~~
+..//Core/gb.c: In function 'GB_load_isx':
+..//Core/gb.c:226:62: warning: multi-character character constant [-Wmultichar]
+  226 |     bool extended = *(uint32_t *)&magic == __builtin_bswap32('ISX ');
+      |                                                              ^~~~~~
+..//Core/gb.c: In function 'GB_attributed_logv':
+..//Core/gb.c:31:5: warning: ignoring return value of 'vasprintf', declared with attribute warn_unused_result [-Wunused-result]
+   31 |     vasprintf(&string, fmt, args);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..//Core/gb.c: In function 'GB_load_rom':
+..//Core/gb.c:207:5: warning: ignoring return value of 'fread', declared with attribute warn_unused_result [-Wunused-result]
+  207 |     fread(gb->rom, 1, gb->rom_size, f);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..//Core/gb.c: In function 'GB_load_isx':
+..//Core/gb.c:221:5: warning: ignoring return value of 'fread', declared with attribute warn_unused_result [-Wunused-result]
+  221 |     fread(magic, 1, sizeof(magic), f);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..//Core/sm83_cpu.c: In function 'rlc_r':
+..//Core/sm83_cpu.c:1295:17: warning: '<<' in boolean context, did you mean '<' ? [-Wint-in-bool-context]
+ 1295 |     if (!(value << 1)) {
+      |          ~~~~~~~^~~~~
+aarch64-linux-gnu-gcc -fPIC -shared -Wl,--version-script=..//libretro/link.T -Wl,--no-undefined -I../ -o sameduck_libretro.so ..//build/obj/Core/gb_libretro.c.o ..//build/obj/Core/apu_libretro.c.o ..//build/obj/Core/memory_libretro.c.o ..//build/obj/Core/timing_libretro.c.o ..//build/obj/Core/display_libretro.c.o ..//build/obj/Core/symbol_hash_libretro.c.o ..//build/obj/Core/camera_libretro.c.o ..//build/obj/Core/sm83_cpu_libretro.c.o ..//build/obj/Core/joypad_libretro.c.o ..//build/obj/Core/save_state_libretro.c.o ..//build/obj/Core/random_libretro.c.o ..//build/obj/Core/rumble_libretro.c.o ..//build/obj/libretro/libretro_libretro.c.o -lm
+cp "sameduck_libretro.so" "/libretro-super/dist/unix/sameduck_libretro.so"
+1 core(s) successfully processed:
+	sameduck
