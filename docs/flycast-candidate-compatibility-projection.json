@@ -1,0 +1,485 @@
+{
+  "schema": "local-projection-v1",
+  "generated": "2026-08-20",
+  "kind": "PROJECTION - analytical, NOT build or device evidence",
+  "warning": "Nothing here has been built or run. No candidate has been compiled and no device has executed any of these cores; the whole fleet was offline when this was produced. These are projections from source inspection, config gating and ELF analysis of the already-built v2.6 artifacts.",
+  "candidates": {
+    "flycast2021": {
+      "ref": "refs/tags/v1.2",
+      "commit": "7555263e38722ea0e3f2b736b92ad0a91389f4b4",
+      "tree": "746dd0833e9b6d2ed0c4223d8ca13a0a9780e4d0",
+      "released": "2021-12-17",
+      "cmake_floor": "3.10.2",
+      "targets": [
+        "arm64"
+      ],
+      "libchdr_lzma": "lzma-19.00",
+      "onboarded": false
+    },
+    "flycast2024": {
+      "ref": "refs/tags/v2.4",
+      "commit": "8108e63907fc676f898522d20c762a4de3cd2a21",
+      "tree": "3af5316b72bfb0c767e28f344a393322e728b835",
+      "released": "2024-10-21",
+      "cmake_floor": "3.10.2",
+      "targets": [
+        "arm64"
+      ],
+      "libchdr_lzma": "lzma-24.05",
+      "onboarded": false
+    },
+    "flycast": {
+      "ref": "refs/tags/v2.6",
+      "commit": "392a429e8b040b3e5bf6696cb4f984274fc44123",
+      "tree": "712e00d5a9c99abc949bcce2bf02800492de869d",
+      "released": "2026-01-10",
+      "cmake_floor": "3.24",
+      "targets": [
+        "arm64",
+        "armhf"
+      ],
+      "libchdr_lzma": "lzma-24.05",
+      "onboarded": true
+    }
+  },
+  "devices": [
+    {
+      "device_id": "ANBERNIC_RG28XX",
+      "platform_cfg": "AnbernicRG28XX",
+      "architecture": "aarch64",
+      "chipset": "h700",
+      "chipset_basis": "config-evidence (spruce/h700/*, ra64.h700, ra32.h700)",
+      "dreamcast_offered": true,
+      "wired_emulator_bucket": "Emulator_64",
+      "projections": {
+        "flycast2021": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast2024": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.24 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        }
+      }
+    },
+    {
+      "device_id": "ANBERNIC_RG34XXSP",
+      "platform_cfg": "AnbernicXXCommon",
+      "architecture": "aarch64",
+      "chipset": "h700",
+      "chipset_basis": "config-evidence (shared AnbernicXXCommon)",
+      "dreamcast_offered": true,
+      "wired_emulator_bucket": "Emulator_64",
+      "projections": {
+        "flycast2021": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast2024": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.24 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        }
+      }
+    },
+    {
+      "device_id": "ANBERNIC_RGCUBEXX",
+      "platform_cfg": "AnbernicRGCubeXX",
+      "architecture": "aarch64",
+      "chipset": "h700",
+      "chipset_basis": "config-evidence + live note (CubeXX verified in cfg comments)",
+      "dreamcast_offered": true,
+      "wired_emulator_bucket": "Emulator_64",
+      "projections": {
+        "flycast2021": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast2024": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.24 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        }
+      }
+    },
+    {
+      "device_id": "ANBERNIC_RGXX640480",
+      "platform_cfg": "AnbernicXX640480",
+      "architecture": "aarch64",
+      "chipset": "h700",
+      "chipset_basis": "config-evidence (shared AnbernicXXCommon)",
+      "dreamcast_offered": true,
+      "wired_emulator_bucket": "Emulator_64",
+      "projections": {
+        "flycast2021": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast2024": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.24 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        }
+      }
+    },
+    {
+      "device_id": "GKD_PIXEL2",
+      "platform_cfg": "Pixel2",
+      "architecture": "aarch64",
+      "chipset": "rk3326",
+      "chipset_basis": "INFERRED - not verified in repo or by probe",
+      "dreamcast_offered": true,
+      "wired_emulator_bucket": "Emulator_Pixel2",
+      "projections": {
+        "flycast2021": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast2024": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.24 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        }
+      }
+    },
+    {
+      "device_id": "MAGICX_ZERO28",
+      "platform_cfg": "Zero28",
+      "architecture": "aarch64",
+      "chipset": "unverified",
+      "chipset_basis": "not established",
+      "dreamcast_offered": false,
+      "wired_emulator_bucket": null,
+      "projections": {
+        "flycast2021": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        },
+        "flycast2024": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        },
+        "flycast": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        }
+      }
+    },
+    {
+      "device_id": "MIYOO_A30",
+      "platform_cfg": "A30",
+      "architecture": "armhf",
+      "chipset": "a33-class (allwinner sun8i, R16)",
+      "chipset_basis": "live device probe",
+      "dreamcast_offered": true,
+      "wired_emulator_bucket": "Emulator_A30",
+      "projections": {
+        "flycast2021": {
+          "verdict": "not-targeted",
+          "reason": "pin targets arm64 only; no armhf device is offered this option and the armhf overlay cannot apply to v1.2 (needs lzma-24.05, tree has lzma-19.00)"
+        },
+        "flycast2024": {
+          "verdict": "not-targeted",
+          "reason": "pin targets arm64 only; no armhf device is offered this option and the overlay preimage is unverified for this tree"
+        },
+        "flycast": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.24 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        }
+      }
+    },
+    {
+      "device_id": "MIYOO_FLIP",
+      "platform_cfg": "Flip",
+      "architecture": "aarch64",
+      "chipset": "rk3566",
+      "chipset_basis": "live device probe",
+      "dreamcast_offered": true,
+      "wired_emulator_bucket": "Emulator_64",
+      "projections": {
+        "flycast2021": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast2024": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.24 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        }
+      }
+    },
+    {
+      "device_id": "MIYOO_MINI",
+      "platform_cfg": "MiyooMini",
+      "architecture": "armhf",
+      "chipset": "ssd202d",
+      "chipset_basis": "live device probe",
+      "dreamcast_offered": false,
+      "wired_emulator_bucket": null,
+      "projections": {
+        "flycast2021": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        },
+        "flycast2024": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        },
+        "flycast": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        }
+      }
+    },
+    {
+      "device_id": "MIYOO_MINI_PLUS",
+      "platform_cfg": "MiyooMini",
+      "architecture": "armhf",
+      "chipset": "ssd202d",
+      "chipset_basis": "live device probe (Mini family)",
+      "dreamcast_offered": false,
+      "wired_emulator_bucket": null,
+      "projections": {
+        "flycast2021": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        },
+        "flycast2024": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        },
+        "flycast": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        }
+      }
+    },
+    {
+      "device_id": "MIYOO_MINI_V4",
+      "platform_cfg": "MiyooMini",
+      "architecture": "armhf",
+      "chipset": "ssd202d",
+      "chipset_basis": "live device probe (Mini family)",
+      "dreamcast_offered": false,
+      "wired_emulator_bucket": null,
+      "projections": {
+        "flycast2021": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        },
+        "flycast2024": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        },
+        "flycast": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        }
+      }
+    },
+    {
+      "device_id": "MIYOO_MINI_FLIP",
+      "platform_cfg": "MiyooMini",
+      "architecture": "armhf",
+      "chipset": "ssd202d",
+      "chipset_basis": "INFERRED - Mini family, no dedicated platform cfg",
+      "dreamcast_offered": false,
+      "wired_emulator_bucket": null,
+      "projections": {
+        "flycast2021": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        },
+        "flycast2024": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        },
+        "flycast": {
+          "verdict": "not-applicable",
+          "reason": "Dreamcast is not offered on this device (absent from Emu/DC/config.json devices)"
+        }
+      }
+    },
+    {
+      "device_id": "TRIMUI_BRICK",
+      "platform_cfg": "Brick",
+      "architecture": "aarch64",
+      "chipset": "a133p",
+      "chipset_basis": "live device probe (A133 sun50iw10p1)",
+      "dreamcast_offered": true,
+      "wired_emulator_bucket": "Emulator_64",
+      "projections": {
+        "flycast2021": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast2024": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.24 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        }
+      }
+    },
+    {
+      "device_id": "TRIMUI_BRICK_PRO",
+      "platform_cfg": "BrickPro",
+      "architecture": "aarch64",
+      "chipset": "a133p",
+      "chipset_basis": "INFERRED - shares Brick lineage, not probed",
+      "dreamcast_offered": true,
+      "wired_emulator_bucket": "Emulator_64",
+      "projections": {
+        "flycast2021": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast2024": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.24 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        }
+      }
+    },
+    {
+      "device_id": "TRIMUI_SMART_PRO",
+      "platform_cfg": "SmartPro",
+      "architecture": "aarch64",
+      "chipset": "a133p",
+      "chipset_basis": "live device probe (A133 sun50iw10p1)",
+      "dreamcast_offered": true,
+      "wired_emulator_bucket": "Emulator_64",
+      "projections": {
+        "flycast2021": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast2024": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.24 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        }
+      }
+    },
+    {
+      "device_id": "TRIMUI_SMART_PRO_S",
+      "platform_cfg": "SmartProS",
+      "architecture": "aarch64",
+      "chipset": "a523",
+      "chipset_basis": "live device probe (A523 sun55iw3p1)",
+      "dreamcast_offered": true,
+      "wired_emulator_bucket": "Emulator_64",
+      "projections": {
+        "flycast2021": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast2024": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.10.2 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        },
+        "flycast": {
+          "verdict": "projected-compatible",
+          "build": "projected-buildable: flycast_libretro target and USE_GLES present at this tag; cmake floor 3.24 <= toolchain 3.31.6",
+          "runtime": "projected-loadable: same cmake recipe as the proven v2.6 core (LIBRETRO=ON, USE_GLES=ON), which resolves GL via libretro hw-render callback rather than linking libGLESv2, and whose libstdc++/libgcc_s needs are met on every 64-bit device (51 of 88 shipped cores64 and ra64 itself already require libstdc++)",
+          "verified": false
+        }
+      }
+    }
+  ],
+  "basis": [
+    "Emu/DC/config.json - device gating and per-device emulator buckets",
+    "spruce/scripts/platform/*.cfg - PLATFORM_ARCHITECTURE and library paths",
+    "upstream flyinghead/flycast tags, commits and tree hashes (method reproduces v2.6's existing pin)",
+    "CMakeLists.txt at each tag - flycast_libretro target, USE_GLES, cmake_minimum_required",
+    "rtissera/libchdr submodule contents at each tag - lzma version vs the armhf overlay path",
+    "ELF analysis of shipped vs recipe-built v2.6 cores - NEEDED, undefined gl*, GLIBC floor"
+  ]
+}
