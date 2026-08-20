@@ -968,6 +968,94 @@
       ],
       "workflow": ".github/workflows/build-flycast.yml"
     },
+    "flycast2021": {
+      "build": {
+        "artifact_name": "flycast2021_libretro.so",
+        "cmake": {
+          "build_type": "Release",
+          "defines": {
+            "CMAKE_POSITION_INDEPENDENT_CODE": "TRUE",
+            "LIBRETRO": "ON",
+            "USE_HOST_LIBZIP": "OFF",
+            "USE_OPENMP": "OFF",
+            "USE_VULKAN": "OFF"
+          },
+          "generator": "Unix Makefiles",
+          "systems": {
+            "arm64": {
+              "defines": {
+                "USE_GLES": "ON"
+              },
+              "name": "Linux",
+              "processor": "aarch64"
+            }
+          },
+          "target": "flycast_libretro"
+        },
+        "driver": "direct-cmake",
+        "output_path": "flycast_libretro.so",
+        "source_date_epoch": 1639738517,
+        "source_dir": "flycast2021"
+      },
+      "metadata": {
+        "artifact_name": "flycast2021_libretro.info",
+        "source_path": "/libretro-super/dist/info/flycast2021_libretro.info"
+      },
+      "source": {
+        "commit": "7555263e38722ea0e3f2b736b92ad0a91389f4b4",
+        "requested_ref": "refs/tags/v1.2",
+        "tree": "746dd0833e9b6d2ed0c4223d8ca13a0a9780e4d0",
+        "url": "https://github.com/flyinghead/flycast.git"
+      },
+      "targets": [
+        "arm64"
+      ],
+      "workflow": ".github/workflows/build-flycast2021.yml"
+    },
+    "flycast2024": {
+      "build": {
+        "artifact_name": "flycast2024_libretro.so",
+        "cmake": {
+          "build_type": "Release",
+          "defines": {
+            "CMAKE_POSITION_INDEPENDENT_CODE": "TRUE",
+            "LIBRETRO": "ON",
+            "USE_HOST_LIBZIP": "OFF",
+            "USE_OPENMP": "OFF",
+            "USE_VULKAN": "OFF"
+          },
+          "generator": "Unix Makefiles",
+          "systems": {
+            "arm64": {
+              "defines": {
+                "USE_GLES": "ON"
+              },
+              "name": "Linux",
+              "processor": "aarch64"
+            }
+          },
+          "target": "flycast_libretro"
+        },
+        "driver": "direct-cmake",
+        "output_path": "flycast_libretro.so",
+        "source_date_epoch": 1729519980,
+        "source_dir": "flycast2024"
+      },
+      "metadata": {
+        "artifact_name": "flycast2024_libretro.info",
+        "source_path": "/libretro-super/dist/info/flycast2024_libretro.info"
+      },
+      "source": {
+        "commit": "8108e63907fc676f898522d20c762a4de3cd2a21",
+        "requested_ref": "refs/tags/v2.4",
+        "tree": "3af5316b72bfb0c767e28f344a393322e728b835",
+        "url": "https://github.com/flyinghead/flycast.git"
+      },
+      "targets": [
+        "arm64"
+      ],
+      "workflow": ".github/workflows/build-flycast2024.yml"
+    },
     "fmsx": {
       "build": {
         "artifact_name": "fmsx_libretro.so",

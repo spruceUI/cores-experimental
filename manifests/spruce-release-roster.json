@@ -33,6 +33,8 @@
     "fceumm",
     "ffmpeg",
     "flycast",
+    "flycast2021",
+    "flycast2024",
     "fmsx",
     "freechaf",
     "freeintv",
@@ -122,5 +124,5 @@
     "mkxp-z",
     "mupen64plus"
   ],
-  "content_sha256": "a11c4c1663a12c85bd8b82a93471f7525c71223f5bae7c1ce6422f2aeb31814b"
+  "content_sha256": "91ec956a56a3b2de5ae1b6178a7a618fb644f6c047114d41c861e12697741342"
 }

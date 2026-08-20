@@ -2859,7 +2859,7 @@ class CoreTrackTests(unittest.TestCase):
             "logical-core-name-correlation-only-v1",
             self.live_release_roster["correlation_model"],
         )
-        self.assertEqual(98, len(self.live_release_roster["cataloged_core_ids"]))
+        self.assertEqual(100, len(self.live_release_roster["cataloged_core_ids"]))
         self.assertEqual(
             {
                 "km_flycast_xtreme",
