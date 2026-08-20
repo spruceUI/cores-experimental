@@ -1,4 +1,4 @@
-"""Strict identity aggregation for the canonical 98-core build catalog.
+"""Strict identity aggregation for the canonical 100-core build catalog.
 
 The build catalog remains the full CoreSpec authority in this migration slice.
 This module derives a small immutable identity set from one authenticated
@@ -41,7 +41,7 @@ CATALOG_SCHEMA_CONTENT_SHA256: Final = (
     "4eb4f5025f64e1a847ebfb1b88f492cd111eb14d1ebe3cc042b63f85905dd88e"
 )
 
-EXPECTED_CORE_COUNT: Final = 98
+EXPECTED_CORE_COUNT: Final = 100
 EXPECTED_REGISTERED_CONTRACT_COUNT: Final = 89
 EXPECTED_DRIVER_COUNTS: Final = MappingProxyType(
     {
