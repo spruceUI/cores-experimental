@@ -30,6 +30,8 @@ from scripts.core_pipeline_lib.core_spec import (
     CoreSpecSetV1,
     ProofBinding,
     decode_core_spec_set,
+    EXPECTED_REGISTERED_CONTRACT_COUNT,
+    EXPECTED_CORE_COUNT,
     derive_core_spec_set,
     legacy_core_spec_sha256,
     render_core_spec_set,
@@ -41,20 +43,20 @@ from scripts.core_pipeline_lib.foundation import sha256_bytes
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG_RAW_SHA256 = (
-    "a9ba3ee4e34e38367786164bd4da61b00ac459a76f0ca7a239a23be82c582964"
+    "d781451c35be44de0698ee3ca42a1209fa5f74da6b753c246d9b28d916d81692"
 )
 CATALOG_CONTENT_SHA256 = (
-    "45551ccb96efc00224b1b24d2f1978dad3fd7eb022a2aee089b085519b222bf9"
+    "60f8bf70b2b4c88354560a2afe1a49e822f6c9949236812ff8fee6772583f269"
 )
 CATALOG_SCHEMA_RAW_SHA256 = (
     "4289b6f3a443907a766ce419515a33f34fd86074f9659cc1724ca978f8d04343"
 )
 CORE_SPEC_SET_CONTENT_SHA256 = (
-    "382e8d5bb1d890fb71d3c453e2e79969fcea3e8f2904b18368cc995a4b8c5d1b"
+    "a27133450f87409a4f0a475faffa7dbe3e0215c331ec4278776460428f682d5c"
 )
 CORE_SPEC_SET_PATH = "manifests/core-spec-sets/catalog-v1.json"
 CORE_SPEC_SET_RAW_SHA256 = (
-    "e97349afbbe408e91dbca82395dd547ee7fdc8fbac2fadf78f3f93c1997ac99b"
+    "bae9d79053fc0a0e96b9f1a836c7725a5af8b5d0ea456cd942ec126b347bcdbf"
 )
 
 
@@ -115,8 +117,8 @@ class CoreSpecSetTests(unittest.TestCase):
     ) -> None:
         raw = (ROOT / CORE_SPEC_SET_PATH).read_bytes()
         self.assertEqual(sha256_bytes(raw), CORE_SPEC_SET_RAW_SHA256)
-        self.assertEqual(len(raw), 59_543)
-        self.assertEqual(raw.count(b"\n"), 1_406)
+        self.assertEqual(len(raw), 60_705)
+        self.assertEqual(raw.count(b"\n"), 1_434)
         value = decode_core_spec_set(raw)
         self.assertEqual(value.content_sha256, CORE_SPEC_SET_CONTENT_SHA256)
         self.assertEqual(value, self._derive())
@@ -142,8 +144,8 @@ class CoreSpecSetTests(unittest.TestCase):
 
     def test_production_inputs_and_aggregate_have_frozen_identities(self) -> None:
         self.assertEqual(CATALOG_RAW_SHA256, sha256_bytes(self.catalog_raw))
-        self.assertEqual(124854, len(self.catalog_raw))
-        self.assertEqual(3528, len(self.catalog_raw.splitlines()))
+        self.assertEqual(127584, len(self.catalog_raw))
+        self.assertEqual(3616, len(self.catalog_raw.splitlines()))
         self.assertEqual(
             CATALOG_CONTENT_SHA256, canonical_json_sha256(self.catalog)
         )
@@ -159,7 +161,7 @@ class CoreSpecSetTests(unittest.TestCase):
 
         result = self._derive()
         self.assertEqual(CORE_SPEC_SET_CONTENT_SHA256, result.content_sha256)
-        self.assertEqual(98, result.core_count)
+        self.assertEqual(EXPECTED_CORE_COUNT, result.core_count)
         self.assertEqual(dict(EXPECTED_DRIVER_COUNTS), result.driver_counts)
         self.assertEqual(
             tuple(sorted(self.catalog["cores"])),
@@ -176,7 +178,7 @@ class CoreSpecSetTests(unittest.TestCase):
             98, len({identity.strict_spec_sha256 for identity in result.cores})
         )
 
-    def test_proof_bindings_close_the_89_registered_and_nine_legacy_cores(
+    def test_proof_bindings_close_the_registered_and_legacy_cores(
         self,
     ) -> None:
         result = self._derive()
@@ -204,7 +206,10 @@ class CoreSpecSetTests(unittest.TestCase):
                 self.assertEqual("registered-log-contract", binding.binding_kind)
                 self.assertEqual(contract.contract_id, binding.binding_id)
                 self.assertEqual(contract.proof_kind, binding.proof_kind)
-        self.assertEqual((89, 9), (registered_count, legacy_count))
+        self.assertEqual(
+            (EXPECTED_REGISTERED_CONTRACT_COUNT, len(LEGACY_VALIDATOR_CORE_IDS)),
+            (registered_count, legacy_count),
+        )
 
         with mock.patch.object(
             core_spec_module,

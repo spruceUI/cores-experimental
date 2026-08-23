@@ -273,10 +273,10 @@
       "properties": {
         "artifact_count": {"const": 184},
         "shipped_core_name_count": {"const": 104},
-        "catalog_core_count": {"const": 98},
-        "catalog_cell_count": {"const": 196},
+        "catalog_core_count": {"const": 100},
+        "catalog_cell_count": {"const": 200},
         "valid_catalog_cell_count": {"const": 174},
-        "not_shipped_catalog_cell_count": {"const": 21},
+        "not_shipped_catalog_cell_count": {"const": 25},
         "invalid_catalog_cell_count": {"const": 1},
         "alias_artifact_count": {"const": 2},
         "uncataloged_artifact_count": {"const": 7},
@@ -312,8 +312,8 @@
         },
         "catalog_cells": {
           "type": "array",
-          "minItems": 196,
-          "maxItems": 196,
+          "minItems": 200,
+          "maxItems": 200,
           "uniqueItems": true,
           "items": {"$ref": "#/$defs/catalogCell"}
         },

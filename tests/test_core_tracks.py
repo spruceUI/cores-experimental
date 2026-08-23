@@ -312,7 +312,7 @@ class CoreTrackTests(unittest.TestCase):
             self._basis_errors_patcher.start()
             self._edge_latest_errors_patcher.start()
         self.assertEqual(
-            "89769b9f68607cfeef48cc7d26deb3e284b5418d25b265221e38dce0ea390f05",
+            "98eae53abc7fc347f45600cce1c0c25d3bab6db19584115d1b1c4dc0ede8a5d4",
             validated["content_sha256"],
         )
 
@@ -4071,7 +4071,7 @@ class CoreTrackTests(unittest.TestCase):
             chipset_tunings_content_sha256(tunings), tunings["content_sha256"]
         )
         self.assertEqual(
-            "89769b9f68607cfeef48cc7d26deb3e284b5418d25b265221e38dce0ea390f05",
+            "98eae53abc7fc347f45600cce1c0c25d3bab6db19584115d1b1c4dc0ede8a5d4",
             tracks["content_sha256"],
         )
         self.assertEqual(
@@ -4117,7 +4117,7 @@ class CoreTrackTests(unittest.TestCase):
                 for track in track_model.CORE_TRACKS
             )
         )
-        self.assertEqual(86, len(tracks["tracks"]["main"]["deferred"]))
+        self.assertEqual(88, len(tracks["tracks"]["main"]["deferred"]))
         self.assertEqual({}, tracks["tracks"]["nightly"]["deferred"])
         self.assertEqual(
             {
@@ -4134,22 +4134,22 @@ class CoreTrackTests(unittest.TestCase):
         cases = {
             "main-stable:h700": {
                 "content_sha256": (
-                    "b7b2e7432808d9caeb1c33bc1b9059935f3fb25a18a30fe8691b34547db55c4e"
+                    "74f7cea60a88aebeb642c37ef1163f2bb0227fa840626cf286d60b32e11e316e"
                 ),
             },
             "main-stable:a523": {
                 "content_sha256": (
-                    "f9c82af7ff996f72797b23e2bae4c67bde7ac12dc550f3be499d8a2dc9c2bcfd"
+                    "c58f1fce145f20b5f9b64e833ec1bdad2eb08ce1e01a9f1af0352d8d8827b4f8"
                 ),
             },
             "main-stable:a33": {
                 "content_sha256": (
-                    "fe5b6207563379c688197f70c4c6dfdc792a002c9a018886b660036ed38f9210"
+                    "b62debba27b036a581a14e21e1bb85858a1e2935cf7c853a2e05a7e9f8e90919"
                 ),
             },
             "main-stable:ssd202d": {
                 "content_sha256": (
-                    "44bab56bcef58a518ebc133b4874b1281bfef2c94e07b9d9fa4ec9ae5abd9787"
+                    "3057a5926a83de23a729b5d75d9607c8d2bce0097e1979ae2ebe8f38e3a6700b"
                 ),
             },
         }
@@ -4157,12 +4157,12 @@ class CoreTrackTests(unittest.TestCase):
             "selected_core_count": 12,
             "stable_core_count": 0,
             "unstable_core_count": 12,
-            "deferred_core_count": 86,
+            "deferred_core_count": 88,
             "unsupported_core_count": 0,
-            "universal_fallback_count": 98,
+            "universal_fallback_count": 100,
         }
         catalog_identity = (
-            "45551ccb96efc00224b1b24d2f1978dad3fd7eb022a2aee089b085519b222bf9"
+            "60f8bf70b2b4c88354560a2afe1a49e822f6c9949236812ff8fee6772583f269"
         )
         self.assertEqual(_semantic_sha256(self.live_catalog), catalog_identity)
         for group_tag, expected in cases.items():
@@ -4204,7 +4204,7 @@ class CoreTrackTests(unittest.TestCase):
                     sorted(admitted),
                     [row["core_id"] for row in inventory["cores"]],
                 )
-                self.assertEqual(86, len(inventory["deferred_cores"]))
+                self.assertEqual(88, len(inventory["deferred_cores"]))
                 self.assertTrue(
                     all(
                         row["reason"]
@@ -4226,7 +4226,7 @@ class CoreTrackTests(unittest.TestCase):
             source_registry_index=self.live_source_registries,
         )
         self.assertEqual(
-            "cbb59172aee2d9c92c81349c4d3671903edf04bfb92167847876fd6a1c584dbb",
+            "8706c4baac3af7ac94db68664c0bddd4a1787b857774aa6c7f4721bb4235b63d",
             universal["content_sha256"],
         )
         self.assertEqual("deferred", universal["inventory_state"])
@@ -4242,7 +4242,7 @@ class CoreTrackTests(unittest.TestCase):
             sorted(admitted),
             [row["core_id"] for row in universal["cores"]],
         )
-        self.assertEqual(86, len(universal["deferred_cores"]))
+        self.assertEqual(88, len(universal["deferred_cores"]))
 
     def test_live_registries_match_the_published_json_schemas(self) -> None:
         for stem in (

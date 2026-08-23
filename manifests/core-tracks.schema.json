@@ -328,8 +328,8 @@
             "snapshot": {"$ref": "#/$defs/edgeSnapshot"},
             "heads": {
               "type": "object",
-              "minProperties": 98,
-              "maxProperties": 98,
+              "minProperties": 100,
+              "maxProperties": 100,
               "propertyNames": {"$ref": "#/$defs/coreId"},
               "additionalProperties": {"$ref": "#/$defs/edgeHead"}
             }

@@ -1,9 +1,9 @@
 {
   "$schema": "./core-tracks.schema.json",
   "applicability_scope": "architecture-only",
-  "content_sha256": "89769b9f68607cfeef48cc7d26deb3e284b5418d25b265221e38dce0ea390f05",
+  "content_sha256": "98eae53abc7fc347f45600cce1c0c25d3bab6db19584115d1b1c4dc0ede8a5d4",
   "historical_release_correlation": {
-    "roster_content_sha256": "a11c4c1663a12c85bd8b82a93471f7525c71223f5bae7c1ce6422f2aeb31814b",
+    "roster_content_sha256": "91ec956a56a3b2de5ae1b6178a7a618fb644f6c047114d41c861e12697741342",
     "roster_path": "manifests/spruce-release-roster.json"
   },
   "schema_version": 3,
@@ -2179,7 +2179,7 @@
     }
   ],
   "spruce_branch_bases": {
-    "content_sha256": "c9a4abe291688e8e615b90f028e20dd5f2831e95cd560d63ea18e667c234fe7d",
+    "content_sha256": "d98259a71405079c9eb0c0a1d625ac234445dc65800073908d0ed2500b9601f6",
     "path": "manifests/spruce-core-branch-bases.json"
   },
   "tracks": {
@@ -2194,7 +2194,7 @@
       },
       "extends": "nightly",
       "spruce_branch_basis": {
-        "basis_content_sha256": "cd0889b722b8f55aa9daa4888a5212b0fbd74c0b73d99a81d1b6479911dd9d86",
+        "basis_content_sha256": "efc213c57cef55a94d8a44dbd407d1f0eb5609b976ca83021d083bea33a8d702",
         "basis_id": "spruce-development"
       },
       "stable": {},
@@ -2555,6 +2555,18 @@
           }
         },
         "flycast": {
+          "universal": {
+            "reason": "no-reviewed-version-channel-build-pin",
+            "state": "deferred"
+          }
+        },
+        "flycast2021": {
+          "universal": {
+            "reason": "no-reviewed-version-channel-build-pin",
+            "state": "deferred"
+          }
+        },
+        "flycast2024": {
           "universal": {
             "reason": "no-reviewed-version-channel-build-pin",
             "state": "deferred"
@@ -2953,7 +2965,7 @@
       },
       "extends": null,
       "spruce_branch_basis": {
-        "basis_content_sha256": "ebecc53c11767b51eaf54424efa15ccd3d009dc264b08d9958862bf616ef3bf9",
+        "basis_content_sha256": "9cff3215c4538de6ae07feae119ec8dbb41c736eee5ad565008098e3f5c0858a",
         "basis_id": "spruce-main"
       },
       "stable": {},
@@ -3216,7 +3228,7 @@
       "deferred": {},
       "extends": "main",
       "spruce_branch_basis": {
-        "basis_content_sha256": "cd0889b722b8f55aa9daa4888a5212b0fbd74c0b73d99a81d1b6479911dd9d86",
+        "basis_content_sha256": "efc213c57cef55a94d8a44dbd407d1f0eb5609b976ca83021d083bea33a8d702",
         "basis_id": "spruce-development"
       },
       "stable": {},
@@ -3634,6 +3646,22 @@
           "requested_ref": "refs/tags/v2.6",
           "status": "unchanged",
           "tree": "712e00d5a9c99abc949bcce2bf02800492de869d"
+        },
+        "flycast2021": {
+          "commit": "7555263e38722ea0e3f2b736b92ad0a91389f4b4",
+          "latest_semantics": "catalog-tag-only-not-latest",
+          "repository": "https://github.com/flyinghead/flycast.git",
+          "requested_ref": "refs/tags/v1.2",
+          "status": "unchanged",
+          "tree": "746dd0833e9b6d2ed0c4223d8ca13a0a9780e4d0"
+        },
+        "flycast2024": {
+          "commit": "8108e63907fc676f898522d20c762a4de3cd2a21",
+          "latest_semantics": "catalog-tag-only-not-latest",
+          "repository": "https://github.com/flyinghead/flycast.git",
+          "requested_ref": "refs/tags/v2.4",
+          "status": "unchanged",
+          "tree": "3af5316b72bfb0c767e28f344a393322e728b835"
         },
         "fmsx": {
           "commit": "f013e213458e06d9df718e4bc4b09d46f88aa899",
