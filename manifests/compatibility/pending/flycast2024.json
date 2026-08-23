@@ -1,0 +1,14 @@
+{
+  "$schema": "../../core-compatibility-pending.schema.json",
+  "content_sha256": "a53c16b35e9108da3d27f12c79c1d5509617ca4386c1ad03e292e646aba35fdc",
+  "core_id": "flycast2024",
+  "core_spec_sha256": "f096168d6caf0ad23d7928aa03b612e391b7ddd0d959a096296bf1041ecc6b75",
+  "next_gate": "selected-and-independent-reproduction-e2e",
+  "publication": "disabled",
+  "schema_version": 1,
+  "source_commit": "8108e63907fc676f898522d20c762a4de3cd2a21",
+  "state": "awaiting-local-e2e",
+  "targets": [
+    "arm64"
+  ]
+}

@@ -1,12 +1,12 @@
 {
   "catalog": {
-    "content_sha256": "d42b36464d0912be1ad3f4fb0bdb7aacf33ea518ab6b1fbac8c1bcffc0c05ee3",
-    "file_sha256": "a9ba3ee4e34e38367786164bd4da61b00ac459a76f0ca7a239a23be82c582964",
+    "content_sha256": "248955075be2f54500adb18b40e198e867d69a5ac047ab52de1d12ecdd5ebc59",
+    "file_sha256": "d781451c35be44de0698ee3ca42a1209fa5f74da6b753c246d9b28d916d81692",
     "kind": "artifact",
     "path": "manifests/core-builds.json",
     "schema_version": 1,
-    "size": 124854,
-    "target_content_sha256": "45551ccb96efc00224b1b24d2f1978dad3fd7eb022a2aee089b085519b222bf9"
+    "size": 127584,
+    "target_content_sha256": "60f8bf70b2b4c88354560a2afe1a49e822f6c9949236812ff8fee6772583f269"
   },
   "catalog_schema": {
     "content_sha256": "ab1a77c54f0db8f3c6de006e174b4ca6d289989cea8085bbdb249f3544882a88",
@@ -17,8 +17,8 @@
     "size": 28681,
     "target_content_sha256": "4eb4f5025f64e1a847ebfb1b88f492cd111eb14d1ebe3cc042b63f85905dd88e"
   },
-  "content_sha256": "382e8d5bb1d890fb71d3c453e2e79969fcea3e8f2904b18368cc995a4b8c5d1b",
-  "core_count": 98,
+  "content_sha256": "a27133450f87409a4f0a475faffa7dbe3e0215c331ec4278776460428f682d5c",
+  "core_count": 100,
   "cores": [
     {
       "content_sha256": "6788be125f517dfeb1ebea2a5e0411712458d55eac8f543beaf92bb4b8eb73e4",
@@ -327,6 +327,34 @@
       },
       "schema_version": 1,
       "strict_spec_sha256": "d537ae721b3747682041c7bc59842d0adef4d0e1ce29b3a415a0897659d621e5"
+    },
+    {
+      "content_sha256": "7021fa9c1bc0510ae6cf233b894bcc5fb18f34d605ed10a9b0fedbebfb4382ea",
+      "core_id": "flycast2021",
+      "driver": "direct-cmake",
+      "legacy_catalog_spec_sha256": "f6ec349d5123304190d8c1ba257ee0d01604b5b0bd992a63bc793bc389b473e2",
+      "proof_binding": {
+        "binding_id": "flycast2021",
+        "binding_kind": "legacy-validator",
+        "proof_kind": "legacy-validator",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "f6ec349d5123304190d8c1ba257ee0d01604b5b0bd992a63bc793bc389b473e2"
+    },
+    {
+      "content_sha256": "e94bf26e7eaed753747509ab22545007884ebcaf1023dcd2b06da98814125a59",
+      "core_id": "flycast2024",
+      "driver": "direct-cmake",
+      "legacy_catalog_spec_sha256": "f096168d6caf0ad23d7928aa03b612e391b7ddd0d959a096296bf1041ecc6b75",
+      "proof_binding": {
+        "binding_id": "flycast2024",
+        "binding_kind": "legacy-validator",
+        "proof_kind": "legacy-validator",
+        "schema_version": 1
+      },
+      "schema_version": 1,
+      "strict_spec_sha256": "f096168d6caf0ad23d7928aa03b612e391b7ddd0d959a096296bf1041ecc6b75"
     },
     {
       "content_sha256": "96cd545e94daffe8874888defc7311b4fcea99333d01aa5180221e02c8217f0e",
@@ -1395,7 +1423,7 @@
   ],
   "driver_counts": {
     "direct-cargo": 1,
-    "direct-cmake": 8,
+    "direct-cmake": 10,
     "direct-make": 4,
     "libretro-super": 85
   },

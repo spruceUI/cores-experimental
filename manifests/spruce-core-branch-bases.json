@@ -5466,6 +5466,26 @@
         },
         {
           "architecture": "arm64",
+          "core_id": "flycast2021",
+          "status": "not_shipped"
+        },
+        {
+          "architecture": "armhf",
+          "core_id": "flycast2021",
+          "status": "not_shipped"
+        },
+        {
+          "architecture": "arm64",
+          "core_id": "flycast2024",
+          "status": "not_shipped"
+        },
+        {
+          "architecture": "armhf",
+          "core_id": "flycast2024",
+          "status": "not_shipped"
+        },
+        {
+          "architecture": "arm64",
           "artifact_path": "RetroArch/.retroarch/cores64/fmsx_libretro.so",
           "artifact_sha256": "e5e9f5760890aff7d965d0f7ea4b9bd6ac6ab7aa5f986555969f3efd002f7ece",
           "core_id": "fmsx",
@@ -6495,7 +6515,7 @@
           "status": "not_shipped"
         }
       ],
-      "content_sha256": "cd0889b722b8f55aa9daa4888a5212b0fbd74c0b73d99a81d1b6479911dd9d86",
+      "content_sha256": "efc213c57cef55a94d8a44dbd407d1f0eb5609b976ca83021d083bea33a8d702",
       "core_trees": {
         "arm64": {
           "path": "RetroArch/.retroarch/cores64",
@@ -6518,10 +6538,10 @@
         "alias_artifact_count": 2,
         "artifact_count": 184,
         "artifact_identity_set_sha256": "bd75752e395d3313c68004140c73e882f10aad6c6f2d525cc368ba2ad3dbf0f0",
-        "catalog_cell_count": 196,
-        "catalog_core_count": 98,
+        "catalog_cell_count": 200,
+        "catalog_core_count": 100,
         "invalid_catalog_cell_count": 1,
-        "not_shipped_catalog_cell_count": 21,
+        "not_shipped_catalog_cell_count": 25,
         "shipped_core_name_count": 104,
         "uncataloged_artifact_count": 7,
         "valid_catalog_cell_count": 174
@@ -11993,6 +12013,26 @@
         },
         {
           "architecture": "arm64",
+          "core_id": "flycast2021",
+          "status": "not_shipped"
+        },
+        {
+          "architecture": "armhf",
+          "core_id": "flycast2021",
+          "status": "not_shipped"
+        },
+        {
+          "architecture": "arm64",
+          "core_id": "flycast2024",
+          "status": "not_shipped"
+        },
+        {
+          "architecture": "armhf",
+          "core_id": "flycast2024",
+          "status": "not_shipped"
+        },
+        {
+          "architecture": "arm64",
           "artifact_path": "RetroArch/.retroarch/cores64/fmsx_libretro.so",
           "artifact_sha256": "e5e9f5760890aff7d965d0f7ea4b9bd6ac6ab7aa5f986555969f3efd002f7ece",
           "core_id": "fmsx",
@@ -13022,7 +13062,7 @@
           "status": "not_shipped"
         }
       ],
-      "content_sha256": "ebecc53c11767b51eaf54424efa15ccd3d009dc264b08d9958862bf616ef3bf9",
+      "content_sha256": "9cff3215c4538de6ae07feae119ec8dbb41c736eee5ad565008098e3f5c0858a",
       "core_trees": {
         "arm64": {
           "path": "RetroArch/.retroarch/cores64",
@@ -13045,10 +13085,10 @@
         "alias_artifact_count": 2,
         "artifact_count": 184,
         "artifact_identity_set_sha256": "bd75752e395d3313c68004140c73e882f10aad6c6f2d525cc368ba2ad3dbf0f0",
-        "catalog_cell_count": 196,
-        "catalog_core_count": 98,
+        "catalog_cell_count": 200,
+        "catalog_core_count": 100,
         "invalid_catalog_cell_count": 1,
-        "not_shipped_catalog_cell_count": 21,
+        "not_shipped_catalog_cell_count": 25,
         "shipped_core_name_count": 104,
         "uncataloged_artifact_count": 7,
         "valid_catalog_cell_count": 174
@@ -13058,11 +13098,11 @@
   },
   "basis_model": "spruce-git-branch-artifact-basis-v1",
   "catalog": {
-    "file_sha256": "a9ba3ee4e34e38367786164bd4da61b00ac459a76f0ca7a239a23be82c582964",
+    "file_sha256": "d781451c35be44de0698ee3ca42a1209fa5f74da6b753c246d9b28d916d81692",
     "path": "manifests/core-builds.json",
-    "semantic_sha256": "45551ccb96efc00224b1b24d2f1978dad3fd7eb022a2aee089b085519b222bf9"
+    "semantic_sha256": "60f8bf70b2b4c88354560a2afe1a49e822f6c9949236812ff8fee6772583f269"
   },
-  "content_sha256": "c9a4abe291688e8e615b90f028e20dd5f2831e95cd560d63ea18e667c234fe7d",
+  "content_sha256": "d98259a71405079c9eb0c0a1d625ac234445dc65800073908d0ed2500b9601f6",
   "cross_branch_core_identity": {
     "artifact_bytes_identical": true,
     "artifact_identity_set_sha256": "bd75752e395d3313c68004140c73e882f10aad6c6f2d525cc368ba2ad3dbf0f0",
@@ -13084,8 +13124,8 @@
   },
   "provenance_model": "artifact-only-no-source-recipe-toolchain-provenance-v1",
   "release_roster": {
-    "content_sha256": "a11c4c1663a12c85bd8b82a93471f7525c71223f5bae7c1ce6422f2aeb31814b",
-    "file_sha256": "ea9e5e8640b388949b23d6c697899b7de53862ae31318ea941dc9aac3cad8d91",
+    "content_sha256": "91ec956a56a3b2de5ae1b6178a7a618fb644f6c047114d41c861e12697741342",
+    "file_sha256": "d67c82679d9820bd9f5a5798ef5546df09b3bb16d7ee5ae5f0703981facf0f3b",
     "path": "manifests/spruce-release-roster.json"
   },
   "schema_version": 1

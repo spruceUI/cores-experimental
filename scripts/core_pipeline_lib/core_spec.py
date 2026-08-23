@@ -46,7 +46,7 @@ EXPECTED_REGISTERED_CONTRACT_COUNT: Final = 89
 EXPECTED_DRIVER_COUNTS: Final = MappingProxyType(
     {
         "direct-cargo": 1,
-        "direct-cmake": 8,
+        "direct-cmake": 10,
         "direct-make": 4,
         "libretro-super": 85,
     }
@@ -58,6 +58,8 @@ LEGACY_VALIDATOR_CORE_IDS: Final = frozenset(
         "easyrpg",
         "ffmpeg",
         "flycast",
+        "flycast2021",
+        "flycast2024",
         "km_duckswanstation_xtreme_amped",
         "squirreljme",
         "swanstation",
@@ -296,7 +298,10 @@ def _expected_proof_bindings() -> dict[str, ProofBinding]:
             proof_kind=contract.proof_kind,
         )
     if len(result) != EXPECTED_REGISTERED_CONTRACT_COUNT:
-        raise PipelineError("registered core log contract count is not exactly 89")
+        raise PipelineError(
+            "registered core log contract count is not exactly "
+            f"{EXPECTED_REGISTERED_CONTRACT_COUNT}"
+        )
     overlap = frozenset(result) & LEGACY_VALIDATOR_CORE_IDS
     if overlap:
         raise PipelineError(
@@ -310,7 +315,9 @@ def _expected_proof_bindings() -> dict[str, ProofBinding]:
             proof_kind="legacy-validator",
         )
     if len(result) != EXPECTED_CORE_COUNT:
-        raise PipelineError("CoreSpec proof binding closure is not exactly 98")
+        raise PipelineError(
+            f"CoreSpec proof binding closure is not exactly {EXPECTED_CORE_COUNT}"
+        )
     return result
 
 
@@ -355,7 +362,9 @@ class CoreSpecSetV1:
         ):
             raise PipelineError("CoreSpec set cores must be exact CoreSpec identities")
         if len(self.cores) != EXPECTED_CORE_COUNT:
-            raise PipelineError("CoreSpec set must contain exactly 98 cores")
+            raise PipelineError(
+                f"CoreSpec set must contain exactly {EXPECTED_CORE_COUNT} cores"
+            )
         core_ids = tuple(item.core_id for item in self.cores)
         if core_ids != tuple(sorted(core_ids)) or len(core_ids) != len(set(core_ids)):
             raise PipelineError("CoreSpec set cores must be sorted and unique")
@@ -564,7 +573,9 @@ def _validate_catalog_envelope(catalog: dict[str, object]) -> dict[str, object]:
         raise PipelineError("core catalog publication must remain disabled")
     cores = _require_exact_mapping(catalog.get("cores"), label="core catalog cores")
     if len(cores) != EXPECTED_CORE_COUNT:
-        raise PipelineError("core catalog must contain exactly 98 cores")
+        raise PipelineError(
+            f"core catalog must contain exactly {EXPECTED_CORE_COUNT} cores"
+        )
     return cores
 
 
@@ -575,7 +586,7 @@ def derive_core_spec_set(
     catalog_schema_ref: EvidenceRef,
     catalog_schema_raw: bytes,
 ) -> CoreSpecSetV1:
-    """Derive the exact 98-core identity set from authenticated input bytes."""
+    """Derive the exact catalog-sized identity set from authenticated bytes."""
 
     if type(catalog_raw) is not bytes or type(catalog_schema_raw) is not bytes:
         raise PipelineError("catalog and schema inputs must be exact bytes")

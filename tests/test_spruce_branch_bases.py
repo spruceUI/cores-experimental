@@ -123,14 +123,14 @@ class SpruceBranchBasisTests(unittest.TestCase):
             self.assertTrue(all(entry["git"]["size"] > 0 for entry in artifacts))
             self.assertTrue(all(len(entry["sha256"]) == 64 for entry in artifacts))
             cells = spruce_branch_basis_catalog_cell_index(basis)
-            self.assertEqual(196, len(cells))
+            self.assertEqual(200, len(cells))
             counts = {status: 0 for status in ("valid", "not_shipped", "invalid")}
             for cell in cells.values():
                 counts[cell["status"]] += 1
             self.assertEqual(
-                {"valid": 174, "not_shipped": 21, "invalid": 1}, counts
+                {"valid": 174, "not_shipped": 25, "invalid": 1}, counts
             )
-            self.assertEqual(98, basis["summary"]["catalog_core_count"])
+            self.assertEqual(100, basis["summary"]["catalog_core_count"])
             self.assertEqual(104, basis["summary"]["shipped_core_name_count"])
             self.assertEqual(2, basis["summary"]["alias_artifact_count"])
             self.assertEqual(7, basis["summary"]["uncataloged_artifact_count"])
