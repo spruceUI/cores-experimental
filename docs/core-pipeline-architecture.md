@@ -147,7 +147,7 @@ fresh launcher loaders below 20 and rejects unreviewed additions.
    promotion, and stored evidence all invoke the registered proof.
 
 Every canonical core with a per-core contract follows this layout (89 of
-the 98; direct-cmake, direct-cargo, and make-variable cores use the
+the 98 canonical; direct-cmake, direct-cargo, and make-variable cores use the
 generic catalog-driven proofs and need no per-core module). Shared
 mechanics live in neutral helpers; source identities and registered
 proofs never share a file or registry entry. What each contract proves —

@@ -116,7 +116,7 @@ scripts/core_pipeline_lib/
     runner.py         subprocess isolation, complete logs, JSON/JUnit results
     service.py        exact local subprocess and artifact capture boundary
     artifacts.py      authenticated structured-output parsing and binding
-  core_spec.py        strict normalized 98-core identity and proof bindings
+  core_spec.py        strict normalized catalog-core identity and proof bindings
   immutable_evidence.py  verified snapshots and create-only evidence storage
   pipeline_inputs.py     catalog, policy, toolchain, and host input contracts
   catalog_contracts.py   build-contract and native catalog dispatch
