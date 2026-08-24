@@ -5,11 +5,6 @@ track-local stable approval, typed chipset profiles, and the empty `universal`
 fallback, see [Core tracks, stability, and chipset
 selection](core-track-groups.md).
 
-Moved from the repository README, which keeps only the purpose summary
-and the device x core compatibility matrix. This document reads top-down
-from light to heavy: where things stand, then the concepts, then the
-full operational reference. The focused runbooks in this directory go
-deeper on each area.
 
 **Contents:**
 [Repository map](#repository-map) ·
@@ -29,7 +24,7 @@ deeper on each area.
 | `toolchain-inputs/` | Pinned docker build context for the three toolchain images (see its README) |
 | `Dockerfile.arm64`, `Dockerfile.armhf`, `Dockerfile.rust` | The three locked compiler images (`.base` files are historical records) |
 | `Dockerfile.tests`, `requirements-test.txt` | Separate version-locked host/test environment for mandatory JSON Schema validation; never a core compiler image |
-| `.github/workflows/` | 98 read-only per-core dispatchers plus the release orchestration pair |
+| `.github/workflows/` | 100 read-only per-core dispatchers plus the release orchestration pair |
 | `tests/` | The suite; migration scoreboard literals live in `tests/expected_counts.py` |
 | `docs/` | Architecture, operations, and onboarding runbooks |
 | `policies/`, `runtime/` | Admission policy and runtime smoke assets |
@@ -46,14 +41,14 @@ the uncataloged tail.
   30124953754): all 98 cores rebuilt on GitHub Actions byte-identical to
   their local pins after wildcard source enumeration was made
   deterministic, and the fail-closed seal accepted the complete fan-in.
-- **All 98 shipped-core workflows are migrated** to the shared,
-  source-pinned, publication-disabled fail-closed pipeline: every cataloged
-  core is a canonical individual-core record with a pinned source
-  (url + commit + tree), a per-arch build-log proof, dual-build byte-identical
-  reproduction (simulated-Actions + independent local), and a
-  `manifests/compatibility/<core>.json` document binding the evidence. The
-  pending bucket is empty; the audit reports 98/98 catalog cores on the
-  shared dispatcher with zero masked failure paths.
+- **All shipped-core workflows are on the shared, source-pinned,
+  publication-disabled fail-closed pipeline.** 98 cores are canonical:
+  pinned source (url + commit + tree), per-arch build-log proof,
+  dual-build byte-identical reproduction, and a
+  `manifests/compatibility/<core>.json` document binding the evidence.
+  flycast2021 and flycast2024 are cataloged as compile candidates in the
+  pending bucket (`awaiting-local-e2e`); the full-roster release gate
+  stays closed until their e2e evidence lands.
 - The toolchain lock holds **three images**: the v4 C cross pair
   (CMake 3.31.6, qemu-user, per-ABI inih, libpng dev, and one isolated
   static dependency prefix per ABI at `/usr/local/easyrpg-deps-<abi>`)
@@ -77,16 +72,18 @@ written beneath `.local-e2e/`, which is ignored by Git.
 
 **With the Mini family's bundled libstdc++ updated to the A30 provider
 (libstdc++ 6.0.32, GLIBCXX 3.4.32 — spruceOS Development `97f9fb558`),
-no currently pinned core is blocked by a glibc or libstdc++ floor or
-ceiling on any probed device.** The over-ceiling (`C`) class in the
-device matrix is empty; every eligibility miss that remains is a missing
-library or an unprobed device, never a symbol-version ceiling. This
-holds for spruce builds carrying that provider — on older Mini firmware
-the packaged fallback provider stops at GLIBCXX 3.4.24, which would put
-the modern-toolchain C++ cores back over the ceiling.
+no currently pinned core exceeds the captured GLIBCXX ceiling on a probed
+device.** The over-ceiling (`C`) class in the device matrix is empty. Other
+non-eligible static cells remain explicit: `X` is an observed missing provider,
+`?` is uncaptured provider evidence, and `excl` is a selection-policy
+exclusion. Artifact-bound physical runtime failures are reported in a separate
+projection and must never be inherited by every member of a device family from
+legacy contract metadata alone. This holds for spruce builds carrying that provider — on
+older Mini firmware the packaged fallback provider stops at GLIBCXX 3.4.24,
+which would put the modern-toolchain C++ cores back over the ceiling.
 
-Effective requirements, measured across all 98 pinned cores (the maximum
-any core's artifact demands):
+Effective requirements, measured across the 98 built cores — the maximum any
+core's artifact demands (the two flycast candidates have no builds yet):
 
 | Arch | max GLIBC | max GLIBCXX | max CXXABI | set by |
 |---|---|---|---|---|
@@ -114,11 +111,12 @@ Two consequences worth keeping in view:
   exceeds every armhf device at once, and would need a provider-bundle
   update to land first (the Lever-B mechanism in
   [device-abi-variant-sets-design.md](device-abi-variant-sets-design.md)).
-- **glibc floors clear with similar margins.** The armhf maximum
-  (GLIBC 2.18, libgametank's zigbuild floor) equals the weakest device's
-  glibc; the arm64 maximum (2.29) resolves on every probed arm64 device
-  — proven by the loader-truth join behind each matrix `Y`, which
-  verifies the full needed-set resolution, glibc included.
+- **Recorded glibc floors have similar margins.** Package metadata places the
+  armhf maximum at GLIBC 2.18 (libgametank's zigbuild floor) and the arm64
+  maximum at 2.29. The device matrix verifies that required sonames such as
+  `libc.so.6` were observed, but it does not compare required `GLIBC_*` or
+  `CXXABI_*` versions to captured device ceilings. Treat those version-floor
+  statements as separate measurements until that join is modeled explicitly.
 
 ### Uncataloged shipped binaries (custom-build tail)
 
@@ -210,16 +208,38 @@ external input is covered by the
 The package boundaries and extension rules are documented in
 [`docs/core-pipeline-architecture.md`](core-pipeline-architecture.md).
 
-Project the built cores into per-device candidate sets — the cores that build
-for a device's architecture and clear its captured libstdc++ provider ceiling —
-with `scripts/device_sets.py`. This is a static ABI screen only (necessary, not
-sufficient); every device view stays provisional until a target-runtime smoke
-test is captured, and nothing here promotes, packages, or publishes:
+Project the built cores into per-device candidate sets with
+`scripts/device_sets.py`. The projection checks architecture, the complete
+captured `DT_NEEDED` provider set, libstdc++ ceilings, explicit selection
+policy. Contract-bound measured memory constraints remain orthogonal source
+metadata. This report is entirely a static eligibility screen (necessary, not
+sufficient); a `Y` is not an artifact-bound runtime pass, and legacy smoke
+metadata alone does not end that provisional status. A separate projection
+must join an exact artifact, physical device, execution profile, and validated
+capture before reporting a runtime verdict. Nothing here promotes, packages,
+or publishes:
 
 ```bash
 python3 scripts/device_sets.py report
 python3 scripts/device_sets.py report --device device-miyoo-mini-family-v0
 ```
+
+Validate the immutable legacy-to-artifact migration and project those physical
+observations onto today's canonical artifact bytes with:
+
+```bash
+python3 -B scripts/device_runtime_evidence.py migrate --check
+python3 -B scripts/device_runtime_evidence.py validate
+python3 -B scripts/device_runtime_evidence.py project > /tmp/current-device-runtime.json
+python3 -B scripts/device_matrix.py --write
+```
+
+The checked-in v2 capture binds all 98 cores across 16 physical devices to the
+full historical commit, exact artifact SHA-256/size, execution profile, and
+frontend context. The current projection reuses a pass or failure only when
+those bindings still match; an untested sibling device or changed artifact is
+`UNKNOWN`. The generated README therefore keeps its static family screen and
+artifact-bound physical load matrix as separate tables.
 
 Project each core's tracked evidence into a compact device-fitness record — the
 authoritative pin reference plus, per ABI, the artifact hash, execution profile,

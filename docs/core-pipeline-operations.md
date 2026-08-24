@@ -746,8 +746,8 @@ remove the pending JSON in the same change that adds the evidence-backed
 disjoint coverage throughout and reports pending core IDs explicitly. Pending
 records are not inputs to promotion, pins, releases, or channels.
 
-The pending bucket is currently empty: every cataloged core is
-canonical, so `manifests/compatibility/pending/` holds only its README.
+The pending bucket holds flycast2021 and flycast2024
+(`awaiting-local-e2e`); every other cataloged core is canonical.
 
 ## Source commit lifecycle
 
@@ -938,8 +938,8 @@ a new plan, and a full roster by construction. (Validated on run
 30124953754: 97 attempt-1 results plus one attempt-2 rebuild sealed the
 first release candidate.)
 
-Legacy `--scope full-workflow-roster` admits every discovered workflow into the
-census and constructs since the migration completed (98/98 canonical);
+Legacy `--scope full-workflow-roster` admits every discovered workflow into
+the census; it fails closed while any cataloged core is pending;
 the GitHub Actions release-candidate coordinator applies that same complete
 census through its required group tag. Do not weaken that census.
 

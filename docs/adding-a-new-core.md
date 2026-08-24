@@ -5,7 +5,7 @@ fail-closed, hash-locked catalog: from an uncataloged core to a
 canonical one whose exact compile/link argv is proven by sha256, promoted with
 a reproducible build golden, and gated by the full test suite.
 
-All 98 shipped-core workflows are onboarded (2026-07-24); this runbook is
+All shipped-core workflows are onboarded (98 on 2026-07-24; flycast2021/flycast2024 added later as build candidates); this runbook is
 the recipe for FUTURE cores and for re-pinning existing ones.
 
 It complements two narrower docs:
@@ -344,11 +344,28 @@ python3 scripts/promote_core.py compose-lifecycle --core <core> --semantic-id $S
 
 ## 11. Device eligibility
 
-Read the compatibility manifest's `version_requirements`. If any ABI's needed
-set includes `libstdc++.so.6` with `GLIBCXX` above the Miyoo Mini ceiling
-(`GLIBCXX_3.4.24`, armhf), add the core to `MINI_OVER_CEILING` in
-`tests/test_device_sets.py`. Pure-C cores (no libstdc++) are fleet-wide eligible
-and stay out of that set.
+Read the compatibility manifest's complete `needed` and
+`version_requirements` sets. The current Mini-family bundled provider ceiling
+is `GLIBCXX_3.4.32`; `scripts/device_sets.py` compares that captured ceiling and
+the complete `DT_NEEDED` set automatically. Do not maintain a hand-written
+over-ceiling allowlist. A static pass is only necessary eligibility: record
+target load evidence against the exact artifact, and encode a reproduced
+device limit (such as `memory-zero-fill-map`) as an explicit contract-bound
+constraint rather than converting it to a generic unknown or provider miss.
+Validate and regenerate the artifact-bound physical view after the canonical
+artifact changes:
+
+```bash
+python3 -B scripts/device_runtime_evidence.py migrate --check
+python3 -B scripts/device_runtime_evidence.py validate
+python3 -B scripts/device_runtime_evidence.py project > /tmp/current-device-runtime.json
+python3 -B scripts/device_matrix.py --write
+```
+
+A prior result transfers only when the artifact bytes and execution context
+match exactly. Otherwise the affected physical cells remain `UNKNOWN` until a
+new target capture is ingested; never broadcast one device's failure to its
+untested family siblings.
 
 ### Extracting the constants
 

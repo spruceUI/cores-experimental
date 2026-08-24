@@ -448,7 +448,7 @@ class TrackBuildIntegrationTests(unittest.TestCase):
             sorted(selected_core_ids),
             [row["core_id"] for row in inventory["cores"]],
         )
-        self.assertEqual(86, len(inventory["deferred_cores"]))
+        self.assertEqual(88, len(inventory["deferred_cores"]))
         self.assertEqual(
             sorted(set(self.catalog["cores"]) - selected_core_ids),
             [row["core_id"] for row in inventory["deferred_cores"]],

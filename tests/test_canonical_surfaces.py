@@ -38,7 +38,14 @@ class CanonicalSurfaceTests(unittest.TestCase):
             )
             composed = registry.composed_source_set(semantic_id)
             self.assertEqual({core_id}, set(composed["sources"]), golden_source)
-        self.assertEqual(set(catalog["cores"]), set(canonical))
+        pending = {
+            path.stem
+            for path in (ROOT / "manifests/compatibility/pending").glob("*.json")
+        }
+        # Pending cores (awaiting-local-e2e) are cataloged without promoted
+        # evidence; canonical records and pending records partition the catalog.
+        self.assertEqual(set(), pending & set(canonical))
+        self.assertEqual(set(catalog["cores"]), set(canonical) | pending)
 
         expected = {f"{sid}.json" for sid in canonical.values()}
         self.assertEqual(len(canonical), len(expected))

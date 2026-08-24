@@ -57,9 +57,19 @@ class EvidenceIndexTests(unittest.TestCase):
     def test_every_catalog_core_has_a_current_index(self) -> None:
         cores = evidence_index.catalog_cores()
         self.assertEqual(len(cores), len(set(cores)))
+        pending = {
+            path.stem
+            for path in (
+                evidence_index.ROOT / "manifests/compatibility/pending"
+            ).glob("*.json")
+        }
         for core in cores:
             with self.subTest(core=core):
                 path = evidence_index.index_path(core)
+                if core in pending:
+                    # awaiting-local-e2e: no promoted evidence yet, by design
+                    self.assertFalse(path.is_file(), f"pending core has index: {core}")
+                    continue
                 self.assertTrue(path.is_file(), f"missing index for {core}")
                 stored = json.loads(path.read_text(encoding="utf-8"))
                 self.assertEqual(stored, evidence_index.compose(core))
