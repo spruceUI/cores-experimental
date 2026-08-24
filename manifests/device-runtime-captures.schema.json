@@ -1,0 +1,784 @@
+{
+  "$defs": {
+    "artifactAuthority": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_index_file_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "evidence_index_path": {
+          "pattern": "^pins/evidence/[a-z0-9][a-z0-9_]*\\.json$",
+          "type": "string"
+        },
+        "pin_path": {
+          "pattern": "^pins/core-sets/[A-Za-z0-9._-]+\\.json$",
+          "type": "string"
+        },
+        "selection_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "semantic_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "evidence_index_path",
+        "evidence_index_file_sha256",
+        "semantic_id",
+        "selection_sha256",
+        "pin_path"
+      ],
+      "type": "object"
+    },
+    "artifactCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_id": {
+          "const": "wave4b-complete-30124953754-1"
+        },
+        "repository_commit": {
+          "$ref": "#/$defs/sha1"
+        },
+        "sealed_run_id": {
+          "const": "30124953754"
+        }
+      },
+      "required": [
+        "candidate_id",
+        "sealed_run_id",
+        "repository_commit"
+      ],
+      "type": "object"
+    },
+    "artifactCapture": {
+      "additionalProperties": false,
+      "properties": {
+        "$schema": {
+          "const": "../device-runtime-captures.schema.json"
+        },
+        "artifacts": {
+          "items": {
+            "$ref": "#/$defs/artifactSubject"
+          },
+          "maxItems": 98,
+          "minItems": 98,
+          "type": "array"
+        },
+        "candidate": {
+          "$ref": "#/$defs/artifactCandidate"
+        },
+        "capture_id": {
+          "const": "load-smoke-20260724-v2"
+        },
+        "captured_at": {
+          "const": "2026-07-24"
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "derivation": {
+          "$ref": "#/$defs/derivation"
+        },
+        "devices": {
+          "items": {
+            "$ref": "#/$defs/artifactDevice"
+          },
+          "maxItems": 16,
+          "minItems": 16,
+          "type": "array"
+        },
+        "kind": {
+          "const": "artifact-bound-physical-device-load-smoke-v2"
+        },
+        "local_only": {
+          "const": true
+        },
+        "publication": {
+          "const": "disabled"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "scope": {
+          "$ref": "#/$defs/captureScope"
+        },
+        "source_capture": {
+          "$ref": "#/$defs/sourceCapture"
+        }
+      },
+      "required": [
+        "$schema",
+        "schema_version",
+        "capture_id",
+        "kind",
+        "captured_at",
+        "local_only",
+        "publication",
+        "source_capture",
+        "candidate",
+        "derivation",
+        "scope",
+        "artifacts",
+        "devices",
+        "content_sha256"
+      ],
+      "type": "object"
+    },
+    "artifactDevice": {
+      "additionalProperties": false,
+      "properties": {
+        "architecture": {
+          "enum": [
+            "arm64",
+            "armhf"
+          ]
+        },
+        "capture_status": {
+          "enum": [
+            "CAPTURED",
+            "NOT_CAPTURED"
+          ]
+        },
+        "device_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "execution_profile_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "frontend_availability": {
+          "type": "string"
+        },
+        "frontend_path": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/repositoryPath"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "frontend_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "release_default": {
+          "type": "boolean"
+        },
+        "results": {
+          "items": {
+            "$ref": "#/$defs/result"
+          },
+          "type": "array"
+        },
+        "retroarch_binary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "runtime_contract_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "runtime_family_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "support_status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "device_id",
+        "runtime_contract_id",
+        "runtime_family_id",
+        "execution_profile_id",
+        "architecture",
+        "support_status",
+        "release_default",
+        "frontend_availability",
+        "frontend_path",
+        "frontend_sha256",
+        "capture_status",
+        "retroarch_binary",
+        "results"
+      ],
+      "type": "object"
+    },
+    "artifactSubject": {
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "$ref": "#/$defs/artifactAuthority"
+        },
+        "core_id": {
+          "$ref": "#/$defs/coreId"
+        },
+        "targets": {
+          "additionalProperties": false,
+          "properties": {
+            "arm64": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/$defs/artifactTarget"
+                }
+              ]
+            },
+            "armhf": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/$defs/artifactTarget"
+                }
+              ]
+            }
+          },
+          "required": [
+            "arm64",
+            "armhf"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "core_id",
+        "authority",
+        "targets"
+      ],
+      "type": "object"
+    },
+    "artifactTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "sha256",
+        "size"
+      ],
+      "type": "object"
+    },
+    "captureScope": {
+      "additionalProperties": false,
+      "properties": {
+        "av_pacing": {
+          "const": false
+        },
+        "content_boot": {
+          "const": false
+        },
+        "input": {
+          "const": false
+        },
+        "level": {
+          "const": "dlopen-libretro-init"
+        },
+        "saves": {
+          "const": false
+        },
+        "sustained_performance": {
+          "const": false
+        },
+        "watchdog_seconds": {
+          "const": 10
+        }
+      },
+      "required": [
+        "level",
+        "watchdog_seconds",
+        "content_boot",
+        "input",
+        "av_pacing",
+        "saves",
+        "sustained_performance"
+      ],
+      "type": "object"
+    },
+    "coreId": {
+      "pattern": "^[a-z0-9][a-z0-9_]*$",
+      "type": "string"
+    },
+    "derivation": {
+      "additionalProperties": false,
+      "properties": {
+        "core_builds": {
+          "$ref": "#/$defs/fileSnapshot"
+        },
+        "device_runtime_contracts": {
+          "$ref": "#/$defs/fileSnapshot"
+        },
+        "evidence_indexes": {
+          "$ref": "#/$defs/evidenceSetSnapshot"
+        },
+        "execution_profiles": {
+          "$ref": "#/$defs/fileSnapshot"
+        },
+        "model": {
+          "const": "legacy-v1-device-artifact-observations-plus-candidate-declarations-v1"
+        },
+        "repository_commit": {
+          "$ref": "#/$defs/sha1"
+        }
+      },
+      "required": [
+        "model",
+        "repository_commit",
+        "device_runtime_contracts",
+        "execution_profiles",
+        "core_builds",
+        "evidence_indexes"
+      ],
+      "type": "object"
+    },
+    "evidenceSetSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "file_count": {
+          "const": 98
+        },
+        "file_set_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path_prefix": {
+          "const": "pins/evidence"
+        }
+      },
+      "required": [
+        "path_prefix",
+        "file_count",
+        "file_set_sha256"
+      ],
+      "type": "object"
+    },
+    "fileSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "file_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/repositoryPath"
+        }
+      },
+      "required": [
+        "path",
+        "file_sha256"
+      ],
+      "type": "object"
+    },
+    "identifier": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$",
+      "type": "string"
+    },
+    "legacyCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "repository_commit": {
+          "pattern": "^[0-9a-f]{7,40}$",
+          "type": "string"
+        },
+        "sealed_run": {
+          "pattern": "^[0-9]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidate_id",
+        "sealed_run",
+        "repository_commit"
+      ],
+      "type": "object"
+    },
+    "legacyCapture": {
+      "additionalProperties": false,
+      "properties": {
+        "$schema": {
+          "const": "../device-runtime-captures.schema.json"
+        },
+        "candidate": {
+          "$ref": "#/$defs/legacyCandidate"
+        },
+        "capture_id": {
+          "const": "load-smoke-20260724-v1"
+        },
+        "captured_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "type": "string"
+        },
+        "contracts": {
+          "additionalProperties": {
+            "$ref": "#/$defs/legacyContract"
+          },
+          "minProperties": 1,
+          "propertyNames": {
+            "pattern": "^device-[a-z0-9-]+-v[0-9]+$",
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "kind": {
+          "const": "load-smoke-v1"
+        },
+        "local_only": {
+          "const": true
+        },
+        "method": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "publication": {
+          "const": "disabled"
+        },
+        "schema_version": {
+          "const": 1
+        }
+      },
+      "required": [
+        "$schema",
+        "schema_version",
+        "capture_id",
+        "kind",
+        "captured_at",
+        "local_only",
+        "publication",
+        "candidate",
+        "method",
+        "contracts"
+      ],
+      "type": "object"
+    },
+    "legacyContract": {
+      "additionalProperties": false,
+      "properties": {
+        "devices": {
+          "items": {
+            "$ref": "#/$defs/legacyDevice"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "devices"
+      ],
+      "type": "object"
+    },
+    "legacyDevice": {
+      "additionalProperties": false,
+      "properties": {
+        "artifacts_byte_verified": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "device_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "failed": {
+          "additionalProperties": {
+            "pattern": "^[a-z0-9][a-z0-9-]*$",
+            "type": "string"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/coreId"
+          },
+          "type": "object"
+        },
+        "passed": {
+          "items": {
+            "$ref": "#/$defs/coreId"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "passed_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "retroarch_binary": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "device_id",
+        "retroarch_binary",
+        "artifacts_byte_verified",
+        "passed_count",
+        "failed",
+        "passed"
+      ],
+      "type": "object"
+    },
+    "policy": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "else": {
+            "properties": {
+              "reason": {
+                "type": "string"
+              }
+            }
+          },
+          "if": {
+            "properties": {
+              "status": {
+                "const": "INCLUDED"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reason": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "reason": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "enum": [
+                "default-excluded",
+                "armhf-not-consumed"
+              ]
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "INCLUDED",
+            "EXCLUDED"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "repositoryPath": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[A-Za-z0-9._+-]+(?:/[A-Za-z0-9._+-]+)*$",
+      "type": "string"
+    },
+    "result": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "load_result": {
+                "const": "PASS"
+              }
+            },
+            "required": [
+              "load_result"
+            ]
+          },
+          "then": {
+            "properties": {
+              "artifact_byte_verified": {
+                "const": true
+              },
+              "artifact_sha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "reason": {
+                "const": "load-smoke-pass"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "load_result": {
+                "const": "FAIL"
+              }
+            },
+            "required": [
+              "load_result"
+            ]
+          },
+          "then": {
+            "properties": {
+              "artifact_byte_verified": {
+                "const": true
+              },
+              "artifact_sha256": {
+                "$ref": "#/$defs/sha256"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "load_result": {
+                "const": "UNKNOWN"
+              }
+            },
+            "required": [
+              "load_result"
+            ]
+          },
+          "then": {
+            "properties": {
+              "artifact_byte_verified": {
+                "const": false
+              },
+              "artifact_sha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "reason": {
+                "const": "device-not-captured"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "load_result": {
+                "const": "NO_BUILD"
+              }
+            },
+            "required": [
+              "load_result"
+            ]
+          },
+          "then": {
+            "properties": {
+              "artifact_byte_verified": {
+                "const": false
+              },
+              "artifact_sha256": {
+                "type": "null"
+              },
+              "reason": {
+                "const": "no-artifact-for-architecture"
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "architecture": {
+          "enum": [
+            "arm64",
+            "armhf"
+          ]
+        },
+        "artifact_byte_verified": {
+          "type": "boolean"
+        },
+        "artifact_sha256": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/sha256"
+            }
+          ]
+        },
+        "core_id": {
+          "$ref": "#/$defs/coreId"
+        },
+        "load_result": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "UNKNOWN",
+            "NO_BUILD"
+          ]
+        },
+        "policy": {
+          "$ref": "#/$defs/policy"
+        },
+        "reason": {
+          "pattern": "^[a-z0-9][a-z0-9-]*$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "core_id",
+        "architecture",
+        "artifact_sha256",
+        "artifact_byte_verified",
+        "load_result",
+        "reason",
+        "policy"
+      ],
+      "type": "object"
+    },
+    "sha1": {
+      "pattern": "^[0-9a-f]{40}$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "sourceCapture": {
+      "additionalProperties": false,
+      "properties": {
+        "capture_id": {
+          "const": "load-smoke-20260724-v1"
+        },
+        "file_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "const": "manifests/device-runtime-captures/load-smoke-20260724-v1.json"
+        }
+      },
+      "required": [
+        "path",
+        "file_sha256",
+        "capture_id"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://spruceui.local/schemas/device-runtime-captures.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/legacyCapture"
+    },
+    {
+      "$ref": "#/$defs/artifactCapture"
+    }
+  ],
+  "title": "Spruce physical-device runtime captures"
+}

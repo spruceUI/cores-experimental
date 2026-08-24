@@ -162,7 +162,6 @@ class ReportInvariantTests(unittest.TestCase):
     def test_every_core_lands_in_exactly_one_bucket(self):
         buckets = (
             "eligible",
-            "memory_ineligible",
             "eligible_ceiling_uncaptured",
             "over_ceiling",
             "missing_provider",
@@ -198,13 +197,18 @@ class LiveDeviceScreenTests(unittest.TestCase):
         # libGLESv2.so.2 absent, so the unversioned name fails closed as
         # uncaptured (the Mini family has no GLES2 provider either way).
         self.assertEqual("loader", mini["library_capture"])
-        # km_parallel_n64 no longer reaches ABI classification on the Mini
-        # family: the measured memory screen excludes it first.
+        # Runtime constraints remain orthogonal, so both statically
+        # unresolved GLES users stay visible in this provider screen.
         self.assertEqual(
             [
                 {
                     "core": "flycast",
                     "glibcxx": "3.4.32",
+                    "unverified_providers": ["libGLESv2.so"],
+                },
+                {
+                    "core": "km_parallel_n64_xtreme_amped_turbo",
+                    "glibcxx": "3.4.30",
                     "unverified_providers": ["libGLESv2.so"],
                 },
             ],
@@ -314,30 +318,28 @@ class LiveDeviceScreenTests(unittest.TestCase):
         pixel2 = self.devices["device-gkd-pixel2-v0"]
         self.assertFalse(pixel2["frontend_available"])
 
-    def test_mini_family_memory_screen_excludes_the_measured_pair(self):
+    def test_mini_family_runtime_constraints_are_outside_static_screen(self):
         mini = self.devices["device-miyoo-mini-family-v0"]
-        self.assertEqual(
-            [
-                {
-                    "core": "km_parallel_n64_xtreme_amped_turbo",
-                    "reason": "memory-zero-fill-map",
-                    "capture": "load-smoke-20260724-v1",
-                    "constraint": "mini-family-memory-capacity-v0",
-                },
-                {
-                    "core": "puae2021",
-                    "reason": "memory-zero-fill-map",
-                    "capture": "load-smoke-20260724-v1",
-                    "constraint": "mini-family-memory-capacity-v0",
-                },
-            ],
-            mini["memory_ineligible"],
+        contracts = device_sets._load_json(device_sets.DEVICE_CONTRACTS_PATH)
+        memory = next(
+            constraint
+            for constraint in contracts["compatibility_constraints"]
+            if constraint["constraint_id"] == "mini-family-memory-capacity-v0"
         )
-        # The screen is contract-bound: no other device view consumes it.
+        self.assertEqual(
+            ["km_parallel_n64_xtreme_amped_turbo", "puae2021"],
+            memory["core_ids"],
+        )
+        self.assertEqual("memory-zero-fill-map", memory["observed_failure"])
+        self.assertEqual("load-smoke-20260724-v1", memory["capture_id"])
+        # The contract evidence does not replace static ABI/provider results.
+        eligible = {row["core"] for row in mini["eligible"]}
+        uncaptured = {row["core"] for row in mini["provider_uncaptured"]}
+        self.assertIn("puae2021", eligible)
+        self.assertIn("km_parallel_n64_xtreme_amped_turbo", uncaptured)
         for contract_id, view in self.devices.items():
-            if contract_id == "device-miyoo-mini-family-v0":
-                continue
-            self.assertEqual([], view["memory_ineligible"], contract_id)
+            self.assertNotIn("runtime_constraints", view, contract_id)
+            self.assertNotIn("load_smoke", view, contract_id)
 
     def test_mini_over_ceiling_carries_the_formal_constraint(self):
         mini = self.devices["device-miyoo-mini-family-v0"]

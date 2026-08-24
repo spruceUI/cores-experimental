@@ -7,9 +7,10 @@ availability), and each core's captured ``version_requirements`` to compute, per
 device family, the set of cores that build for the device architecture and clear
 its libstdc++ provider ceiling.
 
-This is a static ABI screen only. It is necessary, not sufficient: every device
-view remains provisional until a target-runtime smoke test is captured (a later
-pipeline phase fills that in). Nothing here promotes, packages, or publishes.
+This is a static ABI screen only. It is necessary, not sufficient: runtime
+constraints remain in their source contract, and only a separate exact
+artifact/device evidence join may turn them into physical runtime verdicts.
+Nothing here promotes, packages, or publishes.
 """
 
 from __future__ import annotations
@@ -159,22 +160,6 @@ def _policy_exclusion(
     return None
 
 
-def _contract_memory_exclusions(
-    contracts: dict[str, Any], contract_id: str
-) -> dict[str, dict[str, Any]]:
-    """Map core_id -> memory constraint for constraints bound to this contract."""
-
-    result: dict[str, dict[str, Any]] = {}
-    for constraint in contracts.get("compatibility_constraints", []):
-        if (
-            constraint.get("kind") == "memory-capacity-exceeded"
-            and constraint.get("runtime_contract_id") == contract_id
-        ):
-            for core_id in constraint.get("core_ids", []):
-                result[core_id] = constraint
-    return result
-
-
 def _profile_constraints(
     contracts: dict[str, Any], profile_id: str
 ) -> dict[str, str]:
@@ -292,11 +277,9 @@ def assemble_device_sets(
         architecture = profile_architecture(profiles, profile_id)
         ceiling = device_glibcxx_ceiling(contract)
         constraints = _profile_constraints(contracts, profile_id)
-        memory_exclusions = _contract_memory_exclusions(contracts, contract_id)
         libraries = device_library_availability(contract)
         buckets: dict[str, list[dict[str, Any]]] = {
             "eligible": [],
-            "memory_ineligible": [],
             "eligible_ceiling_uncaptured": [],
             "over_ceiling": [],
             "missing_provider": [],
@@ -309,19 +292,6 @@ def assemble_device_sets(
             if excluded is not None:
                 buckets["policy_excluded"].append(
                     {"core": core_id, "reason": excluded}
-                )
-                continue
-            memory_constraint = memory_exclusions.get(core_id)
-            if memory_constraint is not None:
-                # Measured on-device load failure outranks any static ABI
-                # standing: the device cannot map the core at all.
-                buckets["memory_ineligible"].append(
-                    {
-                        "core": core_id,
-                        "reason": memory_constraint["observed_failure"],
-                        "capture": memory_constraint["capture_id"],
-                        "constraint": memory_constraint["constraint_id"],
-                    }
                 )
                 continue
             bucket, detail = classify_core(
@@ -349,8 +319,6 @@ def assemble_device_sets(
                 else None
             ),
             "frontend_available": profile_frontend_available(profiles, profile_id),
-            "runtime_capture": contract.get("runtime_capture"),
-            "load_smoke": contract.get("load_smoke"),
             "counts": {name: len(rows) for name, rows in buckets.items()},
             **buckets,
         }
@@ -360,8 +328,8 @@ def assemble_device_sets(
         "publication": "disabled",
         "screen": "static-abi-only",
         "note": (
-            "necessary-not-sufficient: every device view remains provisional "
-            "until a target-runtime smoke test is captured"
+            "necessary-not-sufficient: static cells remain provisional until "
+            "a separate exact artifact and physical-device evidence join"
         ),
         "core_count": len(core_targets),
         "devices": devices,

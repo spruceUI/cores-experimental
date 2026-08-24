@@ -216,8 +216,29 @@ class EvidenceBindingTests(unittest.TestCase):
             )
 
     def test_every_core_binds_its_promoted_evidence(self) -> None:
+        pending = {
+            path.stem
+            for path in (
+                ROOT / "manifests" / "compatibility" / "pending"
+            ).glob("*.json")
+        }
         for core in sorted(self.catalog["cores"]):
             with self.subTest(core=core):
+                if core in pending:
+                    # awaiting-local-e2e: pending record instead of evidence
+                    pending_doc = load_document(
+                        ROOT
+                        / "manifests"
+                        / "compatibility"
+                        / "pending"
+                        / f"{core}.json"
+                    )
+                    self.assertEqual(core, pending_doc["core_id"])
+                    self.assertEqual(
+                        self.catalog["cores"][core]["source"]["commit"],
+                        pending_doc["source_commit"],
+                    )
+                    continue
                 self._assert_core_bindings(core)
 
 

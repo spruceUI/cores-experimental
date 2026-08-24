@@ -33,6 +33,25 @@ class FullReleaseRepositoryTests(unittest.TestCase):
         self.services = pipeline.release_repository_services()
         self.real_run = release_repository.run
 
+    def graduated_roster(self):
+        """Treat the pending candidates as canonical for one test.
+
+        flycast2021/flycast2024 are cataloged with pending compatibility
+        (awaiting-local-e2e), which the roster gate correctly refuses to
+        release. Stages after that gate stay testable by simulating the
+        post-e2e state: pending empty, both cores canonical.
+        """
+        real = release_repository._compatibility_ids
+
+        def _ids(directory):
+            if directory.name == "pending":
+                return set()
+            return real(directory) | {"flycast2021", "flycast2024"}
+
+        return mock.patch.object(
+            release_repository, "_compatibility_ids", side_effect=_ids
+        )
+
     def clean_run(
         self,
         args: list[str],
@@ -240,18 +259,25 @@ class FullReleaseRepositoryTests(unittest.TestCase):
                 references=changed_references,
             )
 
-    def test_full_workflow_roster_constructs_a_release_ready_plan(self) -> None:
-        # The 2026-07-24 milestone: with every shipped-core workflow
-        # canonical (98/98, zero uncataloged, zero pending), the FULL roster
-        # constructs a valid release plan for the first time -- the
-        # "not release-ready" blocker report this test used to pin is no
-        # longer reachable from real repository state.
+    def test_full_workflow_roster_release_gate_reports_the_pending_block(
+        self,
+    ) -> None:
+        # The 2026-07-24 milestone (full roster release-ready at 98/98) held
+        # until flycast2021/flycast2024 entered the catalog as compile
+        # candidates with pending compatibility (awaiting-local-e2e). The
+        # full-roster gate correctly refuses while any cataloged core lacks
+        # promoted evidence; their local e2e runs re-open it at 100/100.
         with mock.patch.object(
             release_repository,
             "run",
             side_effect=self.clean_run,
+        ), self.assertRaisesRegex(
+            PipelineError,
+            r"full workflow roster is not release-ready: canonical=98, "
+            r"legacy_bridge=0, pending=2, uncataloged=0, nonshared=0, "
+            r"missing_canonical_workflows=0",
         ):
-            plan = release_repository.construct_tracked_release_plan(
+            release_repository.construct_tracked_release_plan(
                 candidate_id="full-roster-v1",
                 scope="full-workflow-roster",
                 requested_cores=None,
@@ -259,19 +285,6 @@ class FullReleaseRepositoryTests(unittest.TestCase):
                 catalog_path=pipeline.DEFAULT_CATALOG,
                 services=self.services,
             )
-        catalog = pipeline.load_catalog(pipeline.DEFAULT_CATALOG)
-        self.assertEqual(
-            plan["summary"]["core_count"], expected_counts.CATALOG_CORE_COUNT
-        )
-        self.assertEqual(
-            plan["summary"]["target_count"],
-            sum(len(spec["targets"]) for spec in catalog["cores"].values()),
-        )
-        self.assertEqual(
-            [row["core_id"] for row in plan["cores"]],
-            sorted(catalog["cores"]),
-        )
-
     def test_main_stable_universal_track_group_fails_closed_when_deferred(
         self,
     ) -> None:
@@ -290,7 +303,7 @@ class FullReleaseRepositoryTests(unittest.TestCase):
             load_core_pin_index=pin_index_loader,
             resolve_core_group_build_selection=group_resolver,
         )
-        with mock.patch.object(
+        with self.graduated_roster(), mock.patch.object(
             release_repository,
             "run",
             side_effect=self.clean_run,
@@ -758,7 +771,7 @@ class FullReleaseRepositoryTests(unittest.TestCase):
                 ),
             ]
         )
-        with mock.patch.object(
+        with self.graduated_roster(), mock.patch.object(
             release_repository,
             "run",
             side_effect=self.clean_run,
@@ -795,7 +808,7 @@ class FullReleaseRepositoryTests(unittest.TestCase):
             self.services,
             resolve_core_group_build_selection=resolver,
         )
-        with mock.patch.object(
+        with self.graduated_roster(), mock.patch.object(
             release_repository,
             "run",
             side_effect=self.clean_run,

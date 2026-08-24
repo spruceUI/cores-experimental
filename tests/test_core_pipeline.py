@@ -121,6 +121,8 @@ class CatalogTests(unittest.TestCase):
                 "fceumm",
                 "ffmpeg",
                 "flycast",
+                "flycast2021",
+                "flycast2024",
                 "fmsx",
                 "freechaf",
                 "freeintv",

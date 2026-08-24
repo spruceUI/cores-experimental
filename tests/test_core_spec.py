@@ -168,14 +168,16 @@ class CoreSpecSetTests(unittest.TestCase):
             tuple(identity.core_id for identity in result.cores),
         )
         self.assertEqual(
-            98, len({identity.content_sha256 for identity in result.cores})
+            EXPECTED_CORE_COUNT,
+            len({identity.content_sha256 for identity in result.cores}),
         )
         self.assertEqual(
-            98,
+            EXPECTED_CORE_COUNT,
             len({identity.legacy_catalog_spec_sha256 for identity in result.cores}),
         )
         self.assertEqual(
-            98, len({identity.strict_spec_sha256 for identity in result.cores})
+            EXPECTED_CORE_COUNT,
+            len({identity.strict_spec_sha256 for identity in result.cores}),
         )
 
     def test_proof_bindings_close_the_registered_and_legacy_cores(
