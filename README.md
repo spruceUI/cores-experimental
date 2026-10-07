@@ -112,4 +112,4 @@ python3 -m unittest discover -s tests
 | `scripts/cores.py`, `scripts/corebuild/` | the driver |
 | `runtime/smoke_loader.c` | the load test |
 | `Dockerfile.*`, `toolchain-inputs/` | how the toolchain images were made ([notes](toolchain-inputs/README.md)) |
-| `docs/` | [catalog reference](docs/catalog.md), [excluded cores](docs/excluded-cores-analysis.md), [audit and reduction record](docs/audit-2026-10.md) |
+| `docs/` | [catalog reference](docs/catalog.md), [compiler flags](docs/flags.md), [excluded cores](docs/excluded-cores-analysis.md), [audit and reduction record](docs/audit-2026-10.md) |
