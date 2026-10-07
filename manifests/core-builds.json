@@ -14,6 +14,7 @@
       "build": {
         "artifact_name": "2048_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/2048_libretro.so",
         "source_dir": "libretro-2048",
         "source_key": "2048"
@@ -160,6 +161,7 @@
       "build": {
         "artifact_name": "bk_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/bk_libretro.so",
         "source_dir": "libretro-bk",
         "source_key": "bk"
@@ -182,6 +184,7 @@
       "build": {
         "artifact_name": "bluemsx_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/bluemsx_libretro.so",
         "source_dir": "libretro-bluemsx",
         "source_key": "bluemsx"
@@ -204,6 +207,7 @@
       "build": {
         "artifact_name": "cap32_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/cap32_libretro.so",
         "source_dir": "libretro-cap32",
         "source_key": "cap32"
@@ -226,6 +230,7 @@
       "build": {
         "artifact_name": "chailove_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/chailove_libretro.so",
         "overlays": {
           "arm64": [
@@ -260,6 +265,7 @@
       "build": {
         "artifact_name": "chimerasnes_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/chimerasnes_libretro.so",
         "source_dir": "libretro-chimerasnes",
         "source_key": "chimerasnes"
@@ -282,6 +288,7 @@
       "build": {
         "artifact_name": "crocods_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/crocods_libretro.so",
         "overlays": {
           "arm64": [
@@ -316,6 +323,7 @@
       "build": {
         "artifact_name": "daphne_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/daphne_libretro.so",
         "source_dir": "libretro-daphne",
         "source_key": "daphne"
@@ -483,6 +491,7 @@
       "build": {
         "artifact_name": "fbalpha2012_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 8,
         "output_path": "dist/unix/fbalpha2012_libretro.so",
         "overlays": {
           "arm64": [
@@ -757,6 +766,7 @@
       "build": {
         "artifact_name": "fmsx_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/fmsx_libretro.so",
         "source_dir": "libretro-fmsx",
         "source_key": "fmsx"
@@ -779,6 +789,7 @@
       "build": {
         "artifact_name": "freechaf_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/freechaf_libretro.so",
         "source_dir": "libretro-freechaf",
         "source_key": "freechaf"
@@ -801,6 +812,7 @@
       "build": {
         "artifact_name": "freeintv_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/freeintv_libretro.so",
         "source_dir": "libretro-freeintv",
         "source_key": "freeintv"
@@ -890,6 +902,7 @@
       "build": {
         "artifact_name": "gearboy_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/gearboy_libretro.so",
         "source_dir": "libretro-gearboy",
         "source_key": "gearboy"
@@ -912,6 +925,7 @@
       "build": {
         "artifact_name": "gearcoleco_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/gearcoleco_libretro.so",
         "source_dir": "libretro-gearcoleco",
         "source_key": "gearcoleco"
@@ -934,6 +948,7 @@
       "build": {
         "artifact_name": "gearsystem_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/gearsystem_libretro.so",
         "source_dir": "libretro-gearsystem",
         "source_key": "gearsystem"
@@ -1128,6 +1143,7 @@
       "build": {
         "artifact_name": "hatari_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 8,
         "output_path": "dist/unix/hatari_libretro.so",
         "source_date_epoch": true,
         "source_dir": "libretro-hatari",
@@ -1286,6 +1302,7 @@
       "build": {
         "artifact_name": "lutro_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/lutro_libretro.so",
         "source_dir": "libretro-lutro",
         "source_key": "lutro"
@@ -1337,6 +1354,7 @@
       "build": {
         "artifact_name": "mednafen_lynx_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/mednafen_lynx_libretro.so",
         "source_dir": "libretro-mednafen_lynx",
         "source_key": "mednafen_lynx"
@@ -1359,6 +1377,7 @@
       "build": {
         "artifact_name": "mednafen_ngp_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/mednafen_ngp_libretro.so",
         "source_dir": "libretro-mednafen_ngp",
         "source_key": "mednafen_ngp"
@@ -1403,6 +1422,7 @@
       "build": {
         "artifact_name": "mednafen_pcfx_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "makeflags": "IS_X86=0",
         "output_path": "dist/unix/mednafen_pcfx_libretro.so",
         "source_dir": "libretro-mednafen_pcfx",
@@ -1449,6 +1469,7 @@
       "build": {
         "artifact_name": "mednafen_supergrafx_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/mednafen_supergrafx_libretro.so",
         "overlays": {
           "arm64": [
@@ -1483,6 +1504,7 @@
       "build": {
         "artifact_name": "mednafen_vb_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/mednafen_vb_libretro.so",
         "source_dir": "libretro-mednafen_vb",
         "source_key": "mednafen_vb"
@@ -1505,6 +1527,7 @@
       "build": {
         "artifact_name": "mednafen_wswan_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/mednafen_wswan_libretro.so",
         "source_dir": "libretro-mednafen_wswan",
         "source_key": "mednafen_wswan"
@@ -1527,20 +1550,7 @@
       "build": {
         "artifact_name": "mgba_libretro.so",
         "driver": "libretro-super",
-        "env": [
-          [
-            "GIT_CONFIG_SYSTEM",
-            "/dev/null"
-          ],
-          [
-            "GIT_CONFIG_GLOBAL",
-            "/dev/null"
-          ],
-          [
-            "GIT_CONFIG_PARAMETERS",
-            "'core.abbrev=9'"
-          ]
-        ],
+        "git_abbrev": 9,
         "output_path": "dist/unix/mgba_libretro.so",
         "source_dir": "libretro-mgba",
         "source_key": "mgba"
@@ -1563,6 +1573,7 @@
       "build": {
         "artifact_name": "mu_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/mu_libretro.so",
         "source_dir": "libretro-mu",
         "source_key": "mu"
@@ -1584,6 +1595,7 @@
       "build": {
         "artifact_name": "mupen64plus_next_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "makeflags": "FORCE_GLES=1 WITH_DYNAREC=aarch64",
         "output_path": "dist/unix/mupen64plus_next_libretro.so",
         "source_dir": "libretro-mupen64plus_next",
@@ -1616,6 +1628,7 @@
           ]
         },
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/neocd_libretro.so",
         "source_dir": "libretro-neocd",
         "source_key": "neocd"
@@ -1661,6 +1674,7 @@
       "build": {
         "artifact_name": "np2kai_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/np2kai_libretro.so",
         "overlays": {
           "arm64": [
@@ -1701,6 +1715,7 @@
       "build": {
         "artifact_name": "numero_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/numero_libretro.so",
         "source_dir": "libretro-numero",
         "source_key": "numero"
@@ -1723,6 +1738,7 @@
       "build": {
         "artifact_name": "o2em_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/o2em_libretro.so",
         "source_dir": "libretro-o2em",
         "source_key": "o2em"
@@ -1745,6 +1761,7 @@
       "build": {
         "artifact_name": "opera_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/opera_libretro.so",
         "source_dir": "libretro-opera",
         "source_key": "opera"
@@ -1766,6 +1783,7 @@
       "build": {
         "artifact_name": "parallel_n64_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 8,
         "makeflags": "GLES=1 NOSSE=1 WITH_DYNAREC=aarch64",
         "output_path": "dist/unix/parallel_n64_libretro.so",
         "source_date_epoch": true,
@@ -1798,6 +1816,7 @@
           ]
         },
         "driver": "libretro-super",
+        "git_abbrev": 8,
         "output_path": "dist/unix/pcsx_rearmed_libretro.so",
         "source_date_epoch": true,
         "source_dir": "libretro-pcsx_rearmed",
@@ -1892,6 +1911,7 @@
       "build": {
         "artifact_name": "potator_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/potator_libretro.so",
         "source_dir": "libretro-potator",
         "source_key": "potator"
@@ -1914,6 +1934,7 @@
       "build": {
         "artifact_name": "prboom_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/prboom_libretro.so",
         "source_dir": "libretro-prboom",
         "source_key": "prboom"
@@ -1959,6 +1980,7 @@
       "build": {
         "artifact_name": "puae2021_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 8,
         "output_path": "dist/unix/puae2021_libretro.so",
         "source_date_epoch": true,
         "source_dir": "libretro-puae2021",
@@ -2017,6 +2039,7 @@
       "build": {
         "artifact_name": "px68k_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/px68k_libretro.so",
         "source_dir": "libretro-px68k",
         "source_key": "px68k"
@@ -2039,6 +2062,7 @@
       "build": {
         "artifact_name": "quasi88_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/quasi88_libretro.so",
         "source_dir": "libretro-quasi88",
         "source_key": "quasi88"
@@ -2084,6 +2108,7 @@
       "build": {
         "artifact_name": "race_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/race_libretro.so",
         "source_dir": "libretro-race",
         "source_key": "race"
@@ -2128,6 +2153,7 @@
       "build": {
         "artifact_name": "retro8_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/retro8_libretro.so",
         "overlays": {
           "arm64": [
@@ -2162,6 +2188,7 @@
       "build": {
         "artifact_name": "sameduck_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/sameduck_libretro.so",
         "source_dir": "libretro-sameduck",
         "source_key": "sameduck"
@@ -2229,6 +2256,7 @@
       "build": {
         "artifact_name": "snes9x2005_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/snes9x2005_libretro.so",
         "source_dir": "libretro-snes9x2005",
         "source_key": "snes9x2005"
@@ -2251,6 +2279,7 @@
       "build": {
         "artifact_name": "snes9x2005_plus_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "makeflags": "USE_BLARGG_APU=1",
         "output_path": "dist/unix/snes9x2005_plus_libretro.so",
         "source_dir": "libretro-snes9x2005_plus",
@@ -2274,6 +2303,7 @@
       "build": {
         "artifact_name": "snes9x2010_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/snes9x2010_libretro.so",
         "source_dir": "libretro-snes9x2010",
         "source_key": "snes9x2010"
@@ -2414,6 +2444,7 @@
       "build": {
         "artifact_name": "theodore_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/theodore_libretro.so",
         "source_dir": "libretro-theodore",
         "source_key": "theodore"
@@ -2470,6 +2501,7 @@
       "build": {
         "artifact_name": "tyrquake_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/tyrquake_libretro.so",
         "source_date_epoch": true,
         "source_dir": "libretro-tyrquake",
@@ -2492,6 +2524,7 @@
       "build": {
         "artifact_name": "uae4arm_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "output_path": "dist/unix/uae4arm_libretro.so",
         "source_dir": "libretro-uae4arm",
         "source_key": "uae4arm"
@@ -2558,6 +2591,7 @@
       "build": {
         "artifact_name": "vecx_libretro.so",
         "driver": "libretro-super",
+        "git_abbrev": 7,
         "makeflags": "HAS_GPU=0",
         "output_path": "dist/unix/vecx_libretro.so",
         "source_dir": "libretro-vecx",
@@ -2603,20 +2637,7 @@
       "build": {
         "artifact_name": "vice_x64_libretro.so",
         "driver": "libretro-super",
-        "env": [
-          [
-            "GIT_CONFIG_SYSTEM",
-            "/dev/null"
-          ],
-          [
-            "GIT_CONFIG_GLOBAL",
-            "/dev/null"
-          ],
-          [
-            "GIT_CONFIG_PARAMETERS",
-            "'core.abbrev=10'"
-          ]
-        ],
+        "git_abbrev": 10,
         "output_path": "dist/unix/vice_x64_libretro.so",
         "source_date_epoch": true,
         "source_dir": "libretro-vice",
@@ -2640,20 +2661,7 @@
       "build": {
         "artifact_name": "vice_xvic_libretro.so",
         "driver": "libretro-super",
-        "env": [
-          [
-            "GIT_CONFIG_SYSTEM",
-            "/dev/null"
-          ],
-          [
-            "GIT_CONFIG_GLOBAL",
-            "/dev/null"
-          ],
-          [
-            "GIT_CONFIG_PARAMETERS",
-            "'core.abbrev=10'"
-          ]
-        ],
+        "git_abbrev": 10,
         "output_path": "dist/unix/vice_xvic_libretro.so",
         "source_date_epoch": true,
         "source_dir": "libretro-vice",

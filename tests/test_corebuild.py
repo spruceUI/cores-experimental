@@ -95,6 +95,11 @@ class RecipeTest(unittest.TestCase):
         self.assertIn('export SOURCE_DATE_EPOCH="$(git -C libretro-fbneo show -s --format=%ct HEAD)"',
                       self.render("fbneo", "arm64"))
 
+    def test_git_abbrev_pins_the_short_hash_length(self):
+        text = self.render("hatari", "arm64")
+        self.assertIn("export GIT_CONFIG_PARAMETERS=\"'core.abbrev=8'\"", text)
+        self.assertLess(text.index("GIT_CONFIG_PARAMETERS"), text.index("./libretro-build.sh hatari"))
+
     def test_special_recipes(self):
         self.assertIn("/usr/bin/gmake -f Makefile.libretro", self.render("picodrive", "armhf"))
         self.assertIn("MAKEFLAGS='-- GIT_VERSION=9d7716aa2 GIT_DATE=260503 HIDE=' ./libretro-build.sh fbneo",

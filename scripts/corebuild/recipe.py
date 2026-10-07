@@ -202,6 +202,11 @@ def environment(spec: dict, directory: str) -> list[str]:
     lines = []
     if build.get("source_date_epoch"):
         lines.append(f'export SOURCE_DATE_EPOCH="$(git -C {directory} show -s --format=%ct HEAD)"')
+    if build.get("git_abbrev"):
+        # Short hashes baked in by the makefile must not grow with the upstream repo.
+        abbrev = int(build["git_abbrev"])
+        lines += ["export GIT_CONFIG_SYSTEM=/dev/null", "export GIT_CONFIG_GLOBAL=/dev/null",
+                  f"export GIT_CONFIG_PARAMETERS=\"'core.abbrev={abbrev}'\""]
     lines += [f"export {name}={q(fill(value, commit))}" for name, value in build.get("env", [])]
     if "makeflags" in build:
         lines.append(f"export MAKEFLAGS={q(fill(build['makeflags'], commit))}")
