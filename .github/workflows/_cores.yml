@@ -1,0 +1,143 @@
+name: Build cores (reusable)
+
+# Plan -> one job per core (it builds every board/profile variant of that core)
+# -> bundles laid out like the device, plus an optional release freeze.
+
+on:
+  workflow_call:
+    inputs:
+      cores:
+        type: string
+        default: all
+      boards:
+        type: string
+        default: universal
+      profiles:
+        type: string
+        default: release
+      flags:
+        type: string
+        default: ""
+      arch:
+        type: string
+        default: both
+      repeat:
+        type: number
+        default: 1
+      fallback:
+        type: boolean
+        default: false
+      freeze_name:
+        type: string
+        default: ""
+      freeze_check:
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+env:
+  CORES: ${{ inputs.cores }}
+  BOARDS: ${{ inputs.boards }}
+  PROFILES: ${{ inputs.profiles }}
+  FLAGS: ${{ inputs.flags }}
+  ARCH: ${{ inputs.arch }}
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check the catalog
+        run: python3 scripts/cores.py check
+      - name: Plan the builds
+        id: plan
+        run: |
+          set -- --cores "$CORES" --boards "$BOARDS" --profiles "$PROFILES" --flags="$FLAGS"
+          if [ -n "$ARCH" ] && [ "$ARCH" != both ]; then set -- "$@" --arch "$ARCH"; fi
+          { echo '```'; python3 scripts/cores.py plan "$@"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          echo "matrix=$(python3 scripts/cores.py plan "$@" --github)" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    env:
+      CORE: ${{ matrix.core }}
+      TOOLCHAINS: ${{ matrix.toolchains }}
+      REPEAT: ${{ inputs.repeat }}
+      FALLBACK: ${{ inputs.fallback }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Download, verify and load the toolchain images
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          dir="$RUNNER_TEMP/toolchains"
+          for name in $TOOLCHAINS; do
+            archive="$(python3 -c 'import json,sys; print(json.load(open("manifests/toolchains.json"))["toolchains"][sys.argv[1]]["archive"]["name"])' "$name")"
+            gh release download toolchains --pattern "$archive" --dir "$dir"
+          done
+          python3 scripts/cores.py toolchains --dir "$dir" --cores "$CORE"
+          rm -rf "$dir"
+      - name: Build
+        run: |
+          set -- --core "$CORE" --boards "$BOARDS" --profiles "$PROFILES" --flags="$FLAGS" --repeat "$REPEAT"
+          if [ -n "$ARCH" ] && [ "$ARCH" != both ]; then set -- "$@" --arch "$ARCH"; fi
+          if [ "$FALLBACK" = true ]; then set -- "$@" --fallback; fi
+          python3 scripts/cores.py build "$@" --out "$RUNNER_TEMP/results"
+      - name: Upload results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: results-${{ matrix.core }}
+          path: ${{ runner.temp }}/results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  bundle:
+    needs: [plan, build]
+    if: ${{ always() && needs.plan.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      FREEZE_NAME: ${{ inputs.freeze_name }}
+      FREEZE_CHECK: ${{ inputs.freeze_check }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: results-*
+          path: results
+          merge-multiple: true
+      - name: Summarize and bundle
+        run: |
+          python3 scripts/cores.py summary --results results >> "$GITHUB_STEP_SUMMARY"
+          python3 scripts/cores.py summary --results results --annotations
+          python3 scripts/cores.py bundle --results results --out bundles
+      - name: Freeze the release
+        if: ${{ inputs.freeze_name != '' }}
+        run: |
+          set -- --results results --name "$FREEZE_NAME" --out "bundles/$FREEZE_NAME.json"
+          if [ -n "$FREEZE_CHECK" ]; then set -- "$@" --check "$FREEZE_CHECK"; fi
+          python3 scripts/cores.py freeze "$@"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: ${{ always() }}
+        with:
+          name: bundles
+          path: bundles/
+          if-no-files-found: ignore
+          retention-days: 14

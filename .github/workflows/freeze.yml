@@ -1,0 +1,40 @@
+name: Freeze a release
+
+# Builds every selected core twice (the second on half the CPUs) and fails
+# unless both builds match byte for byte. Commit the resulting
+# releases/<name>.json; pass it as `check` later to prove the release rebuilds.
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: Release name, e.g. spruce-4.5
+        required: true
+        type: string
+      cores:
+        default: all
+        type: string
+      boards:
+        default: universal
+        type: string
+      profiles:
+        default: release
+        type: string
+      check:
+        description: Path of a committed releases/<name>.json to verify against (optional)
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  cores:
+    uses: ./.github/workflows/_cores.yml
+    with:
+      cores: ${{ inputs.cores }}
+      boards: ${{ inputs.boards }}
+      profiles: ${{ inputs.profiles }}
+      repeat: 2
+      freeze_name: ${{ inputs.name }}
+      freeze_check: ${{ inputs.check }}

@@ -1,0 +1,21 @@
+name: CI
+
+# Every core at its catalog commit. A core whose current commit fails or does
+# not load is rebuilt at its known-good recipe, so the bundle stays usable.
+
+on:
+  push:
+    branches: [main]
+    paths: [manifests/**, patches/**, metadata/**, runtime/**, scripts/**]
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cores:
+    uses: ./.github/workflows/_cores.yml
+    with:
+      fallback: true

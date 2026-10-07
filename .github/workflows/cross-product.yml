@@ -1,0 +1,23 @@
+name: Cross product
+
+# Every core x every board, at max optimization and at debug. Boards with
+# identical flags share one build; bundles come out per board+profile.
+
+on:
+  workflow_dispatch:
+    inputs:
+      cores:
+        description: Core ids, space or comma separated, or "all"
+        default: all
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  cores:
+    uses: ./.github/workflows/_cores.yml
+    with:
+      cores: ${{ inputs.cores }}
+      boards: all
+      profiles: max,debug

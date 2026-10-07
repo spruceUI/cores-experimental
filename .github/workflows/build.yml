@@ -1,0 +1,42 @@
+name: Build cores
+
+# Tunable experiment: pick cores, boards, profiles and extra flags. A build
+# passes when it yields a core that loads; bundles come out per board+profile.
+
+on:
+  workflow_dispatch:
+    inputs:
+      cores:
+        description: Core ids, space or comma separated, or "all"
+        required: true
+        type: string
+      boards:
+        description: universal, a133p, h700, a523, rk3566, rk3326, a33, ssd202d, or all
+        default: universal
+        type: string
+      profiles:
+        description: release, max, debug, debug-og, release-g, size (comma separated) or all
+        default: release
+        type: string
+      flags:
+        description: Extra GCC flags appended last (-O*, -g*, -f*, -m*, -D* only)
+        default: ""
+        type: string
+      arch:
+        description: Limit universal builds to one ABI
+        default: both
+        type: choice
+        options: [both, arm64, armhf]
+
+permissions:
+  contents: read
+
+jobs:
+  cores:
+    uses: ./.github/workflows/_cores.yml
+    with:
+      cores: ${{ inputs.cores }}
+      boards: ${{ inputs.boards }}
+      profiles: ${{ inputs.profiles }}
+      flags: ${{ inputs.flags }}
+      arch: ${{ inputs.arch }}
