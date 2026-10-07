@@ -219,6 +219,9 @@ class ReleaseTest(unittest.TestCase):
         self.assertTrue(build.usability(out)["loaded"])
         (out / "smoke.txt").write_text("CHECK dlopen pass\nCHECK retro_api_version pass\nexit 139\n")
         self.assertFalse(build.usability(out)["loaded"])
+        mid_line = "".join(f"core output without newline CHECK {s} pass\n" for s in build.SMOKE_STEPS)
+        (out / "smoke.txt").write_text(mid_line)
+        self.assertTrue(build.usability(out)["loaded"])
 
 
 if __name__ == "__main__":

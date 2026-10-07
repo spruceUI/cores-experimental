@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 import platform
+import re
 import shutil
 import subprocess
 import time
@@ -18,6 +19,7 @@ from .variants import Variant
 # retro_deinit is recorded but not required: some cores crash there when no game was loaded.
 SMOKE_STEPS = ("dlopen", "retro_api_version", "retro_set_environment", "retro_init",
                "retro_get_system_info")
+CHECK = re.compile(r"CHECK (\S+) (pass|fail)")
 
 
 def sha256(path: Path) -> str:
@@ -56,11 +58,8 @@ def usability(out: Path) -> dict:
     smoke = out / "smoke.txt"
     if not smoke.exists():
         return {"probed": False}
-    checks = {}
-    for line in smoke.read_text(errors="replace").splitlines():
-        parts = line.split()
-        if len(parts) == 3 and parts[0] == "CHECK":
-            checks[parts[1]] = parts[2]
+    # A core may print to stdout without a newline, so a CHECK can start mid-line.
+    checks = dict(CHECK.findall(smoke.read_text(errors="replace")))
     loaded = all(checks.get(step) == "pass" for step in SMOKE_STEPS)
     return {"probed": True, "loaded": loaded, "checks": checks}
 

@@ -2528,6 +2528,9 @@
         "artifact_name": "uae4arm_libretro.so",
         "driver": "libretro-super",
         "git_abbrev": 7,
+        "neon": [
+          "HAVE_NEON=1"
+        ],
         "output_path": "dist/unix/uae4arm_libretro.so",
         "source_dir": "libretro-uae4arm",
         "source_key": "uae4arm"

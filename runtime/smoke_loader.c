@@ -19,6 +19,15 @@
 #define ENV_GET_LOG_INTERFACE 27
 #define ENV_GET_CONTENT_DIRECTORY 30
 #define ENV_GET_SAVE_DIRECTORY 31
+#define ENV_GET_VARIABLE 15
+#define ENV_SET_VARIABLES 16
+#define ENV_GET_CORE_OPTIONS_VERSION 52
+#define ENV_SET_CORE_OPTIONS 53
+#define ENV_SET_CORE_OPTIONS_INTL 54
+#define ENV_SET_CORE_OPTIONS_V2 67
+#define ENV_SET_CORE_OPTIONS_V2_INTL 68
+#define OPTION_VALUES_MAX 128
+#define OPTIONS_MAX 1024
 
 struct retro_system_info {
     const char *library_name;
@@ -32,7 +41,58 @@ struct retro_log_callback {
     void (*log)(int level, const char *fmt, ...);
 };
 
+struct retro_variable { const char *key; const char *value; };
+struct option_value { const char *value; const char *label; };
+struct option_v1 {
+    const char *key, *desc, *info;
+    struct option_value values[OPTION_VALUES_MAX];
+    const char *default_value;
+};
+struct options_v1_intl { const struct option_v1 *us, *local; };
+struct option_v2 {
+    const char *key, *desc, *desc_categorized, *info, *info_categorized, *category_key;
+    struct option_value values[OPTION_VALUES_MAX];
+    const char *default_value;
+};
+struct options_v2 { const void *categories; const struct option_v2 *definitions; };
+struct options_v2_intl { const struct options_v2 *us, *local; };
+
 static const char *core_path;
+
+/* Core options as RetroArch reports them before the user changes anything: their defaults. */
+static char *option_keys[OPTIONS_MAX], *option_values[OPTIONS_MAX];
+static unsigned option_count;
+
+static void set_option(const char *key, const char *value) {
+    if (!key || !value || option_count == OPTIONS_MAX)
+        return;
+    option_keys[option_count] = strdup(key);
+    option_values[option_count++] = strdup(value);
+}
+
+static void set_variables(const struct retro_variable *vars) {
+    for (; vars && vars->key; vars++) {
+        /* "Description; default|other|..." */
+        const char *list = vars->value ? strstr(vars->value, "; ") : NULL;
+        if (!list)
+            continue;
+        char value[256];
+        snprintf(value, sizeof(value), "%s", list + 2);
+        value[strcspn(value, "|")] = '\0';
+        set_option(vars->key, value);
+    }
+}
+
+static void set_options_v1(const struct option_v1 *defs) {
+    for (; defs && defs->key; defs++)
+        set_option(defs->key, defs->default_value ? defs->default_value : defs->values[0].value);
+}
+
+static void set_options_v2(const struct options_v2 *options) {
+    const struct option_v2 *defs = options ? options->definitions : NULL;
+    for (; defs && defs->key; defs++)
+        set_option(defs->key, defs->default_value ? defs->default_value : defs->values[0].value);
+}
 
 static void log_cb(int level, const char *fmt, ...) {
     va_list args;
@@ -59,6 +119,33 @@ static bool env_cb(unsigned cmd, void *data) {
     case ENV_GET_LOG_INTERFACE:
         ((struct retro_log_callback *)data)->log = log_cb;
         return true;
+    case ENV_GET_CORE_OPTIONS_VERSION:
+        *(unsigned *)data = 2;
+        return true;
+    case ENV_SET_VARIABLES:
+        set_variables((const struct retro_variable *)data);
+        return true;
+    case ENV_SET_CORE_OPTIONS:
+        set_options_v1((const struct option_v1 *)data);
+        return true;
+    case ENV_SET_CORE_OPTIONS_INTL:
+        set_options_v1(((const struct options_v1_intl *)data)->us);
+        return true;
+    case ENV_SET_CORE_OPTIONS_V2:
+        set_options_v2((const struct options_v2 *)data);
+        return true;
+    case ENV_SET_CORE_OPTIONS_V2_INTL:
+        set_options_v2(((const struct options_v2_intl *)data)->us);
+        return true;
+    case ENV_GET_VARIABLE: {
+        struct retro_variable *var = data;
+        for (unsigned i = 0; var->key && i < option_count; i++)
+            if (!strcmp(option_keys[i], var->key)) {
+                var->value = option_values[i];
+                return true;
+            }
+        return false;
+    }
     default:
         return false;
     }
@@ -77,7 +164,8 @@ static int16_t input_state_cb(unsigned port, unsigned device, unsigned index, un
 }
 
 static void report(const char *name, int ok) {
-    printf("CHECK %s %s\n", name, ok ? "pass" : "fail");
+    /* Start on a fresh line: a core may have printed to stdout without a newline. */
+    printf("\nCHECK %s %s\n", name, ok ? "pass" : "fail");
     fflush(stdout);
 }
 

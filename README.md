@@ -56,11 +56,14 @@ take profiles through cargo's profile settings and ignore board flags.
 | [Check](.github/workflows/check.yml) | every push and PR | nothing | the catalog checks and unit tests pass |
 
 **Usable** means the build produced the core and the core loads: inside the
-toolchain image, [`runtime/smoke_loader.c`](runtime/smoke_loader.c) is run
-under qemu against the target sysroot, dlopens the core with eager binding
-and runs `retro_api_version`, `retro_set_environment`, `retro_init`,
-`retro_get_system_info` and `retro_deinit` with a minimal frontend. Cargo cores
-are built but not load-tested (the Rust image has no qemu).
+toolchain image, [`runtime/smoke_loader.c`](runtime/smoke_loader.c) runs under
+qemu against the target sysroot, dlopens the core with eager binding (with
+`libm` and `libpthread` loaded, as in RetroArch) and calls `retro_api_version`,
+`retro_get_system_info`, `retro_set_environment` and `retro_init`. It answers the
+environment like a minimal RetroArch: system, save and content directories, the
+pixel format, a log interface and every core option's default value.
+`retro_deinit` is called and recorded but not required. Cargo cores are built but
+not load-tested (the Rust image has no qemu).
 
 Every run ends with a `bundles` artifact: one directory per board+profile laid
 out like the SD card (`RetroArch/.retroarch/cores64`, `cores`, `info`) with a
