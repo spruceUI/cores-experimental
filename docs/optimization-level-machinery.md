@@ -91,11 +91,41 @@ complete declared target set within the chipset's architecture. A chipset
 selection narrows to one architecture because a typed tuning profile is
 architecture-bound.
 
-`_build-one-core.yml` takes the same `optimization_profile` as an optional
-repo-wide input defaulting to `release-v1`, so the release path can be driven at
-one level without changing any caller. The underscore prefix keeps both files out
-of the core-workflow count; `audit-workflows` still reports 100 shared pipeline
-workflows with no uncataloged entries.
+`_build-one-core.yml` is deliberately **not** touched. The release audit pins
+exactly three orchestration workflows -- coordinator, worker and overlay -- by
+shape and by byte identity, with `unique_reusable_workflow_count: 1`, and
+`_build-one-core.yml` is the worker. Threading an optimization input through it
+invalidated that pinned identity: 8 `test_full_release_repository` failures plus
+the audit's own validity check. The release path should produce canonical
+baseline artifacts reproducibly, so the tunable axis lives only in the ad-hoc
+entry point. Driving the release path at a non-baseline level is a deliberate
+change to the pinned orchestration contract and belongs in its own review.
+
+The underscore prefix keeps the ad-hoc file out of the core-workflow count;
+`audit-workflows` still reports 100 shared pipeline workflows with no
+uncataloged entries.
+
+## Verification
+
+Measured on a WSL build host against a pristine worktree at the same base commit, with the
+evidence-bound families excluded because a fresh worktree has no `.local-e2e`
+store (`tests/cores` and the 89 `test_contract_*` files):
+
+| tree | failed | passed | errors |
+|---|---|---|---|
+| pristine `d9e09c9` | 24 | 906 | 83 |
+| with this change | 24 | 925 | 83 |
+
+Identical failures and errors; passes up by exactly the 19 new tests. A baseline
+build also reproduces the recorded golden byte for byte (np2kai a53
+`c61c6fc8...`, pipeline exit 0), which is what proves `release-v1` is inert.
+
+Two traps worth recording for whoever wires the injection. Verifying by
+`git apply` without committing produces 17 phantom failures, because several
+contracts legitimately reject untracked orchestration and roster files. And
+That host's umask is 002, so a fresh worktree checks out 664/775 while the
+source-bundle gate demands exactly 0644/0755 -- normalise from
+`git ls-files -s` before building or testing.
 
 ## Redundancy, measured
 
