@@ -1,7 +1,7 @@
 name: Cross product
 
-# Every core x every board, at max optimization and at debug. Boards with
-# identical flags share one build; bundles come out per board+profile.
+# Every core x every board at max optimization. Boards with identical flags
+# share one build. Debug builds are per-core experiments in build.yml.
 
 on:
   workflow_dispatch:
@@ -10,6 +10,10 @@ on:
         description: Core ids, space or comma separated, or "all"
         default: all
         type: string
+      bundle:
+        description: Assemble device bundles per board
+        default: true
+        type: boolean
 
 permissions:
   contents: read
@@ -20,4 +24,5 @@ jobs:
     with:
       cores: ${{ inputs.cores }}
       boards: all
-      profiles: max,debug
+      profiles: max
+      bundle: ${{ inputs.bundle }}
