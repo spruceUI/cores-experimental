@@ -190,6 +190,12 @@ class ReleaseTest(unittest.TestCase):
         _, problems = release.freeze(self.results, "test", "f" * 40, frozen)
         self.assertIn("np2kai release-arm64-generic: rebuilt bytes differ from the frozen release", problems)
 
+    def test_a_failed_script_step_fails_the_build_even_with_an_artifact(self):
+        rec = {"artifact": {"name": "x.so"}, "exit_code": 1, "usability": {"probed": False}}
+        self.assertEqual(build.status(rec), "failed")
+        rec["exit_code"] = 0
+        self.assertEqual(build.status(rec), "built")
+
     def test_usability_needs_every_smoke_step(self):
         out = self.tmp / "smoke"
         out.mkdir()

@@ -113,7 +113,8 @@ def build_one(repo: Repo, core: str, variant: Variant, out: Path, repeat: int = 
 
 
 def status(record: dict) -> str:
-    if not record["artifact"]:
+    # The smoke step never fails the script, so a non-zero exit is a build step failing.
+    if not record["artifact"] or record["exit_code"] != 0:
         return "failed"
     use = record["usability"]
     if not use["probed"]:
