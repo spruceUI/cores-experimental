@@ -6,6 +6,8 @@
 #include <dlfcn.h>
 #include <stdarg.h>
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -62,6 +64,18 @@ static bool env_cb(unsigned cmd, void *data) {
     }
 }
 
+/* No-op frontend callbacks, set before retro_init: some cores call them during init. */
+static void video_cb(const void *data, unsigned width, unsigned height, size_t pitch) {
+    (void)data; (void)width; (void)height; (void)pitch;
+}
+static void audio_cb(int16_t left, int16_t right) { (void)left; (void)right; }
+static size_t audio_batch_cb(const int16_t *data, size_t frames) { (void)data; return frames; }
+static void input_poll_cb(void) {}
+static int16_t input_state_cb(unsigned port, unsigned device, unsigned index, unsigned id) {
+    (void)port; (void)device; (void)index; (void)id;
+    return 0;
+}
+
 static void report(const char *name, int ok) {
     printf("CHECK %s %s\n", name, ok ? "pass" : "fail");
     fflush(stdout);
@@ -89,13 +103,7 @@ int main(int argc, char **argv) {
     void (*deinit)(void) = (void (*)(void))dlsym(handle, "retro_deinit");
 
     report("retro_api_version", api_version && api_version() == RETRO_API_VERSION);
-    if (set_environment)
-        set_environment(env_cb);
-    report("retro_set_environment", set_environment != NULL);
-    if (init)
-        init();
-    report("retro_init", init != NULL);
-
+    /* RetroArch reads the system info before init; doing the same separates the two failures. */
     struct retro_system_info info;
     memset(&info, 0, sizeof(info));
     if (get_system_info)
@@ -104,6 +112,26 @@ int main(int argc, char **argv) {
     if (info.library_name)
         fprintf(stderr, "library: %s %s\n", info.library_name,
                 info.library_version ? info.library_version : "");
+    if (set_environment)
+        set_environment(env_cb);
+    report("retro_set_environment", set_environment != NULL);
+    void (*set_video)(void (*)(const void *, unsigned, unsigned, size_t)) =
+        (void (*)(void (*)(const void *, unsigned, unsigned, size_t)))dlsym(handle, "retro_set_video_refresh");
+    void (*set_audio)(void (*)(int16_t, int16_t)) =
+        (void (*)(void (*)(int16_t, int16_t)))dlsym(handle, "retro_set_audio_sample");
+    void (*set_audio_batch)(size_t (*)(const int16_t *, size_t)) =
+        (void (*)(size_t (*)(const int16_t *, size_t)))dlsym(handle, "retro_set_audio_sample_batch");
+    void (*set_poll)(void (*)(void)) = (void (*)(void (*)(void)))dlsym(handle, "retro_set_input_poll");
+    void (*set_state)(int16_t (*)(unsigned, unsigned, unsigned, unsigned)) =
+        (void (*)(int16_t (*)(unsigned, unsigned, unsigned, unsigned)))dlsym(handle, "retro_set_input_state");
+    if (set_video) set_video(video_cb);
+    if (set_audio) set_audio(audio_cb);
+    if (set_audio_batch) set_audio_batch(audio_batch_cb);
+    if (set_poll) set_poll(input_poll_cb);
+    if (set_state) set_state(input_state_cb);
+    if (init)
+        init();
+    report("retro_init", init != NULL);
 
     if (deinit)
         deinit();
