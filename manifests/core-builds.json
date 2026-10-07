@@ -1051,6 +1051,16 @@
       "build": {
         "artifact_name": "gme_libretro.so",
         "driver": "libretro-super",
+        "env": [
+          [
+            "CFLAGS",
+            "-O2"
+          ],
+          [
+            "CXXFLAGS",
+            "-O2"
+          ]
+        ],
         "output_path": "dist/unix/gme_libretro.so",
         "source_dir": "libretro-gme",
         "source_key": "gme"

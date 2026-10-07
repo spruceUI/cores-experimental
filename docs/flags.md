@@ -23,8 +23,8 @@ purpose.
   neocd, parallel_n64, pcsx_rearmed): a later `-O3` would switch off the
   fast-math that `-Ofast` turns on.
 - Most cores build at `-O2`, so `max` changes their code; about 40 already use
-  `-O3`, so for them only the board flags matter. gme passes no `-O` at all, so
-  its `release` build is unoptimized.
+  `-O3`, so for them only the board flags matter. gme's makefile passes no `-O`
+  on Linux, so its recipe supplies `-O2` (as spruce's shipped gme was built).
 - `-O3` is not always faster on these small-cache CPUs: measure before shipping it.
 - `debug` (`-O0`) breaks cores that rely on the optimizer to remove calls to code
   they never compile; mame2003_plus is one. Use `debug-og` for those.
