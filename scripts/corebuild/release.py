@@ -65,7 +65,9 @@ def freeze(results: Path, name: str, repository_commit: str, check: Path | None 
         if record["status"] not in ("usable", "built"):
             problems.append(f"{label}: {record['status']}")
             continue
-        if record.get("reproducible") is not True:
+        if "reproducible" not in record:
+            problems.append(f"{label}: built once; a freeze needs --repeat 2")
+        elif not record["reproducible"]:
             problems.append(f"{label}: second build differs ({record.get('repeat_sha256')})")
         builds.append({
             "core": record["core"],
