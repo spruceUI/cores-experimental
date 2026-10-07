@@ -1,16 +1,14 @@
-.local-e2e/
 __pycache__/
-
-# On-device probe logs (device_probe.sh writes these where it runs)
-device-probe-*.log
+/out/
+/results/
+/bundles/
 
 # Rust host toolchain image input: 365 MB exceeds GitHub's 100 MB file
 # limit. Canonical bytes: https://static.rust-lang.org/dist/rust-1.90.0-x86_64-unknown-linux-gnu.tar.gz
 # sha256-pinned in Dockerfile.rust (the build refuses any other bytes).
 /toolchain-inputs/rust.tar.gz
 
-# Local working notes (session handoff, planning, review records) stay
-# out of the published tree.
+# Local working notes stay out of the published tree.
 /REVIEW.md
 /PLAN.md
 /SESSION.md

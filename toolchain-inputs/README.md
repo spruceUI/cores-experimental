@@ -24,5 +24,5 @@ curl -L -o toolchain-inputs/rust.tar.gz \
 The arm64/armhf images additionally derive FROM archived base images by
 immutable ID (see the Dockerfile headers): rebuilding them byte-exact
 requires those bases loaded locally, which is the point — the canonical
-image bytes live in the locked archives
-(`pins/toolchains/local-cache-v1.json`), not in a re-runnable recipe.
+image bytes are the archives on the `toolchains` GitHub release, whose
+digests and image IDs are pinned in `manifests/toolchains.json`.

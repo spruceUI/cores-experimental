@@ -18,8 +18,8 @@ git history.
   turning selection on is a human review gate.
 - **Uncataloged tail (4).** mkxp-z, mupen64plus, km_flycast_xtreme, and
   km_ludicrousn64_2k22_xtreme_amped ship without a build recipe in this
-  repository; per-core reasons live in the uncataloged tail in
-  [`pipeline-overview.md`](pipeline-overview.md).
+  repository; per-core reasons are in the git history of
+  `docs/pipeline-overview.md` (removed in the lean refactor).
 
 ## Structural exclusions (device firmware, out of pipeline scope)
 
@@ -50,4 +50,4 @@ git history.
   the single generic yabasanshiro build.
 - **Everything else in the old triage table landed canonically** —
   easyrpg, yabasanshiro, squirreljme, libgametank, km_parallel_n64,
-  flycast; see [`fail-open-workflow-migration.md`](fail-open-workflow-migration.md).
+  flycast (history: `docs/fail-open-workflow-migration.md` before the lean refactor).
