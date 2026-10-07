@@ -29,6 +29,8 @@ def sha256(path: Path) -> str:
 
 
 def image_present(image_id: str) -> bool:
+    if shutil.which("docker") is None:
+        raise RuntimeError("docker is not on PATH")
     result = subprocess.run(["docker", "image", "inspect", "--format", "{{.Id}}", image_id],
                             capture_output=True, text=True)
     return result.returncode == 0 and result.stdout.strip() == image_id
@@ -130,14 +132,15 @@ def build_core(repo: Repo, core: str, variants: list[Variant], out: Path, repeat
     previous = known_good(repo.cores[core]) if fallback else None
     for variant in variants:
         target = out / core / variant.name
-        if target.exists():
-            shutil.rmtree(target)
+        failed = target.with_name(target.name + ".current")
+        for stale in (target, failed):
+            if stale.exists():
+                shutil.rmtree(stale)
         print(f"== {core} {variant.name} ({' '.join(variant.flags) or 'catalog flags'})", flush=True)
         record = build_one(repo, core, variant, target, repeat)
         if previous and record["status"] in ("failed", "unusable"):
             print(f"   {record['status']} at {record['source']['commit'][:12]}; trying known-good "
                   f"{previous['source']['commit'][:12]}", flush=True)
-            failed = target.with_name(target.name + ".current")
             target.rename(failed)
             record = build_one(repo, core, variant, target, repeat, spec=previous)
             failed.rename(target / "current-attempt")

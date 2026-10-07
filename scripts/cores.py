@@ -7,7 +7,7 @@
   plan   [selection]                     list the builds a selection expands to
   build  --core CORE [selection]         build one core's variants into --out
   bump   CORE --commit SHA               move a core to a new commit, keeping the old as known-good
-  toolchains --dir DIR [--cores ...]     verify and load the image archives
+  toolchains --dir DIR [--names ...]     verify and load the image archives
   bundle --results DIR --out DIR         device-layout bundles per board+profile
   freeze --results DIR --name NAME       write or check a release freeze manifest
   summary --results DIR                  markdown status table
@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -132,11 +133,7 @@ def cmd_bump(repo: Repo, args) -> int:
 
 
 def cmd_toolchains(repo: Repo, args) -> int:
-    wanted = set()
-    for core in repo.select(args.cores):
-        spec = repo.cores[core]
-        wanted |= {recipe.toolchain_for(spec, arch) for arch in spec["targets"]}
-    for name in sorted(wanted):
+    for name in repo.select_from(args.names, repo.toolchains, "toolchains"):
         toolchain = repo.toolchains[name]
         if build.image_present(toolchain["image_id"]):
             print(f"{name}: already loaded")
@@ -149,7 +146,7 @@ def cmd_toolchains(repo: Repo, args) -> int:
         if (size, digest) != (toolchain["archive"]["size"], toolchain["archive"]["sha256"]):
             print(f"{name}: {archive} does not match manifests/toolchains.json", file=sys.stderr)
             return 2
-        subprocess.run(f"gunzip -c {archive} | docker load", shell=True, check=True)
+        subprocess.run(f"gunzip -c {shlex.quote(str(archive))} | docker load", shell=True, check=True)
         if not build.image_present(toolchain["image_id"]):
             print(f"{name}: loaded archive did not produce {toolchain['image_id']}", file=sys.stderr)
             return 2
@@ -239,7 +236,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--ref")
     p = sub.add_parser("toolchains")
     p.add_argument("--dir", required=True)
-    p.add_argument("--cores", default="all")
+    p.add_argument("--names", default="all", help="arm64, armhf, rust or all")
     p = sub.add_parser("bundle")
     p.add_argument("--results", required=True)
     p.add_argument("--out", required=True)
@@ -257,7 +254,7 @@ def main(argv: list[str] | None = None) -> int:
         parser.error(f"unknown core {args.core}")
     try:
         return globals()["cmd_" + args.command](repo, args)
-    except ValueError as error:
+    except (ValueError, RuntimeError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 2
 

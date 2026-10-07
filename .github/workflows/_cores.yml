@@ -92,7 +92,7 @@ jobs:
             archive="$(python3 -c 'import json,sys; print(json.load(open("manifests/toolchains.json"))["toolchains"][sys.argv[1]]["archive"]["name"])' "$name")"
             gh release download toolchains --pattern "$archive" --dir "$dir"
           done
-          python3 scripts/cores.py toolchains --dir "$dir" --cores "$CORE"
+          python3 scripts/cores.py toolchains --dir "$dir" --names "$TOOLCHAINS"
           rm -rf "$dir"
       - name: Build
         run: |
