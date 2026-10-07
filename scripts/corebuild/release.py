@@ -14,6 +14,11 @@ ALIASES = {("yabasanshiro", "arm64"): ("yabasanshiro_a133p_libretro.so",
                                          "yabasanshiro_smartpros_libretro.so")}
 
 
+def column(variant: dict, board: str) -> str:
+    """Bundle and summary key: board, profile, then -static/-stripped if set."""
+    return f"{board}-{variant['profile']}{variant.get('suffix', '')}"
+
+
 def load_records(results: Path) -> list[dict]:
     records = []
     for path in sorted(results.glob("*/*/record.json")):
@@ -29,7 +34,7 @@ def bundle(results: Path, out: Path) -> dict:
     for record in load_records(results):
         variant = record["variant"]
         for board in variant["boards"]:
-            key = f"{board}-{variant['profile']}"
+            key = column(variant, board)
             entry = summary.setdefault(key, {})
             entry.setdefault(record["core"], {})[variant["arch"]] = {
                 "status": record["status"],

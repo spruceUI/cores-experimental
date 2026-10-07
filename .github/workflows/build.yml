@@ -1,6 +1,6 @@
 name: Build cores
 
-# Tunable experiment: pick cores, boards, profiles and extra flags. A build
+# Tunable experiment: pick cores, boards, profiles, extra flags, runtime and strip. A build
 # passes when it yields a core that loads; bundles come out per board+profile.
 
 on:
@@ -27,6 +27,15 @@ on:
         default: both
         type: choice
         options: [both, arm64, armhf]
+      runtime:
+        description: C++ runtime linked shared (needs the device's libstdc++), static, or both
+        default: shared
+        type: choice
+        options: [shared, static, "shared,static"]
+      strip:
+        description: Strip symbols and debug info (what ships); load-tested after stripping
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -40,3 +49,5 @@ jobs:
       profiles: ${{ inputs.profiles }}
       flags: ${{ inputs.flags }}
       arch: ${{ inputs.arch }}
+      runtime: ${{ inputs.runtime }}
+      strip: ${{ inputs.strip }}

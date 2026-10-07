@@ -17,8 +17,8 @@ from corebuild.variants import parse_flags, plan  # noqa: E402
 REPO = Repo()
 
 
-def builds(core, boards, profiles, flags=(), arch=None):
-    return plan(REPO.cores[core], REPO.boards, REPO.profiles, boards, profiles, flags, arch)
+def builds(core, boards, profiles, flags=(), arch=None, runtimes=("shared",), strip=False):
+    return plan(REPO.cores[core], REPO.boards, REPO.profiles, boards, profiles, flags, arch, runtimes, strip)
 
 
 class CatalogTest(unittest.TestCase):
@@ -74,6 +74,18 @@ class PlanTest(unittest.TestCase):
         self.assertRegex(variant.name, r"^max-arm64-cortex-a53-x[0-9a-f]{8}$")
         self.assertEqual(variant.flags, ("-mcpu=cortex-a53", "-O3", "-fno-plt"))
 
+    def test_runtime_and_strip_make_named_builds(self):
+        shared, static = builds("np2kai", ["universal"], ["release"], arch="armhf",
+                                runtimes=("shared", "static"), strip=True)
+        self.assertEqual((shared.name, static.name),
+                         ("release-armhf-generic-stripped", "release-armhf-generic-static-stripped"))
+        self.assertEqual(shared.flags, ())
+        self.assertEqual(static.flags, ("-static-libstdc++", "-static-libgcc", "-Wl,--exclude-libs,ALL"))
+        # Rust links its std statically anyway, so the runtime choice makes one build.
+        (rust,) = builds("libgametank", ["universal"], ["release"], arch="arm64",
+                         runtimes=("shared", "static"), strip=True)
+        self.assertEqual((rust.name, rust.boards), ("release-arm64-generic-stripped", ("universal",)))
+
 
 class RecipeTest(unittest.TestCase):
     def render(self, core, arch, boards=("universal",), profiles=("release",)):
@@ -96,6 +108,20 @@ class RecipeTest(unittest.TestCase):
         # max never lowers a compile that already uses -Ofast; the board flags still apply.
         self.assertEqual(run("-c", "b.c", "-Ofast"), ["-c", "b.c", "-Ofast", "-mcpu=cortex-a53"])
         self.assertEqual((work / "calls.log").read_text().splitlines(), ["-c a.c -O2", "-c b.c -Ofast"])
+
+    def test_static_runtime_survives_the_ofast_skip(self):
+        (variant,) = builds("np2kai", ["a133p"], ["max"], runtimes=("static",))
+        text = recipe.render("np2kai", REPO.cores["np2kai"], "arm64", variant).text
+        self.assertIn('exec @REAL@ "$@" -mcpu=cortex-a53 -static-libstdc++ -static-libgcc -Wl,--exclude-libs,ALL ;;', text)
+
+    def test_strip_runs_before_the_load_test(self):
+        (variant,) = builds("np2kai", ["universal"], ["release"], arch="arm64", strip=True)
+        text = recipe.render("np2kai", REPO.cores["np2kai"], "arm64", variant).text
+        self.assertNotIn("cores-variant", text)
+        self.assertLess(text.index('"$STRIP" --strip-unneeded /output/np2kai_libretro.so'), text.index("/tmp/smoke-loader"))
+        (rust,) = builds("libgametank", ["universal"], ["release"], arch="arm64", strip=True)
+        self.assertIn("export CARGO_PROFILE_RELEASE_STRIP=symbols",
+                      recipe.render("libgametank", REPO.cores["libgametank"], "arm64", rust).text)
 
     def test_cargo_profile_is_set_through_cargo(self):
         text = self.render("libgametank", "arm64", profiles=["debug"])
@@ -171,10 +197,10 @@ class KnownGoodTest(unittest.TestCase):
         self.assertIsNone(known_good(Repo().cores["np2kai"]))
 
 
-def record(core, name, arch, boards, status="usable", sha="a" * 64, reproducible=None, profile="max"):
+def record(core, name, arch, boards, status="usable", sha="a" * 64, reproducible=None, profile="max", suffix=""):
     return {
         "core": core, "status": status, "source": {"commit": "c" * 40},
-        "variant": {"name": name, "arch": arch, "profile": profile, "boards": boards, "flags": []},
+        "variant": {"name": name, "arch": arch, "profile": profile, "boards": boards, "flags": [], "suffix": suffix},
         "toolchain": {"image_id": "sha256:" + "0" * 64},
         "artifact": {"name": f"{core}_libretro.so", "sha256": sha, "size": 1} if status != "failed" else None,
         "metadata": {"name": f"{core}_libretro.info", "sha256": "b" * 64},
@@ -206,6 +232,14 @@ class ReleaseTest(unittest.TestCase):
         self.assertTrue((self.tmp / "bundles/universal-max/RetroArch/.retroarch/cores/np2kai_libretro.so").is_file())
         self.assertEqual(summary["a133p-max"]["broken"]["arm64"]["status"], "failed")
         self.assertFalse((a133p / "cores64/broken_libretro.so").exists())
+
+    def test_static_and_stripped_builds_get_their_own_bundle(self):
+        self.add(record("np2kai", "release-armhf-generic-stripped", "armhf", ["universal"],
+                        profile="release", suffix="-stripped"))
+        self.add(record("np2kai", "release-armhf-generic-static-stripped", "armhf", ["universal"],
+                        profile="release", suffix="-static-stripped"))
+        summary = release.bundle(self.results, self.tmp / "bundles")
+        self.assertEqual(sorted(summary), ["universal-release-static-stripped", "universal-release-stripped"])
 
     def test_freeze_requires_reproducible_builds_and_checks_a_manifest(self):
         self.add(record("np2kai", "release-arm64-generic", "arm64", ["universal"], reproducible=True))

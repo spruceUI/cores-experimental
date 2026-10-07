@@ -14,6 +14,15 @@ on:
         description: Assemble device bundles per board
         default: true
         type: boolean
+      runtime:
+        description: C++ runtime linked shared (needs the device's libstdc++), static, or both
+        default: shared
+        type: choice
+        options: [shared, static, "shared,static"]
+      strip:
+        description: Strip symbols and debug info (what ships); load-tested after stripping
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -26,3 +35,5 @@ jobs:
       boards: all
       profiles: max
       bundle: ${{ inputs.bundle }}
+      runtime: ${{ inputs.runtime }}
+      strip: ${{ inputs.strip }}

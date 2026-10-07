@@ -13,7 +13,8 @@
   summary --results DIR                  markdown status table
 
 Selection options: --cores, --boards, --profiles (each 'all' or a list),
---flags (extra GCC flags), --arch (limit universal builds to one ABI).
+--flags (extra GCC flags), --arch (limit universal builds to one ABI),
+--runtime (shared, static or both: how the C++ runtime is linked), --strip.
 """
 
 from __future__ import annotations
@@ -27,7 +28,7 @@ from pathlib import Path
 
 from corebuild import build, recipe, release
 from corebuild.catalog import COMMIT, Repo
-from corebuild.variants import Variant, parse_flags, plan
+from corebuild.variants import RUNTIMES, Variant, parse_flags, plan
 
 
 def selection_args(parser: argparse.ArgumentParser, cores: bool = True) -> None:
@@ -37,13 +38,16 @@ def selection_args(parser: argparse.ArgumentParser, cores: bool = True) -> None:
     parser.add_argument("--profiles", default="release")
     parser.add_argument("--flags", default="")
     parser.add_argument("--arch", choices=("arm64", "armhf"))
+    parser.add_argument("--runtime", default="shared", help="shared, static, or both as 'shared,static'")
+    parser.add_argument("--strip", action="store_true", help="strip symbols and debug info before the load test")
 
 
 def expand(repo: Repo, args: argparse.Namespace, core: str) -> list[Variant]:
     boards = repo.select_from(args.boards, repo.boards, "boards")
     profiles = repo.select_from(args.profiles, repo.profiles, "profiles")
+    runtimes = repo.select_from(args.runtime, RUNTIMES, "runtimes")
     return plan(repo.cores[core], repo.boards, repo.profiles, boards, profiles,
-                parse_flags(args.flags), args.arch)
+                parse_flags(args.flags), args.arch, tuple(runtimes), args.strip)
 
 
 def cmd_check(repo: Repo, args) -> int:
@@ -189,7 +193,7 @@ def cmd_summary(repo: Repo, args) -> int:
             if r["status"] in ("failed", "unusable"):
                 print(f"::error::{where}: {r['status']}")
         return 0
-    columns = sorted({f"{b}-{r['variant']['profile']}" for r in records for b in r["variant"]["boards"]})
+    columns = sorted({release.column(r["variant"], b) for r in records for b in r["variant"]["boards"]})
     marks = {"usable": "✅", "built": "☑️", "unusable": "⚠️", "failed": "❌"}
     table: dict[str, dict[str, list[str]]] = {}
     for record in records:
@@ -202,7 +206,7 @@ def cmd_summary(repo: Repo, args) -> int:
         if calls is not None and calls["compiles"] == 0:
             mark += " (flags unused)"
         for board in record["variant"]["boards"]:
-            table.setdefault(record["core"], {}).setdefault(f"{board}-{record['variant']['profile']}", []).append(mark)
+            table.setdefault(record["core"], {}).setdefault(release.column(record["variant"], board), []).append(mark)
     print("| core | " + " | ".join(columns) + " |")
     print("|---" * (len(columns) + 1) + "|")
     for core in sorted(table):

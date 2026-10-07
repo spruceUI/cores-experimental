@@ -89,8 +89,10 @@ def render(core: str, spec: dict, arch: str, variant: Variant | None = None) -> 
     if definitions:
         flags = q(" ".join("-D" + item for item in definitions))
         lines += [f"export CFLAGS={flags}", f"export CXXFLAGS={flags}"]
-    if variant is not None and not variant.is_baseline:
-        lines += cargo_variant(variant) if driver == "direct-cargo" else wrapper(variant)
+    if variant is not None and driver == "direct-cargo":
+        lines += cargo_variant(variant)
+    elif variant is not None and variant.flags:
+        lines += wrapper(variant)
 
     mounts = [(o["patch"], f"/recipe-overlays/{i}.patch") for i, o in enumerate(build.get("overlays", {}).get(arch, []))]
     if driver == "libretro-super":
@@ -104,6 +106,9 @@ def render(core: str, spec: dict, arch: str, variant: Variant | None = None) -> 
     else:
         raise ValueError(f"{core}: unknown driver {driver}")
     lines += body
+    if variant is not None and variant.strip and driver != "direct-cargo":
+        # Before the load test, so the test runs on what ships.
+        lines.append(f'"$STRIP" --strip-unneeded /output/{q(build["artifact_name"])}')
 
     metadata = spec["metadata"]
     name = q(metadata["artifact_name"])
@@ -165,7 +170,7 @@ def wrapper(variant: Variant) -> list[str]:
     flags = " ".join(variant.flags)
     body = ["#!/bin/sh", """printf '%s\\n' "$*" >> /output/variant-calls.log"""]
     if variant.unless and variant.profile_flags:
-        keep = " ".join(variant.board_flags + variant.extra_flags)
+        keep = " ".join(variant.kept_flags)
         cases = "|".join(f'*" {token} "*' for token in variant.unless)
         body.append(f'case " $* " in {cases}) exec @REAL@ "$@" {keep} ;; esac')
     body.append(f'exec @REAL@ "$@" {flags}')
@@ -189,8 +194,9 @@ def wrapper(variant: Variant) -> list[str]:
 
 
 def cargo_variant(variant: Variant) -> list[str]:
+    settings = variant.cargo + ((("strip", "symbols"),) if variant.strip else ())
     return [f"export CARGO_PROFILE_RELEASE_{key.upper().replace('-', '_')}={q(value)}"
-            for key, value in variant.cargo]
+            for key, value in settings]
 
 
 def checkout_libretro(directory: str, commit: str, submodules: bool, recursive: str) -> list[str]:

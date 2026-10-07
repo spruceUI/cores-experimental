@@ -49,6 +49,25 @@ genesis_plus_gx(_wide), mame2003_plus and opera. pcsx_rearmed needs no switch:
 it detects NEON itself and switches to its NEON renderer on a33 and ssd202d,
 where the `universal` armhf build uses the slower software renderer.
 
+## C++ runtime
+
+C++ cores link the toolchain's libstdc++ at run time. The arm64 toolchain (GCC 9)
+needs no more than every arm64 device provides. The armhf toolchain is the A30's
+GCC 13: 26 armhf cores need a newer libstdc++ than the Miyoo Mini (GCC 8) and
+the 32-bit RetroArch on the Anbernic XX family and the Flip provide; spruce
+ships GCC 13's for the A30 only. The load test does not see this, because it
+runs with the toolchain's own libraries.
+
+`--runtime static` links libstdc++ and libgcc into the core and hides their
+symbols (`-static-libstdc++ -static-libgcc -Wl,--exclude-libs,ALL`), so the core
+needs nothing from the device but glibc. The cost is size: 0.3 to 1.4 MB per
+core. The alternative is one shared GCC 13 libstdc++ on RetroArch's library
+path. glibc, GL and zlib/libpng stay shared either way.
+
+`--strip` removes symbol tables and debug info (`strip --strip-unneeded`) before
+the load test, so the test runs on what ships. It saves about 10% (74 of 720 MB
+for every core at `release`).
+
 ## Worth benchmarking, not defaults
 
 | candidate | possible gain | risk |

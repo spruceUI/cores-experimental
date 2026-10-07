@@ -20,6 +20,15 @@ on:
       profiles:
         default: release
         type: string
+      runtime:
+        description: C++ runtime linked shared (needs the device's libstdc++), static, or both
+        default: shared
+        type: choice
+        options: [shared, static, "shared,static"]
+      strip:
+        description: Strip symbols and debug info (what ships); load-tested after stripping
+        default: false
+        type: boolean
       check:
         description: Path of a committed releases/<name>.json to verify against (optional)
         default: ""
@@ -35,6 +44,8 @@ jobs:
       cores: ${{ inputs.cores }}
       boards: ${{ inputs.boards }}
       profiles: ${{ inputs.profiles }}
+      runtime: ${{ inputs.runtime }}
+      strip: ${{ inputs.strip }}
       repeat: 2
       freeze_name: ${{ inputs.name }}
       freeze_check: ${{ inputs.check }}

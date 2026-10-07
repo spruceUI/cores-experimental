@@ -34,6 +34,11 @@ The flags are appended last to every compile, so they override the core's own
 (GCC uses the last `-O`). Boards with the same flags share one build. Why these
 flags: [docs/flags.md](docs/flags.md).
 
+Two more options apply to any build: `--runtime static` links the C++ runtime
+into the core instead of using the device's ([why](docs/flags.md#c-runtime)),
+and `--strip` strips the core before it is load-tested. Such builds are named
+with `-static` and `-stripped` and bundled separately.
+
 ## Workflows
 
 | workflow | builds | passes when |
@@ -66,6 +71,7 @@ gh release download toolchains --dir /tmp/tc       # the three toolchain images
 python3 scripts/cores.py toolchains --dir /tmp/tc   # verify and load them
 python3 scripts/cores.py check                      # validate the catalog
 python3 scripts/cores.py build --core np2kai --boards a133p --profiles max --out results
+python3 scripts/cores.py build --core gearboy --runtime shared,static --strip --out results
 python3 scripts/cores.py bundle --results results --out bundles
 python3 -m unittest discover -s tests
 ```
@@ -83,6 +89,9 @@ core, its `.info`, the script, `build.log` and `record.json` in
 - km_parallel_n64_xtreme_amped_turbo's armhf build is not reproducible, so a
   freeze rejects it.
 - mame2003_plus does not load when built at `-O0`; use `debug-og`.
+- 26 armhf C++ cores need GCC 13's libstdc++, which the Miyoo Mini and the
+  32-bit RetroArch on the Anbernic XX family and the Flip lack; build them with
+  `--runtime static` or ship that libstdc++ ([details](docs/flags.md#c-runtime)).
 - The Miyoo Mini Plus has no GLES2, so GL cores (flycast, N64) cannot run there
   whatever the flags.
 - Nothing has been benchmarked on a device yet: `max` and the board builds are

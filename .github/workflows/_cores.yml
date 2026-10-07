@@ -21,6 +21,12 @@ on:
       arch:
         type: string
         default: both
+      runtime:
+        type: string
+        default: shared
+      strip:
+        type: boolean
+        default: false
       repeat:
         type: number
         default: 1
@@ -46,6 +52,8 @@ env:
   PROFILES: ${{ inputs.profiles }}
   FLAGS: ${{ inputs.flags }}
   ARCH: ${{ inputs.arch }}
+  RUNTIME: ${{ inputs.runtime }}
+  STRIP: ${{ inputs.strip }}
 
 jobs:
   plan:
@@ -62,8 +70,9 @@ jobs:
       - name: Plan the builds
         id: plan
         run: |
-          set -- --cores "$CORES" --boards "$BOARDS" --profiles "$PROFILES" --flags="$FLAGS"
+          set -- --cores "$CORES" --boards "$BOARDS" --profiles "$PROFILES" --flags="$FLAGS" --runtime "$RUNTIME"
           if [ -n "$ARCH" ] && [ "$ARCH" != both ]; then set -- "$@" --arch "$ARCH"; fi
+          if [ "$STRIP" = true ]; then set -- "$@" --strip; fi
           { echo '```'; python3 scripts/cores.py plan "$@"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
           echo "matrix=$(python3 scripts/cores.py plan "$@" --github)" >> "$GITHUB_OUTPUT"
 
@@ -96,8 +105,9 @@ jobs:
           rm -rf "$dir"
       - name: Build
         run: |
-          set -- --core "$CORE" --boards "$BOARDS" --profiles "$PROFILES" --flags="$FLAGS" --repeat "$REPEAT"
+          set -- --core "$CORE" --boards "$BOARDS" --profiles "$PROFILES" --flags="$FLAGS" --runtime "$RUNTIME" --repeat "$REPEAT"
           if [ -n "$ARCH" ] && [ "$ARCH" != both ]; then set -- "$@" --arch "$ARCH"; fi
+          if [ "$STRIP" = true ]; then set -- "$@" --strip; fi
           if [ "$FALLBACK" = true ]; then set -- "$@" --fallback; fi
           python3 scripts/cores.py build "$@" --out "$RUNNER_TEMP/results"
       - name: Collect records
