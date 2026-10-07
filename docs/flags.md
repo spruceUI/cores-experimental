@@ -60,9 +60,10 @@ runs with the toolchain's own libraries.
 
 `--runtime static` links libstdc++ and libgcc into the core and hides their
 symbols (`-static-libstdc++ -static-libgcc -Wl,--exclude-libs,ALL`), so the core
-needs nothing from the device but glibc. The cost is size: 0.3 to 1.4 MB per
-core. The alternative is one shared GCC 13 libstdc++ on RetroArch's library
-path. glibc, GL and zlib/libpng stay shared either way.
+needs nothing from the device but glibc. The cost is size: up to 1 MB per C++
+core, 17 MB over every armhf core (stripped). The alternative is one shared
+GCC 13 libstdc++ (2.8 MB) first on 32-bit RetroArch's library path. glibc, GL
+and zlib stay shared either way; easyrpg's armhf build links libpng statically.
 
 `--strip` removes symbol tables and debug info (`strip --strip-unneeded`) before
 the load test, so the test runs on what ships. It saves about 10% (74 of 720 MB

@@ -14,13 +14,13 @@
       "dockerfile": "Dockerfile.arm64"
     },
     "armhf": {
-      "image": "cores-armhf:latest",
-      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "image": "cores-armhf:v4",
+      "image_id": "sha256:3c5f1e9c40cb9ea047aa289bc2eb9d1755f9ff6684f68e8c0250dc4bdde63904",
       "host_cc": "arm-a30-linux-gnueabihf",
       "archive": {
-        "name": "cores-armhf.tar.gz",
-        "sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
-        "size": 835303648
+        "name": "cores-armhf-v4.tar.gz",
+        "sha256": "65eb5cdacb159d065bc8ac7a082a79375fa5005743b72d6393b0cbd8cb202e54",
+        "size": 834580432
       },
       "dockerfile": "Dockerfile.armhf"
     },

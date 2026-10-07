@@ -405,7 +405,8 @@
               "CMAKE_PREFIX_PATH": "/usr/local/easyrpg-deps-arm64"
             },
             "armhf": {
-              "CMAKE_PREFIX_PATH": "/usr/local/easyrpg-deps-armhf"
+              "CMAKE_PREFIX_PATH": "/usr/local/easyrpg-deps-armhf",
+              "PNG_LIBRARY_RELEASE": "/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/libpng16.a"
             }
           }
         },

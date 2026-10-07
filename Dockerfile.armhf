@@ -32,12 +32,15 @@ RUN echo "e79216260d5dffe809bda840be48ab0eec7737b2bb9f02d2275c1b46344ea7b7  /tmp
 # libpng 1.6.43 for the armhf ABI (image batch v3), built from the pinned
 # tarball into the A30 sysroot the same way inih is. Static only: easyrpg
 # links PNG support without needing a runtime .so shipped to devices.
+# -fPIC (image batch v4): without it, linking the archive into
+# easyrpg_libretro.so fails (R_ARM_MOVW_ABS_NC), and easyrpg falls back to
+# the SDK's shared libpng16.so, which needs glibc newer than the Mini has.
 COPY libpng.tar.gz /tmp/libpng.tar.gz
 RUN echo "e804e465d4b109b5ad285a8fb71f0dd3f74f0068f91ce3cdfde618180c174925  /tmp/libpng.tar.gz" | sha256sum -c - && \
     mkdir /tmp/libpng && tar -xzf /tmp/libpng.tar.gz -C /tmp/libpng --strip-components=1 && \
     cd /tmp/libpng && \
     ./configure --host=arm-a30-linux-gnueabihf --prefix=/usr \
-      --disable-shared --enable-static && \
+      --disable-shared --enable-static CFLAGS="-O2 -fPIC" && \
     make -j"$(nproc)" && \
     make install DESTDIR=/opt/a30/arm-a30-linux-gnueabihf/sysroot && \
     rm -rf /tmp/libpng /tmp/libpng.tar.gz
@@ -52,7 +55,9 @@ RUN echo "e804e465d4b109b5ad285a8fb71f0dd3f74f0068f91ce3cdfde618180c174925  /tmp
 # (the autotools install writes a CONFIG pointing at a .so it never
 # builds). Deliberately ONE COPY + ONE RUN: the toolchain lock captures
 # every tar member <= 4 MiB under a 16 MiB aggregate cap, so dep layers
-# must stay coarse enough to be large.
+# must stay coarse enough to be large. mpg123 uses --with-cpu=arm_fpu
+# (image batch v4): NEON decoder + generic fallback picked at runtime via
+# SIGILL probing, safe on a CPU without NEON (plain `neon` has no fallback).
 COPY pixman.tar.gz expat.tar.gz fmt.tar.gz ogg.tar.gz vorbis.tar.gz \
      mpg123.tar.gz sndfile.tar.gz icu.tar.gz icudata.tar.gz \
      icu-fix-data.patch /tmp/deps/
@@ -107,7 +112,7 @@ RUN cd /tmp/deps && \
     mkdir mpg123 && tar -xzf mpg123.tar.gz -C mpg123 --strip-components=1 && \
     cd mpg123 && \
     ./configure --host=arm-a30-linux-gnueabihf --prefix=/usr/local/easyrpg-deps-armhf \
-      --disable-shared --enable-static --with-cpu=generic --disable-fifo \
+      --disable-shared --enable-static --with-cpu=arm_fpu --disable-fifo \
       --disable-ipv6 --disable-network --disable-int-quality \
       --with-default-audio=dummy --with-optimization=2 --disable-components \
       --enable-libmpg123 CFLAGS="-O2 -fPIC" && \
