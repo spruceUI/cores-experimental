@@ -1,8 +1,8 @@
 # Catalog reference
 
-`manifests/core-builds.json` holds one entry per core under `cores`. The entry
-is the whole recipe: `scripts/cores.py script <core> <arch>` prints the shell
-script it becomes, and `scripts/cores.py check` validates it offline.
+`manifests/core-builds.json` has one entry per core under `cores`. The entry is
+the whole recipe. `scripts/cores.py script <core> <arch>` prints the build script
+it becomes, and `scripts/cores.py check` validates the catalog without building.
 
 ```json
 "np2kai": {
@@ -14,8 +14,12 @@ script it becomes, and `scripts/cores.py check` validates it offline.
     "driver": "libretro-super",
     "source_key": "np2kai", "source_dir": "libretro-np2kai",
     "output_path": "dist/unix/np2kai_libretro.so", "artifact_name": "np2kai_libretro.so",
-    "overlays": {"arm64": [{"patch": "patches/np2kai/makefile-sort-wildcard-sources.patch"}],
-                 "armhf": [{"patch": "patches/np2kai/makefile-sort-wildcard-sources.patch"}]}
+    "git_abbrev": 7,
+    "overlays": {
+      "arm64": [{"patch": "patches/np2kai/makefile-sort-wildcard-sources.patch"},
+                {"patch": "patches/np2kai/makefile-libretro-sort-wildcard-sources.patch"}],
+      "armhf": [{"patch": "patches/np2kai/makefile-sort-wildcard-sources.patch"},
+                {"patch": "patches/np2kai/makefile-libretro-sort-wildcard-sources.patch"}]}
   },
   "metadata": {"artifact_name": "np2kai_libretro.info",
                "source_path": "/libretro-super/dist/info/np2kai_libretro.info"}
@@ -24,57 +28,55 @@ script it becomes, and `scripts/cores.py check` validates it offline.
 
 ## Fields
 
-**`source`** — `url` and the full 40-character `commit` that is built;
-`requested_ref` records which branch or tag the commit came from.
+**`source`**: the repository `url` and the full 40-character `commit` to build;
+`requested_ref` notes which branch or tag the commit came from.
 
-**`targets`** — `arm64`, `armhf` or both. `universal` builds every target; a
-board builds only its own arch.
+**`targets`**: `arm64`, `armhf` or both.
 
-**`build.driver`** picks the template:
+**`build.driver`** picks how the core is built:
 
-| driver | how it builds | driver fields |
+| driver | build | fields |
 |---|---|---|
-| `libretro-super` | `./libretro-fetch.sh` + `./libretro-build.sh <source_key>` inside the image's libretro-super checkout, then checks out `commit` | `source_key`, `source_dir`, `output_path` (relative to `/libretro-super`) |
-| `direct-make` | shallow fetch of `commit`, then `make -j$(nproc) [-C make_subdir] [platform=…] [make_args] CC=… CXX=… AR=… RANLIB=…` | `make_subdir`, `platforms` (`{arch: value}`), `make_args` (list), `output_path` (relative to the source) |
-| `direct-cmake` | shallow fetch, `cmake` Release with the cross tools, `cmake --build --target` | `cmake.target`, `cmake.defines`, `cmake.arch_defines` (`{arch: {name: value}}`), `cmake.source_subdir`, `output_path` (relative to the build dir) |
-| `direct-cargo` | shallow fetch, `cargo zigbuild --locked --release` | `cargo.subdir`, `cargo.targets` (`{arch: triple}`), `output_path` (file name in `target/<triple>/release/`) |
+| `libretro-super` | `libretro-fetch.sh` and `libretro-build.sh` from the image's libretro-super, at `commit` | `source_key`, `source_dir`, `output_path` (relative to `/libretro-super`) |
+| `direct-make` | `make` in the source tree | `make_subdir`, `platforms` (`{arch: value}`), `make_args`, `output_path` (relative to the source) |
+| `direct-cmake` | CMake Release build of one target | `cmake.target`, `cmake.defines`, `cmake.arch_defines` (`{arch: {name: value}}`), `cmake.source_subdir`, `output_path` (relative to the build directory) |
+| `direct-cargo` | `cargo zigbuild --release` | `cargo.subdir`, `cargo.targets` (`{arch: triple}`), `output_path` |
 
-`artifact_name` is the file the core is installed as.
+`artifact_name` is the file name the core is installed under.
 
-**Recipe knobs** (all optional, every driver):
+Optional fields, for any driver:
 
 | field | effect |
 |---|---|
-| `overlays` | `{arch: [{"patch": path, "submodule": path?}]}` — applied in order with `git apply --check` then `git apply`; `submodule` applies inside that submodule with the leading path stripped |
-| `compile_definitions` | `{arch: ["NAME=VALUE", …]}` — exported as `-D` flags in `CFLAGS` and `CXXFLAGS` |
-| `source_date_epoch` | `true` — exports `SOURCE_DATE_EPOCH` as the commit's timestamp, for cores that embed build dates |
-| `git_abbrev` | `N` — pins git's `core.abbrev` for cores whose makefile bakes `git rev-parse --short` into the binary; without it the length grows with the upstream repository and the bytes change |
-| `env` | `[[NAME, value], …]` — exported before the build |
-| `makeflags` | exported as `MAKEFLAGS`, so its variables override the core's makefile |
-| `command_env` | `[[NAME, value], …]` — set only on the `libretro-build.sh` command |
-| `command` | a list of shell lines, or `{arch: [lines]}`, that replaces the driver's build command (picodrive) |
-| `neon` | switches for armhf builds whose flags turn NEON on (the a33 and ssd202d boards): `NAME=VALUE` make variables (CMake defines for `direct-cmake`) and `-DNAME` compile definitions. Needed where a makefile only compiles its NEON assembly under a switch such as `HAVE_NEON=1`, because the board's `-mfpu=neon-vfpv4` makes the C side call it |
-| `submodules` | `false` — skip submodule checkout (a stray gitlink without `.gitmodules`) |
-| `recursive_submodules` | `false` — check out top-level submodules only |
+| `overlays` | patches to apply per arch: `{arch: [{"patch": path}]}`; add `"submodule": path` for a patch to a submodule |
+| `compile_definitions` | `{arch: ["NAME=VALUE", …]}`, passed as `-D` flags |
+| `source_date_epoch` | `true` for cores that embed the build date: the date becomes the commit's |
+| `git_abbrev` | for cores that embed a short git hash: fixes its length, which git otherwise grows as the upstream repository grows |
+| `env` | `[[NAME, value], …]` exported before the build |
+| `makeflags` | exported as `MAKEFLAGS`; its variables override the core's makefile |
+| `command_env` | `[[NAME, value], …]` set only on the `libretro-build.sh` command |
+| `command` | shell lines, or `{arch: [lines]}`, that replace the build command (picodrive) |
+| `neon` | switches for builds with NEON flags only ([why](flags.md#neon-switches)): make variables `NAME=VALUE` (CMake defines for `direct-cmake`) or `-DNAME` |
+| `submodules` | `false` to skip submodules |
+| `recursive_submodules` | `false` to fetch top-level submodules only |
 
-Values in `env`, `makeflags`, `command_env` and `command` may use
-`{commit:N}`, which expands to the first N characters of `commit`. This is how
-cores that bake a short hash into their version string stay correct when the
-commit changes, e.g. `"makeflags": "GIT_VERSION=-{commit:7}"`.
+In `env`, `makeflags`, `command_env` and `command`, `{commit:N}` stands for the
+first N characters of `commit`, e.g. `"makeflags": "GIT_VERSION=-{commit:7}"`.
 
-**`metadata`** — `artifact_name` plus either `source_path` (an `.info` file
-inside the image's libretro-super) or `repo_path` (a file under `metadata/`).
+**`metadata`**: the core's `.info` file, by `artifact_name` plus either
+`source_path` (a file in the image's libretro-super) or `repo_path` (a file
+under `metadata/`).
 
-**`known_good`** — a previous `source`/`build`/`metadata` that is known to
-work. Only CI uses it, as the fallback when the current commit fails.
+**`known_good`**: an earlier `source`, `build` and `metadata` that worked. CI
+builds it when the current commit fails; nothing else uses it.
 
 ## Adding a core
 
-1. Add the entry. Start from a core with the same driver; `check` reports
-   missing fields, unknown drivers and patches that are not on disk.
-2. `python3 scripts/cores.py script <core> arm64` to read what will run.
-3. `python3 scripts/cores.py build --core <core>` locally, or run the *Build
-   cores* workflow with that core. It passes when the core builds and loads.
+1. Add an entry, starting from a core with the same driver. `check` reports
+   missing fields and patches that are not on disk.
+2. Read the build script with `python3 scripts/cores.py script <core> arm64`.
+3. Build it with `python3 scripts/cores.py build --core <core>`, or with the
+   *Build cores* workflow. It passes when the core builds and loads.
 
 ## Moving a core to a new commit
 
@@ -83,8 +85,8 @@ python3 scripts/cores.py bump fbneo --commit <new sha> [--ref refs/heads/master]
 python3 scripts/cores.py build --core fbneo
 ```
 
-`bump` stores the current recipe as `known_good` and switches `commit`;
-`{commit:N}` values and `SOURCE_DATE_EPOCH` follow automatically. It warns
-about values it cannot derive (fbneo's `GIT_DATE`, the commit date). If a
-patch stops applying, refresh or drop it (see [patches](../patches/README.md)).
-Bump from a commit that passes, so `known_good` really is.
+`bump` keeps the current recipe as `known_good` and switches `commit`; values
+that use `{commit:N}` and the build date follow automatically. It warns about
+values it cannot work out itself, such as fbneo's `GIT_DATE`. If a patch no
+longer applies, update or remove it ([patches](../patches/README.md)). Bump
+from a commit that works, so `known_good` is really good.

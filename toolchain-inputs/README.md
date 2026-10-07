@@ -1,10 +1,12 @@
 # Toolchain image inputs
 
-This directory is the **docker build context** for the three toolchain
-images. Every input is pinned: the Dockerfiles refuse any bytes whose
-sha256 differs from the value hardcoded next to the COPY.
+Builds use the three images published on the `toolchains` release.
+`manifests/toolchains.json` pins each archive's digest and image ID, and builds
+run only on those exact images.
 
-Build the images from the repository root:
+This directory and the `Dockerfile.*` files record how the images were made.
+Rebuilding produces different image IDs, so rebuild only to change a toolchain;
+then publish the new archives and update `manifests/toolchains.json`.
 
 ```bash
 DOCKER_BUILDKIT=0 docker build -f Dockerfile.arm64 -t cores-arm64:latest toolchain-inputs
@@ -12,17 +14,13 @@ DOCKER_BUILDKIT=0 docker build -f Dockerfile.armhf -t cores-armhf:latest toolcha
 DOCKER_BUILDKIT=0 docker build -f Dockerfile.rust  -t cores-rust:latest  toolchain-inputs
 ```
 
-One input is not repo-tracked: `rust.tar.gz` (the Rust 1.90.0 host
-toolchain, 365 MB, over GitHub's 100 MB file limit). Fetch it before
-building the Rust image; the sha gate in `Dockerfile.rust` verifies it:
+Every input is checked against a sha256 in its Dockerfile. `rust.tar.gz` is too
+large for git; fetch it first:
 
 ```bash
 curl -L -o toolchain-inputs/rust.tar.gz \
   https://static.rust-lang.org/dist/rust-1.90.0-x86_64-unknown-linux-gnu.tar.gz
 ```
 
-The arm64/armhf images additionally derive FROM archived base images by
-immutable ID (see the Dockerfile headers): rebuilding them byte-exact
-requires those bases loaded locally, which is the point — the canonical
-image bytes are the archives on the `toolchains` GitHub release, whose
-digests and image IDs are pinned in `manifests/toolchains.json`.
+The arm64 and armhf Dockerfiles start from archived base images by image ID
+(see their headers), so those base images must be loaded first.
