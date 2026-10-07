@@ -1,6 +1,7 @@
 """Unit tests for the build driver; run with `python3 -m unittest discover tests`."""
 
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -81,8 +82,20 @@ class RecipeTest(unittest.TestCase):
 
     def test_variant_flags_are_appended_last_by_the_wrapper(self):
         text = self.render("np2kai", "arm64", ["a133p"], ["max"])
-        self.assertIn('"exec $cores_real \\"\\$@\\" -mcpu=cortex-a53 -O3"', text)
         self.assertLess(text.index('export PATH="/tmp/cores-variant:$PATH"'), text.index("./libretro-build.sh"))
+        work = Path(tempfile.mkdtemp())
+        compiler = work / "cc"
+        compiler.write_text('#!/bin/sh\necho "$@"\n')
+        compiler.chmod(0o755)
+        body = text.split("<<'CORES_WRAPPER'\n", 1)[1].split("\nCORES_WRAPPER\n", 1)[0]
+        wrapper = work / "wrapper"
+        wrapper.write_text(body.replace("@REAL@", str(compiler))
+                           .replace("/output/variant-calls.log", str(work / "calls.log")) + "\n")
+        run = lambda *args: subprocess.run(["sh", str(wrapper), *args], capture_output=True, text=True).stdout.split()
+        self.assertEqual(run("-c", "a.c", "-O2"), ["-c", "a.c", "-O2", "-mcpu=cortex-a53", "-O3"])
+        # max never lowers a compile that already uses -Ofast; the board flags still apply.
+        self.assertEqual(run("-c", "b.c", "-Ofast"), ["-c", "b.c", "-Ofast", "-mcpu=cortex-a53"])
+        self.assertEqual((work / "calls.log").read_text().splitlines(), ["-c a.c -O2", "-c b.c -Ofast"])
 
     def test_cargo_profile_is_set_through_cargo(self):
         text = self.render("libgametank", "arm64", profiles=["debug"])

@@ -23,6 +23,7 @@ class Variant:
     profile_flags: tuple[str, ...] = ()
     extra_flags: tuple[str, ...] = ()
     cargo: tuple[tuple[str, str], ...] = ()
+    unless: tuple[str, ...] = ()  # profile flags are skipped on a call that has one of these
     boards: tuple[str, ...] = field(default=(), compare=False)
 
     @property
@@ -78,7 +79,8 @@ def plan(spec: dict, boards: dict, profiles: dict, board_names: list[str],
                     variant = Variant(target, profile, cargo=tuple(sorted(settings["cargo"].items())))
                 else:
                     variant = Variant(target, profile, tuple(boards[board]["flags"]),
-                                      tuple(settings["flags"]), extra_flags)
+                                      tuple(settings["flags"]), extra_flags,
+                                      unless=tuple(settings.get("unless", ())))
                 seen = builds.get(variant)
                 builds[variant] = replace(variant, boards=(seen.boards if seen else ()) + (board,))
     return list(builds.values())

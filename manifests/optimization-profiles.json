@@ -1,5 +1,5 @@
 {
-  "note": "Flags appended after the core's own flags on every target compile and link (GCC uses the last -O). 'release' appends nothing.",
+  "note": "Flags appended after the core's own flags on every target compile and link (GCC uses the last -O). 'release' appends nothing; 'unless' lists tokens that, when already on a compile, mean the profile's flags are skipped for it.",
   "profiles": {
     "release": {
       "flags": [],
@@ -10,10 +10,13 @@
       "flags": [
         "-O3"
       ],
+      "unless": [
+        "-Ofast"
+      ],
       "cargo": {
         "opt-level": "3"
       },
-      "description": "Highest standard GCC level; IEEE-safe (no -Ofast)."
+      "description": "Highest standard GCC level; IEEE-safe (no -Ofast). Never lowers a compile that already uses -Ofast."
     },
     "debug": {
       "flags": [

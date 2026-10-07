@@ -25,7 +25,7 @@ A build is one **core × arch × board × profile**.
 | profile | flags appended | use |
 |---|---|---|
 | `release` | none | the core's own optimization (what ships) |
-| `max` | `-O3` | highest standard level, IEEE-safe |
+| `max` | `-O3` (not on compiles already at `-Ofast`) | highest standard level, IEEE-safe; never lowers a core's own level |
 | `debug` | `-O0 -g` | full debug info, unoptimized |
 | `debug-og` | `-Og -g` | debuggable and fast enough to run heavy cores |
 | `release-g` | `-g` | shipping optimization plus symbols, for profiling |

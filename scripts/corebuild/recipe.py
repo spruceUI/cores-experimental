@@ -162,22 +162,29 @@ def wrapper(variant: Variant) -> list[str]:
     """Shadow the cross compilers so the variant flags come last on every call.
 
     GCC honours the last -O and machine flag; each call is logged to /output."""
-    flags = " ".join(q(flag) for flag in variant.flags)
+    flags = " ".join(variant.flags)
+    body = ["#!/bin/sh", """printf '%s\\n' "$*" >> /output/variant-calls.log"""]
+    if variant.unless and variant.profile_flags:
+        keep = " ".join(variant.board_flags + variant.extra_flags)
+        cases = "|".join(f'*" {token} "*' for token in variant.unless)
+        body.append(f'case " $* " in {cases}) exec @REAL@ "$@" {keep} ;; esac')
+    body.append(f'exec @REAL@ "$@" {flags}')
     return [
         'cores_cc_real="$(command -v "$CC")"',
         "mkdir -p /tmp/cores-variant",
         ": > /output/variant-calls.log",
         "cores_wrap() {",
         '  cores_real="$(command -v "$1")" || return 0',
-        "  printf '%s\\n' '#!/bin/sh' 'printf \"%s\\n\" \"$*\" >> /output/variant-calls.log' "
-        f'"exec $cores_real \\"\\$@\\" {flags}" > "/tmp/cores-variant/$1"',
+        '  sed "s#@REAL@#$cores_real#" > "/tmp/cores-variant/$1" <<\'CORES_WRAPPER\'',
+        *body,
+        "CORES_WRAPPER",
         '  chmod 0755 "/tmp/cores-variant/$1"',
         "}",
         'for cores_tool in "$CC" "$CXX" "${HOST_CC}-c++" "${HOST_CC}-cc"; do',
         '  cores_wrap "$cores_tool"',
         "done",
         'export PATH="/tmp/cores-variant:$PATH"',
-        f"printf 'cores variant %s: %s\\n' {q(variant.name)} {q(' '.join(variant.flags))}",
+        f"printf 'cores variant %s: %s\\n' {q(variant.name)} {q(flags)}",
     ]
 
 

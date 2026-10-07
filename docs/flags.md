@@ -25,9 +25,15 @@ the spruce workspace's `artifacts/cores-flags-research-20261007/`.
 
 ## Profiles
 
-- `max` is `-O3`. On the armhf toolchain (GCC 13) `-O2` already auto-vectorizes; on
-  the arm64 toolchain (GCC 9) only `-O3` does, so `max` changes more on arm64.
-  `-O3` is not reliably faster on the small-cache A7, A35 and A53 cores: measure.
+- `max` is `-O3`, except on a compile that already uses `-Ofast` (chimerasnes, neocd,
+  parallel_n64 and pcsx_rearmed ask for it): a later `-O3` would replace `-Ofast` and
+  drop the fast-math it implies, so `max` leaves those alone.
+- What `max` changes depends on the core's own level: 54 cores build at `-O2`, 39
+  already at `-O3` (for them only the board flags matter), 4 at `-Ofast`, squirreljme
+  at `-Os`, and gme passes no `-O` at all, so its release build is unoptimized.
+- On the armhf toolchain (GCC 13) `-O2` already auto-vectorizes; on the arm64
+  toolchain (GCC 9) only `-O3` does, so `max` changes more on arm64. `-O3` is not
+  reliably faster on the small-cache A7, A35 and A53 cores: measure.
 - `debug` is `-O0 -g`. Some cores rely on the optimizer to drop references to code
   they never compile (mame2003_plus then fails to load); use `debug-og` there.
 - No profile uses `-ffast-math` or `-funsafe-math-optimizations`: emulators depend on
