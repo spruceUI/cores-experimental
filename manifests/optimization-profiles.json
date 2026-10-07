@@ -1,0 +1,27 @@
+{
+  "$schema": "./optimization-profiles.schema.json",
+  "schema_version": 1,
+  "build_argument_mapping_version": "libretro-make-optimization-v1",
+  "profiles": {
+    "debug-v1": {
+      "extends": null,
+      "properties": {
+        "variant": "debug",
+        "expect_opt_level": "0",
+        "expect_debug_info": true
+      }
+    },
+    "release-o3-v1": {
+      "extends": null,
+      "properties": {
+        "variant": "release",
+        "expect_opt_level": "3"
+      }
+    },
+    "release-v1": {
+      "extends": null,
+      "properties": {}
+    }
+  },
+  "content_sha256": "551ac435f7f1b1b96c437b35f3b11d83baf73ee5f2e56870d835fbd90c20acdf"
+}
