@@ -11,6 +11,14 @@ ARCHES = ("arm64", "armhf")
 DRIVERS = ("libretro-super", "direct-make", "direct-cmake", "direct-cargo")
 CORE_ID = re.compile(r"^[a-z0-9][a-z0-9_]*$")
 COMMIT = re.compile(r"^[0-9a-f]{40}$")
+TEMPLATE = re.compile(r"\{commit:(\d+)\}")
+
+
+def known_good(spec: dict) -> dict | None:
+    """The core's last known-good recipe, as a full spec, or None."""
+    if "known_good" not in spec:
+        return None
+    return {**spec, **spec["known_good"], "known_good_of": spec["source"]["commit"]}
 
 
 def load_json(path: Path) -> dict:
@@ -34,6 +42,12 @@ class Repo:
         toolchains = load_json(root / "manifests/toolchains.json")
         self.toolchains = toolchains["toolchains"]
         self.toolchain_release = toolchains["release"]
+
+    def save_catalog(self) -> None:
+        path = self.root / "manifests/core-builds.json"
+        data = load_json(path)
+        data["cores"] = self.cores
+        path.write_text(json.dumps(data, indent=2) + "\n")
 
     def select(self, text: str) -> list[str]:
         """Expand 'all' or a comma/space separated list of core ids."""
@@ -72,7 +86,19 @@ class Repo:
         problems = []
         if not CORE_ID.match(core):
             problems.append("core id must match " + CORE_ID.pattern)
+        previous = known_good(spec)
+        if previous is not None:
+            if previous["source"]["commit"] == spec["source"]["commit"]:
+                problems.append("known_good repeats the current commit")
+            problems += ["known_good: " + p for p in self._check_recipe(previous)]
+        return problems + self._check_recipe(spec)
+
+    def _check_recipe(self, spec: dict) -> list[str]:
+        problems = []
         source, build = spec["source"], spec["build"]
+        text = json.dumps(build)
+        if any(not 4 <= int(n) <= 40 for n in TEMPLATE.findall(text)):
+            problems.append("{commit:N} needs 4 <= N <= 40")
         if not COMMIT.match(source.get("commit", "")):
             problems.append("source.commit must be a full commit id")
         if not set(spec["targets"]) <= set(ARCHES) or not spec["targets"]:

@@ -5,6 +5,7 @@ Per-core behaviour is catalog data (docs/catalog.md); this file is one template 
 
 from __future__ import annotations
 
+import re
 import shlex
 from dataclasses import dataclass, field
 
@@ -23,6 +24,7 @@ CARGO_SCRUBBED = "RUSTFLAGS RUSTC RUSTC_WRAPPER CARGO_BUILD_RUSTFLAGS CARGO_ENCO
 CMAKE_PROCESSOR = {"arm64": "aarch64", "armhf": "arm"}
 QEMU = {"arm64": "qemu-aarch64", "armhf": "qemu-arm"}
 SOURCE = "/tmp/core-source"
+TEMPLATE = re.compile(r"\{commit:(\d+)\}")
 
 
 @dataclass
@@ -36,6 +38,11 @@ def q(value: object) -> str:
     return shlex.quote(str(value))
 
 
+def fill(value: str, commit: str) -> str:
+    """Expand {commit:N} to the first N characters of the pinned commit."""
+    return TEMPLATE.sub(lambda match: commit[: int(match.group(1))], value)
+
+
 def toolchain_for(spec: dict, arch: str) -> str:
     return "rust" if spec["build"]["driver"] == "direct-cargo" else arch
 
@@ -46,8 +53,6 @@ def render(core: str, spec: dict, arch: str, variant: Variant | None = None) -> 
     if arch not in spec["targets"]:
         raise ValueError(f"{core} does not target {arch}")
     lines = prelude(cargo=driver == "direct-cargo")
-    if "source_date_epoch" in build:
-        lines.append(f"export SOURCE_DATE_EPOCH={int(build['source_date_epoch'])}")
     definitions = build.get("compile_definitions", {}).get(arch, [])
     if definitions:
         flags = q(" ".join("-D" + item for item in definitions))
@@ -192,10 +197,14 @@ def provenance(directory: str, submodules: bool, recursive: str) -> list[str]:
     ]
 
 
-def environment(build: dict) -> list[str]:
-    lines = [f"export {name}={q(value)}" for name, value in build.get("env", [])]
+def environment(spec: dict, directory: str) -> list[str]:
+    build, commit = spec["build"], spec["source"]["commit"]
+    lines = []
+    if build.get("source_date_epoch"):
+        lines.append(f'export SOURCE_DATE_EPOCH="$(git -C {directory} show -s --format=%ct HEAD)"')
+    lines += [f"export {name}={q(fill(value, commit))}" for name, value in build.get("env", [])]
     if "makeflags" in build:
-        lines.append(f"export MAKEFLAGS={q(build['makeflags'])}")
+        lines.append(f"export MAKEFLAGS={q(fill(build['makeflags'], commit))}")
     return lines
 
 
@@ -233,14 +242,15 @@ def libretro_super(spec: dict, arch: str) -> list[str]:
     if isinstance(command, dict):
         command = command[arch]
     if command is None:
-        prefix = "".join(f"{name}={q(value)} " for name, value in build.get("command_env", []))
+        prefix = "".join(f"{name}={q(fill(value, commit))} " for name, value in build.get("command_env", []))
         command = [f"{prefix}./libretro-build.sh {key}"]
+    command = [fill(line, commit) for line in command]
     return [
         "cd /libretro-super",
         f"./libretro-fetch.sh {key}",
         *checkout_libretro(directory, commit, submodules, recursive),
         *provenance(directory, submodules, recursive),
-        *environment(build),
+        *environment(spec, directory),
         *overlays(build, arch, directory),
         f"rm -f {q(output)}",
         *command,
@@ -261,7 +271,7 @@ def direct_make(spec: dict, arch: str) -> list[str]:
     return [
         *checkout_direct(spec["source"]["url"], commit, recursive),
         *provenance(SOURCE, True, recursive),
-        *environment(build),
+        *environment(spec, SOURCE),
         *overlays(build, arch, SOURCE),
         f"cd {SOURCE}",
         f"rm -f {q(output)}",
@@ -289,7 +299,7 @@ def direct_cmake(spec: dict, arch: str) -> list[str]:
     return [
         *checkout_direct(spec["source"]["url"], commit, " --recursive"),
         *provenance(SOURCE, True, " --recursive"),
-        *environment(build),
+        *environment(spec, SOURCE),
         *overlays(build, arch, SOURCE),
         *(f'cmake_{var}="$(command -v "${env}")"' for var, env in
           (("cc", "CC"), ("cxx", "CXX"), ("ar", "AR"), ("ranlib", "RANLIB"), ("strip", "STRIP"))),
@@ -307,7 +317,7 @@ def direct_cargo(spec: dict, arch: str) -> list[str]:
     return [
         *checkout_direct(spec["source"]["url"], commit, ""),
         *provenance(SOURCE, True, " --recursive"),
-        *environment(build),
+        *environment(spec, SOURCE),
         *overlays(build, arch, SOURCE),
         "export CARGO_HOME=/tmp/cargo-home",
         f"cd {q(SOURCE + '/' + cargo['subdir'])}",

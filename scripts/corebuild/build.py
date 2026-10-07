@@ -12,7 +12,7 @@ import time
 from pathlib import Path
 
 from . import recipe
-from .catalog import Repo
+from .catalog import Repo, known_good
 from .variants import Variant
 
 SMOKE_STEPS = ("dlopen", "retro_api_version", "retro_set_environment", "retro_init",
@@ -71,8 +71,9 @@ def variant_calls(out: Path) -> dict | None:
     return {"calls": len(calls), "compiles": compiles}
 
 
-def build_one(repo: Repo, core: str, variant: Variant, out: Path, repeat: int = 1) -> dict:
-    spec = repo.cores[core]
+def build_one(repo: Repo, core: str, variant: Variant, out: Path, repeat: int = 1,
+              spec: dict | None = None) -> dict:
+    spec = spec or repo.cores[core]
     toolchain = repo.toolchains[recipe.toolchain_for(spec, variant.arch)]
     script = recipe.render(core, spec, variant.arch, variant)
     started = time.time()
@@ -120,14 +121,26 @@ def status(record: dict) -> str:
     return "usable" if use["loaded"] else "unusable"
 
 
-def build_core(repo: Repo, core: str, variants: list[Variant], out: Path, repeat: int = 1) -> list[dict]:
+def build_core(repo: Repo, core: str, variants: list[Variant], out: Path, repeat: int = 1,
+               fallback: bool = False) -> list[dict]:
+    """Build each variant; with `fallback`, retry a failed one at the known-good recipe."""
     records = []
+    previous = known_good(repo.cores[core]) if fallback else None
     for variant in variants:
         target = out / core / variant.name
         if target.exists():
             shutil.rmtree(target)
         print(f"== {core} {variant.name} ({' '.join(variant.flags) or 'catalog flags'})", flush=True)
         record = build_one(repo, core, variant, target, repeat)
+        if previous and record["status"] in ("failed", "unusable"):
+            print(f"   {record['status']} at {record['source']['commit'][:12]}; trying known-good "
+                  f"{previous['source']['commit'][:12]}", flush=True)
+            failed = target.with_name(target.name + ".current")
+            target.rename(failed)
+            record = build_one(repo, core, variant, target, repeat, spec=previous)
+            failed.rename(target / "current-attempt")
+            record["fallback"] = {"from_commit": repo.cores[core]["source"]["commit"]}
+            (target / "record.json").write_text(json.dumps(record, indent=2) + "\n")
         print(f"   {record['status']} in {record['seconds']}s", flush=True)
         records.append(record)
     return records

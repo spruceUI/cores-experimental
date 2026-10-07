@@ -6,6 +6,7 @@
   script CORE ARCH [variant options]     print the container build script
   plan   [selection]                     list the builds a selection expands to
   build  --core CORE [selection]         build one core's variants into --out
+  bump   CORE --commit SHA               move a core to a new commit, keeping the old as known-good
   toolchains --dir DIR [--cores ...]     verify and load the image archives
   bundle --results DIR --out DIR         device-layout bundles per board+profile
   freeze --results DIR --name NAME       write or check a release freeze manifest
@@ -24,7 +25,7 @@ import sys
 from pathlib import Path
 
 from corebuild import build, recipe, release
-from corebuild.catalog import Repo
+from corebuild.catalog import COMMIT, Repo
 from corebuild.variants import Variant, parse_flags, plan
 
 
@@ -80,6 +81,9 @@ def cmd_plan(repo: Repo, args) -> int:
             rows.append({"core": core, "toolchains": " ".join(toolchains),
                          "builds": [v.describe() for v in variants]})
     if args.github:
+        if not rows:
+            print("the selection has no builds", file=sys.stderr)
+            return 2
         if len(rows) > 256:
             print("more than 256 cores selected; GitHub caps a matrix at 256 jobs", file=sys.stderr)
             return 2
@@ -103,10 +107,28 @@ def cmd_build(repo: Repo, args) -> int:
         print("toolchain images not loaded: " + " ".join(missing)
               + " (scripts/cores.py toolchains --dir <archives>)", file=sys.stderr)
         return 2
-    records = build.build_core(repo, args.core, variants, Path(args.out), args.repeat)
+    records = build.build_core(repo, args.core, variants, Path(args.out), args.repeat, args.fallback)
     bad = [r for r in records if r["status"] in ("failed", "unusable")
            or (args.repeat > 1 and r.get("reproducible") is False)]
     return 1 if bad else 0
+
+
+def cmd_bump(repo: Repo, args) -> int:
+    spec = repo.cores[args.core]
+    old = spec["source"]["commit"]
+    if not COMMIT.match(args.commit) or args.commit == old:
+        print("--commit must be a new, full 40-character commit id", file=sys.stderr)
+        return 2
+    spec["known_good"] = json.loads(json.dumps({k: spec[k] for k in ("source", "build", "metadata")}))
+    spec["source"]["commit"] = args.commit
+    if args.ref:
+        spec["source"]["requested_ref"] = args.ref
+    repo.save_catalog()
+    print(f"{args.core}: {old[:12]} -> {args.commit[:12]}; {old[:12]} kept as known_good")
+    if "GIT_DATE=" in json.dumps(spec["build"]):
+        print("  GIT_DATE is the commit's date (YYMMDD) and is not derived: update it")
+    print(f"  then check it: scripts/cores.py build --core {args.core}")
+    return 0
 
 
 def cmd_toolchains(repo: Repo, args) -> int:
@@ -160,6 +182,16 @@ def cmd_freeze(repo: Repo, args) -> int:
 
 def cmd_summary(repo: Repo, args) -> int:
     records = release.load_records(Path(args.results))
+    if args.annotations:
+        # GitHub workflow commands: one warning per fallback, one error per unusable result.
+        for r in records:
+            where = f"{r['core']} {r['variant']['name']}"
+            if r.get("fallback"):
+                print(f"::warning::{where}: commit {r['fallback']['from_commit'][:12]} failed; "
+                      f"built known-good {r['source']['commit'][:12]}")
+            if r["status"] in ("failed", "unusable"):
+                print(f"::error::{where}: {r['status']}")
+        return 0
     columns = sorted({f"{b}-{r['variant']['profile']}" for r in records for b in r["variant"]["boards"]})
     marks = {"usable": "✅", "built": "☑️", "unusable": "⚠️", "failed": "❌"}
     table: dict[str, dict[str, list[str]]] = {}
@@ -167,6 +199,8 @@ def cmd_summary(repo: Repo, args) -> int:
         mark = marks[record["status"]]
         if record.get("reproducible") is False:
             mark += " ≠"
+        if record.get("fallback"):
+            mark += " ↩"
         calls = record.get("variant_calls")
         if calls is not None and calls["compiles"] == 0:
             mark += " (flags unused)"
@@ -177,7 +211,7 @@ def cmd_summary(repo: Repo, args) -> int:
     for core in sorted(table):
         print(f"| {core} | " + " | ".join(" ".join(table[core].get(c, ["–"])) for c in columns) + " |")
     print("\n✅ usable (loads and initializes) · ☑️ built, not load-tested · ⚠️ built but does not load · "
-          "❌ no artifact · ≠ second build differs")
+          "❌ no artifact · ≠ second build differs · ↩ current commit failed, built the known-good one")
     return 0
 
 
@@ -197,7 +231,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--core", required=True)
     selection_args(p, cores=False)
     p.add_argument("--repeat", type=int, default=1, choices=(1, 2))
+    p.add_argument("--fallback", action="store_true", help="retry failures at the known-good recipe")
     p.add_argument("--out", default="out")
+    p = sub.add_parser("bump")
+    p.add_argument("core")
+    p.add_argument("--commit", required=True)
+    p.add_argument("--ref")
     p = sub.add_parser("toolchains")
     p.add_argument("--dir", required=True)
     p.add_argument("--cores", default="all")
@@ -211,6 +250,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--out")
     p = sub.add_parser("summary")
     p.add_argument("--results", required=True)
+    p.add_argument("--annotations", action="store_true", help="print GitHub warning/error lines")
     args = parser.parse_args(argv)
     repo = Repo()
     if getattr(args, "core", None) and args.core not in repo.cores:

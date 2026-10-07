@@ -1,25 +1,22 @@
 /*
- * Minimal libretro content-free load smoke loader.
- *
- * dlopens a libretro core (RTLD_NOW forces eager symbol resolution, so an
- * insufficient provider — e.g. a libstdc++ whose GLIBCXX is below what the core
- * needs — fails here) and exercises the content-free load sequence, printing one
- *   CHECK <name> pass|fail
- * line per step for the executor to parse. It loads no content and runs no
- * frames; those need a game and belong to a later playability tier.
- *
- * Built and run inside the target-ABI container under qemu (or on a native ARM
- * runner). Compile: cc -O0 smoke_loader.c -o smoke_loader -ldl
+ * Content-free libretro load test: dlopen (eager binding), then the init sequence.
+ * Answers environment calls like a minimal real frontend and prints "CHECK <step> pass|fail".
  */
-
 #define _GNU_SOURCE
 #include <dlfcn.h>
+#include <stdarg.h>
 #include <stdbool.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 
 #define RETRO_API_VERSION 1
+#define ENV_EXPERIMENTAL 0x10000
+#define ENV_GET_SYSTEM_DIRECTORY 9
+#define ENV_SET_PIXEL_FORMAT 10
+#define ENV_GET_LIBRETRO_PATH 19
+#define ENV_GET_LOG_INTERFACE 27
+#define ENV_GET_CONTENT_DIRECTORY 30
+#define ENV_GET_SAVE_DIRECTORY 31
 
 struct retro_system_info {
     const char *library_name;
@@ -29,14 +26,40 @@ struct retro_system_info {
     bool block_extract;
 };
 
-typedef bool (*retro_environment_t)(unsigned cmd, void *data);
+struct retro_log_callback {
+    void (*log)(int level, const char *fmt, ...);
+};
 
-/* Minimal frontend: decline every optional environment request. A core must
- * tolerate a frontend that supports nothing in order to initialise. */
+static const char *core_path;
+
+static void log_cb(int level, const char *fmt, ...) {
+    va_list args;
+    (void)level;
+    va_start(args, fmt);
+    vfprintf(stderr, fmt, args);
+    va_end(args);
+}
+
 static bool env_cb(unsigned cmd, void *data) {
-    (void)cmd;
-    (void)data;
-    return false;
+    if (!data)
+        return false;
+    switch (cmd & ~ENV_EXPERIMENTAL) {
+    case ENV_GET_SYSTEM_DIRECTORY:
+    case ENV_GET_CONTENT_DIRECTORY:
+    case ENV_GET_SAVE_DIRECTORY:
+        *(const char **)data = "/tmp";
+        return true;
+    case ENV_GET_LIBRETRO_PATH:
+        *(const char **)data = core_path;
+        return true;
+    case ENV_SET_PIXEL_FORMAT:
+        return true;
+    case ENV_GET_LOG_INTERFACE:
+        ((struct retro_log_callback *)data)->log = log_cb;
+        return true;
+    default:
+        return false;
+    }
 }
 
 static void report(const char *name, int ok) {
@@ -49,57 +72,42 @@ int main(int argc, char **argv) {
         fprintf(stderr, "usage: %s <core.so>\n", argv[0]);
         return 2;
     }
-
-    void *handle = dlopen(argv[1], RTLD_NOW | RTLD_LOCAL);
+    core_path = argv[1];
+    void *handle = dlopen(core_path, RTLD_NOW | RTLD_LOCAL);
     report("dlopen", handle != NULL);
     if (!handle) {
         fprintf(stderr, "dlopen: %s\n", dlerror());
         return 1;
     }
 
-    unsigned (*p_api_version)(void) =
-        (unsigned (*)(void))dlsym(handle, "retro_api_version");
-    void (*p_set_environment)(retro_environment_t) =
-        (void (*)(retro_environment_t))dlsym(handle, "retro_set_environment");
-    void (*p_init)(void) = (void (*)(void))dlsym(handle, "retro_init");
-    void (*p_get_system_info)(struct retro_system_info *) =
+    unsigned (*api_version)(void) = (unsigned (*)(void))dlsym(handle, "retro_api_version");
+    void (*set_environment)(bool (*)(unsigned, void *)) =
+        (void (*)(bool (*)(unsigned, void *)))dlsym(handle, "retro_set_environment");
+    void (*init)(void) = (void (*)(void))dlsym(handle, "retro_init");
+    void (*get_system_info)(struct retro_system_info *) =
         (void (*)(struct retro_system_info *))dlsym(handle, "retro_get_system_info");
-    void (*p_deinit)(void) = (void (*)(void))dlsym(handle, "retro_deinit");
+    void (*deinit)(void) = (void (*)(void))dlsym(handle, "retro_deinit");
 
-    report("retro_api_version",
-           p_api_version != NULL && p_api_version() == RETRO_API_VERSION);
+    report("retro_api_version", api_version && api_version() == RETRO_API_VERSION);
+    if (set_environment)
+        set_environment(env_cb);
+    report("retro_set_environment", set_environment != NULL);
+    if (init)
+        init();
+    report("retro_init", init != NULL);
 
-    int set_env_ok = p_set_environment != NULL;
-    if (set_env_ok) {
-        p_set_environment(env_cb);
-    }
-    report("retro_set_environment", set_env_ok);
+    struct retro_system_info info;
+    memset(&info, 0, sizeof(info));
+    if (get_system_info)
+        get_system_info(&info);
+    report("retro_get_system_info", info.library_name != NULL);
+    if (info.library_name)
+        fprintf(stderr, "library: %s %s\n", info.library_name,
+                info.library_version ? info.library_version : "");
 
-    int init_ok = p_init != NULL;
-    if (init_ok) {
-        p_init();
-    }
-    report("retro_init", init_ok);
-
-    int info_ok = 0;
-    if (p_get_system_info) {
-        struct retro_system_info info;
-        memset(&info, 0, sizeof(info));
-        p_get_system_info(&info);
-        info_ok = info.library_name != NULL;
-        if (info_ok) {
-            fprintf(stderr, "library: %s %s\n", info.library_name,
-                    info.library_version ? info.library_version : "");
-        }
-    }
-    report("retro_get_system_info", info_ok);
-
-    int deinit_ok = p_deinit != NULL;
-    if (deinit_ok) {
-        p_deinit();
-    }
-    report("retro_deinit", deinit_ok);
-
+    if (deinit)
+        deinit();
+    report("retro_deinit", deinit != NULL);
     dlclose(handle);
     return 0;
 }

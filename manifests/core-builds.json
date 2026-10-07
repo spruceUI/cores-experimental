@@ -58,7 +58,7 @@
       "build": {
         "artifact_name": "a5200_libretro.so",
         "driver": "libretro-super",
-        "makeflags": "GIT_VERSION=-23c1ea4",
+        "makeflags": "GIT_VERSION=-{commit:7}",
         "output_path": "dist/unix/a5200_libretro.so",
         "source_dir": "libretro-a5200",
         "source_key": "a5200"
@@ -91,7 +91,7 @@
         },
         "driver": "direct-cmake",
         "output_path": "ardens_libretro.so",
-        "source_date_epoch": 1784658210,
+        "source_date_epoch": true,
         "source_dir": "ardens"
       },
       "metadata": {
@@ -116,7 +116,7 @@
         },
         "driver": "direct-cmake",
         "output_path": "arduous_libretro.so",
-        "source_date_epoch": 1776706246,
+        "source_date_epoch": true,
         "source_dir": "arduous"
       },
       "metadata": {
@@ -137,7 +137,7 @@
       "build": {
         "artifact_name": "atari800_libretro.so",
         "driver": "libretro-super",
-        "makeflags": "-- GIT_VERSION=\"\\ 9d3bcf2\"",
+        "makeflags": "-- GIT_VERSION=\"\\ {commit:7}\"",
         "output_path": "dist/unix/atari800_libretro.so",
         "source_dir": "libretro-atari800",
         "source_key": "atari800"
@@ -230,16 +230,10 @@
         "overlays": {
           "arm64": [
             {
-              "patch": "patches/chailove/makefile-echo-compile.patch"
-            },
-            {
               "patch": "patches/chailove/makefile-sort-wildcard-sources.patch"
             }
           ],
           "armhf": [
-            {
-              "patch": "patches/chailove/makefile-echo-compile.patch"
-            },
             {
               "patch": "patches/chailove/makefile-sort-wildcard-sources.patch"
             }
@@ -421,7 +415,7 @@
             }
           ]
         },
-        "source_date_epoch": 1784044064,
+        "source_date_epoch": true,
         "source_dir": "easyrpg"
       },
       "metadata": {
@@ -525,7 +519,7 @@
         "command_env": [
           [
             "MAKEFLAGS",
-            "-- GIT_VERSION=9d7716aa2 GIT_DATE=260503 HIDE="
+            "-- GIT_VERSION={commit:9} GIT_DATE=260503 HIDE="
           ]
         ],
         "compile_definitions": {
@@ -550,7 +544,7 @@
             }
           ]
         },
-        "source_date_epoch": 1777823586,
+        "source_date_epoch": true,
         "source_dir": "libretro-fbneo",
         "source_key": "fbneo"
       },
@@ -572,7 +566,7 @@
       "build": {
         "artifact_name": "fceumm_libretro.so",
         "driver": "libretro-super",
-        "makeflags": "-- GIT_VERSION=\"\\ 718c5a2\"",
+        "makeflags": "-- GIT_VERSION=\"\\ {commit:7}\"",
         "output_path": "dist/unix/fceumm_libretro.so",
         "overlays": {
           "arm64": [
@@ -621,7 +615,7 @@
             }
           ]
         },
-        "source_date_epoch": 1598579820,
+        "source_date_epoch": true,
         "source_dir": "libretro-ffmpeg",
         "source_key": "ffmpeg"
       },
@@ -670,7 +664,7 @@
             }
           ]
         },
-        "source_date_epoch": 1767792512,
+        "source_date_epoch": true,
         "source_dir": "flycast"
       },
       "metadata": {
@@ -706,7 +700,7 @@
         },
         "driver": "direct-cmake",
         "output_path": "flycast_libretro.so",
-        "source_date_epoch": 1639738517,
+        "source_date_epoch": true,
         "source_dir": "flycast2021"
       },
       "metadata": {
@@ -742,7 +736,7 @@
         },
         "driver": "direct-cmake",
         "output_path": "flycast_libretro.so",
-        "source_date_epoch": 1729519980,
+        "source_date_epoch": true,
         "source_dir": "flycast2024"
       },
       "metadata": {
@@ -873,7 +867,7 @@
       "build": {
         "artifact_name": "gambatte_libretro.so",
         "driver": "libretro-super",
-        "makeflags": "-- GIT_VERSION=\"\\ dfc1655\"",
+        "makeflags": "-- GIT_VERSION=\"\\ {commit:7}\"",
         "output_path": "dist/unix/gambatte_libretro.so",
         "source_dir": "libretro-gambatte",
         "source_key": "gambatte"
@@ -964,7 +958,7 @@
         "command_env": [
           [
             "GIT_VERSION",
-            "\" fa4dca5\""
+            "\" {commit:7}\""
           ]
         ],
         "driver": "libretro-super",
@@ -1004,7 +998,7 @@
         "command_env": [
           [
             "GIT_VERSION",
-            "\" 29d9d10\""
+            "\" {commit:7}\""
           ]
         ],
         "driver": "libretro-super",
@@ -1111,7 +1105,7 @@
       "build": {
         "artifact_name": "handy_libretro.so",
         "driver": "libretro-super",
-        "makeflags": "-- GIT_VERSION=\"\\ bc55d46\"",
+        "makeflags": "-- GIT_VERSION=\"\\ {commit:7}\"",
         "output_path": "dist/unix/handy_libretro.so",
         "source_dir": "libretro-handy",
         "source_key": "handy"
@@ -1135,7 +1129,7 @@
         "artifact_name": "hatari_libretro.so",
         "driver": "libretro-super",
         "output_path": "dist/unix/hatari_libretro.so",
-        "source_date_epoch": 1781097623,
+        "source_date_epoch": true,
         "source_dir": "libretro-hatari",
         "source_key": "hatari"
       },
@@ -1160,7 +1154,7 @@
         },
         "driver": "direct-cmake",
         "output_path": "swanstation_libretro.so",
-        "source_date_epoch": 1687912698,
+        "source_date_epoch": true,
         "source_dir": "km_duckswanstation_xtreme_amped"
       },
       "metadata": {
@@ -1208,7 +1202,7 @@
         "platforms": {
           "armhf": "unix"
         },
-        "source_date_epoch": 1671482574,
+        "source_date_epoch": true,
         "source_dir": "km_parallel_n64_xtreme_amped_turbo"
       },
       "metadata": {
@@ -1237,7 +1231,7 @@
         },
         "driver": "direct-cargo",
         "output_path": "libgametank_libretro.so",
-        "source_date_epoch": 1784593754,
+        "source_date_epoch": true,
         "source_dir": "libgametank"
       },
       "metadata": {
@@ -1316,12 +1310,12 @@
         "command_env": [
           [
             "MAKEFLAGS",
-            "-- GIT_VERSION=\"\\ 5373e38e\" HIDE="
+            "-- GIT_VERSION=\"\\ {commit:8}\" HIDE="
           ]
         ],
         "driver": "libretro-super",
         "output_path": "dist/unix/mame2003_plus_libretro.so",
-        "source_date_epoch": 1777763287,
+        "source_date_epoch": true,
         "source_dir": "libretro-mame2003_plus",
         "source_key": "mame2003_plus"
       },
@@ -1432,7 +1426,7 @@
       "build": {
         "artifact_name": "mednafen_supafaust_libretro.so",
         "driver": "libretro-super",
-        "makeflags": "GIT_VERSION=-2b93c0d",
+        "makeflags": "GIT_VERSION=-{commit:7}",
         "output_path": "dist/unix/mednafen_supafaust_libretro.so",
         "source_dir": "libretro-mednafen_supafaust",
         "source_key": "mednafen_supafaust"
@@ -1644,7 +1638,7 @@
       "build": {
         "artifact_name": "nestopia_libretro.so",
         "driver": "libretro-super",
-        "makeflags": "GIT_VERSION=-b0fd87d",
+        "makeflags": "GIT_VERSION=-{commit:7}",
         "output_path": "dist/unix/nestopia_libretro.so",
         "source_dir": "libretro-nestopia",
         "source_key": "nestopia"
@@ -1774,7 +1768,7 @@
         "driver": "libretro-super",
         "makeflags": "GLES=1 NOSSE=1 WITH_DYNAREC=aarch64",
         "output_path": "dist/unix/parallel_n64_libretro.so",
-        "source_date_epoch": 1784512327,
+        "source_date_epoch": true,
         "source_dir": "libretro-parallel_n64",
         "source_key": "parallel_n64"
       },
@@ -1805,7 +1799,7 @@
         },
         "driver": "libretro-super",
         "output_path": "dist/unix/pcsx_rearmed_libretro.so",
-        "source_date_epoch": 1782602899,
+        "source_date_epoch": true,
         "source_dir": "libretro-pcsx_rearmed",
         "source_key": "pcsx_rearmed"
       },
@@ -1829,14 +1823,14 @@
         "command": {
           "arm64": [
             "unset GIT_REVISION CYCLONE_CC CYCLONE_CXX",
-            "export GIT_REVISION=-f0d4a011",
+            "export GIT_REVISION=-{commit:8}",
             "cd /libretro-super/libretro-picodrive",
             "/usr/bin/make -f Makefile.libretro platform=\"unix\" -j7",
             "cd /libretro-super"
           ],
           "armhf": [
             "unset GIT_REVISION CYCLONE_CC CYCLONE_CXX",
-            "export GIT_REVISION=-f0d4a011",
+            "export GIT_REVISION=-{commit:8}",
             "export CYCLONE_CC=gcc",
             "export CYCLONE_CXX=g++",
             "cd /libretro-super/libretro-picodrive",
@@ -1854,14 +1848,7 @@
         },
         "driver": "libretro-super",
         "output_path": "libretro-picodrive/picodrive_libretro.so",
-        "overlays": {
-          "armhf": [
-            {
-              "patch": "patches/picodrive/tools-makefile-single-line-offsets.patch"
-            }
-          ]
-        },
-        "source_date_epoch": 1775134253,
+        "source_date_epoch": true,
         "source_dir": "libretro-picodrive",
         "source_key": "picodrive"
       },
@@ -1949,7 +1936,7 @@
       "build": {
         "artifact_name": "prosystem_libretro.so",
         "driver": "libretro-super",
-        "makeflags": "GIT_VERSION=-363b6df",
+        "makeflags": "GIT_VERSION=-{commit:7}",
         "output_path": "dist/unix/prosystem_libretro.so",
         "source_dir": "libretro-prosystem",
         "source_key": "prosystem"
@@ -1973,7 +1960,7 @@
         "artifact_name": "puae2021_libretro.so",
         "driver": "libretro-super",
         "output_path": "dist/unix/puae2021_libretro.so",
-        "source_date_epoch": 1784565128,
+        "source_date_epoch": true,
         "source_dir": "libretro-puae2021",
         "source_key": "puae2021"
       },
@@ -2074,7 +2061,7 @@
       "build": {
         "artifact_name": "quicknes_libretro.so",
         "driver": "libretro-super",
-        "makeflags": "GIT_VERSION=-26bb785",
+        "makeflags": "GIT_VERSION=-{commit:7}",
         "output_path": "dist/unix/quicknes_libretro.so",
         "source_dir": "libretro-quicknes",
         "source_key": "quicknes"
@@ -2197,7 +2184,7 @@
       "build": {
         "artifact_name": "snes9x_libretro.so",
         "driver": "libretro-super",
-        "makeflags": "GIT_VERSION=-185488c",
+        "makeflags": "GIT_VERSION=-{commit:7}",
         "output_path": "dist/unix/snes9x_libretro.so",
         "source_dir": "libretro-snes9x",
         "source_key": "snes9x"
@@ -2329,7 +2316,7 @@
             }
           ]
         },
-        "source_date_epoch": 1784151532,
+        "source_date_epoch": true,
         "source_dir": "squirreljme"
       },
       "metadata": {
@@ -2350,7 +2337,7 @@
       "build": {
         "artifact_name": "stella2014_libretro.so",
         "driver": "libretro-super",
-        "makeflags": "-- GIT_VERSION=\"\\ 4a7da82\"",
+        "makeflags": "-- GIT_VERSION=\"\\ {commit:7}\"",
         "output_path": "dist/unix/stella2014_libretro.so",
         "source_dir": "libretro-stella2014",
         "source_key": "stella2014"
@@ -2383,7 +2370,7 @@
             }
           ]
         },
-        "source_date_epoch": 1782767217,
+        "source_date_epoch": true,
         "source_dir": "swanstation"
       },
       "metadata": {
@@ -2404,7 +2391,7 @@
       "build": {
         "artifact_name": "tgbdual_libretro.so",
         "driver": "libretro-super",
-        "makeflags": "-- GIT_VERSION=\"\\ bf816b0\"",
+        "makeflags": "-- GIT_VERSION=\"\\ {commit:7}\"",
         "output_path": "dist/unix/tgbdual_libretro.so",
         "source_dir": "libretro-tgbdual",
         "source_key": "tgbdual"
@@ -2462,7 +2449,7 @@
         },
         "driver": "direct-cmake",
         "output_path": "bin/tic80_libretro.so",
-        "source_date_epoch": 1777441655,
+        "source_date_epoch": true,
         "source_dir": "tic80"
       },
       "metadata": {
@@ -2484,7 +2471,7 @@
         "artifact_name": "tyrquake_libretro.so",
         "driver": "libretro-super",
         "output_path": "dist/unix/tyrquake_libretro.so",
-        "source_date_epoch": 1784135314,
+        "source_date_epoch": true,
         "source_dir": "libretro-tyrquake",
         "source_key": "tyrquake"
       },
@@ -2631,7 +2618,7 @@
           ]
         ],
         "output_path": "dist/unix/vice_x64_libretro.so",
-        "source_date_epoch": 1780486798,
+        "source_date_epoch": true,
         "source_dir": "libretro-vice",
         "source_key": "vice_x64"
       },
@@ -2668,7 +2655,7 @@
           ]
         ],
         "output_path": "dist/unix/vice_xvic_libretro.so",
-        "source_date_epoch": 1780486798,
+        "source_date_epoch": true,
         "source_dir": "libretro-vice",
         "source_key": "vice_xvic"
       },
