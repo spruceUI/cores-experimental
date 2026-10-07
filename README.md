@@ -84,8 +84,6 @@ core, its `.info`, the script, `build.log` and `record.json` in
 
 ## Known issues
 
-- km_parallel_n64_xtreme_amped_turbo's armhf build is not reproducible, so a
-  freeze rejects it.
 - mame2003_plus does not load when built at `-O0`; use `debug-og`.
 - 26 armhf C++ cores need GCC 13's libstdc++, which the Miyoo Mini and the
   32-bit RetroArch on the Anbernic XX family and the Flip lack; build them with
