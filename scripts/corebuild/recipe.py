@@ -336,7 +336,8 @@ def smoke(spec: dict, arch: str) -> list[str]:
     """Load the core under qemu and run its content-free init sequence."""
     artifact = q(spec["build"]["artifact_name"])
     return [
-        '"${cores_cc_real:-$CC}" -O0 -o /tmp/smoke-loader /smoke/smoke_loader.c -ldl',
+        # RetroArch has libm and libpthread loaded; some cores rely on that instead of linking them.
+        '"${cores_cc_real:-$CC}" -O0 -o /tmp/smoke-loader /smoke/smoke_loader.c -Wl,--no-as-needed -lm -lpthread -ldl',
         f"timeout 300 {QEMU[arch]} /tmp/smoke-loader /output/{artifact} > /output/smoke.txt 2>&1"
         ' || printf "exit %s\\n" "$?" >> /output/smoke.txt',
     ]
