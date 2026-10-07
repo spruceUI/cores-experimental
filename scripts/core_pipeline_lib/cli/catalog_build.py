@@ -14,6 +14,7 @@ from dataclasses import dataclass
 from types import MappingProxyType
 from typing import Any
 
+from ..optimizations import require_supported_optimization_profile
 from ..runtime import HostExecutionProfile
 
 
@@ -492,6 +493,9 @@ def cmd_e2e(args: argparse.Namespace, *, services: CatalogBuildServices) -> int:
         resolve_tuning_candidate_selection(tuning_profile)
         if tuning_profile is not None
         else None
+    )
+    require_supported_optimization_profile(
+        getattr(args, "optimization_profile", None)
     )
     group_spec = (
         group_execution_spec(

@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 
 from ..chipsets import CHIPSETS, REAL_CHIPSETS
+from ..optimizations import BASELINE_OPTIMIZATION_PROFILE
 from ..tracks import CORE_TRACKS
 from .inventory import CORE_TRACK_GROUP_TAG_CHOICES, register_inventory_parser
 from .model import AppendUniqueAction, ParserConfig, ParserHandlers
@@ -256,6 +257,14 @@ def build_parser(
             "builds only its resolved architecture set"
         ),
     )
+    build_core.add_argument(
+        "--optimization-profile",
+        action=_StoreOnceAction,
+        help=(
+            "typed optimization profile from manifests/optimization-profiles.json; "
+            f"unset means {BASELINE_OPTIMIZATION_PROFILE}, which contributes nothing"
+        ),
+    )
     build_core.add_argument("--run-id", help=RUN_ID_HELP)
     build_core.add_argument(
         "--output-root", type=config.path_value, default=config.default_runs
@@ -297,6 +306,16 @@ def build_parser(
         help=(
             "build exactly one ABI using a current non-universal typed tuning "
             "profile; candidate evidence is promotable only by promote-tuned-variant"
+        ),
+    )
+    # Orthogonal to the scope group above: an optimization profile combines with
+    # any target selection, and the baseline contributes nothing.
+    e2e.add_argument(
+        "--optimization-profile",
+        action=_StoreOnceAction,
+        help=(
+            "typed optimization profile from manifests/optimization-profiles.json; "
+            f"unset means {BASELINE_OPTIMIZATION_PROFILE}, which contributes nothing"
         ),
     )
     e2e.add_argument("--run-id", help=RUN_ID_HELP)

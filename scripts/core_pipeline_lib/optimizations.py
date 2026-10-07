@@ -244,3 +244,24 @@ def make_variables_for_profile(document: object, profile_id: str) -> list[str]:
 
     resolved = resolved_optimization_profile(document, profile_id)
     return copy.deepcopy(resolved["make_variables"])
+
+
+def require_supported_optimization_profile(profile_id: str | None) -> str:
+    """Accept only a selection this pipeline can honestly honour.
+
+    The registry and its identity are complete, but make-variable injection and
+    the build-log proof are not wired into the drivers yet.  Until they are, a
+    non-baseline selection must fail here: a core's own makefile would supply
+    its optimization level and the run would record a profile it never applied.
+    """
+
+    if profile_id is None:
+        return BASELINE_OPTIMIZATION_PROFILE
+    if profile_id != BASELINE_OPTIMIZATION_PROFILE:
+        raise PipelineError(
+            f"optimization profile {profile_id} is not wired into the build "
+            "drivers yet; only "
+            f"{BASELINE_OPTIMIZATION_PROFILE} may be selected, and it "
+            "contributes nothing"
+        )
+    return profile_id
