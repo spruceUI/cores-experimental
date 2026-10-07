@@ -84,8 +84,6 @@ core, its `.info`, the script, `build.log` and `record.json` in
 
 ## Known issues
 
-- flycast2021 does not link (its CMake wants `libGLESv3`, which the arm64
-  sysroot lacks); flycast2024 builds but libretro-super has no `.info` for it.
 - km_parallel_n64_xtreme_amped_turbo's armhf build is not reproducible, so a
   freeze rejects it.
 - mame2003_plus does not load when built at `-O0`; use `debug-og`.

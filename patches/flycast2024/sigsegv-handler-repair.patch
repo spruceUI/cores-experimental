@@ -1,0 +1,48 @@
+diff --git a/core/linux/common.cpp b/core/linux/common.cpp
+--- a/core/linux/common.cpp
++++ b/core/linux/common.cpp
+@@ -1,4 +1,5 @@
+ #include "types.h"
++#include <dlfcn.h>
+ 
+ #if defined(__unix__) || defined(__APPLE__) || defined(__SWITCH__)
+ #if defined(__APPLE__)
+@@ -67,6 +68,38 @@
+ 		return;
+ 	}
+ 
++	// --- spruce fault-handler repair (build-time patch) ------------------
++	// si_code <= 0 means the signal was SENT (SI_USER=0, SI_QUEUE=-1,
++	// SI_TKILL=-6), not raised by a faulting instruction. siginfo_t unions
++	// si_addr with si_pid, so the "address" above is really the sender's pid
++	// and there is no fault to service. Resume instead of dying.
++	{
++		static unsigned sb_ignored = 0;
++		const unsigned SB_MAX_IGNORED = 64;
++		ERROR_LOG(COMMON, "SBFAULT si_code=%d si_pid=%d si_uid=%d chained=%d"
++			" (SI_USER=0 SI_QUEUE=-1 SI_TKILL=-6 SEGV_MAPERR=1 SEGV_ACCERR=2)",
++			si->si_code, (int)si->si_pid, (int)si->si_uid,
++			next_segv_handler.sa_sigaction != nullptr ? 1 : 0);
++		{
++			Dl_info sb_di;
++			if (dladdr((void *)ctx.pc, &sb_di) && sb_di.dli_fname != nullptr)
++				ERROR_LOG(COMMON, "SBFAULT pc %p in %s base=%p sym=%s",
++					(void *)ctx.pc, sb_di.dli_fname, sb_di.dli_fbase,
++					sb_di.dli_sname != nullptr ? sb_di.dli_sname : "?");
++		}
++		if (si->si_code <= 0)
++		{
++			if (sb_ignored < SB_MAX_IGNORED)
++			{
++				++sb_ignored;
++				ERROR_LOG(COMMON, "SBFAULT sent-signal, resuming (%u/%u)",
++					sb_ignored, SB_MAX_IGNORED);
++				return;
++			}
++			ERROR_LOG(COMMON, "SBFAULT sent-signal cap reached - falling through");
++		}
++	}
++	// --- end spruce fault-handler repair ---------------------------------
+ 	ERROR_LOG(COMMON, "SIGSEGV @ %p invalid access to %p", (void *)ctx.pc, si->si_addr);
+ #endif
+ 

@@ -703,18 +703,25 @@
           },
           "arch_defines": {
             "arm64": {
-              "USE_GLES": "ON"
+              "USE_GLES2": "ON"
             }
           }
         },
         "driver": "direct-cmake",
         "output_path": "flycast_libretro.so",
         "source_date_epoch": true,
-        "source_dir": "flycast2021"
+        "source_dir": "flycast2021",
+        "overlays": {
+          "arm64": [
+            {
+              "patch": "patches/flycast2021/sigsegv-handler-repair.patch"
+            }
+          ]
+        }
       },
       "metadata": {
         "artifact_name": "flycast2021_libretro.info",
-        "source_path": "/libretro-super/dist/info/flycast2021_libretro.info"
+        "repo_path": "metadata/flycast2021_libretro.info"
       }
     },
     "flycast2024": {
@@ -746,11 +753,21 @@
         "driver": "direct-cmake",
         "output_path": "flycast_libretro.so",
         "source_date_epoch": true,
-        "source_dir": "flycast2024"
+        "source_dir": "flycast2024",
+        "overlays": {
+          "arm64": [
+            {
+              "patch": "patches/flycast2024/sigsegv-handler-repair.patch"
+            },
+            {
+              "patch": "patches/flycast2024/fog-r8-internalformat.patch"
+            }
+          ]
+        }
       },
       "metadata": {
         "artifact_name": "flycast2024_libretro.info",
-        "source_path": "/libretro-super/dist/info/flycast2024_libretro.info"
+        "repo_path": "metadata/flycast2024_libretro.info"
       }
     },
     "fmsx": {

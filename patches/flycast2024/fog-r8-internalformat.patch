@@ -1,0 +1,21 @@
+diff --git a/core/rend/gles/gles.cpp b/core/rend/gles/gles.cpp
+--- a/core/rend/gles/gles.cpp
++++ b/core/rend/gles/gles.cpp
+@@ -1091,7 +1091,16 @@
+ 	MakeFogTexture(temp_tex_buffer);
+ 
+     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+-	glTexImage2D(GL_TEXTURE_2D, 0, fog_image_format, 128, 2, 0, fog_image_format, GL_UNSIGNED_BYTE, temp_tex_buffer);
++	// --- spruce: backport of upstream 130675aae (Issue #1886) ---------
++	// GL_RED is unsized and invalid as an INTERNAL format on GLES3; the
++	// sized GL_R8 is what belongs here. Without this, fog renders wrong on
++	// every GLES3 device on tags between 3469b7fca and 130675aae.
++	GLint sb_internalformat;
++	if (gl.is_gles && fog_image_format == GL_RED)
++		sb_internalformat = GL_R8;
++	else
++		sb_internalformat = fog_image_format;
++	glTexImage2D(GL_TEXTURE_2D, 0, sb_internalformat, 128, 2, 0, fog_image_format, GL_UNSIGNED_BYTE, temp_tex_buffer);
+ 	glCheck();
+ 
+ 	glActiveTexture(GL_TEXTURE0);

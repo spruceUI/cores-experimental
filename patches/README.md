@@ -11,6 +11,8 @@ upstream has fixed the problem.
 | dosbox_pure | `dosbox_pure/makefile-echo-and-sort.patch` | sorts its source list and prints each compile command | arm64, armhf |
 | easyrpg | `easyrpg/liblcf-pinned-clone.patch` | pins the liblcf checkout its build clones | arm64, armhf |
 | flycast | `flycast/lzma-hwcap2-guards.patch` | guards `HWCAP2_*` names missing from the A30 sysroot | armhf |
+| flycast2021, flycast2024 | `sigsegv-handler-repair.patch` | resumes a SIGSEGV that was sent (`si_code <= 0`), not caused by a fault; stock v1.2/v2.4 die two seconds into content on TrimUI devices ([diagnosis](https://github.com/spruceUI/spruceOS/commit/c0d8676cb)) | arm64 |
+| flycast2024 | `flycast2024/fog-r8-internalformat.patch` | backports upstream 130675aae (#1886): fog renders wrong on GLES3 | arm64 |
 | km_parallel_n64_xtreme_amped_turbo | `makefile-fcommon.patch` | adds `-fcommon` (the fork predates GCC 10) | armhf |
 | km_parallel_n64_xtreme_amped_turbo | `glide64-rdp-gspvertex-def.patch`, `rdp-gspvertex-extern.patch` | one definition of `_gSPVertex` | armhf |
 | km_parallel_n64_xtreme_amped_turbo | `glsm-gldouble-typedef.patch` | restores the `GLdouble` typedef under GLES2 | armhf |
