@@ -8,8 +8,11 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <ftw.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #define RETRO_API_VERSION 1
 #define ENV_EXPERIMENTAL 0x10000
@@ -58,6 +61,8 @@ struct options_v2 { const void *categories; const struct option_v2 *definitions;
 struct options_v2_intl { const struct options_v2 *us, *local; };
 
 static const char *core_path;
+/* A fresh empty directory, like RetroArch's: /tmp on a device holds FIFOs that block a core's scan. */
+static char work_dir[] = "/tmp/smoke-XXXXXX";
 
 /* Core options as RetroArch reports them before the user changes anything: their defaults. */
 static char *option_keys[OPTIONS_MAX], *option_values[OPTIONS_MAX];
@@ -109,7 +114,7 @@ static bool env_cb(unsigned cmd, void *data) {
     case ENV_GET_SYSTEM_DIRECTORY:
     case ENV_GET_CONTENT_DIRECTORY:
     case ENV_GET_SAVE_DIRECTORY:
-        *(const char **)data = "/tmp";
+        *(const char **)data = work_dir;
         return true;
     case ENV_GET_LIBRETRO_PATH:
         *(const char **)data = core_path;
@@ -169,12 +174,19 @@ static void report(const char *name, int ok) {
     fflush(stdout);
 }
 
+static int remove_entry(const char *path, const struct stat *st, int type, struct FTW *ftw) {
+    (void)st; (void)type; (void)ftw;
+    return remove(path);
+}
+
 int main(int argc, char **argv) {
     if (argc < 2) {
         fprintf(stderr, "usage: %s <core.so>\n", argv[0]);
         return 2;
     }
     core_path = argv[1];
+    if (!mkdtemp(work_dir))
+        strcpy(work_dir, "/tmp");
     void *handle = dlopen(core_path, RTLD_NOW | RTLD_LOCAL);
     report("dlopen", handle != NULL);
     if (!handle) {
@@ -225,5 +237,7 @@ int main(int argc, char **argv) {
         deinit();
     report("retro_deinit", deinit != NULL);
     dlclose(handle);
+    if (strcmp(work_dir, "/tmp") != 0)
+        nftw(work_dir, remove_entry, 8, FTW_DEPTH | FTW_PHYS);
     return 0;
 }

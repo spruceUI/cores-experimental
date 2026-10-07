@@ -90,9 +90,8 @@ core, its `.info`, the script, `build.log` and `record.json` in
   or ship that libstdc++ ([details](docs/flags.md#c-runtime)).
 - The Miyoo Mini Plus has no GLES2, so GL cores (flycast, N64) cannot run there
   whatever the flags.
-- On a Miyoo Mini Plus (2026-10-07), pcsx_rearmed (r26l) hangs in `retro_init`
-  after starting its compiler thread, where spruce's r25l loads; puae2021 needs
-  61 MB of zero-filled memory and the Mini had 55 MB free (spruce's needs 55).
+- On a Miyoo Mini Plus (2026-10-07), puae2021 needs 61 MB of zero-filled
+  memory and the Mini had 55 MB free (spruce's build needs 55).
 - Nothing has been benchmarked on a device yet: `max` and the board builds are
   proven to load, not to be faster.
 - Shipped by spruceOS but not built here: mkxp-z (the hyphen in its name breaks
