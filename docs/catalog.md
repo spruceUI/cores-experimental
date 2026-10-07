@@ -53,6 +53,7 @@ board builds only its own arch.
 | `makeflags` | exported as `MAKEFLAGS`, so its variables override the core's makefile |
 | `command_env` | `[[NAME, value], …]` — set only on the `libretro-build.sh` command |
 | `command` | a list of shell lines, or `{arch: [lines]}`, that replaces the driver's build command (picodrive) |
+| `neon` | switches for armhf builds whose flags turn NEON on (the a33 and ssd202d boards): `NAME=VALUE` make variables (CMake defines for `direct-cmake`) and `-DNAME` compile definitions. Needed where a makefile only compiles its NEON assembly under a switch such as `HAVE_NEON=1`, because the board's `-mfpu=neon-vfpv4` makes the C side call it |
 | `submodules` | `false` — skip submodule checkout (a stray gitlink without `.gitmodules`) |
 | `recursive_submodules` | `false` — check out top-level submodules only |
 

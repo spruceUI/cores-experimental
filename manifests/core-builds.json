@@ -1195,6 +1195,9 @@
           "FORCE_GLES=1",
           "NOSSE=1"
         ],
+        "neon": [
+          "HAVE_NEON=1"
+        ],
         "output_path": "parallel_n64_libretro.so",
         "overlays": {
           "armhf": [

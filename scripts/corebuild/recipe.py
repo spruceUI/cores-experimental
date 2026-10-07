@@ -47,11 +47,43 @@ def toolchain_for(spec: dict, arch: str) -> str:
     return "rust" if spec["build"]["driver"] == "direct-cargo" else arch
 
 
+def neon_build(arch: str, variant: Variant | None) -> bool:
+    return arch == "armhf" and variant is not None and any(f.startswith("-mfpu=neon") for f in variant.flags)
+
+
+def with_neon(spec: dict, arch: str) -> dict:
+    """Fold the core's NEON switches into its recipe: make variables, or -D definitions."""
+    build = dict(spec["build"])
+    entries = build.pop("neon")
+    variables = [e for e in entries if not e.startswith("-D")]
+    defines = [e[2:] for e in entries if e.startswith("-D")]
+    if defines:
+        per_arch = dict(build.get("compile_definitions", {}))
+        per_arch[arch] = [*per_arch.get(arch, []), *defines]
+        build["compile_definitions"] = per_arch
+    if variables and build["driver"] == "direct-cmake":
+        cmake = dict(build["cmake"])
+        cmake["defines"] = {**cmake.get("defines", {}), **dict(v.split("=", 1) for v in variables)}
+        build["cmake"] = cmake
+    elif variables and build["driver"] == "direct-make":
+        build["make_args"] = [*build.get("make_args", []), *variables]
+    elif variables:
+        scoped = [value for name, value in build.get("command_env", []) if name == "MAKEFLAGS"]
+        if scoped:
+            build["command_env"] = [[n, " ".join([v, *variables]) if n == "MAKEFLAGS" else v]
+                                    for n, v in build["command_env"]]
+        else:
+            build["makeflags"] = " ".join([*filter(None, [build.get("makeflags")]), *variables])
+    return {**spec, "build": build}
+
+
 def render(core: str, spec: dict, arch: str, variant: Variant | None = None) -> Script:
-    build = spec["build"]
-    driver = build["driver"]
     if arch not in spec["targets"]:
         raise ValueError(f"{core} does not target {arch}")
+    if spec["build"].get("neon") and neon_build(arch, variant):
+        spec = with_neon(spec, arch)
+    build = spec["build"]
+    driver = build["driver"]
     lines = prelude(cargo=driver == "direct-cargo")
     definitions = build.get("compile_definitions", {}).get(arch, [])
     if definitions:

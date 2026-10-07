@@ -118,6 +118,9 @@ class Repo:
             problems.append("libretro-super cores need a source_key")
         if build.get("driver") == "direct-cmake" and "target" not in build.get("cmake", {}):
             problems.append("direct-cmake cores need cmake.target")
+        for entry in build.get("neon", []):
+            if not re.match(r"^(?:-D[A-Za-z_][A-Za-z0-9_]*(?:=\S*)?|[A-Za-z_][A-Za-z0-9_]*=\S*)$", entry):
+                problems.append(f"neon entry {entry!r} is neither NAME=VALUE nor -DNAME[=VALUE]")
         if build.get("driver") == "direct-cargo":
             missing = set(spec["targets"]) - set(build.get("cargo", {}).get("targets", {}))
             if missing:

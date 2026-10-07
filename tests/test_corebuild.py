@@ -100,6 +100,22 @@ class RecipeTest(unittest.TestCase):
         self.assertIn("export GIT_CONFIG_PARAMETERS=\"'core.abbrev=8'\"", text)
         self.assertLess(text.index("GIT_CONFIG_PARAMETERS"), text.index("./libretro-build.sh hatari"))
 
+    def test_neon_switches_apply_only_to_neon_armhf_builds(self):
+        self.assertIn("NOSSE=1 HAVE_NEON=1 CC=", self.render("km_parallel_n64_xtreme_amped_turbo", "armhf", ["a33"], ["max"]))
+        self.assertNotIn("HAVE_NEON", self.render("km_parallel_n64_xtreme_amped_turbo", "armhf"))
+
+    def test_neon_switches_reach_each_driver(self):
+        (neon,) = builds("np2kai", ["a33"], ["release"])
+        def render(core, entries):
+            spec = json.loads(json.dumps(REPO.cores[core]))
+            spec["build"]["neon"] = entries
+            return recipe.render(core, spec, "armhf", neon).text
+        self.assertIn("export MAKEFLAGS=HAVE_NEON=1", render("np2kai", ["HAVE_NEON=1"]))
+        self.assertIn("GIT_VERSION=\"\\ {}\" HIDE= HAVE_NEON=1' ./libretro-build.sh".format(
+            REPO.cores["mame2003_plus"]["source"]["commit"][:8]), render("mame2003_plus", ["HAVE_NEON=1"]))
+        self.assertIn(" -DHAVE_NEON=ON", render("flycast", ["HAVE_NEON=ON"]))
+        self.assertIn("export CFLAGS=-D__NEON_OPT\n", render("np2kai", ["-D__NEON_OPT"]))
+
     def test_special_recipes(self):
         self.assertIn("/usr/bin/gmake -f Makefile.libretro", self.render("picodrive", "armhf"))
         self.assertIn("MAKEFLAGS='-- GIT_VERSION=9d7716aa2 GIT_DATE=260503 HIDE=' ./libretro-build.sh fbneo",
