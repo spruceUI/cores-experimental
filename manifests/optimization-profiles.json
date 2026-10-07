@@ -1,27 +1,59 @@
 {
-  "$schema": "./optimization-profiles.schema.json",
-  "schema_version": 1,
-  "build_argument_mapping_version": "libretro-make-optimization-v1",
+  "note": "Flags appended after the core's own flags on every target compile and link (GCC uses the last -O). 'release' appends nothing.",
   "profiles": {
-    "debug-v1": {
-      "extends": null,
-      "properties": {
-        "variant": "debug",
-        "expect_opt_level": "0",
-        "expect_debug_info": true
-      }
+    "release": {
+      "flags": [],
+      "cargo": {},
+      "description": "The core's own optimization; with the universal board it reproduces the goldens."
     },
-    "release-o3-v1": {
-      "extends": null,
-      "properties": {
-        "variant": "release",
-        "expect_opt_level": "3"
-      }
+    "max": {
+      "flags": [
+        "-O3"
+      ],
+      "cargo": {
+        "opt-level": "3"
+      },
+      "description": "Highest standard GCC level; IEEE-safe (no -Ofast)."
     },
-    "release-v1": {
-      "extends": null,
-      "properties": {}
+    "debug": {
+      "flags": [
+        "-O0",
+        "-g"
+      ],
+      "cargo": {
+        "opt-level": "0",
+        "debug": "true"
+      },
+      "description": "Unoptimized with full debug info; artifacts keep DWARF."
+    },
+    "debug-og": {
+      "flags": [
+        "-Og",
+        "-g"
+      ],
+      "cargo": {
+        "opt-level": "1",
+        "debug": "true"
+      },
+      "description": "Debuggable but fast enough to run heavy cores on device."
+    },
+    "release-g": {
+      "flags": [
+        "-g"
+      ],
+      "cargo": {
+        "debug": "true"
+      },
+      "description": "The core's own optimization plus debug info, for profiling and symbolized crashes."
+    },
+    "size": {
+      "flags": [
+        "-Os"
+      ],
+      "cargo": {
+        "opt-level": "s"
+      },
+      "description": "Optimize for size."
     }
-  },
-  "content_sha256": "551ac435f7f1b1b96c437b35f3b11d83baf73ee5f2e56870d835fbd90c20acdf"
+  }
 }

@@ -1,0 +1,39 @@
+{
+  "release": "toolchains",
+  "note": "Docker image archives published on the GitHub release named in 'release'. Builds refuse to run unless the loaded image has exactly this image_id.",
+  "toolchains": {
+    "arm64": {
+      "image": "cores-arm64:latest",
+      "image_id": "sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-arm64.tar.gz",
+        "sha256": "8a3bdd7f36a10a092209cd8f308d2d2a85e316be7ede6d42562074243b25bc64",
+        "size": 502531978
+      },
+      "dockerfile": "Dockerfile.arm64"
+    },
+    "armhf": {
+      "image": "cores-armhf:latest",
+      "image_id": "sha256:393a23661c4178edfc4e5ea0221e5de317a40f2f50a9fff1cb76e9e322189dd9",
+      "host_cc": "arm-a30-linux-gnueabihf",
+      "archive": {
+        "name": "cores-armhf.tar.gz",
+        "sha256": "f297cbf988aeb15c3de90c1bc900494aaf4214320aa5fcfa2cbbf10d2e32f16e",
+        "size": 835303648
+      },
+      "dockerfile": "Dockerfile.armhf"
+    },
+    "rust": {
+      "image": "cores-rust:latest",
+      "image_id": "sha256:aa42a12ced6bd0d1c9dcb528f170c14fe80157f0650cab52f9a37e90ec2da5b6",
+      "host_cc": "cc",
+      "archive": {
+        "name": "cores-rust.tar.gz",
+        "sha256": "38ad84b2fe5dc0a54a94e9a14d5afd5b951a1b5a212692460c64cc6a849edade",
+        "size": 999801265
+      },
+      "dockerfile": "Dockerfile.rust"
+    }
+  }
+}

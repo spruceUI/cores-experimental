@@ -1,0 +1,80 @@
+{
+  "note": "Machine flags per board. 'universal' adds nothing and builds every ABI the core targets; any other board builds only its arch.",
+  "boards": {
+    "universal": {
+      "arch": null,
+      "flags": [],
+      "devices": "Portable baseline: the catalog build with no board flags, for every device of the ABI."
+    },
+    "a133p": {
+      "arch": "arm64",
+      "flags": [
+        "-mcpu=cortex-a53"
+      ],
+      "devices": [
+        "TrimUI Brick",
+        "TrimUI Brick Pro",
+        "TrimUI Smart Pro",
+        "MagicX Zero 28"
+      ]
+    },
+    "h700": {
+      "arch": "arm64",
+      "flags": [
+        "-mcpu=cortex-a53"
+      ],
+      "devices": [
+        "Anbernic H700 family (RG35XX/RG40XX)"
+      ]
+    },
+    "a523": {
+      "arch": "arm64",
+      "flags": [
+        "-mcpu=cortex-a55"
+      ],
+      "devices": [
+        "TrimUI Smart Pro S"
+      ]
+    },
+    "rk3566": {
+      "arch": "arm64",
+      "flags": [
+        "-mcpu=cortex-a55"
+      ],
+      "devices": [
+        "Miyoo Flip"
+      ]
+    },
+    "rk3326": {
+      "arch": "arm64",
+      "flags": [
+        "-mcpu=cortex-a35"
+      ],
+      "devices": [
+        "GKD Pixel 2"
+      ]
+    },
+    "a33": {
+      "arch": "armhf",
+      "flags": [
+        "-mcpu=cortex-a7",
+        "-mfpu=neon-vfpv4",
+        "-mfloat-abi=hard"
+      ],
+      "devices": [
+        "Miyoo A30"
+      ]
+    },
+    "ssd202d": {
+      "arch": "armhf",
+      "flags": [
+        "-mcpu=cortex-a7",
+        "-mfpu=neon-vfpv4",
+        "-mfloat-abi=hard"
+      ],
+      "devices": [
+        "Miyoo Mini family"
+      ]
+    }
+  }
+}
