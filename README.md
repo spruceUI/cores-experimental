@@ -85,11 +85,14 @@ core, its `.info`, the script, `build.log` and `record.json` in
 ## Known issues
 
 - mame2003_plus does not load when built at `-O0`; use `debug-og`.
-- 26 armhf C++ cores need GCC 13's libstdc++, which the Miyoo Mini and the
-  32-bit RetroArch on the Anbernic XX family and the Flip lack; build them with
-  `--runtime static` or ship that libstdc++ ([details](docs/flags.md#c-runtime)).
+- 26 armhf C++ cores need GCC 13's libstdc++, which the 32-bit RetroArch on
+  the Anbernic XX family and the Flip lack; build them with `--runtime static`
+  or ship that libstdc++ ([details](docs/flags.md#c-runtime)).
 - The Miyoo Mini Plus has no GLES2, so GL cores (flycast, N64) cannot run there
   whatever the flags.
+- On a Miyoo Mini Plus (2026-10-07), pcsx_rearmed (r26l) hangs in `retro_init`
+  after starting its compiler thread, where spruce's r25l loads; puae2021 needs
+  61 MB of zero-filled memory and the Mini had 55 MB free (spruce's needs 55).
 - Nothing has been benchmarked on a device yet: `max` and the board builds are
   proven to load, not to be faster.
 - Shipped by spruceOS but not built here: mkxp-z (the hyphen in its name breaks

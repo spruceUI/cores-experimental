@@ -53,10 +53,10 @@ where the `universal` armhf build uses the slower software renderer.
 
 C++ cores link the toolchain's libstdc++ at run time. The arm64 toolchain (GCC 9)
 needs no more than every arm64 device provides. The armhf toolchain is the A30's
-GCC 13: 26 armhf cores need a newer libstdc++ than the Miyoo Mini (GCC 8) and
-the 32-bit RetroArch on the Anbernic XX family and the Flip provide; spruce
-ships GCC 13's for the A30 only. The load test does not see this, because it
-runs with the toolchain's own libraries.
+GCC 13: 26 armhf cores need a newer libstdc++ than the 32-bit RetroArch on the
+Anbernic XX family (3.4.30) and the Flip (3.4.29) provide. The A30 and the Miyoo
+Mini get GCC 13's from spruce's own lib folders (verified on a Mini Plus). The
+load test does not see this, because it runs with the toolchain's libraries.
 
 `--runtime static` links libstdc++ and libgcc into the core and hides their
 symbols (`-static-libstdc++ -static-libgcc -Wl,--exclude-libs,ALL`), so the core
