@@ -37,7 +37,7 @@ Inputs that are too large for git, each sha256-checked by its Dockerfile:
 | file | for | where |
 |---|---|---|
 | `rust.tar.gz` | `Dockerfile.rust` | https://static.rust-lang.org/dist/rust-1.90.0-x86_64-unknown-linux-gnu.tar.gz |
-| `a30_toolchain-v1.0.tar.gz` | `Dockerfile.armhf.base` | the `toolchains` release of spruceUI/Cores-spruce |
+| `a30_toolchain-v1.0.tar.gz` | `Dockerfile.armhf.base` | this repository's `toolchains` release (a copy of the one on spruceUI/Cores-spruce's) |
 
 ## Changing a toolchain image
 
@@ -65,7 +65,7 @@ change, so rebuild and check all of them.
 
 ```bash
 DOCKER_BUILDKIT=0 docker build -f Dockerfile.arm64.base -t cores-arm64-base:new toolchain-inputs
-# armhf: download a30_toolchain-v1.0.tar.gz into toolchain-inputs/ first
+gh release download toolchains -p a30_toolchain-v1.0.tar.gz -D toolchain-inputs   # armhf only
 DOCKER_BUILDKIT=0 docker build -f Dockerfile.armhf.base -t cores-armhf-base:new toolchain-inputs
 ```
 

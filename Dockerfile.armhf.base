@@ -22,8 +22,8 @@ RUN apt-get update && \
     cmake \
     && rm -rf /var/lib/apt/lists/*
 
-# A30 buildroot toolchain: download it into toolchain-inputs/ from the
-# toolchains release of spruceUI/Cores-spruce (toolchain-inputs/README.md).
+# A30 buildroot toolchain: download it into toolchain-inputs/ from this
+# repository's toolchains release (toolchain-inputs/README.md).
 COPY a30_toolchain-v1.0.tar.gz /tmp/
 RUN echo "f8821f4a0ae894c5d5bb7ba9c0bb249e95040a3ba1df8d69fbff4266c2706a6d  /tmp/a30_toolchain-v1.0.tar.gz" | sha256sum -c - && \
     tar xzf /tmp/a30_toolchain-v1.0.tar.gz -C /opt && rm /tmp/a30_toolchain-v1.0.tar.gz
