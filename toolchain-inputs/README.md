@@ -1,14 +1,15 @@
 # Toolchain images
 
-Every core builds in one of three Docker images. `manifests/toolchains.json`
-pins each by image ID and names its archive on the `toolchains` release; a build
-refuses to run on any other image.
+Every core builds in one of three Docker images, and standalone emulators in a
+fourth. `manifests/toolchains.json` pins each by image ID and names its archive
+on the `toolchains` release; a build refuses to run on any other image.
 
 | toolchain | image ID | archive | recipe |
 |---|---|---|---|
 | arm64 | `538411e2759c` | `cores-arm64.tar.gz` | `Dockerfile.arm64` on base `c9c1332ce018` |
 | armhf | `3c5f1e9c40cb` (v4) | `cores-armhf-v4.tar.gz` | `Dockerfile.armhf` on base `6ac154886195` |
-| rust | `aa42a12ced6b` | `cores-rust.tar.gz` | `Dockerfile.rust` (standalone) |
+| rust | `aa42a12ced6b` | `cores-rust.tar.gz` | `Dockerfile.rust` (on Ubuntu, no base) |
+| arm64-standalone | `c630f837fad0` (v1) | `cores-arm64-standalone-v1.tar.gz` | `Dockerfile.arm64.standalone` on the arm64 image `538411e2759c` ([standalone emulators](../docs/standalone.md)) |
 
 `cores-armhf.tar.gz` (armhf v2, `393a23661c41`) stays on the release because
 older commits pin it. Never replace a published archive: give a new image a new
@@ -29,7 +30,8 @@ archive name.
 - **Toolchain images** (`Dockerfile.arm64`, `Dockerfile.armhf`) start `FROM`
   the base by image ID and add the pinned tarballs in this folder (CMake, inih,
   libpng, easyrpg's static dependencies). Every input is checked against a
-  sha256 in its Dockerfile.
+  sha256 in its Dockerfile. `Dockerfile.arm64.standalone` starts from the arm64
+  toolchain image itself and adds OpenSSL, curl and SDL2 from this folder.
 - **Rust image** (`Dockerfile.rust`): Ubuntu by digest plus pinned tarballs.
 
 Inputs that are too large for git, each sha256-checked by its Dockerfile:

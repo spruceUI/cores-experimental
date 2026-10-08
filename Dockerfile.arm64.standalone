@@ -1,0 +1,76 @@
+# cores-arm64-standalone v1: the arm64 toolchain image plus what a standalone
+# (non-libretro) emulator links that a core does not: ALSA and udev headers, and
+# OpenSSL, curl and SDL2 built into one prefix. FROM the arm64 image by ID, so the
+# compiler, sysroot and CMake are the ones every arm64 core builds with.
+# Used by manifests/standalone-builds.json (docs/standalone.md).
+FROM sha256:538411e2759cd5482068fd0c1f24d5a033138cd9f49db31f2c620929a8b046a9
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Target-arch dev packages the standalone links directly (ALSA audio backend)
+# or through the vendored libusb (udev hotplug). Every 64-bit Spruce device
+# provides libasound.so.2 and libudev.so.1 on the standalone's loader path
+# (probed 2026-08-24). xz-utils unpacks the curl tarball.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libasound2-dev:arm64 \
+    libudev-dev:arm64 \
+    xz-utils \
+    && rm -rf /var/lib/apt/lists/*
+
+# --- standalone dependency prefix ------------------------------------------
+# OpenSSL 1.1.1w + curl 8.7.1 are the same pinned versions the shipped
+# Emu/DC/flycast (v2.6) was built with; both are BUNDLED next to the binary
+# as lib64/ because no device ships a libcurl.so.4.
+#
+# SDL2 2.28.5 is LINK-ONLY. It is the lowest SDL2 on any 64-bit device's
+# loader path (H700 BaseOS, App/PyUI/dll-mali), so compiling against its
+# headers guarantees the binary references no API a fleet device lacks. It is
+# deliberately built with no video backend worth shipping: every device SDL2
+# carries a vendor driver (TrimUI/H700 `mali`, Flip/Smart Pro S `KMSDRM`)
+# that a generic build cannot provide, so the recipe never bundles it.
+# OpenSSL embeds its build date in libcrypto ("built on"); v1 did not pin it.
+# When rebuilding, export SOURCE_DATE_EPOCH before ./Configure to fix it.
+COPY openssl-1.1.1w.tar.gz curl-8.7.1.tar.xz SDL2-2.28.5.tar.gz /tmp/deps/
+RUN cd /tmp/deps && \
+    echo "cf3098950cb4d853ad95c0841f1f9c6d3dc102dccfcacd521d93925208b76ac8  openssl-1.1.1w.tar.gz" | sha256sum -c - && \
+    echo "6fea2aac6a4610fbd0400afb0bcddbe7258a64c63f1f68e5855ebc0c659710cd  curl-8.7.1.tar.xz" | sha256sum -c - && \
+    echo "332cb37d0be20cb9541739c61f79bae5a477427d79ae85e352089afdaf6666e4  SDL2-2.28.5.tar.gz" | sha256sum -c - && \
+    export PREFIX=/opt/flycast-standalone-deps-arm64 && mkdir -p "$PREFIX" && \
+    mkdir openssl && tar -xzf openssl-1.1.1w.tar.gz -C openssl --strip-components=1 && \
+    cd openssl && \
+    ./Configure linux-aarch64 --cross-compile-prefix=aarch64-linux-gnu- \
+      --prefix="$PREFIX" --libdir=lib shared no-tests -O3 && \
+    make -j"$(nproc)" && make install_sw && cd .. && \
+    mkdir curl && tar -xJf curl-8.7.1.tar.xz -C curl --strip-components=1 && \
+    cd curl && \
+    CC=aarch64-linux-gnu-gcc \
+    PKG_CONFIG_LIBDIR="$PREFIX/lib/pkgconfig:/usr/lib/aarch64-linux-gnu/pkgconfig" \
+    ./configure --host=aarch64-linux-gnu --prefix="$PREFIX" \
+      --with-openssl="$PREFIX" \
+      --without-libpsl --without-brotli --without-zstd --without-libidn2 \
+      --without-librtmp --without-libssh --without-libssh2 --without-nghttp2 \
+      --disable-manual --disable-ldap --disable-rtsp \
+      --enable-shared --disable-static \
+      CFLAGS="-O3" LDFLAGS="-Wl,-rpath-link,$PREFIX/lib" && \
+    make -j"$(nproc)" && make install && cd .. && \
+    mkdir sdl2 && tar -xzf SDL2-2.28.5.tar.gz -C sdl2 --strip-components=1 && \
+    cmake -S sdl2 -B sdl2-build -G "Unix Makefiles" \
+      -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 \
+      -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ \
+      -DCMAKE_FIND_ROOT_PATH="/usr/aarch64-linux-gnu;/usr" \
+      -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=BOTH \
+      -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+      -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$PREFIX" -DCMAKE_INSTALL_LIBDIR=lib \
+      -DSDL_SHARED=ON -DSDL_STATIC=OFF -DSDL_TEST=OFF -DSDL_RPATH=OFF \
+      -DSDL_OPENGL=ON -DSDL_OPENGLES=ON \
+      -DSDL_X11=OFF -DSDL_WAYLAND=OFF -DSDL_KMSDRM=OFF -DSDL_RPI=OFF -DSDL_VIVANTE=OFF \
+      -DSDL_ALSA=OFF -DSDL_PULSEAUDIO=OFF -DSDL_PIPEWIRE=OFF -DSDL_JACK=OFF -DSDL_SNDIO=OFF \
+      -DSDL_DBUS=OFF -DSDL_IBUS=OFF -DSDL_LIBUDEV=OFF -DSDL_HIDAPI=OFF && \
+    cmake --build sdl2-build -j"$(nproc)" && cmake --install sdl2-build && \
+    cd / && rm -rf /tmp/deps && \
+    aarch64-linux-gnu-readelf -d "$PREFIX/lib/libcurl.so.4" | grep NEEDED && \
+    aarch64-linux-gnu-readelf -d "$PREFIX/lib/libSDL2-2.0.so.0" | grep NEEDED
+# --- end standalone dependency prefix ----------------------------------------
+
+# The package manifest, as the core images record it.
+RUN dpkg -l > /apt-manifest.txt

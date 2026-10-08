@@ -11,6 +11,7 @@
   bundle --results DIR --out DIR         device-layout bundles per board+profile
   freeze --results DIR --name NAME       write or check a release freeze manifest
   summary --results DIR                  markdown status table
+  standalone list|script|build [NAME]    standalone emulators (docs/standalone.md)
 
 Selection options: --cores, --boards, --profiles (each 'all' or a list),
 --flags (extra GCC flags), --arch (limit universal builds to one ABI),
@@ -26,7 +27,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from corebuild import build, recipe, release
+from corebuild import build, recipe, release, standalone
 from corebuild.catalog import COMMIT, Repo
 from corebuild.variants import RUNTIMES, Variant, parse_flags, plan
 
@@ -51,7 +52,7 @@ def expand(repo: Repo, args: argparse.Namespace, core: str) -> list[Variant]:
 
 
 def cmd_check(repo: Repo, args) -> int:
-    errors = repo.check()
+    errors = repo.check() + standalone.check(repo)
     for error in errors:
         print(error)
     print(f"{len(repo.cores)} cores, {len(repo.boards)} boards, {len(repo.profiles)} profiles: "
@@ -216,6 +217,24 @@ def cmd_summary(repo: Repo, args) -> int:
     return 0
 
 
+def cmd_standalone(repo: Repo, args) -> int:
+    builds = standalone.load(repo)
+    if args.action == "list":
+        for name, spec in builds.items():
+            print(f"{name:24} {spec['source']['requested_ref']:16} {spec['output']['spruce_path']}")
+        return 0
+    if args.name not in builds:
+        print(f"unknown standalone build {args.name}; see `standalone list`", file=sys.stderr)
+        return 2
+    if args.action == "script":
+        spec = builds[args.name]
+        print(standalone.render(args.name, spec, repo.toolchains[spec["toolchain"]]).text, end="")
+        return 0
+    record = standalone.build_one(repo, args.name, Path(args.out))
+    print(f"{args.name}: {record['status']}" + "".join(f"\n  {p}" for p in record["problems"]))
+    return 0 if record["status"] == "built" else 1
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -252,6 +271,10 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("summary")
     p.add_argument("--results", required=True)
     p.add_argument("--annotations", action="store_true", help="print GitHub warning/error lines")
+    p = sub.add_parser("standalone")
+    p.add_argument("action", choices=("list", "script", "build"))
+    p.add_argument("name", nargs="?")
+    p.add_argument("--out", default="out")
     args = parser.parse_args(argv)
     repo = Repo()
     if getattr(args, "core", None) and args.core not in repo.cores:

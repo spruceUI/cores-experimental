@@ -1,0 +1,89 @@
+{
+  "note": "Standalone (non-libretro) emulators spruce ships. Fields: docs/standalone.md.",
+  "builds": {
+    "flycast-standalone": {
+      "source": {
+        "url": "https://github.com/flyinghead/flycast.git",
+        "commit": "5aa091fde632fb332c8d8c34e280d62dc951954c",
+        "tree": "6384bacac6a2be89164a923372052a7ad1dff05a",
+        "requested_ref": "refs/tags/v2.7"
+      },
+      "toolchain": "arm64-standalone",
+      "source_date_epoch": 1786747058,
+      "cmake": {
+        "target": "flycast",
+        "cross_defines": {
+          "CMAKE_FIND_ROOT_PATH": "/usr/aarch64-linux-gnu;/opt/flycast-standalone-deps-arm64;/usr",
+          "CMAKE_FIND_ROOT_PATH_MODE_LIBRARY": "ONLY",
+          "CMAKE_FIND_ROOT_PATH_MODE_INCLUDE": "BOTH",
+          "CMAKE_FIND_ROOT_PATH_MODE_PROGRAM": "NEVER",
+          "CMAKE_LIBRARY_PATH": "/usr/lib/aarch64-linux-gnu;/opt/flycast-standalone-deps-arm64/lib",
+          "CMAKE_INCLUDE_PATH": "/usr/include;/opt/flycast-standalone-deps-arm64/include",
+          "CMAKE_PREFIX_PATH": "/opt/flycast-standalone-deps-arm64",
+          "CMAKE_C_FLAGS": "-O3 -I/opt/flycast-standalone-deps-arm64/include",
+          "CMAKE_CXX_FLAGS": "-O3 -I/opt/flycast-standalone-deps-arm64/include",
+          "CMAKE_EXE_LINKER_FLAGS": "-L/opt/flycast-standalone-deps-arm64/lib -L/usr/lib/aarch64-linux-gnu -Wl,-rpath-link,/opt/flycast-standalone-deps-arm64/lib -Wl,-rpath-link,/usr/lib/aarch64-linux-gnu"
+        },
+        "defines": {
+          "LIBRETRO": "OFF",
+          "USE_HOST_SDL": "ON",
+          "USE_OPENGL": "ON",
+          "USE_GLES": "ON",
+          "USE_VULKAN": "ON",
+          "USE_ALSA": "ON",
+          "USE_HOST_LIBZIP": "OFF",
+          "USE_OPENMP": "OFF",
+          "USE_PULSEAUDIO": "OFF",
+          "USE_LIBAO": "OFF",
+          "USE_LUA": "OFF",
+          "USE_DISCORD": "OFF",
+          "ENABLE_CTEST": "OFF",
+          "FT_DISABLE_PNG": "ON",
+          "FT_DISABLE_HARFBUZZ": "ON",
+          "FT_DISABLE_BROTLI": "ON",
+          "FT_DISABLE_BZIP2": "ON"
+        }
+      },
+      "output": {
+        "binary": "flycast",
+        "bundled_libraries": [
+          "libcurl.so.4",
+          "libssl.so.1.1",
+          "libcrypto.so.1.1"
+        ],
+        "spruce_path": "Emu/DC/flycast",
+        "spruce_library_dir": "Emu/DC/lib64"
+      },
+      "needed": {
+        "device": [
+          "libasound.so.2",
+          "libSDL2-2.0.so.0",
+          "libz.so.1",
+          "librt.so.1",
+          "libdl.so.2",
+          "libpthread.so.0",
+          "libudev.so.1",
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-aarch64.so.1"
+        ],
+        "forbidden": [
+          "libgomp.so.1",
+          "libpulse.so.0",
+          "libzip.so.5",
+          "libpng16.so.16",
+          "libharfbuzz.so.0",
+          "libbrotlidec.so.1",
+          "libbz2.so.1.0",
+          "libvulkan.so.1",
+          "libGLESv2.so.2",
+          "libGLESv2.so",
+          "libEGL.so.1",
+          "libEGL.so"
+        ]
+      }
+    }
+  }
+}

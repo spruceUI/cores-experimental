@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from corebuild import build, recipe, release  # noqa: E402
+from corebuild import build, recipe, release, standalone  # noqa: E402
 from corebuild.catalog import Repo, known_good  # noqa: E402
 from corebuild.variants import parse_flags, plan  # noqa: E402
 
@@ -273,3 +273,27 @@ class ReleaseTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class StandaloneTest(unittest.TestCase):
+    def setUp(self):
+        self.spec = standalone.load(REPO)["flycast-standalone"]
+
+    def test_recipes_are_consistent(self):
+        self.assertEqual(standalone.check(REPO), [])
+
+    def test_script_pins_the_source_and_bundles_the_libraries(self):
+        text = standalone.render("flycast-standalone", self.spec, REPO.toolchains[self.spec["toolchain"]]).text
+        self.assertIn(f"checkout -q {self.spec['source']['commit']}", text)
+        self.assertIn(self.spec["source"]["tree"], text)
+        self.assertIn(f"SOURCE_DATE_EPOCH={self.spec['source_date_epoch']}", text)
+        for soname in self.spec["output"]["bundled_libraries"]:
+            self.assertIn(f"/output/lib/{soname}", text)
+        self.assertLess(text.index("cmake --build"), text.index("strip -s /output/flycast"))
+
+    def test_contract_names_forbidden_and_unaccounted_libraries(self):
+        ok = ["libSDL2-2.0.so.0", "libcurl.so.4", "libc.so.6"]
+        self.assertEqual(standalone.contract_problems(self.spec, ok, ["libssl.so.1.1", "libz.so.1"]), [])
+        problems = standalone.contract_problems(self.spec, ok + ["libvulkan.so.1", "libfoo.so.1"], [])
+        self.assertEqual(problems, ["libvulkan.so.1 is forbidden", "libfoo.so.1 is neither on the device nor bundled"])
+

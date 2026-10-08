@@ -68,7 +68,7 @@ Needs Docker and Python 3.9 or later (no packages).
 
 ```bash
 gh release download toolchains --dir /tmp/tc -p cores-arm64.tar.gz -p cores-armhf-v4.tar.gz -p cores-rust.tar.gz
-python3 scripts/cores.py toolchains --dir /tmp/tc   # verify and load them
+python3 scripts/cores.py toolchains --dir /tmp/tc --names arm64,armhf,rust   # verify and load them
 python3 scripts/cores.py check                      # validate the catalog
 python3 scripts/cores.py build --core np2kai --boards a133p --profiles max --out results
 python3 scripts/cores.py build --core gearboy --runtime shared,static --strip --out results
@@ -104,6 +104,7 @@ core, its `.info`, the script, `build.log` and `record.json` in
 | path | contents |
 |---|---|
 | `manifests/core-builds.json` | one recipe per core |
+| `manifests/standalone-builds.json` | standalone emulators spruce ships, such as Flycast's `Emu/DC/flycast` ([how](docs/standalone.md)) |
 | `manifests/boards.json`, `manifests/optimization-profiles.json` | board and profile flags |
 | `manifests/toolchains.json` | the toolchain images: archive digests and image IDs |
 | `patches/` | source patches used by the recipes ([list](patches/README.md)) |

@@ -34,6 +34,17 @@
         "size": 999801265
       },
       "dockerfile": "Dockerfile.rust"
+    },
+    "arm64-standalone": {
+      "image": "cores-arm64-standalone:v1",
+      "image_id": "sha256:c630f837fad078ea0d34db3208247eaa820f056c245a5587572723ca6c68fe10",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-arm64-standalone-v1.tar.gz",
+        "sha256": "d0ced2077613d7a8ea6871c38a88f6ea5220431c8952477721c285fe5ef56932",
+        "size": 529469006
+      },
+      "dockerfile": "Dockerfile.arm64.standalone"
     }
   }
 }
