@@ -1,26 +1,85 @@
-# Toolchain image inputs
+# Toolchain images
 
-Builds use the three images published on the `toolchains` release.
-`manifests/toolchains.json` pins each archive's digest and image ID, and builds
-run only on those exact images.
+Every core builds in one of three Docker images. `manifests/toolchains.json`
+pins each by image ID and names its archive on the `toolchains` release; a build
+refuses to run on any other image.
 
-This directory and the `Dockerfile.*` files record how the images were made.
-Rebuilding produces different image IDs, so rebuild only to change a toolchain;
-then publish the new archives and update `manifests/toolchains.json`.
+| toolchain | image ID | archive | recipe |
+|---|---|---|---|
+| arm64 | `538411e2759c` | `cores-arm64.tar.gz` | `Dockerfile.arm64` on base `c9c1332ce018` |
+| armhf | `3c5f1e9c40cb` (v4) | `cores-armhf-v4.tar.gz` | `Dockerfile.armhf` on base `6ac154886195` |
+| rust | `aa42a12ced6b` | `cores-rust.tar.gz` | `Dockerfile.rust` (standalone) |
+
+`cores-armhf.tar.gz` (armhf v2, `393a23661c41`) stays on the release because
+older commits pin it. Never replace a published archive: give a new image a new
+archive name.
+
+## How the images are built
+
+- **Bases** (`Dockerfile.arm64.base`, `Dockerfile.armhf.base`): Ubuntu, the
+  cross compiler and libretro-super at `60f5c627`. Their apt steps install
+  whatever the Ubuntu mirrors serve that day, so a rebuilt base is never the
+  same image. The two bases in use are archived on the release:
+
+  | base | archive | sha256 |
+  |---|---|---|
+  | arm64 `c9c1332ce018` | `cores-arm64-base-c9c1332ce018.tar.gz` (259 MB) | `9c4816d569bcaae1d2ce59d7ea8e4749eeb05468015390da401e09fa0eff7aa7` |
+  | armhf `6ac154886195` | `cores-armhf-base-6ac154886195.tar.gz` (653 MB) | `6a193cc28412f1636fc128f36990452fbf189b4fabd5b0112641747bab343734` |
+
+- **Toolchain images** (`Dockerfile.arm64`, `Dockerfile.armhf`) start `FROM`
+  the base by image ID and add the pinned tarballs in this folder (CMake, inih,
+  libpng, easyrpg's static dependencies). Every input is checked against a
+  sha256 in its Dockerfile.
+- **Rust image** (`Dockerfile.rust`): Ubuntu by digest plus pinned tarballs.
+
+Inputs that are too large for git, each sha256-checked by its Dockerfile:
+
+| file | for | where |
+|---|---|---|
+| `rust.tar.gz` | `Dockerfile.rust` | https://static.rust-lang.org/dist/rust-1.90.0-x86_64-unknown-linux-gnu.tar.gz |
+| `a30_toolchain-v1.0.tar.gz` | `Dockerfile.armhf.base` | the `toolchains` release of spruceUI/Cores-spruce |
+
+## Changing a toolchain image
+
+Use this to add or change anything above the base (the usual case).
 
 ```bash
-DOCKER_BUILDKIT=0 docker build -f Dockerfile.arm64 -t cores-arm64:latest toolchain-inputs
-DOCKER_BUILDKIT=0 docker build -f Dockerfile.armhf -t cores-armhf:latest toolchain-inputs
-DOCKER_BUILDKIT=0 docker build -f Dockerfile.rust  -t cores-rust:latest  toolchain-inputs
+gh release download toolchains -p cores-armhf-base-6ac154886195.tar.gz
+gunzip -c cores-armhf-base-6ac154886195.tar.gz | docker load
+DOCKER_BUILDKIT=0 docker build -f Dockerfile.armhf -t cores-armhf:v5 toolchain-inputs
+docker save cores-armhf:v5 | gzip -n > cores-armhf-v5.tar.gz
+docker image inspect -f '{{.Id}}' cores-armhf:v5; sha256sum cores-armhf-v5.tar.gz; stat -c %s cores-armhf-v5.tar.gz
 ```
 
-Every input is checked against a sha256 in its Dockerfile. `rust.tar.gz` is too
-large for git; fetch it first:
+1. Put the new image ID, archive name, size and sha256 in `manifests/toolchains.json`.
+2. Build every core of that arch (`python3 scripts/cores.py plan --arch armhf`
+   lists them) and compare the artifacts' sha256 with the previous image's
+   builds. Only cores that use what changed may differ; armhf v4 left 92 of 94
+   byte-identical.
+3. Upload the archive to the `toolchains` release under its new name.
+
+## Changing a base
+
+Only to change the compiler, the OS or libretro-super. Every core's bytes will
+change, so rebuild and check all of them.
 
 ```bash
-curl -L -o toolchain-inputs/rust.tar.gz \
-  https://static.rust-lang.org/dist/rust-1.90.0-x86_64-unknown-linux-gnu.tar.gz
+DOCKER_BUILDKIT=0 docker build -f Dockerfile.arm64.base -t cores-arm64-base:new toolchain-inputs
+# armhf: download a30_toolchain-v1.0.tar.gz into toolchain-inputs/ first
+DOCKER_BUILDKIT=0 docker build -f Dockerfile.armhf.base -t cores-armhf-base:new toolchain-inputs
 ```
 
-The arm64 and armhf Dockerfiles start from archived base images by image ID
-(see their headers), so those base images must be loaded first.
+Then point the `FROM` line of `Dockerfile.<arch>` at the new base's image ID,
+rebuild the toolchain image as above, and archive the new base on the release
+too (`cores-<arch>-base-<id>.tar.gz`).
+
+## History
+
+- The bases were built on 2026-04-05. The `cores-arm64.tar.gz` and
+  `cores-armhf.tar.gz` on spruceUI/Cores-spruce's release are an earlier
+  generation (images `63f40dda`, `122b2008`), not these bases.
+- arm64 v2 and armhf v2 (2026-07) added CMake 3.31, easyrpg's dependencies and
+  libpng on top of the bases.
+- armhf v4 (2026-10-07): libpng built with `-fPIC`, so easyrpg links it
+  statically; mpg123 built with `--with-cpu=arm_fpu` (NEON decoder, chosen at
+  run time).

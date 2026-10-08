@@ -67,7 +67,7 @@ To freeze a release, run *Freeze a release* and commit the `<name>.json` from it
 Needs Docker and Python 3.9 or later (no packages).
 
 ```bash
-gh release download toolchains --dir /tmp/tc       # the three toolchain images
+gh release download toolchains --dir /tmp/tc -p cores-arm64.tar.gz -p cores-armhf-v4.tar.gz -p cores-rust.tar.gz
 python3 scripts/cores.py toolchains --dir /tmp/tc   # verify and load them
 python3 scripts/cores.py check                      # validate the catalog
 python3 scripts/cores.py build --core np2kai --boards a133p --profiles max --out results
