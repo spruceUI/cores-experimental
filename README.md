@@ -52,7 +52,8 @@ with `-static` and `-stripped` and bundled separately.
 "Loads" means the core is loaded under qemu with the toolchain's ARM libraries
 and runs its startup sequence with a minimal RetroArch-like frontend
 ([`runtime/smoke_loader.c`](runtime/smoke_loader.c)). Rust cores are built but
-not load-tested.
+not load-tested. Nothing here measures speed: `max` and the board builds are
+proven to load, not to be faster. Benchmarks are run outside this repository.
 
 Each run ends with a `bundles` artifact: one folder per board and profile, laid
 out like the SD card (`RetroArch/.retroarch/cores64`, `cores`, `info`). Nothing
@@ -91,9 +92,10 @@ core, its `.info`, the script, `build.log` and `record.json` in
 - The Miyoo Mini Plus has no GLES2, so GL cores (flycast, N64) cannot run there
   whatever the flags.
 - On a Miyoo Mini Plus (2026-10-07), puae2021 needs 61 MB of zero-filled
-  memory and the Mini had 55 MB free (spruce's build needs 55).
-- Nothing has been benchmarked on a device yet: `max` and the board builds are
-  proven to load, not to be faster.
+  memory and the Mini had 55 MB free. spruce's 2022 build needs 55: upstream's
+  2025 fix for productivity screen modes (`e111f3f`) doubled two frame buffers.
+- chailove, km_parallel_n64 and picodrive (armhf) ask for an executable stack,
+  which glibc 2.41 and later refuse ([details](docs/flags.md#executable-stack)).
 - Shipped by spruceOS but not built here: mkxp-z (the hyphen in its name breaks
   libretro-super), mupen64plus (removed from libretro-super), km_flycast_xtreme
   (assembles with a bare `as`) and km_ludicrousn64_2k22_xtreme_amped (broken

@@ -69,6 +69,28 @@ and zlib stay shared either way; easyrpg's armhf build links libpng statically.
 the load test, so the test runs on what ships. It saves about 10% (74 of 720 MB
 for every core at `release`).
 
+## Executable stack
+
+An object file without a `.note.GNU-stack` section makes the linker mark the
+whole core as needing an executable stack. glibc 2.41 and later refuse to load
+such a library (`cannot enable executable stack`) unless the program runs with
+`GLIBC_TUNABLES=glibc.rtld.execstack=2`. Three armhf builds are affected, each by
+one assembly file:
+
+| core | file |
+|---|---|
+| chailove | `sinc_resampler_neon.S` (libretro-common) |
+| km_parallel_n64_xtreme_amped_turbo | `linkage_arm.S` |
+| picodrive | `drz80.s` |
+
+On 2026-10-07 the three failed to load only on a device whose 32-bit glibc is
+2.41 (TwigUI-Next, which offers no 32-bit RetroArch). dArkMoss sets the
+tunable for its 32-bit RetroArch, and they load there. spruce's own armhf set
+has nine cores like this. The load test cannot
+see it: the toolchain's glibc is older. The fix, not yet made, is to assemble
+those files with `-Wa,--noexecstack` once it is confirmed that none of them runs
+code from the stack.
+
 ## Worth benchmarking, not defaults
 
 | candidate | possible gain | risk |
