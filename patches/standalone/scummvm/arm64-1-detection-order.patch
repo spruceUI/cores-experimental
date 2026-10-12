@@ -1,0 +1,29 @@
+Pins the order in which Makefile.common includes engines/*/module.mk, and so the link order of the
+detection objects. Ubuntu 20.04's make 4.2.1 does not sort that glob, so the order is whatever the build
+host's filesystem lists engines/ in. This is the order of spruceUI/ScummVM-spruce@e79b15a's GitHub runner,
+read from spruce's scummvm.64 (the position of each engine's getName()). glk adds no detection objects
+when it is built in (2026-10-12).
+
+diff --git a/Makefile.common b/Makefile.common
+index 21b7e43..7094093 100644
+--- a/Makefile.common
++++ b/Makefile.common
+@@ -73,7 +73,17 @@ ifdef DETECTION_FULL
+ DETECT_OBJS :=
+ 
+ # Include all engine's module files, which populate DETECT_OBJS
+--include $(srcdir)/engines/*/module.mk
++ENGINE_MODULE_ORDER := \
++	hpl1 toon mm director ngi playground3d alg pink scumm got mediastation dm darkseed bbvs sword1 \
++	hopkins ultima tsage sky sword25 agos tinsel macventure tetraedge startrek icb cryomni3d immortal \
++	lilliput ags phoenixvr kyra cge2 cine titanic sword2 alcachofa access chamber mtropolis sludge \
++	waynesworld m4 plumbers grim stark voyeur crab dgds bladerunner sci asylum kingdom cryo chewy \
++	composer prince toltecs nancy dreamweb hugo trecision touche lure saga2 agi hypno twp draci \
++	groovie watchmaker lastexpress avalanche dragons testbed pegasus queen myst3 griffon wintermute \
++	parallaction awe freescape lab gob mohawk gamos efh qdengine wage mutationofjb teenagent gnap \
++	drascula neverhood private mortevielle made cruise saga tot bagel tucker illusions cge vcruise \
++	hadesch petka agds buried zvision mads adl tony twine sherlock supernova hdb glk
++-include $(addprefix $(srcdir)/engines/,$(addsuffix /module.mk,$(ENGINE_MODULE_ORDER)))
+ endif
+ 
+ # Reset stuff

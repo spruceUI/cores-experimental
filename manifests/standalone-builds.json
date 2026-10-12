@@ -2058,7 +2058,7 @@
       }
     },
     "scummvm-arm64": {
-      "description": "ScummVM v2026.2.0 with all engines: scummvm.64 on every 64-bit device (spruceOS carries it as Emu/SCUMMVM/scummvm_64.7z, which firstboot unpacks; shipped compares the binary), with the libraries ScummVM-spruce bundles in lib/. Built as spruceUI/ScummVM-spruce@e79b15a Dockerfile.64 and build-64.sh do: focal GCC 9.4 with SDL2 2.26.2, SDL_net 2.2.0 and FluidSynth 2.3.4 built first. Two build times are embedded: engines/bagel/spacebar/master_win.cpp early in the build, base/version.cpp at the end. spruce's lib/ also carries libglib-2.0, libgomp, libmpg123, libdbus-1 and libpulsecommon from elsewhere",
+      "description": "ScummVM v2026.2.0 with all engines: scummvm.64 on every 64-bit device (spruceOS carries it as Emu/SCUMMVM/scummvm_64.7z, which firstboot unpacks; shipped compares the binary), with the libraries ScummVM-spruce bundles in lib/ (less libmikmod.so.3: nothing loads it, and it needs OpenAL and PulseAudio). Built as spruceUI/ScummVM-spruce@e79b15a Dockerfile.64 and build-64.sh do: focal GCC 9.4 with SDL2 2.26.2, SDL_net 2.2.0 and FluidSynth 2.3.4 built first. Two build times are embedded: engines/bagel/spacebar/master_win.cpp early in the build, base/version.cpp at the end. spruce's lib/ also carries libglib-2.0, libgomp, libmpg123, libdbus-1 and libpulsecommon from elsewhere. Ubuntu 20.04's make leaves the detection objects' link order to the filesystem; arm64-1 pins the wrapper's order",
       "source": {
         "url": "https://github.com/scummvm/scummvm.git",
         "commit": "d21ef2e4cb9a9c979b111375624bdf5b66d91bfa",
@@ -2095,6 +2095,9 @@
         },
         {
           "diff": "patches/standalone/scummvm/common-2-sigusr1-save-and-quit.patch"
+        },
+        {
+          "diff": "patches/standalone/scummvm/arm64-1-detection-order.patch"
         }
       ],
       "steps": [
@@ -2115,7 +2118,7 @@
         "make -j\"$(nproc)\"",
         "rm -f base/version.o && SOURCE_DATE_EPOCH=1774944173 make -j\"$(nproc)\"",
         "mkdir -p /build/out/lib",
-        "for lib in liba52-0.7.4.so libasn1.so.8 libasound.so.2 libbrotlicommon.so.1 libbrotlidec.so.1 libbsd.so.0 libcom_err.so.2 libcrypt.so.1 libcrypto.so.1.1 libcurl.so.4 libcurl-gnutls.so.4 libfaad.so.2 libffi.so.7 libFLAC.so.8 libfluidsynth.so.3 libfreetype.so.6 libfribidi.so.0 libgif.so.7 libgmp.so.10 libgnutls.so.30 libgssapi.so.3 libgssapi_krb5.so.2 libhcrypto.so.4 libheimbase.so.1 libheimntlm.so.0 libhogweed.so.5 libhx509.so.5 libidn2.so.0 libk5crypto.so.3 libkeyutils.so.1 libkrb5.so.3 libkrb5.so.26 libkrb5support.so.0 liblber-2.4.so.2 libldap_r-2.4.so.2 liblzma.so.5 libmikmod.so.3 libmpeg2.so.0 libnettle.so.7 libnghttp2.so.14 libp11-kit.so.0 libpng16.so.16 libpsl.so.5 libroken.so.18 librtmp.so.1 libsasl2.so.2 libsndio.so.7.0 libspeechd.so.2 libsqlite3.so.0 libssh.so.4 libssl.so.1.1 libtasn1.so.6 libreadline.so.8 libunistring.so.2 libwind.so.0 libz.so.1 libvpx.so.6 libopenmpt.so.0; do\n    target=$(find /usr/lib/aarch64-linux-gnu -name \"$lib*\" -print -quit)\n    if [ -n \"$target\" ]; then cp -L \"$target\" \"/build/out/lib/$lib\"; fi\ndone"
+        "for lib in liba52-0.7.4.so libasn1.so.8 libasound.so.2 libbrotlicommon.so.1 libbrotlidec.so.1 libbsd.so.0 libcom_err.so.2 libcrypt.so.1 libcrypto.so.1.1 libcurl.so.4 libcurl-gnutls.so.4 libfaad.so.2 libffi.so.7 libFLAC.so.8 libfluidsynth.so.3 libfreetype.so.6 libfribidi.so.0 libgif.so.7 libgmp.so.10 libgnutls.so.30 libgssapi.so.3 libgssapi_krb5.so.2 libhcrypto.so.4 libheimbase.so.1 libheimntlm.so.0 libhogweed.so.5 libhx509.so.5 libidn2.so.0 libk5crypto.so.3 libkeyutils.so.1 libkrb5.so.3 libkrb5.so.26 libkrb5support.so.0 liblber-2.4.so.2 libldap_r-2.4.so.2 liblzma.so.5 libmpeg2.so.0 libnettle.so.7 libnghttp2.so.14 libp11-kit.so.0 libpng16.so.16 libpsl.so.5 libroken.so.18 librtmp.so.1 libsasl2.so.2 libsndio.so.7.0 libspeechd.so.2 libsqlite3.so.0 libssh.so.4 libssl.so.1.1 libtasn1.so.6 libreadline.so.8 libunistring.so.2 libwind.so.0 libz.so.1 libvpx.so.6 libopenmpt.so.0; do\n    target=$(find /usr/lib/aarch64-linux-gnu -name \"$lib*\" -print -quit)\n    if [ -n \"$target\" ]; then cp -L \"$target\" \"/build/out/lib/$lib\"; fi\ndone"
       ],
       "output": {
         "files": [
