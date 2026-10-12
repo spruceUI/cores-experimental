@@ -2574,7 +2574,7 @@
       }
     },
     "scummvm-mini": {
-      "description": "ScummVM v2026.2.0 for the Miyoo Mini (SDL 1.2, engines as plugins): scummvm.mini and plugins/ (spruceOS carries them as Emu/SCUMMVM/scummvm_mini.7z and scummvm_mini_plugins.7z, which firstboot unpacks; shipped compares their contents), with libmini/. Built as spruceUI/ScummVM-spruce@6d04046 Dockerfile.mini and build-mini.sh do: libogg, libvorbis, libtheora, libjpeg-turbo, giflib and FluidLite built into the Onion sysroot first. Two build times: the bagel plugin's, and base/version.cpp's at the end",
+      "description": "ScummVM v2026.2.0 for the Miyoo Mini (SDL 1.2, engines as plugins): scummvm.mini and plugins/ (spruceOS carries them as Emu/SCUMMVM/scummvm_mini.7z and scummvm_mini_plugins.7z, which firstboot unpacks; shipped compares their contents), with libmini/. Built as spruceUI/ScummVM-spruce@6d04046 Dockerfile.mini and build-mini.sh do: libogg, libvorbis, libtheora, libjpeg-turbo, giflib and FluidLite built into the Onion sysroot first. Two build times: the bagel plugin's, and base/version.cpp's at the end. spruce's libmini/ keeps only libfluidlite.so from this build: its libgif, libjpeg.so.62, libmad, libogg, libtheoradec, libvorbis and libvorbisfile are other copies (the build's own match ScummVM-spruce's release archive byte for byte), and its libfribidi.so.0 is not in the Onion sysroot",
       "source": {
         "url": "https://github.com/scummvm/scummvm.git",
         "commit": "d21ef2e4cb9a9c979b111375624bdf5b66d91bfa",
@@ -2793,15 +2793,7 @@
           "plugins/libwage.so": "e642cd468952b5d8a6adecacd6c8b1d8ef73815c45c885827dfa762925d61613",
           "plugins/libwintermute.so": "aa49c7da2ce0de3fc894bd00023a556f7b4e75e21189bb89fe646e3b2805f2d7",
           "plugins/libzvision.so": "9a8e999caafbe54c3442acf9eec35298ad77ee7297d0e8411dae8ba2cd8b5852",
-          "libmini/libfluidlite.so": "971f5ff6bf61fb016827c221facf35173bb9f7d4eaf7c42e853656a9bd87a462",
-          "libmini/libfribidi.so.0": "7aa769364c85ddcddd0cbd2f00f81888c114a3688f5349379bac283e7f208170",
-          "libmini/libgif.so.7": "848b12fc133a4265aa697b993034db477f7f604e79e0be18042d464ea3ed1780",
-          "libmini/libjpeg.so.62": "eef66a800e2525a3fc3a8b58fe40e556e893916aa7c30d2c244a1c10f2641bf9",
-          "libmini/libmad.so.0": "34b20c97c6368f5c715f1255ba1da7501ae07eed5dd3b6f377ef8bd8bcf7d83b",
-          "libmini/libogg.so.0": "21271b9fbd47495de147b25fde98c5ca0dec7209b28a542502fb0f50f15ad71e",
-          "libmini/libtheoradec.so.1": "88b6d1252242ea50a92d9b7e00ff65b6305ba9887b4fe1e94e71b838f8b1f5b6",
-          "libmini/libvorbis.so.0": "b66f383bc2dfb58442367113447f55647c94eb22ce4a5945bf9180e7e5eadb8e",
-          "libmini/libvorbisfile.so.3": "7e72a5e016cb4348e99c2530bc2d606989e2ac01f9b149ab101e853f40a83b81"
+          "libmini/libfluidlite.so": "971f5ff6bf61fb016827c221facf35173bb9f7d4eaf7c42e853656a9bd87a462"
         }
       }
     },
