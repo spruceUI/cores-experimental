@@ -935,7 +935,7 @@
       }
     },
     "mupen64plus-arm64": {
-      "description": "Mupen64Plus standalone with GLideN64, Rice and Glide64mk2, and spruce's in-game overlay menu: Emu/N64/mupen64plus on every 64-bit device. Built as spruceUI/mupen64plus-spruce@b3cbeb9 build.sh did on 2026-09-11, with each upstream at the master of that day. spruce's shipped core and audio-sdl come from a different, unrecorded upstream state",
+      "description": "Mupen64Plus standalone with GLideN64, Rice and Glide64mk2, and spruce's in-game overlay menu: the video plugins and overlay settings of Emu/N64/mupen64plus on every 64-bit device. Built as spruceUI/mupen64plus-spruce@b3cbeb9 build.sh did on 2026-09-11 (spruceOS 92ff95d37 took its video plugins), with each upstream at the master of that day. spruce's frontend, core and other plugins come from the April build, mupen64plus-arm64-20260404",
       "source": {
         "url": "https://github.com/mupen64plus/mupen64plus-core.git",
         "commit": "cf00a1d1b4138a8e04cde47aabcd00ea9a047f57",
@@ -1117,12 +1117,7 @@
           }
         ],
         "spruce": {
-          "mupen64plus": "Emu/N64/mupen64plus/mupen64plus",
-          "libmupen64plus.so.2": "Emu/N64/mupen64plus/libmupen64plus.so.2",
           "overlay_settings.json": "Emu/N64/mupen64plus/overlay_settings.json",
-          "mupen64plus-audio-sdl.so": "Emu/N64/mupen64plus/mupen64plus-audio-sdl.so",
-          "mupen64plus-input-sdl.so": "Emu/N64/mupen64plus/mupen64plus-input-sdl.so",
-          "mupen64plus-rsp-hle.so": "Emu/N64/mupen64plus/mupen64plus-rsp-hle.so",
           "mupen64plus-video-rice.so": "Emu/N64/mupen64plus/mupen64plus-video-rice.so",
           "mupen64plus-video-glide64mk2.so": "Emu/N64/mupen64plus/mupen64plus-video-glide64mk2.so",
           "mupen64plus-video-GLideN64.so": "Emu/N64/mupen64plus/mupen64plus-video-GLideN64.so"
@@ -1151,11 +1146,6 @@
         "spruceos": "73bb91a19",
         "note": "spruce's libmupen64plus.so.2 and mupen64plus-audio-sdl.so come from an upstream state no mupen64plus-spruce release records (they differ in real code), so they are expected to differ",
         "files": {
-          "mupen64plus": "4935f5bb7f79ed3e5e7531ec650c9f8cc0d8105a60021a47a3531c5caa449fa6",
-          "libmupen64plus.so.2": "e827ff2fe7a997cca388e0e506394a366990740a7f5712c79ad2182c217797e6",
-          "mupen64plus-audio-sdl.so": "d861d923f80967686ef9d101af00377e817ecf9378d24044b87b0a3896c4f907",
-          "mupen64plus-input-sdl.so": "f73249aa5ef99588df5fc191996fdd4e7f091d3daeb9395052582bf8d7dcfdbf",
-          "mupen64plus-rsp-hle.so": "c36d4b0c787a007694eabc0dd7145fb171e9f1b15eea4d472b9d87f70b67141c",
           "mupen64plus-video-rice.so": "ea790719059f7513596763d140f5c254c727a5ca093272a2100a0ddd5e132a23",
           "mupen64plus-video-glide64mk2.so": "bc867190fd188234f9c9466104fecf694fa2aa4ed90f689cb3025394b1d50dde",
           "mupen64plus-video-GLideN64.so": "80589b9cf4eb6925c614c11ed13a61e71d73fb9b0eaf578cc1bc44bc99f3971e",
@@ -1611,11 +1601,11 @@
       "source_date_epoch": 1775317192,
       "patches": [
         {
-          "diff": "patches/standalone/mupen64plus/a30-1-sigusr1_save_and_quit-core.patch",
+          "diff": "patches/standalone/mupen64plus/20260404-1-sigusr1_save_and_quit-core.patch",
           "dir": "/build/core"
         },
         {
-          "diff": "patches/standalone/mupen64plus/a30-2-rotate_screen-core.patch",
+          "diff": "patches/standalone/mupen64plus/20260404-2-a30-rotate_screen-core.patch",
           "dir": "/build/core"
         }
       ],
@@ -1880,6 +1870,190 @@
           "liba30/libfluidlite.so.1": "6cc6da24f6537025db832cf89a60075cc6066f7b60af729daba3b7146693661f",
           "liba30/libmad.so.0": "48ff37fd1fd56a7a105e8c091372604693552f7b4f8e5cbcad210e6a11126d41",
           "liba30/libtheoradec.so.1": "d6d8587bb00259d4f7a8dfd4038935729f9d181ae0c04216add83f4295cdcd8a"
+        }
+      }
+    },
+    "mupen64plus-arm64-20260404": {
+      "description": "Mupen64Plus standalone, the build of 2026-04-04 that spruce's Emu/N64/mupen64plus frontend, core, audio, input and RSP plugins come from (spruceOS 3b5631c97). Built as spruceUI/mupen64plus-spruce@d78e551's Build All run did (build.sh), each upstream at that day's master, the same commits as mupen64plus-a30; spruce's video plugins come from mupen64plus-arm64",
+      "source": {
+        "url": "https://github.com/mupen64plus/mupen64plus-core.git",
+        "commit": "53a08fceb71653000dd6640cac05eb390fba7885",
+        "tree": "d654b95d8a76df0d50aa681a83827d50112f98dd",
+        "requested_ref": "refs/heads/master (2026-04-04)",
+        "path": "/build/core"
+      },
+      "extra_sources": [
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-ui-console.git",
+          "commit": "83fd61b58043a02ca8d287eece09649484866cf5",
+          "tree": "68f5d887221a29bb98d9834ce252901eafbe9023",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/ui-console"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-audio-sdl.git",
+          "commit": "5c58d3f69c8fdcc23b8d9dbd47685ab84bd0e08e",
+          "tree": "8c22cca201c5ef422c8b14096077ac0a5775c426",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/audio-sdl"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-input-sdl.git",
+          "commit": "076f551c9ac63591d8986a5cc07072b4b736ffd9",
+          "tree": "898a4c2cc0b610bb1c030cf2e7bdbacd35c4cf72",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/input-sdl"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-rsp-hle.git",
+          "commit": "561e951decbb7d0bd1589c3d8e3453fbed8d585b",
+          "tree": "d9121f921c294ef01240e5147e8acd59f4473c14",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/rsp-hle"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-video-rice.git",
+          "commit": "e4927d9f375a4f40f076c0d9ea63c0c119653fec",
+          "tree": "7a9000d61110138e5f9f161c3713ae8e12ab48f4",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/video-rice"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-video-glide64mk2.git",
+          "commit": "d7253a71f57561077016d8ed7028c09e6d360302",
+          "tree": "8134692b12cfed492d087216bebecdfef7d58ced",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/video-glide64mk2"
+        },
+        {
+          "url": "https://github.com/gonetz/GLideN64.git",
+          "commit": "c8ef81c7d9aede9f67f6ed3d3426c90541f9f13e",
+          "tree": "cb5f1780c3c8ebb73997b2bcd1e0a790d49d8d26",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/video-gliden64"
+        }
+      ],
+      "toolchain": "standalone-mupen64plus",
+      "source_date_epoch": 1775317192,
+      "patches": [
+        {
+          "diff": "patches/standalone/mupen64plus/20260404-1-sigusr1_save_and_quit-core.patch",
+          "dir": "/build/core"
+        }
+      ],
+      "env": {
+        "CC": "aarch64-linux-gnu-gcc",
+        "CXX": "aarch64-linux-gnu-g++",
+        "AR": "aarch64-linux-gnu-ar",
+        "STRIP": "aarch64-linux-gnu-strip",
+        "PKG_CONFIG_PATH": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "OPTFLAGS": "-O3 -ffunction-sections -fdata-sections -flto=auto",
+        "LDFLAGS": "-Wl,--gc-sections -flto=auto",
+        "APIDIR": "/build/core/src/api"
+      },
+      "steps": [
+        "set +u +o pipefail",
+        "git -C /build/video-gliden64 config core.abbrev 7",
+        "export SDL_CFLAGS=\"$(pkg-config --cflags sdl2)\" SDL_LDLIBS=\"$(pkg-config --libs sdl2)\"",
+        "m64p_make() {\n    make -C \"$1\" CROSS_COMPILE=aarch64-linux-gnu- HOST_CPU=aarch64 USE_GLES=1 NEW_DYNAREC=1 VULKAN=0 \\\n        APIDIR=\"$APIDIR\" SDL_CFLAGS=\"$SDL_CFLAGS\" SDL_LDLIBS=\"$SDL_LDLIBS\" \\\n        OPTFLAGS=\"$OPTFLAGS\" PREFIX=\"\" V=1 -j\"$(nproc)\" all\n}",
+        "cd /build && m64p_make core/projects/unix",
+        "m64p_make audio-sdl/projects/unix",
+        "m64p_make input-sdl/projects/unix",
+        "m64p_make rsp-hle/projects/unix",
+        "m64p_make video-rice/projects/unix",
+        "m64p_make video-glide64mk2/projects/unix",
+        "mkdir -p video-gliden64/src/build && cd video-gliden64/src/build",
+        "cmake .. -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_BUILD_TYPE=Release -DMUPENPLUSAPI=ON -DEGL=ON -DUSE_SYSTEM_LIBS=ON \"-DCMAKE_C_FLAGS=$OPTFLAGS\" \"-DCMAKE_CXX_FLAGS=$OPTFLAGS\" \"-DCMAKE_EXE_LINKER_FLAGS=$LDFLAGS\" \"-DCMAKE_SHARED_LINKER_FLAGS=$LDFLAGS\"",
+        "make -j\"$(nproc)\"",
+        "cd /build && m64p_make ui-console/projects/unix",
+        "mkdir -p /build/out/data",
+        "cp ui-console/projects/unix/mupen64plus /build/out/ && cp core/projects/unix/libmupen64plus.so.2.0.0 /build/out/libmupen64plus.so.2",
+        "cp audio-sdl/projects/unix/mupen64plus-audio-sdl.so input-sdl/projects/unix/mupen64plus-input-sdl.so rsp-hle/projects/unix/mupen64plus-rsp-hle.so video-rice/projects/unix/mupen64plus-video-rice.so video-glide64mk2/projects/unix/mupen64plus-video-glide64mk2.so video-gliden64/src/build/plugin/Release/mupen64plus-video-GLideN64.so /build/out/",
+        "cp core/data/* video-rice/data/* video-glide64mk2/data/* /build/out/data/ && (cp video-gliden64/ini/* /build/out/data/ 2>/dev/null || true)"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/out/mupen64plus",
+            "to": "mupen64plus",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/libmupen64plus.so.2",
+            "to": "libmupen64plus.so.2",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-audio-sdl.so",
+            "to": "mupen64plus-audio-sdl.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-input-sdl.so",
+            "to": "mupen64plus-input-sdl.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-rsp-hle.so",
+            "to": "mupen64plus-rsp-hle.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-video-rice.so",
+            "to": "mupen64plus-video-rice.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-video-glide64mk2.so",
+            "to": "mupen64plus-video-glide64mk2.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-video-GLideN64.so",
+            "to": "mupen64plus-video-GLideN64.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/data",
+            "to": "data",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "mupen64plus": "Emu/N64/mupen64plus/mupen64plus",
+          "libmupen64plus.so.2": "Emu/N64/mupen64plus/libmupen64plus.so.2",
+          "mupen64plus-audio-sdl.so": "Emu/N64/mupen64plus/mupen64plus-audio-sdl.so",
+          "mupen64plus-input-sdl.so": "Emu/N64/mupen64plus/mupen64plus-input-sdl.so",
+          "mupen64plus-rsp-hle.so": "Emu/N64/mupen64plus/mupen64plus-rsp-hle.so"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libEGL.so.1",
+          "libGLESv2.so.2",
+          "libSDL2-2.0.so.0",
+          "libc.so.6",
+          "libdl.so.2",
+          "libfreetype.so.6",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libpng16.so.16",
+          "libpthread.so.0",
+          "libstdc++.so.6",
+          "libz.so.1"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "mupen64plus": "4935f5bb7f79ed3e5e7531ec650c9f8cc0d8105a60021a47a3531c5caa449fa6",
+          "libmupen64plus.so.2": "e827ff2fe7a997cca388e0e506394a366990740a7f5712c79ad2182c217797e6",
+          "mupen64plus-audio-sdl.so": "d861d923f80967686ef9d101af00377e817ecf9378d24044b87b0a3896c4f907",
+          "mupen64plus-input-sdl.so": "f73249aa5ef99588df5fc191996fdd4e7f091d3daeb9395052582bf8d7dcfdbf",
+          "mupen64plus-rsp-hle.so": "c36d4b0c787a007694eabc0dd7145fb171e9f1b15eea4d472b9d87f70b67141c"
         }
       }
     }

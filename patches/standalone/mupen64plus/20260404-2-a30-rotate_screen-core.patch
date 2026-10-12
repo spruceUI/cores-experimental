@@ -1,5 +1,5 @@
 Generated from spruceUI/mupen64plus-spruce@d78e551:patches/a30/rotate_screen.py (run in /build) against
-mupen64plus/mupen64plus-core 53a08fc (master on 2026-04-04) with a30-1 applied (2026-10-12). Apply in order.
+mupen64plus/mupen64plus-core 53a08fc (master on 2026-04-04) with 20260404-1 applied (2026-10-12). Apply in order.
 
 diff --git a/src/api/vidext.c b/src/api/vidext.c
 index 502f4fb..b6295ed 100644
