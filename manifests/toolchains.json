@@ -144,6 +144,17 @@
         "size": 737985580
       },
       "dockerfile": "Dockerfile.standalone.armhf"
+    },
+    "standalone-scummvm": {
+      "image": "cores-standalone-scummvm:v1",
+      "image_id": "sha256:e200850ac74f78b53a04d646eb86a8a6b03bafb97be372ecb0f4d932cd682a31",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-scummvm-v1.tar.gz",
+        "sha256": "92cd96b91bad726ae5d25dc45874bc53ea0c9d4976694012e81955f6cbdf8992",
+        "size": 398841378
+      },
+      "dockerfile": "Dockerfile.standalone.scummvm"
     }
   }
 }

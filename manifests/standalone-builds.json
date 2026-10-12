@@ -2056,6 +2056,129 @@
           "mupen64plus-rsp-hle.so": "c36d4b0c787a007694eabc0dd7145fb171e9f1b15eea4d472b9d87f70b67141c"
         }
       }
+    },
+    "scummvm-arm64": {
+      "description": "ScummVM v2026.2.0 with all engines: scummvm.64 on every 64-bit device (spruceOS carries it as Emu/SCUMMVM/scummvm_64.7z, which firstboot unpacks; shipped compares the binary), with the libraries ScummVM-spruce bundles in lib/. Built as spruceUI/ScummVM-spruce@e79b15a Dockerfile.64 and build-64.sh do: focal GCC 9.4 with SDL2 2.26.2, SDL_net 2.2.0 and FluidSynth 2.3.4 built first. Two build times are embedded: engines/bagel/spacebar/master_win.cpp early in the build, base/version.cpp at the end. spruce's lib/ also carries libglib-2.0, libgomp, libmpg123, libdbus-1 and libpulsecommon from elsewhere",
+      "source": {
+        "url": "https://github.com/scummvm/scummvm.git",
+        "commit": "d21ef2e4cb9a9c979b111375624bdf5b66d91bfa",
+        "tree": "96e7c23fab015c2a06189052778841fd2a25ec27",
+        "requested_ref": "refs/tags/v2026.2.0",
+        "path": "/build/scummvm"
+      },
+      "extra_sources": [
+        {
+          "url": "https://github.com/FluidSynth/fluidsynth.git",
+          "commit": "5ecdc4568e45123216c6888892caad07918ef127",
+          "tree": "6c38f489f295f56db87617b10481bea966683bd0",
+          "requested_ref": "refs/tags/v2.3.4",
+          "path": "/tmp/fluidsynth"
+        }
+      ],
+      "downloads": [
+        {
+          "url": "https://github.com/libsdl-org/SDL/archive/refs/tags/release-2.26.2.tar.gz",
+          "sha256": "80c4e6fb32ed753272e2341b4b902eba305048e628556262f1e14dc6e514751c",
+          "path": "/tmp/release-2.26.2.tar.gz"
+        },
+        {
+          "url": "https://github.com/libsdl-org/SDL_net/archive/refs/tags/release-2.2.0.tar.gz",
+          "sha256": "08d741282c0c22b82ed134f09cd319803132289cae06fb47b5ada2752faf0493",
+          "path": "/tmp/release-2.2.0.tar.gz"
+        }
+      ],
+      "toolchain": "standalone-scummvm",
+      "source_date_epoch": 1774942450,
+      "patches": [
+        {
+          "diff": "patches/standalone/scummvm/common-1-cacert-env.patch"
+        },
+        {
+          "diff": "patches/standalone/scummvm/common-2-sigusr1-save-and-quit.patch"
+        }
+      ],
+      "steps": [
+        "set +u +o pipefail",
+        "printf '%s\\n' 'set(CMAKE_SYSTEM_NAME Linux)' 'set(CMAKE_SYSTEM_PROCESSOR aarch64)' 'set(CMAKE_C_COMPILER aarch64-linux-gnu-gcc)' 'set(CMAKE_CXX_COMPILER aarch64-linux-gnu-g++)' 'set(CMAKE_FIND_ROOT_PATH /usr/aarch64-linux-gnu /usr/lib/aarch64-linux-gnu /usr)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)' 'set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)' 'set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)' 'set(PKG_CONFIG_EXECUTABLE /usr/bin/pkg-config)' 'set(ENV{PKG_CONFIG_PATH} \"/usr/lib/aarch64-linux-gnu/pkgconfig\")' 'set(ENV{PKG_CONFIG_LIBDIR} \"/usr/lib/aarch64-linux-gnu/pkgconfig\")' > /tmp/aarch64-toolchain.cmake",
+        "cd /tmp && rm -rf /usr/lib/aarch64-linux-gnu/libSDL2* /usr/include/SDL2 && tar -xzf release-2.26.2.tar.gz && cd SDL-release-2.26.2",
+        "CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig ./configure --host=aarch64-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr --libdir=/usr/lib/aarch64-linux-gnu --disable-video-x11 --disable-pulseaudio --disable-esd --enable-video-kmsdrm --enable-video-opengles --disable-video-wayland",
+        "make -j\"$(nproc)\" && make install",
+        "cd /tmp && tar -xzf release-2.2.0.tar.gz && cd SDL_net-release-2.2.0",
+        "CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig ./configure --host=aarch64-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr --libdir=/usr/lib/aarch64-linux-gnu --disable-sdltest",
+        "make -j\"$(nproc)\" && make install",
+        "mkdir -p /tmp/fluidsynth/build && cd /tmp/fluidsynth/build",
+        "cmake -DCMAKE_TOOLCHAIN_FILE=/tmp/aarch64-toolchain.cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib/aarch64-linux-gnu -Denable-libsndfile=off -Denable-dbus=off -Denable-pulseaudio=off -Denable-jack=off -Denable-pipewire=off -Denable-readline=off -Denable-sdl2=on ..",
+        "make -j\"$(nproc)\" && make install",
+        "cd /build/scummvm",
+        "export CC=\"ccache aarch64-linux-gnu-gcc\" CXX=\"ccache aarch64-linux-gnu-g++\" AR=aarch64-linux-gnu-ar STRIP=aarch64-linux-gnu-strip PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "./configure --host=aarch64-linux-gnu --backend=sdl --opengl-mode=gles2 --enable-all-engines --enable-optimizations --enable-release --disable-debug --disable-eventrecorder --enable-vkeybd --enable-openmpt --enable-fluidsynth | tee configure_summary.txt",
+        "make -j\"$(nproc)\"",
+        "rm -f base/version.o && SOURCE_DATE_EPOCH=1774944173 make -j\"$(nproc)\"",
+        "mkdir -p /build/out/lib",
+        "for lib in liba52-0.7.4.so libasn1.so.8 libasound.so.2 libbrotlicommon.so.1 libbrotlidec.so.1 libbsd.so.0 libcom_err.so.2 libcrypt.so.1 libcrypto.so.1.1 libcurl.so.4 libcurl-gnutls.so.4 libfaad.so.2 libffi.so.7 libFLAC.so.8 libfluidsynth.so.3 libfreetype.so.6 libfribidi.so.0 libgif.so.7 libgmp.so.10 libgnutls.so.30 libgssapi.so.3 libgssapi_krb5.so.2 libhcrypto.so.4 libheimbase.so.1 libheimntlm.so.0 libhogweed.so.5 libhx509.so.5 libidn2.so.0 libk5crypto.so.3 libkeyutils.so.1 libkrb5.so.3 libkrb5.so.26 libkrb5support.so.0 liblber-2.4.so.2 libldap_r-2.4.so.2 liblzma.so.5 libmikmod.so.3 libmpeg2.so.0 libnettle.so.7 libnghttp2.so.14 libp11-kit.so.0 libpng16.so.16 libpsl.so.5 libroken.so.18 librtmp.so.1 libsasl2.so.2 libsndio.so.7.0 libspeechd.so.2 libsqlite3.so.0 libssh.so.4 libssl.so.1.1 libtasn1.so.6 libreadline.so.8 libunistring.so.2 libwind.so.0 libz.so.1 libvpx.so.6 libopenmpt.so.0; do\n    target=$(find /usr/lib/aarch64-linux-gnu -name \"$lib*\" -print -quit)\n    if [ -n \"$target\" ]; then cp -L \"$target\" \"/build/out/lib/$lib\"; fi\ndone"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/scummvm/scummvm",
+            "to": "scummvm.64",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/lib",
+            "to": "lib",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "scummvm.64": "Emu/SCUMMVM/scummvm.64",
+          "lib/": "Emu/SCUMMVM/lib/"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libSDL2-2.0.so.0",
+          "libSDL2_net-2.0.so.0",
+          "libc.so.6",
+          "libdl.so.2",
+          "libgcc_s.so.1",
+          "libglib-2.0.so.0",
+          "libgomp.so.1",
+          "libjpeg.so.8",
+          "libm.so.6",
+          "libmad.so.0",
+          "libmpg123.so.0",
+          "libogg.so.0",
+          "libpthread.so.0",
+          "libresolv.so.2",
+          "librt.so.1",
+          "libstdc++.so.6",
+          "libtheoradec.so.1",
+          "libtinfo.so.6",
+          "libvorbis.so.0",
+          "libvorbisfile.so.3"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "scummvm.64": "5a2cca5f319b9a249f9aab4456e2dffe1b3264255d397ec502461a3aea67468d",
+          "lib/libFLAC.so.8": "a578d2ce1077aa027f3174537e74795e0d895dbf24fa2694083e884065ef74e4",
+          "lib/libcrypto.so.1.1": "7f78e54add153922f5fcbbff4742673b37ae93e0b4fe224131e91afa9864f6f6",
+          "lib/libcurl.so.4": "586ad1a0d5acd3a2a99fc79ea75fad41b48a8aca16b9bd6ddff59cb1f6df6a5c",
+          "lib/libfluidsynth.so.3": "4747f75b47c19fa50a4e7086055bc2257de342381dc41ba3a5c7f4e3927861eb",
+          "lib/libfreetype.so.6": "87a8a74922c37135b379ae5b68eebc199371e6105af6d130547f6722c3434bd2",
+          "lib/liblzma.so.5": "39295b2a71893ae067c387bdb4d47374e6eefd5e11e92a8f37919a7774c8679f",
+          "lib/libpng16.so.16": "14ba485f3a55c36893f372831d0445f78fc64f26073a8d7374dc89ac50b95edc",
+          "lib/librtmp.so.1": "153ae61aa87046588e289713108582e7cf4f4f1a27b08f24ebdc8d21af0876f6",
+          "lib/libsndio.so.7.0": "9eb903b3bbf366abc0a88ac37d0e16cb53e6df49c093070c0045634e10306e94",
+          "lib/libsqlite3.so.0": "7fc3a87247bd2977f444dc2b007a1550ade1a09a29f0a99803add558f0a60fc6",
+          "lib/libssh.so.4": "6dc155ae57c5dd899caf716c3856076aae1269e14304d249bb03a146512b3e48",
+          "lib/libz.so.1": "f7421fde8036391750dc2b1dd7299a0a3305a93cb95846fcc381590f565215c1"
+        }
+      }
     }
   }
 }
