@@ -23,7 +23,7 @@ script, `build.log`, `elf.tsv` (every shipped ELF's SONAME and NEEDED entries) a
 | `extends` | start from another recipe's fields; any top-level key given here replaces the parent's whole |
 | `abstract` | a base for `extends` only, never built |
 | `description` | which emulator, version and devices |
-| `source` | repository `url`, full `commit`, its `tree` (checked after checkout), `requested_ref`, and `submodules: true` to fetch them |
+| `source` | repository `url`, full `commit`, its `tree` (checked after checkout), `requested_ref`, `submodules: true` to fetch them, and `path` to check it out somewhere other than `/src` (some builds embed their paths) |
 | `extra_sources` | more repositories, the same fields plus an absolute `path` to check out into |
 | `downloads` | files fetched at build time: `url`, `sha256` (checked before use) and an absolute `path` |
 | `patches` | `{"diff": "patches/standalone/..."}`, applied with `git apply` (which fails if the diff no longer applies), or `{"script": ...}`, run with Python; `dir` picks the tree (default `/src`) |

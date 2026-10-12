@@ -1,0 +1,35 @@
+Generated from spruceUI/PPSSPP-spruce@c1c560e:patches/common/hide-cursor.py against hrydgard/ppsspp
+d357e6a32934 (v1.20.3) with common patches 1-1 applied (2026-10-12). Apply in order.
+
+diff --git a/SDL/SDLMain.cpp b/SDL/SDLMain.cpp
+index 704af37..946b692 100644
+--- a/SDL/SDLMain.cpp
++++ b/SDL/SDLMain.cpp
+@@ -1337,15 +1337,7 @@ void UpdateTextFocus() {
+ }
+ 
+ void UpdateSDLCursor() {
+-#if !defined(MOBILE_DEVICE)
+-	if (lastUIState != GetUIState()) {
+-		lastUIState = GetUIState();
+-		if (lastUIState == UISTATE_INGAME && g_Config.bFullScreen && !g_Config.bShowTouchControls)
+-			SDL_ShowCursor(SDL_DISABLE);
+-		if (lastUIState != UISTATE_INGAME || !g_Config.bFullScreen)
+-			SDL_ShowCursor(SDL_ENABLE);
+-	}
+-#endif
++	SDL_ShowCursor(SDL_DISABLE);
+ }
+ 
+ static int printUsage(const char *progname)
+@@ -1749,9 +1741,7 @@ int main(int argc, char *argv[]) {
+ 	// OK, we have a valid graphics backend selected. Let's clear the failures.
+ 	g_Config.sFailedGPUBackends.clear();
+ 
+-#ifdef MOBILE_DEVICE
+-	SDL_ShowCursor(SDL_DISABLE);
+-#endif
++SDL_ShowCursor(SDL_DISABLE);
+ 
+ 	// Avoid the IME popup when holding keys. This doesn't affect all versions of SDL.
+ 	// Note: We re-enable it in text input fields! This is necessary otherwise we don't receive

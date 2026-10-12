@@ -1,0 +1,18 @@
+Generated from spruceUI/DSperate-spruce@9a5bcbc:patches/0001-spruce-menu-colours.py
+against beebono/DSperate f5fa35ea19f9 (v3.0.3, 2026-10-12). The in-game menu in spruce's palette.
+
+diff --git a/src/frontend/sdl/menu.cpp b/src/frontend/sdl/menu.cpp
+index 3d872ff..46b5202 100644
+--- a/src/frontend/sdl/menu.cpp
++++ b/src/frontend/sdl/menu.cpp
+@@ -158,8 +158,8 @@ void fill_rect(const Canvas& d, int x, int y, int w, int h, u32 colour) {
+   }
+ }
+ 
+-constexpr u32 kInk = 0xFFFFFFFF, kDim = 0xFF909090, kPanel = 0xFF101018, kEdge = 0xFF5060A0, kSel = 0xFF3050A0;
+-constexpr u32 kEdgeText = 0xFFA0B0E0, kPanelEdgeDim = 0xFF303040;   // group headings; scroll-bar track
++constexpr u32 kInk = 0xFFD5C4A1, kDim = 0xFF8C8172, kPanel = 0xFF121212, kEdge = 0xFFAB8A21, kSel = 0xFF382D0B;
++constexpr u32 kEdgeText = 0xFF689D6A, kPanelEdgeDim = 0xFF665C54;   // group headings; scroll-bar track
+ constexpr u32 kDanger = 0xFFFF5050;  // slot delete mode, slot about to go
+ constexpr u32 kWarn = 0xFFFFC050;   // slot row when a state was refused
+ 

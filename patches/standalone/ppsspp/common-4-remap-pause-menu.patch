@@ -1,0 +1,16 @@
+Generated from spruceUI/PPSSPP-spruce@c1c560e:patches/common/remap-pause-menu.py against hrydgard/ppsspp
+d357e6a32934 (v1.20.3) with common patches 1-3 applied (2026-10-12). Apply in order.
+
+diff --git a/SDL/SDLJoystick.cpp b/SDL/SDLJoystick.cpp
+index 290cf57..6454208 100644
+--- a/SDL/SDLJoystick.cpp
++++ b/SDL/SDLJoystick.cpp
+@@ -141,7 +141,7 @@ InputKeyCode SDLJoystick::getKeycodeForButton(SDL_GameControllerButton button) {
+ 	case SDL_CONTROLLER_BUTTON_BACK:
+ 		return NKCODE_BUTTON_9; // select button
+ 	case SDL_CONTROLLER_BUTTON_GUIDE:
+-		return NKCODE_BACK; // pause menu
++		return NKCODE_UNKNOWN; // spruceOS: home button handled by OS watchdog
+ 	case SDL_CONTROLLER_BUTTON_LEFTSTICK:
+ 		return NKCODE_BUTTON_THUMBL;
+ 	case SDL_CONTROLLER_BUTTON_RIGHTSTICK:

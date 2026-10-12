@@ -118,6 +118,727 @@
           "lib64/libcrypto.so.1.1": "729642980ae72bee91d7a9ce76577b366b5eab422d4d8acc82069db1c03f8afe"
         }
       }
+    },
+    "vtree-arm64": {
+      "description": "vTree v1.1 (FileManagement app): App/FileManagement/vtree.aarch64 on every 64-bit device. Built as spruceUI/vTree-spruce@d3a0a5a build.sh does",
+      "source": {
+        "url": "https://github.com/MustardOS/vtree.git",
+        "commit": "560205b6198ac9e0e28975d42fcaee4c28989015",
+        "tree": "8c9a367d5c97f4011f81807b5c3f36a011cb9276",
+        "requested_ref": "refs/tags/v1.1"
+      },
+      "toolchain": "standalone-vtree",
+      "source_date_epoch": 1776730893,
+      "patches": [
+        {
+          "diff": "patches/standalone/vtree/0001-nintendo-button-labels.patch"
+        },
+        {
+          "diff": "patches/standalone/vtree/0002-rgb30-gles-context.patch"
+        }
+      ],
+      "env": {
+        "PKG_CONFIG_PATH": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/usr/lib/aarch64-linux-gnu/pkgconfig"
+      },
+      "steps": [
+        "printf '%s\\n' '#ifndef SDL_clamp' '#define SDL_clamp(x, a, b) (((x) < (a)) ? (a) : (((x) > (b)) ? (b) : (x)))' '#endif' > sdl_compat.h",
+        "make release CC=aarch64-linux-gnu-gcc SDL2_CFLAGS=\"$(pkg-config --cflags sdl2 SDL2_ttf SDL2_image) -include ./sdl_compat.h\""
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/src/vtree",
+            "to": "vtree.aarch64",
+            "strip": "-s"
+          },
+          {
+            "from": "/src/res",
+            "to": "res",
+            "dir": true
+          },
+          {
+            "from": "/src/fonts",
+            "to": "fonts",
+            "dir": true
+          },
+          {
+            "from": "/src/glyph",
+            "to": "glyph",
+            "dir": true
+          },
+          {
+            "from": "/src/lang",
+            "to": "lang",
+            "dir": true
+          },
+          {
+            "from": "/src/theme",
+            "to": "theme",
+            "dir": true
+          },
+          {
+            "from": "/src/config.ini",
+            "to": "config.ini",
+            "mode": "0644"
+          },
+          {
+            "from": "/src/mux_lang.ini",
+            "to": "mux_lang.ini",
+            "mode": "0644"
+          },
+          {
+            "from": "/src/LICENSE",
+            "to": "LICENSE",
+            "mode": "0644"
+          },
+          {
+            "from": "/src/README.md",
+            "to": "README.md",
+            "mode": "0644"
+          }
+        ],
+        "spruce": {
+          "vtree.aarch64": "App/FileManagement/vtree.aarch64"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libSDL2-2.0.so.0",
+          "libSDL2_image-2.0.so.0",
+          "libSDL2_ttf-2.0.so.0",
+          "libc.so.6",
+          "libm.so.6"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "vtree.aarch64": "8c0b471ac30a7d42fd0706f08e3d6d44d9c61bec3692ce6f5f86ed30c9d7fc0f"
+        }
+      }
+    },
+    "pcsx_rearmed-arm64": {
+      "description": "PCSX-ReARMed r26-2 standalone: Emu/PS/pcsx_64 on every 64-bit device, with sdl12-compat as its SDL 1.2. Built as spruceUI/pcsx_rearmed-spruce@d522dc2 build.sh does; spruce adds libpng16.so.16 and libz.so.1 to Emu/PS/libs itself",
+      "source": {
+        "url": "https://github.com/notaz/pcsx_rearmed.git",
+        "commit": "d4ffcd0a36bbf2f3693a2899fcb5f78eea508175",
+        "tree": "7b69171e6616024089f195013480094377b09323",
+        "requested_ref": "refs/heads/master (2026-04-12)",
+        "submodules": true,
+        "path": "/build/pcsx_rearmed"
+      },
+      "extra_sources": [
+        {
+          "url": "https://github.com/libsdl-org/sdl12-compat.git",
+          "commit": "35ef746cf1a4fde8c442dc92fe9b18c3f90d7855",
+          "tree": "0d244139ce06e647e9863b589146c910417ff5c4",
+          "requested_ref": "refs/tags/release-1.2.68",
+          "path": "/build/sdl12-compat"
+        }
+      ],
+      "toolchain": "standalone-pcsx_rearmed",
+      "source_date_epoch": 1776034112,
+      "patches": [
+        {
+          "diff": "patches/standalone/pcsx_rearmed/signal-handlers.patch"
+        }
+      ],
+      "env": {
+        "CC": "aarch64-linux-gnu-gcc",
+        "CXX": "aarch64-linux-gnu-g++",
+        "AR": "aarch64-linux-gnu-ar",
+        "AS": "aarch64-linux-gnu-as",
+        "STRIP": "aarch64-linux-gnu-strip",
+        "CROSS_COMPILE": "aarch64-linux-gnu-",
+        "PKG_CONFIG_PATH": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/usr/lib/aarch64-linux-gnu/pkgconfig"
+      },
+      "steps": [
+        "set +u +o pipefail",
+        "mkdir -p /build/sdl12-compat/build && cd /build/sdl12-compat/build",
+        "cmake .. -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_FIND_ROOT_PATH=/usr/aarch64-linux-gnu -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=BOTH -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_BUILD_TYPE=Release -DSDL12TESTS=OFF",
+        "make -j\"$(nproc)\"",
+        "cd /build/pcsx_rearmed",
+        "git config core.abbrev 8",
+        "printf '%s\\n' '#!/bin/sh' 'exec pkg-config sdl \"$@\"' > /usr/local/bin/sdl-config && chmod +x /usr/local/bin/sdl-config",
+        "export SDL_CONFIG=/usr/local/bin/sdl-config",
+        "./configure --platform=generic --gpu=neon --sound-drivers=\"alsa sdl\" --enable-neon",
+        "make -j\"$(nproc)\""
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/pcsx_rearmed/pcsx",
+            "to": "pcsx_64",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/sdl12-compat/build/libSDL-1.2.so.0",
+            "to": "libs/libSDL-1.2.so.0",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/pcsx_rearmed/frontend/pandora/skin",
+            "to": "skin",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "pcsx_64": "Emu/PS/pcsx_64",
+          "libs/": "Emu/PS/libs/",
+          "skin/": "Emu/PS/skin/"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libasound.so.2",
+          "libc.so.6",
+          "libdl.so.2",
+          "libpng16.so.16",
+          "libpthread.so.0",
+          "libz.so.1"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "pcsx_64": "79754a0a80de448b0d4098004457ea12cdf830f9d53c0bfa15ceaa6e4fcc032b",
+          "libs/libSDL-1.2.so.0": "4d112238b6e74af84ed70248bf6d8299942adb8a2120c973b7fa586ff38cf37d"
+        }
+      }
+    },
+    "moonlight": {
+      "description": "moonlight-embedded 274d3db with OpenSSL 3.3.1, curl 8.7.1 and a decoder-only FFmpeg 4.4.5: App/Moonlight's streaming client on every 64-bit device. Built as spruceUI/Moonlight-spruce@79536f5 build.sh does, in its paths (they end up in the binaries)",
+      "source": {
+        "url": "https://github.com/moonlight-stream/moonlight-embedded.git",
+        "commit": "274d3db34da764344a7a402ee74e6080350ac0cd",
+        "tree": "26b685f56faaf8998756c020b50822907441b572",
+        "requested_ref": "274d3db34da764344a7a402ee74e6080350ac0cd",
+        "submodules": true,
+        "path": "/build/moonlight"
+      },
+      "downloads": [
+        {
+          "url": "https://github.com/openssl/openssl/releases/download/openssl-3.3.1/openssl-3.3.1.tar.gz",
+          "sha256": "777cd596284c883375a2a7a11bf5d2786fc5413255efab20c50d6ffe6d020b7e",
+          "path": "/build/openssl-3.3.1.tar.gz"
+        },
+        {
+          "url": "https://curl.se/download/curl-8.7.1.tar.xz",
+          "sha256": "6fea2aac6a4610fbd0400afb0bcddbe7258a64c63f1f68e5855ebc0c659710cd",
+          "path": "/build/curl-8.7.1.tar.xz"
+        },
+        {
+          "url": "https://ffmpeg.org/releases/ffmpeg-4.4.5.tar.xz",
+          "sha256": "f9514e0d3515aee5a271283df71636e1d1ff7274b15853bcd84e144be416ab07",
+          "path": "/build/ffmpeg-4.4.5.tar.xz"
+        }
+      ],
+      "toolchain": "standalone-moonlight",
+      "source_date_epoch": 1775779635,
+      "env": {
+        "STRIP": "aarch64-linux-gnu-strip",
+        "PKG_CONFIG_PATH": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "OPTFLAGS": "-O3 -ffunction-sections -fdata-sections -flto=auto",
+        "LDFLAGS": "-Wl,--gc-sections -flto=auto",
+        "SKIP_LIBS": "linux-vdso|ld-linux|libc\\.so|libm\\.so|libdl\\.so|libpthread\\.so|librt\\.so|libgcc_s|libstdc\\+\\+|libSDL2|libasound|libudev|libdrm|libwayland|libEGL|libGLES|libMali|libz\\.so"
+      },
+      "steps": [
+        "set +u +o pipefail",
+        "cd /build && tar xf openssl-3.3.1.tar.gz && cd openssl-3.3.1",
+        "./Configure linux-aarch64 --cross-compile-prefix=aarch64-linux-gnu- --prefix=/build/local --libdir=lib shared no-tests -O3",
+        "make -j\"$(nproc)\" && make install_sw",
+        "export CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ AR=aarch64-linux-gnu-ar",
+        "cd /build && tar xf curl-8.7.1.tar.xz && cd curl-8.7.1",
+        "./configure --host=aarch64-linux-gnu --prefix=/build/local --with-openssl=/build/local --without-libpsl --disable-manual --disable-ldap --enable-shared --disable-static CFLAGS=\"$OPTFLAGS\" LDFLAGS=\"$LDFLAGS -Wl,-rpath-link,/build/local/lib\"",
+        "make -j\"$(nproc)\" && make install",
+        "cd /build && tar xf ffmpeg-4.4.5.tar.xz && cd ffmpeg-4.4.5",
+        "./configure --prefix=/build/local --cross-prefix=aarch64-linux-gnu- --arch=aarch64 --target-os=linux --enable-cross-compile --enable-shared --disable-static --disable-programs --disable-doc --disable-everything --enable-decoder=h264 --enable-decoder=hevc --enable-decoder=opus --enable-decoder=aac --enable-decoder=pcm_s16le --enable-parser=h264 --enable-parser=hevc --enable-parser=opus --enable-parser=aac --enable-demuxer=h264 --enable-demuxer=hevc --enable-demuxer=rtp --enable-demuxer=rtsp --enable-protocol=rtp --enable-protocol=udp --enable-protocol=tcp --enable-swresample --enable-avcodec --enable-avutil --extra-cflags=\"$OPTFLAGS\" --extra-ldflags=\"$LDFLAGS\"",
+        "make -j\"$(nproc)\" && make install",
+        "mkdir -p /build/moonlight/build && cd /build/moonlight/build",
+        "cmake .. -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ \"-DCMAKE_FIND_ROOT_PATH=/usr/aarch64-linux-gnu;/build/local;/usr\" -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=BOTH -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \"-DCMAKE_LIBRARY_PATH=/usr/lib/aarch64-linux-gnu;/build/local/lib\" \"-DCMAKE_INCLUDE_PATH=/usr/include;/build/local/include\" -DCMAKE_PREFIX_PATH=/build/local -DCMAKE_BUILD_TYPE=Release \"-DCMAKE_C_FLAGS=$OPTFLAGS -I/build/local/include\" \"-DCMAKE_EXE_LINKER_FLAGS=$LDFLAGS -L/build/local/lib -L/usr/lib/aarch64-linux-gnu -Wl,-rpath-link,/build/local/lib -Wl,-rpath-link,/usr/lib/aarch64-linux-gnu\" \"-DCMAKE_SHARED_LINKER_FLAGS=$LDFLAGS -L/build/local/lib -L/usr/lib/aarch64-linux-gnu -Wl,-rpath-link,/build/local/lib -Wl,-rpath-link,/usr/lib/aarch64-linux-gnu\" -DENABLE_X11=OFF",
+        "make -j\"$(nproc)\"",
+        "cd /build && mkdir -p /build/out/libs",
+        "cp moonlight/build/moonlight /build/out/ && aarch64-linux-gnu-strip -s /build/out/moonlight",
+        "for lib in moonlight/build/libgamestream/libmoonlight-common.so* moonlight/build/libgamestream/libgamestream.so*; do [ -f \"$lib\" ] && cp \"$lib\" /build/out/libs/; done",
+        "cp /build/local/lib/libssl.so.3 /build/local/lib/libcrypto.so.3 /build/local/lib/libcurl.so.4 /build/local/lib/libavcodec.so* /build/local/lib/libavutil.so* /build/local/lib/libswresample.so* /build/out/libs/",
+        "collect_deps() {\n    aarch64-linux-gnu-readelf -d \"$1\" 2>/dev/null | grep NEEDED | sed 's/.*\\[\\(.*\\)\\]/\\1/' | while read -r lib; do\n        [ -f \"/build/out/libs/$lib\" ] && continue\n        echo \"$lib\" | grep -qE \"$SKIP_LIBS\" && continue\n        src=$(find /build/local/lib /usr/lib/aarch64-linux-gnu /lib/aarch64-linux-gnu -maxdepth 1 -name \"$lib\" 2>/dev/null | head -1)\n        if [ -n \"$src\" ]; then cp -L \"$src\" \"/build/out/libs/$lib\"; collect_deps \"/build/out/libs/$lib\"; else echo \"WARNING: $lib not found\"; fi\n    done\n}",
+        "collect_deps /build/out/moonlight",
+        "for lib in /build/out/libs/*.so*; do collect_deps \"$lib\"; done",
+        "for so in /build/out/libs/*.so*; do aarch64-linux-gnu-strip -s \"$so\" 2>/dev/null || true; done"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/out/moonlight",
+            "to": "moonlight"
+          },
+          {
+            "from": "/build/out/libs",
+            "to": "libs",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "moonlight": "App/Moonlight/ports/moonlightnew/moonlight/moonlight",
+          "libs/": "App/Moonlight/ports/moonlightnew/moonlight/libs/"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libSDL2-2.0.so.0",
+          "libasound.so.2",
+          "libc.so.6",
+          "libdl.so.2",
+          "libm.so.6",
+          "libpthread.so.0",
+          "libpulsecommon-13.99.so",
+          "librt.so.1",
+          "libudev.so.1",
+          "libz.so.1"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "moonlight": "9ceb006398f6715a0cbc7e06f27ff0819a15df2f2d0dcbf9fd8daefb0e123b18",
+          "libs/libavahi-client.so.3": "619ba379bbb93b76d5d164f3d670afb896d8b9b92385fbf47e7a6c794a721734",
+          "libs/libavahi-common.so.3": "cbc2be813172f9b57c5a1efb57af4e548cf922965ca692d086981285161e131a",
+          "libs/libavcodec.so": "db0a4ff20a24765b9fc2146e29e2884b364758aecd551502d5f4cf4a66d9a481",
+          "libs/libavcodec.so.58": "db0a4ff20a24765b9fc2146e29e2884b364758aecd551502d5f4cf4a66d9a481",
+          "libs/libavcodec.so.58.134.100": "db0a4ff20a24765b9fc2146e29e2884b364758aecd551502d5f4cf4a66d9a481",
+          "libs/libavutil.so": "6c8e3156a86e6220fac7f8f48f804cfd41df96545e18853d86cf5f590bad16a7",
+          "libs/libavutil.so.56": "6c8e3156a86e6220fac7f8f48f804cfd41df96545e18853d86cf5f590bad16a7",
+          "libs/libavutil.so.56.70.100": "6c8e3156a86e6220fac7f8f48f804cfd41df96545e18853d86cf5f590bad16a7",
+          "libs/libbsd.so.0": "db1a155fe53084c14f194d9ef59ffe94b985da258c43b962aeb0acf8f3299dc2",
+          "libs/libcrypto.so.3": "bc7729db8fc3a9166f017be1c07ccc00cef48f25ee72571d61bb5649bc84c9eb",
+          "libs/libcurl.so.4": "ac36181ace4c77182df21de8adac4c35761ff256fb2996833a5d57cce0465ba0",
+          "libs/libdbus-1.so.3": "f6dbd10e42c254c0c5469af2862584d99a5d125cd46450559ef54cacbbc67ffc",
+          "libs/libevdev.so.2": "58ff33a3f9d078d1aa026bb9e05b827c9af77eb25c0c53bfd323a145d68cc4ce",
+          "libs/libexpat.so.1": "aa40c8e031a751b71ab72f4e5b307282f37d850df946fd0bc58f709caa49141b",
+          "libs/libgamestream.so": "d4d86f952146ad63e5f71c5da0c65417a4af0a2215a3b15d573493540a25da9e",
+          "libs/libgamestream.so.2.7.0": "d4d86f952146ad63e5f71c5da0c65417a4af0a2215a3b15d573493540a25da9e",
+          "libs/libgamestream.so.4": "d4d86f952146ad63e5f71c5da0c65417a4af0a2215a3b15d573493540a25da9e",
+          "libs/libgcrypt.so.20": "d00669d11d3afcaa56c3654dd158e5929f28265cfb1e5773cd7940304f24f262",
+          "libs/libgpg-error.so.0": "1fe5234793a681e855169fe6703800f6d273bc718f2901a703b89a620dc0b34a",
+          "libs/liblz4.so.1": "7c8ab8eae344c605b41e94c8079b0776be73e8bde0d7133ae571110779c246e2",
+          "libs/liblzma.so.5": "39295b2a71893ae067c387bdb4d47374e6eefd5e11e92a8f37919a7774c8679f",
+          "libs/libmoonlight-common.so": "daffca86d7e7a1c8ee45a2f73cd782b37e49c511b9c9230cb33aa888efed831c",
+          "libs/libmoonlight-common.so.2.7.0": "daffca86d7e7a1c8ee45a2f73cd782b37e49c511b9c9230cb33aa888efed831c",
+          "libs/libmoonlight-common.so.4": "daffca86d7e7a1c8ee45a2f73cd782b37e49c511b9c9230cb33aa888efed831c",
+          "libs/libopus.so.0": "29b7d02c15b66536a58a10aaf11f64663d96b0d1aaa3c768b56dfe75d30f5cdd",
+          "libs/libpulse-simple.so.0": "90c6b092530e9050e7dfd8413b7f5a6c46f84da572f22e4cab6172ee5da26f7a",
+          "libs/libpulse.so.0": "856bb327790b9a311b860c39fc27174a6441c0b1da4827719e062685d64c0db3",
+          "libs/libssl.so.3": "a793ff31aa8955fbc5ba7d4579c43f197fe91b9add663306818eff401458afc2",
+          "libs/libswresample.so": "fdc0a580ba0f8e94ccfcf2a033ca2ee087727a2c5774ce13333272587cd18269",
+          "libs/libswresample.so.3": "fdc0a580ba0f8e94ccfcf2a033ca2ee087727a2c5774ce13333272587cd18269",
+          "libs/libswresample.so.3.9.100": "fdc0a580ba0f8e94ccfcf2a033ca2ee087727a2c5774ce13333272587cd18269",
+          "libs/libsystemd.so.0": "5899be19768050a40d016ca32cce11423f7eaba6086b36c78608244928accd48",
+          "libs/libuuid.so.1": "491b2465f412a139512f4583900ee818f5de0708c20e389a859f048af28e7487"
+        }
+      }
+    },
+    "bigpemu": {
+      "description": "BigPEmu v1.221 (Rich Whitehouse's closed-source Atari Jaguar emulator, downloaded unmodified from his site) with gl4es 81547d9 as its desktop GL: Emu/JAGUAR/bigpemu on every 64-bit device. Built as spruceUI/BigPEmu-spruce@c572022 build-64.sh does. BigPEmu's terms: non-commercial use, ReadMe.txt shipped unmodified",
+      "source": {
+        "url": "https://github.com/ptitSeb/gl4es.git",
+        "commit": "81547d986798e876de8b434193920b606a72363f",
+        "tree": "54e8b23d105d6347f76479dcfb9e22cca844ef63",
+        "requested_ref": "refs/heads/master (2026-08-29)",
+        "path": "/build/gl4es"
+      },
+      "extra_sources": [
+        {
+          "url": "https://github.com/spruceUI/BigPEmu-spruce.git",
+          "commit": "c572022beac5fe1f3bda5fadb982f4e5696b694a",
+          "tree": "560e4257e8021d5ff01f8da8dcf0f98403a87404",
+          "requested_ref": "refs/heads/main",
+          "path": "/pkg"
+        }
+      ],
+      "downloads": [
+        {
+          "url": "https://www.richwhitehouse.com/jaguar/builds/BigPEmu_LinuxARM64_v1221.tar.gz",
+          "sha256": "a73cb33b27cf1178e487c9eb5b784bdcaac2209fe92a8ed85d3905d52a37a7e4",
+          "path": "/tmp/bigpemu.tar.gz"
+        }
+      ],
+      "toolchain": "standalone-gl4es",
+      "source_date_epoch": 1787970225,
+      "steps": [
+        "set +u +o pipefail",
+        "printf '%s\\n' 'set(CMAKE_SYSTEM_NAME Linux)' 'set(CMAKE_SYSTEM_PROCESSOR aarch64)' 'set(CMAKE_C_COMPILER aarch64-linux-gnu-gcc)' 'set(CMAKE_CXX_COMPILER aarch64-linux-gnu-g++)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)' 'set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)' 'set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)' > /tmp/aarch64-toolchain.cmake",
+        "mkdir -p /build/gl4es/build && cd /build/gl4es/build",
+        "cmake .. -DCMAKE_TOOLCHAIN_FILE=/tmp/aarch64-toolchain.cmake -DODROID=1 -DNOX11=1 -DNOEGL=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "make -j\"$(nproc)\"",
+        "aarch64-linux-gnu-strip ../lib/libGL.so.1",
+        "OUT=/build/out/bigpemu && mkdir -p \"$OUT\" && cp ../lib/libGL.so.1 \"$OUT/libGL.so.1\"",
+        "ln -sf libGL.so.1 \"$OUT/libOpenGL.so\" && ln -sf libOpenGL.so \"$OUT/libOpenGL.so.0\"",
+        "mkdir -p /tmp/bp && tar xzf /tmp/bigpemu.tar.gz -C /tmp/bp",
+        "BPDIR=\"$(dirname \"$(find /tmp/bp -name bigpemu -type f | head -1)\")\" && cp -rf \"$BPDIR\"/* \"$OUT/\" && chmod 0755 \"$OUT/bigpemu\"",
+        "cp /pkg/scripts/bigpemu.sh \"$OUT/bigpemu.sh\" && chmod 0755 \"$OUT/bigpemu.sh\"",
+        "mkdir -p \"$OUT/defaultconfigs\" && cp /pkg/config/BigPEmuConfig.bigpcfg \"$OUT/defaultconfigs/BigPEmuConfig.bigpcfg\""
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/out/bigpemu",
+            "to": "bigpemu",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "bigpemu/": "Emu/JAGUAR/bigpemu/"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libSDL2-2.0.so.0",
+          "libc.so.6",
+          "libdl.so.2",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libpthread.so.0",
+          "libstdc++.so.6"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "note": "spruce stores libOpenGL.so and libOpenGL.so.0 as copies of libGL.so.1 (FAT has no symlinks) and adds bigpemu.gptk, gptokeyb2 and libinterpose.aarch64.so itself",
+        "files": {
+          "bigpemu/Data/Lenses/fmt_vrlens.py": "7eb16c4d6d9d68cd3522b2f969996a6dfb1346886e359dbb968726b2bef62107",
+          "bigpemu/Data/Lenses/lens_fisheye.vrlens": "053870dcb0dfde2afcc904f0ec9600d198025225299e510ba0ded85e037160d7",
+          "bigpemu/Data/ScreenEffects/cheesy_scanlines.dstack": "6724b6a1c543c76e53fe649b19892fbd245cff28200e4949b4ff9b07025f26b6",
+          "bigpemu/Data/ScreenEffects/cheesy_scanlines/cheesy_scanlines_ps.dxbc": "83dc52fc7d7db546a266f2e7e4d6a533ca6cf1a6ff832e7176e6178eabb5bb19",
+          "bigpemu/Data/ScreenEffects/cheesy_scanlines/cheesy_scanlines_ps.essl": "5f33ed7768d07fda4a8452f6fa74d25ef2b4420d33740cbc55ba297d26a0e2f0",
+          "bigpemu/Data/ScreenEffects/cheesy_scanlines/cheesy_scanlines_ps.glsl": "fbbb097684c77bdf3c55db8b5905b972c3a2bf608510eb9033a7f63d1496d43e",
+          "bigpemu/Data/ScreenEffects/cheesy_scanlines/composite_ps.dxbc": "d2e7f30588daa3b7876b208c0b9299639585a52dc2660d40a0975fb97b1fe0fb",
+          "bigpemu/Data/ScreenEffects/cheesy_scanlines/composite_ps.essl": "90a76c783cba4c3cd61f979068f94008b91d0c151143ee61d275ec0b28ef3367",
+          "bigpemu/Data/ScreenEffects/cheesy_scanlines/composite_ps.glsl": "441894d639a7c675eca6f918ec1de2e37112084ce117873c9fcef76852a90916",
+          "bigpemu/Data/ScreenEffects/crt-hyllian.dstack": "b01460269f51b72b190ba52439056aff7a5dfc8e37be9be1a68988160ec58a59",
+          "bigpemu/Data/ScreenEffects/crt-hyllian/_pass00_pixel.dxbc": "addb26c1d96b755c398f907f1addbdef77724f00af92199d0ca40a07ced0099a",
+          "bigpemu/Data/ScreenEffects/crt-hyllian/_pass00_pixel.essl": "8d9a8bb2424737c764a5f30fb2916e4a4d7a2d0c0bac80115187a6804fafa380",
+          "bigpemu/Data/ScreenEffects/crt-hyllian/_pass00_pixel.glsl": "7f9977b54f04ffd78e355b442e1c32c9b9f380199a390070ed5b182bfd376b8c",
+          "bigpemu/Data/ScreenEffects/crt-hyllian/_pass00_vertex.dxbc": "7a983da255f574477dca5ec636f5197f01dbb6dcc6cea324f10b23ccca388d3e",
+          "bigpemu/Data/ScreenEffects/crt-hyllian/_pass00_vertex.essl": "d305161eb169092e63c00e05e4a5374eca2dd4f622f1fe3026e25d95f9b70d5a",
+          "bigpemu/Data/ScreenEffects/crt-hyllian/_pass00_vertex.glsl": "288afcd04cf4d6572dc9ee12d01150d9a86c1c5642f42cd69994ff31152a652a",
+          "bigpemu/Data/ScreenEffects/example/basic_template.dstack": "5e8b233693b93d44de9522dca69d6497475e0cc0fce0befd45c7f8d0fe0e607c",
+          "bigpemu/Data/ScreenEffects/example/basic_template_ps.glsl": "405611e92b0ff1c7633fa4a661f73eca447577a3a38ac923293e026f05660a6c",
+          "bigpemu/Data/ScreenEffects/example/basic_template_vs.glsl": "308d2fcb3472212f443157f198ff5e4fd70a96b22f76ca3d1ada2f09163422c7",
+          "bigpemu/Data/ScreenEffects/gamma.dstack": "4cfe4ae0a2e4d905aab92d160f012845bc5909e140651711e7178b7da887b41f",
+          "bigpemu/Data/ScreenEffects/gamma/gamma_ps.dxbc": "b716981401e2d4216d2fedf83f943e1965dc3138d3caff9ff7653099d9d4f058",
+          "bigpemu/Data/ScreenEffects/gamma/gamma_ps.essl": "1cfda19d5ef66c33b6287e14e1b21003d60ec242a6173eba9129eea5646df4a6",
+          "bigpemu/Data/ScreenEffects/gamma/gamma_ps.glsl": "1ec82f7e34bef3edc5a4a5bb4f2fa139457c4b044653d552f701b3af9ad0831f",
+          "bigpemu/Data/ScreenEffects/liz.dstack": "af312adf47ccb1f177e6337f7bfa7412e1ae5c6db6739926c4caffd32bffd9f6",
+          "bigpemu/Data/ScreenEffects/liz/lizmix.dxbc": "cd5bbb6d2ff0c0069192b864b91a9cf6b39250d1ea7412c1b4cbec62e9a690b8",
+          "bigpemu/Data/ScreenEffects/liz/lizmix.essl": "b97289f41f50a5535088b451c70ee8465f5c34787020ae0ecdf1c3561d54a9c4",
+          "bigpemu/Data/ScreenEffects/liz/lizmix.glsl": "bf614b7ebe26034c412549dade66b5ad23561224a88171a3a4ff772259c49999",
+          "bigpemu/Data/ScreenEffects/liz/white_diamonds.png": "cbc3e89a5c2b27071f5dc66ce84c8e81bcebe171a3e8113260b5265071b44858",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss.dstack": "94c16c6c9e982bd07335b6fa08d86e281c913f9c69ba1b71488321a40503fe7d",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/blur_common.h": "ae1afb53916ebc1c5a81c74688848245a916ed303431977f9157e452aaeda04d",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/blur_h_ps.dxbc": "710a175eda13ea4423d7002b2a5e9fe295fd408377ba428808d874f4af31a1ac",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/blur_h_ps.essl": "85767328c557fc8668b932d56c5d94f98331e4d3b3abc8d6851cf485bbad48b5",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/blur_h_ps.glsl": "f652e3861a96911a96a94858f92e1b59473e6a204f8576a5d82873d40a6d71ce",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/blur_v_ps.dxbc": "8bfaf459a29f9b40eb4491472efe65f5de848f88a90b7a074db8f8104bf6f258",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/blur_v_ps.essl": "164dc5e1b3b2a98f1c3722cc2c1a0ab6cdeaa0980654b63f92cdcb8160ee3720",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/blur_v_ps.glsl": "f46a366abfc0fd079404d09c657e5b746d23ea786bcbfd0fd247e56ebe56fe35",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/ol_ps.dxbc": "e5bbfea5efcc71faab199139bfbf84184b87d54e7d41d8bbdebb943c74e10a30",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/ol_ps.essl": "257c2ef2094c0af320013926ae533273d648efeb26f1afc5a5da86134c42d8c3",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/ol_ps.glsl": "405611e92b0ff1c7633fa4a661f73eca447577a3a38ac923293e026f05660a6c",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/ol_vs.dxbc": "93d4f0ccc09bb65043bebdffe4a3358f01f807f856cb4de0d299d6efc5f3e210",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/ol_vs.essl": "e86021d0c3b2bcbd75fd8a77bde60cc82744bcd99b8bdcac81e3fca220ead052",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/ol_vs.glsl": "a539b198b0e972a52afd288eff65fc72cae44b8e6dd551f6d82f6a268a727501",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/scale_up_vs.dxbc": "52d9d82024d5e80c1a4c4a0ced72c131732ccc6ed3df7c6133ee611e92793c3f",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/scale_up_vs.essl": "8cd3d5c8e34341453042653a4f6e6a925811d5073ac60ec604db797e8b616e55",
+          "bigpemu/Data/ScreenEffects/oh_my_gauss/scale_up_vs.glsl": "1cba675c1eaea63de45e9ea30612c37ef610f0fbec0af7d04b9d2f37749a8638",
+          "bigpemu/Data/ScreenEffects/shadertoy.dstack": "b084e3fd6bb45548a4cdca3b00c7156f9365bd26b240a88fecb1c4fd5af289f6",
+          "bigpemu/Data/ScreenEffects/shadertoy.glsl": "3b4a9f5ecc81e9896ddeb1617628484eafe8eda1d2a129c5b192cee6ac5af934",
+          "bigpemu/Data/ScreenEffects/shadertoy/shadertoy_framework_ps.glsl": "e39b0039904c3abd69574845e4c59c9d7691d74de318a8b4f03d27cca9b0b7a7",
+          "bigpemu/Data/ScreenEffects/shadertoy/shadertoy_resized.dstack": "2e8ea405615da1da033e7695af9109b622c1f00e5ff2dea37784d5bc0b4b948e",
+          "bigpemu/Data/ScreenEffects/util/colorspace.h": "943f462813baa2e273d773c8ca6303407e5c05de68b47ef6335e5996e8a5ebae",
+          "bigpemu/Data/ScreenEffects/util/common_ubo.h": "5b36f25d47d97235a03536c71e0d0be88972b0aa388148039ae35c6a6b63740b",
+          "bigpemu/Data/ScreenEffects/util/convenience.h": "127f84d52f641535bd84d6e035c2e4104d0accd50238eb26137afa56846356a6",
+          "bigpemu/Data/ScreenEffects/util/copypass_ps.dxbc": "e5bbfea5efcc71faab199139bfbf84184b87d54e7d41d8bbdebb943c74e10a30",
+          "bigpemu/Data/ScreenEffects/util/copypass_ps.essl": "257c2ef2094c0af320013926ae533273d648efeb26f1afc5a5da86134c42d8c3",
+          "bigpemu/Data/ScreenEffects/util/copypass_ps.glsl": "405611e92b0ff1c7633fa4a661f73eca447577a3a38ac923293e026f05660a6c",
+          "bigpemu/Data/ScreenEffects/util/copypass_togamma_ps.dxbc": "36c860b17a6ce4e98942266fd2801d02f4533f5608592809c63c1f1a8fb335d3",
+          "bigpemu/Data/ScreenEffects/util/copypass_togamma_ps.essl": "31855dd00b3d43bebc3bf13fd09ef5722e29bda25a3c2f0e6951287436ccf88c",
+          "bigpemu/Data/ScreenEffects/util/copypass_togamma_ps.glsl": "3a06e76e21fa3342cb2adf7783edc0056c1ec546f6b7588612e2288e37bca1e0",
+          "bigpemu/Data/ScreenEffects/util/copypass_tolin_ps.dxbc": "0b8070fb11bc5be8f6aca35cbc01403f9085e72468d7e0144bbd9a405faeeda6",
+          "bigpemu/Data/ScreenEffects/util/copypass_tolin_ps.essl": "b28a866081f65606e39cdbdd7894a538ae92a3fd854f63586cf09514d06e95e1",
+          "bigpemu/Data/ScreenEffects/util/copypass_tolin_ps.glsl": "12cbc2bca0c6a391daf36e8bf7885ae57d0b5374d99cd88fd50f7c823494e3be",
+          "bigpemu/Data/ScreenEffects/util/copypass_vs.dxbc": "28b8ac786ef6602e358a310cb71533eb862a3e45b1f8424237d5d6f611d3eb62",
+          "bigpemu/Data/ScreenEffects/util/copypass_vs.essl": "773ab01fc46f15a6838fd85a715522de26ad43806d5cb53639a5a38bc0478c34",
+          "bigpemu/Data/ScreenEffects/util/copypass_vs.glsl": "ad21f097d3a73ebc707fd317e8475b8cd15f228d53b09c8ac03e6a25ce6c866c",
+          "bigpemu/Data/ScreenEffects/util/desaturate_ps.dxbc": "2e5d538373224c2f640391834d897980e5a7c0cb065f6c0f94ae90a61ce27c7f",
+          "bigpemu/Data/ScreenEffects/util/desaturate_ps.essl": "3b627d2fd3153f9c830747851e7ca907a3d2ad67b9a711d16f06a90c02073923",
+          "bigpemu/Data/ScreenEffects/util/desaturate_ps.glsl": "c33906b31329131f1157834b1c81c412dbb1eeb549b93e2485e7b0c2fc44d794",
+          "bigpemu/Data/ScreenEffects/warping.dstack": "1e6a643c880b75617700b88e549010d6024162e32b59174c48538a7f4380edfa",
+          "bigpemu/Data/ScreenEffects/warping/warping_ps.dxbc": "259a245cb47c4841112106a37ebfebcb036142bbadf755c011e5db10564d2172",
+          "bigpemu/Data/ScreenEffects/warping/warping_ps.essl": "1e4cec6462f54927dd56adb12cacadb1d1e8b35325580c0b9e1aabea88b982ab",
+          "bigpemu/Data/ScreenEffects/warping/warping_ps.glsl": "bc5874280f79b0341e630c3e7145cb29529d2d151fd2af097f0f1c53525ee74b",
+          "bigpemu/Data/ScreenEffects/xbr-lv2.dstack": "2c3eeb41aea38d18a4300810d62f227a0d3bfcd9e2c7c38e7b29de2e870ccda4",
+          "bigpemu/Data/ScreenEffects/xbr-lv2/_pass00_pixel.dxbc": "c2834f80539461272bbb3e0a67186ac9edfd4aae4d319663e257d1e970c195b4",
+          "bigpemu/Data/ScreenEffects/xbr-lv2/_pass00_pixel.essl": "cff378dc5b71b2a4586a5697b30ac2464972a11012d3e59d6d867f1b07bf9300",
+          "bigpemu/Data/ScreenEffects/xbr-lv2/_pass00_pixel.glsl": "03c265eac3fee01257a9a04ec9f9e64fbc9cc01ce2c4bdaaebea9d0635dab3e0",
+          "bigpemu/Data/ScreenEffects/xbr-lv2/_pass00_vertex.dxbc": "c753bc650169df4f462c329b52f2cb02d34df37db8e281d3d05f22feabaed7dc",
+          "bigpemu/Data/ScreenEffects/xbr-lv2/_pass00_vertex.essl": "8380258db0b17ed72ee4bc96c5d88f1ede57dfde91f94da156358b0e04e91041",
+          "bigpemu/Data/ScreenEffects/xbr-lv2/_pass00_vertex.glsl": "cdb42382291587331498ba4e0d3b421bd442a1e072086e48ad7a6f085d87550c",
+          "bigpemu/Data/ScreenEffects/xbr-lv3-multipass.dstack": "81a1deee47cae37d002c6ab02c6536ef4094de5f953ceed77de89dd88908a0d6",
+          "bigpemu/Data/ScreenEffects/xbr-lv3-multipass/_pass00_pixel.dxbc": "324c62a1a9fda82d07cf1bba9b257904e84cf1b5028a26a5bec856f1b26afb44",
+          "bigpemu/Data/ScreenEffects/xbr-lv3-multipass/_pass00_pixel.essl": "e6dc2a23566f71f4fc628d93528b30094f3440f91afee28e64ad404295dabcec",
+          "bigpemu/Data/ScreenEffects/xbr-lv3-multipass/_pass00_pixel.glsl": "b07622b9e7116c0684858d5d238daf3a930864fb331084fa078d548cc62c2207",
+          "bigpemu/Data/ScreenEffects/xbr-lv3-multipass/_pass00_vertex.dxbc": "bbff2616f47157c10cbc10092d98ac960aa77342629f59697a81c712d084e2c5",
+          "bigpemu/Data/ScreenEffects/xbr-lv3-multipass/_pass00_vertex.essl": "378ea67684cc411d4d6401b42b1b1569abb7ec781dc91491f50e663f3a56d35a",
+          "bigpemu/Data/ScreenEffects/xbr-lv3-multipass/_pass00_vertex.glsl": "c8c6c08fa1bddbfa63a802db121790446a80313b79b0138c82e634f525b4b02b",
+          "bigpemu/Data/ScreenEffects/xbr-lv3-multipass/_pass01_pixel.dxbc": "156fd9ee65cc40f2e8f8685cbabb93ce94d76f18c3a365728d3018653c015bfc",
+          "bigpemu/Data/ScreenEffects/xbr-lv3-multipass/_pass01_pixel.essl": "5f8b3eef604840bdfcaae121d305337059ae415d95395bdc6db8f455978b0aa9",
+          "bigpemu/Data/ScreenEffects/xbr-lv3-multipass/_pass01_pixel.glsl": "638d6c6e1c6f3f285ea9dabee39434ad4200269460affc722af133f314439023",
+          "bigpemu/Data/ScreenEffects/xbr-lv3-multipass/_pass01_vertex.dxbc": "bd13dc87ae60f11e4c07bd6e3ef053c12d925ed3049da736771437700c9d7d4c",
+          "bigpemu/Data/ScreenEffects/xbr-lv3-multipass/_pass01_vertex.essl": "607848a3551084cc6f3ce5385c80a6a7e125792a4db12915cb3abf9ae16d6ba2",
+          "bigpemu/Data/ScreenEffects/xbr-lv3-multipass/_pass01_vertex.glsl": "5c5193f281685790223ad86d05d1fb5351e1f78aa027a86790faa3e222301753",
+          "bigpemu/Data/ThirdParty/Licenses/MUSASHI.txt": "0ec78732b014f1972c6f597822ad1849ef8e8189739b19b60a5b3d5f73a7d153",
+          "bigpemu/Data/ThirdParty/Licenses/README-SDL.txt": "f17d8919136f9627468b4dffbd7bddd188ef2aaa8ed21914d2107d1c759e99d7",
+          "bigpemu/Data/ThirdParty/Licenses/RapidJSON.txt": "55972017b8f8bffee8922b5be4ba582ac401a3b70b5e62a4b8fbea56342b0500",
+          "bigpemu/Data/ThirdParty/Licenses/TinyCC-MIT.txt": "25aa380ae36b7e02b15832fc85706295613e19423dff135d227c689cfebe503f",
+          "bigpemu/Data/ThirdParty/Licenses/libcurl.txt": "8704a6242a572912e038738b952541f1f4e99e61d82cc03ecc0b031ec3d3fd45",
+          "bigpemu/Data/ThirdParty/Licenses/libpng.txt": "0ad3bfee8be10e5519949e7af492e36bc349376b75fbeb412229a5967e3e9434",
+          "bigpemu/Data/ThirdParty/Licenses/libresample.txt": "2c1f76ce2effdddb425018405d5690c0b1ab4e6976e35296b0a6db65c5e1a55d",
+          "bigpemu/Data/ThirdParty/Licenses/openvr.txt": "9e6d1480fb68e86ceafed312f7e67dadcdc2a99b350b710d624b8f0f0f1a2329",
+          "bigpemu/Data/ThirdParty/Licenses/zlib.txt": "41615fb5356853aeb56d8382554836e7c24c1dac437fa924ddf67734e7dc0238",
+          "bigpemu/Data/ThirdParty/bin/ThirdPartyBin.txt": "82a98421300071c3b783174ca2b7c9a8c567622864267923b50d609cf1186e4b",
+          "bigpemu/ReadMe.txt": "67225eb8de8352430478fc799daf67996a66bb5af0586c0c61825d65cd031957",
+          "bigpemu/Scripts/avp.bigpcvm": "1c50e890688d34fe12df0ee1da817247638379afa38e25edfb9f337ee29995e0",
+          "bigpemu/Scripts/avp_mp.bigpcvm": "7e8b00e1a042453f9b9ab105efbde18a8849c2f01537d2b4fc0efa4a693b2ddf",
+          "bigpemu/Scripts/breakout_2k.bigpcvm": "b66e3794920d2f2198d0400df4d9baa5741b18f7fdc9a1d0fe79c300e3102215",
+          "bigpemu/Scripts/brett_hull_hockey.bigpcvm": "6509a9e3b54db6623bce4fed1df571e5424ae963c7a36994628001db9266f9b8",
+          "bigpemu/Scripts/cheat_codes.bigpcvm": "7a43094c08318222791df2512f552ea9bb444fa8189901049512a9de4caf3eda",
+          "bigpemu/Scripts/cheat_codes.json": "0d17806b684f13cfd420aacc2997f2ff6b77b5ea00fb11da8bbf7e5514f75275",
+          "bigpemu/Scripts/checkered_flag.bigpcvm": "cf18dec9080102d6693c14284e3de2155b7f70b91e650f149db01baa63f9741c",
+          "bigpemu/Scripts/cybermorph.bigpcvm": "4952cd970bda744411ca0075c46413894e53ad056dac14aa69d6c0c825a2b7ea",
+          "bigpemu/Scripts/doom.bigpcvm": "67dbdac73c31eb3b8b45abac2d320ba25e8ac47aa558c4f617085867b765f416",
+          "bigpemu/Scripts/hello_pussycat.bigpcvm": "9e980685d4c735bedaa35b00fc47c2a6d051e2f59eceb3aaab056ed847a4d99c",
+          "bigpemu/Scripts/hello_pussycat.png": "1885a02d411b90b28a1d853cf82627a10e210372359bd7b9cb63996a66674c5a",
+          "bigpemu/Scripts/iron_soldier.bigpcvm": "f1f21c1bda2176c4ad1acedcac2964bcddbc024a1b851839b6ae84e440ac8d1d",
+          "bigpemu/Scripts/mc3d_vr.bigpcvm": "b331b07dc80f5163a5bafce146945110f6422a3f78a80c3412f928aa7e4a95f3",
+          "bigpemu/Scripts/myst.bigpcvm": "3921f724aab813621eca1180aab904bd5d79adb72f2da566a44263838a608ab7",
+          "bigpemu/Scripts/raiden.bigpcvm": "44f36313418eb8bd0447ddf50a21b9df7c6b1ff1d927d7fa215b1e2d4e579dd2",
+          "bigpemu/Scripts/ratio_adjust.bigpcvm": "484ae42168637e940348945af9435a7c52f66a19dd13935a8398b269e886c7f0",
+          "bigpemu/Scripts/t2k_rotary.bigpcvm": "2f6e288633dfa2d35276e5f3bf70c11eb9586f9ce507f8dbebff7ad77e944cb5",
+          "bigpemu/Scripts/towers2.bigpcvm": "30e1c85431a544cf3f3d04824c36a39f472eda936f22074640877483ce359ce7",
+          "bigpemu/Scripts/turbo_joy.bigpcvm": "8388fabf061aa7c48ec48d38bab1b6778ecc5fb041e342600160bf4c850da2f3",
+          "bigpemu/Scripts/unaligned_load_hack.bigpcvm": "e83c90cb7a6e78baf97ab0381f87eddea51564afb77bcfccf06c23056d04f79e",
+          "bigpemu/Scripts/vidgrid.bigpcvm": "85488e8c0706743a3df6c0743437243ad3be897b25851318a9828bfde8790ce4",
+          "bigpemu/Scripts/wolf3d.bigpcvm": "d01c8bcf7328b159d5b0be61dcde823e7dfeb0da414a6b065be4af74a276ff07",
+          "bigpemu/Strings/strings_en.bigpfc": "9dfb0db5bf8f513c737a37427ca6ad8883e2f7b2cc22f68ae51c645915b03387",
+          "bigpemu/Strings/strings_en.txt": "e519d7a8f8a7d26b1a7eceba8b075698ec9d2b4236fb56f337a16aa8479d89cf",
+          "bigpemu/bigpemu": "7dc86d9491b42c440928ee276623ad587538e5ab36836369faffab40b1f8c922",
+          "bigpemu/bigpemu-icon.png": "4a36f8b439e8acacc3565e2fa3e23c214a254049994ad4e9adf615159926ca92",
+          "bigpemu/bigpemu.sh": "a080c62f7cbf465370538036c9fcfda5c0903c07f30435638f69d6d9ee212a71",
+          "bigpemu/defaultconfigs/BigPEmuConfig.bigpcfg": "c8f425982996179ad7ed77b075e11a6bbf30223c421399e7d9517458212f6dae",
+          "bigpemu/libGL.so.1": "2a3aadd4c5c154e136be2b4ce58586e1f1874a9893246fcf50ab68f8595b9ad4",
+          "bigpemu/make_desktop.sh": "e5a7d8edbaca42d91a23f1232e10c11fb30a703ead32c55f4802dd5483d6e393",
+          "bigpemu/plugins/bigpemu_network_posix.so": "c822a08f37135a40e6588cea9c99e53750fb9668ed5d1968ea83f1c6c1d5aad3",
+          "bigpemu/plugins/bigpemu_various_sdl2.so": "8ade4fc068b14f07f0cb5c384177276ce250c518092d8afd665881785cf477d0"
+        }
+      }
+    },
+    "dsperate-arm64": {
+      "description": "DSperate v3.0.3 (beebono's Nintendo DS emulator): Emu/NDS/dsperate on every 64-bit device. Built as spruceUI/DSperate-spruce@9a5bcbc build.sh does: GCC 10.5, SDL2 2.26.1 built to link against (the device's SDL2 runs it), static libstdc++, in its paths (they end up in the binary)",
+      "source": {
+        "url": "https://github.com/beebono/DSperate.git",
+        "commit": "f5fa35ea19f966543feae086798701f134d89619",
+        "tree": "4e15f0a9027b7f572764d25cf377c61729d371cb",
+        "requested_ref": "refs/tags/v3.0.3",
+        "path": "/build/DSperate"
+      },
+      "downloads": [
+        {
+          "url": "https://github.com/libsdl-org/SDL/releases/download/release-2.26.1/SDL2-2.26.1.tar.gz",
+          "sha256": "02537cc7ebd74071631038b237ec4bfbb3f4830ba019e569434da33f42373e04",
+          "path": "/build/SDL2-2.26.1.tar.gz"
+        }
+      ],
+      "toolchain": "standalone-dsperate",
+      "source_date_epoch": 1791414282,
+      "patches": [
+        {
+          "diff": "patches/standalone/dsperate/0001-spruce-menu-colours.patch"
+        }
+      ],
+      "env": {
+        "DSP_CC": "/usr/bin/aarch64-linux-gnu-gcc-10",
+        "DSP_CXX": "/usr/bin/aarch64-linux-gnu-g++-10",
+        "DSP_AR": "/usr/bin/aarch64-linux-gnu-gcc-ar-10",
+        "DSP_RANLIB": "/usr/bin/aarch64-linux-gnu-gcc-ranlib-10",
+        "DSP_NM": "/usr/bin/aarch64-linux-gnu-gcc-nm-10",
+        "DSP_STRIP": "/usr/bin/aarch64-linux-gnu-strip",
+        "PKG_CONFIG_PATH": "/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig",
+        "PKG_CONFIG_SYSROOT_DIR": ""
+      },
+      "steps": [
+        "cd /build && tar xf SDL2-2.26.1.tar.gz && cd SDL2-2.26.1",
+        "./configure --host=aarch64-linux-gnu --prefix=/build/local --enable-shared --disable-static --enable-video-wayland --disable-video-x11 --disable-video-rpi --disable-oss --disable-esd --disable-arts CC=\"ccache aarch64-linux-gnu-gcc-10\" CXX=\"ccache aarch64-linux-gnu-g++-10\"",
+        "make -j\"$(nproc)\" && make install",
+        "grep -q '^#define SDL_VIDEO_DRIVER_WAYLAND' /build/local/include/SDL2/SDL_config.h",
+        "export PKG_CONFIG_PATH=\"/build/local/lib/pkgconfig:$PKG_CONFIG_PATH\" PKG_CONFIG_LIBDIR=\"/build/local/lib/pkgconfig:$PKG_CONFIG_LIBDIR\"",
+        "cd /build/DSperate",
+        "cmake -S . -B build -G Ninja -DCMAKE_TOOLCHAIN_FILE=/recipe/patches/standalone/dsperate/toolchain-aarch64.cmake -DCMAKE_BUILD_TYPE=Release \"-DCMAKE_C_FLAGS=-O3 -mtune=cortex-a55 -pthread\" \"-DCMAKE_CXX_FLAGS=-O3 -mtune=cortex-a55 -pthread\" \"-DCMAKE_EXE_LINKER_FLAGS=-pthread -Wl,--no-as-needed -lpthread -Wl,--as-needed -static-libstdc++ -static-libgcc -mtune=cortex-a55 -L/build/local/lib -Wl,-rpath-link,/build/local/lib -L/usr/lib/aarch64-linux-gnu -Wl,-rpath-link,/usr/lib/aarch64-linux-gnu\" -DDSPERATE_JIT=ON -DDSPERATE_NEON=ON -DDSPERATE_HEADLESS=ON -DDSPERATE_SDL=ON -DDSPERATE_WAYLAND=OFF -DDSPERATE_TESTS=ON",
+        "grep -q -- '-DDSPERATE_JIT=1' build/compile_commands.json && grep -q -- '-DDSPERATE_NEON=1' build/compile_commands.json",
+        "cmake --build build -j\"$(nproc)\"",
+        "mkdir -p /build/out/configs && cp configs/*.ini /build/out/configs/"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/DSperate/build/src/frontend/sdl/dsperate",
+            "to": "dsperate",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/DSperate/build/src/frontend/headless/dsperate-headless",
+            "to": "dsperate-headless",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/configs",
+            "to": "configs",
+            "dir": true
+          },
+          {
+            "from": "/build/DSperate/LICENSE",
+            "to": "LICENSE",
+            "mode": "0644"
+          }
+        ],
+        "spruce": {
+          "dsperate": "Emu/NDS/dsperate",
+          "configs/": "Emu/NDS/dsperate-configs/"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libSDL2-2.0.so.0",
+          "libc.so.6",
+          "libdl.so.2",
+          "libm.so.6",
+          "libpthread.so.0"
+        ],
+        "forbidden": [
+          "libstdc++.so.6",
+          "libgcc_s.so.1"
+        ]
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "dsperate": "1e54cc4f4df438826a9a3ec3f32651f2bef7e387d2806938b001f2b377b20718"
+        }
+      }
+    },
+    "ppsspp": {
+      "abstract": true,
+      "description": "PPSSPP v1.20.3 standalone (PPSSPPSDL), one build per GPU and toolchain; the variants extend this",
+      "source": {
+        "url": "https://github.com/hrydgard/ppsspp.git",
+        "commit": "d357e6a32934800d3d80b49f910a603e1b069751",
+        "tree": "398ebc8529b78bb1773dafdca7bb7ab6e97dc5ec",
+        "requested_ref": "refs/tags/v1.20.3",
+        "submodules": true,
+        "path": "/build/ppsspp"
+      },
+      "patches": [
+        {
+          "diff": "patches/standalone/ppsspp/common-1-fullscreen.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-2-hide-cursor.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-3-no-mute-secondary.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-4-remap-pause-menu.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-5-sigusr1-save-and-quit.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-6-sigusr2-toggle-pause-menu.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-7-skip-vulkan-probe.patch"
+        }
+      ]
+    },
+    "ppsspp-h700": {
+      "extends": "ppsspp",
+      "description": "PPSSPP v1.20.3: Emu/PSP/PPSSPPSDL_h700 on the Anbernic XX family (H700, BaseOS). Built as spruceUI/PPSSPP-spruce@c1c560e build-h700.sh does, in its paths (they end up in the binary)",
+      "toolchain": "standalone-ppsspp",
+      "source_date_epoch": 1786860017,
+      "steps": [
+        "set +u +o pipefail",
+        "printf '%s\\n' 'set(CMAKE_SYSTEM_NAME Linux)' 'set(CMAKE_SYSTEM_PROCESSOR aarch64)' 'set(CMAKE_C_COMPILER aarch64-linux-gnu-gcc)' 'set(CMAKE_CXX_COMPILER aarch64-linux-gnu-g++)' 'set(CMAKE_FIND_ROOT_PATH /usr/aarch64-linux-gnu /usr/lib/aarch64-linux-gnu /usr)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)' 'set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)' 'set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)' 'set(PKG_CONFIG_EXECUTABLE /usr/bin/pkg-config)' 'set(ENV{PKG_CONFIG_PATH} \"/usr/lib/aarch64-linux-gnu/pkgconfig\")' 'set(ENV{PKG_CONFIG_LIBDIR} \"/usr/lib/aarch64-linux-gnu/pkgconfig\")' 'set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)' > /tmp/aarch64-toolchain.cmake",
+        "mkdir -p /build/ppsspp/build && cd /build/ppsspp/build",
+        "cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/tmp/aarch64-toolchain.cmake \"-DCMAKE_C_FLAGS=-O3 -mcpu=cortex-a53 -mtune=cortex-a53 -ffunction-sections -fdata-sections -fomit-frame-pointer -flto=auto -Wno-error\" \"-DCMAKE_CXX_FLAGS=-O3 -mcpu=cortex-a53 -mtune=cortex-a53 -ffunction-sections -fdata-sections -fomit-frame-pointer -flto=auto -Wno-error\" \"-DCMAKE_EXE_LINKER_FLAGS=-Wl,--copy-dt-needed-entries,--gc-sections -flto=auto\" -DUSING_GLES2=ON -DUSING_EGL=ON -DUSING_FBDEV=ON -DVULKAN=OFF -DARM_NO_VULKAN=ON -DUSING_X11_VULKAN=OFF -DUSE_WAYLAND_WSI=OFF -DMOBILE_DEVICE=ON -DBUILD_SHARED_LIBS=OFF -DUSE_SYSTEM_LIBPNG=OFF -DUSE_SYSTEM_FFMPEG=OFF -DUSE_DISCORD=OFF -DUSE_MINIUPNPC=OFF -DHEADLESS=OFF -DUNITTEST=OFF -DATLAS_TOOL=OFF -DCMAKE_DISABLE_FIND_PACKAGE_SDL2_ttf=ON -DCMAKE_DISABLE_FIND_PACKAGE_Fontconfig=ON -DCMAKE_DISABLE_FIND_PACKAGE_X11=ON",
+        "make -j\"$(nproc)\" PPSSPPSDL"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/ppsspp/build/PPSSPPSDL",
+            "to": "PPSSPPSDL_h700",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/ppsspp/assets",
+            "to": "assets",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "PPSSPPSDL_h700": "Emu/PSP/PPSSPPSDL_h700",
+          "assets/": "Emu/PSP/assets/"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libEGL.so.1",
+          "libGLESv2.so.2",
+          "libSDL2-2.0.so.0",
+          "libc.so.6",
+          "libdl.so.2",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libpthread.so.0",
+          "librt.so.1",
+          "libstdc++.so.6",
+          "libz.so.1"
+        ],
+        "forbidden": [
+          "libmali.so.0",
+          "libvulkan.so.1"
+        ]
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "PPSSPPSDL_h700": "c1e928aab424c6aeb0fc38e8b5e24b49894fe46c2e0f06bb42f3e07d70cbd801"
+        }
+      }
     }
   }
 }

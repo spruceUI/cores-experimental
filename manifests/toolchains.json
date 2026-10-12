@@ -45,6 +45,94 @@
         "size": 529469006
       },
       "dockerfile": "Dockerfile.arm64.standalone"
+    },
+    "standalone-vtree": {
+      "image": "cores-standalone-vtree:v1",
+      "image_id": "sha256:a352fcf019ff0e415fd7c0b818c1ffa8f7782500ff2a0843d9f9aaf854e3d0fb",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-vtree-v1.tar.gz",
+        "sha256": "0598fea7b510ca01f8e1b9aa6bb734d11be09dbdc509b554cdb08024776f15ae",
+        "size": 285996884
+      },
+      "dockerfile": "Dockerfile.standalone.vtree"
+    },
+    "standalone-pcsx_rearmed": {
+      "image": "cores-standalone-pcsx_rearmed:v1",
+      "image_id": "sha256:3444e2f6f870f91bbf354154b6c50414a0b398258387e8969fe9cce8aaf3d50b",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-pcsx_rearmed-v1.tar.gz",
+        "sha256": "11fd845bb8f6f03bc93d6bd60c46dafe2293c7d27e430451c6704df766bb83bd",
+        "size": 287157656
+      },
+      "dockerfile": "Dockerfile.standalone.pcsx_rearmed"
+    },
+    "standalone-moonlight": {
+      "image": "cores-standalone-moonlight:v1",
+      "image_id": "sha256:214b795f95e079ff073fcf1b12a27e7b4c2b624e85aa6676c911bfd0022a8850",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-moonlight-v1.tar.gz",
+        "sha256": "34bd3055cdaefa15b3b862e230d7e9c0d9b8796da65f22e90bc5fcc00caec11b",
+        "size": 286245234
+      },
+      "dockerfile": "Dockerfile.standalone.moonlight"
+    },
+    "standalone-dsperate": {
+      "image": "cores-standalone-dsperate:v1",
+      "image_id": "sha256:f700519b63dfaadbd1b3b0011121c1558a8f7aaabe612981ba355d1554ef1a44",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-dsperate-v1.tar.gz",
+        "sha256": "e480aa35a427587cac3e8dc51ba950615ab3d8c3d613ec2e8451d53391866d25",
+        "size": 410546709
+      },
+      "dockerfile": "Dockerfile.standalone.dsperate"
+    },
+    "standalone-ppsspp": {
+      "image": "cores-standalone-ppsspp:v1",
+      "image_id": "sha256:40bd07d3f142290afcf4bd090aa042090612d561614f80414105d6a6c9b818c1",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-ppsspp-v1.tar.gz",
+        "sha256": "032f6574f5f2d67dd7b4544cec071b0b661900ba1ecb0915e548c7fc2e99d716",
+        "size": 287253673
+      },
+      "dockerfile": "Dockerfile.standalone.ppsspp"
+    },
+    "standalone-yabasanshiro": {
+      "image": "cores-standalone-yabasanshiro:v1",
+      "image_id": "sha256:84453a70c43e9b5d508b08e238a28a3b0404c736506e496ffefed1ae769cc375",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-yabasanshiro-v1.tar.gz",
+        "sha256": "5dd6c367fdc4ecef369fe0f24450efba610d981546118ce929955ced251a01fa",
+        "size": 359606043
+      },
+      "dockerfile": "Dockerfile.standalone.yabasanshiro"
+    },
+    "standalone-mupen64plus": {
+      "image": "cores-standalone-mupen64plus:v1",
+      "image_id": "sha256:eda084429f12c743bfc16e59e8413c04cee2762e4eed1e53ca5cad90c26c1006",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-mupen64plus-v1.tar.gz",
+        "sha256": "54e556ba531391f94c2aaa562d806250de08e71eaf4f237af3fbf87a654aaece",
+        "size": 286709710
+      },
+      "dockerfile": "Dockerfile.standalone.mupen64plus"
+    },
+    "standalone-gl4es": {
+      "image": "cores-standalone-gl4es:v1",
+      "image_id": "sha256:1359ddc45652fd32356e195699d681cb50d0320cab4652ea771dc3a1eb5fa316",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-gl4es-v1.tar.gz",
+        "sha256": "d87ca59e560f747a7e35bef96e3205a564b4fc4eff446a1616e13676e8559aec",
+        "size": 301003169
+      },
+      "dockerfile": "Dockerfile.standalone.gl4es"
     }
   }
 }

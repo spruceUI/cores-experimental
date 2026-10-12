@@ -1,0 +1,31 @@
+From spruceUI/vTree-spruce@d3a0a5a:patches/common/0002-rgb30-gles-context.patch, unchanged.
+
+--- a/main.c
++++ b/main.c
+@@ -1,5 +1,6 @@
+ #include "vtree.h"
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <stdarg.h>
+ #include <string.h>
+ #include <ctype.h>
+@@ -1758,7 +1759,18 @@
+ 
+     // At this point cfg.screen_w/h are physical (auto-detected or explicitly set as physical).
+     // Create the window at physical size, then compute logical dims from rotation.
+-    window   = SDL_CreateWindow("vTree Gold", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, cfg.screen_w, cfg.screen_h, 0);
++    /* On GLES-only KMS/EGL drivers - e.g. the Powkiddy RGB30's Mali-G52 blob -
++     * SDL's default desktop-GL EGL config matches nothing, so SDL_CreateWindow
++     * fails with "Can't window GBM/EGL surfaces" and vtree runs blind. When
++     * VTREE_GLES is set, request a GLES context and an OpenGL window so the
++     * launcher can enable this per device without affecting any other target.
++     * Inert unless the env var is present. */
++    Uint32 win_flags = 0;
++    if (getenv("VTREE_GLES")) {
++        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
++        win_flags |= SDL_WINDOW_OPENGL;
++    }
++    window   = SDL_CreateWindow("vTree Gold", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, cfg.screen_w, cfg.screen_h, win_flags);
+     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+ 
+     // Store physical dims; swap cfg.screen_w/h to logical if rotating 90° or 270°

@@ -1,0 +1,19 @@
+Generated from spruceUI/PPSSPP-spruce@c1c560e:patches/common/no-mute-secondary.py against hrydgard/ppsspp
+d357e6a32934 (v1.20.3) with common patches 1-2 applied (2026-10-12). Apply in order.
+
+diff --git a/Core/Config.cpp b/Core/Config.cpp
+index 4380e80..b97c3df 100644
+--- a/Core/Config.cpp
++++ b/Core/Config.cpp
+@@ -1573,11 +1573,6 @@ void Config::PostLoadCleanup() {
+ 		g_Config.bSkipBufferEffects = false;
+ 	}
+ 
+-	// Automatically silence secondary instances. Could be an option I guess, but meh.
+-	if (PPSSPP_ID > 1) {
+-		NOTICE_LOG(Log::Audio, "Secondary instance %d - silencing audio", (int)PPSSPP_ID);
+-		g_Config.iGameVolume = 0;
+-	}
+ 
+ 	// Automatically switch away from deprecated setting value.
+ 	if (iTexScalingLevel <= 0) {

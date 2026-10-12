@@ -1,0 +1,15 @@
+Generated from spruceUI/PPSSPP-spruce@c1c560e:patches/common/skip-vulkan-probe.py against hrydgard/ppsspp
+d357e6a32934 (v1.20.3) with common patches 1-6 applied (2026-10-12). Apply in order.
+
+diff --git a/Common/GPU/Vulkan/VulkanLoader.cpp b/Common/GPU/Vulkan/VulkanLoader.cpp
+index cb1f03b..b73497e 100644
+--- a/Common/GPU/Vulkan/VulkanLoader.cpp
++++ b/Common/GPU/Vulkan/VulkanLoader.cpp
+@@ -433,6 +433,7 @@ void VulkanSetAvailable(bool available) {
+ }
+ 
+ bool VulkanMayBeAvailable() {
++	return false;  // Patched: skip probe on non-Vulkan builds
+ #if PPSSPP_PLATFORM(IOS)
+ 	g_vulkanAvailabilityChecked = true;
+ 	// MoltenVK does no longer seem to support iOS <= 12, despite what the docs say.

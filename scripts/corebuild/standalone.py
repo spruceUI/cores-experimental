@@ -69,6 +69,8 @@ def spec_problems(repo: Repo, spec: dict) -> list[str]:
     for extra in spec.get("extra_sources", []):
         if not str(extra.get("path", "")).startswith("/"):
             problems.append(f"extra source {extra.get('url')}: path must be absolute")
+    if "cmake" in spec and spec.get("source", {}).get("path", SOURCE) != SOURCE:
+        problems.append(f"the cmake driver builds {SOURCE}; give steps for another source path")
     if spec.get("toolchain") not in repo.toolchains:
         problems.append(f"unknown toolchain {spec.get('toolchain')}")
     if not isinstance(spec.get("source_date_epoch"), int):
@@ -125,9 +127,9 @@ def download(item: dict) -> list[str]:
             f"echo {q(item['sha256'] + '  ' + item['path'])} | sha256sum -c -"]
 
 
-def apply_patch(patch: dict) -> list[str]:
+def apply_patch(patch: dict, source: str) -> list[str]:
     q = recipe.q
-    target = q(patch.get("dir", SOURCE))
+    target = q(patch.get("dir", source))
     if "diff" in patch:
         path = q(f"{RECIPE_MOUNT}/{patch['diff']}")
         return [f"git -C {target} apply --check {path}", f"git -C {target} apply {path}"]
@@ -171,23 +173,24 @@ def collect(output: dict, cross: str) -> list[str]:
 def render(name: str, spec: dict, toolchain: dict) -> recipe.Script:
     q = recipe.q
     cross = toolchain["host_cc"]
+    source = spec["source"].get("path", SOURCE)
     lines = ["set -euo pipefail",
              "trap 'chown -R \"$OUTPUT_UID:$OUTPUT_GID\" /output' EXIT",
              f"unset {recipe.SCRUBBED}",
              f"export SOURCE_DATE_EPOCH={int(spec['source_date_epoch'])}",
              "export LC_ALL=C.UTF-8",
              "umask 022",
-             f"export CROSS={q(cross)} SOURCE={SOURCE} BUILD_DIR={BUILD_DIR} DIST={DIST}"]
+             f"export CROSS={q(cross)} SOURCE={q(source)} BUILD_DIR={BUILD_DIR} DIST={DIST}"]
     lines += [f"export {key}={q(value)}" for key, value in spec.get("env", {}).items()]
-    lines += clone(spec["source"], SOURCE)
-    lines.append(f"git -C {SOURCE} rev-parse HEAD > /output/source-commit.txt")
+    lines += clone(spec["source"], source)
+    lines.append(f"git -C {q(source)} rev-parse HEAD > /output/source-commit.txt")
     for extra in spec.get("extra_sources", []):
         lines += clone(extra, extra["path"])
     for item in spec.get("downloads", []):
         lines += download(item)
     for patch in spec.get("patches", []):
-        lines += apply_patch(patch)
-    lines.append(f"cd {SOURCE}")
+        lines += apply_patch(patch, source)
+    lines.append(f"cd {q(source)}")
     if "cmake" in spec:
         lines += [" ".join(q(part) for part in configure(spec, cross)),
                   f"cmake --build {BUILD_DIR} -j \"$(nproc)\" --target {q(spec['cmake']['target'])}"]
@@ -213,11 +216,11 @@ def read_elf(path: Path) -> dict:
     return elf
 
 
-def contract_problems(spec: dict, elf: dict) -> list[str]:
+def contract_problems(spec: dict, elf: dict, shipped_names: frozenset = frozenset()) -> list[str]:
     """What the shipped ELFs need that neither the device nor the build provides."""
     needed = spec.get("needed", {})
     forbidden = set(needed.get("forbidden", []))
-    provided = set(needed.get("device", []))
+    provided = set(needed.get("device", [])) | set(shipped_names)
     provided |= {entry["soname"] for entry in elf.values() if entry["soname"]}
     provided |= {Path(file).name for file in elf}
     users: dict[str, list[str]] = {}
@@ -267,7 +270,7 @@ def build_one(repo: Repo, name: str, out: Path) -> dict:
     problems = [f"{item['to']} was not produced" for item in spec["output"]["files"]
                 if item["to"] not in files and not any(path.startswith(item["to"].rstrip("/") + "/") for path in files)]
     if exit_code == 0 and not problems:
-        problems += contract_problems(spec, elf)
+        problems += contract_problems(spec, elf, frozenset(Path(path).name for path in files))
     record = {"name": name, "source": spec["source"], "extra_sources": spec.get("extra_sources", []),
               "downloads": spec.get("downloads", []), "toolchain": toolchain["image_id"],
               "exit_code": exit_code, "files": files, "elf": elf, "problems": problems,
