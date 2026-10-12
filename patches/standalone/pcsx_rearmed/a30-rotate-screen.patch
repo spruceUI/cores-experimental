@@ -1,0 +1,74 @@
+Generated from spruceUI/pcsx_rearmed-spruce@7055836:patches/a30/rotate_screen.py
+against notaz/pcsx_rearmed d4ffcd0a36bb plus signal-handlers.patch (2026-10-12). PCSX_ROTATE=270
+rotates the GL output for the A30's portrait panel.
+
+diff --git a/frontend/plat_sdl.c b/frontend/plat_sdl.c
+index ca0bdf7..1b18f53 100644
+--- a/frontend/plat_sdl.c
++++ b/frontend/plat_sdl.c
+@@ -148,6 +148,16 @@ static float gl_vertices[] = {
+ 	 1.0f, -1.0f,  0.0f, // 3  +-->
+ };
+ 
++/* A30 rotation: 270 deg (90 CCW) rotated vertices for portrait panel */
++static int pcsx_rotate = -1; /* -1=unchecked, 0=off, 1=on */
++static float gl_vertices_rot[] = {
++  -1.0f, -1.0f,  0.0f,
++  -1.0f,  1.0f,  0.0f,
++   1.0f, -1.0f,  0.0f,
++   1.0f,  1.0f,  0.0f,
++};
++
++
+ static void handle_window_resize(void);
+ static void handle_scaler_resize(int w, int h);
+ static void centered_clear(void);
+@@ -213,6 +223,12 @@ static void get_layer_pos(int *x, int *y, int *w, int *h)
+ 
+ void plat_init(void)
+ {
++  /* A30: check rotation env var */
++  if (pcsx_rotate == -1) {
++    const char *e = getenv("PCSX_ROTATE");
++    pcsx_rotate = (e && strcmp(e, "270") == 0) ? 1 : 0;
++  }
++
+   static const char *hwfilters[] = { "linear", "nearest", NULL };
+   const SDL_version *ver;
+   int shadow_size;
+@@ -256,6 +272,8 @@ void plat_init(void)
+   plugin_update();
+   if (plat_target.vout_method == vout_mode_gl)
+     gl_w_prev = plat_sdl_screen->w, gl_h_prev = plat_sdl_screen->h;
++  if (pcsx_rotate == 1 && vout_mode_gl != -1)
++    plat_target.vout_method = vout_mode_gl;
+   if (vout_mode_gl != -1)
+     plat_target.hwfilters = hwfilters;
+ }
+@@ -406,6 +424,7 @@ static void overlay_or_gl_check_enable(void)
+   int ovl_on = plat_target.vout_method == vout_mode_overlay ||
+     plat_target.vout_method == vout_mode_overlay2x;
+   int gl_on = plat_target.vout_method == vout_mode_gl;
++  if (pcsx_rotate == 1) gl_on = 1;
+   if (!gl_on && plat_sdl_gl_active) {
+     gl_finish_pl();
+     pl_rearmed_cbs.gles_display = gl_es_display;
+@@ -675,7 +694,7 @@ void *plat_gvideo_flip(void)
+     SDL_DisplayYUVOverlay(plat_sdl_overlay, &dstrect);
+   }
+   else if (plat_sdl_gl_active) {
+-    gl_flip_v(shadow_fb, psx_w, psx_h, g_scaler != SCALE_FULLSCREEN ? gl_vertices : NULL);
++    gl_flip_v(shadow_fb, psx_w, psx_h, pcsx_rotate == 1 ? gl_vertices_rot : (g_scaler != SCALE_FULLSCREEN ? gl_vertices : NULL));
+     ret = shadow_fb;
+   }
+   else
+@@ -780,8 +799,7 @@ void plat_video_menu_end(void)
+     SDL_DisplayYUVOverlay(plat_sdl_overlay, &dstrect);
+   }
+   else if (plat_sdl_gl_active) {
+-    gl_flip_v(g_menuscreen_ptr, g_menuscreen_w, g_menuscreen_h,
+-        g_scaler != SCALE_FULLSCREEN ? gl_vertices : NULL);
++    gl_flip_v(g_menuscreen_ptr, g_menuscreen_w, g_menuscreen_h, pcsx_rotate == 1 ? gl_vertices_rot : (g_scaler != SCALE_FULLSCREEN ? gl_vertices : NULL));
+   }
+   else {
+     centered_blit_menu();

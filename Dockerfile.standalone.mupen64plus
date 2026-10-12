@@ -1,0 +1,21 @@
+# cores-standalone-mupen64plus v1: the build environment of spruceUI/mupen64plus-spruce@b3cbeb9
+# (Dockerfile) on the pinned arm64 base image: the same Ubuntu 20.04 cross
+# compiler and focal arm64 packages, which no longer change.
+FROM sha256:c9c1332ce01845412beed67695d6bd62a3de510e74003480624412f9877fb938
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    nasm \
+    libsdl2-dev:arm64 \
+    libsdl2-ttf-dev:arm64 \
+    libasound2-dev:arm64 \
+    libfreetype6-dev:arm64 \
+    libgles2-mesa-dev:arm64 \
+    libegl1-mesa-dev:arm64 \
+    libpng-dev:arm64 \
+    zlib1g-dev:arm64 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN dpkg -l > /apt-manifest.txt

@@ -1,0 +1,49 @@
+Generated from spruceUI/pcsx_rearmed-spruce@7055836:patches/add_signal_handlers.py
+against notaz/pcsx_rearmed d4ffcd0a36bb (2026-10-12). SIGUSR1 saves state 0 and quits;
+SIGUSR2 opens the menu (spruce's game switcher and Home button).
+
+diff --git a/frontend/main.c b/frontend/main.c
+index ee2de1c..8183818 100644
+--- a/frontend/main.c
++++ b/frontend/main.c
+@@ -578,6 +578,22 @@ static void check_memcards(void)
+ 	}
+ }
+ 
++
++static volatile int sigusr1_triggered;
++
++static void SignalSaveAndQuit(int sig) {
++	// SIGUSR1: flag save-and-quit for main loop
++	sigusr1_triggered = 1;
++	emu_action = SACTION_SAVE_STATE;
++	psxRegs.stop++;
++}
++
++static void SignalEnterMenu(int sig) {
++	// SIGUSR2: open emulator menu
++	emu_action = SACTION_ENTER_MENU;
++	psxRegs.stop++;
++}
++
+ int main(int argc, char *argv[])
+ {
+ 	char file[MAXPATHLEN] = "";
+@@ -725,6 +741,8 @@ int main(int argc, char *argv[])
+ 		psxCpu->Execute(&psxRegs);
+ 		if (emu_action != SACTION_NONE)
+ 			do_emu_action();
++		if (sigusr1_triggered)
++			g_emu_want_quit = 1;
+ 	}
+ 
+ 	printf("Exit..\n");
+@@ -929,6 +947,8 @@ static int _OpenPlugins(void) {
+ #ifndef NO_FRONTEND
+ 	signal(SIGINT, SignalExit);
+ 	signal(SIGPIPE, SignalExit);
++	signal(SIGUSR1, SignalSaveAndQuit);
++	signal(SIGUSR2, SignalEnterMenu);
+ #endif
+ 
+ 	ret = cdra_open();

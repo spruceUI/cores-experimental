@@ -1,0 +1,22 @@
+# cores-standalone-moonlight v1: the build environment of spruceUI/Moonlight-spruce@79536f5
+# (Dockerfile) on the pinned arm64 base image: the same Ubuntu 20.04 cross
+# compiler and focal arm64 packages, which no longer change.
+FROM sha256:c9c1332ce01845412beed67695d6bd62a3de510e74003480624412f9877fb938
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    nasm \
+    libsdl2-dev:arm64 \
+    libasound2-dev:arm64 \
+    libopus-dev:arm64 \
+    libevdev-dev:arm64 \
+    libpulse-dev:arm64 \
+    libavahi-client-dev:arm64 \
+    libudev-dev:arm64 \
+    libexpat1-dev:arm64 \
+    uuid-dev:arm64 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN dpkg -l > /apt-manifest.txt

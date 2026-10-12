@@ -1,0 +1,35 @@
+# cores-standalone-yabasanshiro v1: the build environment of spruceUI/YabaSanshiro-spruce@49d2ded
+# (Dockerfile) on the pinned arm64 base image: the same Ubuntu 20.04 cross
+# compiler and focal arm64 packages, plus Kitware's CMake 4.4.3 as its build had.
+FROM sha256:c9c1332ce01845412beed67695d6bd62a3de510e74003480624412f9877fb938
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+COPY kitware-archive-latest.asc /etc/apt/trusted.gpg.d/kitware.asc
+RUN echo "801bc629e356c3c96f184351272914222ce427777400fa7d1baed3ab180b3e3b  /etc/apt/trusted.gpg.d/kitware.asc" | sha256sum -c - && \
+    echo "deb [arch=amd64] https://apt.kitware.com/ubuntu/ focal main" > /etc/apt/sources.list.d/kitware.list
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cmake=4.4.3-0kitware1ubuntu20.04.1 \
+    cmake-data=4.4.3-0kitware1ubuntu20.04.1 \
+    python3 \
+    libglm-dev \
+    libsdl2-dev:arm64 \
+    libasound2-dev:arm64 \
+    libpulse-dev:arm64 \
+    zlib1g-dev:arm64 \
+    libudev-dev:arm64 \
+    libgles2-mesa-dev:arm64 \
+    libegl1-mesa-dev:arm64 \
+    libboost-filesystem-dev:arm64 \
+    libboost-system-dev:arm64 \
+    libboost-locale-dev:arm64 \
+    libboost-date-time-dev:arm64 \
+    libboost-thread-dev:arm64 \
+    libpng-dev:arm64 \
+    libglew-dev:arm64 \
+    libssl-dev:arm64 \
+    libvulkan-dev:arm64 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN dpkg -l > /apt-manifest.txt

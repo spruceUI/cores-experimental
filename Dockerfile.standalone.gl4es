@@ -1,0 +1,17 @@
+# cores-standalone-gl4es v1: the build environment of spruceUI/BigPEmu-spruce@c572022
+# (Dockerfile.64) on the pinned arm64 base image. Its gl4es build used pip's CMake,
+# which resolved to 4.4.2 on 2026-08-29; pinned here by hash.
+FROM sha256:c9c1332ce01845412beed67695d6bd62a3de510e74003480624412f9877fb938
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN printf '%s\n' 'cmake==4.4.2 --hash=sha256:27b024e903ef985b37183d754a5c61230b56b41fe0971cd44b71b80c787ec594' > /tmp/cmake.txt && \
+    pip3 install --no-cache-dir --require-hashes -r /tmp/cmake.txt && rm /tmp/cmake.txt && \
+    ln -sf /usr/local/bin/cmake /usr/bin/cmake && cmake --version
+
+RUN dpkg -l > /apt-manifest.txt
