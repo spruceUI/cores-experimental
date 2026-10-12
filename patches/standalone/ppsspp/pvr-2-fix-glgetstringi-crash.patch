@@ -1,0 +1,16 @@
+Generated from spruceUI/PPSSPP-spruce@59687a6:patches/pvr/fix-glgetstringi-crash.py against hrydgard/ppsspp
+d357e6a32934 (v1.20.3) with pvr-c1..c5 and pvr-1 applied (2026-10-12). Apply in order.
+
+diff --git a/Common/GPU/OpenGL/GLFeatures.cpp b/Common/GPU/OpenGL/GLFeatures.cpp
+index c28807a..e8fe5ae 100644
+--- a/Common/GPU/OpenGL/GLFeatures.cpp
++++ b/Common/GPU/OpenGL/GLFeatures.cpp
+@@ -321,7 +321,7 @@ bool CheckGLExtensions() {
+ 	}
+ 
+ 	const char *extString = nullptr;
+-	if (gl_extensions.ver[0] >= 3) {
++	if (gl_extensions.ver[0] >= 3 && glGetStringi) {
+ 		// Let's use the new way for OpenGL 3.x+, required in the core profile.
+ 		GLint numExtensions = 0;
+ 		glGetIntegerv(GL_NUM_EXTENSIONS, &numExtensions);

@@ -1,0 +1,16 @@
+Generated from spruceUI/PPSSPP-spruce@670bd4b:patches/rgb30/fullscreen-kmsdrm.py against hrydgard/ppsspp
+d357e6a32934 (v1.20.3) with common patches 1-7 applied (2026-10-12). Apply in order.
+
+diff --git a/SDL/SDLMain.cpp b/SDL/SDLMain.cpp
+index 7a75ea4..757a8bb 100644
+--- a/SDL/SDLMain.cpp
++++ b/SDL/SDLMain.cpp
+@@ -1592,7 +1592,7 @@ int main(int argc, char *argv[]) {
+ #elif defined(USING_FBDEV) || PPSSPP_PLATFORM(SWITCH)
+ 	mode |= SDL_WINDOW_FULLSCREEN;
+ #else
+-	mode |= SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
++	mode |= SDL_WINDOW_FULLSCREEN;  // RGB30: KMSDRM, no window manager
+ #endif
+ 
+ 	if (mode & SDL_WINDOW_FULLSCREEN) {

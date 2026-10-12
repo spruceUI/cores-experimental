@@ -1,7 +1,7 @@
 # Toolchain images
 
-Every core builds in one of three Docker images, and standalone emulators in a
-fourth. `manifests/toolchains.json` pins each by image ID and names its archive
+Every core builds in one of three Docker images, and standalone emulators in
+images of their own. `manifests/toolchains.json` pins each by image ID and names its archive
 on the `toolchains` release; a build refuses to run on any other image.
 
 | toolchain | image ID | archive | recipe |
@@ -10,6 +10,7 @@ on the `toolchains` release; a build refuses to run on any other image.
 | armhf | `3c5f1e9c40cb` (v4) | `cores-armhf-v4.tar.gz` | `Dockerfile.armhf` on base `6ac154886195` |
 | rust | `aa42a12ced6b` | `cores-rust.tar.gz` | `Dockerfile.rust` (on Ubuntu, no base) |
 | arm64-standalone | `c630f837fad0` (v1) | `cores-arm64-standalone-v1.tar.gz` | `Dockerfile.arm64.standalone` on the arm64 image `538411e2759c` ([standalone emulators](../docs/standalone.md)) |
+| standalone-* | see `manifests/toolchains.json` | `cores-standalone-<name>-v1.tar.gz` | `Dockerfile.standalone.<name>`, one per spruceUI wrapper build environment, on base `c9c1332ce018` or `6ac154886195` (Flip: Debian bookworm by digest) |
 
 `cores-armhf.tar.gz` (armhf v2, `393a23661c41`) stays on the release because
 older commits pin it. Never replace a published archive: give a new image a new
@@ -40,6 +41,10 @@ Inputs that are too large for git, each sha256-checked by its Dockerfile:
 |---|---|---|
 | `rust.tar.gz` | `Dockerfile.rust` | https://static.rust-lang.org/dist/rust-1.90.0-x86_64-unknown-linux-gnu.tar.gz |
 | `a30_toolchain-v1.0.tar.gz` | `Dockerfile.armhf.base` | this repository's `toolchains` release (a copy of the one on spruceUI/Cores-spruce's) |
+| `flip-toolchain-v1.0.tar.gz` | `Dockerfile.standalone.flip` | https://github.com/steward-fu/website/releases/download/miyoo-flip/flip-toolchain-v1.0.tar.gz |
+| `aarch64-linux-gnu-7.5.0-linaro.tgz`, `SDK_usr_tg5040_a133p.tgz` | `Dockerfile.standalone.trimui` | spruceUI/PPSSPP-spruce's `sdk-toolchains` release |
+| `sdk_tg5050_linux_v1.0.0.tgz` (1.1 GB) | `Dockerfile.standalone.tsps` | spruceUI/PPSSPP-spruce's `sdk-toolchains` release |
+| `onion_toolchain.tar.gz` | `Dockerfile.standalone.mini` | https://github.com/steward-fu/website/releases/download/miyoo-mini/onion_toolchain.tar.gz |
 
 ## Changing a toolchain image
 
@@ -85,3 +90,6 @@ too (`cores-<arch>-base-<id>.tar.gz`).
 - armhf v4 (2026-10-07): libpng built with `-fPIC`, so easyrpg links it
   statically; mpg123 built with `--with-cpu=arm_fpu` (NEON decoder, chosen at
   run time).
+- Standalone images (2026-10-12): one per spruceUI wrapper repository's build
+  environment, so each recipe reproduces what spruce ships. None is on the
+  release yet.

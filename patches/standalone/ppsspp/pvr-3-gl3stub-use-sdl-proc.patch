@@ -1,0 +1,19 @@
+Generated from spruceUI/PPSSPP-spruce@59687a6:patches/pvr/gl3stub-use-sdl-proc.py against hrydgard/ppsspp
+d357e6a32934 (v1.20.3) with pvr-c1..c5 and pvr-1..2 applied (2026-10-12). Apply in order.
+
+diff --git a/Common/GPU/OpenGL/gl3stub.c b/Common/GPU/OpenGL/gl3stub.c
+index 1caf54b..002ed38 100644
+--- a/Common/GPU/OpenGL/gl3stub.c
++++ b/Common/GPU/OpenGL/gl3stub.c
+@@ -21,9 +21,10 @@
+ #if defined(USING_GLES2)
+ #if !PPSSPP_PLATFORM(IOS)
+ #include "EGL/egl.h"
++#include "SDL2/SDL.h"
+ 
+ GLboolean gl3stubInit() {
+-    #define FIND_PROC(s) s = (void*)eglGetProcAddress(#s)
++    #define FIND_PROC(s) s = (void*)SDL_GL_GetProcAddress(#s)
+     FIND_PROC(glReadBuffer);
+     FIND_PROC(glDrawRangeElements);
+     FIND_PROC(glTexImage3D);

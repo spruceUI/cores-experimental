@@ -1,0 +1,26 @@
+# cores-standalone-mini v1: the build environment of spruceUI/pcsx_rearmed-spruce@d522dc2 and
+# ScummVM-spruce@6d04046 (Dockerfile.mini) on the pinned armhf base (Ubuntu 24.04): steward-fu's
+# Onion toolchain for the Miyoo Mini (GCC 8.3, glibc 2.28) in /opt/miyoomini-toolchain.
+FROM sha256:6ac15488619561c6f1df564c47789c5637c9a236879d07f3255765340524c7bf
+
+ENV DEBIAN_FRONTEND=noninteractive
+# The base's A30 toolchain stays installed but off PATH, as in the wrappers' images.
+ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    ccache \
+    p7zip-full \
+    && rm -rf /var/lib/apt/lists/*
+
+# From steward-fu/website's miyoo-mini release; toolchain-inputs/README.md.
+COPY onion_toolchain.tar.gz /tmp/
+RUN echo "daf36fd697292d81106f03e7d8be3d0f707231298ee970d98e5d1ca005404ccd  /tmp/onion_toolchain.tar.gz" | sha256sum -c - && \
+    mkdir -p /opt/miyoomini-toolchain && \
+    tar xzf /tmp/onion_toolchain.tar.gz -C /opt/miyoomini-toolchain --strip-components=1 && \
+    rm /tmp/onion_toolchain.tar.gz && \
+    test -x /opt/miyoomini-toolchain/bin/arm-linux-gnueabihf-gcc
+
+ENV PATH="/opt/miyoomini-toolchain/bin:${PATH}"
+
+RUN dpkg -l > /apt-manifest.txt

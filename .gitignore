@@ -12,6 +12,14 @@ __pycache__/
 # sha256-pinned in Dockerfile.armhf.base.
 /toolchain-inputs/a30_toolchain-v1.0.tar.gz
 
+# Standalone image inputs from their upstream releases (toolchain-inputs/README.md),
+# sha256-pinned in each Dockerfile.standalone.*.
+/toolchain-inputs/flip-toolchain-v1.0.tar.gz
+/toolchain-inputs/aarch64-linux-gnu-7.5.0-linaro.tgz
+/toolchain-inputs/SDK_usr_tg5040_a133p.tgz
+/toolchain-inputs/sdk_tg5050_linux_v1.0.0.tgz
+/toolchain-inputs/onion_toolchain.tar.gz
+
 # Local working notes stay out of the published tree.
 /REVIEW.md
 /PLAN.md

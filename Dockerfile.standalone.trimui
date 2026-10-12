@@ -1,0 +1,26 @@
+# cores-standalone-trimui v1: the build environment of spruceUI/PPSSPP-spruce@59687a6 (Dockerfile.pvr) on the
+# pinned arm64 base: Ubuntu 20.04's GCC 9.4 cross compiler over /opt/sysroot, made of Linaro GCC 7.5's glibc
+# and TrimUI's tg5040 SDK (the A133P boards' PowerVR GE8300 GLES and SDL2).
+FROM sha256:c9c1332ce01845412beed67695d6bd62a3de510e74003480624412f9877fb938
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential cmake git python3 ccache ca-certificates pkg-config \
+    gcc-aarch64-linux-gnu g++-aarch64-linux-gnu \
+    && rm -rf /var/lib/apt/lists/*
+
+# From spruceUI/PPSSPP-spruce's sdk-toolchains release; toolchain-inputs/README.md.
+COPY aarch64-linux-gnu-7.5.0-linaro.tgz SDK_usr_tg5040_a133p.tgz /tmp/
+RUN cd /tmp && \
+    printf '%s\n' "604d97c1f5fadc88d6ebff577ea648d0fbc650411af98a3bd8783dbe4e3ed154  aarch64-linux-gnu-7.5.0-linaro.tgz" \
+        "b6b615d03204e9d9bb1a91c31de0c3402434f6b8fc780743fa88a5f1da6f3c79  SDK_usr_tg5040_a133p.tgz" | sha256sum -c - && \
+    tar xzf aarch64-linux-gnu-7.5.0-linaro.tgz -C /opt/ && \
+    mkdir -p /opt/smartpro-sdk && tar xzf SDK_usr_tg5040_a133p.tgz -C /opt/smartpro-sdk/ && \
+    rm aarch64-linux-gnu-7.5.0-linaro.tgz SDK_usr_tg5040_a133p.tgz
+
+RUN cp -a /opt/aarch64-linux-gnu-7.5.0-linaro/aarch64-linux-gnu/libc /opt/sysroot && \
+    cp -a /opt/smartpro-sdk/usr/include/* /opt/sysroot/usr/include/ && \
+    cp -a /opt/smartpro-sdk/usr/lib/* /opt/sysroot/usr/lib/
+
+RUN dpkg -l > /apt-manifest.txt

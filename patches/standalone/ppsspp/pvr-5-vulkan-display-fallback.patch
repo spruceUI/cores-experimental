@@ -1,0 +1,24 @@
+Generated from spruceUI/PPSSPP-spruce@59687a6:patches/pvr/vulkan-display-fallback.py against hrydgard/ppsspp
+d357e6a32934 (v1.20.3) with pvr-c1..c5 and pvr-1..4 applied (2026-10-12). Apply in order.
+
+diff --git a/SDL/SDLVulkanGraphicsContext.cpp b/SDL/SDLVulkanGraphicsContext.cpp
+index 47d0569..6fdace4 100644
+--- a/SDL/SDLVulkanGraphicsContext.cpp
++++ b/SDL/SDLVulkanGraphicsContext.cpp
+@@ -122,10 +122,16 @@ bool SDLVulkanGraphicsContext::Init(SDL_Window *&window, int x, int y, int w, in
+ 		vulkan_->InitSurface(WINDOWSYSTEM_DISPLAY, nullptr, nullptr);
+ 		break;
+ #endif
++#if defined(VK_USE_PLATFORM_DISPLAY_KHR)
++	default:
++		vulkan_->InitSurface(WINDOWSYSTEM_DISPLAY, nullptr, nullptr);
++		break;
++#else
+ 	default:
+ 		fprintf(stderr, "Vulkan subsystem %d not supported\n", sys_info.subsystem);
+ 		exit(1);
+ 		break;
++#endif
+ 	}
+ 
+ 	bool useMultiThreading = g_Config.bRenderMultiThreading;

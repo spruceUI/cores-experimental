@@ -1,0 +1,80 @@
+Generated from spruceUI/PPSSPP-spruce@59687a6:patches/common/sigusr1-save-and-quit.py against hrydgard/ppsspp
+d357e6a32934 (v1.20.3) with pvr-c1..c3 applied (2026-10-12). Apply in order.
+
+diff --git a/SDL/SDLMain.cpp b/SDL/SDLMain.cpp
+index a97c27b..e78863b 100644
+--- a/SDL/SDLMain.cpp
++++ b/SDL/SDLMain.cpp
+@@ -62,6 +62,12 @@ SDLJoystick *joystick = NULL;
+ #include "Common/Data/Encoding/Utf8.h"
+ #include "Common/Thread/ThreadUtil.h"
+ #include "Common/StringUtils.h"
++// X11 headers (via SDL_syswm.h) #define Status as int, breaking enum class Status in SaveState.h
++#ifdef Status
++#undef Status
++#endif
++#include "Core/SaveState.h"
++#include "Core/ELF/ParamSFO.h"
+ #include "Core/System.h"
+ #include "Core/Core.h"
+ #include "Core/Config.h"
+@@ -94,6 +100,12 @@ GlobalUIState GetUIState();
+ static bool g_QuitRequested = false;
+ static bool g_RestartRequested = false;
+ 
++static volatile sig_atomic_t g_saveAndQuit = 0;
++
++static void saveAndQuitHandler(int) {
++	g_saveAndQuit = 1;
++}
++
+ static int g_DesktopWidth = 0;
+ static int g_DesktopHeight = 0;
+ static float g_DesktopDPI = 1.0f;
+@@ -1414,6 +1426,13 @@ int main(int argc, char *argv[]) {
+ 	if (signal(SIGPIPE, SIG_IGN) == SIG_ERR) {
+ 		perror("Unable to ignore SIGPIPE");
+ 	}
++
++	// Register SIGUSR1 handler for external save-and-quit (spruceOS GameSwitcher)
++	struct sigaction sa = {};
++	sa.sa_handler = saveAndQuitHandler;
++	sa.sa_flags = SA_RESTART;
++	sigemptyset(&sa.sa_mask);
++	sigaction(SIGUSR1, &sa, NULL);
+ #endif // HAVE_LIBNX
+ 
+ 	PROFILE_INIT();
+@@ -1798,6 +1817,16 @@ SDL_ShowCursor(SDL_DISABLE);
+ 			if (g_QuitRequested || g_RestartRequested)
+ 				break;
+ 
++			if (g_saveAndQuit) {
++				g_saveAndQuit = 0;
++				if (PSP_IsInited() && (GetUIState() == UISTATE_INGAME || GetUIState() == UISTATE_PAUSEMENU)) {
++					SaveState::SaveSlot(SaveState::GetGamePrefix(g_paramSFO), g_Config.iCurrentStateSlot,
++						[](auto, auto) { g_QuitRequested = true; });
++				} else {
++					g_QuitRequested = true;
++				}
++			}
++
+ 			UpdateTextFocus();
+ 			UpdateSDLCursor();
+ 
+@@ -1817,6 +1846,15 @@ SDL_ShowCursor(SDL_DISABLE);
+ 				ProcessSDLEvent(window, event, &inputTracker);
+ 			}
+ 		}
++		if (g_saveAndQuit) {
++			g_saveAndQuit = 0;
++			if (PSP_IsInited() && (GetUIState() == UISTATE_INGAME || GetUIState() == UISTATE_PAUSEMENU)) {
++				SaveState::SaveSlot(SaveState::GetGamePrefix(g_paramSFO), g_Config.iCurrentStateSlot,
++					[](auto, auto) { g_QuitRequested = true; });
++			} else {
++				g_QuitRequested = true;
++			}
++		}
+ 		if (g_QuitRequested || g_RestartRequested)
+ 			break;
+ 		if (emuThreadState == (int)EmuThreadState::DISABLED) {

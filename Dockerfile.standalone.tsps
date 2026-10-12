@@ -1,0 +1,25 @@
+# cores-standalone-tsps v1: the build environment of spruceUI/PPSSPP-spruce@f74caa2 (Dockerfile.tsps) on the
+# pinned arm64 base: the compiler (aarch64-none-linux-gnu GCC 10.3) and Buildroot sysroot of TrimUI's
+# tg5050 SDK for the Smart Pro S (Allwinner A523, Mali G57), in /opt/tsps-sdk.
+FROM sha256:c9c1332ce01845412beed67695d6bd62a3de510e74003480624412f9877fb938
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential cmake git python3 ccache ca-certificates pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+# From spruceUI/PPSSPP-spruce's sdk-toolchains release (1.1 GB); toolchain-inputs/README.md.
+COPY sdk_tg5050_linux_v1.0.0.tgz /tmp/
+RUN echo "2fbc70ec0c91c0e85a1fd5bf4e994fafb36133d05f3b822ce88519f10d4ca017  /tmp/sdk_tg5050_linux_v1.0.0.tgz" | sha256sum -c - && \
+    mkdir -p /opt/tsps-sdk && \
+    tar xzf /tmp/sdk_tg5050_linux_v1.0.0.tgz -C /opt/tsps-sdk --strip-components=2 \
+        sdk_tg5050_linux_v1.0.0/host/bin \
+        sdk_tg5050_linux_v1.0.0/host/opt \
+        sdk_tg5050_linux_v1.0.0/host/aarch64-buildroot-linux-gnu && \
+    rm /tmp/sdk_tg5050_linux_v1.0.0.tgz && \
+    test -x /opt/tsps-sdk/opt/ext-toolchain/bin/aarch64-none-linux-gnu-gcc
+
+ENV PATH="/opt/tsps-sdk/opt/ext-toolchain/bin:${PATH}"
+
+RUN dpkg -l > /apt-manifest.txt

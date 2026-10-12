@@ -1,0 +1,54 @@
+Generated from spruceUI/PPSSPP-spruce@59687a6:patches/common/sigusr2-toggle-pause-menu.py against hrydgard/ppsspp
+d357e6a32934 (v1.20.3) with pvr-c1..c4 applied (2026-10-12). Apply in order.
+
+diff --git a/SDL/SDLMain.cpp b/SDL/SDLMain.cpp
+index e78863b..e0db71e 100644
+--- a/SDL/SDLMain.cpp
++++ b/SDL/SDLMain.cpp
+@@ -106,6 +106,12 @@ static void saveAndQuitHandler(int) {
+ 	g_saveAndQuit = 1;
+ }
+ 
++static volatile sig_atomic_t g_togglePauseMenu = 0;
++
++static void togglePauseMenuHandler(int) {
++	g_togglePauseMenu = 1;
++}
++
+ static int g_DesktopWidth = 0;
+ static int g_DesktopHeight = 0;
+ static float g_DesktopDPI = 1.0f;
+@@ -1433,6 +1439,10 @@ int main(int argc, char *argv[]) {
+ 	sa.sa_flags = SA_RESTART;
+ 	sigemptyset(&sa.sa_mask);
+ 	sigaction(SIGUSR1, &sa, NULL);
++
++	// Register SIGUSR2 handler for external pause menu toggle (spruceOS home button)
++	sa.sa_handler = togglePauseMenuHandler;
++	sigaction(SIGUSR2, &sa, NULL);
+ #endif // HAVE_LIBNX
+ 
+ 	PROFILE_INIT();
+@@ -1827,6 +1837,11 @@ SDL_ShowCursor(SDL_DISABLE);
+ 				}
+ 			}
+ 
++			if (g_togglePauseMenu) {
++				g_togglePauseMenu = 0;
++				System_PostUIMessage(UIMessage::REQUEST_GAME_PAUSE);
++			}
++
+ 			UpdateTextFocus();
+ 			UpdateSDLCursor();
+ 
+@@ -1855,6 +1870,10 @@ SDL_ShowCursor(SDL_DISABLE);
+ 				g_QuitRequested = true;
+ 			}
+ 		}
++		if (g_togglePauseMenu) {
++			g_togglePauseMenu = 0;
++			System_PostUIMessage(UIMessage::REQUEST_GAME_PAUSE);
++		}
+ 		if (g_QuitRequested || g_RestartRequested)
+ 			break;
+ 		if (emuThreadState == (int)EmuThreadState::DISABLED) {

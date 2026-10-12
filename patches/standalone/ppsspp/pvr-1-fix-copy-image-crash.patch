@@ -1,0 +1,16 @@
+Generated from spruceUI/PPSSPP-spruce@59687a6:patches/pvr/fix-copy-image-crash.py against hrydgard/ppsspp
+d357e6a32934 (v1.20.3) with pvr-c1..c5 applied (2026-10-12). Apply in order.
+
+diff --git a/Common/GPU/OpenGL/thin3d_gl.cpp b/Common/GPU/OpenGL/thin3d_gl.cpp
+index 57279e0..4f6b701 100644
+--- a/Common/GPU/OpenGL/thin3d_gl.cpp
++++ b/Common/GPU/OpenGL/thin3d_gl.cpp
+@@ -584,7 +584,7 @@ OpenGLContext::OpenGLContext(bool canChangeSwapInterval) : renderManager_(frameT
+ 	caps_.setMaxFrameLatencySupported = true;
+ 	caps_.dualSourceBlend = gl_extensions.ARB_blend_func_extended || gl_extensions.EXT_blend_func_extended;
+ 	caps_.anisoSupported = gl_extensions.EXT_texture_filter_anisotropic;
+-	caps_.framebufferCopySupported = gl_extensions.OES_copy_image || gl_extensions.NV_copy_image || gl_extensions.EXT_copy_image || gl_extensions.ARB_copy_image;
++	caps_.framebufferCopySupported = (gl_extensions.OES_copy_image || gl_extensions.NV_copy_image || gl_extensions.EXT_copy_image || gl_extensions.ARB_copy_image) && glCopyImageSubDataOES != nullptr;
+ 	caps_.framebufferBlitSupported = gl_extensions.NV_framebuffer_blit || gl_extensions.ARB_framebuffer_object || gl_extensions.GLES3;
+ 	caps_.framebufferDepthBlitSupported = caps_.framebufferBlitSupported;
+ 	caps_.framebufferStencilBlitSupported = caps_.framebufferBlitSupported;

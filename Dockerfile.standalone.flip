@@ -1,0 +1,23 @@
+# cores-standalone-flip v1: the build environment of spruceUI/PPSSPP-spruce@f74caa2 (Dockerfile.flip)
+# and @670bd4b (Dockerfile.rgb30): Debian bookworm with steward-fu's Miyoo Flip toolchain
+# (buildroot, GCC 13.3, the Flip's sysroot) in /opt/flip.
+FROM debian:bookworm-slim@sha256:7c7b2c966bc9ee8cedfeef67e0e279108992c77681fa595db4a9d65c06ccc587
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates git bash build-essential \
+    pkg-config python3 cmake ccache wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# From steward-fu/website's miyoo-flip release; toolchain-inputs/README.md.
+COPY flip-toolchain-v1.0.tar.gz /tmp/
+RUN echo "1e975625ffc5ef8ffb9c243fadb36b587cb9611a89e7b817879d1a5bb14cbaeb  /tmp/flip-toolchain-v1.0.tar.gz" | sha256sum -c - && \
+    mkdir -p /opt/flip && \
+    tar xzf /tmp/flip-toolchain-v1.0.tar.gz -C /opt/flip --strip-components=1 && \
+    rm /tmp/flip-toolchain-v1.0.tar.gz && \
+    test -x /opt/flip/bin/aarch64-flip-linux-gnu-gcc
+
+ENV PATH="/opt/flip/bin:${PATH}"
+
+RUN dpkg -l > /apt-manifest.txt
