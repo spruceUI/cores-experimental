@@ -189,5 +189,7 @@ jobs:
         with:
           name: bundles
           path: bundles/
+          # The cores live under RetroArch/.retroarch/, which upload-artifact skips by default.
+          include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 14
