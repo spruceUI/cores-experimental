@@ -2,14 +2,20 @@
   "note": "Standalone (non-libretro) emulators spruce ships. Fields: docs/standalone.md.",
   "builds": {
     "flycast-standalone": {
+      "description": "Flycast v2.7: Emu/DC/flycast on every 64-bit device (Dreamcast, NAOMI, Atomiswave)",
       "source": {
         "url": "https://github.com/flyinghead/flycast.git",
         "commit": "5aa091fde632fb332c8d8c34e280d62dc951954c",
         "tree": "6384bacac6a2be89164a923372052a7ad1dff05a",
-        "requested_ref": "refs/tags/v2.7"
+        "requested_ref": "refs/tags/v2.7",
+        "submodules": true
       },
       "toolchain": "arm64-standalone",
       "source_date_epoch": 1786747058,
+      "env": {
+        "PKG_CONFIG_PATH": "/opt/flycast-standalone-deps-arm64/lib/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/opt/flycast-standalone-deps-arm64/lib/pkgconfig:/usr/lib/aarch64-linux-gnu/pkgconfig"
+      },
       "cmake": {
         "target": "flycast",
         "cross_defines": {
@@ -45,14 +51,32 @@
         }
       },
       "output": {
-        "binary": "flycast",
-        "bundled_libraries": [
-          "libcurl.so.4",
-          "libssl.so.1.1",
-          "libcrypto.so.1.1"
+        "files": [
+          {
+            "from": "/tmp/standalone-build/flycast",
+            "to": "flycast",
+            "strip": "-s"
+          },
+          {
+            "from": "/opt/flycast-standalone-deps-arm64/lib/libcurl.so.4",
+            "to": "lib64/libcurl.so.4",
+            "strip": "-s"
+          },
+          {
+            "from": "/opt/flycast-standalone-deps-arm64/lib/libssl.so.1.1",
+            "to": "lib64/libssl.so.1.1",
+            "strip": "-s"
+          },
+          {
+            "from": "/opt/flycast-standalone-deps-arm64/lib/libcrypto.so.1.1",
+            "to": "lib64/libcrypto.so.1.1",
+            "strip": "-s"
+          }
         ],
-        "spruce_path": "Emu/DC/flycast",
-        "spruce_library_dir": "Emu/DC/lib64"
+        "spruce": {
+          "flycast": "Emu/DC/flycast",
+          "lib64/": "Emu/DC/lib64/"
+        }
       },
       "needed": {
         "device": [
@@ -83,6 +107,16 @@
           "libEGL.so.1",
           "libEGL.so"
         ]
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "note": "libcrypto.so.1.1 differs only in OpenSSL's embedded build date: the image did not pin it",
+        "files": {
+          "flycast": "d96cfdd5e684aac200ba7cf1a54523183aa45a9e06c8fac302d026747d4f7387",
+          "lib64/libcurl.so.4": "07a17f0f376dc5767ec9a08088f74eea7020101c2863cf695584e3174b6a284f",
+          "lib64/libssl.so.1.1": "29df77584de812438fd363ede4f07f767effeb8cc29e74b68f52286bd5bf66ad",
+          "lib64/libcrypto.so.1.1": "729642980ae72bee91d7a9ce76577b366b5eab422d4d8acc82069db1c03f8afe"
+        }
       }
     }
   }

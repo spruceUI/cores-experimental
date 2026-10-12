@@ -1,12 +1,14 @@
-"""Standalone (non-libretro) emulators: render, build and check one recipe.
+"""Standalone (non-libretro) emulators: render, build and check their recipes.
 
-A recipe in manifests/standalone-builds.json builds one executable with CMake and
-bundles the libraries no device provides. There is no load test (a standalone
-emulator needs a display); the check is its NEEDED list against the recipe."""
+A recipe in manifests/standalone-builds.json builds one emulator variant from pinned
+sources in a pinned toolchain image (docs/standalone.md). There is no load test (a
+standalone emulator needs a display): after a build, every shipped ELF's NEEDED list
+is checked against the recipe, and every file against the hashes of what spruce ships."""
 
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from . import build, recipe
@@ -15,24 +17,121 @@ from .catalog import COMMIT, Repo, load_json
 MANIFEST = "manifests/standalone-builds.json"
 SOURCE = "/src"
 BUILD_DIR = "/tmp/standalone-build"
-PREFIX = "/opt/flycast-standalone-deps-arm64"
+DIST = "/output/dist"
+RECIPE_MOUNT = "/recipe"
+SHA256 = re.compile(r"^[0-9a-f]{64}$")
+STRIP_MODES = ("-s", "--strip-unneeded")
+# readelf -d lines -> "file<TAB>needed|soname<TAB>value"
+ELF_FIELDS = r'''/\((NEEDED|SONAME)\)/ { match($0, /\[.*\]/); kind = ($2 ~ /NEEDED/) ? "needed" : "soname"; print file "\t" kind "\t" substr($0, RSTART + 1, RLENGTH - 2) }'''
 
 
 def load(repo: Repo) -> dict:
-    return load_json(repo.root / MANIFEST)["builds"]
+    """Every build with its `extends` chain applied, abstract bases included."""
+    raw = load_json(repo.root / MANIFEST)["builds"]
+    return {name: resolve(raw, name) for name in raw}
+
+
+def resolve(raw: dict, name: str, chain: tuple = ()) -> dict:
+    """A build's fields over its parent's, top-level keys replaced whole."""
+    if name in chain:
+        raise ValueError(f"standalone {name}: extends loop through {' -> '.join(chain)}")
+    spec = raw[name]
+    parent = spec.get("extends")
+    if parent is None:
+        return dict(spec)
+    if parent not in raw:
+        raise ValueError(f"standalone {name}: extends unknown build {parent}")
+    merged = resolve(raw, parent, chain + (name,))
+    merged.pop("abstract", None)
+    merged.update({key: value for key, value in spec.items() if key != "extends"})
+    return merged
+
+
+def buildable(builds: dict) -> dict:
+    return {name: spec for name, spec in builds.items() if not spec.get("abstract")}
 
 
 def check(repo: Repo) -> list[str]:
+    try:
+        builds = load(repo)
+    except ValueError as error:
+        return [str(error)]
+    return [f"standalone {name}: {problem}" for name, spec in buildable(builds).items()
+            for problem in spec_problems(repo, spec)]
+
+
+def spec_problems(repo: Repo, spec: dict) -> list[str]:
     problems = []
-    for name, spec in load(repo).items():
-        if not COMMIT.match(spec["source"]["commit"]) or not COMMIT.match(spec["source"]["tree"]):
-            problems.append(f"standalone {name}: source.commit and source.tree must be full ids")
-        if spec["toolchain"] not in repo.toolchains:
-            problems.append(f"standalone {name}: unknown toolchain {spec['toolchain']}")
-        overlap = set(spec["needed"]["device"]) & set(spec["needed"]["forbidden"])
-        if overlap:
-            problems.append(f"standalone {name}: both device and forbidden: {' '.join(sorted(overlap))}")
+    sources = [spec.get("source") or {}] + list(spec.get("extra_sources", []))
+    for source in sources:
+        if not COMMIT.match(source.get("commit", "")) or not COMMIT.match(source.get("tree", "")):
+            problems.append(f"source {source.get('url')}: commit and tree must be full ids")
+    for extra in spec.get("extra_sources", []):
+        if not str(extra.get("path", "")).startswith("/"):
+            problems.append(f"extra source {extra.get('url')}: path must be absolute")
+    if spec.get("toolchain") not in repo.toolchains:
+        problems.append(f"unknown toolchain {spec.get('toolchain')}")
+    if not isinstance(spec.get("source_date_epoch"), int):
+        problems.append("source_date_epoch must be an integer")
+    if ("cmake" in spec) == ("steps" in spec):
+        problems.append("give exactly one of cmake and steps")
+    for item in spec.get("downloads", []):
+        if not SHA256.match(item.get("sha256", "")) or not str(item.get("path", "")).startswith("/"):
+            problems.append(f"download {item.get('url')}: needs a sha256 and an absolute path")
+    for patch in spec.get("patches", []):
+        kinds = [kind for kind in ("diff", "script") if kind in patch]
+        if len(kinds) != 1:
+            problems.append(f"patch {patch}: give exactly one of diff and script")
+        elif not (repo.root / patch[kinds[0]]).is_file():
+            problems.append(f"patch {patch[kinds[0]]} does not exist")
+    files = spec.get("output", {}).get("files", [])
+    if not files:
+        problems.append("output.files is empty")
+    for item in files:
+        if not item.get("from") or not item.get("to") or item["to"].startswith("/"):
+            problems.append(f"output file {item}: needs from and a relative to")
+        if item.get("strip") not in (None, *STRIP_MODES):
+            problems.append(f"output file {item.get('to')}: strip must be one of {STRIP_MODES}")
+    targets = [item.get("to", "") for item in files]
+    for path in spec.get("shipped", {}).get("files", {}):
+        if not any(path == to or path.startswith(to.rstrip("/") + "/") for to in targets):
+            problems.append(f"shipped file {path} is not an output")
+    for path, digest in spec.get("shipped", {}).get("files", {}).items():
+        if not SHA256.match(digest):
+            problems.append(f"shipped file {path}: sha256 must be 64 hex digits")
+    needed = spec.get("needed", {})
+    overlap = set(needed.get("device", [])) & set(needed.get("forbidden", []))
+    if overlap:
+        problems.append(f"both device and forbidden: {' '.join(sorted(overlap))}")
     return problems
+
+
+def clone(source: dict, path: str) -> list[str]:
+    q = recipe.q
+    lines = [f"git clone --filter=blob:none --no-checkout {q(source['url'])} {q(path)}",
+             f"git -C {q(path)} checkout -q {source['commit']}",
+             f"test \"$(git -C {q(path)} rev-parse 'HEAD^{{tree}}')\" = {source['tree']}"]
+    if source.get("submodules"):
+        lines.append(f"git -C {q(path)} submodule update --init --recursive --depth 1 -q")
+    return lines
+
+
+def download(item: dict) -> list[str]:
+    q = recipe.q
+    path = q(item["path"])
+    fetch = "import sys, urllib.request; urllib.request.urlretrieve(sys.argv[1], sys.argv[2])"
+    return [f"mkdir -p \"$(dirname {path})\"",
+            f"python3 -c {q(fetch)} {q(item['url'])} {path}",
+            f"echo {q(item['sha256'] + '  ' + item['path'])} | sha256sum -c -"]
+
+
+def apply_patch(patch: dict) -> list[str]:
+    q = recipe.q
+    target = q(patch.get("dir", SOURCE))
+    if "diff" in patch:
+        path = q(f"{RECIPE_MOUNT}/{patch['diff']}")
+        return [f"git -C {target} apply --check {path}", f"git -C {target} apply {path}"]
+    return [f"(cd {target} && python3 {q(RECIPE_MOUNT + '/' + patch['script'])})"]
 
 
 def configure(spec: dict, cross: str) -> list[str]:
@@ -47,65 +146,132 @@ def configure(spec: dict, cross: str) -> list[str]:
     return argv
 
 
-def render(name: str, spec: dict, toolchain: dict) -> recipe.Script:
-    source, output, cross = spec["source"], spec["output"], toolchain["host_cc"]
+def collect(output: dict, cross: str) -> list[str]:
+    """Copy the outputs into dist/, then list every ELF's SONAME and NEEDED entries."""
     q = recipe.q
-    binary, target = q(output["binary"]), q(spec["cmake"]["target"])
-    lines = [
-        "set -euo pipefail",
-        f"export SOURCE_DATE_EPOCH={int(spec['source_date_epoch'])}",
-        f"export PKG_CONFIG_PATH={q(PREFIX + '/lib/pkgconfig')}",
-        f"export PKG_CONFIG_LIBDIR={q(PREFIX + '/lib/pkgconfig:/usr/lib/' + cross + '/pkgconfig')}",
-        "export LC_ALL=C.UTF-8",
-        "umask 022",
-        f"git clone --filter=blob:none --no-checkout {q(source['url'])} {SOURCE}",
-        f"git -C {SOURCE} checkout -q {source['commit']}",
-        f"test \"$(git -C {SOURCE} rev-parse 'HEAD^{{tree}}')\" = {source['tree']}",
-        f"git -C {SOURCE} submodule update --init --recursive --depth 1 -q",
-        f"git -C {SOURCE} rev-parse HEAD > /output/source-commit.txt",
-        " ".join(q(part) for part in configure(spec, cross)),
-        f"cmake --build {BUILD_DIR} -j \"$(nproc)\" --target {target}",
-        f"install -m 0755 {BUILD_DIR}/{target} /output/{binary}",
-        f"{cross}-strip -s /output/{binary}",
-        "mkdir -p /output/lib",
-    ]
-    for soname in output["bundled_libraries"]:
-        lines += [f"cp -L {PREFIX}/lib/{q(soname)} /output/lib/{q(soname)}",
-                  f"{cross}-strip -s /output/lib/{q(soname)}"]
+    lines = [f"mkdir -p {DIST}"]
+    for item in output["files"]:
+        target = q(f"{DIST}/{item['to']}")
+        if item.get("dir"):
+            lines += [f"mkdir -p \"$(dirname {target})\"", f"cp -a {q(item['from'])} {target}"]
+            continue
+        lines.append(f"install -D -m {item.get('mode', '0755')} {q(item['from'])} {target}")
+        if item.get("strip"):
+            lines.append(f"{cross}-strip {item['strip']} {target}")
     lines += [
-        f"{cross}-readelf -d /output/{binary} | sed -n 's/.*(NEEDED).*\\[\\(.*\\)\\]/\\1/p' > /output/needed.txt",
-        f"for so in /output/lib/*; do {cross}-readelf -d \"$so\" | sed -n 's/.*(NEEDED).*\\[\\(.*\\)\\]/\\1/p'; done > /output/lib-needed.txt",
-        "chown -R \"$OUTPUT_UID:$OUTPUT_GID\" /output",
+        f"(cd {DIST} && find . -type f | LC_ALL=C sort | while read -r file; do",
+        f"  if {cross}-readelf -h \"$file\" >/dev/null 2>&1; then",
+        f"    {cross}-readelf -d \"$file\" | awk -v file=\"${{file#./}}\" {q(ELF_FIELDS)}",
+        "  fi",
+        "done) > /output/elf.tsv",
     ]
-    return recipe.Script("\n".join(lines) + "\n")
+    return lines
 
 
-def contract_problems(spec: dict, needed: list[str], lib_needed: list[str]) -> list[str]:
-    """What the binary or its bundled libraries need that the recipe does not allow."""
-    allowed = set(spec["needed"]["device"]) | set(spec["output"]["bundled_libraries"])
-    forbidden = set(spec["needed"]["forbidden"])
-    problems = [f"{so} is forbidden" for so in sorted(set(needed) | set(lib_needed)) if so in forbidden]
-    problems += [f"{so} is neither on the device nor bundled" for so in sorted(set(needed) | set(lib_needed))
-                 if so not in allowed and so not in forbidden]
+def render(name: str, spec: dict, toolchain: dict) -> recipe.Script:
+    q = recipe.q
+    cross = toolchain["host_cc"]
+    lines = ["set -euo pipefail",
+             "trap 'chown -R \"$OUTPUT_UID:$OUTPUT_GID\" /output' EXIT",
+             f"unset {recipe.SCRUBBED}",
+             f"export SOURCE_DATE_EPOCH={int(spec['source_date_epoch'])}",
+             "export LC_ALL=C.UTF-8",
+             "umask 022",
+             f"export CROSS={q(cross)} SOURCE={SOURCE} BUILD_DIR={BUILD_DIR} DIST={DIST}"]
+    lines += [f"export {key}={q(value)}" for key, value in spec.get("env", {}).items()]
+    lines += clone(spec["source"], SOURCE)
+    lines.append(f"git -C {SOURCE} rev-parse HEAD > /output/source-commit.txt")
+    for extra in spec.get("extra_sources", []):
+        lines += clone(extra, extra["path"])
+    for item in spec.get("downloads", []):
+        lines += download(item)
+    for patch in spec.get("patches", []):
+        lines += apply_patch(patch)
+    lines.append(f"cd {SOURCE}")
+    if "cmake" in spec:
+        lines += [" ".join(q(part) for part in configure(spec, cross)),
+                  f"cmake --build {BUILD_DIR} -j \"$(nproc)\" --target {q(spec['cmake']['target'])}"]
+    else:
+        lines += list(spec["steps"])
+    lines += collect(spec["output"], cross)
+    mounts = [("patches", f"{RECIPE_MOUNT}/patches")] if spec.get("patches") else []
+    return recipe.Script("\n".join(lines) + "\n", mounts)
+
+
+def read_elf(path: Path) -> dict:
+    """elf.tsv as {file: {"soname": str | None, "needed": [str]}}."""
+    elf: dict = {}
+    if not path.exists():
+        return elf
+    for line in path.read_text().splitlines():
+        file, kind, value = line.split("\t")
+        entry = elf.setdefault(file, {"soname": None, "needed": []})
+        if kind == "soname":
+            entry["soname"] = value
+        else:
+            entry["needed"].append(value)
+    return elf
+
+
+def contract_problems(spec: dict, elf: dict) -> list[str]:
+    """What the shipped ELFs need that neither the device nor the build provides."""
+    needed = spec.get("needed", {})
+    forbidden = set(needed.get("forbidden", []))
+    provided = set(needed.get("device", []))
+    provided |= {entry["soname"] for entry in elf.values() if entry["soname"]}
+    provided |= {Path(file).name for file in elf}
+    users: dict[str, list[str]] = {}
+    for file, entry in elf.items():
+        for lib in entry["needed"]:
+            users.setdefault(lib, []).append(file)
+    problems = []
+    for lib in sorted(users):
+        if lib in forbidden:
+            problems.append(f"{lib} is forbidden (needed by {', '.join(users[lib])})")
+        elif lib not in provided:
+            problems.append(f"{lib} is neither on the device nor shipped (needed by {', '.join(users[lib])})")
     return problems
+
+
+def inventory(dist: Path) -> dict:
+    files = {}
+    if dist.is_dir():
+        for path in sorted(dist.rglob("*")):
+            relative = path.relative_to(dist).as_posix()
+            if path.is_symlink():
+                files[relative] = {"link": str(path.readlink())}
+            elif path.is_file():
+                files[relative] = {"sha256": build.sha256(path), "size": path.stat().st_size}
+    return files
+
+
+def compare_shipped(spec: dict, files: dict) -> dict:
+    result = {}
+    for path, digest in spec.get("shipped", {}).get("files", {}).items():
+        entry = files.get(path)
+        result[path] = "missing" if not entry else "match" if entry.get("sha256") == digest else "differs"
+    return result
 
 
 def build_one(repo: Repo, name: str, out: Path) -> dict:
     spec = load(repo)[name]
+    if spec.get("abstract"):
+        raise RuntimeError(f"{name} is an abstract base, not a build")
     toolchain = repo.toolchains[spec["toolchain"]]
     if not build.image_present(toolchain["image_id"]):
         raise RuntimeError(f"toolchain image {spec['toolchain']} is not loaded")
     target = out / name
     exit_code = build.run_container(repo, toolchain["image_id"], render(name, spec, toolchain), target)
-    binary = target / spec["output"]["binary"]
-    record = {"name": name, "source": spec["source"], "toolchain": toolchain["image_id"], "exit_code": exit_code,
-              "artifact": None, "bundled": {}, "needed": [], "problems": []}
-    if exit_code == 0 and binary.is_file():
-        read = lambda f: [line for line in (target / f).read_text().split() if line]
-        record["artifact"] = {"name": binary.name, "sha256": build.sha256(binary), "size": binary.stat().st_size}
-        record["bundled"] = {lib.name: build.sha256(lib) for lib in sorted((target / "lib").iterdir())}
-        record["needed"] = read("needed.txt")
-        record["problems"] = contract_problems(spec, record["needed"], read("lib-needed.txt"))
-    record["status"] = "built" if record["artifact"] and not record["problems"] else "failed"
+    files = inventory(target / "dist")
+    elf = read_elf(target / "elf.tsv")
+    problems = [f"{item['to']} was not produced" for item in spec["output"]["files"]
+                if item["to"] not in files and not any(path.startswith(item["to"].rstrip("/") + "/") for path in files)]
+    if exit_code == 0 and not problems:
+        problems += contract_problems(spec, elf)
+    record = {"name": name, "source": spec["source"], "extra_sources": spec.get("extra_sources", []),
+              "downloads": spec.get("downloads", []), "toolchain": toolchain["image_id"],
+              "exit_code": exit_code, "files": files, "elf": elf, "problems": problems,
+              "shipped": compare_shipped(spec, files)}
+    record["status"] = "built" if exit_code == 0 and not problems else "failed"
     (target / "record.json").write_text(json.dumps(record, indent=2) + "\n")
     return record

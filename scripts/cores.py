@@ -218,10 +218,11 @@ def cmd_summary(repo: Repo, args) -> int:
 
 
 def cmd_standalone(repo: Repo, args) -> int:
-    builds = standalone.load(repo)
+    builds = standalone.buildable(standalone.load(repo))
     if args.action == "list":
         for name, spec in builds.items():
-            print(f"{name:24} {spec['source']['requested_ref']:16} {spec['output']['spruce_path']}")
+            card = " ".join(sorted(spec["output"].get("spruce", {}).values()))
+            print(f"{name:28} {spec['toolchain']:22} {spec['source']['requested_ref']:22} {card}")
         return 0
     if args.name not in builds:
         print(f"unknown standalone build {args.name}; see `standalone list`", file=sys.stderr)

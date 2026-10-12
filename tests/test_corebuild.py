@@ -271,29 +271,78 @@ class ReleaseTest(unittest.TestCase):
         self.assertTrue(build.usability(out)["loaded"])
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class StandaloneTest(unittest.TestCase):
     def setUp(self):
         self.spec = standalone.load(REPO)["flycast-standalone"]
+        self.toolchain = REPO.toolchains[self.spec["toolchain"]]
+
+    def steps_spec(self, **fields) -> dict:
+        spec = {"source": dict(self.spec["source"]), "toolchain": "arm64", "source_date_epoch": 1,
+                "steps": ["make -j1"], "output": {"files": [{"from": "/src/emu", "to": "emu", "strip": "-s"}]}}
+        spec.update(fields)
+        return spec
 
     def test_recipes_are_consistent(self):
         self.assertEqual(standalone.check(REPO), [])
 
-    def test_script_pins_the_source_and_bundles_the_libraries(self):
-        text = standalone.render("flycast-standalone", self.spec, REPO.toolchains[self.spec["toolchain"]]).text
+    def test_script_pins_the_source_and_ships_the_libraries(self):
+        text = standalone.render("flycast-standalone", self.spec, self.toolchain).text
         self.assertIn(f"checkout -q {self.spec['source']['commit']}", text)
         self.assertIn(self.spec["source"]["tree"], text)
         self.assertIn(f"SOURCE_DATE_EPOCH={self.spec['source_date_epoch']}", text)
-        for soname in self.spec["output"]["bundled_libraries"]:
-            self.assertIn(f"/output/lib/{soname}", text)
-        self.assertLess(text.index("cmake --build"), text.index("strip -s /output/flycast"))
+        for item in self.spec["output"]["files"]:
+            self.assertIn(f"/output/dist/{item['to']}", text)
+        self.assertLess(text.index("cmake --build"), text.index("strip -s /output/dist/flycast"))
+        self.assertLess(text.index("strip -s /output/dist/flycast"), text.index("/output/elf.tsv"))
 
     def test_contract_names_forbidden_and_unaccounted_libraries(self):
-        ok = ["libSDL2-2.0.so.0", "libcurl.so.4", "libc.so.6"]
-        self.assertEqual(standalone.contract_problems(self.spec, ok, ["libssl.so.1.1", "libz.so.1"]), [])
-        problems = standalone.contract_problems(self.spec, ok + ["libvulkan.so.1", "libfoo.so.1"], [])
-        self.assertEqual(problems, ["libvulkan.so.1 is forbidden", "libfoo.so.1 is neither on the device nor bundled"])
+        elf = {"flycast": {"soname": None, "needed": ["libSDL2-2.0.so.0", "libcurl.so.4", "libc.so.6"]},
+               "lib64/libcurl.so.4": {"soname": "libcurl.so.4", "needed": ["libssl.so.1.1", "libz.so.1"]},
+               "lib64/libssl.so.1.1": {"soname": "libssl.so.1.1", "needed": []}}
+        self.assertEqual(standalone.contract_problems(self.spec, elf), [])
+        elf["flycast"]["needed"] += ["libvulkan.so.1", "libfoo.so.1"]
+        self.assertEqual(standalone.contract_problems(self.spec, elf), [
+            "libfoo.so.1 is neither on the device nor shipped (needed by flycast)",
+            "libvulkan.so.1 is forbidden (needed by flycast)"])
 
+    def test_extends_replaces_top_level_keys_and_drops_abstract(self):
+        raw = {"base": {"abstract": True, "toolchain": "arm64", "steps": ["a"], "env": {"X": "1"}},
+               "child": {"extends": "base", "steps": ["b"]}}
+        child = standalone.resolve(raw, "child")
+        self.assertEqual((child["steps"], child["env"], child.get("abstract")), (["b"], {"X": "1"}, None))
+        self.assertEqual(list(standalone.buildable({n: standalone.resolve(raw, n) for n in raw})), ["child"])
+        with self.assertRaises(ValueError):
+            standalone.resolve({"a": {"extends": "b"}, "b": {"extends": "a"}}, "a")
+
+    def test_problems_are_reported(self):
+        self.assertEqual(standalone.spec_problems(REPO, self.steps_spec()), [])
+        bad = self.steps_spec(cmake={}, toolchain="nope", downloads=[{"url": "u", "sha256": "x", "path": "p"}],
+                              patches=[{"diff": "patches/standalone/none.patch"}],
+                              shipped={"files": {"other": "0" * 64}})
+        problems = standalone.spec_problems(REPO, bad)
+        for fragment in ("unknown toolchain", "exactly one of cmake and steps", "download u",
+                         "does not exist", "shipped file other is not an output"):
+            self.assertTrue(any(fragment in problem for problem in problems), fragment)
+
+    def test_patches_and_downloads_are_checked_in_the_script(self):
+        spec = self.steps_spec(patches=[{"diff": "patches/standalone/x/a.patch"}],
+                               downloads=[{"url": "https://example.org/t.tar.gz", "sha256": "a" * 64, "path": "/dl/t.tar.gz"}])
+        script = standalone.render("x", spec, REPO.toolchains["arm64"])
+        self.assertIn("git -C /src apply --check /recipe/patches/standalone/x/a.patch", script.text)
+        self.assertIn(f"echo '{'a' * 64}  /dl/t.tar.gz' | sha256sum -c -", script.text)
+        self.assertEqual(script.mounts, [("patches", "/recipe/patches")])
+        self.assertLess(script.text.index("sha256sum -c"), script.text.index("make -j1"))
+
+    def test_elf_listing_and_shipped_comparison(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tsv = Path(tmp) / "elf.tsv"
+            tsv.write_text("emu\tneeded\tlibc.so.6\nlib/x.so\tsoname\tlibx.so.1\nlib/x.so\tneeded\tlibm.so.6\n")
+            self.assertEqual(standalone.read_elf(tsv), {"emu": {"soname": None, "needed": ["libc.so.6"]},
+                                                        "lib/x.so": {"soname": "libx.so.1", "needed": ["libm.so.6"]}})
+        spec = {"shipped": {"files": {"emu": "1" * 64, "lib/x.so": "2" * 64, "gone": "3" * 64}}}
+        files = {"emu": {"sha256": "1" * 64}, "lib/x.so": {"sha256": "9" * 64}}
+        self.assertEqual(standalone.compare_shipped(spec, files), {"emu": "match", "lib/x.so": "differs", "gone": "missing"})
+
+
+if __name__ == "__main__":
+    unittest.main()
