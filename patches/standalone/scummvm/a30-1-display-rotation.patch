@@ -1,0 +1,59 @@
+Generated from spruceUI/ScummVM-spruce@af75e4d:build-a30.sh (first inline Python patch) against scummvm/scummvm d21ef2e4cb9a
+(v2026.2.0) with common-1 applied (2026-10-12). Apply in order.
+
+diff --git a/backends/graphics/surfacesdl/surfacesdl-graphics.cpp b/backends/graphics/surfacesdl/surfacesdl-graphics.cpp
+index 77cb5ff..6966f97 100644
+--- a/backends/graphics/surfacesdl/surfacesdl-graphics.cpp
++++ b/backends/graphics/surfacesdl/surfacesdl-graphics.cpp
+@@ -3015,7 +3015,10 @@ void SurfaceSdlGraphicsManager::notifyVideoExpose() {
+ 
+ void SurfaceSdlGraphicsManager::notifyResize(const int width, const int height) {
+ #if SDL_VERSION_ATLEAST(2, 0, 0)
+-	handleResize(width, height);
++	if (SDL_getenv("DISPLAY_ROTATION") && (SDL_atoi(SDL_getenv("DISPLAY_ROTATION")) % 180 != 0))
++		handleResize(height, width);
++	else
++		handleResize(width, height);
+ #endif
+ }
+ 
+@@ -3123,6 +3126,10 @@ SDL_Surface *SurfaceSdlGraphicsManager::SDL_SetVideoMode(int width, int height,
+ 	}
+ 
+ 	getWindowSizeFromSdl(&_windowWidth, &_windowHeight);
++	// Swap dimensions for rotated portrait panels (e.g. A30 480x640 used as landscape)
++	if (SDL_getenv("DISPLAY_ROTATION") && (SDL_atoi(SDL_getenv("DISPLAY_ROTATION")) % 180 != 0)) {
++		int tmp = _windowWidth; _windowWidth = _windowHeight; _windowHeight = tmp;
++	}
+ 	handleResize(_windowWidth, _windowHeight);
+ 
+ #if !SDL_VERSION_ATLEAST(3, 0, 0)
+@@ -3170,7 +3177,18 @@ void SurfaceSdlGraphicsManager::SDL_UpdateRects(SDL_Surface *screen, int numrect
+ 	Common::Rect &drawRect = (_overlayVisible) ? _overlayDrawRect : _gameDrawRect;
+ 
+ 	/* Destination rectangle represents the texture before rotation */
+-	if (_rotationMode == Common::kRotation90 || _rotationMode == Common::kRotation270) {
++	int _effectiveRotation = (int)_rotationMode;
++	if (_effectiveRotation == 0 && SDL_getenv("DISPLAY_ROTATION"))
++		_effectiveRotation = SDL_atoi(SDL_getenv("DISPLAY_ROTATION"));
++	if (_effectiveRotation != (int)_rotationMode
++		&& (_effectiveRotation == 90 || _effectiveRotation == 270)) {
++		// DISPLAY_ROTATION without rotation_mode: drawRect is in logical
++		// (swapped) space. Center content on physical surface.
++		viewport.w = drawRect.width();
++		viewport.h = drawRect.height();
++		viewport.x = (_windowHeight - viewport.w) / 2;
++		viewport.y = (_windowWidth - viewport.h) / 2;
++	} else if (_rotationMode == Common::kRotation90 || _rotationMode == Common::kRotation270) {
+ 		viewport.w = drawRect.height();
+ 		viewport.h = drawRect.width();
+ 		int delta = (viewport.w - viewport.h) / 2;
+@@ -3183,7 +3201,7 @@ void SurfaceSdlGraphicsManager::SDL_UpdateRects(SDL_Surface *screen, int numrect
+ 		viewport.y = drawRect.top;
+ 	}
+ 
+-	int rotangle = (int)_rotationMode;
++	int rotangle = _effectiveRotation;
+ 
+ 	SDL_RenderClear(_renderer);
+ 

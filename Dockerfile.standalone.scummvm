@@ -1,0 +1,53 @@
+# cores-standalone-scummvm v1: the build environment of spruceUI/ScummVM-spruce@e79b15a
+# (Dockerfile.64) on the pinned arm64 base image: the same Ubuntu 20.04 cross compiler and
+# focal arm64 packages. Its SDL2, SDL_net and FluidSynth builds are in the recipe.
+FROM sha256:c9c1332ce01845412beed67695d6bd62a3de510e74003480624412f9877fb938
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc-aarch64-linux-gnu \
+    g++-aarch64-linux-gnu \
+    pkg-config \
+    git \
+    ca-certificates \
+    python3 \
+    wget \
+    ccache \
+    cmake \
+    python3-pip python3-setuptools python3-wheel \
+    ninja-build autoconf automake premake4 clang \
+    p7zip-full mercurial libarchive-dev libuv1-dev \
+    libsdl2-dev:arm64 \
+    libsdl2-net-dev:arm64 \
+    libasound2-dev:arm64 \
+    libfreetype6-dev:arm64 \
+    libgles2-mesa-dev:arm64 \
+    libegl1-mesa-dev:arm64 \
+    libdrm-dev:arm64 libgbm-dev:arm64 libglew-dev:arm64 \
+    libjpeg-dev:arm64 \
+    libgif-dev:arm64 \
+    libfribidi-dev:arm64 \
+    libtheora-dev:arm64 \
+    libmpeg2-4-dev:arm64 \
+    libfaad-dev:arm64 \
+    libvpx-dev:arm64 \
+    libtiff-dev:arm64 \
+    liba52-0.7.4-dev:arm64 \
+    libcurl4-openssl-dev:arm64 \
+    libspeechd-dev:arm64 \
+    libpng-dev:arm64 \
+    zlib1g-dev:arm64 \
+    libmad0-dev:arm64 \
+    libogg-dev:arm64 \
+    libvorbis-dev:arm64 \
+    libflac-dev:arm64 \
+    libglib2.0-dev:arm64 \
+    libopenal-dev:arm64 libmikmod-dev:arm64 \
+    libevdev-dev:arm64 libexpat1-dev:arm64 libreadline-dev:arm64 \
+    libncurses5-dev:arm64 libncursesw5-dev:arm64 libslang2-dev:arm64 \
+    libopenmpt-dev:arm64 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN dpkg -l > /apt-manifest.txt

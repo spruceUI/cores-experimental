@@ -1,11 +1,11 @@
-Generated from spruceUI/mupen64plus-spruce@c55f708:patches/a30/rotate_screen.py (run in /build) against
-mupen64plus/mupen64plus-core 53a08fc (master on 2026-04-04) (2026-10-12).
+Generated from spruceUI/mupen64plus-spruce@d78e551:patches/a30/rotate_screen.py (run in /build) against
+mupen64plus/mupen64plus-core 53a08fc (master on 2026-04-04) with a30-1 applied (2026-10-12). Apply in order.
 
 diff --git a/src/api/vidext.c b/src/api/vidext.c
-index 3027242..4f84974 100644
+index 502f4fb..b6295ed 100644
 --- a/src/api/vidext.c
 +++ b/src/api/vidext.c
-@@ -43,6 +43,125 @@
+@@ -45,6 +45,125 @@
  #include "m64p_vidext.h"
  #include "vidext.h"
  
@@ -131,7 +131,7 @@ index 3027242..4f84974 100644
  #ifndef USE_GLES
  static int l_ForceCompatibilityContext = 1;
  #endif
-@@ -335,6 +454,16 @@ EXPORT m64p_error CALL VidExt_SetVideoMode(int Width, int Height, int BitsPerPix
+@@ -337,6 +456,16 @@ EXPORT m64p_error CALL VidExt_SetVideoMode(int Width, int Height, int BitsPerPix
          return M64ERR_INPUT_INVALID;
      }
  
@@ -148,7 +148,7 @@ index 3027242..4f84974 100644
      /* set the mode */
      if (BitsPerPixel > 0)
          DebugMessage(M64MSG_INFO, "Setting %i-bit video mode: %ix%i", BitsPerPixel, Width, Height);
-@@ -689,6 +818,12 @@ EXPORT m64p_error CALL VidExt_GL_SwapBuffers(void)
+@@ -705,6 +834,12 @@ EXPORT m64p_error CALL VidExt_GL_SwapBuffers(void)
      if (!l_pWindow || !SDL_WasInit(SDL_INIT_VIDEO))
          return M64ERR_NOT_INIT;
  

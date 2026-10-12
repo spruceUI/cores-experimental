@@ -1541,7 +1541,7 @@
       }
     },
     "mupen64plus-a30": {
-      "description": "Mupen64Plus standalone with GLideN64, Rice and Glide64mk2: Emu/N64/mupen64plus-a30 on the Miyoo A30 (the core's vidext rotates the frame for the portrait panel; a30_input_shim maps the controls). Built as spruceUI/mupen64plus-spruce@c55f708 build-a30.sh did on 2026-04-04, each upstream at that day's master",
+      "description": "Mupen64Plus standalone with GLideN64, Rice and Glide64mk2: Emu/N64/mupen64plus-a30 on the Miyoo A30 (the core's vidext rotates the frame for the portrait panel and saves and quits on SIGUSR1; a30_input_shim maps the controls). Built as spruceUI/mupen64plus-spruce@d78e551's Build All run did on 2026-04-04 (build-a30.sh), each upstream at that day's master; spruceOS 3b5631c97 took its output 11 minutes later",
       "source": {
         "url": "https://github.com/mupen64plus/mupen64plus-core.git",
         "commit": "53a08fceb71653000dd6640cac05eb390fba7885",
@@ -1601,17 +1601,21 @@
         },
         {
           "url": "https://github.com/spruceUI/mupen64plus-spruce.git",
-          "commit": "c55f7087344fc5c3cba51ba7ca267912783c3d9b",
-          "tree": "05da0a13eac66628d3a886078da2f1194ccf7566",
+          "commit": "d78e551cc3c2da56c72b68656ff7e62b36d2dfc5",
+          "tree": "a4239d2cb0b34e3e98468cf74652cc1d03b76b7d",
           "requested_ref": "refs/heads/main (2026-04-04)",
           "path": "/wrapper"
         }
       ],
       "toolchain": "standalone-armhf",
-      "source_date_epoch": 1775278371,
+      "source_date_epoch": 1775317192,
       "patches": [
         {
-          "diff": "patches/standalone/mupen64plus/a30-rotate_screen-core.patch",
+          "diff": "patches/standalone/mupen64plus/a30-1-sigusr1_save_and_quit-core.patch",
+          "dir": "/build/core"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/a30-2-rotate_screen-core.patch",
           "dir": "/build/core"
         }
       ],
@@ -1746,6 +1750,136 @@
           "mupen64plus-video-rice.so": "df77dd4f29d69e0840b6011dd157a941abea225ab92635a0cd0009f91a3e5e54",
           "mupen64plus-video-glide64mk2.so": "0e677e614491dc4ad3b5363306013c6d82d4c98f4fb00e988be1c7d9d248cb35",
           "mupen64plus-video-GLideN64.so": "21cde177bbcbca6c95ebf626ebbb579b5b92b3ba5c3e33b1cb09e375d2ce41c2"
+        }
+      }
+    },
+    "scummvm-a30": {
+      "description": "ScummVM v2026.2.0 with its default engines: scummvm.a30 on the Miyoo A30 (spruceOS carries it as Emu/SCUMMVM/scummvm_a30.7z, which firstboot unpacks; shipped compares the binary), with liba30/ and the fixjoy helper. Built as spruceUI/ScummVM-spruce@af75e4d Dockerfile.a30 and build-a30.sh do: libmad 0.15.1b, libtheora 1.1.1, SDL2_net 2.2.0 and FluidLite built into the A30 sysroot first, its two inline display-rotation patches as a30-1 and a30-2. Two build times are embedded: engines/bagel/spacebar/master_win.cpp early in the build, base/version.cpp at the end",
+      "source": {
+        "url": "https://github.com/scummvm/scummvm.git",
+        "commit": "d21ef2e4cb9a9c979b111375624bdf5b66d91bfa",
+        "tree": "96e7c23fab015c2a06189052778841fd2a25ec27",
+        "requested_ref": "refs/tags/v2026.2.0",
+        "path": "/build/scummvm"
+      },
+      "extra_sources": [
+        {
+          "url": "https://github.com/divideconcept/FluidLite.git",
+          "commit": "4a01cf1c67419e71da971d209f2855bbf4f3bab8",
+          "tree": "dc021a2d5af7fc8aec051b369dc63eb759f7853b",
+          "requested_ref": "refs/heads/master (2026-03-31)",
+          "path": "/tmp/FluidLite"
+        }
+      ],
+      "downloads": [
+        {
+          "url": "https://downloads.sourceforge.net/mad/libmad-0.15.1b.tar.gz",
+          "sha256": "bbfac3ed6bfbc2823d3775ebb931087371e142bb0e9bb1bee51a76a6e0078690",
+          "path": "/tmp/libmad-0.15.1b.tar.gz"
+        },
+        {
+          "url": "https://downloads.xiph.org/releases/theora/libtheora-1.1.1.tar.bz2",
+          "sha256": "b6ae1ee2fa3d42ac489287d3ec34c5885730b1296f0801ae577a35193d3affbc",
+          "path": "/tmp/libtheora-1.1.1.tar.bz2"
+        },
+        {
+          "url": "https://www.libsdl.org/projects/SDL_net/release/SDL2_net-2.2.0.tar.gz",
+          "sha256": "4e4a891988316271974ff4e9585ed1ef729a123d22c08bd473129179dc857feb",
+          "path": "/tmp/SDL2_net-2.2.0.tar.gz"
+        }
+      ],
+      "toolchain": "standalone-armhf",
+      "source_date_epoch": 1774998507,
+      "patches": [
+        {
+          "diff": "patches/standalone/scummvm/common-1-cacert-env.patch"
+        },
+        {
+          "diff": "patches/standalone/scummvm/a30-1-display-rotation.patch"
+        },
+        {
+          "diff": "patches/standalone/scummvm/a30-2-mouse-x-scaling.patch"
+        },
+        {
+          "diff": "patches/standalone/scummvm/common-2-sigusr1-save-and-quit.patch"
+        }
+      ],
+      "steps": [
+        "set +u +o pipefail",
+        "printf '#!/bin/sh\\nexport PKG_CONFIG_SYSROOT_DIR=%s\\nexport PKG_CONFIG_LIBDIR=%s/usr/lib/pkgconfig:%s/usr/share/pkgconfig\\nexec pkg-config \"$@\"\\n' /opt/a30/arm-a30-linux-gnueabihf/sysroot /opt/a30/arm-a30-linux-gnueabihf/sysroot /opt/a30/arm-a30-linux-gnueabihf/sysroot > /opt/a30/bin/arm-a30-linux-gnueabihf-pkg-config",
+        "(export CC=arm-a30-linux-gnueabihf-gcc CXX=arm-a30-linux-gnueabihf-g++ AR=arm-a30-linux-gnueabihf-ar AS=arm-a30-linux-gnueabihf-as LD=arm-a30-linux-gnueabihf-ld RANLIB=arm-a30-linux-gnueabihf-ranlib STRIP=arm-a30-linux-gnueabihf-strip PKG_CONFIG=arm-a30-linux-gnueabihf-pkg-config LDFLAGS=--sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot PKG_CONFIG_LIBDIR=/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig:/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/share/pkgconfig PKG_CONFIG_SYSROOT_DIR=/opt/a30/arm-a30-linux-gnueabihf/sysroot CFLAGS=\"--sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O2 -fPIC\" && export CXXFLAGS=\"$CFLAGS\" && cd /tmp && tar xzf libmad-0.15.1b.tar.gz && cd libmad-0.15.1b && ./configure --host=arm-a30-linux-gnueabihf --build=\"$(dpkg-architecture -qDEB_BUILD_GNU_TYPE)\" --prefix=/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr --disable-static --enable-shared && find . -name Makefile -type f -exec sed -i -e 's/-fforce-mem//g' -e 's/-fforce-addr//g' -e 's/-fstrength-reduce//g' {} + && make -j\"$(nproc)\" && make install && cd /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib && { [ -e libmad.so ] || ln -sf \"$(basename \"$(ls libmad.so.* | head -n1)\")\" libmad.so; })",
+        "(export CC=arm-a30-linux-gnueabihf-gcc CXX=arm-a30-linux-gnueabihf-g++ AR=arm-a30-linux-gnueabihf-ar AS=arm-a30-linux-gnueabihf-as LD=arm-a30-linux-gnueabihf-ld RANLIB=arm-a30-linux-gnueabihf-ranlib STRIP=arm-a30-linux-gnueabihf-strip PKG_CONFIG=arm-a30-linux-gnueabihf-pkg-config LDFLAGS=--sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot PKG_CONFIG_LIBDIR=/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig:/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/share/pkgconfig PKG_CONFIG_SYSROOT_DIR=/opt/a30/arm-a30-linux-gnueabihf/sysroot CFLAGS=\"--sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O2\" && export CXXFLAGS=\"$CFLAGS\" && cd /tmp && tar xjf libtheora-1.1.1.tar.bz2 && cd libtheora-1.1.1 && ./configure --host=arm-a30-linux-gnueabihf --build=\"$(dpkg-architecture -qDEB_BUILD_GNU_TYPE)\" --prefix=/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr --disable-static --enable-shared --disable-examples --disable-spec --disable-encode && make -j\"$(nproc)\" && make install)",
+        "(export CC=arm-a30-linux-gnueabihf-gcc CXX=arm-a30-linux-gnueabihf-g++ AR=arm-a30-linux-gnueabihf-ar AS=arm-a30-linux-gnueabihf-as LD=arm-a30-linux-gnueabihf-ld RANLIB=arm-a30-linux-gnueabihf-ranlib STRIP=arm-a30-linux-gnueabihf-strip PKG_CONFIG=arm-a30-linux-gnueabihf-pkg-config LDFLAGS=--sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot PKG_CONFIG_LIBDIR=/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig:/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/share/pkgconfig PKG_CONFIG_SYSROOT_DIR=/opt/a30/arm-a30-linux-gnueabihf/sysroot CFLAGS=\"--sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O2\" && export CXXFLAGS=\"$CFLAGS\" && cd /tmp && tar xzf SDL2_net-2.2.0.tar.gz && cd SDL2_net-2.2.0 && ./configure --host=arm-a30-linux-gnueabihf --build=\"$(dpkg-architecture -qDEB_BUILD_GNU_TYPE)\" --prefix=/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr --disable-static --enable-shared --with-sdl-prefix=/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr && make -j\"$(nproc)\" && make install)",
+        "(export CC=arm-a30-linux-gnueabihf-gcc CXX=arm-a30-linux-gnueabihf-g++ CFLAGS=\"--sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O2\" && mkdir -p /tmp/FluidLite/build && cd /tmp/FluidLite/build && cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=arm -DCMAKE_C_COMPILER=arm-a30-linux-gnueabihf-gcc \"-DCMAKE_C_FLAGS=--sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O2\" -DCMAKE_INSTALL_PREFIX=/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr -DBUILD_SHARED_LIBS=ON .. && make -j\"$(nproc)\" && make install)",
+        "cd /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib && ln -sf libSDL2-2.0.so.0.2800.5 libSDL2.so && ln -sf libMali.so libEGL.so && ln -sf libMali.so libGLESv2.so && ln -sf libasound.so.2.0.0 libasound.so && ln -sf libfreetype.so.6.20.1 libfreetype.so",
+        "export CC=\"ccache arm-a30-linux-gnueabihf-gcc\" CXX=\"ccache arm-a30-linux-gnueabihf-g++\" AR=arm-a30-linux-gnueabihf-ar STRIP=arm-a30-linux-gnueabihf-strip PKG_CONFIG_PATH=/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig PKG_CONFIG_LIBDIR=/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig PKG_CONFIG_SYSROOT_DIR=/opt/a30/arm-a30-linux-gnueabihf/sysroot CFLAGS=\"--sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O2\"",
+        "export CXXFLAGS=\"$CFLAGS\" LDFLAGS=\"--sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot -L/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib -static-libstdc++\"",
+        "rm -f /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/libfontconfig* /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig/fontconfig.pc",
+        "cd /build/scummvm",
+        "./configure --host=arm-linux-gnueabihf --backend=sdl --enable-optimizations --enable-release --disable-debug --disable-eventrecorder --enable-fluidlite --with-sdl-prefix=/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr | tee configure_summary.txt",
+        "make -j\"$(nproc)\"",
+        "rm -f base/version.o && SOURCE_DATE_EPOCH=1774999952 make -j\"$(nproc)\"",
+        "printf '%s\\n' '#include <stdio.h>' '#include <fcntl.h>' '#include <unistd.h>' '#include <linux/input.h>' '#include <sys/ioctl.h>' '#include <string.h>' '#include <stdlib.h>' '' 'int main(int argc, char **argv) {' '    const char *dev = argc > 1 ? argv[1] : \"/dev/input/event4\";' '    int range = argc > 2 ? atoi(argv[2]) : 128;' '    int fd = open(dev, O_RDWR);' '    if (fd < 0) { perror(\"open\"); return 1; }' '' '    int i;' '    for (i = 0; i < 6; i++) {' '        struct input_absinfo info;' '        if (ioctl(fd, EVIOCGABS(i), &info) == 0) {' '            printf(\"axis %d: val=%d min=%d max=%d fuzz=%d flat=%d\\n\",' '                   i, info.value, info.minimum, info.maximum, info.fuzz, info.flat);' '            if (info.minimum < -range || info.maximum > range) {' '                printf(\"  -> fixing range to [%d, %d]\\n\", -range, range);' '                info.minimum = -range;' '                info.maximum = range;' '                info.fuzz = 0;' '                info.flat = 0;' '                ioctl(fd, EVIOCSABS(i), &info);' '            }' '        }' '    }' '    close(fd);' '    return 0;' '}' > /tmp/fixjoy.c",
+        "mkdir -p /build/out/liba30 && arm-a30-linux-gnueabihf-gcc -static -o /build/out/fixjoy /tmp/fixjoy.c",
+        "cp -L /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/libtheoradec.so.1* /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/libSDL2_net-2.0.so.0* /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/libfluidlite.so* /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/libasound.so.2* /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/libmad.so.0* /build/out/liba30/"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/scummvm/scummvm",
+            "to": "scummvm.a30",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/fixjoy",
+            "to": "fixjoy",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/liba30",
+            "to": "liba30",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "scummvm.a30": "Emu/SCUMMVM/scummvm.a30",
+          "fixjoy": "Emu/SCUMMVM/fixjoy",
+          "liba30/": "Emu/SCUMMVM/liba30/"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-armhf.so.3",
+          "libSDL2-2.0.so.0",
+          "libc.so.6",
+          "libdl.so.2",
+          "libfreetype.so.6",
+          "libgcc_s.so.1",
+          "libjpeg.so.9",
+          "libm.so.6",
+          "libogg.so.0",
+          "libpng16.so.16",
+          "libpthread.so.0",
+          "librt.so.1",
+          "libvorbis.so.0",
+          "libvorbisfile.so.3",
+          "libz.so.1"
+        ],
+        "forbidden": [
+          "libstdc++.so.6"
+        ]
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "scummvm.a30": "d8fd8ccb313d68594799bbdce5b886d842f727721c075d507b4c74b48c982271",
+          "fixjoy": "80a34165662f0a3fc04a7c76c63be9d78d8ecf845c235e82a1c7293040d538c7",
+          "liba30/libSDL2_net-2.0.so.0": "2eff8ace68a08b737e30de29957dcecd3ee4e7e57403454670085f8068707e00",
+          "liba30/libasound.so.2": "0fa2dd965d8d8eff1f6f2d2c5dc877423dee000fc1c274563a8729fdf0c7bda8",
+          "liba30/libfluidlite.so": "6cc6da24f6537025db832cf89a60075cc6066f7b60af729daba3b7146693661f",
+          "liba30/libfluidlite.so.1": "6cc6da24f6537025db832cf89a60075cc6066f7b60af729daba3b7146693661f",
+          "liba30/libmad.so.0": "48ff37fd1fd56a7a105e8c091372604693552f7b4f8e5cbcad210e6a11126d41",
+          "liba30/libtheoradec.so.1": "d6d8587bb00259d4f7a8dfd4038935729f9d181ae0c04216add83f4295cdcd8a"
         }
       }
     }
