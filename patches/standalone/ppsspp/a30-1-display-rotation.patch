@@ -1,0 +1,212 @@
+Generated from spruceUI/PPSSPP-spruce@f74caa2:patches/a30/display-rotation.py against hrydgard/ppsspp
+d357e6a32934 (v1.20.3) with common patches 1-7 applied (2026-10-12). Apply in order.
+
+diff --git a/Common/GPU/OpenGL/GLQueueRunner.cpp b/Common/GPU/OpenGL/GLQueueRunner.cpp
+index c5e2cb4..e96bd0e 100644
+--- a/Common/GPU/OpenGL/GLQueueRunner.cpp
++++ b/Common/GPU/OpenGL/GLQueueRunner.cpp
+@@ -5,6 +5,7 @@
+ #include "Common/GPU/OpenGL/GLFeatures.h"
+ #include "Common/GPU/OpenGL/DataFormatGL.h"
+ #include "Common/Math/math_util.h"
++#include "Common/System/Display.h"
+ #include "Common/VR/PPSSPPVR.h"
+ 
+ #include "Common/Log.h"
+@@ -983,17 +984,26 @@ void GLQueueRunner::PerformRenderPass(const GLRStep &step, bool first, bool last
+ 			break;
+ 		case GLRRenderCommand::VIEWPORT:
+ 		{
+-			float y = c.viewport.vp.y;
+-			if (!curFB_)
+-				y = curFBHeight_ - y - c.viewport.vp.h;
++			float vp_x = c.viewport.vp.x;
++			float vp_y = c.viewport.vp.y;
++			float vp_w = c.viewport.vp.w;
++			float vp_h = c.viewport.vp.h;
++			if (!curFB_) {
++				if (g_display.rotation == DisplayRotation::ROTATE_90 || g_display.rotation == DisplayRotation::ROTATE_270) {
++					std::swap(vp_x, vp_y);
++					std::swap(vp_w, vp_h);
++				} else {
++					vp_y = curFBHeight_ - vp_y - vp_h;
++				}
++			}
+ 
+ 			// TODO: Support FP viewports through glViewportArrays
+-			if (viewport.x != c.viewport.vp.x || viewport.y != y || viewport.w != c.viewport.vp.w || viewport.h != c.viewport.vp.h) {
+-				glViewport((GLint)c.viewport.vp.x, (GLint)y, (GLsizei)c.viewport.vp.w, (GLsizei)c.viewport.vp.h);
+-				viewport.x = c.viewport.vp.x;
+-				viewport.y = y;
+-				viewport.w = c.viewport.vp.w;
+-				viewport.h = c.viewport.vp.h;
++			if (viewport.x != vp_x || viewport.y != vp_y || viewport.w != vp_w || viewport.h != vp_h) {
++				glViewport((GLint)vp_x, (GLint)vp_y, (GLsizei)vp_w, (GLsizei)vp_h);
++				viewport.x = vp_x;
++				viewport.y = vp_y;
++				viewport.w = vp_w;
++				viewport.h = vp_h;
+ 			}
+ 
+ 			if (viewport.minZ != c.viewport.vp.minZ || viewport.maxZ != c.viewport.vp.maxZ) {
+@@ -1014,15 +1024,24 @@ void GLQueueRunner::PerformRenderPass(const GLRStep &step, bool first, bool last
+ 		}
+ 		case GLRRenderCommand::SCISSOR:
+ 		{
+-			int y = c.scissor.rc.y;
+-			if (!curFB_)
+-				y = curFBHeight_ - y - c.scissor.rc.h;
+-			if (scissorRc.x != c.scissor.rc.x || scissorRc.y != y || scissorRc.w != c.scissor.rc.w || scissorRc.h != c.scissor.rc.h) {
+-				glScissor(c.scissor.rc.x, y, c.scissor.rc.w, c.scissor.rc.h);
+-				scissorRc.x = c.scissor.rc.x;
+-				scissorRc.y = y;
+-				scissorRc.w = c.scissor.rc.w;
+-				scissorRc.h = c.scissor.rc.h;
++			int sc_x = c.scissor.rc.x;
++			int sc_y = c.scissor.rc.y;
++			int sc_w = c.scissor.rc.w;
++			int sc_h = c.scissor.rc.h;
++			if (!curFB_) {
++				if (g_display.rotation == DisplayRotation::ROTATE_90 || g_display.rotation == DisplayRotation::ROTATE_270) {
++					std::swap(sc_x, sc_y);
++					std::swap(sc_w, sc_h);
++				} else {
++					sc_y = curFBHeight_ - sc_y - sc_h;
++				}
++			}
++			if (scissorRc.x != sc_x || scissorRc.y != sc_y || scissorRc.w != sc_w || scissorRc.h != sc_h) {
++				glScissor(sc_x, sc_y, sc_w, sc_h);
++				scissorRc.x = sc_x;
++				scissorRc.y = sc_y;
++				scissorRc.w = sc_w;
++				scissorRc.h = sc_h;
+ 			}
+ 			CHECK_GL_ERROR_IF_DEBUG();
+ 			break;
+diff --git a/SDL/SDLMain.cpp b/SDL/SDLMain.cpp
+index 7a75ea4..5106817 100644
+--- a/SDL/SDLMain.cpp
++++ b/SDL/SDLMain.cpp
+@@ -955,6 +955,18 @@ static void ProcessSDLEvent(SDL_Window *window, const SDL_Event &event, InputSta
+ 	// - The UI code expects motion events in "logical DPI" points
+ 	float mx = event.motion.x * g_DesktopDPI * g_display.dpi_scale_x;
+ 	float my = event.motion.y * g_DesktopDPI * g_display.dpi_scale_x;
++	if (g_display.rotation == DisplayRotation::ROTATE_90) {
++		float tmp = mx;
++		mx = my;
++		my = g_DesktopHeight * g_DesktopDPI * g_display.dpi_scale_x - tmp;
++	} else if (g_display.rotation == DisplayRotation::ROTATE_270) {
++		float tmp = mx;
++		mx = g_DesktopWidth * g_DesktopDPI * g_display.dpi_scale_x - my;
++		my = tmp;
++	} else if (g_display.rotation == DisplayRotation::ROTATE_180) {
++		mx = g_DesktopWidth * g_DesktopDPI * g_display.dpi_scale_x - mx;
++		my = g_DesktopHeight * g_DesktopDPI * g_display.dpi_scale_x - my;
++	}
+ 
+ 	switch (event.type) {
+ 	case SDL_QUIT:
+@@ -973,6 +985,9 @@ static void ProcessSDLEvent(SDL_Window *window, const SDL_Event &event, InputSta
+ 			// pixels before passing to Native_UpdateScreenScale()
+ 			int new_width_px = new_width * g_DesktopDPI;
+ 			int new_height_px = new_height * g_DesktopDPI;
++			if (g_display.rotation == DisplayRotation::ROTATE_90 || g_display.rotation == DisplayRotation::ROTATE_270) {
++				std::swap(new_width_px, new_height_px);
++			}
+ 
+ 			Native_NotifyWindowHidden(false);
+ 
+@@ -1113,6 +1128,18 @@ static void ProcessSDLEvent(SDL_Window *window, const SDL_Event &event, InputSta
+ 			input.id = event.tfinger.fingerId;
+ 			input.x = event.tfinger.x * w * g_DesktopDPI * g_display.dpi_scale_x;
+ 			input.y = event.tfinger.y * h * g_DesktopDPI * g_display.dpi_scale_x;
++			if (g_display.rotation == DisplayRotation::ROTATE_90) {
++				float tmp = input.x;
++				input.x = input.y;
++				input.y = g_DesktopHeight * g_DesktopDPI * g_display.dpi_scale_x - tmp;
++			} else if (g_display.rotation == DisplayRotation::ROTATE_270) {
++				float tmp = input.x;
++				input.x = g_DesktopWidth * g_DesktopDPI * g_display.dpi_scale_x - input.y;
++				input.y = tmp;
++			} else if (g_display.rotation == DisplayRotation::ROTATE_180) {
++				input.x = g_DesktopWidth * g_DesktopDPI * g_display.dpi_scale_x - input.x;
++				input.y = g_DesktopHeight * g_DesktopDPI * g_display.dpi_scale_x - input.y;
++			}
+ 			input.flags = TouchInputFlags::MOVE;
+ 			input.timestamp = event.tfinger.timestamp;
+ 			NativeTouch(input);
+@@ -1126,6 +1153,18 @@ static void ProcessSDLEvent(SDL_Window *window, const SDL_Event &event, InputSta
+ 			input.id = event.tfinger.fingerId;
+ 			input.x = event.tfinger.x * w * g_DesktopDPI * g_display.dpi_scale_x;
+ 			input.y = event.tfinger.y * h * g_DesktopDPI * g_display.dpi_scale_x;
++			if (g_display.rotation == DisplayRotation::ROTATE_90) {
++				float tmp = input.x;
++				input.x = input.y;
++				input.y = g_DesktopHeight * g_DesktopDPI * g_display.dpi_scale_x - tmp;
++			} else if (g_display.rotation == DisplayRotation::ROTATE_270) {
++				float tmp = input.x;
++				input.x = g_DesktopWidth * g_DesktopDPI * g_display.dpi_scale_x - input.y;
++				input.y = tmp;
++			} else if (g_display.rotation == DisplayRotation::ROTATE_180) {
++				input.x = g_DesktopWidth * g_DesktopDPI * g_display.dpi_scale_x - input.x;
++				input.y = g_DesktopHeight * g_DesktopDPI * g_display.dpi_scale_x - input.y;
++			}
+ 			input.flags = TouchInputFlags::DOWN;
+ 			input.timestamp = event.tfinger.timestamp;
+ 			NativeTouch(input);
+@@ -1145,6 +1184,18 @@ static void ProcessSDLEvent(SDL_Window *window, const SDL_Event &event, InputSta
+ 			input.id = event.tfinger.fingerId;
+ 			input.x = event.tfinger.x * w * g_DesktopDPI * g_display.dpi_scale_x;
+ 			input.y = event.tfinger.y * h * g_DesktopDPI * g_display.dpi_scale_x;
++			if (g_display.rotation == DisplayRotation::ROTATE_90) {
++				float tmp = input.x;
++				input.x = input.y;
++				input.y = g_DesktopHeight * g_DesktopDPI * g_display.dpi_scale_x - tmp;
++			} else if (g_display.rotation == DisplayRotation::ROTATE_270) {
++				float tmp = input.x;
++				input.x = g_DesktopWidth * g_DesktopDPI * g_display.dpi_scale_x - input.y;
++				input.y = tmp;
++			} else if (g_display.rotation == DisplayRotation::ROTATE_180) {
++				input.x = g_DesktopWidth * g_DesktopDPI * g_display.dpi_scale_x - input.x;
++				input.y = g_DesktopHeight * g_DesktopDPI * g_display.dpi_scale_x - input.y;
++			}
+ 			input.flags = TouchInputFlags::UP;
+ 			input.timestamp = event.tfinger.timestamp;
+ 			NativeTouch(input);
+@@ -1574,6 +1625,36 @@ int main(int argc, char *argv[]) {
+ 	g_DesktopHeight = displayMode.h;
+ 	g_RefreshRate = displayMode.refresh_rate;
+ 
++	// Display rotation for portrait-panel devices (e.g., Miyoo A30)
++	{
++		const char *rot_env = getenv("DISPLAY_ROTATION");
++		int rot_deg = rot_env ? atoi(rot_env) : 0;
++		g_display.rotation = DisplayRotation::ROTATE_0;
++		g_display.rot_matrix.setIdentity();
++		// DISPLAY_ROTATION is how far the panel is rotated from normal;
++		// we apply the inverse rotation to compensate.
++		// We apply the inverse rotation to compensate for panel orientation.
++		switch (rot_deg) {
++		case 90:
++			g_display.rotation = DisplayRotation::ROTATE_270;
++			g_display.rot_matrix.setRotationZ270();
++			std::swap(g_DesktopWidth, g_DesktopHeight);
++			break;
++		case 180:
++			g_display.rotation = DisplayRotation::ROTATE_180;
++			g_display.rot_matrix.setRotationZ180();
++			break;
++		case 270:
++			g_display.rotation = DisplayRotation::ROTATE_90;
++			g_display.rot_matrix.setRotationZ90();
++			std::swap(g_DesktopWidth, g_DesktopHeight);
++			break;
++		}
++		if (rot_deg != 0) {
++			fprintf(stderr, "Display rotation: %d degrees\n", rot_deg);
++		}
++	}
++
+ 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+ 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+ 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);

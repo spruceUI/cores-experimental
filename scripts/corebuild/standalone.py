@@ -125,8 +125,9 @@ def download(item: dict) -> list[str]:
     fetch = ('import shutil, sys, urllib.request; request = urllib.request.Request(sys.argv[1], '
              'headers={"User-Agent": "cores-experimental"}); '
              'shutil.copyfileobj(urllib.request.urlopen(request), open(sys.argv[2], "wb"))')
+    # The A30 toolchain's python3, first on that image's PATH, has no ssl module.
     return [f"mkdir -p \"$(dirname {path})\"",
-            f"python3 -c {q(fetch)} {q(item['url'])} {path}",
+            f"PATH=/usr/bin:$PATH python3 -c {q(fetch)} {q(item['url'])} {path}",
             f"echo {q(item['sha256'] + '  ' + item['path'])} | sha256sum -c -"]
 
 

@@ -1,0 +1,25 @@
+Generated from spruceUI/PPSSPP-spruce@f74caa2:patches/a30/pause-menu-compact.py against hrydgard/ppsspp
+d357e6a32934 (v1.20.3) with common patches 1-7 applied and a30-1 (2026-10-12). Apply in order.
+
+diff --git a/UI/PauseScreen.cpp b/UI/PauseScreen.cpp
+index f23aacb..8fc0cf3 100644
+--- a/UI/PauseScreen.cpp
++++ b/UI/PauseScreen.cpp
+@@ -241,7 +241,7 @@ SaveSlotView::SaveSlotView(std::string_view saveStatePrefix, int slot, UI::Layou
+ 		OnSelected.Trigger(e);
+ 	});
+ 
+-	AsyncImageFileView *fv = Add(new AsyncImageFileView(screenshotFilename_, IS_DEFAULT, new UI::LayoutParams(82 * 2, 47 * 2)));
++	AsyncImageFileView *fv = Add(new AsyncImageFileView(screenshotFilename_, IS_DEFAULT, new UI::LayoutParams(80, 46)));
+ 
+ 	auto pa = GetI18NCategory(I18NCat::PAUSE);
+ 	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+@@ -602,7 +602,7 @@ void GamePauseScreen::CreateViews() {
+ 		root_->Add(middleColumn);
+ 		middleColumn->SetSpacing(0.0f);
+ 
+-		ViewGroup *buttonColumnScroll = new ScrollView(ORIENT_VERTICAL, new LinearLayoutParams(320, FILL_PARENT, actionMenuMargins));
++		ViewGroup *buttonColumnScroll = new ScrollView(ORIENT_VERTICAL, new LinearLayoutParams(260, FILL_PARENT, actionMenuMargins));
+ 		buttonColumn = new LinearLayout(ORIENT_VERTICAL, new LinearLayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+ 		buttonColumnScroll->Add(buttonColumn);
+ 		root_->Add(buttonColumnScroll);

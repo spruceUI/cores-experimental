@@ -472,7 +472,7 @@
         }
       ],
       "toolchain": "standalone-gl4es",
-      "source_date_epoch": 1787970225,
+      "source_date_epoch": 1787970282,
       "steps": [
         "set +u +o pipefail",
         "printf '%s\\n' 'set(CMAKE_SYSTEM_NAME Linux)' 'set(CMAKE_SYSTEM_PROCESSOR aarch64)' 'set(CMAKE_C_COMPILER aarch64-linux-gnu-gcc)' 'set(CMAKE_CXX_COMPILER aarch64-linux-gnu-g++)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)' 'set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)' 'set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)' > /tmp/aarch64-toolchain.cmake",
@@ -1160,6 +1160,592 @@
           "mupen64plus-video-glide64mk2.so": "bc867190fd188234f9c9466104fecf694fa2aa4ed90f689cb3025394b1d50dde",
           "mupen64plus-video-GLideN64.so": "80589b9cf4eb6925c614c11ed13a61e71d73fb9b0eaf578cc1bc44bc99f3971e",
           "overlay_settings.json": "1c9d8491ac863ad83bcd4696d966646f0c44688649e0ee41f7ace26115c87254"
+        }
+      }
+    },
+    "dsperate-a30": {
+      "description": "DSperate v3.0.3: Emu/NDS/dsperate.a30 on the Miyoo A30. Built as spruceUI/DSperate-spruce@9a5bcbc build-a30.sh does: A30 GCC 13.2 with its glibc 2.23 sysroot and that sysroot's SDL2, static libstdc++, in its paths. It embeds no build time; the configs are the 64-bit build's",
+      "source": {
+        "url": "https://github.com/beebono/DSperate.git",
+        "commit": "f5fa35ea19f966543feae086798701f134d89619",
+        "tree": "4e15f0a9027b7f572764d25cf377c61729d371cb",
+        "requested_ref": "refs/tags/v3.0.3",
+        "path": "/build/DSperate"
+      },
+      "toolchain": "standalone-armhf",
+      "source_date_epoch": 1791414282,
+      "patches": [
+        {
+          "diff": "patches/standalone/dsperate/0001-spruce-menu-colours.patch"
+        }
+      ],
+      "env": {
+        "DSP_SYSROOT": "/opt/a30/arm-a30-linux-gnueabihf/sysroot",
+        "DSP_CC": "/opt/a30/bin/arm-a30-linux-gnueabihf-gcc",
+        "DSP_CXX": "/opt/a30/bin/arm-a30-linux-gnueabihf-g++",
+        "DSP_AR": "/opt/a30/bin/arm-a30-linux-gnueabihf-gcc-ar",
+        "DSP_RANLIB": "/opt/a30/bin/arm-a30-linux-gnueabihf-gcc-ranlib",
+        "DSP_NM": "/opt/a30/bin/arm-a30-linux-gnueabihf-gcc-nm",
+        "DSP_STRIP": "/opt/a30/bin/arm-a30-linux-gnueabihf-strip",
+        "PKG_CONFIG_SYSROOT_DIR": "/opt/a30/arm-a30-linux-gnueabihf/sysroot",
+        "PKG_CONFIG_LIBDIR": "/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig:/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/share/pkgconfig",
+        "PKG_CONFIG_PATH": "/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig:/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/share/pkgconfig"
+      },
+      "steps": [
+        "cd /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib && ln -sf libSDL2-2.0.so.0.2800.5 libSDL2.so && ln -sf libMali.so libEGL.so && ln -sf libMali.so libGLESv2.so && ln -sf libasound.so.2.0.0 libasound.so",
+        "cd /build/DSperate",
+        "cmake -S . -B build -G Ninja -DCMAKE_TOOLCHAIN_FILE=/recipe/patches/standalone/dsperate/toolchain-a30.cmake -DCMAKE_BUILD_TYPE=Release \"-DCMAKE_C_FLAGS=-O3 -mcpu=cortex-a7 -pthread\" \"-DCMAKE_CXX_FLAGS=-O3 -mcpu=cortex-a7 -pthread\" \"-DCMAKE_EXE_LINKER_FLAGS=-pthread -Wl,--no-as-needed -lpthread -Wl,--as-needed -static-libstdc++ -static-libgcc -mcpu=cortex-a7\" -DDSPERATE_HEADLESS=ON -DDSPERATE_SDL=ON -DDSPERATE_WAYLAND=OFF -DDSPERATE_TESTS=ON",
+        "cmake --build build -j\"$(nproc)\"",
+        "mkdir -p /build/out/configs && cp configs/*.ini /build/out/configs/"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/DSperate/build/src/frontend/sdl/dsperate",
+            "to": "dsperate.a30",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/DSperate/build/src/frontend/headless/dsperate-headless",
+            "to": "dsperate-headless",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/configs",
+            "to": "configs",
+            "dir": true
+          },
+          {
+            "from": "/build/DSperate/LICENSE",
+            "to": "LICENSE",
+            "mode": "0644"
+          }
+        ],
+        "spruce": {
+          "dsperate.a30": "Emu/NDS/dsperate.a30"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-armhf.so.3",
+          "libSDL2-2.0.so.0",
+          "libc.so.6",
+          "libdl.so.2",
+          "libm.so.6",
+          "libpthread.so.0"
+        ],
+        "forbidden": [
+          "libstdc++.so.6",
+          "libgcc_s.so.1"
+        ]
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "dsperate.a30": "b04f577f6ffdaabf6d8e8fdcbd52228b0250ea2e68f675c984452edc339cba63"
+        }
+      }
+    },
+    "pcsx_rearmed-a30": {
+      "description": "PCSX-ReARMed r26-2 standalone: Emu/PS/pcsx_a30 on the Miyoo A30 (portrait panel: PCSX_ROTATE=270). Built as spruceUI/pcsx_rearmed-spruce@d522dc2 build-a30.sh and Dockerfile.a30 do: Linux 5.15.158 headers in the sysroot (CHD), sdl12-compat as SDL 1.2. pcsx embeds two build times a second apart (menu.c, main.c), and sdl12-compat its own",
+      "source": {
+        "url": "https://github.com/notaz/pcsx_rearmed.git",
+        "commit": "d4ffcd0a36bbf2f3693a2899fcb5f78eea508175",
+        "tree": "7b69171e6616024089f195013480094377b09323",
+        "requested_ref": "refs/heads/master (2026-04-12)",
+        "submodules": true,
+        "path": "/build/pcsx_rearmed"
+      },
+      "extra_sources": [
+        {
+          "url": "https://github.com/libsdl-org/sdl12-compat.git",
+          "commit": "35ef746cf1a4fde8c442dc92fe9b18c3f90d7855",
+          "tree": "0d244139ce06e647e9863b589146c910417ff5c4",
+          "requested_ref": "refs/tags/release-1.2.68",
+          "path": "/build/sdl12-compat"
+        }
+      ],
+      "downloads": [
+        {
+          "url": "https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.158.tar.xz",
+          "sha256": "f9071c83a4fd8b80af026b48cfc1869bfa25883f9148b92b5dc1e1e1e26dd5c6",
+          "path": "/tmp/linux-5.15.158.tar.xz"
+        }
+      ],
+      "toolchain": "standalone-armhf",
+      "source_date_epoch": 1776034304,
+      "patches": [
+        {
+          "diff": "patches/standalone/pcsx_rearmed/signal-handlers.patch"
+        },
+        {
+          "diff": "patches/standalone/pcsx_rearmed/a30-rotate-screen.patch"
+        }
+      ],
+      "env": {
+        "CC": "arm-a30-linux-gnueabihf-gcc",
+        "CXX": "arm-a30-linux-gnueabihf-g++",
+        "AR": "arm-a30-linux-gnueabihf-ar",
+        "AS": "arm-a30-linux-gnueabihf-as",
+        "STRIP": "arm-a30-linux-gnueabihf-strip",
+        "CROSS_COMPILE": "arm-a30-linux-gnueabihf-",
+        "PKG_CONFIG_PATH": "/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig",
+        "PKG_CONFIG_SYSROOT_DIR": "/opt/a30/arm-a30-linux-gnueabihf/sysroot",
+        "CFLAGS": "-Ofast -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -ffunction-sections -fdata-sections -fomit-frame-pointer",
+        "LDFLAGS": "-Wl,--gc-sections --sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot -L/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib -static-libstdc++"
+      },
+      "steps": [
+        "set +u +o pipefail",
+        "cd /tmp && tar -xf linux-5.15.158.tar.xz && cd linux-5.15.158 && env -u CFLAGS -u LDFLAGS make ARCH=arm CROSS_COMPILE=arm-a30-linux-gnueabihf- headers_install INSTALL_HDR_PATH=/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr && cd / && rm -rf /tmp/linux-5.15.158",
+        "cd /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib && ln -sf libSDL2-2.0.so.0.2800.5 libSDL2.so && ln -sf libMali.so libEGL.so && ln -sf libMali.so libGLESv2.so && ln -sf libasound.so.2.0.0 libasound.so",
+        "mkdir -p /build/sdl12-compat/build && cd /build/sdl12-compat/build",
+        "cmake .. -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=arm -DCMAKE_C_COMPILER=arm-a30-linux-gnueabihf-gcc \"-DCMAKE_C_FLAGS=$CFLAGS\" -DCMAKE_FIND_ROOT_PATH=/opt/a30/arm-a30-linux-gnueabihf/sysroot -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=BOTH -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_BUILD_TYPE=Release -DSDL12TESTS=OFF",
+        "SOURCE_DATE_EPOCH=1776033982 make -j\"$(nproc)\"",
+        "cd /build/pcsx_rearmed && git config core.abbrev 8",
+        "printf '%s\\n' '#!/bin/sh' 'case \"$1\" in' '    --cflags) echo \"-I/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT\" ;;' '    --libs)   echo \"-L/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib -lSDL\" ;;' '    *)        echo \"\" ;;' 'esac' > /usr/local/bin/sdl-config && chmod +x /usr/local/bin/sdl-config",
+        "export SDL_CONFIG=/usr/local/bin/sdl-config",
+        "./configure --platform=generic --gpu=neon --sound-drivers=\"alsa sdl\" --enable-neon",
+        "make -j\"$(nproc)\"",
+        "rm -f frontend/main.o && SOURCE_DATE_EPOCH=1776034305 make -j\"$(nproc)\""
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/pcsx_rearmed/pcsx",
+            "to": "pcsx_a30",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/sdl12-compat/build/libSDL-1.2.so.0",
+            "to": "liba30/libSDL-1.2.so.0",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/pcsx_rearmed/frontend/pandora/skin",
+            "to": "skin",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "pcsx_a30": "Emu/PS/pcsx_a30",
+          "liba30/": "Emu/PS/liba30/"
+        }
+      },
+      "needed": {
+        "device": [
+          "libasound.so.2",
+          "libc.so.6",
+          "libdl.so.2",
+          "libm.so.6",
+          "libpng16.so.16",
+          "libpthread.so.0",
+          "libz.so.1"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "pcsx_a30": "4f56b3fb3f0d55dbe149a30e938d681c9f2ea044a42425cb8fd3d7a47dc41d50",
+          "liba30/libSDL-1.2.so.0": "46294a147fb7dec6c990400f969f0ab6bb8dad5a82028ddffe54d85ccb4fad0d"
+        }
+      }
+    },
+    "ppsspp-a30": {
+      "extends": "ppsspp",
+      "description": "PPSSPP v1.20.3: Emu/PSP/PPSSPPSDL_A30 on the Miyoo A30 (Mali fbdev, GLES2, the portrait panel rotated by a30-1). Built as spruceUI/PPSSPP-spruce@f74caa2 build-a30.sh does: A30 GCC 13.2 with LTO and static libstdc++, plus an fcntl64 shim because the bundled FFmpeg wants glibc 2.28 and the A30 has 2.23",
+      "toolchain": "standalone-armhf",
+      "source_date_epoch": 1776009930,
+      "patches": [
+        {
+          "diff": "patches/standalone/ppsspp/common-1-fullscreen.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-2-hide-cursor.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-3-no-mute-secondary.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-4-remap-pause-menu.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-5-sigusr1-save-and-quit.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-6-sigusr2-toggle-pause-menu.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-7-skip-vulkan-probe.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/a30-1-display-rotation.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/a30-2-pause-menu-compact.patch"
+        }
+      ],
+      "steps": [
+        "set +u +o pipefail",
+        "cd /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib && ln -sf libSDL2-2.0.so.0.2800.5 libSDL2.so && ln -sf libMali.so libEGL.so && ln -sf libMali.so libGLESv2.so && ln -sf libasound.so.2.0.0 libasound.so && ln -sf libfreetype.so.6.20.1 libfreetype.so",
+        "printf '%s\\n' 'set(CMAKE_SYSTEM_NAME Linux)' 'set(CMAKE_SYSTEM_PROCESSOR arm)' 'set(CMAKE_C_COMPILER /opt/a30/bin/arm-a30-linux-gnueabihf-gcc)' 'set(CMAKE_CXX_COMPILER /opt/a30/bin/arm-a30-linux-gnueabihf-g++)' 'set(CMAKE_SYSROOT /opt/a30/arm-a30-linux-gnueabihf/sysroot)' 'set(CMAKE_FIND_ROOT_PATH /opt/a30/arm-a30-linux-gnueabihf/sysroot)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)' 'set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)' 'set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)' 'set(PKG_CONFIG_EXECUTABLE /usr/bin/pkg-config)' 'set(ENV{PKG_CONFIG_SYSROOT_DIR} \"/opt/a30/arm-a30-linux-gnueabihf/sysroot\")' 'set(ENV{PKG_CONFIG_LIBDIR} \"/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig\")' 'set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)' > /tmp/a30-toolchain.cmake",
+        "printf '%s\\n' '#include <stdarg.h>' '#include <fcntl.h>' 'int fcntl64(int fd, int cmd, ...) {' '    va_list ap;' '    va_start(ap, cmd);' '    void *arg = va_arg(ap, void *);' '    va_end(ap);' '    return fcntl(fd, cmd, arg);' '}' > /tmp/fcntl64_compat.c",
+        "arm-a30-linux-gnueabihf-gcc -c /tmp/fcntl64_compat.c -o /tmp/fcntl64_compat.o -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard",
+        "arm-a30-linux-gnueabihf-ar rcs /tmp/libfcntl64_compat.a /tmp/fcntl64_compat.o",
+        "mkdir -p /build/ppsspp/build && cd /build/ppsspp/build",
+        "cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/tmp/a30-toolchain.cmake -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \"-DCMAKE_C_FLAGS=-Ofast -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -ffunction-sections -fdata-sections -fomit-frame-pointer -flto=auto -Wno-error -DHWCAP2_AES=1 -DHWCAP2_SHA1=4 -DHWCAP2_SHA2=8 -DHWCAP2_CRC32=16\" \"-DCMAKE_CXX_FLAGS=-Ofast -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -ffunction-sections -fdata-sections -fomit-frame-pointer -flto=auto -Wno-error\" \"-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libstdc++ -L/tmp -Wl,--whole-archive -lfcntl64_compat -Wl,--no-whole-archive -flto=auto\" -DUSING_GLES2=ON -DUSING_EGL=OFF -DUSING_FBDEV=ON -DVULKAN=OFF -DUSING_X11_VULKAN=OFF -DUSE_WAYLAND_WSI=OFF -DBUILD_SHARED_LIBS=OFF -DUSE_SYSTEM_LIBPNG=OFF -DUSE_SYSTEM_FFMPEG=OFF -DUSE_DISCORD=OFF -DUSE_MINIUPNPC=OFF -DHEADLESS=OFF -DUNITTEST=OFF -DCMAKE_DISABLE_FIND_PACKAGE_SDL2_ttf=ON -DCMAKE_DISABLE_FIND_PACKAGE_Fontconfig=ON -DCMAKE_DISABLE_FIND_PACKAGE_X11=ON -DARM=ON -DARMV7=ON -DUSING_ARM_NEON=ON",
+        "find . \\( -name 'flags.make' -o -name 'build.ninja' \\) -exec sed -i 's|-isystem |-I|g' {} +",
+        "make -j\"$(nproc)\" PPSSPPSDL"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/ppsspp/build/PPSSPPSDL",
+            "to": "PPSSPPSDL_A30",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/ppsspp/assets",
+            "to": "assets",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "PPSSPPSDL_A30": "Emu/PSP/PPSSPPSDL_A30"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-armhf.so.3",
+          "libEGL.so",
+          "libGLESv2.so",
+          "libSDL2-2.0.so.0",
+          "libatomic.so.1",
+          "libc.so.6",
+          "libdl.so.2",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libpthread.so.0",
+          "librt.so.1",
+          "libz.so.1"
+        ],
+        "forbidden": [
+          "libstdc++.so.6"
+        ]
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "PPSSPPSDL_A30": "f90781d39e82f0e4c7b71f2ec097414bddc195a45336ead87cfa0625a44516b9"
+        }
+      }
+    },
+    "vtree-a30": {
+      "description": "vTree v1.1 (FileManagement app): App/FileManagement/vtree.a30 on the Miyoo A30, with the SDL2_ttf 2.22.0 and SDL2_image 2.8.2 it builds (lib-A30/; the A30 has neither). Built as spruceUI/vTree-spruce@a0e1266 build-a30.sh does",
+      "source": {
+        "url": "https://github.com/MustardOS/vtree.git",
+        "commit": "560205b6198ac9e0e28975d42fcaee4c28989015",
+        "tree": "8c9a367d5c97f4011f81807b5c3f36a011cb9276",
+        "requested_ref": "refs/tags/v1.1",
+        "path": "/build/vtree"
+      },
+      "extra_sources": [
+        {
+          "url": "https://github.com/libsdl-org/SDL_ttf.git",
+          "commit": "4a318f8dfaa1bb6f10e0c5e54052e25d3c7f3440",
+          "tree": "6c0753a1d7b377fe988f018c2e0ca9186d341133",
+          "requested_ref": "refs/tags/release-2.22.0",
+          "path": "/build/SDL_ttf"
+        },
+        {
+          "url": "https://github.com/libsdl-org/SDL_image.git",
+          "commit": "abcf63aa71b4e3ac32120fa9870a6500ddcdcc89",
+          "tree": "bfc0eb8d1a8d8e5f1b4aa1e4c494655972b3a045",
+          "requested_ref": "refs/tags/release-2.8.2",
+          "path": "/build/SDL_image"
+        }
+      ],
+      "toolchain": "standalone-armhf",
+      "source_date_epoch": 1776744729,
+      "patches": [
+        {
+          "diff": "patches/standalone/vtree/0001-nintendo-button-labels.patch"
+        }
+      ],
+      "env": {
+        "CC": "arm-a30-linux-gnueabihf-gcc",
+        "CXX": "arm-a30-linux-gnueabihf-g++",
+        "AR": "arm-a30-linux-gnueabihf-ar",
+        "STRIP": "arm-a30-linux-gnueabihf-strip",
+        "PKG_CONFIG_PATH": "/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig",
+        "PKG_CONFIG_SYSROOT_DIR": "/opt/a30/arm-a30-linux-gnueabihf/sysroot"
+      },
+      "steps": [
+        "set +u +o pipefail",
+        "cd /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib && ln -sf libSDL2-2.0.so.0.2800.5 libSDL2.so && ln -sf libfreetype.so.6.20.1 libfreetype.so",
+        "SYSROOT=/opt/a30/arm-a30-linux-gnueabihf/sysroot PREFIX=/build/local && mkdir -p \"$PREFIX\"",
+        "CFLAGS_COMMON=\"-O2 --sysroot=$SYSROOT -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -fomit-frame-pointer -ffunction-sections -fdata-sections\"",
+        "LDFLAGS_COMMON=\"--sysroot=$SYSROOT -L$SYSROOT/usr/lib -Wl,--gc-sections\"",
+        "mkdir -p /build/SDL_ttf/build && cd /build/SDL_ttf/build",
+        "cmake .. -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=arm -DCMAKE_C_COMPILER=arm-a30-linux-gnueabihf-gcc \"-DCMAKE_FIND_ROOT_PATH=$SYSROOT;$PREFIX\" -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=BOTH -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \"-DCMAKE_PREFIX_PATH=$SYSROOT/usr;$PREFIX\" \"-DCMAKE_INSTALL_PREFIX=$PREFIX\" -DCMAKE_BUILD_TYPE=Release \"-DCMAKE_C_FLAGS=$CFLAGS_COMMON\" \"-DCMAKE_EXE_LINKER_FLAGS=$LDFLAGS_COMMON\" \"-DCMAKE_SHARED_LINKER_FLAGS=$LDFLAGS_COMMON\" -DSDL2TTF_VENDORED=OFF -DSDL2TTF_SAMPLES=OFF",
+        "make -j\"$(nproc)\" && make install",
+        "mkdir -p /build/SDL_image/build && cd /build/SDL_image/build",
+        "cmake .. -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=arm -DCMAKE_C_COMPILER=arm-a30-linux-gnueabihf-gcc \"-DCMAKE_FIND_ROOT_PATH=$SYSROOT;$PREFIX\" -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=BOTH -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \"-DCMAKE_PREFIX_PATH=$SYSROOT/usr;$PREFIX\" \"-DCMAKE_INSTALL_PREFIX=$PREFIX\" -DCMAKE_BUILD_TYPE=Release \"-DCMAKE_C_FLAGS=$CFLAGS_COMMON\" \"-DCMAKE_EXE_LINKER_FLAGS=$LDFLAGS_COMMON\" \"-DCMAKE_SHARED_LINKER_FLAGS=$LDFLAGS_COMMON\" -DSDL2IMAGE_VENDORED=ON -DSDL2IMAGE_SAMPLES=OFF -DSDL2IMAGE_TESTS=OFF",
+        "make -j\"$(nproc)\" && make install",
+        "cd /build/vtree",
+        "printf '%s\\n' '#ifndef SDL_clamp' '#define SDL_clamp(x, a, b) (((x) < (a)) ? (a) : (((x) > (b)) ? (b) : (x)))' '#endif' > sdl_compat.h",
+        "SDL_CFLAGS=\"-I$SYSROOT/usr/include -I$SYSROOT/usr/include/SDL2 -I$PREFIX/include -I$PREFIX/include/SDL2 -D_REENTRANT -include ./sdl_compat.h\"",
+        "make release CC=arm-a30-linux-gnueabihf-gcc SDL2_CFLAGS=\"$SDL_CFLAGS\" SDL2_LIBS=\"-L$PREFIX/lib -lSDL2_ttf -lSDL2_image -lSDL2 -lm\" CFLAGS_REL=\"-Wall -Wextra -std=c99 $SDL_CFLAGS -DSDL_MAIN_HANDLED -D_POSIX_C_SOURCE=200809L -O2 -DNDEBUG $CFLAGS_COMMON\""
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/vtree/vtree",
+            "to": "vtree.a30",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/local/lib/libSDL2_ttf-2.0.so.0",
+            "to": "lib-A30/libSDL2_ttf-2.0.so.0",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/local/lib/libSDL2_image-2.0.so.0",
+            "to": "lib-A30/libSDL2_image-2.0.so.0",
+            "strip": "-s"
+          }
+        ],
+        "spruce": {
+          "vtree.a30": "App/FileManagement/vtree.a30",
+          "lib-A30/": "App/FileManagement/lib-A30/"
+        }
+      },
+      "needed": {
+        "device": [
+          "libSDL2-2.0.so.0",
+          "libc.so.6",
+          "libfreetype.so.6",
+          "libm.so.6"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "vtree.a30": "1ab5d464139a861f985a55ef26125b3e85859a4cbda04bb6f05882058234b0a7",
+          "lib-A30/libSDL2_ttf-2.0.so.0": "9b34fce9cd2d1ef65fe05eeb714204a5d94c973d1c32bd87a507d80f496eb170",
+          "lib-A30/libSDL2_image-2.0.so.0": "5b9eab85b126497cbb5acaf61c4b2ce737cffdba5dc758042b160898d4d0167a"
+        }
+      }
+    },
+    "mupen64plus-a30": {
+      "description": "Mupen64Plus standalone with GLideN64, Rice and Glide64mk2: Emu/N64/mupen64plus-a30 on the Miyoo A30 (the core's vidext rotates the frame for the portrait panel; a30_input_shim maps the controls). Built as spruceUI/mupen64plus-spruce@c55f708 build-a30.sh did on 2026-04-04, each upstream at that day's master",
+      "source": {
+        "url": "https://github.com/mupen64plus/mupen64plus-core.git",
+        "commit": "53a08fceb71653000dd6640cac05eb390fba7885",
+        "tree": "d654b95d8a76df0d50aa681a83827d50112f98dd",
+        "requested_ref": "refs/heads/master (2026-04-04)",
+        "path": "/build/core"
+      },
+      "extra_sources": [
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-ui-console.git",
+          "commit": "83fd61b58043a02ca8d287eece09649484866cf5",
+          "tree": "68f5d887221a29bb98d9834ce252901eafbe9023",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/ui-console"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-audio-sdl.git",
+          "commit": "5c58d3f69c8fdcc23b8d9dbd47685ab84bd0e08e",
+          "tree": "8c22cca201c5ef422c8b14096077ac0a5775c426",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/audio-sdl"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-input-sdl.git",
+          "commit": "076f551c9ac63591d8986a5cc07072b4b736ffd9",
+          "tree": "898a4c2cc0b610bb1c030cf2e7bdbacd35c4cf72",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/input-sdl"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-rsp-hle.git",
+          "commit": "561e951decbb7d0bd1589c3d8e3453fbed8d585b",
+          "tree": "d9121f921c294ef01240e5147e8acd59f4473c14",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/rsp-hle"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-video-rice.git",
+          "commit": "e4927d9f375a4f40f076c0d9ea63c0c119653fec",
+          "tree": "7a9000d61110138e5f9f161c3713ae8e12ab48f4",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/video-rice"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-video-glide64mk2.git",
+          "commit": "d7253a71f57561077016d8ed7028c09e6d360302",
+          "tree": "8134692b12cfed492d087216bebecdfef7d58ced",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/video-glide64mk2"
+        },
+        {
+          "url": "https://github.com/gonetz/GLideN64.git",
+          "commit": "c8ef81c7d9aede9f67f6ed3d3426c90541f9f13e",
+          "tree": "cb5f1780c3c8ebb73997b2bcd1e0a790d49d8d26",
+          "requested_ref": "refs/heads/master (2026-04-04)",
+          "path": "/build/video-gliden64"
+        },
+        {
+          "url": "https://github.com/spruceUI/mupen64plus-spruce.git",
+          "commit": "c55f7087344fc5c3cba51ba7ca267912783c3d9b",
+          "tree": "05da0a13eac66628d3a886078da2f1194ccf7566",
+          "requested_ref": "refs/heads/main (2026-04-04)",
+          "path": "/wrapper"
+        }
+      ],
+      "toolchain": "standalone-armhf",
+      "source_date_epoch": 1775278371,
+      "patches": [
+        {
+          "diff": "patches/standalone/mupen64plus/a30-rotate_screen-core.patch",
+          "dir": "/build/core"
+        }
+      ],
+      "env": {
+        "CC": "arm-a30-linux-gnueabihf-gcc",
+        "CXX": "arm-a30-linux-gnueabihf-g++",
+        "AR": "arm-a30-linux-gnueabihf-ar",
+        "STRIP": "arm-a30-linux-gnueabihf-strip",
+        "PKG_CONFIG_PATH": "/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib/pkgconfig",
+        "PKG_CONFIG_SYSROOT_DIR": "/opt/a30/arm-a30-linux-gnueabihf/sysroot",
+        "OPTFLAGS": "-Ofast -ffunction-sections -fdata-sections -fomit-frame-pointer -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -flto=auto",
+        "LDFLAGS": "-Wl,--gc-sections --sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot -L/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib -static-libstdc++ -flto=auto",
+        "APIDIR": "/build/core/src/api",
+        "SDL_CFLAGS": "-I/opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/include/SDL2 -D_REENTRANT",
+        "SDL_LDLIBS": "-lSDL2"
+      },
+      "steps": [
+        "set +u +o pipefail",
+        "cd /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib && ln -sf libSDL2-2.0.so.0.2800.5 libSDL2.so && ln -sf libMali.so libEGL.so && ln -sf libMali.so libGLESv2.so && ln -sf libasound.so.2.0.0 libasound.so && ln -sf libfreetype.so.6.20.1 libfreetype.so",
+        "mkdir -p /tools && cp /wrapper/tools/a30_input_shim.c /tools/",
+        "git -C /build/video-gliden64 config core.abbrev 7",
+        "m64p_make() {\n    make -C \"$1\" CROSS_COMPILE=arm-a30-linux-gnueabihf- HOST_CPU=armv7l USE_GLES=1 NEW_DYNAREC=1 VFP_HARD=1 VULKAN=0 \\\n        APIDIR=\"$APIDIR\" SDL_CFLAGS=\"$SDL_CFLAGS\" SDL_LDLIBS=\"$SDL_LDLIBS\" \\\n        OPTFLAGS=\"$OPTFLAGS\" PREFIX=\"\" V=1 -j\"$(nproc)\" all\n}",
+        "cd /build",
+        "m64p_make core/projects/unix",
+        "m64p_make audio-sdl/projects/unix",
+        "m64p_make input-sdl/projects/unix",
+        "m64p_make rsp-hle/projects/unix",
+        "m64p_make video-rice/projects/unix",
+        "m64p_make video-glide64mk2/projects/unix",
+        "mkdir -p video-gliden64/src/build && cd video-gliden64/src/build",
+        "cmake .. -DCMAKE_C_COMPILER=arm-a30-linux-gnueabihf-gcc -DCMAKE_CXX_COMPILER=arm-a30-linux-gnueabihf-g++ -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=arm -DCMAKE_BUILD_TYPE=Release -DMUPENPLUSAPI=ON -DEGL=ON \"-DCMAKE_C_FLAGS=$OPTFLAGS --sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot\" \"-DCMAKE_CXX_FLAGS=$OPTFLAGS --sysroot=/opt/a30/arm-a30-linux-gnueabihf/sysroot\" \"-DCMAKE_EXE_LINKER_FLAGS=$LDFLAGS\" \"-DCMAKE_SHARED_LINKER_FLAGS=$LDFLAGS\"",
+        "make -j\"$(nproc)\"",
+        "cd /build && m64p_make ui-console/projects/unix",
+        "\"$CC\" $OPTFLAGS -o a30_input_shim /tools/a30_input_shim.c",
+        "mkdir -p /build/out/data",
+        "cp ui-console/projects/unix/mupen64plus a30_input_shim /build/out/ && cp core/projects/unix/libmupen64plus.so.2.0.0 /build/out/libmupen64plus.so.2",
+        "cp audio-sdl/projects/unix/mupen64plus-audio-sdl.so input-sdl/projects/unix/mupen64plus-input-sdl.so rsp-hle/projects/unix/mupen64plus-rsp-hle.so video-rice/projects/unix/mupen64plus-video-rice.so video-glide64mk2/projects/unix/mupen64plus-video-glide64mk2.so video-gliden64/src/build/plugin/Release/mupen64plus-video-GLideN64.so /build/out/",
+        "cp core/data/* video-rice/data/* video-glide64mk2/data/* /build/out/data/ && (cp video-gliden64/ini/* /build/out/data/ 2>/dev/null || true)"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/out/mupen64plus",
+            "to": "mupen64plus",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/a30_input_shim",
+            "to": "a30_input_shim",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/libmupen64plus.so.2",
+            "to": "libmupen64plus.so.2",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-audio-sdl.so",
+            "to": "mupen64plus-audio-sdl.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-input-sdl.so",
+            "to": "mupen64plus-input-sdl.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-rsp-hle.so",
+            "to": "mupen64plus-rsp-hle.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-video-rice.so",
+            "to": "mupen64plus-video-rice.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-video-glide64mk2.so",
+            "to": "mupen64plus-video-glide64mk2.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-video-GLideN64.so",
+            "to": "mupen64plus-video-GLideN64.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/data",
+            "to": "data",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "mupen64plus": "Emu/N64/mupen64plus-a30/mupen64plus",
+          "a30_input_shim": "Emu/N64/mupen64plus-a30/a30_input_shim",
+          "libmupen64plus.so.2": "Emu/N64/mupen64plus-a30/libmupen64plus.so.2",
+          "mupen64plus-audio-sdl.so": "Emu/N64/mupen64plus-a30/mupen64plus-audio-sdl.so",
+          "mupen64plus-input-sdl.so": "Emu/N64/mupen64plus-a30/mupen64plus-input-sdl.so",
+          "mupen64plus-rsp-hle.so": "Emu/N64/mupen64plus-a30/mupen64plus-rsp-hle.so",
+          "mupen64plus-video-rice.so": "Emu/N64/mupen64plus-a30/mupen64plus-video-rice.so",
+          "mupen64plus-video-glide64mk2.so": "Emu/N64/mupen64plus-a30/mupen64plus-video-glide64mk2.so",
+          "mupen64plus-video-GLideN64.so": "Emu/N64/mupen64plus-a30/mupen64plus-video-GLideN64.so"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-armhf.so.3",
+          "libEGL.so",
+          "libGLESv2.so",
+          "libSDL2-2.0.so.0",
+          "libc.so.6",
+          "libdl.so.2",
+          "libfreetype.so.6",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libpng16.so.16",
+          "libpthread.so.0",
+          "libz.so.1"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "mupen64plus": "0f772b46b345a4f08507e68848d0385c9b4f48a83b95e9a5318a91cebf9a4907",
+          "a30_input_shim": "19eb4fc3d473daa8d0151496f29f6b3525847f06feef7bb10257fd198d062767",
+          "libmupen64plus.so.2": "85242a2e25bfcea17b84db3abb3b67b8676b05901b697b1842472fd5df19c06b",
+          "mupen64plus-audio-sdl.so": "7977842c08d5d585aa91d14f85ca3fae901d85906fe1faf4f3e9521b3bf5b2a0",
+          "mupen64plus-input-sdl.so": "26baec5fc44cc1c122405c6cdab07a1460a82edd23c7c5713d14f385c98c16e0",
+          "mupen64plus-rsp-hle.so": "985170d95494ed4f99415005fac25dd991d3fbfe120c6f84e6669a05cfe46b01",
+          "mupen64plus-video-rice.so": "df77dd4f29d69e0840b6011dd157a941abea225ab92635a0cd0009f91a3e5e54",
+          "mupen64plus-video-glide64mk2.so": "0e677e614491dc4ad3b5363306013c6d82d4c98f4fb00e988be1c7d9d248cb35",
+          "mupen64plus-video-GLideN64.so": "21cde177bbcbca6c95ebf626ebbb579b5b92b3ba5c3e33b1cb09e375d2ce41c2"
         }
       }
     }

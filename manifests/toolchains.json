@@ -133,6 +133,17 @@
         "size": 301003169
       },
       "dockerfile": "Dockerfile.standalone.gl4es"
+    },
+    "standalone-armhf": {
+      "image": "cores-standalone-armhf:v1",
+      "image_id": "sha256:b536813fec34bf4122cda953db32d5167d63ff4a5e99873790157e51907acfc4",
+      "host_cc": "arm-a30-linux-gnueabihf",
+      "archive": {
+        "name": "cores-standalone-armhf-v1.tar.gz",
+        "sha256": "22ae3091ab280955bef98020e71a9c94bfc1890e4a8730c42ebcefdaaa5244a1",
+        "size": 737985580
+      },
+      "dockerfile": "Dockerfile.standalone.armhf"
     }
   }
 }
