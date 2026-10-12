@@ -2179,6 +2179,733 @@
           "lib/libz.so.1": "f7421fde8036391750dc2b1dd7299a0a3305a93cb95846fcc381590f565215c1"
         }
       }
+    },
+    "ppsspp-flip": {
+      "extends": "ppsspp",
+      "description": "PPSSPP v1.20.3: Emu/PSP/PPSSPPSDL_Flip on the Miyoo Flip (RK3566, Mali G52, fbdev). Built as spruceUI/PPSSPP-spruce@f74caa2 build-flip.sh does: steward-fu's Flip GCC 13.3 toolchain with LTO",
+      "toolchain": "standalone-flip",
+      "source_date_epoch": 1776009931,
+      "patches": [
+        {
+          "diff": "patches/standalone/ppsspp/common-1-fullscreen.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-2-hide-cursor.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-3-no-mute-secondary.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-4-remap-pause-menu.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-5-sigusr1-save-and-quit.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-6-sigusr2-toggle-pause-menu.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-7-skip-vulkan-probe.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/flip-1-pause-menu-compact.patch"
+        }
+      ],
+      "steps": [
+        "set +u +o pipefail",
+        "SYSROOT=$(/opt/flip/bin/aarch64-flip-linux-gnu-gcc -print-sysroot)",
+        "printf '%s\\n' 'set(CMAKE_SYSTEM_NAME Linux)' 'set(CMAKE_SYSTEM_PROCESSOR aarch64)' 'set(CMAKE_C_COMPILER /opt/flip/bin/aarch64-flip-linux-gnu-gcc)' 'set(CMAKE_CXX_COMPILER /opt/flip/bin/aarch64-flip-linux-gnu-g++)' \"set(CMAKE_SYSROOT $SYSROOT)\" \"set(CMAKE_FIND_ROOT_PATH $SYSROOT)\" 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)' 'set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)' 'set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)' 'set(PKG_CONFIG_EXECUTABLE /usr/bin/pkg-config)' \"set(ENV{PKG_CONFIG_SYSROOT_DIR} \\\"$SYSROOT\\\")\" \"set(ENV{PKG_CONFIG_LIBDIR} \\\"$SYSROOT/usr/lib/pkgconfig:$SYSROOT/usr/share/pkgconfig\\\")\" 'set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)' > /tmp/flip-toolchain.cmake",
+        "export PATH=\"/opt/flip/bin:/opt/flip/aarch64-flip-linux-gnu/bin:${PATH}\"",
+        "mkdir -p /build/ppsspp/build && cd /build/ppsspp/build",
+        "cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/tmp/flip-toolchain.cmake -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \"-DCMAKE_C_FLAGS=-Ofast -mcpu=cortex-a55 -ffunction-sections -fdata-sections -fomit-frame-pointer -flto=auto -Wno-error\" \"-DCMAKE_CXX_FLAGS=-Ofast -mcpu=cortex-a55 -ffunction-sections -fdata-sections -fomit-frame-pointer -flto=auto -Wno-error\" \"-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -flto=auto\" -DUSING_GLES2=ON -DUSING_EGL=ON -DUSING_FBDEV=ON -DVULKAN=OFF -DUSING_X11_VULKAN=OFF -DUSE_WAYLAND_WSI=OFF -DBUILD_SHARED_LIBS=OFF -DUSE_SYSTEM_LIBPNG=OFF -DUSE_SYSTEM_FFMPEG=OFF -DUSE_DISCORD=OFF -DUSE_MINIUPNPC=OFF -DHEADLESS=OFF -DUNITTEST=OFF -DCMAKE_DISABLE_FIND_PACKAGE_SDL2_ttf=ON -DCMAKE_DISABLE_FIND_PACKAGE_Fontconfig=ON -DCMAKE_DISABLE_FIND_PACKAGE_X11=ON",
+        "find . \\( -name 'flags.make' -o -name 'build.ninja' \\) -exec sed -i 's|-isystem |-I|g' {} +",
+        "make -j\"$(nproc)\" PPSSPPSDL"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/ppsspp/build/PPSSPPSDL",
+            "to": "PPSSPPSDL_Flip",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/ppsspp/assets",
+            "to": "assets",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "PPSSPPSDL_Flip": "Emu/PSP/PPSSPPSDL_Flip"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libEGL.so.1",
+          "libGLESv2.so.2",
+          "libSDL2-2.0.so.0",
+          "libc.so.6",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libstdc++.so.6",
+          "libz.so.1"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "PPSSPPSDL_Flip": "1c628df231232f3eae94e0289c466467070fab26f50c4e09a362fc77d4ee0cb7"
+        }
+      }
+    },
+    "ppsspp-rgb30": {
+      "extends": "ppsspp",
+      "description": "PPSSPP v1.20.3: Emu/PSP/PPSSPPSDL_RGB30 on the RGB30, Miniloong and A10 Mini (RK3566 on dArkMoss, KMSDRM). Built as spruceUI/PPSSPP-spruce@670bd4b build-rgb30.sh does (branch rgb30-target): the Flip toolchain",
+      "toolchain": "standalone-flip",
+      "source_date_epoch": 1788130196,
+      "patches": [
+        {
+          "diff": "patches/standalone/ppsspp/common-1-fullscreen.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-2-hide-cursor.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-3-no-mute-secondary.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-4-remap-pause-menu.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-5-sigusr1-save-and-quit.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-6-sigusr2-toggle-pause-menu.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-7-skip-vulkan-probe.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/rgb30-1-fullscreen-kmsdrm.patch"
+        }
+      ],
+      "steps": [
+        "set +u +o pipefail",
+        "SYSROOT=$(/opt/flip/bin/aarch64-flip-linux-gnu-gcc -print-sysroot)",
+        "printf '%s\\n' 'set(CMAKE_SYSTEM_NAME Linux)' 'set(CMAKE_SYSTEM_PROCESSOR aarch64)' 'set(CMAKE_C_COMPILER /opt/flip/bin/aarch64-flip-linux-gnu-gcc)' 'set(CMAKE_CXX_COMPILER /opt/flip/bin/aarch64-flip-linux-gnu-g++)' \"set(CMAKE_SYSROOT $SYSROOT)\" \"set(CMAKE_FIND_ROOT_PATH $SYSROOT)\" 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)' 'set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)' 'set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)' 'set(PKG_CONFIG_EXECUTABLE /usr/bin/pkg-config)' \"set(ENV{PKG_CONFIG_SYSROOT_DIR} \\\"$SYSROOT\\\")\" \"set(ENV{PKG_CONFIG_LIBDIR} \\\"$SYSROOT/usr/lib/pkgconfig:$SYSROOT/usr/share/pkgconfig\\\")\" 'set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)' > /tmp/flip-toolchain.cmake",
+        "export PATH=\"/opt/flip/bin:/opt/flip/aarch64-flip-linux-gnu/bin:${PATH}\"",
+        "mkdir -p /build/ppsspp/build && cd /build/ppsspp/build",
+        "cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/tmp/flip-toolchain.cmake -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \"-DCMAKE_C_FLAGS=-Ofast -mcpu=cortex-a55 -ffunction-sections -fdata-sections -fomit-frame-pointer -flto=auto -Wno-error\" \"-DCMAKE_CXX_FLAGS=-Ofast -mcpu=cortex-a55 -ffunction-sections -fdata-sections -fomit-frame-pointer -flto=auto -Wno-error\" \"-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -flto=auto\" -DUSING_GLES2=ON -DUSING_EGL=OFF -DUSING_FBDEV=OFF -DVULKAN=OFF -DUSING_X11_VULKAN=OFF -DUSE_WAYLAND_WSI=OFF -DBUILD_SHARED_LIBS=OFF -DUSE_SYSTEM_LIBPNG=OFF -DUSE_SYSTEM_FFMPEG=OFF -DUSE_DISCORD=OFF -DUSE_MINIUPNPC=OFF -DHEADLESS=OFF -DUNITTEST=OFF -DCMAKE_DISABLE_FIND_PACKAGE_SDL2_ttf=ON -DCMAKE_DISABLE_FIND_PACKAGE_Fontconfig=ON -DCMAKE_DISABLE_FIND_PACKAGE_X11=ON",
+        "find . \\( -name 'flags.make' -o -name 'build.ninja' \\) -exec sed -i 's|-isystem |-I|g' {} +",
+        "make -j\"$(nproc)\" PPSSPPSDL"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/ppsspp/build/PPSSPPSDL",
+            "to": "PPSSPPSDL_RGB30",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/ppsspp/assets",
+            "to": "assets",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "PPSSPPSDL_RGB30": "Emu/PSP/PPSSPPSDL_RGB30"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libEGL.so.1",
+          "libGLESv2.so.2",
+          "libSDL2-2.0.so.0",
+          "libc.so.6",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libstdc++.so.6",
+          "libz.so.1"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "PPSSPPSDL_RGB30": "621bef60ae7c360acdfbd445358e58c9f930e087c20a4273673f7c477415394d"
+        }
+      }
+    },
+    "ppsspp-trimui": {
+      "extends": "ppsspp",
+      "description": "PPSSPP v1.20.3: Emu/PSP/PPSSPPSDL_TrimUI on the TrimUI A133P boards and the MagicX boards (PowerVR GE8300, fbdev, Vulkan). Built as spruceUI/PPSSPP-spruce@59687a6 build-pvr.sh does: Ubuntu 20.04's GCC 9.4 over Linaro 7.5's glibc and TrimUI's tg5040 SDK; it skips the fullscreen and Vulkan-probe patches",
+      "toolchain": "standalone-trimui",
+      "source_date_epoch": 1776397236,
+      "patches": [
+        {
+          "diff": "patches/standalone/ppsspp/pvr-c1-hide-cursor.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/pvr-c2-no-mute-secondary.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/pvr-c3-remap-pause-menu.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/pvr-c4-sigusr1-save-and-quit.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/pvr-c5-sigusr2-toggle-pause-menu.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/pvr-1-fix-copy-image-crash.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/pvr-2-fix-glgetstringi-crash.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/pvr-3-gl3stub-use-sdl-proc.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/pvr-4-no-alpha-channel.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/pvr-5-vulkan-display-fallback.patch"
+        }
+      ],
+      "steps": [
+        "set +u +o pipefail",
+        "printf '%s\\n' 'set(CMAKE_SYSTEM_NAME Linux)' 'set(CMAKE_SYSTEM_PROCESSOR aarch64)' 'set(CMAKE_C_COMPILER /usr/bin/aarch64-linux-gnu-gcc)' 'set(CMAKE_CXX_COMPILER /usr/bin/aarch64-linux-gnu-g++)' 'set(CMAKE_SYSROOT /opt/sysroot)' 'set(CMAKE_FIND_ROOT_PATH /opt/sysroot)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)' 'set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)' 'set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)' 'set(PKG_CONFIG_EXECUTABLE /usr/bin/pkg-config)' 'set(ENV{PKG_CONFIG_SYSROOT_DIR} \"/opt/sysroot\")' 'set(ENV{PKG_CONFIG_LIBDIR} \"/opt/sysroot/usr/lib/pkgconfig\")' 'set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)' > /tmp/pvr-toolchain.cmake",
+        "export PATH=\"/usr/bin:${PATH}\"",
+        "mkdir -p /build/ppsspp/build && cd /build/ppsspp/build",
+        "cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/tmp/pvr-toolchain.cmake -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \"-DCMAKE_C_FLAGS=-O2 -mcpu=cortex-a53 -ffunction-sections -fdata-sections -fomit-frame-pointer -flto=auto -Wno-error\" \"-DCMAKE_CXX_FLAGS=-O2 -mcpu=cortex-a53 -ffunction-sections -fdata-sections -fomit-frame-pointer -flto=auto -Wno-error\" \"-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libstdc++ -flto=auto\" -DUSING_GLES2=ON -DUSING_EGL=OFF -DUSING_FBDEV=ON -DVULKAN=ON -DUSE_VULKAN_DISPLAY_KHR=ON -DUSING_X11_VULKAN=OFF -DUSE_WAYLAND_WSI=OFF -DBUILD_SHARED_LIBS=OFF -DUSE_SYSTEM_LIBPNG=OFF -DUSE_SYSTEM_FFMPEG=OFF -DUSE_DISCORD=OFF -DUSE_MINIUPNPC=OFF -DHEADLESS=OFF -DUNITTEST=OFF -DCMAKE_DISABLE_FIND_PACKAGE_SDL2_ttf=ON -DCMAKE_DISABLE_FIND_PACKAGE_Fontconfig=ON -DCMAKE_DISABLE_FIND_PACKAGE_X11=ON -DARM=ON -DARM64=ON -DMOBILE_DEVICE=OFF",
+        "find . \\( -name 'flags.make' -o -name 'build.ninja' \\) -exec sed -i 's|-isystem |-I|g' {} +",
+        "make -j\"$(nproc)\" PPSSPPSDL"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/ppsspp/build/PPSSPPSDL",
+            "to": "PPSSPPSDL_TrimUI",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/ppsspp/assets",
+            "to": "assets",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "PPSSPPSDL_TrimUI": "Emu/PSP/PPSSPPSDL_TrimUI"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libEGL.so.1",
+          "libGLESv2.so.2",
+          "libSDL2-2.0.so.0",
+          "libc.so.6",
+          "libdl.so.2",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libpthread.so.0",
+          "librt.so.1",
+          "libz.so.1"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "PPSSPPSDL_TrimUI": "d0635cdb73e046cf8c62a92a4c59194cf9a80dfabbe08a0c9a0cb4628a1c96d7"
+        }
+      }
+    },
+    "ppsspp-smartpros": {
+      "extends": "ppsspp",
+      "description": "PPSSPP v1.20.3: Emu/PSP/PPSSPPSDL_SmartProS on the TrimUI Smart Pro S (Allwinner A523, Mali G57, fbdev, Vulkan). Built as spruceUI/PPSSPP-spruce@f74caa2 build-tsps.sh does: the tg5050 SDK's GCC 10.3 and sysroot; it skips the Vulkan-probe patch",
+      "toolchain": "standalone-tsps",
+      "source_date_epoch": 1776010015,
+      "patches": [
+        {
+          "diff": "patches/standalone/ppsspp/common-1-fullscreen.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-2-hide-cursor.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-3-no-mute-secondary.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-4-remap-pause-menu.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-5-sigusr1-save-and-quit.patch"
+        },
+        {
+          "diff": "patches/standalone/ppsspp/common-6-sigusr2-toggle-pause-menu.patch"
+        }
+      ],
+      "steps": [
+        "set +u +o pipefail",
+        "printf '%s\\n' 'set(CMAKE_SYSTEM_NAME Linux)' 'set(CMAKE_SYSTEM_PROCESSOR aarch64)' 'set(CMAKE_C_COMPILER /opt/tsps-sdk/opt/ext-toolchain/bin/aarch64-none-linux-gnu-gcc)' 'set(CMAKE_CXX_COMPILER /opt/tsps-sdk/opt/ext-toolchain/bin/aarch64-none-linux-gnu-g++)' 'set(CMAKE_SYSROOT /opt/tsps-sdk/aarch64-buildroot-linux-gnu/sysroot)' 'set(CMAKE_FIND_ROOT_PATH /opt/tsps-sdk/aarch64-buildroot-linux-gnu/sysroot)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)' 'set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)' 'set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)' 'set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)' 'set(PKG_CONFIG_EXECUTABLE /usr/bin/pkg-config)' 'set(ENV{PKG_CONFIG_SYSROOT_DIR} \"/opt/tsps-sdk/aarch64-buildroot-linux-gnu/sysroot\")' 'set(ENV{PKG_CONFIG_LIBDIR} \"/opt/tsps-sdk/aarch64-buildroot-linux-gnu/sysroot/usr/lib/pkgconfig\")' 'set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)' > /tmp/tsps-toolchain.cmake",
+        "export PATH=\"/opt/tsps-sdk/opt/ext-toolchain/bin:${PATH}\"",
+        "mkdir -p /build/ppsspp/build && cd /build/ppsspp/build",
+        "cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/tmp/tsps-toolchain.cmake -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \"-DCMAKE_C_FLAGS=-Ofast -mcpu=cortex-a55 -ffunction-sections -fdata-sections -fomit-frame-pointer -flto=auto     -Wno-error\" \"-DCMAKE_CXX_FLAGS=-Ofast -mcpu=cortex-a55 -ffunction-sections -fdata-sections -fomit-frame-pointer -flto -Wno-error\" \"-DCMAKE_EXE_LINKER_FLAGS=-Wl,--copy-dt-needed-entries,--gc-sections -flto=auto\" -DUSING_GLES2=ON -DUSING_EGL=OFF -DUSING_FBDEV=ON -DVULKAN=ON -DUSE_VULKAN_DISPLAY_KHR=ON -DUSING_X11_VULKAN=OFF -DUSE_WAYLAND_WSI=OFF -DBUILD_SHARED_LIBS=OFF -DUSE_SYSTEM_LIBPNG=OFF -DUSE_SYSTEM_FFMPEG=OFF -DUSE_DISCORD=OFF -DUSE_MINIUPNPC=OFF -DHEADLESS=OFF -DUNITTEST=OFF -DCMAKE_DISABLE_FIND_PACKAGE_SDL2_ttf=ON -DCMAKE_DISABLE_FIND_PACKAGE_Fontconfig=ON -DCMAKE_DISABLE_FIND_PACKAGE_X11=ON",
+        "find . \\( -name 'flags.make' -o -name 'build.ninja' \\) -exec sed -i 's|-isystem |-I|g' {} +",
+        "make -j\"$(nproc)\" PPSSPPSDL"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/ppsspp/build/PPSSPPSDL",
+            "to": "PPSSPPSDL_SmartProS",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/ppsspp/assets",
+            "to": "assets",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "PPSSPPSDL_SmartProS": "Emu/PSP/PPSSPPSDL_SmartProS"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libEGL.so.1",
+          "libGLESv2.so.2",
+          "libSDL2-2.0.so.0",
+          "libc.so.6",
+          "libdl.so.2",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libmali.so.0",
+          "libpthread.so.0",
+          "librt.so.1",
+          "libstdc++.so.6",
+          "libz.so.1"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "PPSSPPSDL_SmartProS": "54c9e8b1f1de58d546a27793129052d2539805997047433f02de8780bbff00f0"
+        }
+      }
+    },
+    "pcsx_rearmed-mini": {
+      "description": "PCSX-ReARMed r26-2 standalone: Emu/PS/pcsx_mini on the Miyoo Mini, against the Mini's own SDL 1.2. Built as spruceUI/pcsx_rearmed-spruce@d522dc2 build-mini.sh and Dockerfile.mini do (Onion toolchain, GCC 8.3). It embeds two build times a second apart (menu.c, main.c)",
+      "source": {
+        "url": "https://github.com/notaz/pcsx_rearmed.git",
+        "commit": "d4ffcd0a36bbf2f3693a2899fcb5f78eea508175",
+        "tree": "7b69171e6616024089f195013480094377b09323",
+        "requested_ref": "refs/heads/master (2026-04-12)",
+        "submodules": true,
+        "path": "/build/pcsx_rearmed"
+      },
+      "toolchain": "standalone-mini",
+      "source_date_epoch": 1776034088,
+      "patches": [
+        {
+          "diff": "patches/standalone/pcsx_rearmed/signal-handlers.patch"
+        }
+      ],
+      "env": {
+        "CC": "arm-linux-gnueabihf-gcc",
+        "CXX": "arm-linux-gnueabihf-g++",
+        "AR": "arm-linux-gnueabihf-ar",
+        "AS": "arm-linux-gnueabihf-as",
+        "STRIP": "arm-linux-gnueabihf-strip",
+        "CROSS_COMPILE": "arm-linux-gnueabihf-"
+      },
+      "steps": [
+        "set +u +o pipefail",
+        "cd /build/pcsx_rearmed && git config core.abbrev 8",
+        "printf '%s\\n' '#!/bin/sh' 'case \"$1\" in' '    --cflags) echo \"-I/opt/miyoomini-toolchain/arm-linux-gnueabihf/libc/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT\" ;;' '    --libs)   echo \"-L/opt/miyoomini-toolchain/arm-linux-gnueabihf/libc/usr/lib -lSDL\" ;;' '    *)        echo \"\" ;;' 'esac' > /usr/local/bin/sdl-config && chmod +x /usr/local/bin/sdl-config",
+        "export SDL_CONFIG=/usr/local/bin/sdl-config",
+        "./configure --platform=generic --gpu=neon --dynarec=ari64 --sound-drivers=\"sdl\" --enable-neon --enable-threads",
+        "make -j\"$(nproc)\"",
+        "rm -f frontend/main.o && SOURCE_DATE_EPOCH=1776034089 make -j\"$(nproc)\""
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/pcsx_rearmed/pcsx",
+            "to": "pcsx_mini",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/pcsx_rearmed/frontend/pandora/skin",
+            "to": "skin",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "pcsx_mini": "Emu/PS/pcsx_mini"
+        }
+      },
+      "needed": {
+        "device": [
+          "libSDL-1.2.so.0",
+          "libc.so.6",
+          "libdl.so.2",
+          "libm.so.6",
+          "libpng12.so.0",
+          "libpthread.so.0",
+          "libz.so.1"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "pcsx_mini": "bf0c1a1c9581b69323fefc7890b1d03d839f811967ffb545c6c956969f9481ff"
+        }
+      }
+    },
+    "scummvm-mini": {
+      "description": "ScummVM v2026.2.0 for the Miyoo Mini (SDL 1.2, engines as plugins): scummvm.mini and plugins/ (spruceOS carries them as Emu/SCUMMVM/scummvm_mini.7z and scummvm_mini_plugins.7z, which firstboot unpacks; shipped compares their contents), with libmini/. Built as spruceUI/ScummVM-spruce@6d04046 Dockerfile.mini and build-mini.sh do: libogg, libvorbis, libtheora, libjpeg-turbo, giflib and FluidLite built into the Onion sysroot first. Two build times: the bagel plugin's, and base/version.cpp's at the end",
+      "source": {
+        "url": "https://github.com/scummvm/scummvm.git",
+        "commit": "d21ef2e4cb9a9c979b111375624bdf5b66d91bfa",
+        "tree": "96e7c23fab015c2a06189052778841fd2a25ec27",
+        "requested_ref": "refs/tags/v2026.2.0",
+        "path": "/build/scummvm"
+      },
+      "extra_sources": [
+        {
+          "url": "https://github.com/divideconcept/FluidLite.git",
+          "commit": "4a01cf1c67419e71da971d209f2855bbf4f3bab8",
+          "tree": "dc021a2d5af7fc8aec051b369dc63eb759f7853b",
+          "requested_ref": "refs/heads/master (2026-03-31)",
+          "path": "/tmp/FluidLite"
+        }
+      ],
+      "downloads": [
+        {
+          "url": "https://downloads.xiph.org/releases/ogg/libogg-1.3.5.tar.xz",
+          "sha256": "c4d91be36fc8e54deae7575241e03f4211eb102afb3fc0775fbbc1b740016705",
+          "path": "/tmp/libogg-1.3.5.tar.xz"
+        },
+        {
+          "url": "https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.xz",
+          "sha256": "b33cc4934322bcbf6efcbacf49e3ca01aadbea4114ec9589d1b1e9d20f72954b",
+          "path": "/tmp/libvorbis-1.3.7.tar.xz"
+        },
+        {
+          "url": "https://downloads.xiph.org/releases/theora/libtheora-1.1.1.tar.bz2",
+          "sha256": "b6ae1ee2fa3d42ac489287d3ec34c5885730b1296f0801ae577a35193d3affbc",
+          "path": "/tmp/libtheora-1.1.1.tar.bz2"
+        },
+        {
+          "url": "https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/3.0.1/libjpeg-turbo-3.0.1.tar.gz",
+          "sha256": "22429507714ae147b3acacd299e82099fce5d9f456882fc28e252e4579ba2a75",
+          "path": "/tmp/libjpeg-turbo-3.0.1.tar.gz"
+        },
+        {
+          "url": "https://sourceforge.net/projects/giflib/files/giflib-5.2.1.tar.gz/download",
+          "sha256": "31da5562f44c5f15d63340a09a4fd62b48c45620cd302f77a6d9acf0077879bd",
+          "path": "/tmp/giflib-5.2.1.tar.gz"
+        }
+      ],
+      "toolchain": "standalone-mini",
+      "source_date_epoch": 1774998874,
+      "patches": [
+        {
+          "diff": "patches/standalone/scummvm/common-1-cacert-env.patch"
+        },
+        {
+          "diff": "patches/standalone/scummvm/common-2-sigusr1-save-and-quit.patch"
+        },
+        {
+          "diff": "patches/standalone/scummvm/mini-1-miyoo-rotation-180.patch"
+        }
+      ],
+      "env": {
+        "TOOLCHAIN": "/opt/miyoomini-toolchain",
+        "SYSROOT": "/opt/miyoomini-toolchain/arm-linux-gnueabihf/libc",
+        "CC": "arm-linux-gnueabihf-gcc",
+        "CXX": "arm-linux-gnueabihf-g++"
+      },
+      "steps": [
+        "set +u +o pipefail",
+        "cd /tmp && tar xf libogg-1.3.5.tar.xz && cd libogg-1.3.5 && ./configure --host=arm-linux-gnueabihf --build=x86_64-pc-linux-gnu --prefix=$SYSROOT/usr --disable-static --enable-shared && make -j\"$(nproc)\" && make install",
+        "cd /tmp && tar xf libvorbis-1.3.7.tar.xz && cd libvorbis-1.3.7 && PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig ./configure --host=arm-linux-gnueabihf --build=x86_64-pc-linux-gnu --prefix=$SYSROOT/usr --disable-static --enable-shared && make -j\"$(nproc)\" && make install",
+        "cd /tmp && tar xjf libtheora-1.1.1.tar.bz2 && cd libtheora-1.1.1 && PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig ./configure --host=arm-linux-gnueabihf --build=x86_64-pc-linux-gnu --prefix=$SYSROOT/usr --disable-static --enable-shared --disable-examples --disable-spec --disable-encode && make -j\"$(nproc)\" && make install",
+        "cd /tmp && tar xzf libjpeg-turbo-3.0.1.tar.gz && mkdir -p libjpeg-turbo-3.0.1/build && cd libjpeg-turbo-3.0.1/build && cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=arm -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc -DCMAKE_INSTALL_PREFIX=$SYSROOT/usr -DWITH_SIMD=OFF .. && make -j\"$(nproc)\" && make install",
+        "cd /tmp && tar xzf giflib-5.2.1.tar.gz && cd giflib-5.2.1 && make CC=arm-linux-gnueabihf-gcc PREFIX=$SYSROOT/usr -j\"$(nproc)\" && make CC=arm-linux-gnueabihf-gcc PREFIX=$SYSROOT/usr install",
+        "mkdir -p /tmp/FluidLite/build && cd /tmp/FluidLite/build && cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=arm -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc -DCMAKE_INSTALL_PREFIX=$SYSROOT/usr -DBUILD_SHARED_LIBS=ON .. && make -j\"$(nproc)\" && make install",
+        "cd /build/scummvm",
+        "export PATH=\"$TOOLCHAIN/bin:$SYSROOT/usr/bin:$PATH\" CXX=\"ccache arm-linux-gnueabihf-g++\"",
+        "./configure --host=miyoomini --enable-release --enable-plugins --default-dynamic --disable-detection-full --enable-fluidlite | tee configure_summary.txt",
+        "make -j\"$(nproc)\"",
+        "rm -f base/version.o && SOURCE_DATE_EPOCH=1775000038 make -j\"$(nproc)\"",
+        "mkdir -p /build/out/plugins /build/out/libmini && cp plugins/*.so /build/out/plugins/ && arm-linux-gnueabihf-strip /build/out/plugins/*.so",
+        "for lib in libjpeg.so.62 libvorbisfile.so.3 libvorbis.so.0 libogg.so.0 libgif.so.7 libtheoradec.so.1 libfluidlite.so libmad.so.0 libfribidi.so.0; do\n    found=$(find \"$SYSROOT\" -name \"${lib}*\" -type f 2>/dev/null | head -1)\n    if [ -n \"$found\" ]; then cp -L \"$found\" \"/build/out/libmini/$lib\"; fi\ndone"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/scummvm/scummvm",
+            "to": "scummvm.mini",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/plugins",
+            "to": "plugins",
+            "dir": true
+          },
+          {
+            "from": "/build/out/libmini",
+            "to": "libmini",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "scummvm.mini": "Emu/SCUMMVM/scummvm.mini",
+          "plugins/": "Emu/SCUMMVM/plugins/",
+          "libmini/": "Emu/SCUMMVM/libmini/"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-armhf.so.3",
+          "libSDL-1.2.so.0",
+          "libc.so.6",
+          "libdl.so.2",
+          "libfreetype.so.6",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libpng12.so.0",
+          "libpthread.so.0",
+          "libstdc++.so.6",
+          "libz.so.1"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "scummvm.mini": "635f7d88a1921560f0d784a9c6cc175fac2ac13b066ff979365503349926fbaf",
+          "plugins/libaccess.so": "92005217588cd8d4089474fc36a23110cd73d088b2d17cec59271a6b35a46ce1",
+          "plugins/libadl.so": "c583dc0b71928186b16efd262cdc53230cb99fab815345446b56fa069b2878df",
+          "plugins/libagi.so": "da19ef89293d212130b2968ebf5f1a4ba829066e99f089f62ff48ffe350e771a",
+          "plugins/libagos.so": "dbec922932af781578c1304c6b2bfa510ab01e1a693e1cfccdf751a058e9390e",
+          "plugins/libalg.so": "3978b2c14c1df4501bfdddc73c1bf932e4ec43e4acc27c1a5e45a642410bb07f",
+          "plugins/libasylum.so": "1ec794b8cf8dde5cb21857001ccd8f38cede6ca8656aa4d666f81597cdf238d8",
+          "plugins/libawe.so": "ce7cb5971b0ef82a0cd85b62f573f4a8282316fb1390e6859d438d494bebaf9b",
+          "plugins/libbagel.so": "d076b82253be4f77f23b1e64cffbbaf815ae1eec27cd5671f5500f596947c044",
+          "plugins/libbbvs.so": "26f88271c6a7b0fcd20ab416f1230f0576dea26d1b318427f96957a311b770c5",
+          "plugins/libbladerunner.so": "21dcf1a98686fec9e93b73c80b4cecb7a5db5fd69b2356dea1eaaef94fc1e567",
+          "plugins/libburied.so": "d6db81e69507003068fa51691f7770f544d425913673f0afe6f00d8bbdbda788",
+          "plugins/libcge.so": "690f05ae210aa853f9d9d10550c66d4e7189f6ce9bc662fc5a118ef18a8bbcf2",
+          "plugins/libcge2.so": "bdbc230da6b8554dd22a0f21f364f0fcba8b4958e5dbd0ab58c7125a6834e854",
+          "plugins/libchewy.so": "bb72e35850c8aa8bac6fd44322d212db242874d0b155cbfd972dfc20d8fd4c1d",
+          "plugins/libcine.so": "6edc806bf1dfdba462e561da3b8f37442f401eba64e2d3ca0cf5504d97229c53",
+          "plugins/libcomposer.so": "e44fbb37eea10a2c2c1f421f9353f82b1b0ba01a192709ca6f83e8b0a1c0ceb8",
+          "plugins/libcrab.so": "eae1812e9ed994fe79301e8684baabecd354427f223dc4a51d66c4bfb2785cbb",
+          "plugins/libcruise.so": "096d50048693d638818ace01e8458c81cb554f588cdbd75d0a4b75f319bd9204",
+          "plugins/libcryomni3d.so": "aa145cabb822ebab2d33f7006fa38df6d5336ab792550e202a127951bfa54865",
+          "plugins/libdarkseed.so": "cd24c744d7917f4c3fbfd4c17172905c78a0af926883a4c2c7cea8ef10d753be",
+          "plugins/libdgds.so": "4693908beb5b5cadb50b178fdc72615b224dd88d34a4a5bcf108927ed246dc57",
+          "plugins/libdirector.so": "82e34f63135ff1a151fa5504e9fd7504520a2caa102d3e6c48828af4e86b6585",
+          "plugins/libdraci.so": "b1840e61b875a5f79e697f1bab3b3e3b9569bcf0546059fb26fff012206305f2",
+          "plugins/libdragons.so": "d675e19d901a075760f8f535e857e324f38a6f87c37583489f87c00342cf87ce",
+          "plugins/libdrascula.so": "54572cfd95d182b2f49f2e9d64862ceeaede3a4807a874de421bf970cf618681",
+          "plugins/libdreamweb.so": "f64e05585b0c50dc8d5a47b7d0119bef51535d29e42c0ace534a2fd2ecbf893d",
+          "plugins/libefh.so": "7f15731bee636c097dc72d79ec2bbeb0bb97a5e90bb7a64de08be14bb5d8aaa9",
+          "plugins/libfreescape.so": "4ed572e51ad4bd838947ea9ebdba259260dbf19d80740d0d05223c9acd2aa92a",
+          "plugins/libglk.so": "5a992540380ceb54c2f5b96070f32bfd2fde4668f77ce56587d2276d49ac6081",
+          "plugins/libgnap.so": "c6cecc63864e696e37e1330b8df88f1d6c16f747405ad4f7aeeef1e81789091c",
+          "plugins/libgob.so": "2e06ebcc891797ad2018ac41fada22ecb2acfd76b4a2d575c542313571df6264",
+          "plugins/libgot.so": "f97c48daa8896a412948fbdf0c026669beee52fe1459037ee572b5f780b5044e",
+          "plugins/libgriffon.so": "24606eff623e4ed401a4e93e401ef099795af7c6fa99f28844aa0ba62e99169f",
+          "plugins/libgrim.so": "2739455c4a9e178206faf87509e0d8194513f4ceb34666e9d5f16faf048b84e1",
+          "plugins/libgroovie.so": "0256657d65216ff9c1dd9af3b88b739dfa4a53c68f51b0942e41c223ed556352",
+          "plugins/libhadesch.so": "ba29efb54b5debc06ded66ced5420879c5d15b96143ea6c8c34ce5e1b7fcae3d",
+          "plugins/libhdb.so": "b8f07907f02bedf4f21faaaca10ab24b4e9a62e044b40214af6268c15ea9081f",
+          "plugins/libhopkins.so": "7c7c0b6f519b2fc1f90bd2f91affa54c3f8af6444e90e06fd5e24a1214a0b810",
+          "plugins/libhugo.so": "099dfe868488a7b4a12354a6991d5cb21aed74254c7ef4c20e07f3102a67e007",
+          "plugins/libhypno.so": "07fab1b5ad1e5a5abe69124d89182442d7b421df87ee040268dbc0a3a512d52d",
+          "plugins/libillusions.so": "65844f2cb28852d2914f3d9326dbe2b5d364352cab3b35c2e078f842609a7fea",
+          "plugins/libkingdom.so": "7b9048cf7ef24178482dd64ec6a2e621d03b478c1a5f1ba16409a7848c430928",
+          "plugins/libkyra.so": "b624e737fbbadac4409acc0a18ad66667fe9f48f2130df800dda632b975c1905",
+          "plugins/liblab.so": "59e022eda6379cd1897745b1b961c8882995b33aa9795f428be8a23ef07230fb",
+          "plugins/liblastexpress.so": "e13d7e836eb41e32c93542daea55994725e6f727ddb39fce38ddb16b290cc45c",
+          "plugins/liblure.so": "3ff2414f0e1e3ed7bf7f6bc680f9f88f0dd7f20f065d06e955f60c7e4d3200e5",
+          "plugins/libm4.so": "350010a2711815e127231640515fbc0e160c6ec66b3559027337edda5089aeee",
+          "plugins/libmade.so": "38c6ac14cd4f575bffce6c9cc5e15ff7fa2a660e342057890c5f7357d4a58f16",
+          "plugins/libmads.so": "d86fe3a5dd0417caafc23672b01dd54d36f3c8d574c5d517a84166499f661ae4",
+          "plugins/libmm.so": "6417b6494f9c8249e2500ab44b0e3f5b71a62eef15c725cf3965838f7114c707",
+          "plugins/libmohawk.so": "3655529e69272ecf8858dd74c25d76859b00f1c2643755cafea31b7486c1161d",
+          "plugins/libmortevielle.so": "b986e61f64ba1e1f4bbd68055d4971bd3770aea34fb2e3b602e1c7633a0d6cf4",
+          "plugins/libmtropolis.so": "0c15d93dc72511d0c88f75c6a71bf372a79cbe69c8d8200705c355db3bcf075e",
+          "plugins/libmyst3.so": "e2705e83ea08f09f701289cf5ef7c391a2f66d28bc44c6eccfa0d475a2558282",
+          "plugins/libnancy.so": "57e47a599964ee96903a4e4aa91f1701e54f68f9df6e68ee7b4820e02f3043f9",
+          "plugins/libneverhood.so": "f18503817f08c7d98c53c9a28859baf7d8ea47717491be709dd88e019703fbac",
+          "plugins/libngi.so": "f233092c4975ff80091693d93ef93c067d624c7e66223ee734768501bf1f5d82",
+          "plugins/libparallaction.so": "4ce080c63a7b1bbf361ad1d90aeaff7887ce634b091f02e4dd8ef617adb0f18b",
+          "plugins/libpegasus.so": "939c42e995f351e4718763734f4bca1f90d1fd1f9c501405f407a55ae4661cf9",
+          "plugins/libpetka.so": "8aed6b14ad2602539e6247a213aa356a25eac0d129fd7bddb03a259f4a978334",
+          "plugins/libphoenixvr.so": "0871ddbadde0c6295c17c41688b9f31b3f110cc974f5ec0fe54840ade19a48cf",
+          "plugins/libpink.so": "c59e72032e8456e876b1178ffdcf0b68f715e363f54e922d3a96c50c65b00088",
+          "plugins/libplumbers.so": "e6d9031439b862da91f02b812b2cd5265f99499b5ce10ac405b8f306aa3ec28d",
+          "plugins/libprince.so": "0ee6253e5f1bab8610a8278028dfbc32f9fb955da081497de3a2b87db0e060d7",
+          "plugins/libprivate.so": "b79f479784c12b0030cd95dac9573964653436a136e2ec8549487836bc2756b0",
+          "plugins/libqueen.so": "67543566e79342928da56789aa9d68250bff358b680b8d8f161630d432ef8fd2",
+          "plugins/libsaga.so": "400b2d77bf7344ea49da2a753df7f0f87bf4e5a0ba6f6d32eacbbeec22e6d4e4",
+          "plugins/libsaga2.so": "337570ce003bded2a67a7ec09e03e1d45b35d7dca774d997e36a6165b8a6cb61",
+          "plugins/libsci.so": "8d6b93da058fc72d2590691d1ef48b05feb2b6f4e906e88d07600dff0400a8f0",
+          "plugins/libscumm.so": "d7030f37d7a5aeb7d9609d4ba1d8240f784e70bc69989747db38303af42998ce",
+          "plugins/libsherlock.so": "b5a404ceb3eecbc61350d04a7373b4be32ec79d6b2ac05795b8e9fb822d5440a",
+          "plugins/libsky.so": "2359e2099f23908caa45d2351c9a6c419a4a070f0475bcb7d71e5b25ce86c45b",
+          "plugins/libsludge.so": "96e0f91f6a3db24d0a153613326951c46023b81188cafebde656ae1ff9452fee",
+          "plugins/libstark.so": "b5d9263f4343d18a96758a7f7b86d8a76ce015e098ab10eaf8ff524de100aaa5",
+          "plugins/libsupernova.so": "318b99520d845d4d22caa250d7e46f8052f2b4d26e28956994a83c201705e0bb",
+          "plugins/libsword1.so": "aa46bc957535ad7ed7d1392c480dfdb4516a9cd25d0dd053239ee8b47c895daf",
+          "plugins/libsword2.so": "d8fc811468512058e59c68ee7f4d38aff323a8287acad8964c6b54061b203aa9",
+          "plugins/libsword25.so": "2e40cdcbda340d5c2c2de00179aedfff607a71596febcc7313bed4aaedaeb611",
+          "plugins/libteenagent.so": "19d8b42688bbb8a423468f87281ef75e2b2a5d60227b5d1d8e3577ae65e7841a",
+          "plugins/libtetraedge.so": "dc636757a3cf296d917e878d4800870e3c79565a5bd0ba132362f71333df68c9",
+          "plugins/libtinsel.so": "98984e452a4a50ec2742b7f80ffaed376d484c6348f5c5114c26394f770fc8cc",
+          "plugins/libtoltecs.so": "c70f8df7f1131ac33f108cd51e0b2fb3cce67121910171e3ec43f4ae01fd8411",
+          "plugins/libtony.so": "7b5166c376bfb67e9d2e37d18c219d52fc3b11fd2f70108e6324e9951b6da232",
+          "plugins/libtoon.so": "00fdee9af17e636b0a4c4e0fe11b51c54052aebd80d0a9edc8d471c1afdcaa13",
+          "plugins/libtot.so": "1f6ab63ee3cb72d7ca2fab607f2615fbf2367f8fa295194b36782f1f62343a60",
+          "plugins/libtouche.so": "82f395494501643096dbd9fab5e23d4dc23510f96b41b1042be63d46df338b34",
+          "plugins/libtrecision.so": "f8e5bdde7d1f2c3bff419a35e17d3f3f08eda68ba67f0471a9dbbe404b9d3b8d",
+          "plugins/libtsage.so": "2e73d2444f58fe2505163b2d4ef7aba0fcdd9b32e752f0e406801abace5d1136",
+          "plugins/libtucker.so": "83a60395a79475c8f9e145688e003969c848338b71c978673e9be298990c3df6",
+          "plugins/libtwine.so": "42b39cd95120a4f084e199d063f1a99fa3fe88b50c6fa27d84cae8b4b00d6b67",
+          "plugins/libultima.so": "6863309ea8858491b327f0c659cf2d93cb1058d41f697d1777f57efba828cf9b",
+          "plugins/libvcruise.so": "8945cdbd0f29d5989e6a442290f4f0305463226af7a5b4f63b04f15468a83949",
+          "plugins/libvoyeur.so": "7698af7a9c1881c160107357711f65619aa4fc21347503ce7d5a971ad99f8fb8",
+          "plugins/libwage.so": "e642cd468952b5d8a6adecacd6c8b1d8ef73815c45c885827dfa762925d61613",
+          "plugins/libwintermute.so": "aa49c7da2ce0de3fc894bd00023a556f7b4e75e21189bb89fe646e3b2805f2d7",
+          "plugins/libzvision.so": "9a8e999caafbe54c3442acf9eec35298ad77ee7297d0e8411dae8ba2cd8b5852",
+          "libmini/libfluidlite.so": "971f5ff6bf61fb016827c221facf35173bb9f7d4eaf7c42e853656a9bd87a462",
+          "libmini/libfribidi.so.0": "7aa769364c85ddcddd0cbd2f00f81888c114a3688f5349379bac283e7f208170",
+          "libmini/libgif.so.7": "848b12fc133a4265aa697b993034db477f7f604e79e0be18042d464ea3ed1780",
+          "libmini/libjpeg.so.62": "eef66a800e2525a3fc3a8b58fe40e556e893916aa7c30d2c244a1c10f2641bf9",
+          "libmini/libmad.so.0": "34b20c97c6368f5c715f1255ba1da7501ae07eed5dd3b6f377ef8bd8bcf7d83b",
+          "libmini/libogg.so.0": "21271b9fbd47495de147b25fde98c5ca0dec7209b28a542502fb0f50f15ad71e",
+          "libmini/libtheoradec.so.1": "88b6d1252242ea50a92d9b7e00ff65b6305ba9887b4fe1e94e71b838f8b1f5b6",
+          "libmini/libvorbis.so.0": "b66f383bc2dfb58442367113447f55647c94eb22ce4a5945bf9180e7e5eadb8e",
+          "libmini/libvorbisfile.so.3": "7e72a5e016cb4348e99c2530bc2d606989e2ac01f9b149ab101e853f40a83b81"
+        }
+      }
+    },
+    "vtree-mini": {
+      "description": "vTree v1.1 (FileManagement app): App/FileManagement/vtree.mini on the Miyoo Mini, linked against the SDL2, SDL2_ttf and SDL2_image that spruceOS ships in spruce/miyoomini/lib (unchanged since spruceOS 3d270cca, 2025-12-27) with headers from their release tags. Built as spruceUI/vTree-spruce@a0e1266 build-miyoomini.sh does, in aemiii91/miyoomini-toolchain",
+      "source": {
+        "url": "https://github.com/MustardOS/vtree.git",
+        "commit": "560205b6198ac9e0e28975d42fcaee4c28989015",
+        "tree": "8c9a367d5c97f4011f81807b5c3f36a011cb9276",
+        "requested_ref": "refs/tags/v1.1",
+        "path": "/build/vtree"
+      },
+      "extra_sources": [
+        {
+          "url": "https://github.com/libsdl-org/SDL.git",
+          "commit": "9c821dc21ccbd69b2bda421fdb35cb4ae2da8f5e",
+          "tree": "8ee44e4aa6c3508e99a596d4c09875d3313657f6",
+          "requested_ref": "refs/tags/release-2.30.10",
+          "path": "/tmp/SDL_src"
+        },
+        {
+          "url": "https://github.com/libsdl-org/SDL_ttf.git",
+          "commit": "4a318f8dfaa1bb6f10e0c5e54052e25d3c7f3440",
+          "tree": "6c0753a1d7b377fe988f018c2e0ca9186d341133",
+          "requested_ref": "refs/tags/release-2.22.0",
+          "path": "/tmp/SDL_ttf_src"
+        },
+        {
+          "url": "https://github.com/libsdl-org/SDL_image.git",
+          "commit": "abcf63aa71b4e3ac32120fa9870a6500ddcdcc89",
+          "tree": "bfc0eb8d1a8d8e5f1b4aa1e4c494655972b3a045",
+          "requested_ref": "refs/tags/release-2.8.2",
+          "path": "/tmp/SDL_image_src"
+        }
+      ],
+      "downloads": [
+        {
+          "url": "https://raw.githubusercontent.com/spruceUI/spruceOS/3d270cca68360c16a501f315a12da4a0a902f033/spruce/miyoomini/lib/libSDL2-2.0.so.0",
+          "sha256": "f55f2f1a092e3f1d99966b82dc3f07372d16b3f8ac2a14a021fb7d291ef71f54",
+          "path": "/opt/spruce-mini-libs/libSDL2-2.0.so.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/spruceUI/spruceOS/3d270cca68360c16a501f315a12da4a0a902f033/spruce/miyoomini/lib/libSDL2_ttf-2.0.so.0",
+          "sha256": "b56f3b6ded400854408ff09bd8db0dd9d4e9fcc7300a628a4354277973101da3",
+          "path": "/opt/spruce-mini-libs/libSDL2_ttf-2.0.so.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/spruceUI/spruceOS/3d270cca68360c16a501f315a12da4a0a902f033/spruce/miyoomini/lib/libSDL2_image-2.0.so.0",
+          "sha256": "6f46901b2655fbeba738a7e20ed2eca646111035e58472b04ddaad27deef4cb8",
+          "path": "/opt/spruce-mini-libs/libSDL2_image-2.0.so.0"
+        }
+      ],
+      "toolchain": "standalone-miyoomini",
+      "source_date_epoch": 1776744729,
+      "patches": [
+        {
+          "diff": "patches/standalone/vtree/0001-nintendo-button-labels.patch"
+        },
+        {
+          "diff": "patches/standalone/vtree/miyoomini-1-kbd-to-controller.patch"
+        }
+      ],
+      "env": {
+        "CC": "arm-linux-gnueabihf-gcc",
+        "STRIP": "arm-linux-gnueabihf-strip"
+      },
+      "steps": [
+        "set +u +o pipefail",
+        "cd /opt/spruce-mini-libs && ln -sf libSDL2-2.0.so.0 libSDL2.so && ln -sf libSDL2_ttf-2.0.so.0 libSDL2_ttf.so && ln -sf libSDL2_image-2.0.so.0 libSDL2_image.so",
+        "PREFIX=/build/local SPRUCE_LIBS=/opt/spruce-mini-libs && mkdir -p \"$PREFIX/include/SDL2\"",
+        "cp /tmp/SDL_src/include/*.h \"$PREFIX/include/SDL2/\" && cp /tmp/SDL_src/include/SDL_config_minimal.h \"$PREFIX/include/SDL2/SDL_config.h\"",
+        "cp /tmp/SDL_ttf_src/SDL_ttf.h \"$PREFIX/include/SDL2/\"",
+        "cp /tmp/SDL_image_src/include/SDL_image.h \"$PREFIX/include/SDL2/\" 2>/dev/null || cp /tmp/SDL_image_src/SDL_image.h \"$PREFIX/include/SDL2/\"",
+        "cd /build/vtree",
+        "printf '%s\\n' '#include <stdio.h>' '#ifndef SDL_clamp' '#define SDL_clamp(x, a, b) (((x) < (a)) ? (a) : (((x) > (b)) ? (b) : (x)))' '#endif' > sdl_compat.h",
+        "CFLAGS_COMMON=\"-O2 -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -fomit-frame-pointer -ffunction-sections -fdata-sections\"",
+        "SDL_CFLAGS=\"-I$PREFIX/include -I$PREFIX/include/SDL2 -D_REENTRANT -include ./sdl_compat.h\"",
+        "make release CC=arm-linux-gnueabihf-gcc SDL2_CFLAGS=\"$SDL_CFLAGS\" SDL2_LIBS=\"-L$SPRUCE_LIBS -Wl,-rpath-link,$SPRUCE_LIBS -lSDL2_ttf -lSDL2_image -lSDL2 -lm\" CFLAGS_REL=\"-Wall -Wextra -std=c99 $SDL_CFLAGS -DSDL_MAIN_HANDLED -D_POSIX_C_SOURCE=200809L -O2 -DNDEBUG $CFLAGS_COMMON\" LDFLAGS_REL=\"-Wl,--gc-sections -Wl,--allow-shlib-undefined\""
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/vtree/vtree",
+            "to": "vtree.mini",
+            "strip": "-s"
+          }
+        ],
+        "spruce": {
+          "vtree.mini": "App/FileManagement/vtree.mini"
+        }
+      },
+      "needed": {
+        "device": [
+          "libSDL2-2.0.so.0",
+          "libSDL2_image-2.0.so.0",
+          "libSDL2_ttf-2.0.so.0",
+          "libc.so.6",
+          "libm.so.6"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "vtree.mini": "ba485885b53e033db2540f37e039687c0023c531aab136d7003d1a8c049f213f"
+        }
+      }
     }
   }
 }

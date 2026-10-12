@@ -155,6 +155,61 @@
         "size": 398841378
       },
       "dockerfile": "Dockerfile.standalone.scummvm"
+    },
+    "standalone-flip": {
+      "image": "cores-standalone-flip:v1",
+      "image_id": "sha256:59beb87c3924ad8c96ba845072283cd371ad036c5bec2efbdc08f9fa92644c66",
+      "host_cc": "aarch64-flip-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-flip-v1.tar.gz",
+        "sha256": "e812dfb2f8e31c892a4bcc3a1c1447b8b3706aa95485e8deebe1230622b45505",
+        "size": 1055646475
+      },
+      "dockerfile": "Dockerfile.standalone.flip"
+    },
+    "standalone-trimui": {
+      "image": "cores-standalone-trimui:v1",
+      "image_id": "sha256:29c4f2dce227dd9b79be464918bbac01b2fdcd504c1d5fabd79b9a28bb055cf6",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-trimui-v1.tar.gz",
+        "sha256": "2432df6e568d5aee7a80505c93c89d3243f721101a61c57e5b12476becb23e1d",
+        "size": 1316873003
+      },
+      "dockerfile": "Dockerfile.standalone.trimui"
+    },
+    "standalone-tsps": {
+      "image": "cores-standalone-tsps:v1",
+      "image_id": "sha256:46f71c1750c2b7a70868322fe968c30211be00cfa5a08f1d3f1e3c947807b05f",
+      "host_cc": "aarch64-none-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-tsps-v1.tar.gz",
+        "sha256": "65ed5e2bf80e02a864fcc3fc1b4942bfd46a9f8460d8d52906af041df72d308b",
+        "size": 1915152242
+      },
+      "dockerfile": "Dockerfile.standalone.tsps"
+    },
+    "standalone-mini": {
+      "image": "cores-standalone-mini:v1",
+      "image_id": "sha256:919c6fece64899a292d7f86741b1f9035e91d6472ddd39a2b8f760ff2393244e",
+      "host_cc": "arm-linux-gnueabihf",
+      "archive": {
+        "name": "cores-standalone-mini-v1.tar.gz",
+        "sha256": "aed659800cf6f7cc1003ef63b425714d8dd3b11fe591f98985f103491d765a5c",
+        "size": 1704479628
+      },
+      "dockerfile": "Dockerfile.standalone.mini"
+    },
+    "standalone-miyoomini": {
+      "image": "cores-standalone-miyoomini:v1",
+      "image_id": "sha256:10ab28206b4a489e43a3e6f22a20ff9d9585ab264bcc3d3155cd7cf54e9d5d26",
+      "host_cc": "arm-linux-gnueabihf",
+      "archive": {
+        "name": "cores-standalone-miyoomini-v1.tar.gz",
+        "sha256": "fc149d61003f30c758f288a32f32efab95350322aac3f143a3e7a397bde75b2c",
+        "size": 803551514
+      },
+      "dockerfile": "Dockerfile.standalone.miyoomini"
     }
   }
 }

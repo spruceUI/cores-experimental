@@ -1,0 +1,75 @@
+Generated from spruceUI/ScummVM-spruce@6d04046:patches/mini/miyoo-rotation-180.py against scummvm/scummvm d21ef2e4cb9a
+(v2026.2.0) with common-1 and common-2 applied (2026-10-12). Apply in order.
+
+diff --git a/backends/graphics/miyoo/miyoomini-graphics.cpp b/backends/graphics/miyoo/miyoomini-graphics.cpp
+index 84f7fb5..b4295e1 100644
+--- a/backends/graphics/miyoo/miyoomini-graphics.cpp
++++ b/backends/graphics/miyoo/miyoomini-graphics.cpp
+@@ -33,11 +33,21 @@ void MiyooMiniGraphicsManager::initGraphicsSurface() {
+ 					 _realHwScreen->format->Gmask,
+ 					 _realHwScreen->format->Bmask,
+ 					 _realHwScreen->format->Amask);
++	_flipBuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, _videoMode.hardwareWidth, _videoMode.hardwareHeight,
++					 _realHwScreen->format->BitsPerPixel,
++					 _realHwScreen->format->Rmask,
++					 _realHwScreen->format->Gmask,
++					 _realHwScreen->format->Bmask,
++					 _realHwScreen->format->Amask);
+ 	_isDoubleBuf = false;
+ 	_isHwPalette = false;
+ }
+ 
+ void MiyooMiniGraphicsManager::unloadGFXMode() {
++	if (_flipBuffer) {
++		SDL_FreeSurface(_flipBuffer);
++		_flipBuffer = nullptr;
++	}
+ 	if (_realHwScreen) {
+ 		SDL_FreeSurface(_realHwScreen);
+ 		_realHwScreen = nullptr;
+@@ -46,8 +56,31 @@ void MiyooMiniGraphicsManager::unloadGFXMode() {
+ }
+ 
+ void MiyooMiniGraphicsManager::updateScreen(SDL_Rect *dirtyRectList, int actualDirtyRects) {
+-	SDL_BlitSurface(_hwScreen, nullptr, _realHwScreen, nullptr);
+-	SDL_UpdateRects(_realHwScreen, actualDirtyRects, _dirtyRectList);
++	// Rotate 180° via separate flip buffer (never modify _hwScreen)
++	if (_flipBuffer) {
++		if (SDL_MUSTLOCK(_hwScreen)) SDL_LockSurface(_hwScreen);
++		if (SDL_MUSTLOCK(_flipBuffer)) SDL_LockSurface(_flipBuffer);
++		int w = _hwScreen->w;
++		int h = _hwScreen->h;
++		int srcPitch = _hwScreen->pitch;
++		int dstPitch = _flipBuffer->pitch;
++		uint8 *src = (uint8 *)_hwScreen->pixels;
++		uint8 *dst = (uint8 *)_flipBuffer->pixels;
++		for (int y = 0; y < h; y++) {
++			uint32 *srcRow = (uint32 *)(src + y * srcPitch);
++			uint32 *dstRow = (uint32 *)(dst + (h - 1 - y) * dstPitch);
++			for (int x = 0; x < w; x++) {
++				dstRow[w - 1 - x] = srcRow[x];
++			}
++		}
++		if (SDL_MUSTLOCK(_flipBuffer)) SDL_UnlockSurface(_flipBuffer);
++		if (SDL_MUSTLOCK(_hwScreen)) SDL_UnlockSurface(_hwScreen);
++		SDL_BlitSurface(_flipBuffer, nullptr, _realHwScreen, nullptr);
++	} else {
++		SDL_BlitSurface(_hwScreen, nullptr, _realHwScreen, nullptr);
++	}
++	SDL_Rect fullScreen = {0, 0, (Uint16)_realHwScreen->w, (Uint16)_realHwScreen->h};
++	SDL_UpdateRects(_realHwScreen, 1, &fullScreen);
+ }
+ 
+ void MiyooMiniGraphicsManager::getDefaultResolution(uint &w, uint &h) {
+diff --git a/backends/graphics/miyoo/miyoomini-graphics.h b/backends/graphics/miyoo/miyoomini-graphics.h
+index 73306fb..3323e1b 100644
+--- a/backends/graphics/miyoo/miyoomini-graphics.h
++++ b/backends/graphics/miyoo/miyoomini-graphics.h
+@@ -35,6 +35,7 @@ public:
+ 
+ private:
+ 	SDL_Surface *_realHwScreen;
++	SDL_Surface *_flipBuffer = nullptr;
+ };
+ 
+ #endif /* BACKENDS_GRAPHICS_MIYOOMINI_H */

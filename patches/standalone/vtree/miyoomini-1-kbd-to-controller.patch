@@ -1,0 +1,56 @@
+Generated from spruceUI/vTree-spruce@a0e1266:patches/miyoomini/0001-kbd-to-controller.py against MustardOS/vtree
+560205b6 (v1.1) with 0001-nintendo-button-labels applied (2026-10-12). Apply in order.
+
+diff --git a/main.c b/main.c
+index 829088b..bfe9b36 100644
+--- a/main.c
++++ b/main.c
+@@ -1665,6 +1665,30 @@ static void present_frame(void) {
+ }
+ 
+ // ---------------------------------------------------------------------------
++// ---------------------------------------------------------------------------
++// Miyoo Mini: keyboard -> controller translation. gpio_keys on Mini emits
++// keyboard events (no js0), so we rewrite SDL_KEYDOWN/UP into
++// SDL_CONTROLLERBUTTONDOWN/UP before the main dispatcher sees them.
++// ---------------------------------------------------------------------------
++static SDL_GameControllerButton key_to_button(SDL_Scancode sc) {
++    switch (sc) {
++        case SDL_SCANCODE_SPACE:  return SDL_CONTROLLER_BUTTON_B;              // A (east)
++        case SDL_SCANCODE_LCTRL:  return SDL_CONTROLLER_BUTTON_A;              // B (south)
++        case SDL_SCANCODE_LSHIFT: return SDL_CONTROLLER_BUTTON_Y;              // X (north)
++        case SDL_SCANCODE_LALT:   return SDL_CONTROLLER_BUTTON_X;              // Y (west)
++        case SDL_SCANCODE_RETURN: return SDL_CONTROLLER_BUTTON_START;
++        case SDL_SCANCODE_RCTRL:  return SDL_CONTROLLER_BUTTON_BACK;           // Select
++        case SDL_SCANCODE_ESCAPE: return SDL_CONTROLLER_BUTTON_GUIDE;          // Menu
++        case SDL_SCANCODE_E:      return SDL_CONTROLLER_BUTTON_LEFTSHOULDER;   // L1
++        case SDL_SCANCODE_T:      return SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;  // R1
++        case SDL_SCANCODE_UP:     return SDL_CONTROLLER_BUTTON_DPAD_UP;
++        case SDL_SCANCODE_DOWN:   return SDL_CONTROLLER_BUTTON_DPAD_DOWN;
++        case SDL_SCANCODE_LEFT:   return SDL_CONTROLLER_BUTTON_DPAD_LEFT;
++        case SDL_SCANCODE_RIGHT:  return SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
++        default:                  return SDL_CONTROLLER_BUTTON_INVALID;
++    }
++}
++
+ int main(int argc, char *argv[]) {
+     // ── Argument parsing ──────────────────────────────────────────────────────
+     int cmdline_rotation = -1;  // -1 = not set; overrides Rotation= in config.ini when >= 0
+@@ -1867,6 +1891,17 @@ int main(int argc, char *argv[]) {
+         Uint32 now = SDL_GetTicks();
+ 
+         while (SDL_PollEvent(&ev)) {
++            // Translate Mini kbd events to controller events before dispatch.
++            if (ev.type == SDL_KEYDOWN || ev.type == SDL_KEYUP) {
++                SDL_GameControllerButton btn =
++                    key_to_button(ev.key.keysym.scancode);
++                if (btn != SDL_CONTROLLER_BUTTON_INVALID) {
++                    Uint32 new_type = (ev.type == SDL_KEYDOWN) ?
++                        SDL_CONTROLLERBUTTONDOWN : SDL_CONTROLLERBUTTONUP;
++                    ev.type = new_type;
++                    ev.cbutton.button = (Uint8)btn;
++                }
++            }
+             if (ev.type == SDL_QUIT) {
+                 if (cfg.remember_dirs) {
+                     strncpy(cfg.start_left,  panes[0].current_path, MAX_PATH - 1);
