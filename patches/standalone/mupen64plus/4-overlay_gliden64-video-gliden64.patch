@@ -1,0 +1,137 @@
+Generated from spruceUI/mupen64plus-spruce@b3cbeb9:patches/universal/overlay_gliden64.py, its change to
+video-gliden64 (pinned in manifests/standalone-builds.json) after patches 1-3 (2026-10-12).
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index ff7e8a5..8892a82 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -34,11 +34,22 @@ else(GIT_FOUND AND EXISTS "${CMAKE_SOURCE_DIR}/../.git")
+ endif(GIT_FOUND AND EXISTS "${CMAKE_SOURCE_DIR}/../.git")
+ set_property(SOURCE ${PATH_REVISION} PROPERTY SKIP_AUTOGEN ON)
+ include_directories("${CMAKE_CURRENT_BINARY_DIR}/inc")
++include_directories(/overlay /overlay/cjson)
+ 
+ project( GLideN64 )
+ 
+ include(GNUInstallDirs)
+ 
++# SpruceOS overlay sources
++set(OVERLAY_DIR /overlay)
++set(OVERLAY_SOURCES
++  ${OVERLAY_DIR}/emu_overlay.c
++  ${OVERLAY_DIR}/emu_overlay_cfg.c
++  ${OVERLAY_DIR}/emu_overlay_sdl.c
++  ${OVERLAY_DIR}/emu_frontend.c
++  ${OVERLAY_DIR}/cjson/cJSON.c
++)
++
+ set(GLideN64_SOURCES
+   3DMath.cpp
+   Combiner.cpp
+@@ -522,7 +533,7 @@ if(EGL)
+   add_definitions(
+     -DEGL
+   )
+-  set(OPENGL_LIBRARIES ${EGL_LIB})
++  set(OPENGL_LIBRARIES ${EGL_LIB} SDL2_ttf dl)
+ else(EGL)
+   find_package(OpenGL REQUIRED)
+ 
+@@ -562,7 +573,7 @@ endif()
+ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_CXX_STANDARD_REQUIRED YES)
+ 
+-add_library( ${GLideN64_DLL_NAME} SHARED ${GLideN64_SOURCES} ${PATH_REVISION})
++add_library( ${GLideN64_DLL_NAME} SHARED ${GLideN64_SOURCES} ${OVERLAY_SOURCES} ${PATH_REVISION})
+ 
+ set_target_properties(
+ 	${GLideN64_DLL_NAME}
+diff --git a/src/DisplayWindow.cpp b/src/DisplayWindow.cpp
+index 59725f6..8a530ba 100644
+--- a/src/DisplayWindow.cpp
++++ b/src/DisplayWindow.cpp
+@@ -8,6 +8,14 @@
+ #include "PluginAPI.h"
+ #include "FrameBuffer.h"
+ 
++/* SpruceOS overlay menu integration */
++extern "C" {
++#include "emu_frontend.h"
++#include "emu_overlay_render.h"
++extern EmuOvlRenderBackend* overlay_sdl_get_backend(void);
++}
++
++
+ bool DisplayWindow::start()
+ {
+ 	if (!_start())
+@@ -46,6 +54,9 @@ void DisplayWindow::restart()
+ 
+ void DisplayWindow::swapBuffers()
+ {
++	/* SpruceOS: overlay menu frame processing */
++	emu_frontend_frame(m_width, m_height);
++
+ 	m_drawer.drawOSD();
+ 	m_drawer.clearStatistics();
+ 	_swapBuffers();
+diff --git a/src/mupenplus/MupenPlusAPIImpl.cpp b/src/mupenplus/MupenPlusAPIImpl.cpp
+index f059581..e0980f4 100644
+--- a/src/mupenplus/MupenPlusAPIImpl.cpp
++++ b/src/mupenplus/MupenPlusAPIImpl.cpp
+@@ -2,6 +2,31 @@
+ #include "../PluginAPI.h"
+ #include "../GLideN64.h"
+ #include "../Config.h"
++
++/* SpruceOS overlay menu */
++extern "C" {
++#include "emu_frontend.h"
++#include "emu_overlay_render.h"
++extern EmuOvlRenderBackend* overlay_sdl_get_backend(void);
++}
++
++/* Plugin ops callbacks for the overlay (C-compatible function pointers) */
++static void gliden64_swap_buffers(void) {
++    CoreVideo_GL_SwapBuffers();
++}
++
++static void gliden64_cycle_aspect(void) {
++    /* TODO: cycle GLideN64 aspect ratio */
++}
++
++static EmuOvlRenderBackend* gliden64_get_render(void) {
++    return overlay_sdl_get_backend();
++}
++
++static void gliden64_exec_on_video_thread(void (*fn)(void* ctx), void* ctx) {
++    fn(ctx);
++}
++
+ #include <DisplayWindow.h>
+ 
+ #ifdef OS_WINDOWS
+@@ -98,6 +123,23 @@ m64p_error PluginAPI::PluginStartup(m64p_dynlib_handle _CoreLibHandle, void* Con
+ 	CoreVideo_GL_SwapBuffers = (ptr_VidExt_GL_SwapBuffers) DLSYM(_CoreLibHandle, "VidExt_GL_SwapBuffers");
+ 	CoreVideo_GL_GetDefaultFramebuffer = (ptr_VidExt_GL_GetDefaultFramebuffer) DLSYM(_CoreLibHandle, "VidExt_GL_GetDefaultFramebuffer");
+ 
++	/* SpruceOS: resolve core API for overlay and init */
++	{
++		static EmuFrontendCoreAPI coreAPI;
++		static EmuFrontendPluginOps pluginOps;
++		coreAPI.core_cmd = (emu_fe_core_cmd_fn)
++			DLSYM(_CoreLibHandle, "CoreDoCommand");
++		coreAPI.add_cheat = (emu_fe_add_cheat_fn)
++			DLSYM(_CoreLibHandle, "CoreAddCheat");
++		coreAPI.cheat_enabled = (emu_fe_cheat_enabled_fn)
++			DLSYM(_CoreLibHandle, "CoreCheatEnabled");
++		pluginOps.swap_buffers = gliden64_swap_buffers;
++		pluginOps.cycle_aspect = gliden64_cycle_aspect;
++		pluginOps.get_render = gliden64_get_render;
++		pluginOps.exec_on_video_thread = gliden64_exec_on_video_thread;
++		emu_frontend_init(&coreAPI, &pluginOps);
++	}
++
+ 	CoreGetVersion = (ptr_PluginGetVersion) DLSYM(_CoreLibHandle, "PluginGetVersion");
+ 
+ #ifndef M64P_GLIDENUI

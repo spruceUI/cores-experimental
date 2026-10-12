@@ -121,7 +121,10 @@ def clone(source: dict, path: str) -> list[str]:
 def download(item: dict) -> list[str]:
     q = recipe.q
     path = q(item["path"])
-    fetch = "import sys, urllib.request; urllib.request.urlretrieve(sys.argv[1], sys.argv[2])"
+    # Some hosts refuse Python's default User-Agent (HTTP 406).
+    fetch = ('import shutil, sys, urllib.request; request = urllib.request.Request(sys.argv[1], '
+             'headers={"User-Agent": "cores-experimental"}); '
+             'shutil.copyfileobj(urllib.request.urlopen(request), open(sys.argv[2], "wb"))')
     return [f"mkdir -p \"$(dirname {path})\"",
             f"python3 -c {q(fetch)} {q(item['url'])} {path}",
             f"echo {q(item['sha256'] + '  ' + item['path'])} | sha256sum -c -"]

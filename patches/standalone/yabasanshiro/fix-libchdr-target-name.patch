@@ -1,0 +1,16 @@
+Generated from spruceUI/YabaSanshiro-spruce@49d2ded:patches/fix-libchdr-target-name.py against sydarn/yabause
+a40dace1ae0a (2026-10-12).
+
+diff --git a/yabause/src/retro_arena/CMakeLists.txt b/yabause/src/retro_arena/CMakeLists.txt
+index 682f59f0..4c62c943 100644
+--- a/yabause/src/retro_arena/CMakeLists.txt
++++ b/yabause/src/retro_arena/CMakeLists.txt
+@@ -62,7 +62,7 @@ add_executable(yabause-retro-arena ${yabause_ra_SOURCES})
+ target_link_libraries(yabause-retro-arena yabause  ${Boost_LIBRARIES} pugixml ${YABAUSE_LIBRARIES} ${PORT_LIBRARIES} nanogui stdc++fs  ${LIBCHDR_LIBRARIES} )
+ target_link_libraries( yabause-retro-arena ${LIBCHDR_LIBRARIES} )
+ target_link_libraries( yabause-retro-arena ${zlib_STATIC_LIBRARIES} )
+-add_dependencies(yabause-retro-arena Json png zlib libchd )
++add_dependencies(yabause-retro-arena Json png zlib libchdr )
+ yab_port_success(yabause-retro-arena)
+ set_target_properties(yabause-retro-arena PROPERTIES OUTPUT_NAME yabasanshiro)
+ 

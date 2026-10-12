@@ -221,7 +221,7 @@
       }
     },
     "pcsx_rearmed-arm64": {
-      "description": "PCSX-ReARMed r26-2 standalone: Emu/PS/pcsx_64 on every 64-bit device, with sdl12-compat as its SDL 1.2. Built as spruceUI/pcsx_rearmed-spruce@d522dc2 build.sh does; spruce adds libpng16.so.16 and libz.so.1 to Emu/PS/libs itself",
+      "description": "PCSX-ReARMed r26-2 standalone: Emu/PS/pcsx_64 on every 64-bit device, with sdl12-compat as its SDL 1.2. Built as spruceUI/pcsx_rearmed-spruce@d522dc2 build.sh does; spruce adds libpng16.so.16 and libz.so.1 to Emu/PS/libs itself. sdl12-compat embeds its own build time, three minutes before pcsx's",
       "source": {
         "url": "https://github.com/notaz/pcsx_rearmed.git",
         "commit": "d4ffcd0a36bbf2f3693a2899fcb5f78eea508175",
@@ -260,7 +260,7 @@
         "set +u +o pipefail",
         "mkdir -p /build/sdl12-compat/build && cd /build/sdl12-compat/build",
         "cmake .. -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_FIND_ROOT_PATH=/usr/aarch64-linux-gnu -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=BOTH -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_BUILD_TYPE=Release -DSDL12TESTS=OFF",
-        "make -j\"$(nproc)\"",
+        "SOURCE_DATE_EPOCH=1776033955 make -j\"$(nproc)\"",
         "cd /build/pcsx_rearmed",
         "git config core.abbrev 8",
         "printf '%s\\n' '#!/bin/sh' 'exec pkg-config sdl \"$@\"' > /usr/local/bin/sdl-config && chmod +x /usr/local/bin/sdl-config",
@@ -356,7 +356,7 @@
         "make -j\"$(nproc)\" && make install_sw",
         "export CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ AR=aarch64-linux-gnu-ar",
         "cd /build && tar xf curl-8.7.1.tar.xz && cd curl-8.7.1",
-        "./configure --host=aarch64-linux-gnu --prefix=/build/local --with-openssl=/build/local --without-libpsl --disable-manual --disable-ldap --enable-shared --disable-static CFLAGS=\"$OPTFLAGS\" LDFLAGS=\"$LDFLAGS -Wl,-rpath-link,/build/local/lib\"",
+        "./configure --host=aarch64-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/build/local --with-openssl=/build/local --without-libpsl --disable-manual --disable-ldap --enable-shared --disable-static CFLAGS=\"$OPTFLAGS\" LDFLAGS=\"$LDFLAGS -Wl,-rpath-link,/build/local/lib\"",
         "make -j\"$(nproc)\" && make install",
         "cd /build && tar xf ffmpeg-4.4.5.tar.xz && cd ffmpeg-4.4.5",
         "./configure --prefix=/build/local --cross-prefix=aarch64-linux-gnu- --arch=aarch64 --target-os=linux --enable-cross-compile --enable-shared --disable-static --disable-programs --disable-doc --disable-everything --enable-decoder=h264 --enable-decoder=hevc --enable-decoder=opus --enable-decoder=aac --enable-decoder=pcm_s16le --enable-parser=h264 --enable-parser=hevc --enable-parser=opus --enable-parser=aac --enable-demuxer=h264 --enable-demuxer=hevc --enable-demuxer=rtp --enable-demuxer=rtsp --enable-protocol=rtp --enable-protocol=udp --enable-protocol=tcp --enable-swresample --enable-avcodec --enable-avutil --extra-cflags=\"$OPTFLAGS\" --extra-ldflags=\"$LDFLAGS\"",
@@ -418,7 +418,6 @@
           "libs/libavutil.so": "6c8e3156a86e6220fac7f8f48f804cfd41df96545e18853d86cf5f590bad16a7",
           "libs/libavutil.so.56": "6c8e3156a86e6220fac7f8f48f804cfd41df96545e18853d86cf5f590bad16a7",
           "libs/libavutil.so.56.70.100": "6c8e3156a86e6220fac7f8f48f804cfd41df96545e18853d86cf5f590bad16a7",
-          "libs/libbsd.so.0": "db1a155fe53084c14f194d9ef59ffe94b985da258c43b962aeb0acf8f3299dc2",
           "libs/libcrypto.so.3": "bc7729db8fc3a9166f017be1c07ccc00cef48f25ee72571d61bb5649bc84c9eb",
           "libs/libcurl.so.4": "ac36181ace4c77182df21de8adac4c35761ff256fb2996833a5d57cce0465ba0",
           "libs/libdbus-1.so.3": "f6dbd10e42c254c0c5469af2862584d99a5d125cd46450559ef54cacbbc67ffc",
@@ -443,7 +442,8 @@
           "libs/libswresample.so.3.9.100": "fdc0a580ba0f8e94ccfcf2a033ca2ee087727a2c5774ce13333272587cd18269",
           "libs/libsystemd.so.0": "5899be19768050a40d016ca32cce11423f7eaba6086b36c78608244928accd48",
           "libs/libuuid.so.1": "491b2465f412a139512f4583900ee818f5de0708c20e389a859f048af28e7487"
-        }
+        },
+        "note": "spruce added libs/libbsd.so.0 itself (spruceOS 23d5daa3c); the build never produced it. --build keeps curl's configure cross-compiling on hosts where qemu-user binfmt runs aarch64 test programs"
       }
     },
     "bigpemu": {
@@ -689,7 +689,7 @@
       },
       "steps": [
         "cd /build && tar xf SDL2-2.26.1.tar.gz && cd SDL2-2.26.1",
-        "./configure --host=aarch64-linux-gnu --prefix=/build/local --enable-shared --disable-static --enable-video-wayland --disable-video-x11 --disable-video-rpi --disable-oss --disable-esd --disable-arts CC=\"ccache aarch64-linux-gnu-gcc-10\" CXX=\"ccache aarch64-linux-gnu-g++-10\"",
+        "./configure --host=aarch64-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/build/local --enable-shared --disable-static --enable-video-wayland --disable-video-x11 --disable-video-rpi --disable-oss --disable-esd --disable-arts CC=\"ccache aarch64-linux-gnu-gcc-10\" CXX=\"ccache aarch64-linux-gnu-g++-10\"",
         "make -j\"$(nproc)\" && make install",
         "grep -q '^#define SDL_VIDEO_DRIVER_WAYLAND' /build/local/include/SDL2/SDL_config.h",
         "export PKG_CONFIG_PATH=\"/build/local/lib/pkgconfig:$PKG_CONFIG_PATH\" PKG_CONFIG_LIBDIR=\"/build/local/lib/pkgconfig:$PKG_CONFIG_LIBDIR\"",
@@ -837,6 +837,329 @@
         "spruceos": "73bb91a19",
         "files": {
           "PPSSPPSDL_h700": "c1e928aab424c6aeb0fc38e8b5e24b49894fe46c2e0f06bb42f3e07d70cbd801"
+        }
+      }
+    },
+    "yabasanshiro-arm64": {
+      "description": "YabaSanshiro standalone (sydarn/yabause a40dace1, the retro_arena port with the devMiyax dynarec): Emu/SATURN/yabasanshiro on every 64-bit device. Built as spruceUI/YabaSanshiro-spruce@49d2ded build.sh does (Kitware CMake 4.4.3), in its paths (they end up in the binary)",
+      "source": {
+        "url": "https://github.com/sydarn/yabause.git",
+        "commit": "a40dace1ae0af3ebd45848549fdf396f40e3930f",
+        "tree": "52b40bd06d2f827de62f89da0e3a30dffc3cbb4e",
+        "requested_ref": "a40dace1ae0af3ebd45848549fdf396f40e3930f",
+        "submodules": true,
+        "path": "/build/yabasanshiro"
+      },
+      "toolchain": "standalone-yabasanshiro",
+      "source_date_epoch": 1730323839,
+      "patches": [
+        {
+          "diff": "patches/standalone/yabasanshiro/fix-libchdr-target-name.patch"
+        },
+        {
+          "diff": "patches/standalone/yabasanshiro/fix-libpng-neon.patch"
+        },
+        {
+          "diff": "patches/standalone/yabasanshiro/fix-stray-makecurrent.patch"
+        }
+      ],
+      "env": {
+        "CC": "aarch64-linux-gnu-gcc",
+        "CXX": "aarch64-linux-gnu-g++",
+        "AR": "aarch64-linux-gnu-ar",
+        "STRIP": "aarch64-linux-gnu-strip",
+        "PKG_CONFIG_PATH": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "CMAKE_POLICY_VERSION_MINIMUM": "3.5",
+        "SKIP_LIBS": "linux-vdso|ld-linux|libc\\.so|libm\\.so|libdl\\.so|libpthread\\.so|librt\\.so|libgcc_s|libstdc\\+\\+|libSDL2|libasound|libudev|libdrm|libwayland|libEGL|libGLES|libMali|libgomp|libvulkan|libmali|libIMGegl|libsrv_um|libusc|libGL\\.so|libGLX|libGLdispatch|libglut"
+      },
+      "steps": [
+        "set +u +o pipefail",
+        "cc yabause/src/retro_arena/nanogui-sdl/resources/bin2c.c -o bin2c_host",
+        "cc yabause/src/musashi/m68kmake.c -o m68kmake_host",
+        "sed -i \"s|COMMAND \\./bin2c|COMMAND $PWD/bin2c_host|g\" yabause/src/retro_arena/nanogui-sdl/CMakeLists.txt",
+        "sed -i \"s|COMMAND \\$<TARGET_FILE:bin2c>|COMMAND $PWD/bin2c_host|g\" yabause/src/retro_arena/nanogui-sdl/CMakeLists.txt",
+        "sed -i \"s|add_executable(bin2c resources/bin2c.c)|add_custom_target(bin2c DEPENDS $PWD/bin2c_host)|g\" yabause/src/retro_arena/nanogui-sdl/CMakeLists.txt",
+        "sed -i \"s|COMMAND m68kmake|COMMAND $PWD/m68kmake_host|g\" yabause/src/musashi/CMakeLists.txt",
+        "sed -i \"s|add_executable(m68kmake m68kmake.c)|# m68kmake built as host tool|g\" yabause/src/musashi/CMakeLists.txt",
+        "sed -i \"s|DEPENDS m68kmake.c|DEPENDS|g\" yabause/src/musashi/CMakeLists.txt",
+        "mkdir -p build && cd build",
+        "cmake ../yabause -DCMAKE_TOOLCHAIN_FILE=../yabause/src/retro_arena/n2.cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS=-O3 -DCMAKE_CXX_FLAGS=-O3 -DYAB_PORTS=retro_arena -DYAB_WANT_ARM7=ON -DYAB_WANT_DYNAREC_DEVMIYAX=ON -DYAB_WANT_VULKAN=OFF -DYAB_WANT_OPENAL=OFF -DYAB_MULTIBUILD=OFF -DCMAKE_DISABLE_FIND_PACKAGE_GLUT=TRUE",
+        "make -j\"$(nproc)\"",
+        "cd /build && mkdir -p /build/out/libs",
+        "cp \"$(find yabasanshiro/build -name yabasanshiro -type f -executable | head -1)\" /build/out/yabasanshiro && aarch64-linux-gnu-strip -s /build/out/yabasanshiro",
+        "collect_deps() {\n    aarch64-linux-gnu-readelf -d \"$1\" 2>/dev/null | grep NEEDED | sed 's/.*\\[\\(.*\\)\\]/\\1/' | while read -r lib; do\n        [ -f \"/build/out/libs/$lib\" ] && continue\n        echo \"$lib\" | grep -qE \"$SKIP_LIBS\" && continue\n        src=$(find /usr/lib/aarch64-linux-gnu /lib/aarch64-linux-gnu -maxdepth 1 -name \"$lib\" 2>/dev/null | head -1)\n        if [ -n \"$src\" ]; then cp -L \"$src\" \"/build/out/libs/$lib\"; collect_deps \"/build/out/libs/$lib\"; else echo \"WARNING: $lib not found\"; fi\n    done\n}",
+        "collect_deps /build/out/yabasanshiro",
+        "for lib in /build/out/libs/*.so*; do collect_deps \"$lib\"; done",
+        "for so in /build/out/libs/*.so*; do aarch64-linux-gnu-strip -s \"$so\" 2>/dev/null || true; done"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/out/yabasanshiro",
+            "to": "yabasanshiro"
+          },
+          {
+            "from": "/build/out/libs",
+            "to": "libs",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "yabasanshiro": "Emu/SATURN/yabasanshiro",
+          "libs/": "Emu/SATURN/lib64/"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libGLESv2.so.2",
+          "libSDL2-2.0.so.0",
+          "libc.so.6",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libpthread.so.0",
+          "libstdc++.so.6"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "note": "spruceOS c977e70dd moved libboost_filesystem.so.1.71.0 from Emu/SATURN/lib64 to spruce/flip/lib, which the Pixel 2's path lacks",
+        "files": {
+          "yabasanshiro": "85f56d0848ef591fb59464b5b3689c75eb06033c99f617c65ac8b18e357d3bd9",
+          "libs/libpng16.so.16": "14ba485f3a55c36893f372831d0445f78fc64f26073a8d7374dc89ac50b95edc",
+          "libs/libz.so.1": "f7421fde8036391750dc2b1dd7299a0a3305a93cb95846fcc381590f565215c1",
+          "libs/libboost_filesystem.so.1.71.0": "7009501be2148ef0edb8955c31848082cb3605a232d9bd9678db62d4c5148f79"
+        }
+      }
+    },
+    "mupen64plus-arm64": {
+      "description": "Mupen64Plus standalone with GLideN64, Rice and Glide64mk2, and spruce's in-game overlay menu: Emu/N64/mupen64plus on every 64-bit device. Built as spruceUI/mupen64plus-spruce@b3cbeb9 build.sh did on 2026-09-11, with each upstream at the master of that day. spruce's shipped core and audio-sdl come from a different, unrecorded upstream state",
+      "source": {
+        "url": "https://github.com/mupen64plus/mupen64plus-core.git",
+        "commit": "cf00a1d1b4138a8e04cde47aabcd00ea9a047f57",
+        "tree": "bb085e88da11ba9cb298e0d39ed401a3e74aa7a8",
+        "requested_ref": "refs/heads/master (2026-09-11)",
+        "path": "/build/core"
+      },
+      "extra_sources": [
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-ui-console.git",
+          "commit": "c8ac4862a019d7885b24927d9b4db5dd3e42a528",
+          "tree": "6cf316ede8bbf2d16c7e7e8136d4a6060957c976",
+          "requested_ref": "refs/heads/master (2026-09-11)",
+          "path": "/build/ui-console"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-audio-sdl.git",
+          "commit": "2faed1c7e62c5f292948e7cd2398c184970cf794",
+          "tree": "b64e60cd12152fab64901e8c8da529501c60e2da",
+          "requested_ref": "refs/heads/master (2026-09-11)",
+          "path": "/build/audio-sdl"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-input-sdl.git",
+          "commit": "842c39e89749aa3a8d02202b2afddd20b29cdfdb",
+          "tree": "4bb5cd0e9c4e34a6e27bf881538a4ff0fca13be4",
+          "requested_ref": "refs/heads/master (2026-09-11)",
+          "path": "/build/input-sdl"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-rsp-hle.git",
+          "commit": "8a7a472a7172eb2c8725b305eae26818ed7b51a2",
+          "tree": "4a38979d0001a13a5c006cd632e4a63201ce4308",
+          "requested_ref": "refs/heads/master (2026-09-11)",
+          "path": "/build/rsp-hle"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-video-rice.git",
+          "commit": "038882dd2e7cb660fd7512c0745032f17edd0bfa",
+          "tree": "aa4255ba1d276ebb8722a44cf85bc8a6c6dd99d0",
+          "requested_ref": "refs/heads/master (2026-09-11)",
+          "path": "/build/video-rice"
+        },
+        {
+          "url": "https://github.com/mupen64plus/mupen64plus-video-glide64mk2.git",
+          "commit": "b07cb0bc8f29d6ee43efdf0a4d5a1b878ba98393",
+          "tree": "c8953f943c1ee229823eb050651ad6722212fb3a",
+          "requested_ref": "refs/heads/master (2026-09-11)",
+          "path": "/build/video-glide64mk2"
+        },
+        {
+          "url": "https://github.com/gonetz/GLideN64.git",
+          "commit": "c8ef81c7d9aede9f67f6ed3d3426c90541f9f13e",
+          "tree": "cb5f1780c3c8ebb73997b2bcd1e0a790d49d8d26",
+          "requested_ref": "c8ef81c7d9aede9f67f6ed3d3426c90541f9f13e",
+          "path": "/build/video-gliden64"
+        },
+        {
+          "url": "https://github.com/spruceUI/mupen64plus-spruce.git",
+          "commit": "b3cbeb9253ab8d683e2763b87c17d8d6a9313a32",
+          "tree": "ed65ac66dc524dff7970e7d78ba5a23a89acf387",
+          "requested_ref": "refs/heads/main",
+          "path": "/wrapper"
+        }
+      ],
+      "toolchain": "standalone-mupen64plus",
+      "source_date_epoch": 1789086248,
+      "patches": [
+        {
+          "diff": "patches/standalone/mupen64plus/1-sigusr1_save_and_quit-core.patch",
+          "dir": "/build/core"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/2-center_viewport-video-glide64mk2.patch",
+          "dir": "/build/video-glide64mk2"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/2-center_viewport-video-rice.patch",
+          "dir": "/build/video-rice"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/3-overlay_glide64mk2-video-glide64mk2.patch",
+          "dir": "/build/video-glide64mk2"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/4-overlay_gliden64-video-gliden64.patch",
+          "dir": "/build/video-gliden64"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/5-overlay_rice-video-rice.patch",
+          "dir": "/build/video-rice"
+        }
+      ],
+      "env": {
+        "CC": "aarch64-linux-gnu-gcc",
+        "CXX": "aarch64-linux-gnu-g++",
+        "AR": "aarch64-linux-gnu-ar",
+        "STRIP": "aarch64-linux-gnu-strip",
+        "PKG_CONFIG_PATH": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "OPTFLAGS": "-O3 -ffunction-sections -fdata-sections -flto=auto",
+        "LDFLAGS": "-Wl,--gc-sections -flto=auto",
+        "APIDIR": "/build/core/src/api"
+      },
+      "steps": [
+        "set +u +o pipefail",
+        "cd /build && cp -r /wrapper/overlay /overlay",
+        "git -C /build/video-gliden64 config core.abbrev 7",
+        "export SDL_CFLAGS=\"$(pkg-config --cflags sdl2)\" SDL_LDLIBS=\"$(pkg-config --libs sdl2)\"",
+        "m64p_make() {\n    make -C \"$1\" CROSS_COMPILE=aarch64-linux-gnu- HOST_CPU=aarch64 USE_GLES=1 NEW_DYNAREC=1 VULKAN=0 \\\n        APIDIR=\"$APIDIR\" SDL_CFLAGS=\"$SDL_CFLAGS\" SDL_LDLIBS=\"$SDL_LDLIBS\" \\\n        OPTFLAGS=\"$OPTFLAGS\" PREFIX=\"\" V=1 -j\"$(nproc)\" all\n}",
+        "m64p_make core/projects/unix",
+        "for src in /overlay/emu_overlay.c /overlay/emu_overlay_cfg.c /overlay/emu_overlay_sdl.c /overlay/emu_frontend.c /overlay/cjson/cJSON.c; do\n    \"$CC\" $OPTFLAGS -fPIC -I/overlay -I/overlay/cjson $SDL_CFLAGS -I\"$APIDIR\" -c \"$src\" -o \"/overlay/$(basename \"$src\" .c).o\"\ndone",
+        "\"$AR\" rcs /overlay/liboverlay.a /overlay/emu_overlay.o /overlay/emu_overlay_cfg.o /overlay/emu_overlay_sdl.o /overlay/emu_frontend.o /overlay/cJSON.o",
+        "m64p_make audio-sdl/projects/unix",
+        "m64p_make input-sdl/projects/unix",
+        "m64p_make rsp-hle/projects/unix",
+        "m64p_make video-rice/projects/unix",
+        "m64p_make video-glide64mk2/projects/unix",
+        "mkdir -p video-gliden64/src/build && cd video-gliden64/src/build",
+        "cmake .. -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_BUILD_TYPE=Release -DMUPENPLUSAPI=ON -DEGL=ON -DUSE_SYSTEM_LIBS=ON \"-DCMAKE_C_FLAGS=$OPTFLAGS\" \"-DCMAKE_CXX_FLAGS=$OPTFLAGS\" \"-DCMAKE_EXE_LINKER_FLAGS=$LDFLAGS\" \"-DCMAKE_SHARED_LINKER_FLAGS=$LDFLAGS\"",
+        "make -j\"$(nproc)\"",
+        "cd /build && m64p_make ui-console/projects/unix",
+        "mkdir -p /build/out/data",
+        "cp ui-console/projects/unix/mupen64plus /build/out/ && cp core/projects/unix/libmupen64plus.so.2.0.0 /build/out/libmupen64plus.so.2",
+        "cp audio-sdl/projects/unix/mupen64plus-audio-sdl.so input-sdl/projects/unix/mupen64plus-input-sdl.so rsp-hle/projects/unix/mupen64plus-rsp-hle.so video-rice/projects/unix/mupen64plus-video-rice.so video-glide64mk2/projects/unix/mupen64plus-video-glide64mk2.so video-gliden64/src/build/plugin/Release/mupen64plus-video-GLideN64.so /build/out/",
+        "cp core/data/* video-rice/data/* video-glide64mk2/data/* /build/out/data/ && (cp video-gliden64/ini/* /build/out/data/ 2>/dev/null || true)"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/out/mupen64plus",
+            "to": "mupen64plus",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/libmupen64plus.so.2",
+            "to": "libmupen64plus.so.2",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-audio-sdl.so",
+            "to": "mupen64plus-audio-sdl.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-input-sdl.so",
+            "to": "mupen64plus-input-sdl.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-rsp-hle.so",
+            "to": "mupen64plus-rsp-hle.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-video-rice.so",
+            "to": "mupen64plus-video-rice.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-video-glide64mk2.so",
+            "to": "mupen64plus-video-glide64mk2.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-video-GLideN64.so",
+            "to": "mupen64plus-video-GLideN64.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/data",
+            "to": "data",
+            "dir": true
+          },
+          {
+            "from": "/overlay/overlay_settings.json",
+            "to": "overlay_settings.json",
+            "mode": "0644"
+          }
+        ],
+        "spruce": {
+          "mupen64plus": "Emu/N64/mupen64plus/mupen64plus",
+          "libmupen64plus.so.2": "Emu/N64/mupen64plus/libmupen64plus.so.2",
+          "overlay_settings.json": "Emu/N64/mupen64plus/overlay_settings.json",
+          "mupen64plus-audio-sdl.so": "Emu/N64/mupen64plus/mupen64plus-audio-sdl.so",
+          "mupen64plus-input-sdl.so": "Emu/N64/mupen64plus/mupen64plus-input-sdl.so",
+          "mupen64plus-rsp-hle.so": "Emu/N64/mupen64plus/mupen64plus-rsp-hle.so",
+          "mupen64plus-video-rice.so": "Emu/N64/mupen64plus/mupen64plus-video-rice.so",
+          "mupen64plus-video-glide64mk2.so": "Emu/N64/mupen64plus/mupen64plus-video-glide64mk2.so",
+          "mupen64plus-video-GLideN64.so": "Emu/N64/mupen64plus/mupen64plus-video-GLideN64.so"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libEGL.so.1",
+          "libGLESv2.so.2",
+          "libSDL2-2.0.so.0",
+          "libSDL2_ttf-2.0.so.0",
+          "libc.so.6",
+          "libdl.so.2",
+          "libfreetype.so.6",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libpng16.so.16",
+          "libpthread.so.0",
+          "libstdc++.so.6",
+          "libz.so.1"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "note": "spruce's libmupen64plus.so.2 and mupen64plus-audio-sdl.so come from an upstream state no mupen64plus-spruce release records (they differ in real code), so they are expected to differ",
+        "files": {
+          "mupen64plus": "4935f5bb7f79ed3e5e7531ec650c9f8cc0d8105a60021a47a3531c5caa449fa6",
+          "libmupen64plus.so.2": "e827ff2fe7a997cca388e0e506394a366990740a7f5712c79ad2182c217797e6",
+          "mupen64plus-audio-sdl.so": "d861d923f80967686ef9d101af00377e817ecf9378d24044b87b0a3896c4f907",
+          "mupen64plus-input-sdl.so": "f73249aa5ef99588df5fc191996fdd4e7f091d3daeb9395052582bf8d7dcfdbf",
+          "mupen64plus-rsp-hle.so": "c36d4b0c787a007694eabc0dd7145fb171e9f1b15eea4d472b9d87f70b67141c",
+          "mupen64plus-video-rice.so": "ea790719059f7513596763d140f5c254c727a5ca093272a2100a0ddd5e132a23",
+          "mupen64plus-video-glide64mk2.so": "bc867190fd188234f9c9466104fecf694fa2aa4ed90f689cb3025394b1d50dde",
+          "mupen64plus-video-GLideN64.so": "80589b9cf4eb6925c614c11ed13a61e71d73fb9b0eaf578cc1bc44bc99f3971e",
+          "overlay_settings.json": "1c9d8491ac863ad83bcd4696d966646f0c44688649e0ee41f7ace26115c87254"
         }
       }
     }

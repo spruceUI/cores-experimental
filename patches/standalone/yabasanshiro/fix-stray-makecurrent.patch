@@ -1,0 +1,15 @@
+Generated from spruceUI/YabaSanshiro-spruce@49d2ded:patches/fix-stray-makecurrent.py against sydarn/yabause
+a40dace1ae0a (2026-10-12).
+
+diff --git a/yabause/src/retro_arena/main.cpp b/yabause/src/retro_arena/main.cpp
+index 3b3b581c..41933c87 100644
+--- a/yabause/src/retro_arena/main.cpp
++++ b/yabause/src/retro_arena/main.cpp
+@@ -444,7 +444,6 @@ int main(int argc, char** argv)
+   VIDCore->Resize(0,0,width,height,1,p->getInt("Aspect rate",0));
+   delete p;
+   
+-  SDL_GL_MakeCurrent(wnd,nullptr);
+ #if defined(__RP64__) || defined(__N2__)
+   YabThreadSetCurrentThreadAffinityMask(0x4);
+ #else

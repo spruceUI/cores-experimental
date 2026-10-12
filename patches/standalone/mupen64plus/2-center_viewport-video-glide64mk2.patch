@@ -1,0 +1,116 @@
+Generated from spruceUI/mupen64plus-spruce@b3cbeb9:patches/universal/center_viewport.py, its change to
+video-glide64mk2 (pinned in manifests/standalone-builds.json) after patches 1-1 (2026-10-12).
+
+diff --git a/src/Glitch64/OGLESglitchmain.cpp b/src/Glitch64/OGLESglitchmain.cpp
+index f0aff64..3a07e16 100644
+--- a/src/Glitch64/OGLESglitchmain.cpp
++++ b/src/Glitch64/OGLESglitchmain.cpp
+@@ -37,6 +37,14 @@
+ #include "glide.h"
+ #include "g3ext.h"
+ #include "glitchmain.h"
++#include <stdlib.h>
++
++static int _vp_offset(void) {
++    static int off = -1;
++    if (off == -1) { const char *e = getenv("M64P_VIEWPORT_X"); off = e ? atoi(e) : 0; }
++    return off;
++}
++
+ #include "m64p.h"
+ 
+ #define OPENGL_CHECK_ERRORS { const GLenum errcode = glGetError(); if (errcode != GL_NO_ERROR) LOG("OpenGL Error code %i in '%s' line %i\n", errcode, __FILE__, __LINE__-1); }
+@@ -327,7 +335,7 @@ grClipWindow( FxU32 minx, FxU32 miny, FxU32 maxx, FxU32 maxy )
+     if (int(miny) < 0) miny = 0;
+     if (maxx < minx) maxx = minx;
+     if (maxy < miny) maxy = miny;
+-    glScissor(minx, miny, maxx - minx, maxy - miny);
++    glScissor(minx + _vp_offset(), miny, maxx - minx, maxy - miny);
+     glEnable(GL_SCISSOR_TEST);
+     return;
+   }
+@@ -345,10 +353,10 @@ grClipWindow( FxU32 minx, FxU32 miny, FxU32 maxx, FxU32 maxy )
+     if (int(miny) < 0) miny = 0;
+     if (maxx < minx) maxx = minx;
+     if (maxy < miny) maxy = miny;
+-    glScissor(minx, miny+viewport_offset, maxx - minx, maxy - miny);
++    glScissor(minx + _vp_offset(), miny+viewport_offset, maxx - minx, maxy - miny);
+     //printf("gl scissor %d %d %d %d\n", minx, miny, maxx, maxy);
+   } else {
+-    glScissor(minx, (viewport_offset)+height-maxy, maxx - minx, maxy - miny);
++    glScissor(minx + _vp_offset(), (viewport_offset)+height-maxy, maxx - minx, maxy - miny);
+   }
+   glEnable(GL_SCISSOR_TEST);
+ }
+@@ -529,7 +537,7 @@ grSstWinOpen(
+ # endif // _DEBUG
+   CoreVideo_SetCaption(caption);
+ 
+-  glViewport(0, viewport_offset, width, height);
++  glViewport(_vp_offset(), viewport_offset, width, height);
+   lfb_color_fmt = color_format;
+   if (origin_location != GR_ORIGIN_UPPER_LEFT) display_warning("origin must be in upper left corner");
+   if (nColBuffers != 2) display_warning("number of color buffer is not 2");
+@@ -659,12 +667,12 @@ grSstWinOpen(
+ 
+ 
+ #ifdef _WIN32
+-  glViewport(0, viewport_offset, width, height);
++  glViewport(_vp_offset(), viewport_offset, width, height);
+   viewport_width = width;
+   viewport_height = height;
+   nvidia_viewport_hack = 1;
+ #else
+-  glViewport(0, viewport_offset, width, height);
++  glViewport(_vp_offset(), viewport_offset, width, height);
+   viewport_width = width;
+   viewport_height = height;
+ #endif // _WIN32
+@@ -939,11 +947,11 @@ FX_ENTRY void FX_CALL grTextureBufferExt( GrChipID_t  		tmu,
+ 
+     //printf("viewport %dx%d\n", width, height);
+     if (height > screen_height) {
+-      glViewport( 0, viewport_offset + screen_height - height, width, height);
++      glViewport( _vp_offset(), viewport_offset + screen_height - height, width, height);
+     } else
+-      glViewport( 0, viewport_offset, width, height);
++      glViewport( _vp_offset(), viewport_offset, width, height);
+ 
+-    glScissor(0, viewport_offset, width, height);
++    glScissor(_vp_offset(), viewport_offset, width, height);
+ 
+ 
+   } else {
+@@ -989,8 +997,8 @@ FX_ENTRY void FX_CALL grTextureBufferExt( GrChipID_t  		tmu,
+           glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fbs[i].texid, 0 );
+           glBindRenderbuffer( GL_RENDERBUFFER, fbs[i].zbid );
+           glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, fbs[i].zbid );
+-          glViewport( 0, 0, width, height);
+-          glScissor( 0, 0, width, height);
++          glViewport( _vp_offset(), 0, width, height);
++          glScissor( _vp_offset(), 0, width, height);
+           if (fbs[i].buff_clear)
+           {
+             glDepthMask(1);
+@@ -1035,8 +1043,8 @@ FX_ENTRY void FX_CALL grTextureBufferExt( GrChipID_t  		tmu,
+     glFramebufferTexture2D(GL_FRAMEBUFFER,
+       GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fbs[nb_fb].texid, 0);
+     glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, fbs[nb_fb].zbid );
+-    glViewport(0,0,width,height);
+-    glScissor(0,0,width,height);
++    glViewport(_vp_offset(),0,width,height);
++    glScissor(_vp_offset(),0,width,height);
+     glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
+     glDepthMask(1);
+     glClear( GL_DEPTH_BUFFER_BIT );
+@@ -1576,8 +1584,8 @@ grRenderBuffer( GrBuffer_t buffer )
+       }
+       curBufferAddr = 0;
+ 
+-      glViewport(0, viewport_offset, width, viewport_height);
+-      glScissor(0, viewport_offset, width, height);
++      glViewport(_vp_offset(), viewport_offset, width, viewport_height);
++      glScissor(_vp_offset(), viewport_offset, width, height);
+ 
+ #ifdef SAVE_CBUFFER
+       if (!use_fbo && render_to_texture == 2) {

@@ -1,0 +1,117 @@
+Generated from spruceUI/mupen64plus-spruce@b3cbeb9:patches/common/sigusr1_save_and_quit.py, its change to
+core (pinned in manifests/standalone-builds.json) after patches 1-0 (2026-10-12).
+
+diff --git a/src/api/vidext.c b/src/api/vidext.c
+index 82cc108..be7db6a 100644
+--- a/src/api/vidext.c
++++ b/src/api/vidext.c
+@@ -37,6 +37,8 @@
+ 
+ #define M64P_CORE_PROTOTYPES 1
+ #include "osal/preproc.h"
++#include "main/main.h"
++#include "main/savestates.h"
+ #include "../osd/osd.h"
+ #include "callbacks.h"
+ #include "m64p_types.h"
+@@ -684,6 +686,20 @@ EXPORT m64p_error CALL VidExt_GL_GetAttribute(m64p_GLattr Attr, int *pValue)
+ 
+ EXPORT m64p_error CALL VidExt_GL_SwapBuffers(void)
+ {
++    /* SpruceOS: SIGUSR1 save-and-quit (two-phase) */
++    static int l_saveAndQuitPhase = 0;
++    if (g_SaveAndQuit) {
++        g_SaveAndQuit = 0;
++        main_state_save(1, NULL); /* queue save job */
++        l_saveAndQuitPhase = 1;   /* stop on next frame */
++    } else if (l_saveAndQuitPhase > 0) {
++        l_saveAndQuitPhase++;
++        if (l_saveAndQuitPhase >= 3) { /* wait 2 frames for save to complete */
++            main_stop();
++            return M64ERR_SUCCESS;
++        }
++    }
++
+     /* call video extension override if necessary */
+     if (l_VideoExtensionActive)
+         return (*l_ExternalVideoFuncTable.VidExtFuncGLSwapBuf)();
+diff --git a/src/main/main.c b/src/main/main.c
+index 87dab35..c701b6b 100644
+--- a/src/main/main.c
++++ b/src/main/main.c
+@@ -33,6 +33,7 @@
+ #include <stdarg.h>
+ #include <stddef.h>
+ #include <stdio.h>
++#include <signal.h>
+ #include <stdlib.h>
+ #include <string.h>
+ 
+@@ -1966,6 +1967,17 @@ m64p_error main_run(void)
+     /* Startup message on the OSD */
+     osd_new_message(OSD_MIDDLE_CENTER, "Mupen64Plus Started...");
+ 
++    main_setup_sigusr1();
++
++    /* SpruceOS: auto-load save state from slot 0 if M64P_AUTOLOAD=1 */
++    {
++        const char *autoload = getenv("M64P_AUTOLOAD");
++        if (autoload && autoload[0] == '1') {
++            DebugMessage(M64MSG_INFO, "Auto-loading save state from slot 0");
++            main_state_load(NULL);
++        }
++    }
++
+     g_EmulatorRunning = 1;
+     StateChanged(M64CORE_EMU_STATE, M64EMU_RUNNING);
+ 
+@@ -2051,6 +2063,27 @@ on_gfx_open_failure:
+     return failure_rval;
+ }
+ 
++
++/* === SpruceOS: SIGUSR1 = save state and quit === */
++volatile sig_atomic_t g_SaveAndQuit = 0;
++
++static void sigusr1_handler(int sig)
++{
++    (void)sig;
++    g_SaveAndQuit = 1;
++}
++
++void main_setup_sigusr1(void)
++{
++    struct sigaction sa;
++    memset(&sa, 0, sizeof(sa));
++    sa.sa_handler = sigusr1_handler;
++    sigemptyset(&sa.sa_mask);
++    sa.sa_flags = 0;
++    sigaction(SIGUSR1, &sa, NULL);
++}
++/* === end SpruceOS SIGUSR1 === */
++
+ void main_stop(void)
+ {
+     /* note: this operation is asynchronous.  It may be called from a thread other than the
+diff --git a/src/main/main.h b/src/main/main.h
+index 41f452a..78e91cc 100644
+--- a/src/main/main.h
++++ b/src/main/main.h
+@@ -23,6 +23,8 @@
+ #ifndef __MAIN_H__
+ #define __MAIN_H__
+ 
++#include <signal.h>
++
+ #include <stdint.h>
+ 
+ #include "api/m64p_types.h"
+@@ -71,6 +73,8 @@ void main_message(m64p_msg_level level, unsigned int osd_corner, const char *for
+ 
+ m64p_error main_run(void);
+ void main_stop(void);
++void main_setup_sigusr1(void);
++extern volatile sig_atomic_t g_SaveAndQuit;
+ void main_toggle_pause(void);
+ void main_advance_one(void);
+ 

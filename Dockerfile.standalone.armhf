@@ -1,0 +1,25 @@
+# cores-standalone-armhf v1: the A30 build environment the spruceUI wrapper repositories share
+# (their Dockerfile.a30), on the pinned armhf base: the same A30 GCC 13.2 toolchain in /opt/a30
+# with its sysroot, plus their host tools. Each recipe makes its own sysroot additions.
+FROM sha256:6ac15488619561c6f1df564c47789c5637c9a236879d07f3255765340524c7bf
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    ninja-build \
+    ccache \
+    file \
+    qemu-user-static \
+    rsync \
+    nasm \
+    autoconf \
+    automake \
+    libtool \
+    perl \
+    xz-utils \
+    bzip2 \
+    p7zip-full \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN dpkg -l > /apt-manifest.txt

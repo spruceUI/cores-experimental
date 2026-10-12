@@ -1,0 +1,99 @@
+Generated from spruceUI/mupen64plus-spruce@b3cbeb9:patches/universal/overlay_rice.py, its change to
+video-rice (pinned in manifests/standalone-builds.json) after patches 1-4 (2026-10-12).
+
+diff --git a/projects/unix/Makefile b/projects/unix/Makefile
+index da26ff1..079c2c8 100644
+--- a/projects/unix/Makefile
++++ b/projects/unix/Makefile
+@@ -144,7 +144,7 @@ OBJDIR = _obj$(POSTFIX)
+ # base CFLAGS, LDLIBS, and LDFLAGS
+ OPTFLAGS ?= -O3 -flto
+ WARNFLAGS ?= -Wall
+-CFLAGS += $(OPTFLAGS) $(WARNFLAGS) -ffast-math -fno-strict-aliasing -fvisibility=hidden -I$(SRCDIR)
++CFLAGS += $(OPTFLAGS) $(WARNFLAGS) -ffast-math -fno-strict-aliasing -fvisibility=hidden -I$(SRCDIR) -I/overlay -I/overlay/cjson
+ CXXFLAGS += -fvisibility-inlines-hidden
+ LDFLAGS += $(SHARED)
+ 
+@@ -266,7 +266,7 @@ ifeq ($(origin SDL_CFLAGS) $(origin SDL_LDLIBS), undefined undefined)
+   SDL_LDLIBS += $(shell $(SDL_CONFIG) --libs)
+ endif
+ CFLAGS += $(SDL_CFLAGS)
+-LDLIBS += $(SDL_LDLIBS)
++LDLIBS += $(SDL_LDLIBS) /overlay/liboverlay.a -lSDL2_ttf -ldl
+ 
+ # set mupen64plus core API header path
+ ifneq ("$(APIDIR)","")
+diff --git a/src/Video.cpp b/src/Video.cpp
+index c32e1ce..1c47275 100644
+--- a/src/Video.cpp
++++ b/src/Video.cpp
+@@ -45,6 +45,33 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ #include "osal_dynamiclib.h"
+ #include "version.h"
+ 
++/* SpruceOS overlay menu integration */
++extern "C" {
++#include "emu_frontend.h"
++#include "emu_overlay_render.h"
++EmuOvlRenderBackend* overlay_sdl_get_backend(void);
++}
++
++static bool s_overlayReady = false;
++
++/* Plugin ops callbacks for the overlay */
++static void rice_swap_buffers(void) {
++    CoreVideo_GL_SwapBuffers();
++}
++
++static void rice_cycle_aspect(void) {
++    /* TODO: cycle Rice aspect ratio */
++}
++
++static EmuOvlRenderBackend* rice_get_render(void) {
++    return overlay_sdl_get_backend();
++}
++
++static void rice_exec_on_video_thread(void (*fn)(void* ctx), void* ctx) {
++    fn(ctx); /* Rice is single-threaded */
++}
++
++
+ //=======================================================
+ // local variables
+ 
+@@ -582,6 +609,24 @@ EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Con
+     if (l_PluginInit)
+         return M64ERR_ALREADY_INIT;
+ 
++    /* SpruceOS: resolve core API for overlay */
++    {
++        static EmuFrontendCoreAPI s_coreAPI;
++        static EmuFrontendPluginOps s_pluginOps;
++        s_coreAPI.core_cmd = (emu_fe_core_cmd_fn)
++            osal_dynlib_getproc(CoreLibHandle, "CoreDoCommand");
++        s_coreAPI.add_cheat = (emu_fe_add_cheat_fn)
++            osal_dynlib_getproc(CoreLibHandle, "CoreAddCheat");
++        s_coreAPI.cheat_enabled = (emu_fe_cheat_enabled_fn)
++            osal_dynlib_getproc(CoreLibHandle, "CoreCheatEnabled");
++        s_pluginOps.swap_buffers = rice_swap_buffers;
++        s_pluginOps.cycle_aspect = rice_cycle_aspect;
++        s_pluginOps.get_render = rice_get_render;
++        s_pluginOps.exec_on_video_thread = rice_exec_on_video_thread;
++        emu_frontend_init(&s_coreAPI, &s_pluginOps);
++        s_overlayReady = true;
++    }
++
+     /* first thing is to set the callback function for debug info */
+     l_DebugCallback = DebugCallback;
+     l_DebugCallContext = Context;
+@@ -778,6 +823,10 @@ EXPORT int CALL RomOpen(void)
+ //---------------------------------------------------------------------------------------
+ EXPORT void CALL UpdateScreen(void)
+ {
++    /* SpruceOS: overlay menu frame processing */
++    if (s_overlayReady)
++        emu_frontend_frame(windowSetting.uDisplayWidth, windowSetting.uDisplayHeight);
++
+     if(options.bShowFPS)
+     {
+         static unsigned int lastTick=0;
