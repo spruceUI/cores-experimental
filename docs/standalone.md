@@ -26,7 +26,7 @@ script, `build.log`, `elf.tsv` (every shipped ELF's SONAME and NEEDED entries) a
 | `source` | repository `url`, full `commit`, its `tree` (checked after checkout), `requested_ref`, `submodules: true` to fetch them, and `path` to check it out somewhere other than `/src` (some builds embed their paths) |
 | `extra_sources` | more repositories, the same fields plus an absolute `path` to check out into |
 | `downloads` | files fetched at build time: `url`, `sha256` (checked before use) and an absolute `path` |
-| `patches` | `{"diff": "patches/standalone/..."}`, applied with `git apply` (which fails if the diff no longer applies), or `{"script": ...}`, run with Python; `dir` picks the tree (default `/src`) |
+| `patches` | `{"diff": "patches/standalone/..."}`, applied with `git apply` (which fails if the diff no longer applies); `{"script": ...}`, run with Python; or `{"mail": ..., "committer": "Name <email>", "commit": ...}`, `git format-patch` mails applied with `git am` as that committer at the mails' dates, which recreates their commits: `HEAD` must then be `commit`. `dir` picks the tree (default `/src`) |
 | `toolchain` | the image in `manifests/toolchains.json` |
 | `source_date_epoch` | fixed build date, so the output does not depend on when it was built |
 | `env` | variables exported before the build |

@@ -323,6 +323,12 @@ class StandaloneTest(unittest.TestCase):
         for fragment in ("unknown toolchain", "exactly one of cmake and steps", "download u",
                          "does not exist", "shipped file other is not an output"):
             self.assertTrue(any(fragment in problem for problem in problems), fragment)
+        mail = "patches/standalone/vtree/0001-nintendo-button-labels.patch"
+        good = {"mail": mail, "committer": "A <a@example.org>", "commit": "1" * 40}
+        self.assertEqual(standalone.spec_problems(REPO, self.steps_spec(patches=[good])), [])
+        for broken in ({"mail": mail, "committer": "A <a@example.org>"}, {"mail": mail, "committer": "A", "commit": "1" * 40},
+                       {"mail": mail, "diff": mail, "committer": "A <a@example.org>", "commit": "1" * 40}):
+            self.assertEqual(len(standalone.spec_problems(REPO, self.steps_spec(patches=[broken]))), 1, broken)
 
     def test_patches_and_downloads_are_checked_in_the_script(self):
         spec = self.steps_spec(patches=[{"diff": "patches/standalone/x/a.patch"}],
@@ -332,6 +338,16 @@ class StandaloneTest(unittest.TestCase):
         self.assertIn(f"echo '{'a' * 64}  /dl/t.tar.gz' | sha256sum -c -", script.text)
         self.assertEqual(script.mounts, [("patches", "/recipe/patches")])
         self.assertLess(script.text.index("sha256sum -c"), script.text.index("make -j1"))
+
+    def test_mails_recreate_their_commits(self):
+        spec = self.steps_spec(patches=[{"mail": "patches/standalone/x/m.patch", "committer": "A B <a@example.org>",
+                                         "commit": "2" * 40}, {"diff": "patches/standalone/x/a.patch"}])
+        text = standalone.render("x", spec, REPO.toolchains["arm64"]).text
+        am = ("GIT_COMMITTER_NAME='A B' GIT_COMMITTER_EMAIL=a@example.org "
+              "git -C /src am -q --committer-date-is-author-date /recipe/patches/standalone/x/m.patch")
+        self.assertIn(am, text)
+        self.assertIn(f'test "$(git -C /src rev-parse HEAD)" = {"2" * 40}', text)
+        self.assertLess(text.index(am), text.index("apply --check /recipe/patches/standalone/x/a.patch"))
 
     def test_elf_listing_and_shipped_comparison(self):
         with tempfile.TemporaryDirectory() as tmp:

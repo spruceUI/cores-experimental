@@ -20,6 +20,7 @@ BUILD_DIR = "/tmp/standalone-build"
 DIST = "/output/dist"
 RECIPE_MOUNT = "/recipe"
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
+COMMITTER = re.compile(r"^(.+) <([^<>]+)>$")
 STRIP_MODES = ("-s", "--strip-unneeded")
 # readelf -d lines -> "file<TAB>needed|soname<TAB>value"
 ELF_FIELDS = r'''/\((NEEDED|SONAME)\)/ { match($0, /\[.*\]/); kind = ($2 ~ /NEEDED/) ? "needed" : "soname"; print file "\t" kind "\t" substr($0, RSTART + 1, RLENGTH - 2) }'''
@@ -81,11 +82,13 @@ def spec_problems(repo: Repo, spec: dict) -> list[str]:
         if not SHA256.match(item.get("sha256", "")) or not str(item.get("path", "")).startswith("/"):
             problems.append(f"download {item.get('url')}: needs a sha256 and an absolute path")
     for patch in spec.get("patches", []):
-        kinds = [kind for kind in ("diff", "script") if kind in patch]
+        kinds = [kind for kind in ("diff", "script", "mail") if kind in patch]
         if len(kinds) != 1:
-            problems.append(f"patch {patch}: give exactly one of diff and script")
+            problems.append(f"patch {patch}: give exactly one of diff, script and mail")
         elif not (repo.root / patch[kinds[0]]).is_file():
             problems.append(f"patch {patch[kinds[0]]} does not exist")
+        elif kinds == ["mail"] and not (COMMIT.match(patch.get("commit", "")) and COMMITTER.match(patch.get("committer", ""))):
+            problems.append(f"mail {patch['mail']}: needs the full commit it recreates and a committer \"Name <email>\"")
     files = spec.get("output", {}).get("files", [])
     if not files:
         problems.append("output.files is empty")
@@ -137,6 +140,13 @@ def apply_patch(patch: dict, source: str) -> list[str]:
     if "diff" in patch:
         path = q(f"{RECIPE_MOUNT}/{patch['diff']}")
         return [f"git -C {target} apply --check {path}", f"git -C {target} apply {path}"]
+    if "mail" in patch:
+        # git am recreates the mails' commits; with the original committer and dates they get their ids back.
+        name, email = COMMITTER.match(patch["committer"]).groups()
+        path = q(f"{RECIPE_MOUNT}/{patch['mail']}")
+        return [f"GIT_COMMITTER_NAME={q(name)} GIT_COMMITTER_EMAIL={q(email)} "
+                f"git -C {target} am -q --committer-date-is-author-date {path}",
+                f"test \"$(git -C {target} rev-parse HEAD)\" = {patch['commit']}"]
     return [f"(cd {target} && python3 {q(RECIPE_MOUNT + '/' + patch['script'])})"]
 
 
