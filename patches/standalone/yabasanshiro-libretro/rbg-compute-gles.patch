@@ -1,0 +1,129 @@
+From 8f8f74681177a9ac262b19a0ead2f3d198284dfc Mon Sep 17 00:00:00 2001
+From: arkun <56165886+CatalyticArkun@users.noreply.github.com>
+Date: Tue, 13 Oct 2026 10:59:46 -0500
+Subject: [PATCH 1/3] RBG compute: bind the window and CRAM storage blocks on
+ every dispatch
+
+Every variant declares both blocks, but they got a buffer only for some modes; Mali and PowerVR
+drop a dispatch with an unbacked active block, so the RBG layer was never written (black sky).
+---
+ yabause/src/ygl_texture.cpp | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/yabause/src/ygl_texture.cpp b/yabause/src/ygl_texture.cpp
+index effce86e..837b690e 100644
+--- a/yabause/src/ygl_texture.cpp
++++ b/yabause/src/ygl_texture.cpp
+@@ -1198,6 +1198,10 @@ public:
+ 	glGenBuffers(1, &ssbo_window_);
+ 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_window_);
+ 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(vdp2WindowInfo)*512, NULL, GL_DYNAMIC_DRAW);
++
++	glGenBuffers(1, &ssbo_cram_);
++	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_cram_);
++	glBufferData(GL_SHADER_STORAGE_BUFFER, 0x1000, NULL, GL_DYNAMIC_DRAW);
+ 	
+ 	//prg_rbg_0_2w_bitmap_8bpp_ = createProgram(sizeof(a_prg_rbg_0_2w_bitmap) / sizeof(char*), (const GLchar**)a_prg_rbg_0_2w_bitmap);
+ 	//prg_rbg_0_2w_p1_4bpp_ = createProgram(sizeof(a_prg_rbg_0_2w_p1_4bpp) / sizeof(char*), (const GLchar**)a_prg_rbg_0_2w_p1_4bpp);
+@@ -2516,15 +2520,13 @@ public:
+   ErrorHandle("glBindBufferBase");
+ 	
+ 	if (rbg->info.specialcolormode == 3 || paraA.k_mem_type != 0 || paraB.k_mem_type != 0 ) {
+-		if (ssbo_cram_ == 0) {
+-			glGenBuffers(1, &ssbo_cram_);
+-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_cram_);
+-			glBufferData(GL_SHADER_STORAGE_BUFFER, 0x1000, NULL, GL_DYNAMIC_DRAW);
+-		}
+ 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_cram_);
+ 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, 0x1000, (void*)Vdp2ColorRam);
+-		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 5, ssbo_cram_);
+ 	}
++	// every variant declares the window (4) and CRAM (5) blocks; GLES drivers (Mali, PowerVR) drop
++	// a dispatch whose active storage blocks lack a buffer, so bind both even when they go unread
++	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 4, ssbo_window_);
++	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 5, ssbo_cram_);
+ 
+   glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_paraA_);
+ 	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(vdp2rotationparameter_struct), (void*)&paraA);
+-- 
+2.54.0 (Apple Git-157)
+
+
+From 253cf8683d0b773b4987eb6a69cf337631bf0559 Mon Sep 17 00:00:00 2001
+From: arkun <56165886+CatalyticArkun@users.noreply.github.com>
+Date: Tue, 13 Oct 2026 11:00:00 -0500
+Subject: [PATCH 2/3] RBG compute: order the layer's texture reads and VRAM
+ uploads
+
+texelFetch needs GL_TEXTURE_FETCH_BARRIER_BIT after the image stores, and the unsynchronised
+VRAM map could overwrite data a queued dispatch had not read yet; orphan the buffer instead.
+---
+ yabause/src/ygl_texture.cpp | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/yabause/src/ygl_texture.cpp b/yabause/src/ygl_texture.cpp
+index 837b690e..25829e6f 100644
+--- a/yabause/src/ygl_texture.cpp
++++ b/yabause/src/ygl_texture.cpp
+@@ -2512,7 +2512,8 @@ public:
+ 
+   glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_vram_);
+   //glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, 0x80000, (void*)Vdp2Ram);
+-  if(mapped_vram == nullptr) mapped_vram = glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 0x80000, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
++  // the whole VRAM is rewritten: orphan the old copy rather than write it under a pending dispatch
++  if(mapped_vram == nullptr) mapped_vram = glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 0x80000, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+   memcpy(mapped_vram, Vdp2Ram, 0x80000);
+   glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+   mapped_vram = nullptr;
+@@ -2605,7 +2606,8 @@ public:
+ 
+   //-----------------------------------------------
+   GLuint getTexture( int id ) { 
+-    glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
++    // the layer is read with texelFetch, which only the texture fetch barrier orders after image stores
++    glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT | GL_TEXTURE_FETCH_BARRIER_BIT);
+ 		if (id == 1) {
+ 			return tex_surface_;
+ 		}
+@@ -2616,7 +2618,7 @@ public:
+   void onFinish() {
+     if ( ssbo_vram_ != 0 && mapped_vram == nullptr) {
+       glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_vram_);
+-      mapped_vram = glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 0x80000, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
++      mapped_vram = glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 0x80000, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+       glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0 );
+     }
+   }
+-- 
+2.54.0 (Apple Git-157)
+
+
+From 892985a464382b7b419876008728ceaf4be77049 Mon Sep 17 00:00:00 2001
+From: arkun <56165886+CatalyticArkun@users.noreply.github.com>
+Date: Tue, 13 Oct 2026 11:00:19 -0500
+Subject: [PATCH 3/3] RBG compute: unsigned literals in the 16bpp palette fetch
+
+GLSL ES has no implicit int-to-uint conversion, so every 16bpp-palette variant failed to compile
+and createProgram aborted the core; all 200 variants now pass glslangValidator for ES 3.10.
+---
+ yabause/src/ygl_texture.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/yabause/src/ygl_texture.cpp b/yabause/src/ygl_texture.cpp
+index 25829e6f..51df88a8 100644
+--- a/yabause/src/ygl_texture.cpp
++++ b/yabause/src/ygl_texture.cpp
+@@ -591,8 +591,8 @@ const char prg_rbg_getcolor_16bpp_palette[] =
+ "  uint dotaddr = charaddr + uint((y*cellw)+x) * 2u;\n"
+ "  dot = vram[dotaddr>>2]; \n" 
+ "  if( (dotaddr & 0x02u) != 0u ) { dot >>= 16; } \n"
+-"  dot = (((dot) >> 8 & 0xFF) | ((dot) & 0xFF) << 8);\n"
+-"  if ( dot == 0 && transparencyenable != 0 ) { \n"
++"  dot = (((dot) >> 8 & 0xFFu) | ((dot) & 0xFFu) << 8);\n"
++"  if ( dot == 0u && transparencyenable != 0 ) { \n"
+ "    cramindex = 0u; \n"
+ "    alpha = 0.0;\n"
+ "  } else {\n"
+-- 
+2.54.0 (Apple Git-157)
+

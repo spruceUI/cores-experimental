@@ -1,0 +1,65 @@
+diff --git a/yabause/src/ygl_texture.cpp b/yabause/src/ygl_texture.cpp
+index 254c5ad8..cd2bd0e3 100644
+--- a/yabause/src/ygl_texture.cpp
++++ b/yabause/src/ygl_texture.cpp
+@@ -589,8 +589,8 @@ const char prg_rbg_getcolor_16bpp_palette[] =
+ "  uint dotaddr = charaddr + uint((y*cellw)+x) * 2u;\n"
+ "  dot = vram[dotaddr>>2]; \n"
+ "  if( (dotaddr & 0x02u) != 0u ) { dot >>= 16; } \n"
+-"  dot = (((dot) >> 8 & 0xFF) | ((dot) & 0xFF) << 8);\n"
+-"  if ( dot == 0 && transparencyenable != 0 ) { \n"
++"  dot = (((dot) >> 8 & 0xFFu) | ((dot) & 0xFFu) << 8);\n"
++"  if ( dot == 0u && transparencyenable != 0 ) { \n"
+ "    cramindex = 0u; \n"
+ "    alpha = 0.0;\n"
+ "  } else {\n"
+@@ -1205,6 +1205,10 @@ public:
+     glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_window_);
+     glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(vdp2WindowInfo) * 512, NULL, GL_DYNAMIC_DRAW);
+ 
++    glGenBuffers(1, &ssbo_cram_);
++    glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_cram_);
++    glBufferData(GL_SHADER_STORAGE_BUFFER, 0x1000, NULL, GL_DYNAMIC_DRAW);
++
+     GLint workGroupCount[3], workGroupSize[3];
+     GLint maxInvocations;
+     glGetIntegerv(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, &maxInvocations);
+@@ -2531,7 +2535,8 @@ public:
+ 
+     glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_vram_);
+     //glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, 0x80000, (void*)Vdp2Ram);
+-    if (mapped_vram == nullptr) mapped_vram = glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 0x80000, GL_MAP_WRITE_BIT );
++    // the whole VRAM is rewritten: orphan the old copy rather than wait for the GPU to finish with it
++    if (mapped_vram == nullptr) mapped_vram = glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 0x80000, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+     memcpy(mapped_vram, Vdp2Ram, 0x80000);
+     glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+     mapped_vram = nullptr;
+@@ -2539,15 +2544,13 @@ public:
+     ErrorHandle("glBindBufferBase");
+ 
+     if (rbg->info.specialcolormode == 3 || paraA.k_mem_type != 0 || paraB.k_mem_type != 0) {
+-      if (ssbo_cram_ == 0) {
+-        glGenBuffers(1, &ssbo_cram_);
+-        glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_cram_);
+-        glBufferData(GL_SHADER_STORAGE_BUFFER, 0x1000, NULL, GL_DYNAMIC_DRAW);
+-      }
+       glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_cram_);
+       glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, 0x1000, (void*)Vdp2ColorRam);
+-      glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 5, ssbo_cram_);
+     }
++    // every variant declares the window (4) and CRAM (5) blocks; GLES drivers (Mali, PowerVR) drop
++    // a dispatch whose active storage blocks lack a buffer, so bind both even when they go unread
++    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 4, ssbo_window_);
++    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 5, ssbo_cram_);
+ 
+     glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_paraA_);
+     glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(vdp2rotationparameter_struct), (void*)&paraA);
+@@ -2638,7 +2641,7 @@ public:
+   void onFinish() {
+     if (ssbo_vram_ != 0 && mapped_vram == nullptr) {
+       glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo_vram_);
+-      mapped_vram = glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 0x80000, GL_MAP_WRITE_BIT );
++      mapped_vram = glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 0x80000, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+       glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+     }
+   }

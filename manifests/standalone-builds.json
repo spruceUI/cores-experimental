@@ -934,6 +934,161 @@
         }
       }
     },
+    "yabasanshiro-arm64-pgo": {
+      "extends": "yabasanshiro-arm64",
+      "description": "YabaSanshiro standalone: Emu/SATURN/yabasanshiro on every 64-bit device from spruceOS 4.5.5. yabasanshiro-arm64 plus the AArch64 dynarec fix without the 2020 -O1 pragma, the compute-shader RBG fix and a YB_FRAMELIMIT switch, built with the tg5050 SDK's GCC 10.3 against the image's focal arm64 packages, with LTO and PGO",
+      "toolchain": "standalone-yabasanshiro-pgo",
+      "patches": [
+        {
+          "diff": "patches/standalone/yabasanshiro/fix-libchdr-target-name.patch"
+        },
+        {
+          "diff": "patches/standalone/yabasanshiro/fix-libpng-neon.patch"
+        },
+        {
+          "diff": "patches/standalone/yabasanshiro/fix-stray-makecurrent.patch"
+        },
+        {
+          "diff": "patches/standalone/yabasanshiro/dynarec-fix.patch"
+        },
+        {
+          "diff": "patches/standalone/yabasanshiro/nopragma.patch"
+        },
+        {
+          "diff": "patches/standalone/yabasanshiro/rbg-compute-gles.patch"
+        },
+        {
+          "diff": "patches/standalone/yabasanshiro/bench-framelimit-env.patch"
+        }
+      ],
+      "env": {
+        "CC": "aarch64-linux-gnu-gcc",
+        "CXX": "aarch64-linux-gnu-g++",
+        "AR": "aarch64-linux-gnu-ar",
+        "STRIP": "aarch64-linux-gnu-strip",
+        "PKG_CONFIG_PATH": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "CMAKE_POLICY_VERSION_MINIMUM": "3.5",
+        "SKIP_LIBS": "linux-vdso|ld-linux|libc\\.so|libm\\.so|libdl\\.so|libpthread\\.so|librt\\.so|libgcc_s|libstdc\\+\\+|libSDL2|libasound|libudev|libdrm|libwayland|libEGL|libGLES|libMali|libgomp|libvulkan|libmali|libIMGegl|libsrv_um|libusc|libGL\\.so|libGLX|libGLdispatch|libglut",
+        "WRAP_CROSS": "/opt/arm-gnu-10.3/bin/aarch64-none-linux-gnu-",
+        "WRAP_SYSFLAGS": "--sysroot=/tmp/focal -idirafter /usr/include/aarch64-linux-gnu -idirafter /usr/include -isystem /tmp/sysinc",
+        "WRAP_FLAGS": "-O3 -flto=8 -fprofile-use -fprofile-correction -Wno-missing-profile -fprofile-partial-training -Wno-error=coverage-mismatch",
+        "WRAP_KEEP_FLAGS": "-flto=8 -fprofile-use -fprofile-correction -Wno-missing-profile -fprofile-partial-training -Wno-error=coverage-mismatch",
+        "WRAP_LINK": "-Wl,--allow-shlib-undefined -L/tmp/deplibs -Wl,-rpath-link=/usr/lib/aarch64-linux-gnu:/lib/aarch64-linux-gnu",
+        "WRAP_LOG": "/output/calls.log"
+      },
+      "steps": [
+        "set +u +o pipefail",
+        "f=/tmp/focal && mkdir -p \"$f/usr\" && ln -s /usr/aarch64-linux-gnu/include \"$f/usr/include\" && for d in usr/lib usr/lib64 lib lib64; do ln -s /usr/aarch64-linux-gnu/lib \"$f/$d\"; done && ln -s /usr/aarch64-linux-gnu \"$f/usr/aarch64-linux-gnu\"",
+        "mkdir -p /tmp/deplibs && for lib in /usr/lib/aarch64-linux-gnu/*.so /usr/lib/aarch64-linux-gnu/*.a; do case \"${lib##*/}\" in libc.*|libc_nonshared.a|libm.*|libmvec*|libpthread*|libdl.*|librt.*|libutil.*|libresolv.*|libanl.*|libnsl*|libBrokenLocale*) ;; libstdc++*|libsupc++*|libgcc*|libatomic*|libgomp*|libquadmath*|libitm*|libssp*|lib?san*|libubsan*) ;; *) ln -s \"$lib\" /tmp/deplibs/ ;; esac; done",
+        "for h in pthread.h bits/statx.h; do if [ -f \"/usr/aarch64-linux-gnu/include/$h\" ]; then install -D -m 0644 \"/usr/aarch64-linux-gnu/include/$h\" \"/tmp/sysinc/$h\"; fi; done",
+        "mkdir -p /tmp/wrap && for tool in gcc g++; do install -m 0755 /recipe/patches/standalone/yabasanshiro/cc-wrapper-t3.sh \"/tmp/wrap/$tool\"; done",
+        "export CC=/tmp/wrap/gcc CXX=/tmp/wrap/g++",
+        "sh /recipe/patches/standalone/yabasanshiro/pgo-merge.sh \"${WRAP_CROSS}gcov-tool\" /opt/yabasanshiro-pgo/standalone-t3/SmartProS-86-pb-sa-t3-pgogen.tar /opt/yabasanshiro-pgo/standalone-t3/BrickPro-88-pb-sa-t3-pgogen.tar /opt/yabasanshiro-pgo/standalone-t3/XX640480-99-pb-sa-t3-pgogen.tar /opt/yabasanshiro-pgo/standalone-t3/XX720480NoStick-95-pb-sa-t3-pgogen.tar",
+        "cc yabause/src/retro_arena/nanogui-sdl/resources/bin2c.c -o bin2c_host",
+        "cc yabause/src/musashi/m68kmake.c -o m68kmake_host",
+        "sed -i \"s|COMMAND \\./bin2c|COMMAND $PWD/bin2c_host|g\" yabause/src/retro_arena/nanogui-sdl/CMakeLists.txt",
+        "sed -i \"s|COMMAND \\$<TARGET_FILE:bin2c>|COMMAND $PWD/bin2c_host|g\" yabause/src/retro_arena/nanogui-sdl/CMakeLists.txt",
+        "sed -i \"s|add_executable(bin2c resources/bin2c.c)|add_custom_target(bin2c DEPENDS $PWD/bin2c_host)|g\" yabause/src/retro_arena/nanogui-sdl/CMakeLists.txt",
+        "sed -i \"s|COMMAND m68kmake|COMMAND $PWD/m68kmake_host|g\" yabause/src/musashi/CMakeLists.txt",
+        "sed -i \"s|add_executable(m68kmake m68kmake.c)|# m68kmake built as host tool|g\" yabause/src/musashi/CMakeLists.txt",
+        "sed -i \"s|DEPENDS m68kmake.c|DEPENDS|g\" yabause/src/musashi/CMakeLists.txt",
+        "mkdir -p build && cd build",
+        "cmake ../yabause -DCMAKE_TOOLCHAIN_FILE=../yabause/src/retro_arena/n2.cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS=-O3 -DCMAKE_CXX_FLAGS=-O3 -DYAB_PORTS=retro_arena -DYAB_WANT_ARM7=ON -DYAB_WANT_DYNAREC_DEVMIYAX=ON -DYAB_WANT_VULKAN=OFF -DYAB_WANT_OPENAL=OFF -DYAB_MULTIBUILD=OFF -DCMAKE_DISABLE_FIND_PACKAGE_GLUT=TRUE -DCMAKE_C_COMPILER=/tmp/wrap/gcc -DCMAKE_CXX_COMPILER=/tmp/wrap/g++ -DCMAKE_AR=\"${WRAP_CROSS}gcc-ar\" -DCMAKE_RANLIB=\"${WRAP_CROSS}gcc-ranlib\" -DCMAKE_ASM-ATT_COMPILER=\"${WRAP_CROSS}as\" -DCMAKE_LIBRARY_ARCHITECTURE=aarch64-linux-gnu -DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+        "make -j\"$(nproc)\"",
+        "cd /build && mkdir -p /build/out/libs",
+        "cp \"$(find yabasanshiro/build -name yabasanshiro -type f -executable | head -1)\" /build/out/yabasanshiro && aarch64-linux-gnu-strip -s /build/out/yabasanshiro",
+        "collect_deps() {\n    aarch64-linux-gnu-readelf -d \"$1\" 2>/dev/null | grep NEEDED | sed 's/.*\\[\\(.*\\)\\]/\\1/' | while read -r lib; do\n        [ -f \"/build/out/libs/$lib\" ] && continue\n        echo \"$lib\" | grep -qE \"$SKIP_LIBS\" && continue\n        src=$(find /usr/lib/aarch64-linux-gnu /lib/aarch64-linux-gnu -maxdepth 1 -name \"$lib\" 2>/dev/null | head -1)\n        if [ -n \"$src\" ]; then cp -L \"$src\" \"/build/out/libs/$lib\"; collect_deps \"/build/out/libs/$lib\"; else echo \"WARNING: $lib not found\"; fi\n    done\n}",
+        "collect_deps /build/out/yabasanshiro",
+        "for lib in /build/out/libs/*.so*; do collect_deps \"$lib\"; done",
+        "for so in /build/out/libs/*.so*; do aarch64-linux-gnu-strip -s \"$so\" 2>/dev/null || true; done"
+      ],
+      "shipped": {
+        "spruceos": "da37a290e",
+        "note": "spruceOS feat/opt-defaults-4.5.5 (local); built first as t3-o3-lto-fix-nopragma-pgo-all4-boot-rbgfix in the Saturn research record 20261013-1351-saturn-sa-pgo-rbgfix. libboost_filesystem.so.1.71.0 sits in spruce/flip/lib, as for yabasanshiro-arm64",
+        "files": {
+          "yabasanshiro": "059cdbbf788ed3015274a3977c083d7aa69537aa4353796a4c230b16cd8c924a",
+          "libs/libpng16.so.16": "14ba485f3a55c36893f372831d0445f78fc64f26073a8d7374dc89ac50b95edc",
+          "libs/libz.so.1": "f7421fde8036391750dc2b1dd7299a0a3305a93cb95846fcc381590f565215c1",
+          "libs/libboost_filesystem.so.1.71.0": "7009501be2148ef0edb8955c31848082cb3605a232d9bd9678db62d4c5148f79"
+        }
+      }
+    },
+    "yabasanshiro-libretro": {
+      "description": "yabasanshiro libretro core: RetroArch/.retroarch/cores64/yabasanshiro_generic_libretro.so on every 64-bit device from spruceOS 4.5.5. libretro/yabause f448097 with the GLES 3.1/3.2 entry-point and compute-shader RBG fixes (recreated as commit 892985a4) and the AArch64 dynarec fix without the 2020 -O1 pragma, built with the tg5050 SDK's GCC 10.3, LTO and PGO. A recipe here because the core catalog builds every core in its own image and takes no PGO profile",
+      "source": {
+        "url": "https://github.com/libretro/yabause.git",
+        "commit": "f448097b69a6037246a08e9dc09eabaa420d7893",
+        "tree": "44271b2e50ba9d9149cefc0285b09dcf6a4b099b",
+        "requested_ref": "refs/heads/yabasanshiro",
+        "path": "/build/yabause"
+      },
+      "toolchain": "standalone-yabasanshiro-pgo",
+      "source_date_epoch": 1791907219,
+      "patches": [
+        {
+          "mail": "patches/standalone/yabasanshiro-libretro/gles-private-glsym.patch",
+          "committer": "arkun <56165886+CatalyticArkun@users.noreply.github.com>",
+          "commit": "85ca715c9466e8b914197293b4423e4f0e75be9d"
+        },
+        {
+          "mail": "patches/standalone/yabasanshiro-libretro/rbg-compute-gles.patch",
+          "committer": "arkun <56165886+CatalyticArkun@users.noreply.github.com>",
+          "commit": "892985a464382b7b419876008728ceaf4be77049"
+        },
+        {
+          "diff": "patches/standalone/yabasanshiro-libretro/dynarec-fix-nopragma.patch"
+        }
+      ],
+      "env": {
+        "LC_ALL": "C",
+        "WRAP_CROSS": "/opt/tsps-sdk/opt/ext-toolchain/bin/aarch64-none-linux-gnu-",
+        "WRAP_SYSROOT": "/opt/tsps-sdk/aarch64-buildroot-linux-gnu/sysroot",
+        "WRAP_FLAGS": "-O3 -flto -fprofile-use -fprofile-correction -Wno-missing-profile -fprofile-partial-training -Wno-error=coverage-mismatch",
+        "WRAP_KEEP_FLAGS": "-flto -fprofile-use -fprofile-correction -Wno-missing-profile -fprofile-partial-training -Wno-error=coverage-mismatch",
+        "WRAP_SHARED_LINK": "-Wl,-z,undefs",
+        "WRAP_LOG": "/output/calls.log"
+      },
+      "steps": [
+        "export PATH=\"/opt/tsps-sdk/opt/ext-toolchain/bin:$PATH\"",
+        "git config core.abbrev 7",
+        "mkdir -p /tmp/wrap && for tool in gcc g++; do install -m 0755 /recipe/patches/standalone/yabasanshiro-libretro/cc-wrapper.sh \"/tmp/wrap/$tool\"; done",
+        "sh /recipe/patches/standalone/yabasanshiro/pgo-merge.sh \"${WRAP_CROSS}gcov-tool\" /opt/yabasanshiro-pgo/libretro-t3/SmartProS-86-pb-t3-o3-generic-lto-fix.tar /opt/yabasanshiro-pgo/libretro-t3/BrickPro-88-pb-t3-o3-generic-lto-fix.tar /opt/yabasanshiro-pgo/libretro-t3/XX640480-99-pb-t3-o3-generic-lto-fix.tar /opt/yabasanshiro-pgo/libretro-t3/XX720480NoStick-95-pb-t3-o3-generic-lto-fix.tar /opt/yabasanshiro-pgo/libretro-t3/Flip-94-pb-t3-o3-generic-lto-fix.tar",
+        "cd yabause/src/libretro",
+        "make -j\"$(nproc)\" platform=arm64 FORCE_GLES=1 CC=/tmp/wrap/gcc CXX=/tmp/wrap/g++ AR=\"${WRAP_CROSS}ar\" RANLIB=\"${WRAP_CROSS}ranlib\"",
+        "install -D -m 0755 yabasanshiro_libretro.so /build/out/yabasanshiro_libretro.so",
+        "\"${WRAP_CROSS}strip\" --strip-unneeded /build/out/yabasanshiro_libretro.so"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/out/yabasanshiro_libretro.so",
+            "to": "yabasanshiro_generic_libretro.so"
+          }
+        ],
+        "spruce": {
+          "yabasanshiro_generic_libretro.so": "RetroArch/.retroarch/cores64/yabasanshiro_generic_libretro.so"
+        }
+      },
+      "needed": {
+        "device": [
+          "libGLESv2.so.2",
+          "libc.so.6",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libpthread.so.0",
+          "libstdc++.so.6"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "da37a290e",
+        "note": "spruceOS feat/opt-defaults-4.5.5 (local); built first as rbgfix-t3-o3-generic-lto-fix-nopragma-pgo-all-boot in the Saturn research record 20261013-1113-yabasanshiro-rbgfix",
+        "files": {
+          "yabasanshiro_generic_libretro.so": "454f2e5977d8b70aaba9e6b8cd67541edc65c81474d1908dfb92008e289af601"
+        }
+      }
+    },
     "mupen64plus-arm64": {
       "description": "Mupen64Plus standalone with GLideN64, Rice and Glide64mk2, and spruce's in-game overlay menu: the video plugins and overlay settings of Emu/N64/mupen64plus on every 64-bit device. Built as spruceUI/mupen64plus-spruce@b3cbeb9 build.sh did on 2026-09-11 (spruceOS 92ff95d37 took its video plugins), with each upstream at the master of that day. spruce's frontend, core and other plugins come from the April build, mupen64plus-arm64-20260404",
       "source": {

@@ -43,7 +43,7 @@ Inputs that are too large for git, each sha256-checked by its Dockerfile:
 | `a30_toolchain-v1.0.tar.gz` | `Dockerfile.armhf.base` | this repository's `toolchains` release (a copy of the one on spruceUI/Cores-spruce's) |
 | `flip-toolchain-v1.0.tar.gz` | `Dockerfile.standalone.flip` | https://github.com/steward-fu/website/releases/download/miyoo-flip/flip-toolchain-v1.0.tar.gz |
 | `aarch64-linux-gnu-7.5.0-linaro.tgz`, `SDK_usr_tg5040_a133p.tgz` | `Dockerfile.standalone.trimui` | spruceUI/PPSSPP-spruce's `sdk-toolchains` release |
-| `sdk_tg5050_linux_v1.0.0.tgz` (1.1 GB) | `Dockerfile.standalone.tsps` | spruceUI/PPSSPP-spruce's `sdk-toolchains` release |
+| `sdk_tg5050_linux_v1.0.0.tgz` (1.1 GB) | `Dockerfile.standalone.tsps`, `Dockerfile.standalone.yabasanshiro-pgo` | spruceUI/PPSSPP-spruce's `sdk-toolchains` release |
 | `onion_toolchain.tar.gz` | `Dockerfile.standalone.mini` | https://github.com/steward-fu/website/releases/download/miyoo-mini/onion_toolchain.tar.gz |
 
 ## Changing a toolchain image
@@ -93,3 +93,9 @@ too (`cores-<arch>-base-<id>.tar.gz`).
 - Standalone images (2026-10-12): one per spruceUI wrapper repository's build
   environment, so each recipe reproduces what spruce ships. None is on the
   release yet.
+- `standalone-yabasanshiro-pgo` (2026-10-13): `standalone-yabasanshiro` plus the
+  tg5050 SDK's compiler and sysroot (from `sdk_tg5050_linux_v1.0.0.tgz`, as the
+  tsps image) and `yabasanshiro-pgo/`: the PGO profiles of the two Saturn builds
+  spruceOS 4.5.5 ships (`libretro-t3/`, five boards; `standalone-t3/`, four), whose
+  sha256s the Dockerfile checks ([Saturn builds](../docs/standalone.md#saturn-builds-spruceos-455)).
+  Its build context needs only the SDK archive and that folder.

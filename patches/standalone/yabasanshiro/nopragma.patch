@@ -1,0 +1,23 @@
+--- a/yabause/src/sh2_dynarec_devmiyax/DynarecSh2CInterface.cpp
++++ b/yabause/src/sh2_dynarec_devmiyax/DynarecSh2CInterface.cpp
+@@ -390,10 +390,6 @@
+ //********************************************************************
+ 
+ 
+-#if defined(__JETSON__) || defined(__N2__) || defined(__XU4__) || defined(__RP64__)
+-#pragma GCC push_options
+-#pragma GCC optimize ("O1")
+-#endif
+ 
+ void memSetByteNoCache(u32 addr, u8 data)
+ {
+@@ -748,9 +744,6 @@
+   return val;
+ }
+ 
+-#ifdef __JETSON__
+-#pragma GCC pop_options
+-#endif
+ 
+ 
+ void SH2DynOnFrame(SH2_struct *context) {

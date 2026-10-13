@@ -1,0 +1,119 @@
+From 85ca715c9466e8b914197293b4423e4f0e75be9d Mon Sep 17 00:00:00 2001
+From: arkun <56165886+CatalyticArkun@users.noreply.github.com>
+Date: Mon, 12 Oct 2026 15:32:38 -0500
+Subject: [PATCH] libretro: resolve the GLES 3.1/3.2 entry points the core
+ declares privately
+
+glDispatchCompute, glBindImageTexture, glMemoryBarrier and glPatchParameteri were never resolved, so the
+compute-shader RBG and GPU tessellation options called NULL; a context without them now falls back to the CPU paths.
+---
+ yabause/src/libretro/glsym_private.c | 23 ++++++++++++++++++++++
+ yabause/src/libretro/glsym_private.h |  3 +++
+ yabause/src/libretro/libretro.c      | 29 ++++++++++++++++++++++++++++
+ 3 files changed, 55 insertions(+)
+
+diff --git a/yabause/src/libretro/glsym_private.c b/yabause/src/libretro/glsym_private.c
+index a5f03ccb..23591dbb 100644
+--- a/yabause/src/libretro/glsym_private.c
++++ b/yabause/src/libretro/glsym_private.c
+@@ -1,4 +1,5 @@
+ #include "glsym/glsym.h"
++#include <stddef.h>
+ 
+ #if defined(_OGLES3_)
+ RGLSYMGLMEMORYBARRIERPROC __rglgen_glMemoryBarrier;
+@@ -9,3 +10,25 @@ RGLSYMGLBINDIMAGETEXTUREPROC __rglgen_glBindImageTexture;
+ #else
+ RGLSYMGLTEXTUREBARRIERNVPROC __rglgen_glTextureBarrierNV;
+ #endif
++
++/* libretro-common's symbol maps stop short of these, so nothing resolved them and the
++ * GLES compute and tessellation paths called NULL */
++#define SYM(x) { "gl" #x, &(gl##x) }
++static const struct rglgen_sym_map rglgen_symbol_map_private[] = {
++#if defined(_OGLES3_)
++   SYM(MemoryBarrier),
++   SYM(BindFragDataLocation),
++   SYM(PatchParameteri),
++   SYM(DispatchCompute),
++   SYM(BindImageTexture),
++#else
++   SYM(TextureBarrierNV),
++#endif
++   { NULL, NULL },
++};
++
++void glsym_private_resolve(rglgen_proc_address_t proc)
++{
++   if (proc)
++      rglgen_resolve_symbols_custom(proc, rglgen_symbol_map_private);
++}
+diff --git a/yabause/src/libretro/glsym_private.h b/yabause/src/libretro/glsym_private.h
+index 10c5ff07..4b451f0b 100644
+--- a/yabause/src/libretro/glsym_private.h
++++ b/yabause/src/libretro/glsym_private.h
+@@ -45,6 +45,9 @@ typedef void (APIENTRYP RGLSYMGLTEXTUREBARRIERNVPROC) (void);
+ extern RGLSYMGLTEXTUREBARRIERNVPROC __rglgen_glTextureBarrierNV;
+ #endif
+ 
++/* resolves the symbols above; call after every context reset (a missing one stays NULL) */
++void glsym_private_resolve(rglgen_proc_address_t proc);
++
+ #ifdef __cplusplus
+ }
+ #endif
+diff --git a/yabause/src/libretro/libretro.c b/yabause/src/libretro/libretro.c
+index 52adda5f..eb9ef6c2 100644
+--- a/yabause/src/libretro/libretro.c
++++ b/yabause/src/libretro/libretro.c
+@@ -578,11 +578,36 @@ void YuiSwapBuffers(void)
+    one_frame_rendered = true;
+ }
+ 
++#if defined(_OGLES3_) && !defined(_USEGLEW_)
++/* the compute-shader RBG path needs these GLES 3.1 calls; without them use the CPU path, not NULL */
++static bool gles_compute_ok(void)
++{
++   return glDispatchCompute && glBindImageTexture && glMemoryBarrier;
++}
++#endif
++
+ static void context_reset(void)
+ {
+ #if !defined(_USEGLEW_)
++   glsm_ctx_proc_address_t proc = {0};
+    glsm_ctl(GLSM_CTL_STATE_CONTEXT_RESET, NULL);
++   if (glsm_ctl(GLSM_CTL_PROC_ADDRESS_GET, &proc))
++      glsym_private_resolve((rglgen_proc_address_t)proc.addr);
+    glsm_ctl(GLSM_CTL_STATE_SETUP, NULL);
++#endif
++#if defined(_OGLES3_) && !defined(_USEGLEW_)
++   if (yinit.rbg_use_compute_shader && !gles_compute_ok())
++   {
++      if (log_cb)
++         log_cb(RETRO_LOG_WARN, "GLES 3.1 compute functions missing: compute-shader RBG off\n");
++      g_rbg_use_compute_shader = yinit.rbg_use_compute_shader = 0;
++   }
++   if (yinit.polygon_generation_mode == GPU_TESSERATION && !glPatchParameteri)
++   {
++      if (log_cb)
++         log_cb(RETRO_LOG_WARN, "glPatchParameteri missing: GPU tessellation off\n");
++      polygon_mode = yinit.polygon_generation_mode = PERSPECTIVE_CORRECTION;
++   }
+ #endif
+    if (first_ctx_reset == 1)
+    {
+@@ -1383,6 +1408,10 @@ void retro_run(void)
+       // Unlike Kronos, this core dislike changing tesselation on the fly
+       //VIDCore->SetSettingValue(VDP_SETTING_POLYGON_MODE, polygon_mode);
+       VIDCore->SetSettingValue(VDP_SETTING_RBG_RESOLUTION_MODE, g_rbg_resolution_mode);
++#if defined(_OGLES3_) && !defined(_USEGLEW_)
++      if (g_rbg_use_compute_shader && !gles_compute_ok())
++         g_rbg_use_compute_shader = 0;
++#endif
+       VIDCore->SetSettingValue(VDP_SETTING_RBG_USE_COMPUTESHADER, g_rbg_use_compute_shader);
+       if(PERCore && (prev_multitap[0] != multitap[0] || prev_multitap[1] != multitap[1]))
+          PERCore->Init();
+-- 
+2.54.0 (Apple Git-157)
+

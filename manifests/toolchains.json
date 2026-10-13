@@ -112,6 +112,17 @@
       },
       "dockerfile": "Dockerfile.standalone.yabasanshiro"
     },
+    "standalone-yabasanshiro-pgo": {
+      "image": "cores-standalone-yabasanshiro-pgo:v1",
+      "image_id": "sha256:83c526c9cfa0df933599c86cc71ae29e6fd77bde9658aacb7e9dda2545b820a3",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-yabasanshiro-pgo-v1.tar.gz",
+        "sha256": "2f5bdd7cd535da6dc0508efedab86f57ae1178e1efe671b6a8094fd31444566f",
+        "size": 1968031066
+      },
+      "dockerfile": "Dockerfile.standalone.yabasanshiro-pgo"
+    },
     "standalone-mupen64plus": {
       "image": "cores-standalone-mupen64plus:v1",
       "image_id": "sha256:eda084429f12c743bfc16e59e8413c04cee2762e4eed1e53ca5cad90c26c1006",

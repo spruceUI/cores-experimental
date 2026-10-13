@@ -1,0 +1,30 @@
+# cores-standalone-yabasanshiro-pgo v1: cores-standalone-yabasanshiro v1 plus the compiler (Arm GNU 10.3-2021.07)
+# and Buildroot sysroot of TrimUI's tg5050 SDK, and the PGO profiles of the two Saturn builds spruce ships.
+FROM sha256:84453a70c43e9b5d508b08e238a28a3b0404c736506e496ffefed1ae769cc375
+
+# From spruceUI/PPSSPP-spruce's sdk-toolchains release (1.1 GB), as in Dockerfile.standalone.tsps. The compiler is
+# also at /opt/arm-gnu-10.3, a real directory of hard links (GCC would resolve a symlink): header paths enter PGO
+# function ids, so each recipe calls the compiler by the path its training build used.
+COPY sdk_tg5050_linux_v1.0.0.tgz /tmp/
+RUN echo "2fbc70ec0c91c0e85a1fd5bf4e994fafb36133d05f3b822ce88519f10d4ca017  /tmp/sdk_tg5050_linux_v1.0.0.tgz" | sha256sum -c - && \
+    mkdir -p /opt/tsps-sdk && \
+    tar xzf /tmp/sdk_tg5050_linux_v1.0.0.tgz -C /opt/tsps-sdk --strip-components=2 \
+        sdk_tg5050_linux_v1.0.0/host/opt \
+        sdk_tg5050_linux_v1.0.0/host/aarch64-buildroot-linux-gnu && \
+    rm /tmp/sdk_tg5050_linux_v1.0.0.tgz && \
+    test -x /opt/tsps-sdk/opt/ext-toolchain/bin/aarch64-none-linux-gnu-gcc && \
+    cp -al /opt/tsps-sdk/opt/ext-toolchain /opt/arm-gnu-10.3
+
+# Execution counters from Sega Rally boot runs on the lab boards (toolchain-inputs/README.md).
+COPY yabasanshiro-pgo /opt/yabasanshiro-pgo
+RUN cd /opt/yabasanshiro-pgo && printf '%s\n' \
+    "5b07f69b6d5cee3bca92ac24ad726405d3a5090e50ceaf415d225d05f5e34b99  libretro-t3/BrickPro-88-pb-t3-o3-generic-lto-fix.tar" \
+    "6fbed9da233b39312088208311131ffadd0b8fbeb1c2bd9ce74c6bb8b2e88136  libretro-t3/Flip-94-pb-t3-o3-generic-lto-fix.tar" \
+    "5ecfbd93bc31b6a70aa50378570e6079c4a6be4837a22fc47d59467e06e129cf  libretro-t3/SmartProS-86-pb-t3-o3-generic-lto-fix.tar" \
+    "eebf70ef1e56026ab3b818fab9cceb28d1aab173074a380e76fe0ae005f9d642  libretro-t3/XX640480-99-pb-t3-o3-generic-lto-fix.tar" \
+    "e138924dccc631e6ed05515d831ed0859872f66f3eb1f5d86af3f4c334ba235e  libretro-t3/XX720480NoStick-95-pb-t3-o3-generic-lto-fix.tar" \
+    "03649b93778aabb629277d414c8eb15e9db016e741a77655bf9370e61d893ac2  standalone-t3/BrickPro-88-pb-sa-t3-pgogen.tar" \
+    "62a5bcba47c6b1078a63a73971c81f4bc74d4c1506019b27bcebaed6382d6f7a  standalone-t3/SmartProS-86-pb-sa-t3-pgogen.tar" \
+    "d41d0213a143f7021701a2ea0b608c3cb1ec6fdc2d3595953c9a2aaccc82e6da  standalone-t3/XX640480-99-pb-sa-t3-pgogen.tar" \
+    "9754831f90e1f5c8865f5c3634ad67411b7ac9f02123354bda66eede49d36f0f  standalone-t3/XX720480NoStick-95-pb-sa-t3-pgogen.tar" \
+    | sha256sum -c -

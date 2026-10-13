@@ -1,0 +1,18 @@
+--- a/yabause/src/retro_arena/main.cpp
++++ b/yabause/src/retro_arena/main.cpp
+@@ -26,6 +26,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <unistd.h>
++#include <stdlib.h>
+ #if GCC_VERSION < 9
+ #include <experimental/filesystem>
+ namespace fs = std::experimental::filesystem;
+@@ -266,6 +267,7 @@
+   yinit.use_cpu_affinity = 1;
+ 
+   yinit.use_sh2_cache = 0;
++  { const char *fl = getenv("YB_FRAMELIMIT"); yinit.framelimit = fl ? atoi(fl) : 0; }  /* bench: 1 = no limiter */
+ 
+   res = YabauseInit(&yinit);
+   if( res == -1) {

@@ -63,6 +63,7 @@ from pinned parts (`Dockerfile.standalone.<name>`, loaded by `manifests/toolchai
 | `standalone-flip` | `ppsspp-flip`, `ppsspp-rgb30` | Debian bookworm (by digest) with steward-fu's Flip toolchain (GCC 13.3) |
 | `standalone-trimui` | `ppsspp-trimui` | the arm64 base's GCC 9.4 over Linaro 7.5's glibc and TrimUI's tg5040 SDK |
 | `standalone-tsps` | `ppsspp-smartpros` | the compiler and sysroot of TrimUI's tg5050 SDK (GCC 10.3) |
+| `standalone-yabasanshiro-pgo` | `yabasanshiro-arm64-pgo`, `yabasanshiro-libretro` | `standalone-yabasanshiro` plus the tg5050 SDK's compiler and sysroot and the two builds' PGO profiles ([Saturn](#saturn-builds-spruceos-455)) |
 | `standalone-mini` | `pcsx_rearmed-mini`, `scummvm-mini` | the armhf base (Ubuntu 24.04) with steward-fu's Onion toolchain (GCC 8.3, glibc 2.28) |
 | `standalone-miyoomini` | `vtree-mini` | `aemiii91/miyoomini-toolchain`, by the digest its `latest` tag has had since 2026-01-20 |
 
@@ -94,6 +95,11 @@ by the recipe instead, from pinned sources or checked downloads.
   mupen64plus mixes two runs, so it takes two recipes.
 - **The A30 toolchain's `python3`** comes first on that image's PATH and has no SSL
   module; downloads use the system one.
+- **PGO builds** need the compiler at the path their training build used: GCC
+  resolves a symlinked install to its real path, and header paths go into the
+  profile's function ids, so a different path matches the profile differently
+  and changes inlining and LTO partitioning. `standalone-yabasanshiro-pgo` keeps
+  the tg5050 compiler at both paths its two builds were trained with.
 
 ## Status
 
@@ -109,6 +115,8 @@ Built against spruceOS `73bb91a19` (2026-10-11); "match" is byte for byte.
 | `dsperate-arm64`, `dsperate-a30` | `Emu/NDS/dsperate`, `dsperate.a30` | match |
 | `ppsspp-h700`, `-a30`, `-flip`, `-rgb30`, `-trimui`, `-smartpros` | `Emu/PSP/PPSSPPSDL_*` | match |
 | `yabasanshiro-arm64` | `Emu/SATURN/yabasanshiro`, `lib64/` | match |
+| `yabasanshiro-arm64-pgo` | `Emu/SATURN/yabasanshiro`, `lib64/` of spruceOS `da37a290e` (4.5.5) | match |
+| `yabasanshiro-libretro` | `RetroArch/.retroarch/cores64/yabasanshiro_generic_libretro.so` of spruceOS `da37a290e` (4.5.5) | match |
 | `mupen64plus-arm64-20260404`, `mupen64plus-arm64` | `Emu/N64/mupen64plus/`: frontend, core, audio, input and RSP plugins from the first, video plugins and overlay settings from the second | match |
 | `mupen64plus-a30` | `Emu/N64/mupen64plus-a30/` | match |
 | `scummvm-a30`, `scummvm-mini` | `Emu/SCUMMVM/scummvm.a30`, `scummvm.mini` and its 96 plugins (inside spruceOS's 7z files), `liba30/`, `fixjoy`, `libmini/libfluidlite.so` | match |
@@ -127,3 +135,44 @@ plus ALSA and udev headers, and OpenSSL 1.1.1w, curl 8.7.1 and SDL2 2.28.5 in
 `libcurl.so.4` and `libssl.so.1.1` byte for byte. `libcrypto.so.1.1` differs only
 in OpenSSL's embedded build date and the build ID derived from it (33 bytes):
 spruce's copy comes from an earlier build of the same image recipe.
+
+## Saturn builds (spruceOS 4.5.5)
+
+spruceOS 4.5.5 (branch `feat/opt-defaults-4.5.5`, `da37a290e`) ships two Saturn
+builds picked by device benchmarks. Both were first built for those benchmarks, in
+the research records `20261013-1113-yabasanshiro-rbgfix` and
+`20261013-1351-saturn-sa-pgo-rbgfix` (outside this repository); these recipes
+rebuild them.
+
+- **`yabasanshiro-libretro`**: `RetroArch/.retroarch/cores64/yabasanshiro_generic_libretro.so`.
+  libretro/yabause `f448097` plus two mails that recreate commit `892985a4`, so the
+  core reports `v3.4.2 892985a`:
+  - the GLES 3.1/3.2 entry points the libretro build declared but never
+    resolved (the compute-shader and tessellation options called NULL);
+  - the compute-shader rotation background (RBG): the window and CRAM buffers
+    bound on every dispatch, which Mali and PowerVR drivers need or they drop the
+    dispatch; a texture-fetch barrier and an orphaned VRAM map; `uint` literals
+    in the 16bpp palette fetch.
+
+  Then `dynarec-fix-nopragma.patch`: the AArch64 dynarec's templates kept
+  values in caller-saved registers across memory-handler calls; it renames them
+  and drops the 2020 `-O1` pragma that hid the bug. Built with the tg5050 SDK's
+  GCC 10.3, `-O3 -flto` and PGO. The core catalog builds every core in its own
+  image and takes no profile, so this build is a recipe here.
+- **`yabasanshiro-arm64-pgo`**: `Emu/SATURN/yabasanshiro`. `yabasanshiro-arm64`
+  plus the same dynarec fix and RBG fix for devMiyax's tree (whose `getTexture`
+  already uses `GL_ALL_BARRIER_BITS`), and `bench-framelimit-env.patch`:
+  `YB_FRAMELIMIT=1` switches the 60 Hz limiter off, and unset it limits as before.
+  Built with the same GCC 10.3, `-O3 -flto=8` and PGO, against the image's focal
+  arm64 packages; `cc-wrapper-t3.sh` adds what Ubuntu's cross GCC does by default
+  (PIE, `--as-needed`), so the binary needs only the libraries the CI build needs.
+
+**Profiles.** `toolchain-inputs/yabasanshiro-pgo/` holds gcov counters of the
+emulator's own code (no game data), written by `-fprofile-generate` builds of the
+same sources running Sega Rally from power-on to frame 1680 on four lab boards
+(Smart Pro S, Brick Pro, two RG XX; the libretro set adds the Flip). Each recipe
+sums its set with the toolchain's `gcov-tool` (`pgo-merge.sh`). GCC drops the
+profile of a function whose code changed after training: `context_reset`,
+`retro_run` and the RBG generator's `init` and `update` in the core, the RBG
+generator's `init` and `update` in the standalone. The other
+`-Wcoverage-mismatch` warnings are line shifts, whose profiles GCC still uses.
