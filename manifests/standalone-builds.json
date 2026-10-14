@@ -219,6 +219,70 @@
         }
       }
     },
+    "flycast-libretro-t3": {
+      "description": "Flycast v2.6 libretro core: RetroArch/.retroarch/cores64/flycast_libretro.so on every 64-bit device from spruceOS 4.5.5 (the Dreamcast, NAOMI and Atomiswave default on all but the Pixel 2), with GLES and Vulkan, built with Arm's GNU Toolchain 10.3-2021.07 against its glibc 2.33 instead of Ubuntu 20.04's GCC 9.4. A recipe here because the core catalog builds every arm64 core with the arm64 image's compiler; standalone-yabasanshiro-pgo has what the research build used: Kitware's CMake 4.4.3, and that compiler and glibc at the tg5050 SDK's paths",
+      "source": {
+        "url": "https://github.com/flyinghead/flycast.git",
+        "commit": "392a429e8b040b3e5bf6696cb4f984274fc44123",
+        "tree": "712e00d5a9c99abc949bcce2bf02800492de869d",
+        "requested_ref": "refs/tags/v2.6",
+        "submodules": true,
+        "path": "/build/flycast"
+      },
+      "toolchain": "standalone-yabasanshiro-pgo",
+      "source_date_epoch": 1767792512,
+      "env": {
+        "LC_ALL": "C",
+        "WRAP_CROSS": "/opt/tsps-sdk/opt/ext-toolchain/bin/aarch64-none-linux-gnu-",
+        "WRAP_SYSROOT": "/opt/tsps-sdk/aarch64-buildroot-linux-gnu/sysroot",
+        "WRAP_LOG": "/output/calls.log"
+      },
+      "steps": [
+        "mkdir -p /tmp/wrap && cat > /tmp/wrap/gcc <<'WRAP'\n#!/bin/sh\n# Installed as /tmp/wrap/gcc and g++: $WRAP_CROSS<name> with the sysroot last, as the research build ran it.\n[ -z \"${WRAP_LOG:-}\" ] || printf '%s\\n' \"$* --sysroot=$WRAP_SYSROOT\" >> \"$WRAP_LOG\"\nexec \"$WRAP_CROSS${0##*/}\" \"$@\" --sysroot=\"$WRAP_SYSROOT\"\nWRAP\ncp /tmp/wrap/gcc /tmp/wrap/g++ && chmod 0755 /tmp/wrap/gcc /tmp/wrap/g++",
+        "mkdir -p build && cd build",
+        "cmake .. -G 'Unix Makefiles' -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_C_COMPILER=/tmp/wrap/gcc -DCMAKE_CXX_COMPILER=/tmp/wrap/g++ -DCMAKE_AR=\"${WRAP_CROSS}gcc-ar\" -DCMAKE_RANLIB=\"${WRAP_CROSS}gcc-ranlib\" -DCMAKE_C_COMPILER_AR=\"${WRAP_CROSS}gcc-ar\" -DCMAKE_CXX_COMPILER_AR=\"${WRAP_CROSS}gcc-ar\" -DCMAKE_C_COMPILER_RANLIB=\"${WRAP_CROSS}gcc-ranlib\" -DCMAKE_CXX_COMPILER_RANLIB=\"${WRAP_CROSS}gcc-ranlib\" -DCMAKE_BUILD_TYPE=Release -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE -DLIBRETRO=ON -DUSE_HOST_LIBZIP=OFF -DUSE_OPENMP=OFF -DUSE_GLES=ON -DUSE_VULKAN=ON -DCMAKE_POLICY_VERSION_MINIMUM=3.5",
+        "make -j\"$(nproc)\" flycast_libretro",
+        "install -D -m 0755 flycast_libretro.so /build/out/flycast_libretro.so",
+        "\"${WRAP_CROSS}strip\" --strip-unneeded /build/out/flycast_libretro.so"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/out/flycast_libretro.so",
+            "to": "flycast_libretro.so"
+          }
+        ],
+        "spruce": {
+          "flycast_libretro.so": "RetroArch/.retroarch/cores64/flycast_libretro.so"
+        }
+      },
+      "needed": {
+        "device": [
+          "libc.so.6",
+          "libdl.so.2",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libpthread.so.0",
+          "librt.so.1",
+          "libstdc++.so.6"
+        ],
+        "forbidden": [
+          "libvulkan.so.1",
+          "libGLESv2.so.2",
+          "libGLESv2.so",
+          "libEGL.so.1",
+          "libEGL.so",
+          "libGL.so.1"
+        ]
+      },
+      "shipped": {
+        "spruceos": "37eee6e9f",
+        "note": "spruceOS feat/flycast-t3-lto (local); built first as t3-rel in the research record 20261013-1817-flycast-fanout-A5, with TrimUI's tg5050 SDK (the same compiler; its glibc is Arm's)",
+        "files": {
+          "flycast_libretro.so": "eff7ae729265114ee34b0063ae0c4a3408133688bb9eea3de7fc7a0a7013aa23"
+        }
+      }
+    },
     "vtree-arm64": {
       "description": "vTree v1.1 (FileManagement app): App/FileManagement/vtree.aarch64 on every 64-bit device. Built as spruceUI/vTree-spruce@d3a0a5a build.sh does",
       "source": {
