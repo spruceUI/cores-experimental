@@ -63,7 +63,7 @@ from pinned parts (`Dockerfile.standalone.<name>`, loaded by `manifests/toolchai
 | `standalone-flip` | `ppsspp-flip`, `ppsspp-rgb30` | Debian bookworm (by digest) with steward-fu's Flip toolchain (GCC 13.3) |
 | `standalone-trimui` | `ppsspp-trimui` | the arm64 base's GCC 9.4 over Linaro 7.5's glibc and TrimUI's tg5040 SDK |
 | `standalone-tsps` | `ppsspp-smartpros` | the compiler and sysroot of TrimUI's tg5050 SDK (GCC 10.3) |
-| `standalone-yabasanshiro-pgo` | `yabasanshiro-arm64-pgo`, `yabasanshiro-libretro` | `standalone-yabasanshiro` plus the tg5050 SDK's compiler and sysroot and the two builds' PGO profiles ([Saturn](#saturn-builds-spruceos-455)) |
+| `standalone-yabasanshiro-pgo` | `yabasanshiro-arm64-pgo`, `yabasanshiro-libretro` | `standalone-yabasanshiro` plus Arm's GNU Toolchain 10.3-2021.07, a generic sysroot (its glibc 2.33, Khronos GLES headers, a stub libGLESv2) and the two builds' PGO profiles ([Saturn](#saturn-builds-spruceos-455)) |
 | `standalone-mini` | `pcsx_rearmed-mini`, `scummvm-mini` | the armhf base (Ubuntu 24.04) with steward-fu's Onion toolchain (GCC 8.3, glibc 2.28) |
 | `standalone-miyoomini` | `vtree-mini` | `aemiii91/miyoomini-toolchain`, by the digest its `latest` tag has had since 2026-01-20 |
 
@@ -99,7 +99,7 @@ by the recipe instead, from pinned sources or checked downloads.
   resolves a symlinked install to its real path, and header paths go into the
   profile's function ids, so a different path matches the profile differently
   and changes inlining and LTO partitioning. `standalone-yabasanshiro-pgo` keeps
-  the tg5050 compiler at both paths its two builds were trained with.
+  the compiler at both paths its two builds were trained with.
 
 ## Status
 
@@ -156,8 +156,8 @@ rebuild them.
 
   Then `dynarec-fix-nopragma.patch`: the AArch64 dynarec's templates kept
   values in caller-saved registers across memory-handler calls; it renames them
-  and drops the 2020 `-O1` pragma that hid the bug. Built with the tg5050 SDK's
-  GCC 10.3, `-O3 -flto` and PGO. The core catalog builds every core in its own
+  and drops the 2020 `-O1` pragma that hid the bug. Built with Arm's GNU Toolchain
+  10.3-2021.07 (GCC 10.3), `-O3 -flto` and PGO. The core catalog builds every core in its own
   image and takes no profile, so this build is a recipe here.
 - **`yabasanshiro-arm64-pgo`**: `Emu/SATURN/yabasanshiro`. `yabasanshiro-arm64`
   plus the same dynarec fix and RBG fix for devMiyax's tree (whose `getTexture`
@@ -166,6 +166,12 @@ rebuild them.
   Built with the same GCC 10.3, `-O3 -flto=8` and PGO, against the image's focal
   arm64 packages; `cc-wrapper-t3.sh` adds what Ubuntu's cross GCC does by default
   (PIE, `--as-needed`), so the binary needs only the libraries the CI build needs.
+
+**No vendor SDK.** Both were first built with the compiler from TrimUI's tg5050 SDK, and the core
+also with its sysroot. That compiler is Arm's GNU Toolchain 10.3-2021.07, unmodified, and the
+sysroot's C library is that toolchain's glibc 2.33, so the image takes the toolchain from Arm and
+builds the core's sysroot from it, the Khronos GLES headers the core was compiled against, and a
+stub `libGLESv2.so.2`.
 
 **Profiles.** `toolchain-inputs/yabasanshiro-pgo/` holds gcov counters of the
 emulator's own code (no game data), written by `-fprofile-generate` builds of the

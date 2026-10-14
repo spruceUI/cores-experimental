@@ -1,19 +1,39 @@
-# cores-standalone-yabasanshiro-pgo v1: cores-standalone-yabasanshiro v1 plus the compiler (Arm GNU 10.3-2021.07)
-# and Buildroot sysroot of TrimUI's tg5050 SDK, and the PGO profiles of the two Saturn builds spruce ships.
+# cores-standalone-yabasanshiro-pgo v2: cores-standalone-yabasanshiro v1 plus Arm's GNU Toolchain 10.3-2021.07, a
+# generic sysroot (that toolchain's glibc 2.33, Khronos GLES headers, a stub libGLESv2) and the two builds' PGO profiles.
 FROM sha256:84453a70c43e9b5d508b08e238a28a3b0404c736506e496ffefed1ae769cc375
 
-# From spruceUI/PPSSPP-spruce's sdk-toolchains release (1.1 GB), as in Dockerfile.standalone.tsps. The compiler is
-# also at /opt/arm-gnu-10.3, a real directory of hard links (GCC would resolve a symlink): header paths enter PGO
-# function ids, so each recipe calls the compiler by the path its training build used.
-COPY sdk_tg5050_linux_v1.0.0.tgz /tmp/
-RUN echo "2fbc70ec0c91c0e85a1fd5bf4e994fafb36133d05f3b822ce88519f10d4ca017  /tmp/sdk_tg5050_linux_v1.0.0.tgz" | sha256sum -c - && \
-    mkdir -p /opt/tsps-sdk && \
-    tar xzf /tmp/sdk_tg5050_linux_v1.0.0.tgz -C /opt/tsps-sdk --strip-components=2 \
-        sdk_tg5050_linux_v1.0.0/host/opt \
-        sdk_tg5050_linux_v1.0.0/host/aarch64-buildroot-linux-gnu && \
-    rm /tmp/sdk_tg5050_linux_v1.0.0.tgz && \
+# From developer.arm.com (toolchain-inputs/README.md); TrimUI's tg5050 SDK ships these same files. Header paths enter PGO
+# function ids, so each build finds the compiler where its training build did: the core in the tg5050 SDK's layout under
+# /opt/tsps-sdk, the standalone at /opt/arm-gnu-10.3, a real directory of hard links (GCC would resolve a symlink).
+COPY gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz /tmp/
+RUN echo "1e33d53dea59c8de823bbdfe0798280bdcd138636c7060da9d77a97ded095a84  /tmp/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz" | sha256sum -c - && \
+    mkdir -p /opt/tsps-sdk/opt/ext-toolchain && \
+    tar xJf /tmp/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz -C /opt/tsps-sdk/opt/ext-toolchain --strip-components=1 && \
+    rm /tmp/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz && \
     test -x /opt/tsps-sdk/opt/ext-toolchain/bin/aarch64-none-linux-gnu-gcc && \
-    cp -al /opt/tsps-sdk/opt/ext-toolchain /opt/arm-gnu-10.3
+    cp -al /opt/tsps-sdk/opt/ext-toolchain /opt/arm-gnu-10.3 && \
+    mkdir -p /opt/tsps-sdk/aarch64-buildroot-linux-gnu/sysroot && \
+    cp -al /opt/tsps-sdk/opt/ext-toolchain/aarch64-none-linux-gnu/libc/. /opt/tsps-sdk/aarch64-buildroot-linux-gnu/sysroot/
+
+# The rest of the core's sysroot: the GLES headers it compiles against, and a libGLESv2.so.2 that defines nothing, so
+# gl* stay undefined in the core and resolve on the device (it links -z undefs).
+COPY khronos-gles /tmp/khronos-gles
+RUN cd /tmp/khronos-gles && printf '%s\n' \
+    "5002743f50e40f42b26e39353553f7e3bab1d0c5329babb10cc756648e3aeea8  GLES2/gl2.h" \
+    "f29e55080b735dd10a5a66c41597d89c70740a7d190f7ca6a28705766fcdfd6c  GLES2/gl2ext.h" \
+    "8f25443c4c5b3c8e702c3510f12b6ec8c23c2e3c1ca1c71bb07d148653696d9a  GLES2/gl2platform.h" \
+    "356641b8b3123a7588786cbf2217da311d7353219f36057438c5f35cf907c155  GLES3/gl3.h" \
+    "7fb6d736b3e2a4036f279e654230f6cd04ddfb564f5505c39036316fe40c9e94  GLES3/gl31.h" \
+    "a2cfd7d890f16f67665e01e6f514a7c75bfc702e50c8861a44d04536271fffd1  GLES3/gl32.h" \
+    "b4595aafef1eb9b4705cf8a69e29aadb8eb8e3dd3baf8b34ab702c9174dcb549  GLES3/gl3platform.h" \
+    "890c04e4cc75739666aa8ff989a0a37b7f11d9e0ec60bc362b40f91835d11b5c  KHR/khrplatform.h" \
+    | sha256sum -c - && \
+    s=/opt/tsps-sdk/aarch64-buildroot-linux-gnu/sysroot && mkdir -p "$s/usr/include" "$s/usr/lib" && \
+    cp -a GLES2 GLES3 KHR "$s/usr/include/" && cd / && rm -rf /tmp/khronos-gles && \
+    : > /tmp/gles-stub.c && \
+    /opt/tsps-sdk/opt/ext-toolchain/bin/aarch64-none-linux-gnu-gcc -shared -nostdlib -Wl,-soname,libGLESv2.so.2 \
+        -o "$s/usr/lib/libGLESv2.so.2" /tmp/gles-stub.c && \
+    ln -s libGLESv2.so.2 "$s/usr/lib/libGLESv2.so" && rm /tmp/gles-stub.c
 
 # Execution counters from Sega Rally boot runs on the lab boards (toolchain-inputs/README.md).
 COPY yabasanshiro-pgo /opt/yabasanshiro-pgo

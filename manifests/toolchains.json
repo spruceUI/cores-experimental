@@ -113,13 +113,13 @@
       "dockerfile": "Dockerfile.standalone.yabasanshiro"
     },
     "standalone-yabasanshiro-pgo": {
-      "image": "cores-standalone-yabasanshiro-pgo:v1",
-      "image_id": "sha256:83c526c9cfa0df933599c86cc71ae29e6fd77bde9658aacb7e9dda2545b820a3",
+      "image": "cores-standalone-yabasanshiro-pgo:v2",
+      "image_id": "sha256:de6503b848a7e7d5461401065223fb0129a958cfaa15b0e1da98e7c2c70b7243",
       "host_cc": "aarch64-linux-gnu",
       "archive": {
-        "name": "cores-standalone-yabasanshiro-pgo-v1.tar.gz",
-        "sha256": "2f5bdd7cd535da6dc0508efedab86f57ae1178e1efe671b6a8094fd31444566f",
-        "size": 1968031066
+        "name": "cores-standalone-yabasanshiro-pgo-v2.tar.gz",
+        "sha256": "cd7d63d36ec88ff269c9d7ae8a6d306eb709f95e216898f5d123c5a34c65cb11",
+        "size": 667398225
       },
       "dockerfile": "Dockerfile.standalone.yabasanshiro-pgo"
     },
