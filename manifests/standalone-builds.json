@@ -119,6 +119,106 @@
         }
       }
     },
+    "flycast-standalone-t3-lto": {
+      "description": "Flycast v2.7: Emu/DC/flycast on every 64-bit device from spruceOS 4.5.5, as flycast-standalone but built with Arm's GNU Toolchain 10.3-2021.07 and -O3 -flto=8 (14.5-17.5 % faster in the Dreamcast benches), against the same image's glibc 2.31 sysroot and dependencies",
+      "source": {
+        "url": "https://github.com/flyinghead/flycast.git",
+        "commit": "5aa091fde632fb332c8d8c34e280d62dc951954c",
+        "tree": "6384bacac6a2be89164a923372052a7ad1dff05a",
+        "requested_ref": "refs/tags/v2.7",
+        "submodules": true
+      },
+      "toolchain": "standalone-flycast-t3",
+      "source_date_epoch": 1786747058,
+      "env": {
+        "PKG_CONFIG_PATH": "/opt/flycast-standalone-deps-arm64/lib/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/opt/flycast-standalone-deps-arm64/lib/pkgconfig:/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "WRAP_CROSS": "/opt/arm-gnu-10.3/bin/aarch64-none-linux-gnu-",
+        "WRAP_SYSFLAGS": "--sysroot=/tmp/focal -idirafter /usr/include/aarch64-linux-gnu -idirafter /usr/include -isystem /tmp/sysinc",
+        "WRAP_FLAGS": "-O3 -flto=8",
+        "WRAP_KEEP_FLAGS": "-flto=8",
+        "WRAP_LINK": "-Wl,--allow-shlib-undefined -L/tmp/deplibs -Wl,-rpath-link=/usr/lib/aarch64-linux-gnu:/lib/aarch64-linux-gnu",
+        "WRAP_LOG": "/output/calls.log"
+      },
+      "steps": [
+        "set +u +o pipefail",
+        "f=/tmp/focal && mkdir -p \"$f/usr\" && ln -s /usr/aarch64-linux-gnu/include \"$f/usr/include\" && for d in usr/lib usr/lib64 lib lib64; do ln -s /usr/aarch64-linux-gnu/lib \"$f/$d\"; done && ln -s /usr/aarch64-linux-gnu \"$f/usr/aarch64-linux-gnu\"",
+        "mkdir -p /tmp/deplibs && for lib in /usr/lib/aarch64-linux-gnu/*.so /usr/lib/aarch64-linux-gnu/*.a; do case \"${lib##*/}\" in libc.*|libc_nonshared.a|libm.*|libmvec*|libpthread*|libdl.*|librt.*|libutil.*|libresolv.*|libanl.*|libnsl*|libBrokenLocale*) ;; libstdc++*|libsupc++*|libgcc*|libatomic*|libgomp*|libquadmath*|libitm*|libssp*|lib?san*|libubsan*) ;; *) ln -s \"$lib\" /tmp/deplibs/ ;; esac; done",
+        "for h in pthread.h bits/statx.h; do if [ -f \"/usr/aarch64-linux-gnu/include/$h\" ]; then install -D -m 0644 \"/usr/aarch64-linux-gnu/include/$h\" \"/tmp/sysinc/$h\"; fi; done",
+        "mkdir -p /tmp/wrap && cat > /tmp/wrap/gcc <<'WRAP'\n#!/bin/bash\n# Installed as /tmp/wrap/gcc and g++: $WRAP_CROSS<name> with $WRAP_FLAGS last (-O0 calls get $WRAP_KEEP_FLAGS), and as\n# Ubuntu's GCC does: -fPIE unless PIC is asked for, -pie on executable links, --as-needed ahead of a link's libraries.\ntool=${0##*/}\ncase \" $* \" in\n    *\" -c \"*|*\" -E \"*|*\" -S \"*) kind=compile ;;\n    *\" -shared \"*) kind=shared ;;\n    *) kind=exe ;;\nesac\npie=\"\"\nif [ \"$kind\" != shared ]; then\n    case \" $* \" in *\" -fPIC \"*|*\" -fpic \"*) ;; *) pie=\"-fPIE\" ;; esac\n    [ \"$kind\" = exe ] && pie=\"$pie -pie\"\nfi\nlink=\"\"\nfirst=\"\"\nif [ \"$kind\" != compile ]; then\n    link=\"$WRAP_LINK\"\n    first=\"-Wl,--as-needed\"\nfi\ncase \" $* \" in *\" -O0 \"*) opt=\"$WRAP_KEEP_FLAGS\" ;; *) opt=\"$WRAP_FLAGS\" ;; esac\n[ -z \"${WRAP_LOG:-}\" ] || printf '%s\\n' \"$first $* $WRAP_SYSFLAGS $opt $pie $link\" >> \"$WRAP_LOG\"\nexec \"$WRAP_CROSS$tool\" $first \"$@\" $WRAP_SYSFLAGS $opt $pie $link\nWRAP\ncp /tmp/wrap/gcc /tmp/wrap/g++ && chmod 0755 /tmp/wrap/gcc /tmp/wrap/g++",
+        "git config core.abbrev 8",
+        "cmake -S /src -B /tmp/standalone-build -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_SYSTEM_NAME:STRING=Linux -DCMAKE_SYSTEM_PROCESSOR:STRING=aarch64 -DCMAKE_C_COMPILER:FILEPATH=/tmp/wrap/gcc -DCMAKE_CXX_COMPILER:FILEPATH=/tmp/wrap/g++ -DCMAKE_AR:FILEPATH=\"${WRAP_CROSS}gcc-ar\" -DCMAKE_RANLIB:FILEPATH=\"${WRAP_CROSS}gcc-ranlib\" -DCMAKE_STRIP:FILEPATH=/usr/bin/aarch64-linux-gnu-strip '-DCMAKE_FIND_ROOT_PATH:STRING=/usr/aarch64-linux-gnu;/opt/flycast-standalone-deps-arm64;/usr' '-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY:STRING=ONLY' '-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE:STRING=BOTH' '-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM:STRING=NEVER' '-DCMAKE_LIBRARY_PATH:STRING=/usr/lib/aarch64-linux-gnu;/opt/flycast-standalone-deps-arm64/lib' '-DCMAKE_INCLUDE_PATH:STRING=/usr/include;/opt/flycast-standalone-deps-arm64/include' '-DCMAKE_PREFIX_PATH:STRING=/opt/flycast-standalone-deps-arm64' '-DCMAKE_C_FLAGS:STRING=-O3 -I/opt/flycast-standalone-deps-arm64/include' '-DCMAKE_CXX_FLAGS:STRING=-O3 -I/opt/flycast-standalone-deps-arm64/include' '-DCMAKE_EXE_LINKER_FLAGS:STRING=-L/opt/flycast-standalone-deps-arm64/lib -L/usr/lib/aarch64-linux-gnu -Wl,-rpath-link,/opt/flycast-standalone-deps-arm64/lib -Wl,-rpath-link,/usr/lib/aarch64-linux-gnu' -DLIBRETRO=OFF -DUSE_HOST_SDL=ON -DUSE_OPENGL=ON -DUSE_GLES=ON -DUSE_VULKAN=ON -DUSE_ALSA=ON -DUSE_HOST_LIBZIP=OFF -DUSE_OPENMP=OFF -DUSE_PULSEAUDIO=OFF -DUSE_LIBAO=OFF -DUSE_LUA=OFF -DUSE_DISCORD=OFF -DENABLE_CTEST=OFF -DFT_DISABLE_PNG=ON -DFT_DISABLE_HARFBUZZ=ON -DFT_DISABLE_BROTLI=ON -DFT_DISABLE_BZIP2=ON",
+        "cmake --build /tmp/standalone-build -j \"$(nproc)\" --target flycast"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/tmp/standalone-build/flycast",
+            "to": "flycast",
+            "strip": "-s"
+          },
+          {
+            "from": "/opt/flycast-standalone-deps-arm64/lib/libcurl.so.4",
+            "to": "lib64/libcurl.so.4",
+            "strip": "-s"
+          },
+          {
+            "from": "/opt/flycast-standalone-deps-arm64/lib/libssl.so.1.1",
+            "to": "lib64/libssl.so.1.1",
+            "strip": "-s"
+          },
+          {
+            "from": "/opt/flycast-standalone-deps-arm64/lib/libcrypto.so.1.1",
+            "to": "lib64/libcrypto.so.1.1",
+            "strip": "-s"
+          }
+        ],
+        "spruce": {
+          "flycast": "Emu/DC/flycast",
+          "lib64/": "Emu/DC/lib64/"
+        }
+      },
+      "needed": {
+        "device": [
+          "libasound.so.2",
+          "libSDL2-2.0.so.0",
+          "libz.so.1",
+          "librt.so.1",
+          "libdl.so.2",
+          "libpthread.so.0",
+          "libudev.so.1",
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-aarch64.so.1"
+        ],
+        "forbidden": [
+          "libgomp.so.1",
+          "libpulse.so.0",
+          "libzip.so.5",
+          "libpng16.so.16",
+          "libharfbuzz.so.0",
+          "libbrotlidec.so.1",
+          "libbz2.so.1.0",
+          "libvulkan.so.1",
+          "libGLESv2.so.2",
+          "libGLESv2.so",
+          "libEGL.so.1",
+          "libEGL.so"
+        ]
+      },
+      "shipped": {
+        "spruceos": "241c5b8d3",
+        "note": "spruceOS feat/flycast-t3-lto (local); built first as t3-lto in the research record 20261014-0002-flycast-sa-fanout. libcrypto.so.1.1 differs only in OpenSSL's embedded build date, as for flycast-standalone",
+        "files": {
+          "flycast": "3fc30ddfe89f6655c356c32eecb081c34be15f2e63932126acd283c9283ec0d4",
+          "lib64/libcurl.so.4": "07a17f0f376dc5767ec9a08088f74eea7020101c2863cf695584e3174b6a284f",
+          "lib64/libssl.so.1.1": "29df77584de812438fd363ede4f07f767effeb8cc29e74b68f52286bd5bf66ad",
+          "lib64/libcrypto.so.1.1": "729642980ae72bee91d7a9ce76577b366b5eab422d4d8acc82069db1c03f8afe"
+        }
+      }
+    },
     "vtree-arm64": {
       "description": "vTree v1.1 (FileManagement app): App/FileManagement/vtree.aarch64 on every 64-bit device. Built as spruceUI/vTree-spruce@d3a0a5a build.sh does",
       "source": {

@@ -44,7 +44,7 @@ Inputs that are too large for git, each sha256-checked by its Dockerfile:
 | `flip-toolchain-v1.0.tar.gz` | `Dockerfile.standalone.flip` | https://github.com/steward-fu/website/releases/download/miyoo-flip/flip-toolchain-v1.0.tar.gz |
 | `aarch64-linux-gnu-7.5.0-linaro.tgz`, `SDK_usr_tg5040_a133p.tgz` | `Dockerfile.standalone.trimui` | spruceUI/PPSSPP-spruce's `sdk-toolchains` release |
 | `sdk_tg5050_linux_v1.0.0.tgz` (1.1 GB) | `Dockerfile.standalone.tsps` | spruceUI/PPSSPP-spruce's `sdk-toolchains` release |
-| `gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz` (116 MB) | `Dockerfile.standalone.yabasanshiro-pgo` | https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz |
+| `gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz` (116 MB) | `Dockerfile.standalone.yabasanshiro-pgo`, `Dockerfile.standalone.flycast-t3` | https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz |
 | `onion_toolchain.tar.gz` | `Dockerfile.standalone.mini` | https://github.com/steward-fu/website/releases/download/miyoo-mini/onion_toolchain.tar.gz |
 
 ## Changing a toolchain image
@@ -102,3 +102,5 @@ too (`cores-<arch>-base-<id>.tar.gz`).
   `standalone-t3/`, four). The Dockerfile checks every input's sha256
   ([Saturn builds](../docs/standalone.md#saturn-builds-spruceos-455)). Its build context
   needs Arm's tarball, `khronos-gles/` and `yabasanshiro-pgo/`; no TrimUI SDK.
+- `standalone-flycast-t3` (2026-10-14): `arm64-standalone` plus the same Arm toolchain at
+  `/opt/arm-gnu-10.3`, for `flycast-standalone-t3-lto`; its build context needs only the tarball.

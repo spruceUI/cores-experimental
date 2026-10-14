@@ -46,6 +46,17 @@
       },
       "dockerfile": "Dockerfile.arm64.standalone"
     },
+    "standalone-flycast-t3": {
+      "image": "cores-standalone-flycast-t3:v1",
+      "image_id": "sha256:3adca3cc27410da13fb993d20c12a965c32ef781c4ccbb467e9a628d704a5675",
+      "host_cc": "aarch64-linux-gnu",
+      "archive": {
+        "name": "cores-standalone-flycast-t3-v1.tar.gz",
+        "sha256": "b0ca5e4432fc14f24bf18ae2d66e27415aa42b3fa068921309693fa480577f43",
+        "size": 835963619
+      },
+      "dockerfile": "Dockerfile.standalone.flycast-t3"
+    },
     "standalone-vtree": {
       "image": "cores-standalone-vtree:v1",
       "image_id": "sha256:a352fcf019ff0e415fd7c0b818c1ffa8f7782500ff2a0843d9f9aaf854e3d0fb",

@@ -63,6 +63,7 @@ from pinned parts (`Dockerfile.standalone.<name>`, loaded by `manifests/toolchai
 | `standalone-flip` | `ppsspp-flip`, `ppsspp-rgb30` | Debian bookworm (by digest) with steward-fu's Flip toolchain (GCC 13.3) |
 | `standalone-trimui` | `ppsspp-trimui` | the arm64 base's GCC 9.4 over Linaro 7.5's glibc and TrimUI's tg5040 SDK |
 | `standalone-tsps` | `ppsspp-smartpros` | the compiler and sysroot of TrimUI's tg5050 SDK (GCC 10.3) |
+| `standalone-flycast-t3` | `flycast-standalone-t3-lto` | `arm64-standalone` plus Arm's GNU Toolchain 10.3-2021.07 at `/opt/arm-gnu-10.3` |
 | `standalone-yabasanshiro-pgo` | `yabasanshiro-arm64-pgo`, `yabasanshiro-libretro` | `standalone-yabasanshiro` plus Arm's GNU Toolchain 10.3-2021.07, a generic sysroot (its glibc 2.33, Khronos GLES headers, a stub libGLESv2) and the two builds' PGO profiles ([Saturn](#saturn-builds-spruceos-455)) |
 | `standalone-mini` | `pcsx_rearmed-mini`, `scummvm-mini` | the armhf base (Ubuntu 24.04) with steward-fu's Onion toolchain (GCC 8.3, glibc 2.28) |
 | `standalone-miyoomini` | `vtree-mini` | `aemiii91/miyoomini-toolchain`, by the digest its `latest` tag has had since 2026-01-20 |
@@ -108,6 +109,7 @@ Built against spruceOS `73bb91a19` (2026-10-11); "match" is byte for byte.
 | recipe | ships | result |
 |---|---|---|
 | `flycast-standalone` | `Emu/DC/flycast`, `lib64/` | 3 of 4 match; `libcrypto.so.1.1` differs only in OpenSSL's build date |
+| `flycast-standalone-t3-lto` | `Emu/DC/flycast`, `lib64/` of spruceOS `241c5b8d3` (4.5.5, local branch) | the same: 3 of 4 match |
 | `vtree-arm64`, `vtree-a30`, `vtree-mini` | `App/FileManagement/vtree.*`, `lib-A30/` | match |
 | `pcsx_rearmed-arm64`, `-a30`, `-mini` | `Emu/PS/pcsx_64`, `pcsx_a30`, `pcsx_mini`, the `libSDL-1.2.so.0` copies | match |
 | `moonlight` | `App/Moonlight/.../moonlight` and 32 libraries | match |
@@ -135,6 +137,18 @@ plus ALSA and udev headers, and OpenSSL 1.1.1w, curl 8.7.1 and SDL2 2.28.5 in
 `libcurl.so.4` and `libssl.so.1.1` byte for byte. `libcrypto.so.1.1` differs only
 in OpenSSL's embedded build date and the build ID derived from it (33 bytes):
 spruce's copy comes from an earlier build of the same image recipe.
+
+## Flycast with GCC 10.3 (spruceOS 4.5.5)
+
+`flycast-standalone-t3-lto` is the `Emu/DC/flycast` spruceOS 4.5.5 ships: the same
+source, CMake line and dependencies as `flycast-standalone`, compiled with Arm's GNU
+Toolchain 10.3-2021.07 and `-O3 -flto=8` instead of Ubuntu 20.04's GCC 9.4. On the
+lab boards it ran Sega Rally's demo 14.5 to 17.5 % faster than the GCC 9.4 build,
+ahead of the same build without LTO and of GCC 13.3 (the Dreamcast benchmarks,
+outside this repository). A compiler wrapper puts the flags last on every call and adds
+what Ubuntu's cross GCC does by default (PIE, `--as-needed`), so the binary needs the
+same libraries as before and glibc 2.30 at most. It was first built in the research
+record `20261014-0002-flycast-sa-fanout` and reproduces it byte for byte.
 
 ## Saturn builds (spruceOS 4.5.5)
 
