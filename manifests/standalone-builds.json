@@ -209,7 +209,7 @@
         ]
       },
       "shipped": {
-        "spruceos": "241c5b8d3",
+        "spruceos": "44076df37",
         "note": "spruceOS feat/flycast-t3-lto (local); built first as t3-lto in the research record 20261014-0002-flycast-sa-fanout. libcrypto.so.1.1 differs only in OpenSSL's embedded build date, as for flycast-standalone",
         "files": {
           "flycast": "3fc30ddfe89f6655c356c32eecb081c34be15f2e63932126acd283c9283ec0d4",
@@ -276,7 +276,7 @@
         ]
       },
       "shipped": {
-        "spruceos": "37eee6e9f",
+        "spruceos": "c0435c735",
         "note": "spruceOS feat/flycast-t3-lto (local); built first as t3-rel in the research record 20261013-1817-flycast-fanout-A5, with TrimUI's tg5050 SDK (the same compiler; its glibc is Arm's)",
         "files": {
           "flycast_libretro.so": "eff7ae729265114ee34b0063ae0c4a3408133688bb9eea3de7fc7a0a7013aa23"
