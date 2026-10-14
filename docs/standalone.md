@@ -64,7 +64,7 @@ from pinned parts (`Dockerfile.standalone.<name>`, loaded by `manifests/toolchai
 | `standalone-trimui` | `ppsspp-trimui` | the arm64 base's GCC 9.4 over Linaro 7.5's glibc and TrimUI's tg5040 SDK |
 | `standalone-tsps` | `ppsspp-smartpros` | the compiler and sysroot of TrimUI's tg5050 SDK (GCC 10.3) |
 | `standalone-flycast-t3` | `flycast-standalone-t3-lto` | `arm64-standalone` plus Arm's GNU Toolchain 10.3-2021.07 at `/opt/arm-gnu-10.3` |
-| `standalone-yabasanshiro-pgo` | `yabasanshiro-arm64-pgo`, `yabasanshiro-libretro` | `standalone-yabasanshiro` plus Arm's GNU Toolchain 10.3-2021.07, a generic sysroot (its glibc 2.33, Khronos GLES headers, a stub libGLESv2) and the two builds' PGO profiles ([Saturn](#saturn-builds-spruceos-455)) |
+| `standalone-yabasanshiro-pgo` | `yabasanshiro-arm64-pgo`, `yabasanshiro-libretro`, `flycast-libretro-t3` | `standalone-yabasanshiro` plus Arm's GNU Toolchain 10.3-2021.07, a generic sysroot (its glibc 2.33, Khronos GLES headers, a stub libGLESv2) and the two builds' PGO profiles ([Saturn](#saturn-builds-spruceos-455)) |
 | `standalone-mini` | `pcsx_rearmed-mini`, `scummvm-mini` | the armhf base (Ubuntu 24.04) with steward-fu's Onion toolchain (GCC 8.3, glibc 2.28) |
 | `standalone-miyoomini` | `vtree-mini` | `aemiii91/miyoomini-toolchain`, by the digest its `latest` tag has had since 2026-01-20 |
 
@@ -110,6 +110,7 @@ Built against spruceOS `73bb91a19` (2026-10-11); "match" is byte for byte.
 |---|---|---|
 | `flycast-standalone` | `Emu/DC/flycast`, `lib64/` | 3 of 4 match; `libcrypto.so.1.1` differs only in OpenSSL's build date |
 | `flycast-standalone-t3-lto` | `Emu/DC/flycast`, `lib64/` of spruceOS `241c5b8d3` (4.5.5, local branch) | the same: 3 of 4 match |
+| `flycast-libretro-t3` | `RetroArch/.retroarch/cores64/flycast_libretro.so` of spruceOS `37eee6e9f` (4.5.5, local branch) | match |
 | `vtree-arm64`, `vtree-a30`, `vtree-mini` | `App/FileManagement/vtree.*`, `lib-A30/` | match |
 | `pcsx_rearmed-arm64`, `-a30`, `-mini` | `Emu/PS/pcsx_64`, `pcsx_a30`, `pcsx_mini`, the `libSDL-1.2.so.0` copies | match |
 | `moonlight` | `App/Moonlight/.../moonlight` and 32 libraries | match |
@@ -149,6 +150,16 @@ outside this repository). A compiler wrapper puts the flags last on every call a
 what Ubuntu's cross GCC does by default (PIE, `--as-needed`), so the binary needs the
 same libraries as before and glibc 2.30 at most. It was first built in the research
 record `20261014-0002-flycast-sa-fanout` and reproduces it byte for byte.
+
+`flycast-libretro-t3` is the `RetroArch/.retroarch/cores64/flycast_libretro.so`
+spruceOS 4.5.5 ships, the Dreamcast, NAOMI and Atomiswave default on every 64-bit
+device but the Pixel 2. It is Flycast v2.6 with GLES and Vulkan as before, built with
+the same Arm toolchain at CMake's Release flags instead of Ubuntu 20.04's GCC 9.4,
+and picked by the same benchmarks. It links that toolchain's glibc, so devices need
+glibc 2.33. It was first built as `t3-rel` in the research record
+`20261013-1817-flycast-fanout-A5` with TrimUI's tg5050 SDK, whose compiler and glibc
+are Arm's. The recipe builds in `standalone-yabasanshiro-pgo`, which has them at the
+SDK's paths and the same CMake 4.4.3, and reproduces that core byte for byte.
 
 ## Saturn builds (spruceOS 4.5.5)
 
