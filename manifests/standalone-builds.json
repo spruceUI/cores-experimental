@@ -1591,6 +1591,75 @@
         }
       ]
     },
+    "mupen64plus-arm64-gliden64-egl-neon": {
+      "extends": "mupen64plus-arm64-gliden64-egl",
+      "description": "N64 benchmark arm E1: the -egl fix with GLideN64's ARM paths on (NEON_OPT, VEC4_OPT, CRC_NEON), the set its CMake enables for Android arm64 only.",
+      "steps": [
+        "set +u +o pipefail",
+        "cd /build && cp -r /wrapper/overlay /overlay",
+        "git -C /build/video-gliden64 config core.abbrev 7",
+        "export SDL_CFLAGS=\"$(pkg-config --cflags sdl2)\" SDL_LDLIBS=\"$(pkg-config --libs sdl2)\"",
+        "mkdir -p video-gliden64/src/build && cd video-gliden64/src/build",
+        "cmake .. -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_BUILD_TYPE=Release -DMUPENPLUSAPI=ON -DEGL=ON -DUSE_SYSTEM_LIBS=ON -DNEON_OPT=ON -DVEC4_OPT=ON -DCRC_NEON=ON \"-DCMAKE_C_FLAGS=$OPTFLAGS\" \"-DCMAKE_CXX_FLAGS=$OPTFLAGS\" \"-DCMAKE_EXE_LINKER_FLAGS=$LDFLAGS\" \"-DCMAKE_SHARED_LINKER_FLAGS=$LDFLAGS -Wl,--no-undefined\"",
+        "make -j\"$(nproc)\"",
+        "cd /build && mkdir -p /build/out && cp video-gliden64/src/build/plugin/Release/mupen64plus-video-GLideN64.so /build/out/"
+      ]
+    },
+    "mupen64plus-arm64-gliden64-egl-neon-a53": {
+      "extends": "mupen64plus-arm64-gliden64-egl-neon",
+      "description": "N64 benchmark arm E2: E1 tuned with -mcpu=cortex-a53 (the bench SoCs are Cortex-A53/A55).",
+      "env": {
+        "CC": "aarch64-linux-gnu-gcc",
+        "CXX": "aarch64-linux-gnu-g++",
+        "AR": "aarch64-linux-gnu-ar",
+        "STRIP": "aarch64-linux-gnu-strip",
+        "PKG_CONFIG_PATH": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "OPTFLAGS": "-O3 -ffunction-sections -fdata-sections -flto=auto -mcpu=cortex-a53",
+        "LDFLAGS": "-Wl,--gc-sections -flto=auto -mcpu=cortex-a53",
+        "APIDIR": "/build/core/src/api"
+      }
+    },
+    "mupen64plus-arm64-gliden64-egl-crc8-a53": {
+      "extends": "mupen64plus-arm64-gliden64-egl",
+      "description": "N64 benchmark arm E3: NEON_OPT, VEC4_OPT and CRC_ARMV8 (the CRC32 instructions, in every bench board's cpuinfo) with -mcpu=cortex-a53.",
+      "steps": [
+        "set +u +o pipefail",
+        "cd /build && cp -r /wrapper/overlay /overlay",
+        "git -C /build/video-gliden64 config core.abbrev 7",
+        "export SDL_CFLAGS=\"$(pkg-config --cflags sdl2)\" SDL_LDLIBS=\"$(pkg-config --libs sdl2)\"",
+        "mkdir -p video-gliden64/src/build && cd video-gliden64/src/build",
+        "cmake .. -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_BUILD_TYPE=Release -DMUPENPLUSAPI=ON -DEGL=ON -DUSE_SYSTEM_LIBS=ON -DNEON_OPT=ON -DVEC4_OPT=ON -DCRC_ARMV8=ON \"-DCMAKE_C_FLAGS=$OPTFLAGS\" \"-DCMAKE_CXX_FLAGS=$OPTFLAGS\" \"-DCMAKE_EXE_LINKER_FLAGS=$LDFLAGS\" \"-DCMAKE_SHARED_LINKER_FLAGS=$LDFLAGS -Wl,--no-undefined\"",
+        "make -j\"$(nproc)\"",
+        "cd /build && mkdir -p /build/out && cp video-gliden64/src/build/plugin/Release/mupen64plus-video-GLideN64.so /build/out/"
+      ],
+      "env": {
+        "CC": "aarch64-linux-gnu-gcc",
+        "CXX": "aarch64-linux-gnu-g++",
+        "AR": "aarch64-linux-gnu-ar",
+        "STRIP": "aarch64-linux-gnu-strip",
+        "PKG_CONFIG_PATH": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "OPTFLAGS": "-O3 -ffunction-sections -fdata-sections -flto=auto -mcpu=cortex-a53",
+        "LDFLAGS": "-Wl,--gc-sections -flto=auto -mcpu=cortex-a53",
+        "APIDIR": "/build/core/src/api"
+      }
+    },
+    "mupen64plus-arm64-gliden64-egl-neon-a53-pgogen": {
+      "extends": "mupen64plus-arm64-gliden64-egl-neon-a53",
+      "description": "N64 benchmark arm E4 training build: E2 with -fprofile-generate; .gcda files land under GCOV_PREFIX at a clean exit. Profiling only, never benched or shipped.",
+      "env": {
+        "CC": "aarch64-linux-gnu-gcc",
+        "CXX": "aarch64-linux-gnu-g++",
+        "AR": "aarch64-linux-gnu-ar",
+        "STRIP": "aarch64-linux-gnu-strip",
+        "PKG_CONFIG_PATH": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "PKG_CONFIG_LIBDIR": "/usr/lib/aarch64-linux-gnu/pkgconfig",
+        "OPTFLAGS": "-O3 -ffunction-sections -fdata-sections -flto=auto -mcpu=cortex-a53 -fprofile-generate -fprofile-update=atomic",
+        "LDFLAGS": "-Wl,--gc-sections -flto=auto -mcpu=cortex-a53 -fprofile-generate -fprofile-update=atomic",
+        "APIDIR": "/build/core/src/api"
+      }
+    },
     "dsperate-a30": {
       "description": "DSperate v3.0.3: Emu/NDS/dsperate.a30 on the Miyoo A30. Built as spruceUI/DSperate-spruce@9a5bcbc build-a30.sh does: A30 GCC 13.2 with its glibc 2.23 sysroot and that sysroot's SDL2, static libstdc++, in its paths. It embeds no build time; the configs are the 64-bit build's",
       "source": {
