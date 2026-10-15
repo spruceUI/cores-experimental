@@ -1,0 +1,49 @@
+Generated from spruceUI/mupen64plus-spruce@5b100cef (local branch fix/gliden64-gles-powervr, unpushed):
+patches/universal/gliden64_egl_proc.py, its change to video-gliden64 over patch 6 (2026-10-15, SPR-MED-258).
+
+diff --git a/src/Graphics/OpenGLContext/GLFunctions.cpp b/src/Graphics/OpenGLContext/GLFunctions.cpp
+index 1a6b8f6..052c7df 100644
+--- a/src/Graphics/OpenGLContext/GLFunctions.cpp
++++ b/src/Graphics/OpenGLContext/GLFunctions.cpp
+@@ -14,9 +14,39 @@
+ 
+ #elif defined(EGL)
+ 
++#include <cstdio>
++#include <cstring>
++#include <dlfcn.h>
++
++// EGL 1.4 promises eglGetProcAddress only for extensions: without EGL 1.5 or
++// EGL_KHR_get_all_proc_addresses, take core entry points from the GLES library, as SDL does.
++static void * eglProcAddress(const char * name)
++{
++	static int allFromEgl = -1;
++	static void * gles = nullptr;
++	if (allFromEgl < 0) {
++		EGLDisplay dpy = eglGetCurrentDisplay();
++		const char * version = dpy != EGL_NO_DISPLAY ? eglQueryString(dpy, EGL_VERSION) : nullptr;
++		const char * extensions = dpy != EGL_NO_DISPLAY ? eglQueryString(dpy, EGL_EXTENSIONS) : nullptr;
++		int major = 0, minor = 0;
++		if (version != nullptr)
++			sscanf(version, "%d.%d", &major, &minor);
++		allFromEgl = (major > 1 || (major == 1 && minor >= 5) ||
++			(extensions != nullptr && strstr(extensions, "EGL_KHR_get_all_proc_addresses") != nullptr)) ? 1 : 0;
++		if (allFromEgl == 0)
++			gles = dlopen("libGLESv2.so.2", RTLD_NOW);
++		LOG(LOG_VERBOSE, "EGL %s: GL entry points from %s", version != nullptr ? version : "(no display)",
++			allFromEgl ? "eglGetProcAddress" : "libGLESv2.so.2, then eglGetProcAddress");
++	}
++	void * proc = gles != nullptr ? dlsym(gles, name) : nullptr;
++	if (proc == nullptr)
++		proc = reinterpret_cast<void *>(eglGetProcAddress(name));
++	return proc;
++}
++
+ #define glGetProcAddress eglGetProcAddress
+-#define GL_GET_PROC_ADR(proc_type, proc_name) ptr##proc_name = (proc_type) glGetProcAddress("gl"#proc_name)
+-#define GL_GET_PROC_ADR_EGL(proc_type, proc_name) ptr##proc_name = (proc_type) glGetProcAddress("egl"#proc_name)
++#define GL_GET_PROC_ADR(proc_type, proc_name) ptr##proc_name = (proc_type) eglProcAddress("gl"#proc_name)
++#define GL_GET_PROC_ADR_EGL(proc_type, proc_name) ptr##proc_name = (proc_type) eglProcAddress("egl"#proc_name)
+ 
+ #elif defined(OS_LINUX)
+ 

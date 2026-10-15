@@ -1,0 +1,16 @@
+Generated from spruceUI/mupen64plus-spruce@813af00f (local branch fix/gliden64-gles-powervr, unpushed):
+patches/universal/overlay_gliden64.py, its change to video-gliden64 over patch 4 (2026-10-15, SPR-MED-256).
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 8892a82..596d1e0 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -533,7 +533,7 @@ if(EGL)
+   add_definitions(
+     -DEGL
+   )
+-  set(OPENGL_LIBRARIES ${EGL_LIB} SDL2_ttf dl)
++  set(OPENGL_LIBRARIES ${EGL_LIB} GLESv2 SDL2 SDL2_ttf dl)
+ else(EGL)
+   find_package(OpenGL REQUIRED)
+ 

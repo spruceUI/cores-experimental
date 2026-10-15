@@ -1472,6 +1472,125 @@
         }
       }
     },
+    "mupen64plus-arm64-gliden64": {
+      "extends": "mupen64plus-arm64",
+      "description": "Control for SPR-MED-256/258: only the GLideN64 plugin of mupen64plus-arm64, built by that recipe's own steps; it must match what spruce ships (80589b9c) before the fix builds below mean anything.",
+      "steps": [
+        "set +u +o pipefail",
+        "cd /build && cp -r /wrapper/overlay /overlay",
+        "git -C /build/video-gliden64 config core.abbrev 7",
+        "export SDL_CFLAGS=\"$(pkg-config --cflags sdl2)\" SDL_LDLIBS=\"$(pkg-config --libs sdl2)\"",
+        "mkdir -p video-gliden64/src/build && cd video-gliden64/src/build",
+        "cmake .. -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_BUILD_TYPE=Release -DMUPENPLUSAPI=ON -DEGL=ON -DUSE_SYSTEM_LIBS=ON \"-DCMAKE_C_FLAGS=$OPTFLAGS\" \"-DCMAKE_CXX_FLAGS=$OPTFLAGS\" \"-DCMAKE_EXE_LINKER_FLAGS=$LDFLAGS\" \"-DCMAKE_SHARED_LINKER_FLAGS=$LDFLAGS\"",
+        "make -j\"$(nproc)\"",
+        "cd /build && mkdir -p /build/out && cp video-gliden64/src/build/plugin/Release/mupen64plus-video-GLideN64.so /build/out/"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/build/out/mupen64plus-video-GLideN64.so",
+            "to": "mupen64plus-video-GLideN64.so",
+            "strip": "-s"
+          },
+          {
+            "from": "/build/out/mupen64plus-video-GLideN64.so",
+            "to": "mupen64plus-video-GLideN64.so.debug"
+          }
+        ],
+        "spruce": {
+          "mupen64plus-video-GLideN64.so": "Emu/N64/mupen64plus/mupen64plus-video-GLideN64.so"
+        }
+      },
+      "shipped": {
+        "spruceos": "73bb91a19",
+        "files": {
+          "mupen64plus-video-GLideN64.so": "80589b9cf4eb6925c614c11ed13a61e71d73fb9b0eaf578cc1bc44bc99f3971e"
+        }
+      }
+    },
+    "mupen64plus-arm64-gliden64-link": {
+      "extends": "mupen64plus-arm64-gliden64",
+      "description": "SPR-MED-256 fix: the overlay's GLESv2 and SDL2 linked (patch 6, spruceUI/mupen64plus-spruce 813af00f, local) and -Wl,--no-undefined, so the plugin NEEDs every library it calls into.",
+      "patches": [
+        {
+          "diff": "patches/standalone/mupen64plus/1-sigusr1_save_and_quit-core.patch",
+          "dir": "/build/core"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/2-center_viewport-video-glide64mk2.patch",
+          "dir": "/build/video-glide64mk2"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/2-center_viewport-video-rice.patch",
+          "dir": "/build/video-rice"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/3-overlay_glide64mk2-video-glide64mk2.patch",
+          "dir": "/build/video-glide64mk2"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/4-overlay_gliden64-video-gliden64.patch",
+          "dir": "/build/video-gliden64"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/5-overlay_rice-video-rice.patch",
+          "dir": "/build/video-rice"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/6-gles_link-video-gliden64.patch",
+          "dir": "/build/video-gliden64"
+        }
+      ],
+      "steps": [
+        "set +u +o pipefail",
+        "cd /build && cp -r /wrapper/overlay /overlay",
+        "git -C /build/video-gliden64 config core.abbrev 7",
+        "export SDL_CFLAGS=\"$(pkg-config --cflags sdl2)\" SDL_LDLIBS=\"$(pkg-config --libs sdl2)\"",
+        "mkdir -p video-gliden64/src/build && cd video-gliden64/src/build",
+        "cmake .. -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_BUILD_TYPE=Release -DMUPENPLUSAPI=ON -DEGL=ON -DUSE_SYSTEM_LIBS=ON \"-DCMAKE_C_FLAGS=$OPTFLAGS\" \"-DCMAKE_CXX_FLAGS=$OPTFLAGS\" \"-DCMAKE_EXE_LINKER_FLAGS=$LDFLAGS\" \"-DCMAKE_SHARED_LINKER_FLAGS=$LDFLAGS -Wl,--no-undefined\"",
+        "make -j\"$(nproc)\"",
+        "cd /build && mkdir -p /build/out && cp video-gliden64/src/build/plugin/Release/mupen64plus-video-GLideN64.so /build/out/"
+      ],
+      "shipped": {}
+    },
+    "mupen64plus-arm64-gliden64-egl": {
+      "extends": "mupen64plus-arm64-gliden64-link",
+      "description": "SPR-MED-258 candidate: the -link build plus patch 7 (mupen64plus-spruce 5b100cef, local): without EGL 1.5 or EGL_KHR_get_all_proc_addresses (the PowerVR A133P stack), GL entry points come from libGLESv2.so.2 first.",
+      "patches": [
+        {
+          "diff": "patches/standalone/mupen64plus/1-sigusr1_save_and_quit-core.patch",
+          "dir": "/build/core"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/2-center_viewport-video-glide64mk2.patch",
+          "dir": "/build/video-glide64mk2"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/2-center_viewport-video-rice.patch",
+          "dir": "/build/video-rice"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/3-overlay_glide64mk2-video-glide64mk2.patch",
+          "dir": "/build/video-glide64mk2"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/4-overlay_gliden64-video-gliden64.patch",
+          "dir": "/build/video-gliden64"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/5-overlay_rice-video-rice.patch",
+          "dir": "/build/video-rice"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/6-gles_link-video-gliden64.patch",
+          "dir": "/build/video-gliden64"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/7-egl_proc-video-gliden64.patch",
+          "dir": "/build/video-gliden64"
+        }
+      ]
+    },
     "dsperate-a30": {
       "description": "DSperate v3.0.3: Emu/NDS/dsperate.a30 on the Miyoo A30. Built as spruceUI/DSperate-spruce@9a5bcbc build-a30.sh does: A30 GCC 13.2 with its glibc 2.23 sysroot and that sysroot's SDL2, static libstdc++, in its paths. It embeds no build time; the configs are the 64-bit build's",
       "source": {
