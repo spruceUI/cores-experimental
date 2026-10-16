@@ -93,8 +93,10 @@ too (`cores-<arch>-base-<id>.tar.gz`).
   statically; mpg123 built with `--with-cpu=arm_fpu` (NEON decoder, chosen at
   run time).
 - Standalone images (2026-10-12): one per spruceUI wrapper repository's build
-  environment, so each recipe reproduces what spruce ships. None is on the
-  release yet.
+  environment, so each recipe reproduces what spruce ships. On the release since
+  2026-10-16: `standalone-yabasanshiro` (v1), `standalone-yabasanshiro-pgo` (v2) and
+  `standalone-mupen64plus` (v1), the images behind the Saturn, Dreamcast libretro and
+  N64 builds spruceOS 4.5.5 ships. The others are on the build host only.
 - `standalone-yabasanshiro-pgo` (v2, 2026-10-14): `standalone-yabasanshiro` plus Arm's
   GNU Toolchain 10.3-2021.07 (TrimUI's tg5050 SDK ships the same files: every file
   and symlink matches), a generic sysroot (that toolchain's glibc 2.33, the Khronos
