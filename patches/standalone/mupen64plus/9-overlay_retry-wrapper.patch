@@ -1,4 +1,4 @@
-Generated from spruceUI/mupen64plus-spruce@cea5b79 (local branch fix/gliden64-gles-powervr, unpushed):
+Generated from spruceUI/mupen64plus-spruce@cea5b79 (branch fix/gliden64-gles-powervr):
 overlay/, its change over b3cbeb9 (2026-10-15: free a failed GL init, stop retrying after 30 frames).
 
 diff --git a/overlay/emu_frontend.c b/overlay/emu_frontend.c

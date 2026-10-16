@@ -1,4 +1,4 @@
-Generated from spruceUI/mupen64plus-spruce@5b100cef (local branch fix/gliden64-gles-powervr, unpushed):
+Generated from spruceUI/mupen64plus-spruce@5b100cef (branch fix/gliden64-gles-powervr):
 patches/universal/gliden64_egl_proc.py, its change to video-gliden64 over patch 6 (2026-10-15, SPR-MED-258).
 
 diff --git a/src/Graphics/OpenGLContext/GLFunctions.cpp b/src/Graphics/OpenGLContext/GLFunctions.cpp

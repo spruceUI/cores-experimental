@@ -108,10 +108,10 @@ Built against spruceOS `73bb91a19` (2026-10-11); "match" is byte for byte.
 | recipe | ships | result |
 |---|---|---|
 | `flycast-standalone` | `Emu/DC/flycast`, `lib64/` | 3 of 4 match; `libcrypto.so.1.1` differs only in OpenSSL's build date |
-| `flycast-standalone-t3-lto` | `Emu/DC/flycast`, `lib64/` of spruceOS `44076df37` (4.5.5, local branch) | the same: 3 of 4 match |
+| `flycast-standalone-t3-lto` | `Emu/DC/flycast`, `lib64/` of spruceOS `0ff044afa` (4.5.5, local branch) | the same: 3 of 4 match |
 | `yabasanshiro-standalone` | would replace `Emu/SATURN/yabasanshiro`, `lib64/` | built (2026-10-16); `lib64/` matches what spruce ships, the executable is a new build |
 | `mupen64plus-standalone` | would replace all of `Emu/N64/mupen64plus/` | built (2026-10-16); a new build, not shipped yet |
-| `flycast-libretro-t3` | `RetroArch/.retroarch/cores64/flycast_libretro.so` of spruceOS `c0435c735` (4.5.5, local branch) | match |
+| `flycast-libretro-t3` | `RetroArch/.retroarch/cores64/flycast_libretro.so` of spruceOS `20725e33f` (4.5.5, local branch) | match |
 | `vtree-arm64`, `vtree-a30`, `vtree-mini` | `App/FileManagement/vtree.*`, `lib-A30/` | match |
 | `pcsx_rearmed-arm64`, `-a30`, `-mini` | `Emu/PS/pcsx_64`, `pcsx_a30`, `pcsx_mini`, the `libSDL-1.2.so.0` copies | match |
 | `moonlight` | `App/Moonlight/.../moonlight` and 32 libraries | match |
@@ -119,8 +119,9 @@ Built against spruceOS `73bb91a19` (2026-10-11); "match" is byte for byte.
 | `dsperate-arm64`, `dsperate-a30` | `Emu/NDS/dsperate`, `dsperate.a30` | match |
 | `ppsspp-h700`, `-a30`, `-flip`, `-rgb30`, `-trimui`, `-smartpros` | `Emu/PSP/PPSSPPSDL_*` | match |
 | `yabasanshiro-arm64` | `Emu/SATURN/yabasanshiro`, `lib64/` | match |
-| `yabasanshiro-arm64-pgo` | `Emu/SATURN/yabasanshiro`, `lib64/` of spruceOS `da37a290e` (4.5.5) | match |
-| `yabasanshiro-libretro` | `RetroArch/.retroarch/cores64/yabasanshiro_generic_libretro.so` of spruceOS `da37a290e` (4.5.5) | match |
+| `yabasanshiro-arm64-pgo` | `Emu/SATURN/yabasanshiro`, `lib64/` of spruceOS `278cda561` (4.5.5, local branch) | match |
+| `yabasanshiro-libretro` | `RetroArch/.retroarch/cores64/yabasanshiro_generic_libretro.so` of spruceOS `278cda561` (4.5.5, local branch) | match |
+| `mupen64plus-arm64-gliden64-ovl` | `Emu/N64/mupen64plus/mupen64plus-video-GLideN64.so` of spruceOS `85f8261d2` (4.5.5, local branch) | match |
 | `mupen64plus-arm64-20260404`, `mupen64plus-arm64` | `Emu/N64/mupen64plus/`: frontend, core, audio, input and RSP plugins from the first, video plugins and overlay settings from the second | match |
 | `mupen64plus-a30` | `Emu/N64/mupen64plus-a30/` | match |
 | `scummvm-a30`, `scummvm-mini` | `Emu/SCUMMVM/scummvm.a30`, `scummvm.mini` and its 96 plugins (inside spruceOS's 7z files), `liba30/`, `fixjoy`, `libmini/libfluidlite.so` | match |
@@ -193,7 +194,7 @@ both Flycast recipes byte for byte as v1 and `standalone-flycast-t3` did.
 
 ## Saturn builds (spruceOS 4.5.5)
 
-spruceOS 4.5.5 (branch `feat/opt-defaults-4.5.5`, `da37a290e`) ships two Saturn
+spruceOS 4.5.5 (branch `feat/saturn-series`, `278cda561`) ships two Saturn
 builds picked by device benchmarks. Both were first built for those benchmarks, in
 the research records `20261013-1113-yabasanshiro-rbgfix` and
 `20261013-1351-saturn-sa-pgo-rbgfix` (outside this repository); these recipes

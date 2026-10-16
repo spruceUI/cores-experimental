@@ -209,8 +209,8 @@
         ]
       },
       "shipped": {
-        "spruceos": "44076df37",
-        "note": "spruceOS feat/flycast-t3-lto (local); built first as t3-lto in the research record 20261014-0002-flycast-sa-fanout. libcrypto.so.1.1 differs only in OpenSSL's embedded build date, as for flycast-standalone",
+        "spruceos": "0ff044afa",
+        "note": "spruceOS feat/dreamcast-series (local); built first as t3-lto in the research record 20261014-0002-flycast-sa-fanout. libcrypto.so.1.1 differs only in OpenSSL's embedded build date, as for flycast-standalone",
         "files": {
           "flycast": "3fc30ddfe89f6655c356c32eecb081c34be15f2e63932126acd283c9283ec0d4",
           "lib64/libcurl.so.4": "07a17f0f376dc5767ec9a08088f74eea7020101c2863cf695584e3174b6a284f",
@@ -276,8 +276,8 @@
         ]
       },
       "shipped": {
-        "spruceos": "c0435c735",
-        "note": "spruceOS feat/flycast-t3-lto (local); built first as t3-rel in the research record 20261013-1817-flycast-fanout-A5, with TrimUI's tg5050 SDK (the same compiler; its glibc is Arm's)",
+        "spruceos": "20725e33f",
+        "note": "spruceOS feat/dreamcast-series (local); built first as t3-rel in the research record 20261013-1817-flycast-fanout-A5, with TrimUI's tg5050 SDK (the same compiler; its glibc is Arm's)",
         "files": {
           "flycast_libretro.so": "eff7ae729265114ee34b0063ae0c4a3408133688bb9eea3de7fc7a0a7013aa23"
         }
@@ -1168,8 +1168,8 @@
         "for so in /build/out/libs/*.so*; do aarch64-linux-gnu-strip -s \"$so\" 2>/dev/null || true; done"
       ],
       "shipped": {
-        "spruceos": "da37a290e",
-        "note": "spruceOS feat/opt-defaults-4.5.5 (local); built first as t3-o3-lto-fix-nopragma-pgo-all4-boot-rbgfix in the Saturn research record 20261013-1351-saturn-sa-pgo-rbgfix. libboost_filesystem.so.1.71.0 sits in spruce/flip/lib, as for yabasanshiro-arm64",
+        "spruceos": "278cda561",
+        "note": "spruceOS feat/saturn-series (local); built first as t3-o3-lto-fix-nopragma-pgo-all4-boot-rbgfix in the Saturn research record 20261013-1351-saturn-sa-pgo-rbgfix. libboost_filesystem.so.1.71.0 sits in spruce/flip/lib, as for yabasanshiro-arm64",
         "files": {
           "yabasanshiro": "059cdbbf788ed3015274a3977c083d7aa69537aa4353796a4c230b16cd8c924a",
           "libs/libpng16.so.16": "14ba485f3a55c36893f372831d0445f78fc64f26073a8d7374dc89ac50b95edc",
@@ -1357,8 +1357,8 @@
         "forbidden": []
       },
       "shipped": {
-        "spruceos": "da37a290e",
-        "note": "spruceOS feat/opt-defaults-4.5.5 (local); built first as rbgfix-t3-o3-generic-lto-fix-nopragma-pgo-all-boot in the Saturn research record 20261013-1113-yabasanshiro-rbgfix",
+        "spruceos": "278cda561",
+        "note": "spruceOS feat/saturn-series (local); built first as rbgfix-t3-o3-generic-lto-fix-nopragma-pgo-all-boot in the Saturn research record 20261013-1113-yabasanshiro-rbgfix",
         "files": {
           "yabasanshiro_generic_libretro.so": "454f2e5977d8b70aaba9e6b8cd67541edc65c81474d1908dfb92008e289af601"
         }
@@ -1746,7 +1746,14 @@
           "diff": "patches/standalone/mupen64plus/9-overlay_retry-wrapper.patch",
           "dir": "/wrapper"
         }
-      ]
+      ],
+      "shipped": {
+        "spruceos": "85f8261d2",
+        "note": "spruceOS feat/n64-series (local); built first in the record 20261015-2004-gliden64-overlay-fix",
+        "files": {
+          "mupen64plus-video-GLideN64.so": "ffbf531b00558eecc94d68182b99b10780e19a2beffa3d9a6174f8685d28c46f"
+        }
+      }
     },
     "mupen64plus-arm64-gliden64-egl-neon": {
       "extends": "mupen64plus-arm64-gliden64-egl",

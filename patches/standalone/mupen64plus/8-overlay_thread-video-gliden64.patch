@@ -1,4 +1,4 @@
-Generated from spruceUI/mupen64plus-spruce@cbff82e (local branch fix/gliden64-gles-powervr, unpushed):
+Generated from spruceUI/mupen64plus-spruce@cbff82e (branch fix/gliden64-gles-powervr):
 patches/universal/overlay_gliden64.py, its change to video-gliden64 over patch 7 (2026-10-15, the ThreadedVideo overlay leak).
 
 diff --git a/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_WrappedFunctions.h b/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_WrappedFunctions.h
