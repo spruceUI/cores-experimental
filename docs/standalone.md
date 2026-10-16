@@ -56,14 +56,13 @@ from pinned parts (`Dockerfile.standalone.<name>`, loaded by `manifests/toolchai
 
 | image | used by | built on |
 |---|---|---|
-| `arm64-standalone` | `flycast-standalone` | the arm64 image, with OpenSSL, curl and SDL2 built in |
+| `arm64-standalone` (v2) | `flycast-standalone`, `flycast-standalone-t3-lto`, `yabasanshiro-standalone`, `mupen64plus-standalone` | the arm64 image, with OpenSSL, curl and SDL2 built in (v1); v2 adds Arm's GNU Toolchain 10.3-2021.07 at `/opt/arm-gnu-10.3`, focal's arm64 boost, freetype and EGL, and a link-only SDL2 2.28.5 and SDL2_ttf 2.0.15 in `/opt/standalone-deps-arm64` ([Saturn and N64](#saturn-and-n64-the-way-flycast-builds)) |
 | `standalone-vtree`, `-pcsx_rearmed`, `-moonlight`, `-gl4es`, `-ppsspp`, `-mupen64plus`, `-scummvm` | the 64-bit build of that emulator (`gl4es`: BigPEmu; `ppsspp`: H700) | the pinned arm64 base plus the wrapper's package list |
 | `standalone-dsperate`, `standalone-yabasanshiro` | `dsperate-arm64`, `yabasanshiro-arm64` | the same, plus the Kitware CMake release the wrapper's build used |
 | `standalone-armhf` | every `-a30` recipe | the pinned armhf base (the A30 GCC 13.2 toolchain and its glibc 2.23 sysroot) plus the tools the wrappers' `Dockerfile.a30` install |
 | `standalone-flip` | `ppsspp-flip`, `ppsspp-rgb30` | Debian bookworm (by digest) with steward-fu's Flip toolchain (GCC 13.3) |
 | `standalone-trimui` | `ppsspp-trimui` | the arm64 base's GCC 9.4 over Linaro 7.5's glibc and TrimUI's tg5040 SDK |
 | `standalone-tsps` | `ppsspp-smartpros` | the compiler and sysroot of TrimUI's tg5050 SDK (GCC 10.3) |
-| `standalone-flycast-t3` | `flycast-standalone-t3-lto` | `arm64-standalone` plus Arm's GNU Toolchain 10.3-2021.07 at `/opt/arm-gnu-10.3` |
 | `standalone-yabasanshiro-pgo` | `yabasanshiro-arm64-pgo`, `yabasanshiro-libretro`, `flycast-libretro-t3` | `standalone-yabasanshiro` plus Arm's GNU Toolchain 10.3-2021.07, a generic sysroot (its glibc 2.33, Khronos GLES headers, a stub libGLESv2) and the two builds' PGO profiles ([Saturn](#saturn-builds-spruceos-455)) |
 | `standalone-mini` | `pcsx_rearmed-mini`, `scummvm-mini` | the armhf base (Ubuntu 24.04) with steward-fu's Onion toolchain (GCC 8.3, glibc 2.28) |
 | `standalone-miyoomini` | `vtree-mini` | `aemiii91/miyoomini-toolchain`, by the digest its `latest` tag has had since 2026-01-20 |
@@ -110,6 +109,8 @@ Built against spruceOS `73bb91a19` (2026-10-11); "match" is byte for byte.
 |---|---|---|
 | `flycast-standalone` | `Emu/DC/flycast`, `lib64/` | 3 of 4 match; `libcrypto.so.1.1` differs only in OpenSSL's build date |
 | `flycast-standalone-t3-lto` | `Emu/DC/flycast`, `lib64/` of spruceOS `44076df37` (4.5.5, local branch) | the same: 3 of 4 match |
+| `yabasanshiro-standalone` | would replace `Emu/SATURN/yabasanshiro`, `lib64/` | built (2026-10-16); `lib64/` matches what spruce ships, the executable is a new build |
+| `mupen64plus-standalone` | would replace all of `Emu/N64/mupen64plus/` | built (2026-10-16); a new build, not shipped yet |
 | `flycast-libretro-t3` | `RetroArch/.retroarch/cores64/flycast_libretro.so` of spruceOS `c0435c735` (4.5.5, local branch) | match |
 | `vtree-arm64`, `vtree-a30`, `vtree-mini` | `App/FileManagement/vtree.*`, `lib-A30/` | match |
 | `pcsx_rearmed-arm64`, `-a30`, `-mini` | `Emu/PS/pcsx_64`, `pcsx_a30`, `pcsx_mini`, the `libSDL-1.2.so.0` copies | match |
@@ -160,6 +161,35 @@ glibc 2.33. It was first built as `t3-rel` in the research record
 `20261013-1817-flycast-fanout-A5` with TrimUI's tg5050 SDK, whose compiler and glibc
 are Arm's. The recipe builds in `standalone-yabasanshiro-pgo`, which has them at the
 SDK's paths and the same CMake 4.4.3, and reproduces that core byte for byte.
+
+## Saturn and N64 the way Flycast builds
+
+`yabasanshiro-standalone` and `mupen64plus-standalone` build the Saturn and N64
+standalones the way Flycast's are built: in `arm64-standalone`, from sources and
+patches in this repository, with Arm's GNU Toolchain 10.3-2021.07, the compiler the
+shipped Flycast and Saturn builds use (the same wrapper as `flycast-standalone-t3-lto`,
+over focal's arm64 packages). Neither needs its spruceUI wrapper repository; the
+reproductions of what those repositories built stay as `yabasanshiro-arm64` and the
+`mupen64plus-*` recipes.
+
+- **`yabasanshiro-standalone`**: the source and patches of `yabasanshiro-arm64-pgo`
+  (spruceOS 4.5.5), `-O3 -flto`, plus `json-local.patch`: nlohmann/json v3.2.0 is a
+  pinned checkout instead of the GitHub zip the build downloaded unpinned. No PGO:
+  that recipe's profiles were trained on its own build, so this one needs a new
+  training run before it can match it. `lib64/` keeps the three focal libraries the
+  wrapper bundled (libpng16, zlib, boost filesystem), byte for byte the files spruce
+  ships.
+- **`mupen64plus-standalone`**: the frontend, core and all six plugins from one set of
+  sources (each Mupen64Plus repository at its 2026-09-11 master, GLideN64 `c8ef81c`),
+  where spruce ships a mix of two builds. Patches 1-8: save and quit, the centred
+  viewport, the overlay hooks and the 2026-10-15 GLideN64 fixes. The overlay menu's
+  sources are in `patches/standalone/mupen64plus/overlay/` (mupen64plus-spruce
+  `cbff82e`, which includes patch 9's fix). The wrapper's `-O3 -flto=auto`.
+
+Both link SDL2 2.28.5 (the lowest any 64-bit device has) instead of focal's 2.0.10;
+YabaSanshiro configures with the arm64 image's CMake, not Kitware's 4.4.3. Neither is
+tested on devices yet. The A30 builds stay on their wrapper recipes. v2 still builds
+both Flycast recipes byte for byte as v1 and `standalone-flycast-t3` did.
 
 ## Saturn builds (spruceOS 4.5.5)
 

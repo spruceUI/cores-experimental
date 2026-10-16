@@ -37,12 +37,12 @@
     },
     "arm64-standalone": {
       "image": "cores-arm64-standalone:v2",
-      "image_id": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "image_id": "sha256:6b659a1984d3e1a12514de32a3c93c8ee6ce4f2dc731cce05810b0cabe6f518e",
       "host_cc": "aarch64-linux-gnu",
       "archive": {
         "name": "cores-arm64-standalone-v2.tar.gz",
-        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-        "size": 0
+        "sha256": "f7b1b4757a8ba34104fd4baf51f1eff2a25d671afda946dd32edfc924cce3b74",
+        "size": 878281170
       },
       "dockerfile": "Dockerfile.arm64.standalone.v2"
     },

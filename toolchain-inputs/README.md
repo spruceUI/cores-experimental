@@ -9,7 +9,7 @@ on the `toolchains` release; a build refuses to run on any other image.
 | arm64 | `538411e2759c` | `cores-arm64.tar.gz` | `Dockerfile.arm64` on base `c9c1332ce018` |
 | armhf | `3c5f1e9c40cb` (v4) | `cores-armhf-v4.tar.gz` | `Dockerfile.armhf` on base `6ac154886195` |
 | rust | `aa42a12ced6b` | `cores-rust.tar.gz` | `Dockerfile.rust` (on Ubuntu, no base) |
-| arm64-standalone | `c630f837fad0` (v1) | `cores-arm64-standalone-v1.tar.gz` | `Dockerfile.arm64.standalone` on the arm64 image `538411e2759c` ([standalone emulators](../docs/standalone.md)) |
+| arm64-standalone | `6b659a1984d3` (v2) | `cores-arm64-standalone-v2.tar.gz` | `Dockerfile.arm64.standalone.v2` on v1 `c630f837fad0` (`Dockerfile.arm64.standalone` on the arm64 image `538411e2759c`, `cores-arm64-standalone-v1.tar.gz`) ([standalone emulators](../docs/standalone.md)) |
 | standalone-* | see `manifests/toolchains.json` | `cores-standalone-<name>-v1.tar.gz` | `Dockerfile.standalone.<name>`, one per spruceUI wrapper build environment, on base `c9c1332ce018` or `6ac154886195` (Flip: Debian bookworm by digest) |
 
 `cores-armhf.tar.gz` (armhf v2, `393a23661c41`) stays on the release because
@@ -32,7 +32,8 @@ archive name.
   the base by image ID and add the pinned tarballs in this folder (CMake, inih,
   libpng, easyrpg's static dependencies). Every input is checked against a
   sha256 in its Dockerfile. `Dockerfile.arm64.standalone` starts from the arm64
-  toolchain image itself and adds OpenSSL, curl and SDL2 from this folder.
+  toolchain image itself and adds OpenSSL, curl and SDL2 from this folder. `Dockerfile.arm64.standalone.v2` starts from
+  that image (v1) and adds Arm's GNU Toolchain 10.3 and the Saturn and N64 dependencies.
 - **Rust image** (`Dockerfile.rust`): Ubuntu by digest plus pinned tarballs.
 
 Inputs that are too large for git, each sha256-checked by its Dockerfile:
@@ -44,7 +45,7 @@ Inputs that are too large for git, each sha256-checked by its Dockerfile:
 | `flip-toolchain-v1.0.tar.gz` | `Dockerfile.standalone.flip` | https://github.com/steward-fu/website/releases/download/miyoo-flip/flip-toolchain-v1.0.tar.gz |
 | `aarch64-linux-gnu-7.5.0-linaro.tgz`, `SDK_usr_tg5040_a133p.tgz` | `Dockerfile.standalone.trimui` | spruceUI/PPSSPP-spruce's `sdk-toolchains` release |
 | `sdk_tg5050_linux_v1.0.0.tgz` (1.1 GB) | `Dockerfile.standalone.tsps` | spruceUI/PPSSPP-spruce's `sdk-toolchains` release |
-| `gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz` (116 MB) | `Dockerfile.standalone.yabasanshiro-pgo`, `Dockerfile.standalone.flycast-t3` | https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz |
+| `gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz` (116 MB) | `Dockerfile.standalone.yabasanshiro-pgo`, `Dockerfile.arm64.standalone.v2` | https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz |
 | `onion_toolchain.tar.gz` | `Dockerfile.standalone.mini` | https://github.com/steward-fu/website/releases/download/miyoo-mini/onion_toolchain.tar.gz |
 
 ## Changing a toolchain image
@@ -102,5 +103,9 @@ too (`cores-<arch>-base-<id>.tar.gz`).
   `standalone-t3/`, four). The Dockerfile checks every input's sha256
   ([Saturn builds](../docs/standalone.md#saturn-builds-spruceos-455)). Its build context
   needs Arm's tarball, `khronos-gles/` and `yabasanshiro-pgo/`; no TrimUI SDK.
-- `standalone-flycast-t3` (2026-10-14): `arm64-standalone` plus the same Arm toolchain at
-  `/opt/arm-gnu-10.3`, for `flycast-standalone-t3-lto`; its build context needs only the tarball.
+- `standalone-flycast-t3` (2026-10-14): `arm64-standalone` v1 plus the same Arm toolchain at
+  `/opt/arm-gnu-10.3`, for `flycast-standalone-t3-lto`. Folded into `arm64-standalone` v2.
+- `arm64-standalone` v2 (2026-10-16): v1 plus Arm's GNU Toolchain 10.3-2021.07 at `/opt/arm-gnu-10.3`,
+  focal's arm64 boost, freetype and EGL, and a link-only SDL2 2.28.5 and SDL2_ttf 2.0.15 (from focal's
+  packages, unpacked so focal's SDL2 never installs) in `/opt/standalone-deps-arm64`, for the Saturn and N64
+  standalones. Both Flycast recipes build in it byte for byte as before. Its build context needs Arm's tarball.
