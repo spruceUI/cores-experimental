@@ -99,7 +99,12 @@ jobs:
           dir="$RUNNER_TEMP/toolchains"
           for name in $TOOLCHAINS; do
             archive="$(python3 -c 'import json,sys; print(json.load(open("manifests/toolchains.json"))["toolchains"][sys.argv[1]]["archive"]["name"])' "$name")"
-            gh release download toolchains --pattern "$archive" --dir "$dir"
+            # The release CDN sometimes resets a connection; the size and sha256 check below still guards every archive.
+            for attempt in 1 2 3; do
+              gh release download toolchains --pattern "$archive" --dir "$dir" --clobber && break
+              [ "$attempt" -lt 3 ] || exit 1
+              echo "download of $archive failed (attempt $attempt of 3), retrying"; sleep $((attempt * 15))
+            done
           done
           python3 scripts/cores.py toolchains --dir "$dir" --names "$TOOLCHAINS"
           rm -rf "$dir"
