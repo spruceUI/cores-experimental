@@ -1,0 +1,26 @@
+Use the nlohmann/json v3.2.0 checkout the recipe pins at /build/json (cores-experimental), not the GitHub
+zip the build downloaded unpinned. The Json target stays: yabause-retro-arena depends on it.
+
+diff --git a/yabause/src/retro_arena/CMakeLists.txt b/yabause/src/retro_arena/CMakeLists.txt
+index 4c62c94..567c124 100644
+--- a/yabause/src/retro_arena/CMakeLists.txt
++++ b/yabause/src/retro_arena/CMakeLists.txt
+@@ -28,15 +28,10 @@ include( ${CMAKE_SOURCE_DIR}/CMake/Packages/external_libpng.cmake )
+ # nlohmann/json
+ #  * sets EXTERNAL_JSON_INCLUDE_DIR 
+ 
+-ExternalProject_Add(
+-     Json
+-     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/Json
+-     URL https://github.com/nlohmann/json/archive/v3.2.0.zip
+-     #disable following
+-     CONFIGURE_COMMAND "" BUILD_COMMAND "" INSTALL_DIR "" INSTALL_COMMAND ""
+-     )
++# v3.2.0 is checked out at /build/json by the build recipe, instead of a download at build time.
++add_custom_target(Json)
+ # set include directory
+-set(EXTERNAL_JSON_INCLUDE_DIR "${CMAKE_CURRENT_BINARY_DIR}/Json/src/Json/single_include")
++set(EXTERNAL_JSON_INCLUDE_DIR "/build/json/single_include")
+ 
+ set(PORT_INCLUDE_DIRS ${EXTERNAL_JSON_INCLUDE_DIR} ${SDL2_INCLUDE_DIR} ${png_INCLUDE_DIR} ${zlib_INCLUDE_DIR} )
+ set(PORT_LIBRARIES ${SDL2_LIBRARY} ${OPENGLES2_LIBRARIES} ${png_STATIC_LIBRARIES} ${zlib_STATIC_LIBRARIES} )

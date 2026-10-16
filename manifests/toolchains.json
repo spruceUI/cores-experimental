@@ -36,26 +36,15 @@
       "dockerfile": "Dockerfile.rust"
     },
     "arm64-standalone": {
-      "image": "cores-arm64-standalone:v1",
-      "image_id": "sha256:c630f837fad078ea0d34db3208247eaa820f056c245a5587572723ca6c68fe10",
+      "image": "cores-arm64-standalone:v2",
+      "image_id": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
       "host_cc": "aarch64-linux-gnu",
       "archive": {
-        "name": "cores-arm64-standalone-v1.tar.gz",
-        "sha256": "d0ced2077613d7a8ea6871c38a88f6ea5220431c8952477721c285fe5ef56932",
-        "size": 529469006
+        "name": "cores-arm64-standalone-v2.tar.gz",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "size": 0
       },
-      "dockerfile": "Dockerfile.arm64.standalone"
-    },
-    "standalone-flycast-t3": {
-      "image": "cores-standalone-flycast-t3:v1",
-      "image_id": "sha256:3adca3cc27410da13fb993d20c12a965c32ef781c4ccbb467e9a628d704a5675",
-      "host_cc": "aarch64-linux-gnu",
-      "archive": {
-        "name": "cores-standalone-flycast-t3-v1.tar.gz",
-        "sha256": "b0ca5e4432fc14f24bf18ae2d66e27415aa42b3fa068921309693fa480577f43",
-        "size": 835963619
-      },
-      "dockerfile": "Dockerfile.standalone.flycast-t3"
+      "dockerfile": "Dockerfile.arm64.standalone.v2"
     },
     "standalone-vtree": {
       "image": "cores-standalone-vtree:v1",

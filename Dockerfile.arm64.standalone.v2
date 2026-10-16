@@ -1,0 +1,60 @@
+# cores-arm64-standalone v2: v1 plus Arm's GNU Toolchain 10.3-2021.07 and what the Saturn and N64 standalones link,
+# so Flycast, YabaSanshiro and Mupen64Plus all build in this one image (docs/standalone.md). FROM v1 by ID: Flycast's
+# prefix, the arm64 image's compiler and every package v1 had stay as they were.
+FROM sha256:c630f837fad078ea0d34db3208247eaa820f056c245a5587572723ca6c68fe10
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Arm's GNU Toolchain 10.3-2021.07 (developer.arm.com, toolchain-inputs/README.md) at /opt/arm-gnu-10.3: the compiler
+# the shipped Flycast and Saturn standalones are built with. A real directory, as GCC resolves symlinked installs.
+COPY gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz SDL2-2.28.5.tar.gz /tmp/deps/
+RUN cd /tmp/deps && \
+    echo "1e33d53dea59c8de823bbdfe0798280bdcd138636c7060da9d77a97ded095a84  gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz" | sha256sum -c - && \
+    echo "332cb37d0be20cb9541739c61f79bae5a477427d79ae85e352089afdaf6666e4  SDL2-2.28.5.tar.gz" | sha256sum -c - && \
+    mkdir -p /opt/arm-gnu-10.3 && \
+    tar -xJf gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz -C /opt/arm-gnu-10.3 --strip-components=1 && \
+    rm gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz && \
+    test -x /opt/arm-gnu-10.3/bin/aarch64-none-linux-gnu-gcc
+
+# Focal arm64 packages (that archive no longer changes): boost for YabaSanshiro, which ships its filesystem library
+# as its wrapper did, and freetype and EGL for Mupen64Plus, which takes both from the device. SDL2_ttf only downloaded:
+# installing it would pull in focal's SDL2 2.0.10.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libboost-filesystem-dev:arm64 \
+    libboost-system-dev:arm64 \
+    libboost-date-time-dev:arm64 \
+    libboost-locale-dev:arm64 \
+    libboost-thread-dev:arm64 \
+    libfreetype6-dev:arm64 \
+    libegl1-mesa-dev:arm64 \
+    && cd /tmp/deps && apt-get download libsdl2-ttf-2.0-0:arm64=2.0.15+dfsg1-1 libsdl2-ttf-dev:arm64=2.0.15+dfsg1-1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# --- the ports' prefix --------------------------------------------------------
+# SDL2 2.28.5 LINK-ONLY, configured as v1 builds Flycast's (the lowest SDL2 on any 64-bit device), and SDL2_ttf
+# 2.0.15 LINK-ONLY from focal's packages. Neither is ever shipped: devices provide both.
+RUN cd /tmp/deps && export PREFIX=/opt/standalone-deps-arm64 && mkdir -p "$PREFIX" && \
+    mkdir sdl2 && tar -xzf SDL2-2.28.5.tar.gz -C sdl2 --strip-components=1 && \
+    cmake -S sdl2 -B sdl2-build -G "Unix Makefiles" \
+      -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 \
+      -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ \
+      -DCMAKE_FIND_ROOT_PATH="/usr/aarch64-linux-gnu;/usr" \
+      -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=BOTH \
+      -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+      -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$PREFIX" -DCMAKE_INSTALL_LIBDIR=lib \
+      -DSDL_SHARED=ON -DSDL_STATIC=OFF -DSDL_TEST=OFF -DSDL_RPATH=OFF \
+      -DSDL_OPENGL=ON -DSDL_OPENGLES=ON \
+      -DSDL_X11=OFF -DSDL_WAYLAND=OFF -DSDL_KMSDRM=OFF -DSDL_RPI=OFF -DSDL_VIVANTE=OFF \
+      -DSDL_ALSA=OFF -DSDL_PULSEAUDIO=OFF -DSDL_PIPEWIRE=OFF -DSDL_JACK=OFF -DSDL_SNDIO=OFF \
+      -DSDL_DBUS=OFF -DSDL_IBUS=OFF -DSDL_LIBUDEV=OFF -DSDL_HIDAPI=OFF && \
+    cmake --build sdl2-build -j"$(nproc)" && cmake --install sdl2-build && \
+    for deb in libsdl2-ttf-2.0-0_*_arm64.deb libsdl2-ttf-dev_*_arm64.deb; do dpkg -x "$deb" ttf; done && \
+    install -D -m 0644 ttf/usr/include/SDL2/SDL_ttf.h "$PREFIX/include/SDL2/SDL_ttf.h" && \
+    cp -a ttf/usr/lib/aarch64-linux-gnu/libSDL2_ttf*.so* "$PREFIX/lib/" && \
+    cd / && rm -rf /tmp/deps && \
+    aarch64-linux-gnu-readelf -d "$PREFIX/lib/libSDL2_ttf-2.0.so.0" | grep -E 'NEEDED|SONAME' && \
+    aarch64-linux-gnu-readelf -d "$PREFIX/lib/libSDL2-2.0.so.0" | grep NEEDED
+# --- end of the ports' prefix -------------------------------------------------
+
+# The package manifest, as the core images record it.
+RUN dpkg -l > /apt-manifest.txt
