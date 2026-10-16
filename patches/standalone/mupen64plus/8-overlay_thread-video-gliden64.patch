@@ -1,0 +1,107 @@
+Generated from spruceUI/mupen64plus-spruce@cbff82e (local branch fix/gliden64-gles-powervr, unpushed):
+patches/universal/overlay_gliden64.py, its change to video-gliden64 over patch 7 (2026-10-15, the ThreadedVideo overlay leak).
+
+diff --git a/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_WrappedFunctions.h b/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_WrappedFunctions.h
+index da2811a..6994b22 100644
+--- a/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_WrappedFunctions.h
++++ b/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_WrappedFunctions.h
+@@ -597,6 +597,39 @@ private:
+ 	GLint m_param;
+ };
+ 
++/* SpruceOS overlay: one overlay callback, run on the GL thread (synced, like the glGet* commands) */
++class SpruceOverlayCallCommand : public OpenGlCommand
++{
++public:
++	SpruceOverlayCallCommand() :
++		OpenGlCommand(true, false, "spruceOverlayCall")
++	{
++	}
++
++	static std::shared_ptr<OpenGlCommand> get(void (*fn)(void*), void* ctx)
++	{
++		static int poolId = OpenGlCommandPool::get().getNextAvailablePool();
++		auto ptr = getFromPool<SpruceOverlayCallCommand>(poolId);
++		ptr->set(fn, ctx);
++		return ptr;
++	}
++
++	void commandToExecute() override
++	{
++		m_fn(m_ctx);
++	}
++
++private:
++	void set(void (*fn)(void*), void* ctx)
++	{
++		m_fn = fn;
++		m_ctx = ctx;
++	}
++
++	void (*m_fn)(void*) = nullptr;
++	void* m_ctx = nullptr;
++};
++
+ class GlGetIntegervCommand : public OpenGlCommand
+ {
+ public:
+diff --git a/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_Wrapper.cpp b/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_Wrapper.cpp
+index 952c05e..75bec14 100644
+--- a/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_Wrapper.cpp
++++ b/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_Wrapper.cpp
+@@ -113,6 +113,14 @@ namespace opengl {
+ 	}
+ #endif
+ 
++	void FunctionWrapper::wrSpruceOverlayCall(void (*fn)(void*), void* ctx)
++	{
++		if (m_threaded_wrapper)
++			executeCommand(SpruceOverlayCallCommand::get(fn, ctx));
++		else
++			fn(ctx);
++	}
++
+ 	void FunctionWrapper::setThreadedMode(u32 _threaded)
+ 	{
+ #ifdef GL_DEBUG
+diff --git a/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_Wrapper.h b/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_Wrapper.h
+index 27210fa..a17d812 100644
+--- a/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_Wrapper.h
++++ b/src/Graphics/OpenGLContext/ThreadedOpenGl/opengl_Wrapper.h
+@@ -211,6 +211,8 @@ namespace opengl {
+ 		static void CoreVideo_GL_SetAttribute(m64p_GLattr attribute, int value);
+ 		static void CoreVideo_GL_GetAttribute(m64p_GLattr attribute, int *value);
+ 		static void CoreVideo_GL_SwapBuffers();
++		/* SpruceOS overlay: fn(ctx) on the GL thread (threaded) or here (not threaded) */
++		static void wrSpruceOverlayCall(void (*fn)(void*), void* ctx);
+ #else
+ 		//Windows GL context functions
+ 		static bool windowsStart();
+diff --git a/src/mupenplus/MupenPlusAPIImpl.cpp b/src/mupenplus/MupenPlusAPIImpl.cpp
+index e0980f4..e676d6e 100644
+--- a/src/mupenplus/MupenPlusAPIImpl.cpp
++++ b/src/mupenplus/MupenPlusAPIImpl.cpp
+@@ -9,10 +9,12 @@ extern "C" {
+ #include "emu_overlay_render.h"
+ extern EmuOvlRenderBackend* overlay_sdl_get_backend(void);
+ }
++#include <Graphics/OpenGLContext/ThreadedOpenGl/opengl_Wrapper.h>
+ 
+-/* Plugin ops callbacks for the overlay (C-compatible function pointers) */
++/* Plugin ops callbacks for the overlay (C-compatible function pointers). With ThreadedVideo the GL context
++ * lives on GLideN64's command thread, so the overlay's swaps and GL work go through FunctionWrapper. */
+ static void gliden64_swap_buffers(void) {
+-    CoreVideo_GL_SwapBuffers();
++    opengl::FunctionWrapper::CoreVideo_GL_SwapBuffers();
+ }
+ 
+ static void gliden64_cycle_aspect(void) {
+@@ -24,7 +26,7 @@ static EmuOvlRenderBackend* gliden64_get_render(void) {
+ }
+ 
+ static void gliden64_exec_on_video_thread(void (*fn)(void* ctx), void* ctx) {
+-    fn(ctx);
++    opengl::FunctionWrapper::wrSpruceOverlayCall(fn, ctx);
+ }
+ 
+ #include <DisplayWindow.h>

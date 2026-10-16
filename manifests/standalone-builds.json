@@ -1591,6 +1591,52 @@
         }
       ]
     },
+    "mupen64plus-arm64-gliden64-ovl": {
+      "extends": "mupen64plus-arm64-gliden64-egl",
+      "description": "The -egl fix plus the ThreadedVideo overlay leak fix (2026-10-15): patch 8 (mupen64plus-spruce cbff82e, local) runs the overlay's GL work and swaps on GLideN64's threaded GL thread; patch 9 (cea5b79, local, on the /wrapper overlay sources) frees a failed overlay init and stops retrying after 30 frames.",
+      "patches": [
+        {
+          "diff": "patches/standalone/mupen64plus/1-sigusr1_save_and_quit-core.patch",
+          "dir": "/build/core"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/2-center_viewport-video-glide64mk2.patch",
+          "dir": "/build/video-glide64mk2"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/2-center_viewport-video-rice.patch",
+          "dir": "/build/video-rice"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/3-overlay_glide64mk2-video-glide64mk2.patch",
+          "dir": "/build/video-glide64mk2"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/4-overlay_gliden64-video-gliden64.patch",
+          "dir": "/build/video-gliden64"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/5-overlay_rice-video-rice.patch",
+          "dir": "/build/video-rice"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/6-gles_link-video-gliden64.patch",
+          "dir": "/build/video-gliden64"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/7-egl_proc-video-gliden64.patch",
+          "dir": "/build/video-gliden64"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/8-overlay_thread-video-gliden64.patch",
+          "dir": "/build/video-gliden64"
+        },
+        {
+          "diff": "patches/standalone/mupen64plus/9-overlay_retry-wrapper.patch",
+          "dir": "/wrapper"
+        }
+      ]
+    },
     "mupen64plus-arm64-gliden64-egl-neon": {
       "extends": "mupen64plus-arm64-gliden64-egl",
       "description": "N64 benchmark arm E1: the -egl fix with GLideN64's ARM paths on (NEON_OPT, VEC4_OPT, CRC_NEON), the set its CMake enables for Android arm64 only.",

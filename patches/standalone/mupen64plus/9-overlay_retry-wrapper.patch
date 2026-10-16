@@ -1,0 +1,65 @@
+Generated from spruceUI/mupen64plus-spruce@cea5b79 (local branch fix/gliden64-gles-powervr, unpushed):
+overlay/, its change over b3cbeb9 (2026-10-15: free a failed GL init, stop retrying after 30 frames).
+
+diff --git a/overlay/emu_frontend.c b/overlay/emu_frontend.c
+index 13a1d48..12ac690 100644
+--- a/overlay/emu_frontend.c
++++ b/overlay/emu_frontend.c
+@@ -45,6 +45,9 @@ static EmuOvlConfig s_overlayConfig;
+ static bool s_overlayInitialized = false;
+ static bool s_overlayConfigLoaded = false;
+ static bool s_overlayConfigFailed = false;
++// GL init is retried per frame until the context is ready; past this many failures the overlay stays off
++#define OVERLAY_MAX_INIT_TRIES 30
++static int s_overlayInitTries = 0;
+ static char s_overlayJsonPath[512] = "";
+ static char s_overlayIniPath[512] = "";
+ static Uint8 s_prevHat = 0;
+@@ -1179,8 +1182,14 @@ static void overlay_ensure_init(int w, int h) {
+ 
+ 	s_pluginOps.exec_on_video_thread(overlay_init_on_gl_thread, &ctx);
+ 
+-	if (ctx.result != 0)
+-		return; // GL not ready yet, will retry next frame
++	if (ctx.result != 0) {
++		// GL not ready yet: retry next frame, but not forever
++		if (++s_overlayInitTries >= OVERLAY_MAX_INIT_TRIES) {
++			fprintf(stderr, "[Overlay] GL init failed %d times; overlay off for this session\n", s_overlayInitTries);
++			s_overlayConfigFailed = true;
++		}
++		return;
++	}
+ 
+ 	s_overlayInitialized = true;
+ 
+diff --git a/overlay/emu_overlay_sdl.c b/overlay/emu_overlay_sdl.c
+index e69c889..6879ec6 100644
+--- a/overlay/emu_overlay_sdl.c
++++ b/overlay/emu_overlay_sdl.c
+@@ -175,7 +175,9 @@ static GLuint link_program(GLuint vs, GLuint fs) {
+ // init / destroy
+ // ---------------------------------------------------------------------------
+ 
+-static int ovl_sdl_init(int screen_w, int screen_h) {
++static void ovl_sdl_destroy(void);
++
++static int ovl_sdl_init_once(int screen_w, int screen_h) {
+ 	ovl_load_gl3_procs();
+ 
+ 	// Use actual SDL window size if available (plugin may report render
+@@ -387,6 +389,15 @@ static void ovl_sdl_destroy(void) {
+ 	}
+ }
+ 
++// The frontend retries a failed init every frame: free what an earlier attempt left and what a failed one made
++static int ovl_sdl_init(int screen_w, int screen_h) {
++	ovl_sdl_destroy();
++	int r = ovl_sdl_init_once(screen_w, screen_h);
++	if (r != 0)
++		ovl_sdl_destroy();
++	return r;
++}
++
+ // ---------------------------------------------------------------------------
+ // capture_frame — grab current GL framebuffer into SDL surface
+ // ---------------------------------------------------------------------------
