@@ -1164,7 +1164,7 @@
         "cmake ../yabause -DCMAKE_TOOLCHAIN_FILE=../yabause/src/retro_arena/n2.cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS=-O3 -DCMAKE_CXX_FLAGS=-O3 -DYAB_PORTS=retro_arena -DYAB_WANT_ARM7=ON -DYAB_WANT_DYNAREC_DEVMIYAX=ON -DYAB_WANT_VULKAN=OFF -DYAB_WANT_OPENAL=OFF -DYAB_MULTIBUILD=OFF -DCMAKE_DISABLE_FIND_PACKAGE_GLUT=TRUE -DCMAKE_C_COMPILER=/tmp/wrap/gcc -DCMAKE_CXX_COMPILER=/tmp/wrap/g++ -DCMAKE_AR=\"${WRAP_CROSS}gcc-ar\" -DCMAKE_RANLIB=\"${WRAP_CROSS}gcc-ranlib\" -DCMAKE_ASM-ATT_COMPILER=\"${WRAP_CROSS}as\" -DCMAKE_LIBRARY_ARCHITECTURE=aarch64-linux-gnu -DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
         "make -j\"$(nproc)\"",
         "cd /build && mkdir -p /build/out/libs",
-        "cp \"$(find yabasanshiro/build -name yabasanshiro -type f -executable | head -1)\" /build/out/yabasanshiro && aarch64-linux-gnu-strip -s /build/out/yabasanshiro",
+        "cp \"$(find yabasanshiro/build -name yabasanshiro -type f -executable | head -1)\" /build/out/yabasanshiro && cp -p /build/out/yabasanshiro /build/out/yabasanshiro.unstripped && aarch64-linux-gnu-strip -s /build/out/yabasanshiro",
         "collect_deps() {\n    aarch64-linux-gnu-readelf -d \"$1\" 2>/dev/null | grep NEEDED | sed 's/.*\\[\\(.*\\)\\]/\\1/' | while read -r lib; do\n        [ -f \"/build/out/libs/$lib\" ] && continue\n        echo \"$lib\" | grep -qE \"$SKIP_LIBS\" && continue\n        src=$(find /usr/lib/aarch64-linux-gnu /lib/aarch64-linux-gnu -maxdepth 1 -name \"$lib\" 2>/dev/null | head -1)\n        if [ -n \"$src\" ]; then cp -L \"$src\" \"/build/out/libs/$lib\"; collect_deps \"/build/out/libs/$lib\"; else echo \"WARNING: $lib not found\"; fi\n    done\n}",
         "collect_deps /build/out/yabasanshiro",
         "for lib in /build/out/libs/*.so*; do collect_deps \"$lib\"; done",
@@ -1178,6 +1178,27 @@
           "libs/libpng16.so.16": "14ba485f3a55c36893f372831d0445f78fc64f26073a8d7374dc89ac50b95edc",
           "libs/libz.so.1": "f7421fde8036391750dc2b1dd7299a0a3305a93cb95846fcc381590f565215c1",
           "libs/libboost_filesystem.so.1.71.0": "7009501be2148ef0edb8955c31848082cb3605a232d9bd9678db62d4c5148f79"
+        }
+      },
+      "output": {
+        "files": [
+          {
+            "from": "/build/out/yabasanshiro",
+            "to": "yabasanshiro"
+          },
+          {
+            "from": "/build/out/yabasanshiro.unstripped",
+            "to": "symbols/yabasanshiro"
+          },
+          {
+            "from": "/build/out/libs",
+            "to": "libs",
+            "dir": true
+          }
+        ],
+        "spruce": {
+          "yabasanshiro": "Emu/SATURN/yabasanshiro",
+          "libs/": "Emu/SATURN/lib64/"
         }
       }
     },
