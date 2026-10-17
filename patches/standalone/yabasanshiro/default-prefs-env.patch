@@ -1,0 +1,123 @@
+diff --git a/yabause/src/retro_arena/Preference.cpp b/yabause/src/retro_arena/Preference.cpp
+index 1108c843..a0fd09b0 100644
+--- a/yabause/src/retro_arena/Preference.cpp
++++ b/yabause/src/retro_arena/Preference.cpp
+@@ -5,6 +5,10 @@
+ 
+ #define LOG printf
+ 
++// spruce: a defaults file (YB_DEFAULT_PREFS) sits under each game's settings. A key set in the menu (listed in
++// spruce_chosen), or a saved value other than the compiled default, wins; reading a key never saves a default.
++static const char * CHOSEN = "spruce_chosen";
++
+ Preference::Preference( const std::string & filename ){
+ 
+   std::string input_trace_filename;
+@@ -29,48 +33,75 @@ Preference::Preference( const std::string & filename ){
+     fin.close();
+   }catch ( json::exception& e ){
+   }
+-} 
++  if( !j.is_object() ) j = json::object();
++
++  const char * dpath = getenv("YB_DEFAULT_PREFS");
++  if( dpath != NULL && *dpath ){
++    try{
++      std::ifstream din( dpath );
++      din >> defaults;
++      din.close();
++    }catch ( json::exception& e ){
++    }
++    LOG("Preference: defaults %s\n", dpath );
++  }
++  if( !defaults.is_object() ) defaults = json::object();
++}
+ 
+ Preference::~Preference(){
++  save();
++}
++
++void Preference::save(){
+   std::ofstream out(this->filename);
+   out << j.dump(2);
+-  out.close();  
+-}   
++  out.close();
++}
++
++bool Preference::chosen( const std::string & key, const json & compiled ){
++  if( j.find(key) == j.end() ) return false;
++  if( j.find(CHOSEN) != j.end() && j[CHOSEN].is_array() ){
++    for( auto & k : j[CHOSEN] ) if( k == key ) return true;
++  }
++  return j[key] != compiled;  // older builds saved the compiled default on every read
++}
++
++void Preference::mark( const std::string & key ){
++  if( j.find(CHOSEN) == j.end() || !j[CHOSEN].is_array() ) j[CHOSEN] = json::array();
++  for( auto & k : j[CHOSEN] ) if( k == key ) return;
++  j[CHOSEN].push_back(key);
++}
+ 
+ int Preference::getInt( const std::string & key , int defaultv = 0  ){
+   try {
+-    LOG("Preference: getInt %s:%d\n", key.c_str() ,j[key].get<int>() );
+-    return j[key].get<int>();
++    if( chosen(key, defaultv) ) { LOG("Preference: getInt %s:%d\n", key.c_str(), j[key].get<int>() ); return j[key].get<int>(); }
++    if( defaults.find(key) != defaults.end() ) { LOG("Preference: getInt %s:%d (defaults)\n", key.c_str(), defaults[key].get<int>() ); return defaults[key].get<int>(); }
+   }catch ( json::type_error & e ){
+-    setInt( key , defaultv );
+   }
+ 
+-  LOG("Preference: fail to getInt %s and use defalut value %d\n", key.c_str(), defaultv);
++  LOG("Preference: getInt %s:%d (compiled default)\n", key.c_str(), defaultv);
+   return defaultv;
+ }
+ 
+ bool Preference::getBool( const std::string & key , bool defaultv = false ){
+   try {
+-    LOG("Preference: getBool %s:%d\n", key.c_str(),j[key].get<bool>() );
+-    return j[key].get<bool>();
++    if( chosen(key, defaultv) ) { LOG("Preference: getBool %s:%d\n", key.c_str(), j[key].get<bool>() ); return j[key].get<bool>(); }
++    if( defaults.find(key) != defaults.end() ) { LOG("Preference: getBool %s:%d (defaults)\n", key.c_str(), defaults[key].get<bool>() ); return defaults[key].get<bool>(); }
+   }catch ( json::type_error & e ){
+-    setBool( key , defaultv );
+   }
+ 
+-  LOG("Preference: fail to getBool %s and use defalut value %d\n", key.c_str(), defaultv);
++  LOG("Preference: getBool %s:%d (compiled default)\n", key.c_str(), defaultv);
+   return defaultv;
+ }
+ 
+ void Preference::setInt( const std::string & key , int value ){
+   j[key] = value;
+-  std::ofstream out(this->filename);
+-  out << j.dump(2);
+-  out.close();  
++  mark(key);
++  save();
+ }
+ 
+ void Preference::setBool( const std::string & key , bool value ){
+   j[key] = value;
+-  std::ofstream out(this->filename);
+-  out << j.dump(2);
+-  out.close();     
++  mark(key);
++  save();
+ }
+diff --git a/yabause/src/retro_arena/Preference.h b/yabause/src/retro_arena/Preference.h
+index ce2f8687..9c9bd6e4 100644
+--- a/yabause/src/retro_arena/Preference.h
++++ b/yabause/src/retro_arena/Preference.h
+@@ -36,5 +36,9 @@ public:
+ protected:
+   string filename;
+   json j;
++  json defaults;  // spruce: YB_DEFAULT_PREFS, read under the game's own settings
++  bool chosen( const string & key, const json & compiled );
++  void mark( const string & key );
++  void save();
+ 
+ };
+\ No newline at end of file
