@@ -1,0 +1,14 @@
+GLideN64's ShaderUtils.h uses std::string without <string>, which newer libstdc++ no longer pulls in.
+
+diff --git a/GLideN64/src/ShaderUtils.h b/GLideN64/src/ShaderUtils.h
+index 3377244..ef751e3 100644
+--- a/GLideN64/src/ShaderUtils.h
++++ b/GLideN64/src/ShaderUtils.h
+@@ -1,6 +1,7 @@
+ #ifndef SHADER_UTILS_H
+ #define SHADER_UTILS_H
+ 
++#include <string>
+ #include "OpenGL.h"
+ #include "Combiner.h"
+ 

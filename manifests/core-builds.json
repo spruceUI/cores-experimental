@@ -1277,7 +1277,25 @@
           "armhf": "classic_armv7_a7"
         },
         "source_dir": "km_ludicrousn64_2k22_xtreme_amped",
-        "submodules": false
+        "submodules": false,
+        "overlays": {
+          "arm64": [
+            {
+              "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/arm64-dynarec-build-fixes.patch"
+            },
+            {
+              "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/shaderutils-include-string.patch"
+            }
+          ],
+          "armhf": [
+            {
+              "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/arm64-dynarec-build-fixes.patch"
+            },
+            {
+              "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/shaderutils-include-string.patch"
+            }
+          ]
+        }
       },
       "metadata": {
         "artifact_name": "km_ludicrousn64_2k22_xtreme_amped_libretro.info",
@@ -1299,7 +1317,25 @@
             "armhf": "classic_armv7_a7"
           },
           "source_dir": "km_ludicrousn64_2k22_xtreme_amped",
-          "submodules": false
+          "submodules": false,
+          "overlays": {
+            "arm64": [
+              {
+                "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/arm64-dynarec-build-fixes.patch"
+              },
+              {
+                "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/shaderutils-include-string.patch"
+              }
+            ],
+            "armhf": [
+              {
+                "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/arm64-dynarec-build-fixes.patch"
+              },
+              {
+                "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/shaderutils-include-string.patch"
+              }
+            ]
+          }
         },
         "metadata": {
           "artifact_name": "km_ludicrousn64_2k22_xtreme_amped_libretro.info",
