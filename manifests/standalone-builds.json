@@ -1100,7 +1100,7 @@
     },
     "yabasanshiro-arm64-pgo": {
       "extends": "yabasanshiro-arm64",
-      "description": "YabaSanshiro standalone: Emu/SATURN/yabasanshiro on every 64-bit device from spruceOS 4.5.5. yabasanshiro-arm64 plus the AArch64 dynarec fix without the 2020 -O1 pragma, the compute-shader RBG fix, a YB_FRAMELIMIT switch, a YB_DEFAULT_PREFS defaults file under each game's settings, every pad axis sent unsigned (the 3D pad's centred stick), the 3D pad's L/R triggers following digital L/R when no analog trigger is bound, settings (keymap, per-game .config) in YB_CONFIG_DIR apart from the saves, save states in YB_STATE_DIR apart from the battery saves, a resume state saved on SIGUSR2 and loaded at launch (YB_AUTOSAVE, YB_AUTOLOAD; the process ends right after that save, with no teardown), and a teardown that stops the sound and VDP threads before freeing what they use (SIGUSR1 gets yabause's no-op handler), built with the tg5050 SDK's GCC 10.3 against the image's focal arm64 packages, with LTO and PGO",
+      "description": "YabaSanshiro standalone: Emu/SATURN/yabasanshiro on every 64-bit device from spruceOS 4.5.5. yabasanshiro-arm64 plus the AArch64 dynarec fix without the 2020 -O1 pragma, the compute-shader RBG fix, a YB_FRAMELIMIT switch, a YB_DEFAULT_PREFS defaults file under each game's settings, every pad axis sent unsigned (the 3D pad's centred stick), the 3D pad's L/R triggers following digital L/R when no analog trigger is bound, settings (keymap, per-game .config) in YB_CONFIG_DIR apart from the saves, save states in YB_STATE_DIR apart from the battery saves, a resume state saved on SIGUSR2 and loaded at launch (YB_AUTOSAVE, YB_AUTOLOAD; the process ends right after that save and a backup flush, with no teardown), and a teardown that stops the sound and VDP threads before freeing what they use (SIGUSR1 gets yabause's no-op handler), built with the tg5050 SDK's GCC 10.3 against the image's focal arm64 packages, with LTO and PGO",
       "toolchain": "standalone-yabasanshiro-pgo",
       "patches": [
         {
@@ -1143,7 +1143,7 @@
           "diff": "patches/standalone/yabasanshiro/sigusr2-save-and-quit.patch"
         },
         {
-          "diff": "patches/standalone/yabasanshiro/quit-after-save.patch"
+          "diff": "patches/standalone/yabasanshiro/quit-after-save-r2.patch"
         },
         {
           "diff": "patches/standalone/yabasanshiro/safe-teardown.patch"

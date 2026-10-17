@@ -1,5 +1,5 @@
 diff --git a/yabause/src/retro_arena/main.cpp b/yabause/src/retro_arena/main.cpp
-index 193184b..b259850 100644
+index 193184b..7b61f69 100644
 --- a/yabause/src/retro_arena/main.cpp
 +++ b/yabause/src/retro_arena/main.cpp
 @@ -519,7 +519,7 @@ int main(int argc, char** argv)
@@ -11,8 +11,12 @@ index 193184b..b259850 100644
      if( g_save_and_quit ){
        std::string auto_state = cdip != NULL ? yb_auto_state_path(state_dir, cdip->itemnum) : std::string();
        if( yb_save_on_quit(yb_env_on("YB_AUTOSAVE"), auto_state, autoload_pending) ){
-@@ -531,12 +531,9 @@ int main(int argc, char** argv)
+@@ -529,14 +529,13 @@ int main(int argc, char** argv)
+       }else{
+         printf("spruce: quit without saving (auto-save off, no item number, or the auto-load not run yet)\n");
        }
++      // spruce: an in-RAM backup (backup.bin not mapped) reaches the file here, as the teardown would have written it
++      YabFlushBackups();
        fflush(stdout);
        sync();
 -      glClearColor(0.0,0.0,0.0,1.0);
@@ -27,3 +31,17 @@ index 193184b..b259850 100644
      }
      // spruce: auto-load (YB_AUTOLOAD=1) the way the menu's load runs; no state, or a bad one, just boots the game
      if( autoload_pending ){
+diff --git a/yabause/src/yabause.c b/yabause/src/yabause.c
+index 8710406..0fd5a65 100644
+--- a/yabause/src/yabause.c
++++ b/yabause/src/yabause.c
+@@ -478,7 +478,8 @@ void YabFlushBackups(void)
+     else {
+       if (T123Save(BupRam, 0x10000, 1, bupfilename) != 0)
+         YabSetError(YAB_ERR_FILEWRITE, (void *)bupfilename);
+-      T1MemoryDeInit(BupRam);
++      // spruce: a flush keeps BupRam: the HLE BIOS calls this after every save (bios.c BiosBUPWrite), and freeing it
++      // here left the in-RAM backup in use after free; YabauseDeInit frees it
+     }
+   }
+   CartFlush();
