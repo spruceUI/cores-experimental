@@ -1100,7 +1100,7 @@
     },
     "yabasanshiro-arm64-pgo": {
       "extends": "yabasanshiro-arm64",
-      "description": "YabaSanshiro standalone: Emu/SATURN/yabasanshiro on every 64-bit device from spruceOS 4.5.5. yabasanshiro-arm64 plus the AArch64 dynarec fix without the 2020 -O1 pragma, the compute-shader RBG fix, a YB_FRAMELIMIT switch and a YB_DEFAULT_PREFS defaults file under each game's settings, built with the tg5050 SDK's GCC 10.3 against the image's focal arm64 packages, with LTO and PGO",
+      "description": "YabaSanshiro standalone: Emu/SATURN/yabasanshiro on every 64-bit device from spruceOS 4.5.5. yabasanshiro-arm64 plus the AArch64 dynarec fix without the 2020 -O1 pragma, the compute-shader RBG fix, a YB_FRAMELIMIT switch, a YB_DEFAULT_PREFS defaults file under each game's settings and every pad axis sent unsigned (the 3D pad's centred stick), built with the tg5050 SDK's GCC 10.3 against the image's focal arm64 packages, with LTO and PGO",
       "toolchain": "standalone-yabasanshiro-pgo",
       "patches": [
         {
@@ -1126,6 +1126,9 @@
         },
         {
           "diff": "patches/standalone/yabasanshiro/default-prefs-env.patch"
+        },
+        {
+          "diff": "patches/standalone/yabasanshiro/analog-unsigned.patch"
         }
       ],
       "env": {
