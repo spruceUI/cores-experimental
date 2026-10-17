@@ -7,8 +7,8 @@ the v4.5.4 stable release.
 ## Scope
 
 - The 30 recipes in [`manifests/standalone-builds.json`](manifests/standalone-builds.json) that have a
-  `shipped` record (`main` 67aa677). The other 9 recipes have no `shipped` record: spruce doesn't ship
-  what they build.
+  `shipped` record (`main` 67aa677, plus 46cb1d5's card path for libboost_filesystem). The other 9 recipes
+  have no `shipped` record: spruce doesn't ship what they build.
 - No core from [`manifests/core-builds.json`](manifests/core-builds.json). That catalog has no `shipped`
   records: none of its builds is recorded as shipping in spruce. A recipe joins this log when it gains a
   `shipped` record.
@@ -51,8 +51,8 @@ The first nightly built from v4.5.4: Development fa4e98962, workflow run 3811079
 | bigpemu | 134 | `Emu/JAGUAR/bigpemu/` | match |
 | dsperate-arm64 | 1 | `Emu/NDS/dsperate` | match |
 | ppsspp-h700 | 1 | `Emu/PSP/PPSSPPSDL_h700` | match |
-| yabasanshiro-arm64 | 4 | `Emu/SATURN/yabasanshiro` | match; libboost_filesystem.so.1.71.0 moved (it ships in `spruce/flip/lib/`) |
-| yabasanshiro-arm64-pgo | 4 | `Emu/SATURN/yabasanshiro` | not shipped (libpng16 and libz match; boost moved as above) |
+| yabasanshiro-arm64 | 4 | `Emu/SATURN/yabasanshiro` | match (libboost_filesystem.so.1.71.0 in `spruce/flip/lib/`) |
+| yabasanshiro-arm64-pgo | 4 | `Emu/SATURN/yabasanshiro` | not shipped (its 3 libraries match) |
 | yabasanshiro-libretro | 1 | `RetroArch/.retroarch/cores64/yabasanshiro_generic_libretro.so` | not shipped (the path is absent) |
 | mupen64plus-arm64 | 4 | `Emu/N64/mupen64plus/` video plugins + `overlay_settings.json` | match |
 | mupen64plus-arm64-gliden64 | 1 | `Emu/N64/mupen64plus/mupen64plus-video-GLideN64.so` | match |
@@ -134,8 +134,10 @@ byte-identical to the file at the same path in that nightly's Development commit
 - **mupen64plus-arm64:** its rice and glide64mk2 plugins and `overlay_settings.json` still match. Its GLideN64
   plugin is replaced.
 - **Replaced by newer recipes:** flycast-standalone's binary (its libraries still ship as flycast-standalone-t3-lto's),
-  yabasanshiro-arm64's binary (its libpng16 and libz still match), and mupen64plus-arm64-gliden64.
+  yabasanshiro-arm64's binary (its libraries still match), and mupen64plus-arm64-gliden64.
 - **Not built from this repository:** DSperate v3.0.4 (`Emu/NDS/dsperate`, `Emu/NDS/dsperate.a30`), since
   v4.5.5-20261015. dsperate-arm64 and dsperate-a30 record the earlier binaries.
-- **Out-of-date map:** yabasanshiro-arm64 and yabasanshiro-arm64-pgo map `libs/` to `Emu/SATURN/lib64/`, but
-  libboost_filesystem.so.1.71.0 ships in `spruce/flip/lib/`, as their `shipped` note says.
+- **Map fixed (46cb1d5):** the Saturn recipes mapped libboost_filesystem.so.1.71.0 with their library
+  folder to `Emu/SATURN/lib64/`, but spruce ships it in `spruce/flip/lib/`, as their `shipped` note says.
+  Each now gives that file its own card path, and it matches in all 21 nightlies. yabasanshiro-standalone got
+  the same fix.
