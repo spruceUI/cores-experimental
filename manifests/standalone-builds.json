@@ -209,8 +209,8 @@
         ]
       },
       "shipped": {
-        "spruceos": "0ff044afa",
-        "note": "spruceOS feat/dreamcast-series (local); built first as t3-lto in the research record 20261014-0002-flycast-sa-fanout. libcrypto.so.1.1 differs only in OpenSSL's embedded build date, as for flycast-standalone",
+        "spruceos": "e6bcaae8c",
+        "note": "spruceOS pr/interim-3-dreamcast (local); built first as t3-lto in the research record 20261014-0002-flycast-sa-fanout. libcrypto.so.1.1 differs only in OpenSSL's embedded build date, as for flycast-standalone",
         "files": {
           "flycast": "3fc30ddfe89f6655c356c32eecb081c34be15f2e63932126acd283c9283ec0d4",
           "lib64/libcurl.so.4": "07a17f0f376dc5767ec9a08088f74eea7020101c2863cf695584e3174b6a284f",
@@ -276,8 +276,8 @@
         ]
       },
       "shipped": {
-        "spruceos": "20725e33f",
-        "note": "spruceOS feat/dreamcast-series (local); built first as t3-rel in the research record 20261013-1817-flycast-fanout-A5, with TrimUI's tg5050 SDK (the same compiler; its glibc is Arm's)",
+        "spruceos": "d3f48c1cf",
+        "note": "spruceOS pr/interim-3-dreamcast (local); built first as t3-rel in the research record 20261013-1817-flycast-fanout-A5, with TrimUI's tg5050 SDK (the same compiler; its glibc is Arm's)",
         "files": {
           "flycast_libretro.so": "eff7ae729265114ee34b0063ae0c4a3408133688bb9eea3de7fc7a0a7013aa23"
         }
@@ -1748,8 +1748,8 @@
         }
       ],
       "shipped": {
-        "spruceos": "85f8261d2",
-        "note": "spruceOS feat/n64-series (local); built first in the record 20261015-2004-gliden64-overlay-fix",
+        "spruceos": "f21a6faa5",
+        "note": "spruceOS pr/interim-2-n64 (local); built first in the record 20261015-2004-gliden64-overlay-fix",
         "files": {
           "mupen64plus-video-GLideN64.so": "ffbf531b00558eecc94d68182b99b10780e19a2beffa3d9a6174f8685d28c46f"
         }
