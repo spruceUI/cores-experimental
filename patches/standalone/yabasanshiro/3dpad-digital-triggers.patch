@@ -1,0 +1,89 @@
+--- a/yabause/src/peripheral.c
++++ b/yabause/src/peripheral.c
+@@ -70,6 +70,7 @@
+ 	u32 key;
+ 	PerBaseConfig_struct * base;
+ 	void * controller;
++	int bound; // spruce: PerSetKey gave this control a key
+ } PerConfig_struct;
+ 
+ #define PERCB(func) ((void (*) (void *)) func)
+@@ -121,6 +122,20 @@
+ 
+ static void PerUpdateConfig(PerBaseConfig_struct * baseconfig, int nelems, void * controller);
+ 
++// spruce: a 3D pad trigger with no analog axis bound follows its digital L/R (00 released, FF pressed);
++// it used to rest at the 7F init value, read as half pressed
++static void Per3DPadDigitalTrigger(PerPad_struct * pad, u8 axis, int byte, u8 val)
++{
++   u32 i;
++
++   if (pad->perid != PER3DPAD)
++      return;
++   for (i = 0; i < perkeyconfigsize; i++)
++      if (perkeyconfig[i].controller == (void *)pad && perkeyconfig[i].base->name == axis && perkeyconfig[i].bound)
++         return;
++   ((PerAnalog_struct *)pad)->analogbits[byte] = val;
++}
++
+ //////////////////////////////////////////////////////////////////////////////
+ 
+ int PerInit(int coreid) {
+@@ -305,6 +320,7 @@
+ 
+ void PerPadRTriggerPressed(PerPad_struct * pad) {
+    *(pad->padbits + 1) &= 0x7F;
++   Per3DPadDigitalTrigger(pad, PERANALOG_AXIS3, 4, 0xFF);
+    SMPCLOG("Right Trigger\n");
+ }
+ 
+@@ -312,12 +328,14 @@
+ 
+ void PerPadRTriggerReleased(PerPad_struct * pad) {
+    *(pad->padbits + 1) |= ~0x7F;
++   Per3DPadDigitalTrigger(pad, PERANALOG_AXIS3, 4, 0x00);
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////
+ 
+ void PerPadLTriggerPressed(PerPad_struct * pad) {
+    *(pad->padbits + 1) &= 0xF7;
++   Per3DPadDigitalTrigger(pad, PERANALOG_AXIS4, 5, 0xFF);
+    SMPCLOG("Left Trigger\n");
+ }
+ 
+@@ -325,6 +343,7 @@
+ 
+ void PerPadLTriggerReleased(PerPad_struct * pad) {
+    *(pad->padbits + 1) |= ~0xF7;
++   Per3DPadDigitalTrigger(pad, PERANALOG_AXIS4, 5, 0x00);
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////
+@@ -716,8 +735,8 @@
+          port->data[peroffset+1] = 0xFF;
+          port->data[peroffset+2] = 0x7F;
+          port->data[peroffset+3] = 0x7F;
+-         port->data[peroffset+4] = 0x7F;
+-         port->data[peroffset+5] = 0x7F;
++         port->data[peroffset+4] = 0x00; // spruce: R and L triggers start released
++         port->data[peroffset+5] = 0x00;
+          port->size = peroffset+(perid&0xF);
+          break;
+       case PERGUN:
+@@ -846,6 +865,7 @@
+ 		if ((name == perkeyconfig[i].base->name) && (controller == perkeyconfig[i].controller))
+ 		{
+ 			perkeyconfig[i].key = key;
++			perkeyconfig[i].bound = 1;
+ 		}
+ 		i++;
+ 	}
+@@ -914,6 +934,7 @@
+    {
+       perkeyconfig[i].base = baseconfig + j;
+       perkeyconfig[i].controller = controller;
++      perkeyconfig[i].bound = 0;
+       j++;
+    }
+ }
