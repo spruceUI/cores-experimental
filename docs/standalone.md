@@ -108,10 +108,10 @@ Built against spruceOS `73bb91a19` (2026-10-11); "match" is byte for byte.
 | recipe | ships | result |
 |---|---|---|
 | `flycast-standalone` | `Emu/DC/flycast`, `lib64/` | 3 of 4 match; `libcrypto.so.1.1` differs only in OpenSSL's build date |
-| `flycast-standalone-t3-lto` | `Emu/DC/flycast`, `lib64/` of spruceOS `e6bcaae8c` (4.5.5, local branch) | the same: 3 of 4 match |
+| `flycast-standalone-t3-lto` | `Emu/DC/flycast`, `lib64/` of spruceOS `e6bcaae8c` (4.5.5, Development) | the same: 3 of 4 match |
 | `yabasanshiro-standalone` | would replace `Emu/SATURN/yabasanshiro`, `lib64/` | built (2026-10-16); `lib64/` matches what spruce ships, the executable is a new build |
 | `mupen64plus-standalone` | would replace all of `Emu/N64/mupen64plus/` | built (2026-10-16); a new build, not shipped yet |
-| `flycast-libretro-t3` | `RetroArch/.retroarch/cores64/flycast_libretro.so` of spruceOS `d3f48c1cf` (4.5.5, local branch) | match |
+| `flycast-libretro-t3` | `RetroArch/.retroarch/cores64/flycast_libretro.so` of spruceOS `d3f48c1cf` (4.5.5, Development) | match |
 | `vtree-arm64`, `vtree-a30`, `vtree-mini` | `App/FileManagement/vtree.*`, `lib-A30/` | match |
 | `pcsx_rearmed-arm64`, `-a30`, `-mini` | `Emu/PS/pcsx_64`, `pcsx_a30`, `pcsx_mini`, the `libSDL-1.2.so.0` copies | match |
 | `moonlight` | `App/Moonlight/.../moonlight` and 32 libraries | match |
