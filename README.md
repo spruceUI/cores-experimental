@@ -91,6 +91,10 @@ core, its `.info`, the script, `build.log` and `record.json` in
   or ship that libstdc++ ([details](docs/flags.md#c-runtime)).
 - The Miyoo Mini Plus has no GLES2, so GL cores (flycast, N64) cannot run there
   whatever the flags.
+- mupen64plus_next is built GLES3 (`FORCE_GLES3=1`), the flavour spruce ships: its
+  GLES2 build crashes right after "Init new dynarec" on a TrimUI Smart Pro (PowerVR
+  GE8300) and an RG35XX Pro (Mali-G31), where the GLES3 build runs at the shipped
+  core's speed (2026-10-17).
 - On a Miyoo Mini Plus (2026-10-07), puae2021 needs 61 MB of zero-filled
   memory and the Mini had 55 MB free. spruce's 2022 build needs 55: upstream's
   2025 fix for productivity screen modes (`e111f3f`) doubled two frame buffers.
