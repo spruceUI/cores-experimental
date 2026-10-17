@@ -101,5 +101,5 @@ code from the stack.
 | `-mfix-cortex-a53-835769` on a133p, h700 | works around an A53 erratum; off by default in this GCC | depends on the chip revision |
 | `-mcpu=cortex-a55+crypto` on a523, rk3566 | the chips have it | no core here uses crypto instructions |
 | gpsp's `platform=miyoomini` recipe on ssd202d | upstream's tuned build for the Mini | it includes `-flto` |
-| `-flto` per core | some cores gain | made Flycast slower; never as a blanket flag |
+| `-flto` per core | some cores gain | made Flycast slower; km_ludicrousn64 built with it crashes right after "Init new dynarec" on a Zero 28 (2026-10-17), which the load test cannot see; never as a blanket flag |
 | mupen64plus_next / parallel_n64 NEON paths | faster N64 RSP | needs `-funsafe-math-optimizations` |
