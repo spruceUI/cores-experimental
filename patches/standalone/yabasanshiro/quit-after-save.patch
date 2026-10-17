@@ -1,0 +1,29 @@
+diff --git a/yabause/src/retro_arena/main.cpp b/yabause/src/retro_arena/main.cpp
+index 193184b..b259850 100644
+--- a/yabause/src/retro_arena/main.cpp
++++ b/yabause/src/retro_arena/main.cpp
+@@ -519,7 +519,7 @@ int main(int argc, char** argv)
+   int event_count = 0;
+   while(true) {
+     // spruce: save and quit (SIGUSR2). The save runs like the menu's (audio muted, VDP context revoked, this thread
+-    // current); the exit is the SDL_QUIT branch's below, line for line, after a flush and a sync
++    // current); then the process ends right after a flush and a sync, skipping the teardown
+     if( g_save_and_quit ){
+       std::string auto_state = cdip != NULL ? yb_auto_state_path(state_dir, cdip->itemnum) : std::string();
+       if( yb_save_on_quit(yb_env_on("YB_AUTOSAVE"), auto_state, autoload_pending) ){
+@@ -531,12 +531,9 @@ int main(int argc, char** argv)
+       }
+       fflush(stdout);
+       sync();
+-      glClearColor(0.0,0.0,0.0,1.0);
+-      glClear(GL_COLOR_BUFFER_BIT);
+-      SDL_GL_SwapWindow(wnd);
+-      YabauseDeInit();
+-      SDL_Quit();
+-      return 0;
++      // spruce: no teardown: the state and backup.bin (a shared mapping) are on disk, and YabauseDeInit with the
++      // threads still running ended every save-and-quit abnormally (SIGUSR1 in ScspDeInit, once free(): invalid size)
++      _exit(0);
+     }
+     // spruce: auto-load (YB_AUTOLOAD=1) the way the menu's load runs; no state, or a bad one, just boots the game
+     if( autoload_pending ){
