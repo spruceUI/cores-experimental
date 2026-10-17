@@ -1281,6 +1281,9 @@
         "overlays": {
           "arm64": [
             {
+              "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/makefile-fcommon.patch"
+            },
+            {
               "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/arm64-dynarec-build-fixes.patch"
             },
             {
@@ -1288,6 +1291,9 @@
             }
           ],
           "armhf": [
+            {
+              "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/makefile-fcommon.patch"
+            },
             {
               "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/arm64-dynarec-build-fixes.patch"
             },
@@ -1321,6 +1327,9 @@
           "overlays": {
             "arm64": [
               {
+                "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/makefile-fcommon.patch"
+              },
+              {
                 "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/arm64-dynarec-build-fixes.patch"
               },
               {
@@ -1328,6 +1337,9 @@
               }
             ],
             "armhf": [
+              {
+                "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/makefile-fcommon.patch"
+              },
               {
                 "patch": "patches/km_ludicrousn64_2k22_xtreme_amped/arm64-dynarec-build-fixes.patch"
               },
