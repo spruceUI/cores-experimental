@@ -55,7 +55,7 @@ platform always builds for NEON and the Cortex-A7 (`-mfpu=neon-vfpv4`), as spruc
 
 C++ cores link the toolchain's libstdc++ at run time. The arm64 toolchain (GCC 9)
 needs no more than every arm64 device provides. The armhf toolchain is the A30's
-GCC 13: 26 armhf cores need a newer libstdc++ than the 32-bit RetroArch on the
+GCC 13: 27 armhf cores need a newer libstdc++ than the 32-bit RetroArch on the
 Anbernic XX family (3.4.30) and the Flip (3.4.29) provide. The A30 and the Miyoo
 Mini get GCC 13's from spruce's own lib folders (verified on a Mini Plus). The
 load test does not see this, because it runs with the toolchain's libraries.
@@ -85,7 +85,7 @@ such a library (`cannot enable executable stack`) unless the program runs with
 | km_parallel_n64_xtreme_amped_turbo | `linkage_arm.S` |
 | picodrive | `drz80.s` |
 
-On 2026-10-07 the three failed to load only on a device whose 32-bit glibc is
+On 2026-10-07 the other three failed to load only on a device whose 32-bit glibc is
 2.41 (TwigUI-Next, which offers no 32-bit RetroArch). dArkMoss sets the
 tunable for its 32-bit RetroArch, and they load there. spruce's own armhf set
 has nine cores like this. The load test cannot

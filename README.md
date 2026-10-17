@@ -86,7 +86,7 @@ core, its `.info`, the script, `build.log` and `record.json` in
 ## Known issues
 
 - mame2003_plus does not load when built at `-O0`; use `debug-og`.
-- 26 armhf C++ cores need GCC 13's libstdc++, which the 32-bit RetroArch on
+- 27 armhf C++ cores need GCC 13's libstdc++, which the 32-bit RetroArch on
   the Anbernic XX family and the Flip lack; build them with `--runtime static`
   or ship that libstdc++ ([details](docs/flags.md#c-runtime)).
 - The Miyoo Mini Plus has no GLES2, so GL cores (flycast, N64) cannot run there
@@ -98,12 +98,12 @@ core, its `.info`, the script, `build.log` and `record.json` in
 - On a Miyoo Mini Plus (2026-10-07), puae2021 needs 61 MB of zero-filled
   memory and the Mini had 55 MB free. spruce's 2022 build needs 55: upstream's
   2025 fix for productivity screen modes (`e111f3f`) doubled two frame buffers.
-- chailove, km_parallel_n64 and picodrive (armhf) ask for an executable stack,
-  which glibc 2.41 and later refuse ([details](docs/flags.md#executable-stack)).
+- chailove, km_ludicrousn64, km_parallel_n64 and picodrive (armhf) ask for an
+  executable stack, which glibc 2.41 and later refuse
+  ([details](docs/flags.md#executable-stack)).
 - Shipped by spruceOS but not built here: mkxp-z (the hyphen in its name breaks
-  libretro-super), mupen64plus (removed from libretro-super), km_flycast_xtreme
-  (assembles with a bare `as`) and km_ludicrousn64_2k22_xtreme_amped (broken
-  aarch64 dynarec).
+  libretro-super), mupen64plus (removed from libretro-super) and km_flycast_xtreme
+  (assembles with a bare `as`).
 
 ## Layout
 
