@@ -1257,6 +1257,33 @@
         "repo_path": "metadata/km_parallel_n64_xtreme_amped_turbo_libretro.info"
       }
     },
+    "km_ludicrousn64_2k22_xtreme_amped": {
+      "source": {
+        "url": "https://github.com/KMFDManic/ludicrous-2k22-xtreme-amped.git",
+        "commit": "3733148e82c2f88e81d9dd902cab96dede962d32",
+        "requested_ref": "refs/heads/master"
+      },
+      "targets": [
+        "arm64",
+        "armhf"
+      ],
+      "build": {
+        "artifact_name": "km_ludicrousn64_2k22_xtreme_amped_libretro.so",
+        "driver": "direct-make",
+        "git_abbrev": 7,
+        "output_path": "km_ludicrousn64_2k22_xtreme_amped_libretro.so",
+        "platforms": {
+          "arm64": "odroid64",
+          "armhf": "classic_armv7_a7"
+        },
+        "source_dir": "km_ludicrousn64_2k22_xtreme_amped",
+        "submodules": false
+      },
+      "metadata": {
+        "artifact_name": "km_ludicrousn64_2k22_xtreme_amped_libretro.info",
+        "repo_path": "metadata/km_ludicrousn64_2k22_xtreme_amped_libretro.info"
+      }
+    },
     "libgametank": {
       "source": {
         "url": "https://github.com/dwbrite/gametank-sdk.git",
