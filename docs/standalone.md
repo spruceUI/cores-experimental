@@ -119,8 +119,8 @@ Built against spruceOS `73bb91a19` (2026-10-11); "match" is byte for byte.
 | `dsperate-arm64`, `dsperate-a30` | `Emu/NDS/dsperate`, `dsperate.a30` | match |
 | `ppsspp-h700`, `-a30`, `-flip`, `-rgb30`, `-trimui`, `-smartpros` | `Emu/PSP/PPSSPPSDL_*` | match |
 | `yabasanshiro-arm64` | `Emu/SATURN/yabasanshiro`, `lib64/` | match |
-| `yabasanshiro-arm64-pgo` | `Emu/SATURN/yabasanshiro`, `lib64/` of spruceOS `fcd5aca3d` (4.5.5, local branch) | match |
-| `yabasanshiro-libretro` | `RetroArch/.retroarch/cores64/yabasanshiro_generic_libretro.so` of spruceOS `fcd5aca3d` (4.5.5, local branch) | match |
+| `yabasanshiro-arm64-pgo` | `Emu/SATURN/yabasanshiro`, `lib64/` of spruceOS `fcd5aca3d` (4.5.5, Development) | match |
+| `yabasanshiro-libretro` | `RetroArch/.retroarch/cores64/yabasanshiro_generic_libretro.so` of spruceOS `fcd5aca3d` (4.5.5, Development) | match |
 | `mupen64plus-arm64-gliden64-ovl` | `Emu/N64/mupen64plus/mupen64plus-video-GLideN64.so` of spruceOS `f21a6faa5` (4.5.5, local branch) | match |
 | `mupen64plus-arm64-20260404`, `mupen64plus-arm64` | `Emu/N64/mupen64plus/`: frontend, core, audio, input and RSP plugins from the first, video plugins and overlay settings from the second | match |
 | `mupen64plus-a30` | `Emu/N64/mupen64plus-a30/` | match |
@@ -194,7 +194,7 @@ both Flycast recipes byte for byte as v1 and `standalone-flycast-t3` did.
 
 ## Saturn builds (spruceOS 4.5.5)
 
-spruceOS 4.5.5 (branch `feat/saturn-series`, `fcd5aca3d`) ships two Saturn
+spruceOS 4.5.5 (Development, `fcd5aca3d`, merged in #1873) ships two Saturn
 builds picked by device benchmarks. Both were first built for those benchmarks, in
 the research records `20261013-1113-yabasanshiro-rbgfix` and
 `20261013-1351-saturn-sa-pgo-rbgfix` (outside this repository); these recipes

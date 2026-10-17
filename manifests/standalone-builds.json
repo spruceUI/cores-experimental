@@ -1169,7 +1169,7 @@
       ],
       "shipped": {
         "spruceos": "fcd5aca3d",
-        "note": "spruceOS feat/saturn-series (local); built first as t3-o3-lto-fix-nopragma-pgo-all4-boot-rbgfix in the Saturn research record 20261013-1351-saturn-sa-pgo-rbgfix. libboost_filesystem.so.1.71.0 sits in spruce/flip/lib, as for yabasanshiro-arm64",
+        "note": "spruceOS Development (merged in #1873); built first as t3-o3-lto-fix-nopragma-pgo-all4-boot-rbgfix in the Saturn research record 20261013-1351-saturn-sa-pgo-rbgfix. libboost_filesystem.so.1.71.0 sits in spruce/flip/lib, as for yabasanshiro-arm64",
         "files": {
           "yabasanshiro": "059cdbbf788ed3015274a3977c083d7aa69537aa4353796a4c230b16cd8c924a",
           "libs/libpng16.so.16": "14ba485f3a55c36893f372831d0445f78fc64f26073a8d7374dc89ac50b95edc",
@@ -1358,7 +1358,7 @@
       },
       "shipped": {
         "spruceos": "fcd5aca3d",
-        "note": "spruceOS feat/saturn-series (local); built first as rbgfix-t3-o3-generic-lto-fix-nopragma-pgo-all-boot in the Saturn research record 20261013-1113-yabasanshiro-rbgfix",
+        "note": "spruceOS Development (merged in #1873); built first as rbgfix-t3-o3-generic-lto-fix-nopragma-pgo-all-boot in the Saturn research record 20261013-1113-yabasanshiro-rbgfix",
         "files": {
           "yabasanshiro_generic_libretro.so": "454f2e5977d8b70aaba9e6b8cd67541edc65c81474d1908dfb92008e289af601"
         }
