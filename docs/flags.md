@@ -48,6 +48,8 @@ confirms it:
 genesis_plus_gx(_wide), mame2003_plus and opera. pcsx_rearmed needs no switch:
 it detects NEON itself and switches to its NEON renderer on a33 and ssd202d,
 where the `universal` armhf build uses the slower software renderer.
+km_ludicrousn64_2k22_xtreme_amped needs no `neon` entry: its makefile's `classic_armv7_a7`
+platform always builds for NEON and the Cortex-A7 (`-mfpu=neon-vfpv4`), as spruce's copy does.
 
 ## C++ runtime
 
@@ -74,12 +76,12 @@ for every core at `release`).
 An object file without a `.note.GNU-stack` section makes the linker mark the
 whole core as needing an executable stack. glibc 2.41 and later refuse to load
 such a library (`cannot enable executable stack`) unless the program runs with
-`GLIBC_TUNABLES=glibc.rtld.execstack=2`. Three armhf builds are affected, each by
-one assembly file:
+`GLIBC_TUNABLES=glibc.rtld.execstack=2`. Four armhf builds are affected:
 
 | core | file |
 |---|---|
 | chailove | `sinc_resampler_neon.S` (libretro-common) |
+| km_ludicrousn64_2k22_xtreme_amped | `linkage_arm.S`, and libretro-common's `float_to_s16_neon.S`, `s16_to_float_neon.S`, `sinc_resampler_neon.S` (spruce's copy too) |
 | km_parallel_n64_xtreme_amped_turbo | `linkage_arm.S` |
 | picodrive | `drz80.s` |
 
