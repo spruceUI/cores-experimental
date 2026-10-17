@@ -1,0 +1,65 @@
+diff --git a/yabause/src/thr-linux.cpp b/yabause/src/thr-linux.cpp
+index b49b9bf..d7b9720 100644
+--- a/yabause/src/thr-linux.cpp
++++ b/yabause/src/thr-linux.cpp
+@@ -106,7 +106,12 @@ int YabThreadStart(unsigned int id, const char * name, void* (*func)(void *), vo
+ {
+    // Set up a dummy signal handler for SIGUSR1 so we can return from pause()
+    // in YabThreadSleep()
+-   static struct sigaction sa; // = {.sa_handler = dummy_sighandler};
++   // spruce: install it: the zeroed static sa reset SIGUSR1 to SIG_DFL at every thread start, so YabThreadWake's
++   // pthread_kill (the SCSP thread's last act, in ScspDeInit) ended the process with "User defined signal 1"
++   struct sigaction sa = {};
++   sa.sa_handler = dummy_sighandler;
++   sa.sa_flags = SA_RESTART;
++   sigemptyset(&sa.sa_mask);
+    if (sigaction(SIGUSR1, &sa, NULL) != 0)
+    {
+       perror("sigaction(SIGUSR1)");
+diff --git a/yabause/src/vidogl.c b/yabause/src/vidogl.c
+index be69971..cbd7d7b 100644
+--- a/yabause/src/vidogl.c
++++ b/yabause/src/vidogl.c
+@@ -4457,13 +4457,14 @@ int VIDOGLInit(void)
+ 
+ void VIDOGLDeInit(void)
+ {
+-  YglDeInit();
+-
++  // spruce: join the RBG0 rotation thread before YglDeInit frees the textures it draws into
+   if (Vdp2DrawRotationThread_running != 0) {
+     Vdp2DrawRotationThread_running = 0;
+     YabThreadUnLock(g_rotate_mtx);
+     YabThreadWait(YAB_THREAD_VIDSOFT_LAYER_RBG0);
+   }
++
++  YglDeInit();
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////
+diff --git a/yabause/src/yabause.c b/yabause/src/yabause.c
+index 8710406..d386619 100644
+--- a/yabause/src/yabause.c
++++ b/yabause/src/yabause.c
+@@ -487,9 +487,11 @@ void YabFlushBackups(void)
+ //////////////////////////////////////////////////////////////////////////////
+ 
+ void YabauseDeInit(void) {
+-   
+-  OSDDeInit();
++   // spruce: join the threads before freeing what they use: ScspDeInit stops the sound thread (68K + SCSP; its
++   // interrupts reach the SCU and SH2), Vdp2DeInit the VDP thread (it draws the OSD)
++   ScspDeInit();
+    Vdp2DeInit();
++  OSDDeInit();
+    Vdp1DeInit();
+    
+    SH2DeInit();
+@@ -522,7 +524,6 @@ void YabauseDeInit(void) {
+    CartDeInit();
+    Cs2DeInit();
+    ScuDeInit();
+-   ScspDeInit();
+    SmpcDeInit();
+    PerDeInit();
+    VideoDeInit();
