@@ -1725,7 +1725,7 @@
         "artifact_name": "mupen64plus_next_libretro.so",
         "driver": "libretro-super",
         "git_abbrev": 7,
-        "makeflags": "FORCE_GLES=1 WITH_DYNAREC=aarch64",
+        "makeflags": "FORCE_GLES3=1 WITH_DYNAREC=aarch64",
         "output_path": "dist/unix/mupen64plus_next_libretro.so",
         "source_dir": "libretro-mupen64plus_next",
         "source_key": "mupen64plus_next",
