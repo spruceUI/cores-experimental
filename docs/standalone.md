@@ -121,7 +121,7 @@ Built against spruceOS `73bb91a19` (2026-10-11); "match" is byte for byte.
 | `yabasanshiro-arm64` | `Emu/SATURN/yabasanshiro`, `lib64/` | match |
 | `yabasanshiro-arm64-pgo` | `Emu/SATURN/yabasanshiro`, `lib64/` of spruceOS `fcd5aca3d` (4.5.5, Development) | match |
 | `yabasanshiro-libretro` | `RetroArch/.retroarch/cores64/yabasanshiro_generic_libretro.so` of spruceOS `fcd5aca3d` (4.5.5, Development) | match |
-| `mupen64plus-arm64-gliden64-ovl` | `Emu/N64/mupen64plus/mupen64plus-video-GLideN64.so` of spruceOS `f21a6faa5` (4.5.5, local branch) | match |
+| `mupen64plus-arm64-gliden64-ovl` | `Emu/N64/mupen64plus/mupen64plus-video-GLideN64.so` of spruceOS `f21a6faa5` (4.5.5, Development) | match |
 | `mupen64plus-arm64-20260404`, `mupen64plus-arm64` | `Emu/N64/mupen64plus/`: frontend, core, audio, input and RSP plugins from the first, video plugins and overlay settings from the second | match |
 | `mupen64plus-a30` | `Emu/N64/mupen64plus-a30/` | match |
 | `scummvm-a30`, `scummvm-mini` | `Emu/SCUMMVM/scummvm.a30`, `scummvm.mini` and its 96 plugins (inside spruceOS's 7z files), `liba30/`, `fixjoy`, `libmini/libfluidlite.so` | match |

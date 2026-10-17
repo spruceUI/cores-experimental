@@ -1749,7 +1749,7 @@
       ],
       "shipped": {
         "spruceos": "f21a6faa5",
-        "note": "spruceOS pr/interim-2-n64 (local); built first in the record 20261015-2004-gliden64-overlay-fix",
+        "note": "spruceOS Development (merged in #1874); built first in the record 20261015-2004-gliden64-overlay-fix",
         "files": {
           "mupen64plus-video-GLideN64.so": "ffbf531b00558eecc94d68182b99b10780e19a2beffa3d9a6174f8685d28c46f"
         }
