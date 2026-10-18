@@ -7,7 +7,7 @@ the v4.5.4 stable release.
 ## Scope
 
 - The 30 recipes in [`manifests/standalone-builds.json`](manifests/standalone-builds.json) that have a
-  `shipped` record (`main` 67aa677, plus 46cb1d5's card path for libboost_filesystem). The other 9 recipes
+  `shipped` record (`main`; the shipped records are unchanged since 67aa677, and libboost_filesystem's card path is fixed in 46cb1d5 and 62c3a84). The other 9 recipes
   have no `shipped` record: spruce doesn't ship what they build.
 - No core from [`manifests/core-builds.json`](manifests/core-builds.json). That catalog has no `shipped`
   records: none of its builds is recorded as shipping in spruce. A recipe joins this log when it gains a
@@ -98,6 +98,7 @@ The first nightly built from v4.5.4: Development fa4e98962, workflow run 3811079
 | v4.5.5-20261017.4 | efb3630de | 39005916332 | none |
 | v4.5.5-20261017.5 | 4c6f64f55 | 39007416524 | none |
 | v4.5.5-20261017.6 | b38340697 | 39047693878 | none |
+| v4.5.5-20261018 | 8b2b378b3 | 39085616320 | none |
 
 In v4.5.5-20261017.3:
 
@@ -111,7 +112,7 @@ In v4.5.5-20261017.3:
 
 ## Cross-check against the published packages
 
-The five nightlies still published on 2026-10-17. In each one, every recipe path inside the OTA package is
+Each nightly checked while it was still published. In each one, every recipe path inside the OTA package is
 byte-identical to the file at the same path in that nightly's Development commit.
 
 | nightly | OTA package | size | sha256 | recipe paths inside | equal to the tree |
@@ -121,8 +122,9 @@ byte-identical to the file at the same path in that nightly's Development commit
 | v4.5.5-20261017.4 | the same name | 20568519 | 62c688a8 | 7 | yes |
 | v4.5.5-20261017.5 | the same name | 20568754 | 52c13da2 | 7 | yes |
 | v4.5.5-20261017.6 | the same name | 20579411 | 575ef289 | 7 | yes |
+| v4.5.5-20261018 | `spruceOTA-v4.5.4-to-v4.5.5-20261018.7z` | 20728613 | 81e771d0 | 7 | yes |
 
-## State at v4.5.5-20261017.6
+## State at v4.5.5-20261018 (unchanged since 20261017.6)
 
 - **Built here and shipping (24 recipes match):**
   - flycast-standalone-t3-lto, flycast-libretro-t3
