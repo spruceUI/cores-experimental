@@ -1,0 +1,62 @@
+diff --git a/yabause/src/retro_arena/Preference.cpp b/yabause/src/retro_arena/Preference.cpp
+index 9633f06..05702a9 100644
+--- a/yabause/src/retro_arena/Preference.cpp
++++ b/yabause/src/retro_arena/Preference.cpp
+@@ -17,6 +17,14 @@ std::string yb_config_dir(){
+   return std::string(getenv("HOME")) + "/.yabasanshiro/";
+ }
+ 
++// spruce: states apart from battery saves. YB_STATE_DIR holds the save states, their thumbnails and the menu's
++// screenshot, HOME keeps backup.bin; unset, everything stays in HOME/.yabasanshiro/ as upstream.
++std::string yb_state_dir(){
++  const char * dir = getenv("YB_STATE_DIR");
++  if( dir != NULL && *dir ) return std::string(dir) + "/";
++  return std::string(getenv("HOME")) + "/.yabasanshiro/";
++}
++
+ Preference::Preference( const std::string & filename ){
+ 
+   std::string input_trace_filename;
+diff --git a/yabause/src/retro_arena/Preference.h b/yabause/src/retro_arena/Preference.h
+index c1f6d54..f4c432d 100644
+--- a/yabause/src/retro_arena/Preference.h
++++ b/yabause/src/retro_arena/Preference.h
+@@ -45,3 +45,5 @@ protected:
+ 
+ // spruce: the directory for settings (keymap, per-game .config): YB_CONFIG_DIR when set, else HOME/.yabasanshiro/
+ std::string yb_config_dir();
++// spruce: the directory for save states and their thumbnails: YB_STATE_DIR when set, else HOME/.yabasanshiro/
++std::string yb_state_dir();
+diff --git a/yabause/src/retro_arena/main.cpp b/yabause/src/retro_arena/main.cpp
+index 3ca2dca..b8a052a 100644
+--- a/yabause/src/retro_arena/main.cpp
++++ b/yabause/src/retro_arena/main.cpp
+@@ -299,13 +299,18 @@ int main(int argc, char** argv)
+   }  
+   std::string bckup_dir = home_dir + "backup.bin";
+   strcpy( buppath, bckup_dir.c_str() );
+-  strcpy( s_savepath, home_dir.c_str() );
+   // spruce: the keymap is a setting: YB_CONFIG_DIR when set (made like the home dir), else home_dir as upstream
+   std::string config_dir = yb_config_dir();
+   if (stat(config_dir.c_str(), &st) == -1) {
+     mkdir(config_dir.c_str(), 0700);
+   }
+   g_keymap_filename = config_dir + "keymapv2.json";
++  // spruce: states, their thumbnails and the menu screenshot: YB_STATE_DIR when set (made like the home dir), else home_dir
++  std::string state_dir = yb_state_dir();
++  if (stat(state_dir.c_str(), &st) == -1) {
++    mkdir(state_dir.c_str(), 0700);
++  }
++  strcpy( s_savepath, state_dir.c_str() );
+ 
+   std::string current_exec_name = argv[0]; // Name of the current exec program
+   std::vector<std::string> all_args;
+@@ -486,7 +491,7 @@ int main(int argc, char** argv)
+   Uint32  evLoadState = SDL_RegisterEvents(1);
+   menu->setLoadStateEventCode(evLoadState);
+ 
+-  std::string tmpfilename = home_dir + "tmp.png";
++  std::string tmpfilename = state_dir + "tmp.png";
+ 
+   //struct sched_param thread_param;
+   //thread_param.sched_priority = 15; //sched_get_priority_max(SCHED_FIFO);

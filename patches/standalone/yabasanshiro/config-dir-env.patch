@@ -1,0 +1,80 @@
+diff --git a/yabause/src/retro_arena/InputManager.cpp b/yabause/src/retro_arena/InputManager.cpp
+index 7cbc4e4..2acde9e 100644
+--- a/yabause/src/retro_arena/InputManager.cpp
++++ b/yabause/src/retro_arena/InputManager.cpp
+@@ -1206,8 +1206,10 @@ void InputManager::writeDeviceConfig(InputConfig* config)
+ 
+ std::string InputManager::getConfigPath()
+ {
+-  std::string path = getenv("HOME");
+-  path += "/.emulationstation/es_temporaryinput.cfg";
++  // spruce: with YB_CONFIG_DIR set, the es cfg sits with the other settings
++  const char * dir = getenv("YB_CONFIG_DIR");
++  std::string path = ( dir != NULL && *dir ) ? std::string(dir) : std::string(getenv("HOME")) + "/.emulationstation";
++  path += "/es_temporaryinput.cfg";
+   return path;
+ }
+ 
+diff --git a/yabause/src/retro_arena/Preference.cpp b/yabause/src/retro_arena/Preference.cpp
+index a0fd09b..9633f06 100644
+--- a/yabause/src/retro_arena/Preference.cpp
++++ b/yabause/src/retro_arena/Preference.cpp
+@@ -9,6 +9,14 @@
+ // spruce_chosen), or a saved value other than the compiled default, wins; reading a key never saves a default.
+ static const char * CHOSEN = "spruce_chosen";
+ 
++// spruce: settings apart from saves. YB_CONFIG_DIR holds the keymap and the per-game .config files, HOME keeps the
++// saves (backup.bin, states); unset, everything stays in HOME/.yabasanshiro/ as upstream.
++std::string yb_config_dir(){
++  const char * dir = getenv("YB_CONFIG_DIR");
++  if( dir != NULL && *dir ) return std::string(dir) + "/";
++  return std::string(getenv("HOME")) + "/.yabasanshiro/";
++}
++
+ Preference::Preference( const std::string & filename ){
+ 
+   std::string input_trace_filename;
+@@ -20,10 +28,7 @@ Preference::Preference( const std::string & filename ){
+     input_trace_filename = filename;
+   }
+ 
+-  std::string home_dir = getenv("HOME");
+-  home_dir += "/.yabasanshiro/";
+-
+-  this->filename = home_dir + input_trace_filename + ".config";
++  this->filename = yb_config_dir() + input_trace_filename + ".config";
+ 
+   LOG("Preference: opening %s\n", this->filename.c_str() );
+ 
+diff --git a/yabause/src/retro_arena/Preference.h b/yabause/src/retro_arena/Preference.h
+index 9c9bd6e..c1f6d54 100644
+--- a/yabause/src/retro_arena/Preference.h
++++ b/yabause/src/retro_arena/Preference.h
+@@ -41,4 +41,7 @@ protected:
+   void mark( const string & key );
+   void save();
+ 
+-};
+\ No newline at end of file
++};
++
++// spruce: the directory for settings (keymap, per-game .config): YB_CONFIG_DIR when set, else HOME/.yabasanshiro/
++std::string yb_config_dir();
+diff --git a/yabause/src/retro_arena/main.cpp b/yabause/src/retro_arena/main.cpp
+index 9b0c3f0..3ca2dca 100644
+--- a/yabause/src/retro_arena/main.cpp
++++ b/yabause/src/retro_arena/main.cpp
+@@ -300,7 +300,12 @@ int main(int argc, char** argv)
+   std::string bckup_dir = home_dir + "backup.bin";
+   strcpy( buppath, bckup_dir.c_str() );
+   strcpy( s_savepath, home_dir.c_str() );
+-  g_keymap_filename = home_dir + "keymapv2.json";
++  // spruce: the keymap is a setting: YB_CONFIG_DIR when set (made like the home dir), else home_dir as upstream
++  std::string config_dir = yb_config_dir();
++  if (stat(config_dir.c_str(), &st) == -1) {
++    mkdir(config_dir.c_str(), 0700);
++  }
++  g_keymap_filename = config_dir + "keymapv2.json";
+ 
+   std::string current_exec_name = argv[0]; // Name of the current exec program
+   std::vector<std::string> all_args;

@@ -1,0 +1,17 @@
+--- a/yabause/src/retro_arena/InputManager.cpp
++++ b/yabause/src/retro_arena/InputManager.cpp
+@@ -860,11 +860,9 @@
+     {
+       cur = SDL_JoystickGetAxis( joy, i );
+      
+-      if( _analogType[joyId] == 1 ){ 
+-        PerAxisValue((joyId << 18) | SDL_MEDIUM_AXIS_VALUE | i, (u8)(((int)cur+32768) >> 8));
+-      }else{
+-	PerAxisValue((joyId << 18) | SDL_MEDIUM_AXIS_VALUE | i, (u8)(((int)cur+32768) >> 8)-128 );
+-      }
++      // spruce: the Saturn 3D pad wants every axis unsigned (stick centre 0x80, released trigger 0). The signed form
++      // (_analogType 0, any entry without analogleft/analogright) sent a centred stick as 0x00.
++      PerAxisValue((joyId << 18) | SDL_MEDIUM_AXIS_VALUE | i, (u8)(((int)cur+32768) >> 8));
+ 
+       if ( cur < -SDL_MEDIUM_AXIS_VALUE )
+       {

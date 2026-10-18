@@ -1,0 +1,159 @@
+diff --git a/yabause/src/retro_arena/Preference.cpp b/yabause/src/retro_arena/Preference.cpp
+index 05702a9..2ac75eb 100644
+--- a/yabause/src/retro_arena/Preference.cpp
++++ b/yabause/src/retro_arena/Preference.cpp
+@@ -1,4 +1,6 @@
+ #include "Preference.h"
++#include <cstdio>
++#include <cstring>
+ #include <iostream>
+ #include <fstream>
+ #include <sstream>
+@@ -25,6 +27,37 @@ std::string yb_state_dir(){
+   return std::string(getenv("HOME")) + "/.yabasanshiro/";
+ }
+ 
++// spruce: resume support (SIGUSR2 save-and-quit, auto-load). <itemnum>_auto.yss: the menu's 5 slots are numbered, so
++// the auto state never shows there and never overwrites one. Discs without an item number would share one: none.
++std::string yb_auto_state_path( const std::string & state_dir, const char * itemnum ){
++  if( itemnum == NULL || *itemnum == '\0' ) return std::string();
++  return state_dir + itemnum + "_auto.yss";
++}
++
++// a quit saves only with auto-save on, a usable name, and the auto-load done: a quit while the game boots keeps the
++// player's resume point instead of saving the boot over it
++bool yb_save_on_quit( bool autosave, const std::string & auto_state, bool autoload_pending ){
++  return autosave && !auto_state.empty() && !autoload_pending;
++}
++
++std::string yb_set_aside( const std::string & path ){
++  std::string bad = path + ".bad";
++  return rename(path.c_str(), bad.c_str()) == 0 ? bad : std::string();
++}
++
++bool yb_env_on( const char * name ){
++  const char * v = getenv(name);
++  return v != NULL && strcmp(v, "1") == 0;
++}
++
++int yb_save_atomic( const std::string & path, int (*save)( const char * ) ){
++  std::string tmp = path + ".tmp";
++  int ret = save(tmp.c_str());
++  if( ret != 0 ){ remove(tmp.c_str()); return ret; }
++  if( rename(tmp.c_str(), path.c_str()) != 0 ){ remove(tmp.c_str()); return -10; }
++  return 0;
++}
++
+ Preference::Preference( const std::string & filename ){
+ 
+   std::string input_trace_filename;
+diff --git a/yabause/src/retro_arena/Preference.h b/yabause/src/retro_arena/Preference.h
+index f4c432d..3ad77f4 100644
+--- a/yabause/src/retro_arena/Preference.h
++++ b/yabause/src/retro_arena/Preference.h
+@@ -47,3 +47,11 @@ protected:
+ std::string yb_config_dir();
+ // spruce: the directory for save states and their thumbnails: YB_STATE_DIR when set, else HOME/.yabasanshiro/
+ std::string yb_state_dir();
++// spruce: resume support: the auto state's path ("" for a disc without an item number), an env switch ("1" = on),
++// whether a SIGUSR2 quit saves, and a save that never leaves a half-written file (path.tmp, then renamed over path)
++std::string yb_auto_state_path( const std::string & state_dir, const char * itemnum );
++bool yb_env_on( const char * name );
++bool yb_save_on_quit( bool autosave, const std::string & auto_state, bool autoload_pending );
++// spruce: a state that failed to load is renamed to <path>.bad (an older one replaced); returns the new name, "" on failure
++std::string yb_set_aside( const std::string & path );
++int yb_save_atomic( const std::string & path, int (*save)( const char * ) );
+diff --git a/yabause/src/retro_arena/main.cpp b/yabause/src/retro_arena/main.cpp
+index b8a052a..193184b 100644
+--- a/yabause/src/retro_arena/main.cpp
++++ b/yabause/src/retro_arena/main.cpp
+@@ -38,6 +38,8 @@ namespace fs = std::filesystem;
+ #include <sys/resource.h>
+ #include <errno.h>
+ #include <pthread.h>
++#include <signal.h>
++#include <cstring>
+ 
+ #include <SDL2/SDL.h>
+ #define GL_GLEXT_PROTOTYPES 1
+@@ -153,6 +155,11 @@ OSD_struct *OSDCoreList[] = {
+ 
+ static SDL_Window* wnd;
+ static SDL_GLContext glc;
++// spruce: SIGUSR2 (spruce's exit paths) = save a resume state when YB_AUTOSAVE=1, then quit; the handler only sets a flag.
++// Not SIGUSR1: YabThreadStart (thr-linux.cpp) resets it at every thread start and YabThreadWake sends it. spruce's
++// Emulator-menu action sends other emulators USR2: it must never send it here.
++static volatile sig_atomic_t g_save_and_quit = 0;
++static void on_save_and_quit( int ){ g_save_and_quit = 1; }
+ int g_EnagleFPS = 0;
+ int g_resolution_mode = 0;
+ int g_rotate_resolution_mode = 0;
+@@ -311,6 +318,13 @@ int main(int argc, char** argv)
+     mkdir(state_dir.c_str(), 0700);
+   }
+   strcpy( s_savepath, state_dir.c_str() );
++  // spruce: SIGUSR2 = save and quit, acted on at the top of the main loop
++  struct sigaction sa;
++  memset( &sa, 0, sizeof(sa) );
++  sa.sa_handler = on_save_and_quit;
++  sa.sa_flags = SA_RESTART;
++  sigemptyset( &sa.sa_mask );
++  sigaction( SIGUSR2, &sa, NULL );
+ 
+   std::string current_exec_name = argv[0]; // Name of the current exec program
+   std::vector<std::string> all_args;
+@@ -455,6 +469,8 @@ int main(int argc, char** argv)
+   p = new Preference(cdpath);
+   VIDCore->Resize(0,0,width,height,1,p->getInt("Aspect rate",0));
+   delete p;
++  // spruce: resume from the game's auto state at the first pass of the main loop when YB_AUTOLOAD=1
++  bool autoload_pending = yb_env_on("YB_AUTOLOAD");
+   
+ #if defined(__RP64__) || defined(__N2__)
+   YabThreadSetCurrentThreadAffinityMask(0x4);
+@@ -502,6 +518,45 @@ int main(int argc, char** argv)
+   int frame_cont = 0;
+   int event_count = 0;
+   while(true) {
++    // spruce: save and quit (SIGUSR2). The save runs like the menu's (audio muted, VDP context revoked, this thread
++    // current); the exit is the SDL_QUIT branch's below, line for line, after a flush and a sync
++    if( g_save_and_quit ){
++      std::string auto_state = cdip != NULL ? yb_auto_state_path(state_dir, cdip->itemnum) : std::string();
++      if( yb_save_on_quit(yb_env_on("YB_AUTOSAVE"), auto_state, autoload_pending) ){
++        if( !menu_show ){ ScspMuteAudio(1); VdpRevoke(); SDL_GL_MakeCurrent(wnd,glc); }
++        int ret = yb_save_atomic(auto_state, YabSaveState);
++        printf("spruce: save and quit: %s: %d\n", auto_state.c_str(), ret);
++      }else{
++        printf("spruce: quit without saving (auto-save off, no item number, or the auto-load not run yet)\n");
++      }
++      fflush(stdout);
++      sync();
++      glClearColor(0.0,0.0,0.0,1.0);
++      glClear(GL_COLOR_BUFFER_BIT);
++      SDL_GL_SwapWindow(wnd);
++      YabauseDeInit();
++      SDL_Quit();
++      return 0;
++    }
++    // spruce: auto-load (YB_AUTOLOAD=1) the way the menu's load runs; no state, or a bad one, just boots the game
++    if( autoload_pending ){
++      autoload_pending = false;
++      std::string auto_state = cdip != NULL ? yb_auto_state_path(state_dir, cdip->itemnum) : std::string();
++      if( auto_state.empty() ) printf("spruce: auto load skipped: the disc has no item number\n");
++      if( !auto_state.empty() && access(auto_state.c_str(), R_OK) == 0 ){
++        ScspMuteAudio(1); VdpRevoke(); SDL_GL_MakeCurrent(wnd,glc);
++        int rtn = YabLoadState(auto_state.c_str());
++        printf("spruce: auto load: %s: %d\n", auto_state.c_str(), rtn);
++        if( rtn != 0 ){
++          // a load can fail after some chunks are in: reset like the menu's Reset, and set the state aside so it is
++          // neither retried nor saved over
++          YabauseReset();
++          printf("spruce: auto load failed: the game boots clean; the state is now %s\n", yb_set_aside(auto_state).c_str());
++        }
++        fflush(stdout);
++        hideMenuScreen();
++      }
++    }
+     SDL_Event e;
+     event_count = 0;
+     while(SDL_PollEvent(&e)) {
