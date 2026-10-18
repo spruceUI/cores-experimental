@@ -1071,7 +1071,8 @@
         ],
         "spruce": {
           "yabasanshiro": "Emu/SATURN/yabasanshiro",
-          "libs/": "Emu/SATURN/lib64/"
+          "libs/": "Emu/SATURN/lib64/",
+          "libs/libboost_filesystem.so.1.71.0": "spruce/flip/lib/libboost_filesystem.so.1.71.0"
         }
       },
       "needed": {
@@ -1272,7 +1273,8 @@
         ],
         "spruce": {
           "yabasanshiro": "Emu/SATURN/yabasanshiro",
-          "lib64/": "Emu/SATURN/lib64/"
+          "lib64/": "Emu/SATURN/lib64/",
+          "lib64/libboost_filesystem.so.1.71.0": "spruce/flip/lib/libboost_filesystem.so.1.71.0"
         }
       },
       "needed": {
