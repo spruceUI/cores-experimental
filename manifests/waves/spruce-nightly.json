@@ -3,13 +3,13 @@
   "wave": "spruce-nightly",
   "defined_by": {
     "repo": "spruceUI/spruceOS",
-    "ref": "fbe86ef2bc7ad48602f9a045c2ef7af4308138e9",
-    "commit": "fbe86ef2bc7ad48602f9a045c2ef7af4308138e9",
-    "date": "2026-11-21",
+    "ref": "4497d1d58c5807a1266b7c354419f7d67cf4840b",
+    "commit": "4497d1d58c5807a1266b7c354419f7d67cf4840b",
+    "date": "2026-11-23",
     "nightly": {
-      "tag": "v4.6.1-20261122",
-      "run": 44983415480,
-      "built": "2026-11-22T04:04:29Z"
+      "tag": "v4.6.1-20261124",
+      "run": 45316452954,
+      "built": "2026-11-24T03:00:39Z"
     }
   },
   "files": {
@@ -295,7 +295,7 @@
       ]
     },
     "Emu/NDS/dsperate": {
-      "sha256": "ea79bdd5ea4898c7fb45f92c2807d45d53489b913d2499dbeaf492f9769f8458",
+      "sha256": "7b8e914a27a4e669f877ee70d14b277cd5f16246687bc18cd97fa0b66a7b0fab",
       "kind": "standalone",
       "names": [
         "DSperate",
@@ -319,7 +319,7 @@
       ]
     },
     "Emu/NDS/dsperate.a30": {
-      "sha256": "15ff4d858a57642ca8c808f015c5b8a3e661bed079dc79903a300663664ea966",
+      "sha256": "72964d6648fd4d326337173ec40bc9a6571320cfa62f5ded67ebba451f779ee2",
       "kind": "standalone",
       "names": [
         "DSperate",
@@ -913,7 +913,7 @@
       "spare": true
     },
     "RetroArch/.retroarch/cores/armnes_libretro.so": {
-      "sha256": "3857d3ce593c6531cb3689a887e5aca4404e4fb263fe8abb0efc3e558c5d9c65",
+      "sha256": "a02ebd57482acd39a646ba392efd0174ab6dace3c8c82889ee60753165ad0027",
       "kind": "core",
       "names": [
         "armnes"
@@ -1296,6 +1296,19 @@
       "recipes": [
         "fuse"
       ],
+      "families": [
+        "MIYOO_A30",
+        "MIYOO_MINI_FAMILY"
+      ]
+    },
+    "RetroArch/.retroarch/cores/gamate_libretro.so": {
+      "sha256": "5385da87aedafd9941042698e879a7deea7f5917d033c584bbacfcc2c39d3f56",
+      "kind": "core",
+      "names": [
+        "gamate"
+      ],
+      "status": "no recipe",
+      "recipes": [],
       "families": [
         "MIYOO_A30",
         "MIYOO_MINI_FAMILY"
@@ -2670,7 +2683,7 @@
       "spare": true
     },
     "RetroArch/.retroarch/cores64/armnes_libretro.so": {
-      "sha256": "8ac42240aa164e050b9c421ba76112745a34c5fb7ae542cb045c2d9862ee81c3",
+      "sha256": "48290519415aa83f6b85cc2419195bb632cb059402afa034d6aad9b7aa3b2008",
       "kind": "core",
       "names": [
         "armnes"
@@ -3279,6 +3292,24 @@
         "url": "https://github.com/libretro/fuse-libretro.git",
         "commit": "cad85b7b1b864c65734f71aa4a510b6f6536881c"
       }
+    },
+    "RetroArch/.retroarch/cores64/gamate_libretro.so": {
+      "sha256": "96619eb6d2f1d66651632f4cb2f898c07ce814fe40256e8e87cb9a73e0d2f7f1",
+      "kind": "core",
+      "names": [
+        "gamate"
+      ],
+      "status": "no recipe",
+      "recipes": [],
+      "families": [
+        "ANBERNIC_RGXX",
+        "DARKMOSS",
+        "GKD_PIXEL2",
+        "MIYOO_FLIP",
+        "OAKMOSS_A133P",
+        "TRIMUI_A133P",
+        "TRIMUI_SMART_PRO_S"
+      ]
     },
     "RetroArch/.retroarch/cores64/gambatte_libretro.so": {
       "sha256": "56b887601b2cc5b2c57a74e3ca30402a09ec676d6ed45382d3e65bdb794784e5",
