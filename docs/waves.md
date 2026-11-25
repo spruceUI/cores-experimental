@@ -135,3 +135,6 @@ bytes at another path): such a record shows as `not shipped`.
   earlier PGO builds whose objects focal's ccache reused under the new profile ([standalone](standalone.md#status)).
   armNES v1.5 (4497d1d58) is Cores-spruce's build of main f88b792d, two commits after the tag (Thumb-2 on ARMv7):
   the catalog's `armnes` at that commit matches both builds.
+- The spare `armnes_arcade` (3345ffa1d, Cores-spruce's per-core run at the v1.4.1 tag) matches the catalog's recipe at
+  that tag, both builds. evolver79's `gamate` core (0d619dc59, MIT with BSD-3-Clause MAME parts) reproduces in
+  Cores-spruce's images (`gamate-*-20261124`).

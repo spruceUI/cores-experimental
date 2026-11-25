@@ -284,6 +284,7 @@
       "shipped": {
         "spruceos": "3345ffa1d",
         "source": "spruceOS 3345ffa1d (SundownerSport, 2026-11-21, \"update armnes and armnes_arcade to v1.4.1\"), from Cores-spruce's 'Build armnes_arcade' run 44958361942 at 4227a6232 (2026-11-21 22:45Z, REF=v1.4.1: 02baef18; armulators 3dc61ccb). No menu offers the core (spare)",
+        "note": "matched byte for byte by CE run 45547191147 (681cbba), both arches",
         "variant": "release-arm64-generic + release-armhf-generic",
         "files": {
           "RetroArch/.retroarch/cores64/armnes_arcade_libretro.so": "1234833f6bc67e56ba04106e118f68695bac4c771ad146a1e9050ded99e9b5d4",

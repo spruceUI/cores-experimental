@@ -4398,6 +4398,14 @@
         "RetroArch/.retroarch/cores64/armnes_libretro.so": "absent"
       }
     },
+    "armnes_arcade": {
+      "files": 2,
+      "status": "not shipped",
+      "differ": {
+        "RetroArch/.retroarch/cores/armnes_arcade_libretro.so": "absent",
+        "RetroArch/.retroarch/cores64/armnes_arcade_libretro.so": "absent"
+      }
+    },
     "armsnes": {
       "files": 1,
       "status": "not shipped",
@@ -4593,6 +4601,20 @@
     "standalone:fuse-arm64-20250506": {
       "files": 1,
       "status": "match"
+    },
+    "standalone:gamate-arm64-20261124": {
+      "files": 1,
+      "status": "not shipped",
+      "differ": {
+        "RetroArch/.retroarch/cores64/gamate_libretro.so": "absent"
+      }
+    },
+    "standalone:gamate-armhf-20261124": {
+      "files": 1,
+      "status": "not shipped",
+      "differ": {
+        "RetroArch/.retroarch/cores/gamate_libretro.so": "absent"
+      }
     },
     "standalone:gambatte-arm64-20261105": {
       "files": 1,

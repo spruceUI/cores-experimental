@@ -9123,6 +9123,7 @@
       "shipped": {
         "spruceos": "0d619dc59",
         "source": "spruceOS 0d619dc59 (SundownerSport, 2026-11-23, \"add evolver79's gamate core as a Gamate option\")",
+        "note": "matched byte for byte by CE run 45547183104 (681cbba)",
         "files": {
           "cores64/gamate_libretro.so": "96619eb6d2f1d66651632f4cb2f898c07ce814fe40256e8e87cb9a73e0d2f7f1"
         }
@@ -9165,6 +9166,7 @@
       "shipped": {
         "spruceos": "0d619dc59",
         "source": "spruceOS 0d619dc59 (SundownerSport, 2026-11-23, \"add evolver79's gamate core as a Gamate option\")",
+        "note": "matched byte for byte by CE run 45547187135 (681cbba)",
         "files": {
           "cores/gamate_libretro.so": "5385da87aedafd9941042698e879a7deea7f5917d033c584bbacfcc2c39d3f56"
         }

@@ -912,13 +912,17 @@
       "names": [
         "armnes_arcade"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
-        "armnes_arcade",
-        "standalone:armnes_arcade-armhf-20261117"
+        "armnes_arcade"
       ],
       "families": [],
-      "spare": true
+      "spare": true,
+      "pin": {
+        "recipe": "armnes_arcade",
+        "url": "https://github.com/MagnominusGit/armNES.git",
+        "commit": "02baef18734a86ba41d2d52803e50f2dcc9837f9"
+      }
     },
     "RetroArch/.retroarch/cores/armnes_libretro.so": {
       "sha256": "a02ebd57482acd39a646ba392efd0174ab6dace3c8c82889ee60753165ad0027",
@@ -1320,12 +1324,19 @@
       "names": [
         "gamate"
       ],
-      "status": "no recipe",
-      "recipes": [],
+      "status": "reproduces",
+      "recipes": [
+        "standalone:gamate-armhf-20261124"
+      ],
       "families": [
         "MIYOO_A30",
         "MIYOO_MINI_FAMILY"
-      ]
+      ],
+      "pin": {
+        "recipe": "standalone:gamate-armhf-20261124",
+        "url": "https://github.com/evolver79/nextui-gamate-pak.git",
+        "commit": "8c7352e92c8f8d72c1162088837be0b323c28166"
+      }
     },
     "RetroArch/.retroarch/cores/gambatte_libretro.so": {
       "sha256": "1afa61ce0ad9e3d01c8dd2b67d21cb09c09f754542f04a1272312a335a50f3b7",
@@ -2687,13 +2698,17 @@
       "names": [
         "armnes_arcade"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
-        "armnes_arcade",
-        "standalone:armnes_arcade-arm64-20261117"
+        "armnes_arcade"
       ],
       "families": [],
-      "spare": true
+      "spare": true,
+      "pin": {
+        "recipe": "armnes_arcade",
+        "url": "https://github.com/MagnominusGit/armNES.git",
+        "commit": "02baef18734a86ba41d2d52803e50f2dcc9837f9"
+      }
     },
     "RetroArch/.retroarch/cores64/armnes_libretro.so": {
       "sha256": "48290519415aa83f6b85cc2419195bb632cb059402afa034d6aad9b7aa3b2008",
@@ -3317,8 +3332,10 @@
       "names": [
         "gamate"
       ],
-      "status": "no recipe",
-      "recipes": [],
+      "status": "reproduces",
+      "recipes": [
+        "standalone:gamate-arm64-20261124"
+      ],
       "families": [
         "ANBERNIC_RGXX",
         "DARKMOSS",
@@ -3327,7 +3344,12 @@
         "OAKMOSS_A133P",
         "TRIMUI_A133P",
         "TRIMUI_SMART_PRO_S"
-      ]
+      ],
+      "pin": {
+        "recipe": "standalone:gamate-arm64-20261124",
+        "url": "https://github.com/evolver79/nextui-gamate-pak.git",
+        "commit": "8c7352e92c8f8d72c1162088837be0b323c28166"
+      }
     },
     "RetroArch/.retroarch/cores64/gambatte_libretro.so": {
       "sha256": "56b887601b2cc5b2c57a74e3ca30402a09ec676d6ed45382d3e65bdb794784e5",
@@ -4825,6 +4847,10 @@
       "files": 2,
       "status": "match"
     },
+    "armnes_arcade": {
+      "files": 2,
+      "status": "match"
+    },
     "armsnes": {
       "files": 1,
       "status": "match"
@@ -4857,17 +4883,23 @@
     },
     "standalone:armnes_arcade-arm64-20261117": {
       "files": 1,
-      "status": "not shipped",
+      "status": "replaced",
       "differ": {
         "RetroArch/.retroarch/cores64/armnes_arcade_libretro.so": "other bytes"
-      }
+      },
+      "by": [
+        "armnes_arcade"
+      ]
     },
     "standalone:armnes_arcade-armhf-20261117": {
       "files": 1,
-      "status": "not shipped",
+      "status": "replaced",
       "differ": {
         "RetroArch/.retroarch/cores/armnes_arcade_libretro.so": "other bytes"
-      }
+      },
+      "by": [
+        "armnes_arcade"
+      ]
     },
     "standalone:atari800-arm64-20250506": {
       "files": 1,
@@ -5012,6 +5044,14 @@
       "source": "Game Nursery FreeJ2ME package: spruceUI/Ports-and-Free-Games a981c76, J2ME/FreeJ2ME/BIOS/freej2me_plus-lr.jar"
     },
     "standalone:fuse-arm64-20250506": {
+      "files": 1,
+      "status": "match"
+    },
+    "standalone:gamate-arm64-20261124": {
+      "files": 1,
+      "status": "match"
+    },
+    "standalone:gamate-armhf-20261124": {
       "files": 1,
       "status": "match"
     },
