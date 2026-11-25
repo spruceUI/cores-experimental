@@ -213,7 +213,7 @@
     "armnes": {
       "source": {
         "url": "https://github.com/MagnominusGit/armNES.git",
-        "commit": "13f04b0bc161af89834b7da858dcd9c22c101c7a",
+        "commit": "f88b792d58ff616d00dc47a151c6aa646478992f",
         "requested_ref": "refs/heads/main"
       },
       "targets": [
@@ -238,15 +238,15 @@
       },
       "metadata": {
         "artifact_name": "armnes_libretro.info",
-        "repo_path": "metadata/armnes/spruceos-d14cdbefe.info"
+        "repo_path": "metadata/armnes/spruceos-4497d1d58.info"
       },
       "shipped": {
-        "spruceos": "e1eab6bfc",
-        "note": "matched byte for byte by CE CI run 44574194101 (main a725fb4), both arches",
+        "spruceos": "4497d1d58",
+        "source": "spruceOS 4497d1d58 (SundownerSport, 2026-11-23, \"update armnes to v1.5, add it as a Gamate core\"), from Cores-spruce's 'Build armnes' run 45315763489 at ba56b1556 (2026-11-24 02:55Z, no ref: armNES main f88b792d, two commits after the v1.5 tag 12655bb1; armulators 3dc61ccb)",
         "variant": "release-arm64-generic + release-armhf-generic",
         "files": {
-          "RetroArch/.retroarch/cores64/armnes_libretro.so": "cdb42d30ddc8d96e2a577a7800a23c23191d3ad3e6b466903f344e682ddfbd08",
-          "RetroArch/.retroarch/cores/armnes_libretro.so": "f840e12ec256fe9836c0bae0a37b275dc5354db78c8e2913fe53033ff0febfab"
+          "RetroArch/.retroarch/cores64/armnes_libretro.so": "48290519415aa83f6b85cc2419195bb632cb059402afa034d6aad9b7aa3b2008",
+          "RetroArch/.retroarch/cores/armnes_libretro.so": "a02ebd57482acd39a646ba392efd0174ab6dace3c8c82889ee60753165ad0027"
         }
       }
     },

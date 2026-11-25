@@ -8760,6 +8760,82 @@
         "note": "matched byte for byte by CE run 44748218492 (225823b)"
       }
     },
+    "dsperate-a30-v4.0.1": {
+      "extends": "dsperate-a30-v3.4.0",
+      "description": "DSperate v4.0.1: Emu/NDS/dsperate.a30 on the Miyoo A30 since c6e34cf9e. Built as spruceUI/DSperate-spruce@74fff8f3c's build-a30.sh did in the a30 job of its 'Build All' run 45103425815 (2026-11-23 03:00Z; DSPERATE_VERSION=main, the v4.0.1 commit 5ad9c21b, SKIP_TESTS=1): dsperate-a30-v3.4.0's environment with 74fff8f's changes, upstream's PGO profile pgo/armv7l (its toolchain file names the processor armv7l, and the compile flags are the trained ones: -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -pthread, no -O3), the menu-colours patch only. v4.0.1 has an ARM32 recompiler and NEON kernels, both on here.",
+      "source": {
+        "url": "https://github.com/beebono/DSperate.git",
+        "commit": "5ad9c21b592a9467a3d5b1a7eafd222befbed268",
+        "tree": "5d5b4d11fbcab2124bd14d82f99c46496fe90618",
+        "requested_ref": "refs/tags/v4.0.1",
+        "path": "/build/DSperate"
+      },
+      "source_date_epoch": 1795401825,
+      "downloads": [
+        {
+          "url": "https://raw.githubusercontent.com/spruceUI/DSperate-spruce/74fff8f3c37695ad3f9a3cf1b1a67d7a4a14236e/patches/0001-spruce-menu-colours.py",
+          "sha256": "48b975a2640f6eb1122ce07fc7870ba3d375ba70c69f779dfecd7f1a063faa1e",
+          "path": "/patches/0001-spruce-menu-colours.py"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/spruceUI/DSperate-spruce/74fff8f3c37695ad3f9a3cf1b1a67d7a4a14236e/toolchain-a30.cmake",
+          "sha256": "b2060a1394feae35c83020b79c3d79465ea2a3d28802326cb60cf78c2be051e9",
+          "path": "/toolchain-a30.cmake"
+        }
+      ],
+      "steps": [
+        "cd /opt/a30/arm-a30-linux-gnueabihf/sysroot/usr/lib && ln -sf libSDL2-2.0.so.0.2800.5 libSDL2.so && ln -sf libMali.so libEGL.so && ln -sf libMali.so libGLESv2.so && ln -sf libasound.so.2.0.0 libasound.so",
+        "cd /build/DSperate",
+        "for patch in /patches/*.py; do python3 \"$patch\" || exit 1; done",
+        "cmake -S . -B build -G Ninja -DCMAKE_TOOLCHAIN_FILE=/toolchain-a30.cmake -DCMAKE_BUILD_TYPE=Release \"-DCMAKE_C_FLAGS=-mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -pthread\" \"-DCMAKE_CXX_FLAGS=-mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -pthread\" \"-DCMAKE_EXE_LINKER_FLAGS=-pthread -Wl,--no-as-needed -lpthread -Wl,--as-needed -static-libstdc++ -static-libgcc -mcpu=cortex-a7\" -DDSPERATE_HEADLESS=OFF -DDSPERATE_SDL=ON -DDSPERATE_WAYLAND=OFF -DDSPERATE_PGO=use -DDSPERATE_TESTS=OFF",
+        "grep -q -- '-fprofile-use=' build/compile_commands.json && grep -q -- '-DDSPERATE_JIT=1' build/compile_commands.json && grep -q -- '-DDSPERATE_NEON=1' build/compile_commands.json",
+        "grep '^DSPERATE_PGO_DIR:PATH=.*/pgo/armv7l$' build/CMakeCache.txt",
+        "cmake --build build -j\"$(nproc)\""
+      ],
+      "shipped": {
+        "spruceos": "c6e34cf9e",
+        "source": "spruceOS c6e34cf9e (SundownerSport, 2026-11-22, \"update dsperate to v4.0.1\")",
+        "files": {
+          "dsperate.a30": "72964d6648fd4d326337173ec40bc9a6571320cfa62f5ded67ebba451f779ee2"
+        }
+      }
+    },
+    "dsperate-arm64-v4.0.1": {
+      "extends": "dsperate-arm64-v3.4.0",
+      "description": "DSperate v4.0.1: Emu/NDS/dsperate on every 64-bit device since c6e34cf9e. Built as spruceUI/DSperate-spruce@74fff8f3c's build.sh (the same as 0610b1fa2's) did in the universal job of its 'Build All' run 45103425815 (2026-11-23 03:00Z; DSPERATE_VERSION=main, then the v4.0.1 commit 5ad9c21b, SKIP_TESTS=1): dsperate-arm64-v3.4.0's image, SDL2 and flags, upstream's refreshed PGO profile pgo/aarch64-gcc10.5.0, and the menu-colours patch only (74fff8f dropped DS_CHEEVOS_HOST). The run's image had CMake 4.5.0, this one 4.4.5.",
+      "source": {
+        "url": "https://github.com/beebono/DSperate.git",
+        "commit": "5ad9c21b592a9467a3d5b1a7eafd222befbed268",
+        "tree": "5d5b4d11fbcab2124bd14d82f99c46496fe90618",
+        "requested_ref": "refs/tags/v4.0.1",
+        "path": "/build/DSperate"
+      },
+      "source_date_epoch": 1795401825,
+      "downloads": [
+        {
+          "url": "https://github.com/libsdl-org/SDL/releases/download/release-2.26.1/SDL2-2.26.1.tar.gz",
+          "sha256": "02537cc7ebd74071631038b237ec4bfbb3f4830ba019e569434da33f42373e04",
+          "path": "/build/SDL2-2.26.1.tar.gz"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/spruceUI/DSperate-spruce/74fff8f3c37695ad3f9a3cf1b1a67d7a4a14236e/patches/0001-spruce-menu-colours.py",
+          "sha256": "48b975a2640f6eb1122ce07fc7870ba3d375ba70c69f779dfecd7f1a063faa1e",
+          "path": "/patches/0001-spruce-menu-colours.py"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/spruceUI/DSperate-spruce/74fff8f3c37695ad3f9a3cf1b1a67d7a4a14236e/toolchain-aarch64.cmake",
+          "sha256": "850054b29d07d90bde640df0134e64aabc7d73ae4a283d49cac786a42a137c84",
+          "path": "/toolchain-aarch64.cmake"
+        }
+      ],
+      "shipped": {
+        "spruceos": "c6e34cf9e",
+        "source": "spruceOS c6e34cf9e (SundownerSport, 2026-11-22, \"update dsperate to v4.0.1\")",
+        "files": {
+          "dsperate": "7b8e914a27a4e669f877ee70d14b277cd5f16246687bc18cd97fa0b66a7b0fab"
+        }
+      }
+    },
     "mkxp-z-libretro-20260114": {
       "description": "mkxp-z libretro cores as mkxp-z/mkxp-z PR #255's CI built them in run 21002574259 (2026-01-14): spruce's RetroArch/.retroarch/cores/mkxp-z_libretro.so (job 'LR GNU/Linux armv7', generic-armv7-a+vfpv3-d16) and cores64/ (job 'LR GNU/Linux arm64', generic-armv8-a), imported in f32f064ab. The pull_request run built the PR's merge commit 402a68bc (white-axe's libretro branch fed492c5 into dev; the same tree), whose hash the cores embed ('2.4.2/402a68b'). The image (standalone-mkxpz) stands in for that day's ubuntu-latest runner; the runner also had pkg-config, groff and rustc, which Ruby's configure records in rbconfig.rb, so the recipe installs them from the same snapshot, and the CI's wasi-sdk path. Stage 1's two ZIPs (the Ruby library and the preload scripts) are rebuilt with the entry order, times and owner of the runner's files, recorded from spruce's cores (patches/standalone/mkxp-z). Parked 2026-11-20: CE run 44693737469 gives the same code and the same two embedded ZIPs as spruce's files, but about 300 KB of .rodata (unnamed constant data between stb_image's strings and the embedded font) still differs, most likely the stage-1 Ruby module's data layout; proving it needs the original stage-1 output, which has expired.",
       "source": {
