@@ -9186,6 +9186,7 @@
       "shipped": {
         "spruceos": "91c8cfa63",
         "source": "spruceOS 91c8cfa63 (ryanmsartor, 2026-11-19, \"update all armulators to latest\")",
+        "note": "matched byte for byte by CE run 45549416669 (6c4e081)",
         "files": {
           "cores64/armn64_libretro.so": "480410fe1659963e03ea7eb05959bcbb13d999b596f94c9a5b3273858d73a42c"
         }
@@ -9231,6 +9232,7 @@
       "shipped": {
         "spruceos": "761cf1db1",
         "source": "spruceOS 761cf1db1 (ryanmsartor, 2026-11-19, \"update mgba to 0.10-dev\")",
+        "note": "matched byte for byte by CE run 45549419889 (6c4e081)",
         "files": {
           "cores64/mgba_libretro.so": "4a7190d3c4ea327cf342c5755dc05a72de4532d793a549a0dd302d416bf47392"
         }
@@ -9275,6 +9277,7 @@
       "shipped": {
         "spruceos": "761cf1db1",
         "source": "spruceOS 761cf1db1 (ryanmsartor, 2026-11-19, \"update mgba to 0.10-dev\")",
+        "note": "matched byte for byte by CE run 45549422429 (6c4e081)",
         "files": {
           "cores/mgba_libretro.so": "b84920d8c02e5fb7840e47e65679b57a5c935868b5a24ddfc0a4b8f18a65c2b1"
         }

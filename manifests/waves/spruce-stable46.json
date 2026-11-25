@@ -1695,7 +1695,8 @@
       ],
       "status": "recipe",
       "recipes": [
-        "mgba"
+        "mgba",
+        "standalone:mgba-armhf-20261120"
       ],
       "families": [
         "MIYOO_A30",
@@ -3521,7 +3522,8 @@
       ],
       "status": "recipe",
       "recipes": [
-        "mgba"
+        "mgba",
+        "standalone:mgba-arm64-20261120"
       ],
       "families": [
         "ANBERNIC_RGXX",
@@ -4439,6 +4441,13 @@
         "RetroArch/.retroarch/cores64/armn64_libretro.so": "absent"
       }
     },
+    "standalone:armn64-arm64-20261120": {
+      "files": 1,
+      "status": "not shipped",
+      "differ": {
+        "RetroArch/.retroarch/cores64/armn64_libretro.so": "absent"
+      }
+    },
     "standalone:armnes_arcade-arm64-20261117": {
       "files": 1,
       "status": "not shipped",
@@ -4699,6 +4708,20 @@
     "standalone:mednafen_supergrafx-arm64-20250506": {
       "files": 1,
       "status": "match"
+    },
+    "standalone:mgba-arm64-20261120": {
+      "files": 1,
+      "status": "not shipped",
+      "differ": {
+        "RetroArch/.retroarch/cores64/mgba_libretro.so": "other bytes"
+      }
+    },
+    "standalone:mgba-armhf-20261120": {
+      "files": 1,
+      "status": "not shipped",
+      "differ": {
+        "RetroArch/.retroarch/cores/mgba_libretro.so": "other bytes"
+      }
     },
     "standalone:mkxp-z-libretro-20260114": {
       "files": 2,

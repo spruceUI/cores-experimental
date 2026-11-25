@@ -138,3 +138,5 @@ bytes at another path): such a record shows as `not shipped`.
 - The spare `armnes_arcade` (3345ffa1d, Cores-spruce's per-core run at the v1.4.1 tag) matches the catalog's recipe at
   that tag, both builds. evolver79's `gamate` core (0d619dc59, MIT with BSD-3-Clause MAME parts) reproduces in
   Cores-spruce's images (`gamate-*-20261124`).
+- The 11-19/20 updates reproduce too: armGBA v1.8.1 and superwhizkid v0.4.0 (the release asset) at the catalog's pins, and
+  armN64 v1.4.1 and mgba 6dce57eef in Cores-spruce's images. armsnes stays as recorded: cobaltgit's private LLVM build.

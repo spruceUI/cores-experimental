@@ -897,14 +897,19 @@
       "names": [
         "armgba"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
         "armgba"
       ],
       "families": [
         "MIYOO_A30",
         "MIYOO_MINI_FAMILY"
-      ]
+      ],
+      "pin": {
+        "recipe": "armgba",
+        "url": "https://github.com/MagnominusGit/armGBA.git",
+        "commit": "df6b2631291f249d54a00dd14f49bc893e438feb"
+      }
     },
     "RetroArch/.retroarch/cores/armnes_arcade_libretro.so": {
       "sha256": "4499918c76c9aa12626a71f8626b30739e2912ebb23a443502474d561e9c1f3e",
@@ -1813,14 +1818,19 @@
       "names": [
         "mgba"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
-        "mgba"
+        "standalone:mgba-armhf-20261120"
       ],
       "families": [
         "MIYOO_A30",
         "MIYOO_MINI_FAMILY"
-      ]
+      ],
+      "pin": {
+        "recipe": "standalone:mgba-armhf-20261120",
+        "url": "https://github.com/libretro/mgba.git",
+        "commit": "6dce57eef127dc4cc292644f38196e0e7c58590c"
+      }
     },
     "RetroArch/.retroarch/cores/mkxp-z_libretro.so": {
       "sha256": "39822d821e24071760d9edb108e2bd244d2a49a5415684bf53a822cd4b68b169",
@@ -2331,14 +2341,19 @@
       "names": [
         "superwhizkid"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
         "superwhizkid"
       ],
       "families": [
         "MIYOO_A30",
         "MIYOO_MINI_FAMILY"
-      ]
+      ],
+      "pin": {
+        "recipe": "superwhizkid",
+        "url": "https://github.com/ryanmsartor/superwhizkid.git",
+        "commit": "dd5c007bcf6cb0ad2301ca733d0c59e9cdf1d968"
+      }
     },
     "RetroArch/.retroarch/cores/swanstation_libretro.so": {
       "sha256": "f7cb499f80fc63dbe02dbc5a01f19932bb28f247dbd882bac9b6e88bd4a2f6f0",
@@ -2657,7 +2672,7 @@
       "names": [
         "armgba"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
         "armgba"
       ],
@@ -2669,7 +2684,12 @@
         "OAKMOSS_A133P",
         "TRIMUI_A133P",
         "TRIMUI_SMART_PRO_S"
-      ]
+      ],
+      "pin": {
+        "recipe": "armgba",
+        "url": "https://github.com/MagnominusGit/armGBA.git",
+        "commit": "df6b2631291f249d54a00dd14f49bc893e438feb"
+      }
     },
     "RetroArch/.retroarch/cores64/armn64_libretro.so": {
       "sha256": "480410fe1659963e03ea7eb05959bcbb13d999b596f94c9a5b3273858d73a42c",
@@ -2677,10 +2697,9 @@
       "names": [
         "armn64"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
-        "armn64",
-        "standalone:armn64-arm64-20261115"
+        "standalone:armn64-arm64-20261120"
       ],
       "families": [
         "ANBERNIC_RGXX",
@@ -2690,7 +2709,12 @@
         "OAKMOSS_A133P",
         "TRIMUI_A133P",
         "TRIMUI_SMART_PRO_S"
-      ]
+      ],
+      "pin": {
+        "recipe": "standalone:armn64-arm64-20261120",
+        "url": "https://github.com/MagnominusGit/armN64.git",
+        "commit": "10141dbe40067bc9f96442a4d5bbfae4d9f1493f"
+      }
     },
     "RetroArch/.retroarch/cores64/armnes_arcade_libretro.so": {
       "sha256": "1234833f6bc67e56ba04106e118f68695bac4c771ad146a1e9050ded99e9b5d4",
@@ -3890,9 +3914,9 @@
       "names": [
         "mgba"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
-        "mgba"
+        "standalone:mgba-arm64-20261120"
       ],
       "families": [
         "ANBERNIC_RGXX",
@@ -3902,7 +3926,12 @@
         "OAKMOSS_A133P",
         "TRIMUI_A133P",
         "TRIMUI_SMART_PRO_S"
-      ]
+      ],
+      "pin": {
+        "recipe": "standalone:mgba-arm64-20261120",
+        "url": "https://github.com/libretro/mgba.git",
+        "commit": "6dce57eef127dc4cc292644f38196e0e7c58590c"
+      }
     },
     "RetroArch/.retroarch/cores64/mkxp-z_libretro.so": {
       "sha256": "40a3fba44573f8464893a46fb87b1c0a679ed7362dce1ed6e5c6a93b501d41c2",
@@ -4517,7 +4546,7 @@
       "names": [
         "superwhizkid"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
         "superwhizkid"
       ],
@@ -4529,7 +4558,12 @@
         "OAKMOSS_A133P",
         "TRIMUI_A133P",
         "TRIMUI_SMART_PRO_S"
-      ]
+      ],
+      "pin": {
+        "recipe": "superwhizkid",
+        "url": "https://github.com/ryanmsartor/superwhizkid.git",
+        "commit": "dd5c007bcf6cb0ad2301ca733d0c59e9cdf1d968"
+      }
     },
     "RetroArch/.retroarch/cores64/swanstation_libretro.so": {
       "sha256": "b72a1c72254fe0d6be9f6890bad0c7011018ac5dcef0a7897d38809e107a3749",
@@ -4837,11 +4871,7 @@
     },
     "armgba": {
       "files": 2,
-      "status": "not shipped",
-      "differ": {
-        "RetroArch/.retroarch/cores/armgba_libretro.so": "other bytes",
-        "RetroArch/.retroarch/cores64/armgba_libretro.so": "other bytes"
-      }
+      "status": "match"
     },
     "armnes": {
       "files": 2,
@@ -4876,10 +4906,17 @@
     },
     "standalone:armn64-arm64-20261115": {
       "files": 1,
-      "status": "not shipped",
+      "status": "replaced",
       "differ": {
         "RetroArch/.retroarch/cores64/armn64_libretro.so": "other bytes"
-      }
+      },
+      "by": [
+        "standalone:armn64-arm64-20261120"
+      ]
+    },
+    "standalone:armn64-arm64-20261120": {
+      "files": 1,
+      "status": "match"
     },
     "standalone:armnes_arcade-arm64-20261117": {
       "files": 1,
@@ -5132,6 +5169,14 @@
       "status": "match"
     },
     "standalone:mednafen_supergrafx-arm64-20250506": {
+      "files": 1,
+      "status": "match"
+    },
+    "standalone:mgba-arm64-20261120": {
+      "files": 1,
+      "status": "match"
+    },
+    "standalone:mgba-armhf-20261120": {
       "files": 1,
       "status": "match"
     },
@@ -5395,11 +5440,7 @@
     },
     "superwhizkid": {
       "files": 2,
-      "status": "not shipped",
-      "differ": {
-        "RetroArch/.retroarch/cores/superwhizkid_libretro.so": "other bytes",
-        "RetroArch/.retroarch/cores64/superwhizkid_libretro.so": "other bytes"
-      }
+      "status": "match"
     }
   }
 }
