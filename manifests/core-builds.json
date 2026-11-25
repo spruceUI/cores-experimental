@@ -254,8 +254,8 @@
     "armnes_arcade": {
       "source": {
         "url": "https://github.com/MagnominusGit/armNES.git",
-        "commit": "13f04b0bc161af89834b7da858dcd9c22c101c7a",
-        "requested_ref": "refs/heads/main"
+        "commit": "02baef18734a86ba41d2d52803e50f2dcc9837f9",
+        "requested_ref": "refs/tags/v1.4.1"
       },
       "targets": [
         "arm64",
@@ -279,7 +279,16 @@
       },
       "metadata": {
         "artifact_name": "armnes_arcade_libretro.info",
-        "repo_path": "metadata/armnes_arcade/spruceos-d14cdbefe.info"
+        "repo_path": "metadata/armnes_arcade/spruceos-3345ffa1d.info"
+      },
+      "shipped": {
+        "spruceos": "3345ffa1d",
+        "source": "spruceOS 3345ffa1d (SundownerSport, 2026-11-21, \"update armnes and armnes_arcade to v1.4.1\"), from Cores-spruce's 'Build armnes_arcade' run 44958361942 at 4227a6232 (2026-11-21 22:45Z, REF=v1.4.1: 02baef18; armulators 3dc61ccb). No menu offers the core (spare)",
+        "variant": "release-arm64-generic + release-armhf-generic",
+        "files": {
+          "RetroArch/.retroarch/cores64/armnes_arcade_libretro.so": "1234833f6bc67e56ba04106e118f68695bac4c771ad146a1e9050ded99e9b5d4",
+          "RetroArch/.retroarch/cores/armnes_arcade_libretro.so": "4499918c76c9aa12626a71f8626b30739e2912ebb23a443502474d561e9c1f3e"
+        }
       }
     },
     "atari800": {

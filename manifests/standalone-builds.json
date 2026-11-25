@@ -9085,6 +9085,90 @@
           "path": "/home/docker/Lakka/sources/alsa-lib/alsa-lib-1.2.4.tar.bz2"
         }
       ]
+    },
+    "gamate-arm64-20261124": {
+      "description": "evolver79's Gamate core (nextui-gamate-pak v1.0.0, MIT; parts of core/gamate.c follow MAME's Gamate driver, BSD-3-Clause, LICENSE-MAME): spruce's cores64/gamate_libretro.so since 0d619dc59, from Cores-spruce's 'Build gamate' run 45314331528 at 2873b6ab7 (2026-11-24 02:42Z, no ref): `make clean`, then `CFLAGS=\"-O2 -fno-aggressive-loop-optimizations\" make CC=\"<gcc> <cpu flags>\"` in /gamate, and the image's strip, in Cores-spruce's arm64 image. The run's log prints this file's build ID, 7741437f.",
+      "source": {
+        "url": "https://github.com/evolver79/nextui-gamate-pak.git",
+        "commit": "8c7352e92c8f8d72c1162088837be0b323c28166",
+        "tree": "32cbdd670532d3d95704f069c860795f9b69f83b",
+        "requested_ref": "main tip at the run (the repo's one commit, tag v1.0.0); the .info says v1.0.0 8c7352e",
+        "path": "/gamate"
+      },
+      "toolchain": "cores-spruce-arm64",
+      "source_date_epoch": 1795364853,
+      "steps": [
+        "make clean",
+        "CFLAGS=\"-O2 -fno-aggressive-loop-optimizations\" make CC=\"aarch64-linux-gnu-gcc -march=armv8-a+crc+crypto+simd -mtune=cortex-a53\"",
+        "aarch64-linux-gnu-strip gamate_libretro.so"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/gamate/gamate_libretro.so",
+            "to": "cores64/gamate_libretro.so"
+          }
+        ],
+        "spruce": {
+          "cores64/gamate_libretro.so": "RetroArch/.retroarch/cores64/gamate_libretro.so"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libc.so.6"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "0d619dc59",
+        "source": "spruceOS 0d619dc59 (SundownerSport, 2026-11-23, \"add evolver79's gamate core as a Gamate option\")",
+        "files": {
+          "cores64/gamate_libretro.so": "96619eb6d2f1d66651632f4cb2f898c07ce814fe40256e8e87cb9a73e0d2f7f1"
+        }
+      }
+    },
+    "gamate-armhf-20261124": {
+      "description": "evolver79's Gamate core (nextui-gamate-pak v1.0.0, MIT; parts of core/gamate.c follow MAME's Gamate driver, BSD-3-Clause, LICENSE-MAME): spruce's cores/gamate_libretro.so since 0d619dc59, from Cores-spruce's 'Build gamate' run 45314331528 at 2873b6ab7 (2026-11-24 02:42Z, no ref): `make clean`, then `CFLAGS=\"-O2 -fno-aggressive-loop-optimizations\" make CC=\"<gcc> <cpu flags>\"` in /gamate, and the image's strip, in Cores-spruce's armhf image.",
+      "source": {
+        "url": "https://github.com/evolver79/nextui-gamate-pak.git",
+        "commit": "8c7352e92c8f8d72c1162088837be0b323c28166",
+        "tree": "32cbdd670532d3d95704f069c860795f9b69f83b",
+        "requested_ref": "main tip at the run (the repo's one commit, tag v1.0.0); the .info says v1.0.0 8c7352e",
+        "path": "/gamate"
+      },
+      "toolchain": "cores-spruce-armhf",
+      "source_date_epoch": 1795364853,
+      "steps": [
+        "make clean",
+        "CFLAGS=\"-O2 -fno-aggressive-loop-optimizations\" make CC=\"arm-a30-linux-gnueabihf-gcc -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard\"",
+        "arm-a30-linux-gnueabihf-strip gamate_libretro.so"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/gamate/gamate_libretro.so",
+            "to": "cores/gamate_libretro.so"
+          }
+        ],
+        "spruce": {
+          "cores/gamate_libretro.so": "RetroArch/.retroarch/cores/gamate_libretro.so"
+        }
+      },
+      "needed": {
+        "device": [
+          "libc.so.6",
+          "libm.so.6"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "0d619dc59",
+        "source": "spruceOS 0d619dc59 (SundownerSport, 2026-11-23, \"add evolver79's gamate core as a Gamate option\")",
+        "files": {
+          "cores/gamate_libretro.so": "5385da87aedafd9941042698e879a7deea7f5917d033c584bbacfcc2c39d3f56"
+        }
+      }
     }
   }
 }
