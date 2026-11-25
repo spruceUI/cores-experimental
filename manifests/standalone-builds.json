@@ -8803,7 +8803,7 @@
     },
     "dsperate-arm64-v4.0.1": {
       "extends": "dsperate-arm64-v3.4.0",
-      "description": "DSperate v4.0.1: Emu/NDS/dsperate on every 64-bit device since c6e34cf9e. Built as spruceUI/DSperate-spruce@74fff8f3c's build.sh (the same as 0610b1fa2's) did in the universal job of its 'Build All' run 45103425815 (2026-11-23 03:00Z; DSPERATE_VERSION=main, then the v4.0.1 commit 5ad9c21b, SKIP_TESTS=1): dsperate-arm64-v3.4.0's image, SDL2 and flags, upstream's refreshed PGO profile pgo/aarch64-gcc10.5.0, and the menu-colours patch only (74fff8f dropped DS_CHEEVOS_HOST). The run's image had Kitware's CMake 4.5.0 (the one change from the 11-08 run's packages), installed here over the image's 4.4.5 from Kitware's pool (sha256s from its signed focal index).",
+      "description": "DSperate v4.0.1: Emu/NDS/dsperate on every 64-bit device since c6e34cf9e. Built as spruceUI/DSperate-spruce@74fff8f3c's build.sh (the same as 0610b1fa2's) did in the universal job of its 'Build All' run 45103425815 (2026-11-23 03:00Z; DSPERATE_VERSION=main, the v4.0.1 commit 5ad9c21b, SKIP_TESTS=1): dsperate-arm64-v3.4.0's image, SDL2 and flags, upstream's PGO profile pgo/aarch64-gcc10.5.0, the menu-colours patch only. That run's ccache (actions/cache key ccache-dsperate-aarch64-74fff8f3c, saved by run 42528347767 and never again) held the PGO builds of 11-08: 109ecfd5 (menu patch; run 42435550778), 109ecfd5 (menu and DS_CHEEVOS_HOST patches; 42516048883) and v3.4.1 ecb27c96 (menu patch; 42528347767). Focal's ccache 3.7.7 hashes neither the mangled .gcda files nor, in preprocessed mode, the -DDSPERATE_PGO_PROFILE stamp, so 96 objects came from those builds, compiled with their profiles. This recipe builds the three in one ccache first. The run's image had CMake 4.5.0, this one 4.4.5: runs 45532410875 (4.4.5) and 45533267083 (4.5.0) gave the same bytes.",
       "source": {
         "url": "https://github.com/beebono/DSperate.git",
         "commit": "5ad9c21b592a9467a3d5b1a7eafd222befbed268",
@@ -8813,16 +8813,6 @@
       },
       "source_date_epoch": 1795401825,
       "downloads": [
-        {
-          "url": "https://apt.kitware.com/ubuntu/pool/main/c/cmake/cmake-data_4.5.0-0kitware1ubuntu20.04.1_all.deb",
-          "sha256": "85865cca362fec40ea7bc62bfa13a4f85868fdffbed929dde17da5ea922f362b",
-          "path": "/build/cmake-data_4.5.0-0kitware1ubuntu20.04.1_all.deb"
-        },
-        {
-          "url": "https://apt.kitware.com/ubuntu/pool/main/c/cmake/cmake_4.5.0-0kitware1ubuntu20.04.1_amd64.deb",
-          "sha256": "f8ebb0cbd9728c6940ba09a1ab2a0003842ef056c33b8970156056153e12abc5",
-          "path": "/build/cmake_4.5.0-0kitware1ubuntu20.04.1_amd64.deb"
-        },
         {
           "url": "https://github.com/libsdl-org/SDL/releases/download/release-2.26.1/SDL2-2.26.1.tar.gz",
           "sha256": "02537cc7ebd74071631038b237ec4bfbb3f4830ba019e569434da33f42373e04",
@@ -8837,6 +8827,11 @@
           "url": "https://raw.githubusercontent.com/spruceUI/DSperate-spruce/74fff8f3c37695ad3f9a3cf1b1a67d7a4a14236e/toolchain-aarch64.cmake",
           "sha256": "850054b29d07d90bde640df0134e64aabc7d73ae4a283d49cac786a42a137c84",
           "path": "/toolchain-aarch64.cmake"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/spruceUI/DSperate-spruce/0610b1fa2357c03fccbdc05befd13b30b23ec84c/patches/0002-cheevos-host-env.py",
+          "sha256": "da5c3999d87e85a17238a5cba5c898b098418657c8187267828e5d34ed47cfed",
+          "path": "/build/stage-patches/0002-cheevos-host-env.py"
         }
       ],
       "shipped": {
@@ -8847,19 +8842,23 @@
         }
       },
       "steps": [
-        "dpkg -i /build/cmake_4.5.0-0kitware1ubuntu20.04.1_amd64.deb /build/cmake-data_4.5.0-0kitware1ubuntu20.04.1_all.deb",
-        "cmake --version | head -1 | grep -qx 'cmake version 4.5.0'",
         "cd /build && tar xf SDL2-2.26.1.tar.gz && cd SDL2-2.26.1",
         "./configure --host=aarch64-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/build/local --enable-shared --disable-static --enable-video-wayland --disable-video-x11 --disable-video-rpi --disable-oss --disable-esd --disable-arts CC=\"ccache aarch64-linux-gnu-gcc-10\" CXX=\"ccache aarch64-linux-gnu-g++-10\"",
         "make -j\"$(nproc)\" && make install",
         "grep -q '^#define SDL_VIDEO_DRIVER_WAYLAND' /build/local/include/SDL2/SDL_config.h",
         "export PKG_CONFIG_PATH=\"/build/local/lib/pkgconfig:$PKG_CONFIG_PATH\" PKG_CONFIG_LIBDIR=\"/build/local/lib/pkgconfig:$PKG_CONFIG_LIBDIR\"",
         "cd /build/DSperate",
+        "ds_configure() { cmake -S . -B build -G Ninja -DCMAKE_TOOLCHAIN_FILE=/toolchain-aarch64.cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS=-pthread -DCMAKE_CXX_FLAGS=-pthread \"-DCMAKE_EXE_LINKER_FLAGS=-pthread -Wl,--no-as-needed -lpthread -Wl,--as-needed -static-libstdc++ -static-libgcc -L/build/local/lib -Wl,-rpath-link,/build/local/lib -L/usr/lib/aarch64-linux-gnu -Wl,-rpath-link,/usr/lib/aarch64-linux-gnu\" -DDSPERATE_JIT=ON -DDSPERATE_NEON=ON -DDSPERATE_GLES=ON -DDSPERATE_HEADLESS=OFF -DDSPERATE_SDL=ON -DDSPERATE_WAYLAND=OFF -DDSPERATE_PGO=use -DDSPERATE_TESTS=OFF; }",
+        "for stage in '109ecfd55e23ee818ac85ae531320e3666916273 /patches/0001-spruce-menu-colours.py' '109ecfd55e23ee818ac85ae531320e3666916273 /patches/0001-spruce-menu-colours.py /build/stage-patches/0002-cheevos-host-env.py' 'ecb27c96a80dd2c4bf31a0316f9eef9354d73e04 /patches/0001-spruce-menu-colours.py'; do set -- $stage; git checkout -q -f \"$1\"; git clean -qfdx; shift; for patch in \"$@\"; do python3 \"$patch\"; done; ds_configure; cmake --build build -j\"$(nproc)\"; done",
+        "git checkout -q -f 5ad9c21b592a9467a3d5b1a7eafd222befbed268",
+        "git clean -qfdx",
+        "ccache --zero-stats",
         "for patch in /patches/*.py; do python3 \"$patch\" || exit 1; done",
-        "cmake -S . -B build -G Ninja -DCMAKE_TOOLCHAIN_FILE=/toolchain-aarch64.cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS=-pthread -DCMAKE_CXX_FLAGS=-pthread \"-DCMAKE_EXE_LINKER_FLAGS=-pthread -Wl,--no-as-needed -lpthread -Wl,--as-needed -static-libstdc++ -static-libgcc -L/build/local/lib -Wl,-rpath-link,/build/local/lib -L/usr/lib/aarch64-linux-gnu -Wl,-rpath-link,/usr/lib/aarch64-linux-gnu\" -DDSPERATE_JIT=ON -DDSPERATE_NEON=ON -DDSPERATE_GLES=ON -DDSPERATE_HEADLESS=OFF -DDSPERATE_SDL=ON -DDSPERATE_WAYLAND=OFF -DDSPERATE_PGO=use -DDSPERATE_TESTS=OFF",
+        "ds_configure",
         "grep -q -- '-DDSPERATE_JIT=1' build/compile_commands.json && grep -q -- '-DDSPERATE_NEON=1' build/compile_commands.json && grep -q -- '-DDSPERATE_GLES=1' build/compile_commands.json && grep -q -- '-fprofile-use=' build/compile_commands.json",
         "grep '^DSPERATE_PGO_DIR:PATH=' build/CMakeCache.txt",
-        "cmake --build build -j\"$(nproc)\""
+        "cmake --build build -j\"$(nproc)\"",
+        "ccache --show-stats"
       ]
     },
     "mkxp-z-libretro-20260114": {
