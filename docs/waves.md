@@ -141,3 +141,7 @@ bytes at another path): such a record shows as `not shipped`.
   Cores-spruce's images (`gamate-*-20261124`).
 - The 11-19/20 updates reproduce too: armGBA v1.8.1 and superwhizkid v0.4.0 (the release asset) at the catalog's pins, and
   armN64 v1.4.1 and mgba 6dce57eef in Cores-spruce's images. armsnes stays as recorded: cobaltgit's private LLVM build.
+- Both `mednafen_pcfx` files reproduce, now that Ry's PCFX system (54fbd0c69) uses them. `cores64/` is christianhaitian's
+  GCC 8.5.0 prebuilt (rk3326 `pcfx.sh` seds SM1's cortex-a55 to cortex-a35), in `standalone-buster-gcc85`. `cores/` is
+  one of cobaltgit's 69 crosstool-NG 6.5 files, in its rebuild `standalone-ctng65-v2`: the other 68 can now be tried
+  with the same flags ([standalone](standalone.md#status)).

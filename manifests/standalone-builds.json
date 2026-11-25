@@ -9284,7 +9284,7 @@
       }
     },
     "mednafen_pcfx-arm64-20230110": {
-      "description": "Beetle PC-FX (libretro/beetle-pcfx-libretro, GPL-2.0) as spruce ships it in cores64/ since Ry's 995c64f30 (2024-12-24, \"tons of cores from Christian Haitian!\"): christianhaitian's prebuilt from retroarch-cores c855e585ba (2023-01-10 21:40Z, \"Updated mednafen_pcfx_libretro.so core to commit 14294f9\"), whose zip holds spruce's blob 6101f8e8. Built by his rk3566_core_builds scripts/pcfx.sh at f477f2d (21:18Z the same day): a fresh clone, `make platform=SM1 -j$(nproc)` (the Makefile's Odroid-C4 branch: -mcpu=cortex-a55) and a plain `strip`, in his second environment of 2022-11 to 2023-01: a vanilla GCC 8.5.0 in his Debian buster arm64 chroot, with buster's bfd ld 2.31.1 and glibc 2.28 (Emu Inventory, pcfx64-provenance-20261125).",
+      "description": "Beetle PC-FX (libretro/beetle-pcfx-libretro, GPL-2.0) as spruce ships it in cores64/ since Ry's 995c64f30 (2024-12-24, \"tons of cores from Christian Haitian!\"): christianhaitian's prebuilt from retroarch-cores c855e585ba (2023-01-10 21:40Z, \"Updated mednafen_pcfx_libretro.so core to commit 14294f9\"), whose zip holds spruce's blob 6101f8e8. Built by his rk3326_core_builds scripts/pcfx.sh at 9ca1fa3 (21:19Z the same day; his aarch64 builds run in /home/rk3326_core_builds): a fresh clone, `sed -i '/a55/s//a35/g' Makefile` (the SM1 branch's -mcpu=cortex-a55 becomes cortex-a35, for the RK3326's A35), `make platform=SM1` and a plain `strip`, in his second environment of 2022-11 to 2023-01: a vanilla GCC 8.5.0 in his Debian buster arm64 chroot, with buster's bfd ld 2.31.1 and glibc 2.28 (Emu Inventory, pcfx64-provenance-20261125). Without the sed (cortex-a55, which shares cortex-a53's tuning) 99 of 1203 functions schedule differently.",
       "source": {
         "url": "https://github.com/libretro/beetle-pcfx-libretro.git",
         "commit": "14294f9617da36f6a24f736b41f1fa0de24c9f83",
@@ -9297,6 +9297,8 @@
         "GIT_CONFIG_PARAMETERS": "'core.abbrev=7'"
       },
       "steps": [
+        "sed -i '/a55/s//a35/g' Makefile",
+        "make clean",
         "make platform=SM1 -j\"$(nproc)\"",
         "strip mednafen_pcfx_libretro.so"
       ],
@@ -9326,7 +9328,8 @@
         "source": "spruceOS 995c64f30 (Ryan Sartor, 2024-12-24, \"tons of cores from Christian Haitian!\"), unchanged since (bd606af63 left it as it was)",
         "files": {
           "cores64/mednafen_pcfx_libretro.so": "a78c726ee75f70a6ddf1a6d740c0575f768b56543333920ddde9b4454cc5229e"
-        }
+        },
+        "note": "matched byte for byte by CE run 45659087730 (ad15ad1, the same steps on the verify branch)"
       }
     },
     "mednafen_pcfx-armhf-20251008": {
@@ -9388,7 +9391,8 @@
         "source": "spruceOS f033f8ee8 (cobaltgit, 2025-10-08, \"a30: update RA cores\")",
         "files": {
           "cores/mednafen_pcfx_libretro.so": "676f4004c6b48f90d6fbd79865a39ba451efaffd42efea2d7d385f08c8142821"
-        }
+        },
+        "note": "matched byte for byte by CE run 45655610942 (dbc817f)"
       }
     }
   }

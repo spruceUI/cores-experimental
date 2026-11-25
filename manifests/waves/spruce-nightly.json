@@ -1743,14 +1743,19 @@
       "names": [
         "mednafen_pcfx"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
-        "mednafen_pcfx"
+        "standalone:mednafen_pcfx-armhf-20251008"
       ],
       "families": [
         "MIYOO_A30",
         "MIYOO_MINI_FAMILY"
-      ]
+      ],
+      "pin": {
+        "recipe": "standalone:mednafen_pcfx-armhf-20251008",
+        "url": "https://github.com/libretro/beetle-pcfx-libretro.git",
+        "commit": "dd04cef9355286488a1d78ff18c4c848a1575540"
+      }
     },
     "RetroArch/.retroarch/cores/mednafen_supafaust_libretro.so": {
       "sha256": "5905469e957a8bc52f1c2f20d0d3a3a83501427985d3c6ffff96b8c86054bd4a",
@@ -3809,9 +3814,9 @@
       "names": [
         "mednafen_pcfx"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
-        "mednafen_pcfx"
+        "standalone:mednafen_pcfx-arm64-20230110"
       ],
       "families": [
         "ANBERNIC_RGXX",
@@ -3821,7 +3826,12 @@
         "OAKMOSS_A133P",
         "TRIMUI_A133P",
         "TRIMUI_SMART_PRO_S"
-      ]
+      ],
+      "pin": {
+        "recipe": "standalone:mednafen_pcfx-arm64-20230110",
+        "url": "https://github.com/libretro/beetle-pcfx-libretro.git",
+        "commit": "14294f9617da36f6a24f736b41f1fa0de24c9f83"
+      }
     },
     "RetroArch/.retroarch/cores64/mednafen_supafaust_libretro.so": {
       "sha256": "62cd3e06002103ac76e223f54755d09fd9dd69e63cd35d3064c82bcf177cca6b",
@@ -5165,6 +5175,14 @@
       "status": "match"
     },
     "standalone:mednafen_ngp-arm64-20250506": {
+      "files": 1,
+      "status": "match"
+    },
+    "standalone:mednafen_pcfx-arm64-20230110": {
+      "files": 1,
+      "status": "match"
+    },
+    "standalone:mednafen_pcfx-armhf-20251008": {
       "files": 1,
       "status": "match"
     },
