@@ -389,6 +389,17 @@
         "size": 456687924
       },
       "dockerfile": "Dockerfile.standalone.buster-gcc85.v2"
+    },
+    "standalone-ctng65-v2": {
+      "image": "cores-standalone-ctng65:v2",
+      "image_id": "sha256:368a3da29293e244ab81bf0dfe5f8865860321b2f5ccb85d8ea18a2fc283cb7d",
+      "host_cc": "arm-unknown-linux-gnueabihf",
+      "archive": {
+        "name": "cores-standalone-ctng65-v2.tar.gz",
+        "sha256": "e59be95284154971457b7fbb430748d204381725fc57e77365375daecf6c09ea",
+        "size": 266134135
+      },
+      "dockerfile": "Dockerfile.standalone.ctng65.v2"
     }
   }
 }

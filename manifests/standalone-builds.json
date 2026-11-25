@@ -9328,6 +9328,68 @@
           "cores64/mednafen_pcfx_libretro.so": "a78c726ee75f70a6ddf1a6d740c0575f768b56543333920ddde9b4454cc5229e"
         }
       }
+    },
+    "mednafen_pcfx-armhf-20251008": {
+      "description": "Beetle PC-FX (libretro/beetle-pcfx-libretro, GPL-2.0) as spruce ships it in cores/ since cobaltgit's f033f8ee8 (2025-10-08, \"a30: update RA cores\"): one of the 69 files of that commit built with an unpublished crosstool-NG 1.25.0 GCC 6.5.0 toolchain in a /libretro-super container (Quark's setup), here its rebuild standalone-ctng65-v2 (binutils 2.32, glibc 2.23). libretro-super's `./libretro-build.sh mednafen_pcfx` with platform=linux-armv7-neon (make platform=unix-armv7-hardfloat-neon, whose -mfpu=neon follows the environment's -mfpu=neon-vfpv4: VFPv3 + NEONv1) at beetle-pcfx dd04cef, the tip that day, with the environment's LTO, function/data sections and --gc-sections + --strip-all. Found by flag search (verify/pcfx32-flags-20261125): no -ffast-math (OwlResampler refuses it) and no -Wl,-O1 (the .hash bucket counts); ld 2.30 to 2.34 all give these bytes, 2.37+ not.",
+      "source": {
+        "url": "https://github.com/libretro/beetle-pcfx-libretro.git",
+        "commit": "dd04cef9355286488a1d78ff18c4c848a1575540",
+        "tree": "767659702abec7a20a46fd73135fcc7aef5537f1",
+        "requested_ref": "master tip on 2025-10-08 (the core says v0.9.36.5 dd04cef)"
+      },
+      "extra_sources": [
+        {
+          "url": "https://github.com/libretro/libretro-super.git",
+          "commit": "7dc2615d2ba6e695bcdff17dd7e17e0f4c501902",
+          "tree": "f06dd7ac63698bf026be7e302a2e5ba18cd919d6",
+          "requested_ref": "master tip on 2025-10-08",
+          "path": "/libretro-super"
+        }
+      ],
+      "toolchain": "standalone-ctng65-v2",
+      "source_date_epoch": 1759915415,
+      "env": {
+        "GIT_CONFIG_PARAMETERS": "'core.abbrev=7'",
+        "CC": "arm-unknown-linux-gnueabihf-gcc",
+        "CXX": "arm-unknown-linux-gnueabihf-g++",
+        "platform": "linux-armv7-neon",
+        "CFLAGS": "-mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -ffunction-sections -fdata-sections -fuse-linker-plugin -flto",
+        "CXXFLAGS": "-mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -ffunction-sections -fdata-sections -fuse-linker-plugin -flto",
+        "LDFLAGS": "-Wl,--gc-sections,--strip-all -fuse-linker-plugin -flto"
+      },
+      "steps": [
+        "ln -s /src /libretro-super/libretro-mednafen_pcfx",
+        "cd /libretro-super",
+        "./libretro-build.sh mednafen_pcfx"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/libretro-super/dist/unix/mednafen_pcfx_libretro.so",
+            "to": "cores/mednafen_pcfx_libretro.so"
+          }
+        ],
+        "spruce": {
+          "cores/mednafen_pcfx_libretro.so": "RetroArch/.retroarch/cores/mednafen_pcfx_libretro.so"
+        }
+      },
+      "needed": {
+        "device": [
+          "libc.so.6",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libpthread.so.0",
+          "libstdc++.so.6"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "f033f8ee8",
+        "source": "spruceOS f033f8ee8 (cobaltgit, 2025-10-08, \"a30: update RA cores\")",
+        "files": {
+          "cores/mednafen_pcfx_libretro.so": "676f4004c6b48f90d6fbd79865a39ba451efaffd42efea2d7d385f08c8142821"
+        }
+      }
     }
   }
 }
