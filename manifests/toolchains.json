@@ -354,6 +354,18 @@
         "size": 344124477
       },
       "dockerfile": "Dockerfile.standalone.lakka-focal"
+    },
+    "standalone-buster-gcc85": {
+      "image": "cores-standalone-buster-gcc85:v1",
+      "image_id": "sha256:1a425500138c1b0d8c1ca7183487be29189e45ad930afdf83565c514eb3d01c5",
+      "host_cc": "aarch64-linux-gnu",
+      "platform": "linux/arm64",
+      "archive": {
+        "name": "cores-standalone-buster-gcc85-v1.tar.gz",
+        "sha256": "9e74b0d989f36aff0e0ed65c669bd04290fe49a2b5ccfd0d199a344414851c6d",
+        "size": 452225174
+      },
+      "dockerfile": "Dockerfile.standalone.buster-gcc85"
     }
   }
 }

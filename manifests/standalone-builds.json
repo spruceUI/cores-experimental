@@ -9282,6 +9282,52 @@
           "cores/mgba_libretro.so": "b84920d8c02e5fb7840e47e65679b57a5c935868b5a24ddfc0a4b8f18a65c2b1"
         }
       }
+    },
+    "mednafen_pcfx-arm64-20230110": {
+      "description": "Beetle PC-FX (libretro/beetle-pcfx-libretro, GPL-2.0) as spruce ships it in cores64/ since Ry's 995c64f30 (2024-12-24, \"tons of cores from Christian Haitian!\"): christianhaitian's prebuilt from retroarch-cores c855e585ba (2023-01-10 21:40Z, \"Updated mednafen_pcfx_libretro.so core to commit 14294f9\"), whose zip holds spruce's blob 6101f8e8. Built by his rk3566_core_builds scripts/pcfx.sh at f477f2d (21:18Z the same day): a fresh clone, `make platform=SM1 -j$(nproc)` (the Makefile's Odroid-C4 branch: -mcpu=cortex-a55) and a plain `strip`, in his second environment of 2022-11 to 2023-01: a vanilla GCC 8.5.0 in his Debian buster arm64 chroot, with buster's bfd ld 2.31.1 and glibc 2.28 (Emu Inventory, pcfx64-provenance-20261125).",
+      "source": {
+        "url": "https://github.com/libretro/beetle-pcfx-libretro.git",
+        "commit": "14294f9617da36f6a24f736b41f1fa0de24c9f83",
+        "tree": "7ea3c983d08105a4bb199964429ae1835019b88a",
+        "requested_ref": "master tip on 2023-01-10 (the core says v0.9.36.5 14294f9)"
+      },
+      "toolchain": "standalone-buster-gcc85",
+      "source_date_epoch": 1673385535,
+      "env": {
+        "GIT_CONFIG_PARAMETERS": "'core.abbrev=7'"
+      },
+      "steps": [
+        "make platform=SM1 -j\"$(nproc)\"",
+        "strip mednafen_pcfx_libretro.so"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/src/mednafen_pcfx_libretro.so",
+            "to": "cores64/mednafen_pcfx_libretro.so"
+          }
+        ],
+        "spruce": {
+          "cores64/mednafen_pcfx_libretro.so": "RetroArch/.retroarch/cores64/mednafen_pcfx_libretro.so"
+        }
+      },
+      "needed": {
+        "device": [
+          "libc.so.6",
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libpthread.so.0",
+          "libstdc++.so.6"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "995c64f30",
+        "source": "spruceOS 995c64f30 (Ryan Sartor, 2024-12-24, \"tons of cores from Christian Haitian!\"), unchanged since (bd606af63 left it as it was)",
+        "files": {
+          "cores64/mednafen_pcfx_libretro.so": "a78c726ee75f70a6ddf1a6d740c0575f768b56543333920ddde9b4454cc5229e"
+        }
+      }
     }
   }
 }
