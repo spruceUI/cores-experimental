@@ -131,3 +131,7 @@ bytes at another path): such a record shows as `not shipped`.
   risk on the device: `cores64/np2kai_libretro.so` needs `GLIBC_2.34`, above the TrimUI devices' 2.33.
 - DSperate v3.4.0 reproduces on both builds of 504e78012: the A30 build at the v3.4.0 tag, and the aarch64 build
   at 109ecfd5 with upstream's PGO profile, in `standalone-dsperate-v2` ([standalone](standalone.md#status)).
+- DSperate v4.0.1 (c6e34cf9e) reproduces on both builds too. The aarch64 one needs the wrapper's ccache history: three
+  earlier PGO builds whose objects focal's ccache reused under the new profile ([standalone](standalone.md#status)).
+  armNES v1.5 (4497d1d58) is Cores-spruce's build of main f88b792d, two commits after the tag (Thumb-2 on ARMv7):
+  the catalog's `armnes` at that commit matches both builds.

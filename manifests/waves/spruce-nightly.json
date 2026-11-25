@@ -301,10 +301,9 @@
         "DSperate",
         "DSperate-Tate"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
-        "standalone:dsperate-arm64",
-        "standalone:dsperate-arm64-v3.4.0"
+        "standalone:dsperate-arm64-v4.0.1"
       ],
       "families": [
         "ANBERNIC_RGXX",
@@ -316,7 +315,12 @@
         "OAKMOSS_A133P",
         "TRIMUI_A133P",
         "TRIMUI_SMART_PRO_S"
-      ]
+      ],
+      "pin": {
+        "recipe": "standalone:dsperate-arm64-v4.0.1",
+        "url": "https://github.com/beebono/DSperate.git",
+        "commit": "5ad9c21b592a9467a3d5b1a7eafd222befbed268"
+      }
     },
     "Emu/NDS/dsperate.a30": {
       "sha256": "72964d6648fd4d326337173ec40bc9a6571320cfa62f5ded67ebba451f779ee2",
@@ -325,10 +329,9 @@
         "DSperate",
         "DSperate-Tate"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
-        "standalone:dsperate-a30",
-        "standalone:dsperate-a30-v3.4.0"
+        "standalone:dsperate-a30-v4.0.1"
       ],
       "families": [
         "ANBERNIC_RGXX",
@@ -340,7 +343,12 @@
         "OAKMOSS_A133P",
         "TRIMUI_A133P",
         "TRIMUI_SMART_PRO_S"
-      ]
+      ],
+      "pin": {
+        "recipe": "standalone:dsperate-a30-v4.0.1",
+        "url": "https://github.com/beebono/DSperate.git",
+        "commit": "5ad9c21b592a9467a3d5b1a7eafd222befbed268"
+      }
     },
     "Emu/OPENBOR/OpenBOR_64_mod": {
       "sha256": "5b35eab30522a06484e550550ccfb008f5e7664768028c6e4dd05f80bfc28da8",
@@ -918,14 +926,19 @@
       "names": [
         "armnes"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
         "armnes"
       ],
       "families": [
         "MIYOO_A30",
         "MIYOO_MINI_FAMILY"
-      ]
+      ],
+      "pin": {
+        "recipe": "armnes",
+        "url": "https://github.com/MagnominusGit/armNES.git",
+        "commit": "f88b792d58ff616d00dc47a151c6aa646478992f"
+      }
     },
     "RetroArch/.retroarch/cores/atari800_libretro.so": {
       "sha256": "da823b2cbf5258e7b92feeab4d87f27a641ef05b8020ef35158fbd8d28955643",
@@ -2688,7 +2701,7 @@
       "names": [
         "armnes"
       ],
-      "status": "recipe",
+      "status": "reproduces",
       "recipes": [
         "armnes"
       ],
@@ -2700,7 +2713,12 @@
         "OAKMOSS_A133P",
         "TRIMUI_A133P",
         "TRIMUI_SMART_PRO_S"
-      ]
+      ],
+      "pin": {
+        "recipe": "armnes",
+        "url": "https://github.com/MagnominusGit/armNES.git",
+        "commit": "f88b792d58ff616d00dc47a151c6aa646478992f"
+      }
     },
     "RetroArch/.retroarch/cores64/armsnes_libretro.so": {
       "sha256": "e939f1fb0a802f591156d3326def5ebf34a87d8ffd6ba597c40dc02ff253db74",
@@ -4805,11 +4823,7 @@
     },
     "armnes": {
       "files": 2,
-      "status": "not shipped",
-      "differ": {
-        "RetroArch/.retroarch/cores/armnes_libretro.so": "other bytes",
-        "RetroArch/.retroarch/cores64/armnes_libretro.so": "other bytes"
-      }
+      "status": "match"
     },
     "armsnes": {
       "files": 1,
@@ -4886,31 +4900,51 @@
     },
     "standalone:dsperate-a30": {
       "files": 1,
-      "status": "not shipped",
+      "status": "replaced",
       "differ": {
         "Emu/NDS/dsperate.a30": "other bytes"
-      }
+      },
+      "by": [
+        "standalone:dsperate-a30-v4.0.1"
+      ]
     },
     "standalone:dsperate-a30-v3.4.0": {
       "files": 1,
-      "status": "not shipped",
+      "status": "replaced",
       "differ": {
         "Emu/NDS/dsperate.a30": "other bytes"
-      }
+      },
+      "by": [
+        "standalone:dsperate-a30-v4.0.1"
+      ]
+    },
+    "standalone:dsperate-a30-v4.0.1": {
+      "files": 1,
+      "status": "match"
     },
     "standalone:dsperate-arm64": {
       "files": 1,
-      "status": "not shipped",
+      "status": "replaced",
       "differ": {
         "Emu/NDS/dsperate": "other bytes"
-      }
+      },
+      "by": [
+        "standalone:dsperate-arm64-v4.0.1"
+      ]
     },
     "standalone:dsperate-arm64-v3.4.0": {
       "files": 1,
-      "status": "not shipped",
+      "status": "replaced",
       "differ": {
         "Emu/NDS/dsperate": "other bytes"
-      }
+      },
+      "by": [
+        "standalone:dsperate-arm64-v4.0.1"
+      ]
+    },
+    "standalone:dsperate-arm64-v4.0.1": {
+      "files": 1,
+      "status": "match"
     },
     "standalone:easyrpg-arm64-20261118": {
       "files": 1,

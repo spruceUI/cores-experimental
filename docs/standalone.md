@@ -79,7 +79,7 @@ from pinned parts (`Dockerfile.standalone.<name>`, loaded by `manifests/toolchai
 | `standalone-openbor-fflns` | `openbor-fflns-arm64-20260512`, `gametank-libretro-1.0.3` (for its python3: zig is downloaded, not installed) | wakeboxer's OpenBoR-spruce `Dockerfile` (53ba4100), which his workflow never pushed: `ubuntu:focal-20250404` by digest, the GCC 9.4 aarch64 cross and focal's arm64 SDL2, SDL2_gfx, Vorbis, libvpx 6 and libpng from focal and focal-updates, plus python3 for the recipe's download. Reproducible in practice: apt resolves on the build day |
 | `standalone-mkxpz` | `mkxp-z-libretro-20260114` | the environment of mkxp-z's libretro CI jobs of 2026-01-14 (PR #255 run 21002574259): `ubuntu:noble-20251013` by digest with apt from snapshot.ubuntu.com 20260114T170000Z (clang/LLD 18.1.3, meson 1.3.2, binaryen 108), wasi-sdk 29, and Xenial armhf/arm64 cloud-image sysroots with the toolchain PPA's gcc-9 (its two signing keys pinned by fingerprint), built under qemu in the richese Lima VM |
 | `standalone-lakka-focal` | `uae4arm-lakka-rpi3-composite-20240502` | Lakka's own build environment (ToKe79/Lakka-LibreELEC v4.x/rpi-composite faf53a97 `tools/docker/focal`), focal by digest, kept root so recipes run Lakka's scripts as its `docker` user; Lakka then builds its own GCC 10.2.0 toolchain |
-| `standalone-dsperate-v2` | `dsperate-arm64-v3.4.0` | v1 plus Kitware CMake 4.4.5, `libvulkan-dev:arm64` and Vulkan-Headers 1.4.363.0 by commit, as DSperate-spruce 0610b1fa2's Dockerfile has. Built with `DOCKER_BUILDKIT=0`: BuildKit reads `FROM sha256:…` as a registry name |
+| `standalone-dsperate-v2` | `dsperate-arm64-v3.4.0`, `dsperate-arm64-v4.0.1` | v1 plus Kitware CMake 4.4.5, `libvulkan-dev:arm64` and Vulkan-Headers 1.4.363.0 by commit, as DSperate-spruce 0610b1fa2's Dockerfile has. Built with `DOCKER_BUILDKIT=0`: BuildKit reads `FROM sha256:…` as a registry name |
 
 A toolchain with a `platform` (`standalone-xroar`: `linux/arm64`) is an image for another architecture: Build a
 standalone registers qemu for it first, and the build runs it with `docker run --platform`.
@@ -126,6 +126,14 @@ by the recipe instead, from pinned sources or checked downloads.
   the compiler at both paths its two builds were trained with. DSperate keeps its
   profiles in its tree, keyed on the compiler version and the compile flags, so
   `dsperate-arm64-v3.4.0` passes only `-pthread`, as the training build did.
+- **A restored ccache** can put objects compiled against an older PGO profile into
+  a build. Focal's ccache 3.7.7 looks for `<profile dir>/<object>.gcda`, not GCC's
+  mangled `src#…#file.cpp.gcda`, so it hashes no profile; in preprocessed mode it
+  also skips `-D`, so DSperate's `-DDSPERATE_PGO_PROFILE` stamp does not help. The
+  wrapper's actions/cache key changes only with the wrapper's commit:
+  `dsperate-arm64-v4.0.1` rebuilds the three builds that cache held before v4.0.1.
+  The A30 job's ccache (noble's 4.9.1) found 204 of its 218 calls uncacheable on
+  11-23, so that build is cold in effect.
 
 ## Status
 
@@ -170,6 +178,8 @@ Whether the newest nightly still ships these bytes is each spruce wave's `record
 | `armn64-arm64-20261115`, `armnes_arcade-{arm64,armhf}-20261117` | `cores64/armn64_libretro.so`, `cores{64,}/armnes_arcade_libretro.so` of spruceOS `d7ce3dc52` (Cores-spruce's 11-18 'Build All Cores (3/3 — Custom)' run 44392754831: armN64 49d1298c, armNES 13f04b0b) | match, all three (runs 44693682545, 44693686345, 44693689950) |
 | `dsperate-a30-v3.4.0` | `Emu/NDS/dsperate.a30` of spruceOS `504e78012` (DSperate-spruce 0610b1fa2's A30 run) | match (run 44693693813) |
 | `dsperate-arm64-v3.4.0` | `Emu/NDS/dsperate` of spruceOS `504e78012` (DSperate-spruce 0610b1fa2's aarch64 run 42516048883: DSperate 109ecfd5, upstream's PGO profile `aarch64-gcc10.5.0`) | match (run 44748218492) |
+| `dsperate-a30-v4.0.1` | `Emu/NDS/dsperate.a30` of spruceOS `c6e34cf9e` (DSperate-spruce 74fff8f3c's 'Build All' run 45103425815: DSperate v4.0.1 5ad9c21b, upstream's PGO profile `armv7l`, its trained flags `-mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -pthread`) | match (run 45532408153) |
+| `dsperate-arm64-v4.0.1` | `Emu/NDS/dsperate` of spruceOS `c6e34cf9e` (the same run's universal job) | match (run 45534760747), with the run's ccache rebuilt first: 109ecfd5 (menu patch), 109ecfd5 (menu and DS_CHEEVOS_HOST patches), v3.4.1 ecb27c96, as runs 42435550778, 42516048883 and 42528347767 left it; the last build then had 96 preprocessed hits, as the run did. Built cold, the same flags give other code (runs 45532410875, 45533267083; CMake 4.4.5 and 4.5.0 alike) |
 | `gametank-libretro-1.0.3` | `cores{,64}/gametank_libretro.so` of spruceOS `f71fa7877` (Sundownersport/gametank-libretro b9d0436, zig 0.14.1) | match, both (run 44989835863, `zig objcopy --strip-all`). The arm64 build hides Ubuntu's aarch64 `gcc-cross`: clang, inside `zig c++`, turns on outline atomics when it finds aarch64 libgcc 9.3.1 or later, and the CI runner had none |
 | `mkxp-z-libretro-20260114` | `cores{,64}/mkxp-z_libretro.so` of spruceOS `f32f064ab` (mkxp-z PR #255 run 21002574259, merge commit 402a68bc) | differs (parked): same code and the same embedded ZIPs (rebuilt in the runner's order, times and owner by `patches/standalone/mkxp-z/rezip.py`), but ~300 KB of unnamed .rodata differs (run 44693737469) |
 | `uae4arm-lakka-rpi3-composite-20240502` | `cores64/uae4arm_libretro.so` of spruceOS `275a89035` (Lakka-v4.x RPi3-Composite, via metallic77) | match (run 44695265600): Lakka's build of its toolchain, flac, mpg123, zlib and uae4arm 177c2f0e, with gmp, alsa-lib and configtools seeded where Lakka can no longer fetch them |

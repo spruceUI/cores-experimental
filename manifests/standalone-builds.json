@@ -8839,7 +8839,8 @@
         "source": "spruceOS c6e34cf9e (SundownerSport, 2026-11-22, \"update dsperate to v4.0.1\")",
         "files": {
           "dsperate": "7b8e914a27a4e669f877ee70d14b277cd5f16246687bc18cd97fa0b66a7b0fab"
-        }
+        },
+        "note": "matched byte for byte by CE run 45534760747 (04be185); its last build had 96 preprocessed ccache hits, as run 45103425815 had"
       },
       "steps": [
         "cd /build && tar xf SDL2-2.26.1.tar.gz && cd SDL2-2.26.1",

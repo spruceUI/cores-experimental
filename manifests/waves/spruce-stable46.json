@@ -279,7 +279,8 @@
       "status": "recipe",
       "recipes": [
         "standalone:dsperate-arm64",
-        "standalone:dsperate-arm64-v3.4.0"
+        "standalone:dsperate-arm64-v3.4.0",
+        "standalone:dsperate-arm64-v4.0.1"
       ],
       "families": [
         "ANBERNIC_RGXX",
@@ -303,7 +304,8 @@
       "status": "recipe",
       "recipes": [
         "standalone:dsperate-a30",
-        "standalone:dsperate-a30-v3.4.0"
+        "standalone:dsperate-a30-v3.4.0",
+        "standalone:dsperate-a30-v4.0.1"
       ],
       "families": [
         "ANBERNIC_RGXX",
@@ -4489,6 +4491,13 @@
         "Emu/NDS/dsperate.a30": "other bytes"
       }
     },
+    "standalone:dsperate-a30-v4.0.1": {
+      "files": 1,
+      "status": "not shipped",
+      "differ": {
+        "Emu/NDS/dsperate.a30": "other bytes"
+      }
+    },
     "standalone:dsperate-arm64": {
       "files": 1,
       "status": "not shipped",
@@ -4497,6 +4506,13 @@
       }
     },
     "standalone:dsperate-arm64-v3.4.0": {
+      "files": 1,
+      "status": "not shipped",
+      "differ": {
+        "Emu/NDS/dsperate": "other bytes"
+      }
+    },
+    "standalone:dsperate-arm64-v4.0.1": {
       "files": 1,
       "status": "not shipped",
       "differ": {
