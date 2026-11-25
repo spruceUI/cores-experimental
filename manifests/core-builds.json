@@ -243,6 +243,7 @@
       "shipped": {
         "spruceos": "4497d1d58",
         "source": "spruceOS 4497d1d58 (SundownerSport, 2026-11-23, \"update armnes to v1.5, add it as a Gamate core\"), from Cores-spruce's 'Build armnes' run 45315763489 at ba56b1556 (2026-11-24 02:55Z, no ref: armNES main f88b792d, two commits after the v1.5 tag 12655bb1; armulators 3dc61ccb)",
+        "note": "matched byte for byte by CE run 45532414552 (246dbd0), both arches",
         "variant": "release-arm64-generic + release-armhf-generic",
         "files": {
           "RetroArch/.retroarch/cores64/armnes_libretro.so": "48290519415aa83f6b85cc2419195bb632cb059402afa034d6aad9b7aa3b2008",

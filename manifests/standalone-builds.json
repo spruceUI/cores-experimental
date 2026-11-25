@@ -8797,12 +8797,13 @@
         "source": "spruceOS c6e34cf9e (SundownerSport, 2026-11-22, \"update dsperate to v4.0.1\")",
         "files": {
           "dsperate.a30": "72964d6648fd4d326337173ec40bc9a6571320cfa62f5ded67ebba451f779ee2"
-        }
+        },
+        "note": "matched byte for byte by CE run 45532408153 (246dbd0)"
       }
     },
     "dsperate-arm64-v4.0.1": {
       "extends": "dsperate-arm64-v3.4.0",
-      "description": "DSperate v4.0.1: Emu/NDS/dsperate on every 64-bit device since c6e34cf9e. Built as spruceUI/DSperate-spruce@74fff8f3c's build.sh (the same as 0610b1fa2's) did in the universal job of its 'Build All' run 45103425815 (2026-11-23 03:00Z; DSPERATE_VERSION=main, then the v4.0.1 commit 5ad9c21b, SKIP_TESTS=1): dsperate-arm64-v3.4.0's image, SDL2 and flags, upstream's refreshed PGO profile pgo/aarch64-gcc10.5.0, and the menu-colours patch only (74fff8f dropped DS_CHEEVOS_HOST). The run's image had CMake 4.5.0, this one 4.4.5.",
+      "description": "DSperate v4.0.1: Emu/NDS/dsperate on every 64-bit device since c6e34cf9e. Built as spruceUI/DSperate-spruce@74fff8f3c's build.sh (the same as 0610b1fa2's) did in the universal job of its 'Build All' run 45103425815 (2026-11-23 03:00Z; DSPERATE_VERSION=main, then the v4.0.1 commit 5ad9c21b, SKIP_TESTS=1): dsperate-arm64-v3.4.0's image, SDL2 and flags, upstream's refreshed PGO profile pgo/aarch64-gcc10.5.0, and the menu-colours patch only (74fff8f dropped DS_CHEEVOS_HOST). The run's image had Kitware's CMake 4.5.0 (the one change from the 11-08 run's packages), installed here over the image's 4.4.5 from Kitware's pool (sha256s from its signed focal index).",
       "source": {
         "url": "https://github.com/beebono/DSperate.git",
         "commit": "5ad9c21b592a9467a3d5b1a7eafd222befbed268",
@@ -8812,6 +8813,16 @@
       },
       "source_date_epoch": 1795401825,
       "downloads": [
+        {
+          "url": "https://apt.kitware.com/ubuntu/pool/main/c/cmake/cmake-data_4.5.0-0kitware1ubuntu20.04.1_all.deb",
+          "sha256": "85865cca362fec40ea7bc62bfa13a4f85868fdffbed929dde17da5ea922f362b",
+          "path": "/build/cmake-data_4.5.0-0kitware1ubuntu20.04.1_all.deb"
+        },
+        {
+          "url": "https://apt.kitware.com/ubuntu/pool/main/c/cmake/cmake_4.5.0-0kitware1ubuntu20.04.1_amd64.deb",
+          "sha256": "f8ebb0cbd9728c6940ba09a1ab2a0003842ef056c33b8970156056153e12abc5",
+          "path": "/build/cmake_4.5.0-0kitware1ubuntu20.04.1_amd64.deb"
+        },
         {
           "url": "https://github.com/libsdl-org/SDL/releases/download/release-2.26.1/SDL2-2.26.1.tar.gz",
           "sha256": "02537cc7ebd74071631038b237ec4bfbb3f4830ba019e569434da33f42373e04",
@@ -8834,7 +8845,22 @@
         "files": {
           "dsperate": "7b8e914a27a4e669f877ee70d14b277cd5f16246687bc18cd97fa0b66a7b0fab"
         }
-      }
+      },
+      "steps": [
+        "dpkg -i /build/cmake_4.5.0-0kitware1ubuntu20.04.1_amd64.deb /build/cmake-data_4.5.0-0kitware1ubuntu20.04.1_all.deb",
+        "cmake --version | head -1 | grep -qx 'cmake version 4.5.0'",
+        "cd /build && tar xf SDL2-2.26.1.tar.gz && cd SDL2-2.26.1",
+        "./configure --host=aarch64-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/build/local --enable-shared --disable-static --enable-video-wayland --disable-video-x11 --disable-video-rpi --disable-oss --disable-esd --disable-arts CC=\"ccache aarch64-linux-gnu-gcc-10\" CXX=\"ccache aarch64-linux-gnu-g++-10\"",
+        "make -j\"$(nproc)\" && make install",
+        "grep -q '^#define SDL_VIDEO_DRIVER_WAYLAND' /build/local/include/SDL2/SDL_config.h",
+        "export PKG_CONFIG_PATH=\"/build/local/lib/pkgconfig:$PKG_CONFIG_PATH\" PKG_CONFIG_LIBDIR=\"/build/local/lib/pkgconfig:$PKG_CONFIG_LIBDIR\"",
+        "cd /build/DSperate",
+        "for patch in /patches/*.py; do python3 \"$patch\" || exit 1; done",
+        "cmake -S . -B build -G Ninja -DCMAKE_TOOLCHAIN_FILE=/toolchain-aarch64.cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS=-pthread -DCMAKE_CXX_FLAGS=-pthread \"-DCMAKE_EXE_LINKER_FLAGS=-pthread -Wl,--no-as-needed -lpthread -Wl,--as-needed -static-libstdc++ -static-libgcc -L/build/local/lib -Wl,-rpath-link,/build/local/lib -L/usr/lib/aarch64-linux-gnu -Wl,-rpath-link,/usr/lib/aarch64-linux-gnu\" -DDSPERATE_JIT=ON -DDSPERATE_NEON=ON -DDSPERATE_GLES=ON -DDSPERATE_HEADLESS=OFF -DDSPERATE_SDL=ON -DDSPERATE_WAYLAND=OFF -DDSPERATE_PGO=use -DDSPERATE_TESTS=OFF",
+        "grep -q -- '-DDSPERATE_JIT=1' build/compile_commands.json && grep -q -- '-DDSPERATE_NEON=1' build/compile_commands.json && grep -q -- '-DDSPERATE_GLES=1' build/compile_commands.json && grep -q -- '-fprofile-use=' build/compile_commands.json",
+        "grep '^DSPERATE_PGO_DIR:PATH=' build/CMakeCache.txt",
+        "cmake --build build -j\"$(nproc)\""
+      ]
     },
     "mkxp-z-libretro-20260114": {
       "description": "mkxp-z libretro cores as mkxp-z/mkxp-z PR #255's CI built them in run 21002574259 (2026-01-14): spruce's RetroArch/.retroarch/cores/mkxp-z_libretro.so (job 'LR GNU/Linux armv7', generic-armv7-a+vfpv3-d16) and cores64/ (job 'LR GNU/Linux arm64', generic-armv8-a), imported in f32f064ab. The pull_request run built the PR's merge commit 402a68bc (white-axe's libretro branch fed492c5 into dev; the same tree), whose hash the cores embed ('2.4.2/402a68b'). The image (standalone-mkxpz) stands in for that day's ubuntu-latest runner; the runner also had pkg-config, groff and rustc, which Ruby's configure records in rbconfig.rb, so the recipe installs them from the same snapshot, and the CI's wasi-sdk path. Stage 1's two ZIPs (the Ruby library and the preload scripts) are rebuilt with the entry order, times and owner of the runner's files, recorded from spruce's cores (patches/standalone/mkxp-z). Parked 2026-11-20: CE run 44693737469 gives the same code and the same two embedded ZIPs as spruce's files, but about 300 KB of .rodata (unnamed constant data between stb_image's strings and the embedded font) still differs, most likely the stage-1 Ruby module's data layout; proving it needs the original stage-1 output, which has expired.",
