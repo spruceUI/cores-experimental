@@ -377,6 +377,18 @@
         "size": 266893532
       },
       "dockerfile": "Dockerfile.standalone.ctng65"
+    },
+    "standalone-buster-gcc85-v2": {
+      "image": "cores-standalone-buster-gcc85:v2",
+      "image_id": "sha256:bf0c55f1d3cae17ea9e9cb3a5f33517414d46e542ef2e9e20dbc19a2e8c4eb38",
+      "host_cc": "aarch64-linux-gnu",
+      "platform": "linux/arm64",
+      "archive": {
+        "name": "cores-standalone-buster-gcc85-v2.tar.gz",
+        "sha256": "612744cc9150bf883f731c499f07c7edd922f0b853030beb1a55c6534b86e3bf",
+        "size": 456687924
+      },
+      "dockerfile": "Dockerfile.standalone.buster-gcc85.v2"
     }
   }
 }
