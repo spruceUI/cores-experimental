@@ -9171,6 +9171,114 @@
           "cores/gamate_libretro.so": "5385da87aedafd9941042698e879a7deea7f5917d033c584bbacfcc2c39d3f56"
         }
       }
+    },
+    "armn64-arm64-20261120": {
+      "extends": "armn64-arm64-20261115",
+      "description": "armN64 1.4.1 (MagnominusGit/armN64 main at the run = tag v1.4.1, 10141dbe; armulators submodule 0944d074): spruce's cores64/armn64_libretro.so since 91c8cfa63, from the core_armn64 job of Cores-spruce's 'Build All Cores (3/3 — Custom)' run 44656296759 at 41298a556 (2026-11-20 01:52Z, no core_ref), built as armn64-arm64-20261115 says. The per-core 'Build armn64' run 44656398910 (REF=v1.4.1) printed the same build ID, ed47a98a.",
+      "source": {
+        "url": "https://github.com/MagnominusGit/armN64.git",
+        "commit": "10141dbe40067bc9f96442a4d5bbfae4d9f1493f",
+        "tree": "a7036f464f7e1dbd8c78dd9808b0cadff3256a0b",
+        "requested_ref": "refs/heads/main (at the run, = refs/tags/v1.4.1)",
+        "path": "/armn64"
+      },
+      "source_date_epoch": 1795096715,
+      "shipped": {
+        "spruceos": "91c8cfa63",
+        "source": "spruceOS 91c8cfa63 (ryanmsartor, 2026-11-19, \"update all armulators to latest\")",
+        "files": {
+          "cores64/armn64_libretro.so": "480410fe1659963e03ea7eb05959bcbb13d999b596f94c9a5b3273858d73a42c"
+        }
+      }
+    },
+    "mgba-arm64-20261120": {
+      "description": "mGBA 0.11-dev (libretro/mgba 6dce57eef) as spruce ships it since 761cf1db1 (cores64/): Cores-spruce's 'Build All Cores (2/2)' run 44656293737 at 41298a556 (2026-11-20 01:56Z, core_mgba job): libretro-super's `./libretro-fetch.sh mgba` (a full clone, so the embedded short hash has 9 characters: ' 6dce57eef'), a checkout of 6dce57eef, and `./libretro-build.sh mgba`, unstripped, in Cores-spruce's arm64 image.",
+      "source": {
+        "url": "https://github.com/libretro/mgba.git",
+        "commit": "6dce57eef127dc4cc292644f38196e0e7c58590c",
+        "tree": "72edb48f24f569f2b00c850cac61f6db0c80bf4e",
+        "requested_ref": "REF 6dce57eef in the run (CE's catalog pin; master, 0.11-dev)",
+        "path": "/libretro-super/libretro-mgba"
+      },
+      "toolchain": "cores-spruce-arm64",
+      "source_date_epoch": 1775251420,
+      "env": {
+        "GIT_CONFIG_PARAMETERS": "'core.abbrev=9'"
+      },
+      "steps": [
+        "cd /libretro-super",
+        "./libretro-build.sh mgba"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/libretro-super/dist/unix/mgba_libretro.so",
+            "to": "cores64/mgba_libretro.so"
+          }
+        ],
+        "spruce": {
+          "cores64/mgba_libretro.so": "RetroArch/.retroarch/cores64/mgba_libretro.so"
+        }
+      },
+      "needed": {
+        "device": [
+          "ld-linux-aarch64.so.1",
+          "libc.so.6",
+          "libm.so.6"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "761cf1db1",
+        "source": "spruceOS 761cf1db1 (ryanmsartor, 2026-11-19, \"update mgba to 0.10-dev\")",
+        "files": {
+          "cores64/mgba_libretro.so": "4a7190d3c4ea327cf342c5755dc05a72de4532d793a549a0dd302d416bf47392"
+        }
+      }
+    },
+    "mgba-armhf-20261120": {
+      "description": "mGBA 0.11-dev (libretro/mgba 6dce57eef) as spruce ships it since 761cf1db1 (cores/): Cores-spruce's 'Build All Cores (2/2)' run 44656293737 at 41298a556 (2026-11-20 01:56Z, core_mgba job): libretro-super's `./libretro-fetch.sh mgba` (a full clone, so the embedded short hash has 9 characters: ' 6dce57eef'), a checkout of 6dce57eef, and `./libretro-build.sh mgba`, unstripped, in Cores-spruce's armhf image.",
+      "source": {
+        "url": "https://github.com/libretro/mgba.git",
+        "commit": "6dce57eef127dc4cc292644f38196e0e7c58590c",
+        "tree": "72edb48f24f569f2b00c850cac61f6db0c80bf4e",
+        "requested_ref": "REF 6dce57eef in the run (CE's catalog pin; master, 0.11-dev)",
+        "path": "/libretro-super/libretro-mgba"
+      },
+      "toolchain": "cores-spruce-armhf",
+      "source_date_epoch": 1775251420,
+      "env": {
+        "GIT_CONFIG_PARAMETERS": "'core.abbrev=9'"
+      },
+      "steps": [
+        "cd /libretro-super",
+        "./libretro-build.sh mgba"
+      ],
+      "output": {
+        "files": [
+          {
+            "from": "/libretro-super/dist/unix/mgba_libretro.so",
+            "to": "cores/mgba_libretro.so"
+          }
+        ],
+        "spruce": {
+          "cores/mgba_libretro.so": "RetroArch/.retroarch/cores/mgba_libretro.so"
+        }
+      },
+      "needed": {
+        "device": [
+          "libc.so.6",
+          "libm.so.6"
+        ],
+        "forbidden": []
+      },
+      "shipped": {
+        "spruceos": "761cf1db1",
+        "source": "spruceOS 761cf1db1 (ryanmsartor, 2026-11-19, \"update mgba to 0.10-dev\")",
+        "files": {
+          "cores/mgba_libretro.so": "b84920d8c02e5fb7840e47e65679b57a5c935868b5a24ddfc0a4b8f18a65c2b1"
+        }
+      }
     }
   }
 }

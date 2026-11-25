@@ -146,7 +146,7 @@
     "armgba": {
       "source": {
         "url": "https://github.com/MagnominusGit/armGBA.git",
-        "commit": "a06ea8c3c91606935f12457cec9a00549afa8983",
+        "commit": "df6b2631291f249d54a00dd14f49bc893e438feb",
         "requested_ref": "refs/heads/main"
       },
       "targets": [
@@ -171,15 +171,15 @@
       },
       "metadata": {
         "artifact_name": "armgba_libretro.info",
-        "repo_path": "metadata/armgba/spruceos-d14cdbefe.info"
+        "repo_path": "metadata/armgba/spruceos-91c8cfa63.info"
       },
       "shipped": {
-        "spruceos": "e1eab6bfc",
-        "note": "matched byte for byte by CE CI run 44574194101 (main a725fb4), both arches",
+        "spruceos": "91c8cfa63",
+        "source": "spruceOS 91c8cfa63 (ryanmsartor, 2026-11-19, \"update all armulators to latest\"), from the core_armgba job of Cores-spruce's 'Build All Cores (3/3 — Custom)' run 44656296759 at 41298a556 (2026-11-20 01:49Z, no ref: armGBA main df6b2631 = v1.8.1); its log prints the arm64 build ID, 8f49d08e",
         "variant": "release-arm64-generic + release-armhf-generic",
         "files": {
-          "RetroArch/.retroarch/cores64/armgba_libretro.so": "fffaedc7eb969631125a56622692454a6837ab4805f5edc278108b4cfa1de4bb",
-          "RetroArch/.retroarch/cores/armgba_libretro.so": "bbc3cca53fe60781cf115d814f7b7d83975939bbae35a8ac0d5d0d0a26a82244"
+          "RetroArch/.retroarch/cores64/armgba_libretro.so": "042405958d335c33a38abdc1f155841d463d0cb12576205f47cab66577435581",
+          "RetroArch/.retroarch/cores/armgba_libretro.so": "20edd2ac0bf81f8cba7e9e14c4fc77fe0b92bb235747c2d5ecc40d03455a0325"
         }
       }
     },
@@ -2843,8 +2843,8 @@
     "superwhizkid": {
       "source": {
         "url": "https://github.com/ryanmsartor/superwhizkid.git",
-        "commit": "38f692fa8cecb89c5a95741ddc891585b5af7042",
-        "requested_ref": "refs/tags/v0.3.0"
+        "commit": "dd5c007bcf6cb0ad2301ca733d0c59e9cdf1d968",
+        "requested_ref": "refs/tags/v0.4.0"
       },
       "targets": [
         "arm64",
@@ -2867,15 +2867,15 @@
       },
       "metadata": {
         "artifact_name": "superwhizkid_libretro.info",
-        "repo_path": "metadata/superwhizkid/spruceos-d14cdbefe.info"
+        "repo_path": "metadata/superwhizkid/spruceos-fbe86ef2b.info"
       },
       "shipped": {
-        "spruceos": "e1eab6bfc",
-        "note": "matched byte for byte by CE run 44598087394 (both arches), as spruceOS eeb16627c's v0.3.0 release asset",
+        "spruceos": "fbe86ef2b",
+        "source": "spruceOS fbe86ef2b (ryanmsartor, 2026-11-21, \"update superwhizkid to v0.4.0\"): the v0.4.0 release asset (superwhizkid_libretro.zip, sha256 02fcc06a), built by ryanmsartor/superwhizkid's 'Build and package cores' run 44982944679 at dd5c007b",
         "variant": "release-arm64-generic + release-armhf-generic",
         "files": {
-          "RetroArch/.retroarch/cores64/superwhizkid_libretro.so": "eed5a772e0e5fef5db0875d3baf2db7871ac05d3a1157ac757e6ce81038a1e63",
-          "RetroArch/.retroarch/cores/superwhizkid_libretro.so": "89015de684074552667d809ddd4a0c67d2fac27f915fb6e33111f909007e2f02"
+          "RetroArch/.retroarch/cores64/superwhizkid_libretro.so": "280fc1d33b2fb95b0ff33e470bc1e092261a61e5a9679cfc1d42fc0c949c29b1",
+          "RetroArch/.retroarch/cores/superwhizkid_libretro.so": "d1356cb87e598b8f9881f6e7cb68ce22706c4e1f750dc2168a38b2672c9d3c1d"
         }
       },
       "known_good": {
