@@ -18,7 +18,8 @@ RUN wget -q -O /tmp/crosstool-ng-1.25.0.tar.xz http://crosstool-ng.org/download/
     && cd /tmp/ct-ng && ./configure --prefix=/opt/ct-ng >/dev/null && make >/dev/null && make install >/dev/null \
     && cd / && rm -rf /tmp/ct-ng /tmp/crosstool-ng-1.25.0.tar.xz
 
-# ct-ng refuses root. Package tarballs are checked against ct-ng 1.25.0's own chksum files.
+# ct-ng refuses root. Package tarballs are checked against ct-ng 1.25.0's own chksum files; zlib 1.2.12 is no longer
+# at ct-ng's mirrors, so its tarball (the same sha512 as ct-ng's chksum) is put in ct-ng's local tarballs folder first.
 RUN useradd -m ctng && mkdir /opt/x-tools && chown ctng /opt/x-tools
 USER ctng
 WORKDIR /home/ctng
@@ -26,9 +27,12 @@ RUN printf '%s\n' 'CT_CONFIG_VERSION="4"' CT_ARCH_ARM=y CT_ARCH_FLOAT_HW=y CT_KE
         CT_GLIBC_V_2_23=y CT_GCC_V_6=y CT_CC_LANG_CXX=y > defconfig \
     && /opt/ct-ng/bin/ct-ng defconfig DEFCONFIG=defconfig \
     && for want in 'CT_GCC_VERSION="6.5.0"' 'CT_GLIBC_VERSION="2.23"' 'CT_BINUTILS_VERSION="2.38"' \
-        'CT_ARCH_FLOAT="hard"' 'CT_ARCH_FPU=""' 'CT_ARCH_ARCH=""' 'CT_ARCH_CPU=""' 'CT_TOOLCHAIN_PKGVERSION=""'; do \
+        'CT_ARCH_FLOAT="hard"' 'CT_ARCH_FPU=""' 'CT_ARCH_ARCH=""' 'CT_ARCH_CPU=""' 'CT_TOOLCHAIN_PKGVERSION=""' \
+        'CT_ZLIB_VERSION="1.2.12"' 'CT_LOCAL_TARBALLS_DIR="${HOME}/src"'; do \
         grep -qx "$want" .config || { echo "missing: $want"; exit 1; }; done \
     && cp .config /opt/x-tools/ctng65.config \
+    && mkdir -p src && wget -q -O src/zlib-1.2.12.tar.gz https://www.zlib.net/fossils/zlib-1.2.12.tar.gz \
+    && echo 'cc2366fa45d5dfee1f983c8c51515e0cff959b61471e2e8d24350dea22d3f6fcc50723615a911b046ffc95f51ba337d39ae402131a55e6d1541d3b095d6c0a14  src/zlib-1.2.12.tar.gz' | sha512sum -c - \
     && { CT_PREFIX=/opt/x-tools /opt/ct-ng/bin/ct-ng build."$(nproc)" >/dev/null || { tail -80 build.log; exit 1; }; } \
     && rm -rf .build src
 USER root
