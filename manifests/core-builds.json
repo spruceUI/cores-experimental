@@ -673,7 +673,7 @@
     "fbneo": {
       "source": {
         "url": "https://github.com/libretro/FBNeo.git",
-        "commit": "9d7716aa20cbdf49024f42980c33c7cd366e784f",
+        "commit": "1f769447fe0ffee8a983ba7878f036ed6d8a2c06",
         "requested_ref": "refs/heads/master"
       },
       "targets": [
@@ -685,7 +685,7 @@
         "command_env": [
           [
             "MAKEFLAGS",
-            "-- GIT_VERSION={commit:9} GIT_DATE=260503 HIDE="
+            "-- GIT_VERSION={commit:9} GIT_DATE=261124 HIDE="
           ]
         ],
         "compile_definitions": {
@@ -717,6 +717,51 @@
       "metadata": {
         "artifact_name": "fbneo_libretro.info",
         "source_path": "/libretro-super/dist/info/fbneo_libretro.info"
+      },
+      "known_good": {
+        "source": {
+          "url": "https://github.com/libretro/FBNeo.git",
+          "commit": "9d7716aa20cbdf49024f42980c33c7cd366e784f",
+          "requested_ref": "refs/heads/master"
+        },
+        "build": {
+          "artifact_name": "fbneo_libretro.so",
+          "command_env": [
+            [
+              "MAKEFLAGS",
+              "-- GIT_VERSION={commit:9} GIT_DATE=260503 HIDE="
+            ]
+          ],
+          "compile_definitions": {
+            "armhf": [
+              "HWCAP2_AES=1",
+              "HWCAP2_CRC32=16",
+              "HWCAP2_SHA1=4",
+              "HWCAP2_SHA2=8"
+            ]
+          },
+          "driver": "libretro-super",
+          "output_path": "dist/unix/fbneo_libretro.so",
+          "overlays": {
+            "arm64": [
+              {
+                "patch": "patches/fbneo/makefile-sort-wildcard-sources.patch"
+              }
+            ],
+            "armhf": [
+              {
+                "patch": "patches/fbneo/makefile-sort-wildcard-sources.patch"
+              }
+            ]
+          },
+          "source_date_epoch": true,
+          "source_dir": "libretro-fbneo",
+          "source_key": "fbneo"
+        },
+        "metadata": {
+          "artifact_name": "fbneo_libretro.info",
+          "source_path": "/libretro-super/dist/info/fbneo_libretro.info"
+        }
       }
     },
     "fceumm": {
