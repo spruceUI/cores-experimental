@@ -127,8 +127,9 @@ bytes at another path): such a record shows as `not shipped`.
   with a heap snapshot taken at build time; unconfirmed). GameTank's arm64 core reproduces since 11-21 (outline atomics came from the
   image's aarch64 gcc-cross, which clang in zig detects).
 - The 15 third-party core files with a catalog recipe that does not reproduce them carry their provenance too
-  (Flycast campaign builds, christianhaitian and Onion prebuilts, KMFDManic's builds, private LLVM builds). One is a
-  risk on the device: `cores64/np2kai_libretro.so` needs `GLIBC_2.34`, above the TrimUI devices' 2.33.
+  (Flycast campaign builds, christianhaitian and Onion prebuilts, KMFDManic's builds, private LLVM builds).
+  `cores64/np2kai_libretro.so` needs `GLIBC_2.34`, above the TrimUI devices' vendor 2.33, but loads there: since
+  v4.5.6 spruce binds muOS glibc 2.38 over `/lib` at boot (`spruce/brick/glibc/bind.sh`).
 - DSperate v3.4.0 reproduces on both builds of 504e78012: the A30 build at the v3.4.0 tag, and the aarch64 build
   at 109ecfd5 with upstream's PGO profile, in `standalone-dsperate-v2` ([standalone](standalone.md#status)).
 - DSperate v4.0.1 (c6e34cf9e) reproduces on both builds too. The aarch64 one needs the wrapper's ccache history: three

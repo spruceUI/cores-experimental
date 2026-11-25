@@ -4063,7 +4063,7 @@
         "TRIMUI_A133P",
         "TRIMUI_SMART_PRO_S"
       ],
-      "evidence": "prints 'NP2kai c2ca404 c2ca404', the JELOS/ROCKNIX np2kai-lr package's double hash; plain GCC 15.2.0 as LibreELEC builds it; not a ROCKNIX nightly as far as its tree shows, builder unknown (ask Ry). Needs GLIBC_2.34 (pthread_*), above the TrimUI 2.33 floor (Emu Inventory, nightly11-provenance-20261120.md in CFW/Spruce/docs/research/emulator-arch-inventory-20261111)"
+      "evidence": "prints 'NP2kai c2ca404 c2ca404', the JELOS/ROCKNIX np2kai-lr package's double hash; plain GCC 15.2.0 as LibreELEC builds it; not a ROCKNIX nightly as far as its tree shows, builder unknown (ask Ry). Needs GLIBC_2.34 (pthread_*), above the TrimUI vendor 2.33, but loads there: spruce binds muOS glibc 2.38 over /lib at boot on TRIMUI_A133P and TRIMUI_SMART_PRO_S (spruce/brick/glibc/bind.sh, efb3630de + aee42f14b, first in v4.5.6; v4.4.0-v4.5.5 shipped it without the bind) (Emu Inventory, 11-25)"
     },
     "RetroArch/.retroarch/cores64/o2em_libretro.so": {
       "sha256": "0ebc13cf70933a90274127451102ca2ec17590ea525ee4a430f772b2780094a0",
