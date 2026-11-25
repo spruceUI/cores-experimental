@@ -1,0 +1,40 @@
+# cores-standalone-buster-gcc85 v2: v1 with GCC 8.5.0 bootstrapped (a plain native `configure && make`, GCC compiling itself in
+# three stages), since v1 (built by buster's gcc-8 8.3, --disable-bootstrap) gives the right size but 99 of 1203 functions differ.
+# Otherwise as v1: a vanilla GCC 8.5.0, christianhaitian's second build environment of 2022-11 to 2023-01, which built spruce's
+# cores64/mednafen_pcfx (retroarch-cores c855e585ba, 2023-01-10). Its files say "GCC: (GNU) 8.5.0" (no pkgversion), carry
+# .hash + .gnu.hash and no build ID (buster's binutils 2.31.1 bfd ld defaults, which Debian's own GCC overrides with
+# --hash-style=gnu --build-id), and need glibc 2.28. Base and packages from buster-20230109 and snapshot.debian.org of
+# 2023-01-10. His configure line is unknown: this one is GCC's default, C and C++ only, which changes no generated code.
+FROM --platform=linux/arm64 debian:buster-20230109@sha256:bb8c62f9f540a5f5f49f7ed5caae0e2889f999cd14553f2aaccaf1fa4fcb998d
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN printf '%s\n' \
+    'deb [check-valid-until=no] http://snapshot.debian.org/archive/debian/20230110T000000Z buster main' \
+    'deb [check-valid-until=no] http://snapshot.debian.org/archive/debian/20230110T000000Z buster-updates main' \
+    'deb [check-valid-until=no] http://snapshot.debian.org/archive/debian-security/20230110T000000Z buster/updates main' \
+    > /etc/apt/sources.list
+
+RUN apt-get -o Acquire::Retries=5 update && apt-get install -y --no-install-recommends \
+    ca-certificates git python3 make wget xz-utils file build-essential libgmp-dev libmpfr-dev libmpc-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# GCC 8.5.0 from the release tarball into /usr/local, ahead of buster's gcc-8 on PATH (its install adds c++); `cc` too,
+# since libretro Makefiles' `CC ?= gcc` keeps make's default `cc` (no "(Debian 8.3.0-6)" object is in the shipped core).
+RUN wget -q -O /tmp/gcc-8.5.0.tar.xz https://ftp.gnu.org/gnu/gcc/gcc-8.5.0/gcc-8.5.0.tar.xz \
+    && echo '92f599680e6b7fbce88bcdda810f468777d541e5fddfbb287f7977d51093de2a5178bd0e6a08dfe37090ea10a0508a43ccd00220041abbbec33f1179bfc174d8  /tmp/gcc-8.5.0.tar.xz' | sha512sum -c - \
+    && mkdir /tmp/gcc /tmp/gcc-build && tar -xJf /tmp/gcc-8.5.0.tar.xz -C /tmp/gcc --strip-components=1 \
+    && cd /tmp/gcc-build && /tmp/gcc/configure --enable-languages=c,c++ --disable-multilib \
+    && { make -j"$(nproc)" >/tmp/gcc-make.log 2>&1 || { tail -60 /tmp/gcc-make.log; exit 1; }; } \
+    && make install >/dev/null \
+    && cd / && rm -rf /tmp/gcc /tmp/gcc-build /tmp/gcc-8.5.0.tar.xz /tmp/gcc-make.log \
+    && ln -s gcc /usr/local/bin/cc && ldconfig
+
+RUN for t in cc gcc c++ g++; do "$t" --version | head -1 | grep -qx "$t (GCC) 8.5.0" || exit 1; done \
+    && ld --version | head -1 | grep -q ' 2\.31\.1$' && strip --version | head -1 | grep -q ' 2\.31\.1$' \
+    && ldd --version | head -1 | grep -q ' 2\.28$'
+
+# The standalone renderer calls ${host_cc}-strip and -readelf; native Debian ships those triplet names already.
+RUN for t in strip readelf; do command -v "aarch64-linux-gnu-$t"; done
+
+RUN dpkg -l > /apt-manifest.txt
