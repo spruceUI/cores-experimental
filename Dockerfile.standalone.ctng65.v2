@@ -1,0 +1,48 @@
+# cores-standalone-ctng65 v2: v1 with binutils 2.32, the toolchain cobaltgit's 69 cores/ files of spruceOS f033f8ee8 were
+# linked with. Their dynamic tables need ld 2.30..2.34 (both hash styles: 2.30+; DT_NEEDED names added at load and
+# version index 0 for unversioned undefined symbols: until 2.34 and 2.36); cores/mednafen_pcfx matches byte for byte
+# with 2.30, 2.32 and 2.34 alike. 2.32 is ct-ng 1.24's default, so a config carried over to 1.25.0 keeps it.
+# Otherwise as v1, whose settings are read from those files, not known: hard float with GCC's default FPU (vfp) and no
+# default CPU, ct-ng's default kernel headers, and glibc 2.23 (powf/expf@GLIBC_2.4 means glibc < 2.27; 2.17+ is needed).
+FROM ubuntu:focal-20250404@sha256:8feb4d8ca5354def3d8fce243717141ce31e2c428701f6682bd2fafe15388214
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates wget git make gcc g++ gperf bison flex texinfo help2man gawk libtool libtool-bin automake autoconf \
+    libncurses5-dev python3 python3-dev unzip xz-utils bzip2 patch file rsync zip pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget -q -O /tmp/crosstool-ng-1.25.0.tar.xz http://crosstool-ng.org/download/crosstool-ng/crosstool-ng-1.25.0.tar.xz \
+    && echo 'e25b6fb577ce439592a889fe73bbde4109309e7fe154e7133fefaeb5522c97e3f96958941aa1bc86448fcecb6b4021ff793c595048f5ef8e5ecc75e9a48c0c45  /tmp/crosstool-ng-1.25.0.tar.xz' | sha512sum -c - \
+    && mkdir /tmp/ct-ng && tar -xJf /tmp/crosstool-ng-1.25.0.tar.xz -C /tmp/ct-ng --strip-components=1 \
+    && cd /tmp/ct-ng && ./configure --prefix=/opt/ct-ng >/dev/null && make >/dev/null && make install >/dev/null \
+    && cd / && rm -rf /tmp/ct-ng /tmp/crosstool-ng-1.25.0.tar.xz
+
+# ct-ng refuses root. Package tarballs are checked against ct-ng 1.25.0's own chksum files; zlib 1.2.12 is no longer
+# at ct-ng's mirrors, so its tarball (the same sha512 as ct-ng's chksum) is put in ct-ng's local tarballs folder first.
+RUN useradd -m ctng && mkdir /opt/x-tools && chown ctng /opt/x-tools
+USER ctng
+WORKDIR /home/ctng
+RUN printf '%s\n' 'CT_CONFIG_VERSION="4"' CT_ARCH_ARM=y CT_ARCH_FLOAT_HW=y CT_KERNEL_LINUX=y CT_BINUTILS_PLUGINS=y \
+        CT_GLIBC_V_2_23=y CT_GCC_V_6=y CT_CC_LANG_CXX=y CT_BINUTILS_V_2_32=y > defconfig \
+    && /opt/ct-ng/bin/ct-ng defconfig DEFCONFIG=defconfig \
+    && for want in 'CT_GCC_VERSION="6.5.0"' 'CT_GLIBC_VERSION="2.23"' 'CT_BINUTILS_VERSION="2.32"' \
+        'CT_ARCH_FLOAT="hard"' 'CT_ARCH_FPU=""' 'CT_ARCH_ARCH=""' 'CT_ARCH_CPU=""' 'CT_TOOLCHAIN_PKGVERSION=""' \
+        'CT_ZLIB_VERSION="1.2.12"' 'CT_LOCAL_TARBALLS_DIR="${HOME}/src"'; do \
+        grep -qx "$want" .config || { echo "missing: $want"; exit 1; }; done \
+    && cp .config /opt/x-tools/ctng65.config \
+    && mkdir -p src && wget -q -O src/zlib-1.2.12.tar.gz https://www.zlib.net/fossils/zlib-1.2.12.tar.gz \
+    && echo 'cc2366fa45d5dfee1f983c8c51515e0cff959b61471e2e8d24350dea22d3f6fcc50723615a911b046ffc95f51ba337d39ae402131a55e6d1541d3b095d6c0a14  src/zlib-1.2.12.tar.gz' | sha512sum -c - \
+    && { CT_PREFIX=/opt/x-tools /opt/ct-ng/bin/ct-ng build."$(nproc)" >/dev/null || { tail -80 build.log; exit 1; }; } \
+    && rm -rf .build src
+USER root
+WORKDIR /
+
+ENV PATH=/opt/x-tools/arm-unknown-linux-gnueabihf/bin:$PATH
+RUN for t in gcc g++; do arm-unknown-linux-gnueabihf-$t --version | head -1 \
+        | grep -qx "arm-unknown-linux-gnueabihf-$t (crosstool-NG 1.25.0) 6.5.0" || exit 1; done \
+    && arm-unknown-linux-gnueabihf-ld --version | head -1 | grep -q ' 2\.32$' \
+    && for t in strip readelf ar ranlib; do command -v "arm-unknown-linux-gnueabihf-$t"; done
+
+RUN dpkg -l > /apt-manifest.txt
